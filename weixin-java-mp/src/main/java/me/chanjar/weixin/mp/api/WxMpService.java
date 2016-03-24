@@ -1,5 +1,6 @@
 package me.chanjar.weixin.mp.api;
 
+import me.chanjar.weixin.common.bean.WxCardApiSignature;
 import me.chanjar.weixin.common.bean.WxMenu;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
@@ -725,8 +726,9 @@ public interface WxMpService {
    * @param parameters
    *            the required or optional parameters
    * @return
+ * @throws WxErrorException 
    */
-  Map<String, String> getJSSDKPayInfo(Map<String, String> parameters);  	
+  Map<String, String> getJSSDKPayInfo(Map<String, String> parameters) throws WxErrorException;  	
   	
   /**
    * 该接口调用“统一下单”接口，并拼装JSSDK发起支付请求需要的参数
@@ -739,10 +741,11 @@ public interface WxMpService {
    * @param ip 发起支付的客户端IP
    * @param notifyUrl 通知地址
    * @return
+ * @throws WxErrorException 
    * @deprecated Use me.chanjar.weixin.mp.api.WxMpService.getJSSDKPayInfo(Map<String, String>) instead
    */
   @Deprecated
-  Map<String, String> getJSSDKPayInfo(String openId, String outTradeNo, double amt, String body, String tradeType, String ip, String notifyUrl);
+  Map<String, String> getJSSDKPayInfo(String openId, String outTradeNo, double amt, String body, String tradeType, String ip, String notifyUrl) throws WxErrorException;
 
     /**
      * 该接口提供所有微信支付订单的查询,当支付通知处理异常戒丢失的情冴,商户可以通过该接口查询订单支付状态。
@@ -761,6 +764,20 @@ public interface WxMpService {
     WxMpPayCallback getJSSDKCallbackData(String xmlData);
     
     /**
+     * 微信支付-申请退款
+     * 详见 https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_4
+     * @param parameters 需要传入的退款参数的Map。以下几项为参数的必须项：<br/>
+     *        <li/> transaction_id
+     *        <li/> out_trade_no （仅在上述transaction_id为空时是必须项）
+     *        <li/> out_refund_no
+     *        <li/> total_fee
+     *        <li/> refund_fee
+     * @return 退款操作结果
+     * @throws WxErrorException 
+     */
+    public WxMpPayRefundResult refundPay(Map<String, String> parameters) throws WxErrorException;
+    
+    /**
      * <pre>
      * 计算Map键值对是否和签名相符,
      * 按照字段名的 ASCII 码从小到大排序(字典序)后,使用 URL 键值对的 格式(即 key1=value1&key2=value2...)拼接成字符串
@@ -770,7 +787,7 @@ public interface WxMpService {
      * @return
      */
     public boolean checkJSSDKCallbackDataSignature(Map<String, String> kvm, String signature);
-    
+
    /**
     * 发送微信红包给个人用户
     * @param parameters
@@ -778,4 +795,95 @@ public interface WxMpService {
     * @throws WxErrorException
     */
     public WxRedpackResult sendRedpack(Map<String, String> parameters) throws WxErrorException;
+
+  /**
+   * 获得卡券api_ticket，不强制刷新卡券api_ticket
+   * @see #getCardApiTicket(boolean)
+   * @return 卡券api_ticket
+   * @throws WxErrorException
+   */
+  public String getCardApiTicket() throws WxErrorException;
+
+  /**
+   * <pre>
+   * 获得卡券api_ticket
+   * 获得时会检查卡券apiToken是否过期，如果过期了，那么就刷新一下，否则就什么都不干
+   *
+   * 详情请见：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E9.99.84.E5.BD.954-.E5.8D.A1.E5.88.B8.E6.89.A9.E5.B1.95.E5.AD.97.E6.AE.B5.E5.8F.8A.E7.AD.BE.E5.90.8D.E7.94.9F.E6.88.90.E7.AE.97.E6.B3.95
+   * </pre>
+   * @param forceRefresh 强制刷新
+   * @return 卡券api_ticket
+   * @throws WxErrorException
+   */
+  public String getCardApiTicket(boolean forceRefresh) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 创建调用卡券api时所需要的签名
+   *
+   * 详情请见：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E9.99.84.E5.BD
+   * .954-.E5.8D.A1.E5.88.B8.E6.89.A9.E5.B1.95.E5.AD.97.E6.AE.B5.E5.8F.8A.E7.AD.BE.E5.90.8D.E7.94
+   * .9F.E6.88.90.E7.AE.97.E6.B3.95
+   * </pre>
+   *
+   * @param optionalSignParam 参与签名的参数数组。
+   *                  可以为下列字段：app_id, card_id, card_type, code, openid, location_id
+   *                  </br>注意：当做wx.chooseCard调用时，必须传入app_id参与签名，否则会造成签名失败导致拉取卡券列表为空
+   * @return 卡券Api签名对象
+   */
+  public WxCardApiSignature createCardApiSignature(String... optionalSignParam) throws
+      WxErrorException;
+
+  /**
+   * 卡券Code解码
+   * @param encryptCode 加密Code，通过JSSDK的chooseCard接口获得
+   * @return 解密后的Code
+   * @throws WxErrorException
+   */
+  public String decryptCardCode(String encryptCode) throws WxErrorException;
+
+  /**
+   * 卡券Code查询
+   * @param cardId 卡券ID代表一类卡券
+   * @param code 单张卡券的唯一标准
+   * @param checkConsume 是否校验code核销状态，填入true和false时的code异常状态返回数据不同
+   * @return WxMpCardResult对象
+   * @throws WxErrorException
+   */
+  public WxMpCardResult queryCardCode(String cardId, String code, boolean checkConsume)
+    throws WxErrorException;
+    
+   /**
+   * 卡券Code核销。核销失败会抛出异常
+   * @param code 单张卡券的唯一标准
+   * @param cardId 当自定义Code卡券时需要传入card_id
+   * @return 调用返回的JSON字符串。
+   *         <br>可用 com.google.gson.JsonParser#parse 等方法直接取JSON串中的errcode等信息。
+   * @throws WxErrorException
+   */
+  public String consumeCardCode(String code, String cardId) throws WxErrorException;
+
+    /**
+     * 卡券Mark接口。
+     * 开发者在帮助消费者核销卡券之前，必须帮助先将此code（卡券串码）与一个openid绑定（即mark住），
+     * 才能进一步调用核销接口，否则报错。
+     * @param code 卡券的code码
+     * @param cardId 卡券的ID
+     * @param openId 用券用户的openid
+     * @param isMark 是否要mark（占用）这个code，填写true或者false，表示占用或解除占用
+     * @throws WxErrorException
+     */
+  public void markCardCode(String code, String cardId, String openId, boolean isMark) throws
+      WxErrorException;
+  
+  /**
+   * 查看卡券详情接口
+   * 详见 https://mp.weixin.qq.com/wiki/14/8dd77aeaee85f922db5f8aa6386d385e.html#.E6.9F.A5.E7.9C.8B.E5.8D.A1.E5.88.B8.E8.AF.A6.E6.83.85
+   * @param cardId 卡券的ID
+   * @return 返回的卡券详情JSON字符串
+   *         <br> [注] 由于返回的JSON格式过于复杂，难以定义其对应格式的Bean并且难以维护，因此只返回String格式的JSON串。
+   *         <br> 可由 com.google.gson.JsonParser#parse 等方法直接取JSON串中的某个字段。
+   * @throws WxErrorException
+   */
+  public String getCardDetail(String cardId) throws WxErrorException;
 }
