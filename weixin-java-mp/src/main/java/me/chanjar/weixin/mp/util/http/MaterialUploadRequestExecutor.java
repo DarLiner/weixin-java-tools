@@ -35,7 +35,6 @@ public class MaterialUploadRequestExecutor implements RequestExecutor<WxMpMateri
       if (file == null || !file.exists()) {
         throw new FileNotFoundException();
       }
-
       MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
       multipartEntityBuilder
           .addBinaryBody("media", file)
@@ -56,6 +55,8 @@ public class MaterialUploadRequestExecutor implements RequestExecutor<WxMpMateri
       } else {
         return WxMpMaterialUploadResult.fromJson(responseContent);
       }
+    }finally {
+      httpPost.releaseConnection();
     }
   }
 
