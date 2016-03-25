@@ -821,25 +821,40 @@ public class WxMpServiceImpl implements WxMpService {
       throw new IllegalArgumentException("Reqiured argument 'product_id' is missing when trade_type is 'NATIVE'.");
   }
 
+ 	@Override
+	public Map<String, String> getJsapiPayInfo(String openId,String outTradeNo, double amt, String body,String ip, String callbackUrl) throws WxErrorException{
+		Map<String, String> packageParams = new HashMap<String, String>();
+		packageParams.put("appid", wxMpConfigStorage.getAppId());
+		packageParams.put("mch_id", wxMpConfigStorage.getPartnerId());
+		packageParams.put("body", body);
+		packageParams.put("out_trade_no", outTradeNo);
+		packageParams.put("total_fee", (int) (amt * 100) + "");
+		packageParams.put("spbill_create_ip", ip);
+		packageParams.put("notify_url", callbackUrl);
+		packageParams.put("trade_type", "JSAPI");
+	 	packageParams.put("openid", openId);
+	 
+		return getPayInfo(packageParams);
+	}
+	
+	@Override
+	public Map<String, String> getNativePayInfo(String productId,String outTradeNo, double amt, String body,String ip, String callbackUrl) throws WxErrorException{
+		Map<String, String> packageParams = new HashMap<String, String>();
+		packageParams.put("appid", wxMpConfigStorage.getAppId());
+		packageParams.put("mch_id", wxMpConfigStorage.getPartnerId());
+		packageParams.put("body", body);
+		packageParams.put("out_trade_no", outTradeNo);
+		packageParams.put("total_fee", (int) (amt * 100) + "");
+		packageParams.put("spbill_create_ip", ip);
+		packageParams.put("notify_url", callbackUrl);
+		packageParams.put("trade_type", "NATIVE");
+		packageParams.put("product_id", productId);
+		 
+		return getPayInfo(packageParams);
+	}
+  
   @Override
-  public Map<String, String> getJSSDKPayInfo(String openId, String outTradeNo, double amt, String body, String tradeType, String ip, String callbackUrl)
-      throws WxErrorException {
-    Map<String, String> packageParams = new HashMap<String, String>();
-    packageParams.put("appid", wxMpConfigStorage.getAppId());
-    packageParams.put("mch_id", wxMpConfigStorage.getPartnerId());
-    packageParams.put("body", body);
-    packageParams.put("out_trade_no", outTradeNo);
-    packageParams.put("total_fee", String.format("%.0f", amt * 100));
-    packageParams.put("spbill_create_ip", ip);
-    packageParams.put("notify_url", callbackUrl);
-    packageParams.put("trade_type", tradeType);
-    packageParams.put("openid", openId);
-
-    return getJSSDKPayInfo(packageParams);
-  }
-
-  @Override
-  public Map<String, String> getJSSDKPayInfo(Map<String, String> parameters) throws WxErrorException {
+  public Map<String, String> getPayInfo(Map<String, String> parameters) throws WxErrorException {
     WxMpPrepayIdResult wxMpPrepayIdResult = getPrepayId(parameters);
     
     if (!"SUCCESS".equalsIgnoreCase(wxMpPrepayIdResult.getReturn_code())
@@ -866,7 +881,9 @@ public class WxMpServiceImpl implements WxMpService {
     payInfo.put("nonceStr", System.currentTimeMillis() + "");
     payInfo.put("package", "prepay_id=" + prepayId);
     payInfo.put("signType", "MD5");
-    payInfo.put("code_url",wxMpPrepayIdResult.getCode_url());
+    if("NATIVE".equals(parameters.get("trade_type"))){
+	payInfo.put("codeUrl", wxMpPrepayIdResult.getCode_url());
+    }
 
     String finalSign = WxCryptUtil.createSign(payInfo, wxMpConfigStorage.getPartnerKey());
     payInfo.put("paySign", finalSign);
