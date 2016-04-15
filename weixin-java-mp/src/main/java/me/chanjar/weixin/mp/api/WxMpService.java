@@ -510,6 +510,17 @@ public interface WxMpService {
 
   /**
    * <pre>
+   * 换取二维码图片url地址
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=生成带参数的二维码
+   * </pre>
+   * @param ticket    二维码ticket
+   * @return
+   * @throws WxErrorException
+   */
+  public String qrCodePictureUrl(String ticket) throws WxErrorException;
+
+  /**
+   * <pre>
    * 长链接转短链接接口
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=长链接转短链接接口
    * </pre>
