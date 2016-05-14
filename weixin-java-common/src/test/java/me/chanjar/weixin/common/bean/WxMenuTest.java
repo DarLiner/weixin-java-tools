@@ -67,7 +67,7 @@ public class WxMenuTest {
     menu.getButtons().add(button1);
 
     WxMenu.WxMenuRule wxMenuRule = new WxMenu.WxMenuRule();
-    wxMenuRule.setGroupId("2");
+    wxMenuRule.setTagId("2");
     wxMenuRule.setSex("1");
     wxMenuRule.setCountry("中国");
     wxMenuRule.setProvince("广东");

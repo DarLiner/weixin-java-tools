@@ -129,7 +129,7 @@ public class WxMenu implements Serializable {
   }
   
   public static class WxMenuRule {
-    private String groupId;
+    private String tagId;
     private String sex;
     private String country;
     private String province;
@@ -137,12 +137,12 @@ public class WxMenu implements Serializable {
     private String clientPlatformType;
     private String language;
     
-    public String getGroupId() {
-      return groupId;
+    public String getTagId() {
+      return tagId;
     }
 	
-    public void setGroupId(String groupId) {
-      this.groupId = groupId;
+    public void setTagId(String tagId) {
+      this.tagId = tagId;
     }
 	
     public String getSex() {
@@ -196,7 +196,7 @@ public class WxMenu implements Serializable {
       @Override
     public String toString() {
       return "matchrule:{" +
-          "group_id='" + groupId + '\'' +
+          "tag_id='" + tagId + '\'' +
           ", sex='" + sex + '\'' +
           ", country" + country + '\'' +
           ", province" + province + '\'' +
