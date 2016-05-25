@@ -1,21 +1,13 @@
 package me.chanjar.weixin.mp.api;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
-import java.security.NoSuchAlgorithmException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import java.util.UUID;
-
+import com.google.gson.*;
+import com.google.gson.internal.Streams;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import com.thoughtworks.xstream.XStream;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.WxAccessToken;
+import me.chanjar.weixin.common.bean.WxCardApiSignature;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.bean.WxMenu;
 import me.chanjar.weixin.common.bean.result.WxError;
@@ -24,85 +16,39 @@ import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.session.StandardSessionManager;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.common.util.RandomUtils;
-import me.chanjar.weixin.common.util.StringUtils;
 import me.chanjar.weixin.common.util.crypto.SHA1;
 import me.chanjar.weixin.common.util.crypto.WxCryptUtil;
 import me.chanjar.weixin.common.util.fs.FileUtils;
-import me.chanjar.weixin.common.util.http.MediaDownloadRequestExecutor;
-import me.chanjar.weixin.common.util.http.MediaUploadRequestExecutor;
-import me.chanjar.weixin.common.util.http.RequestExecutor;
-import me.chanjar.weixin.common.util.http.SimpleGetRequestExecutor;
-import me.chanjar.weixin.common.util.http.SimplePostRequestExecutor;
-import me.chanjar.weixin.common.util.http.URIUtil;
-import me.chanjar.weixin.common.util.http.Utf8ResponseHandler;
+import me.chanjar.weixin.common.util.http.*;
 import me.chanjar.weixin.common.util.json.GsonHelper;
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
-import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
-import me.chanjar.weixin.mp.bean.WxMpGroup;
-import me.chanjar.weixin.mp.bean.WxMpMassGroupMessage;
-import me.chanjar.weixin.mp.bean.WxMpMassNews;
-import me.chanjar.weixin.mp.bean.WxMpMassOpenIdsMessage;
-import me.chanjar.weixin.mp.bean.WxMpMassVideo;
-import me.chanjar.weixin.mp.bean.WxMpMaterial;
-import me.chanjar.weixin.mp.bean.WxMpMaterialArticleUpdate;
-import me.chanjar.weixin.mp.bean.WxMpMaterialNews;
-import me.chanjar.weixin.mp.bean.WxMpSemanticQuery;
-import me.chanjar.weixin.mp.bean.WxMpTemplateMessage;
-import me.chanjar.weixin.mp.bean.result.WxMpMassSendResult;
-import me.chanjar.weixin.mp.bean.result.WxMpMassUploadResult;
-import me.chanjar.weixin.mp.bean.result.WxMpMaterialCountResult;
-import me.chanjar.weixin.mp.bean.result.WxMpMaterialFileBatchGetResult;
-import me.chanjar.weixin.mp.bean.result.WxMpMaterialNewsBatchGetResult;
-import me.chanjar.weixin.mp.bean.result.WxMpMaterialUploadResult;
-import me.chanjar.weixin.mp.bean.result.WxMpMaterialVideoInfoResult;
-import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
-import me.chanjar.weixin.mp.bean.result.WxMpPayCallback;
-import me.chanjar.weixin.mp.bean.result.WxMpPayResult;
-import me.chanjar.weixin.mp.bean.result.WxMpPrepayIdResult;
-import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
-import me.chanjar.weixin.mp.bean.result.WxMpSemanticQueryResult;
-import me.chanjar.weixin.mp.bean.result.WxMpUser;
-import me.chanjar.weixin.mp.bean.result.WxMpUserCumulate;
-import me.chanjar.weixin.mp.bean.result.WxMpUserList;
-import me.chanjar.weixin.mp.bean.result.WxMpUserSummary;
-import me.chanjar.weixin.mp.bean.result.WxRedpackResult;
-import me.chanjar.weixin.mp.util.http.MaterialDeleteRequestExecutor;
-import me.chanjar.weixin.mp.util.http.MaterialNewsInfoRequestExecutor;
-import me.chanjar.weixin.mp.util.http.MaterialUploadRequestExecutor;
-import me.chanjar.weixin.mp.util.http.MaterialVideoInfoRequestExecutor;
-import me.chanjar.weixin.mp.util.http.MaterialVoiceAndImageDownloadRequestExecutor;
-import me.chanjar.weixin.mp.util.http.QrCodeRequestExecutor;
+import me.chanjar.weixin.mp.bean.*;
+import me.chanjar.weixin.mp.bean.result.*;
+import me.chanjar.weixin.mp.util.http.*;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
-
 import org.apache.http.Consts;
 import org.apache.http.HttpHost;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.helpers.MessageFormatter;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.internal.Streams;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-import com.thoughtworks.xstream.XStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.security.NoSuchAlgorithmException;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class WxMpServiceImpl implements WxMpService {
 
@@ -117,6 +63,11 @@ public class WxMpServiceImpl implements WxMpService {
    * 全局的是否正在刷新jsapi_ticket的锁
    */
   protected final Object globalJsapiTicketRefreshLock = new Object();
+
+  /**
+   * 全局的是否正在刷新卡券api_ticket的锁
+   */
+  protected final Object globalCardApiTicketRefreshLock = new Object();
 
   protected WxMpConfigStorage wxMpConfigStorage;
 
@@ -158,14 +109,17 @@ public class WxMpServiceImpl implements WxMpService {
               RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
               httpGet.setConfig(config);
             }
-            CloseableHttpResponse response = getHttpclient().execute(httpGet);
-            String resultContent = new BasicResponseHandler().handleResponse(response);
-            WxError error = WxError.fromJson(resultContent);
-            if (error.getErrorCode() != 0) {
-              throw new WxErrorException(error);
+            try (CloseableHttpResponse response = getHttpclient().execute(httpGet)) {
+              String resultContent = new BasicResponseHandler().handleResponse(response);
+              WxError error = WxError.fromJson(resultContent);
+              if (error.getErrorCode() != 0) {
+                throw new WxErrorException(error);
+              }
+              WxAccessToken accessToken = WxAccessToken.fromJson(resultContent);
+              wxMpConfigStorage.updateAccessToken(accessToken.getAccessToken(), accessToken.getExpiresIn());
+            }finally {
+              httpGet.releaseConnection();
             }
-            WxAccessToken accessToken = WxAccessToken.fromJson(resultContent);
-            wxMpConfigStorage.updateAccessToken(accessToken.getAccessToken(), accessToken.getExpiresIn());
           } catch (ClientProtocolException e) {
             throw new RuntimeException(e);
           } catch (IOException e) {
@@ -766,36 +720,25 @@ public class WxMpServiceImpl implements WxMpService {
   public void setWxMpConfigStorage(WxMpConfigStorage wxConfigProvider) {
     this.wxMpConfigStorage = wxConfigProvider;
 
-    String http_proxy_host = wxMpConfigStorage.getHttp_proxy_host();
-    int http_proxy_port = wxMpConfigStorage.getHttp_proxy_port();
-    String http_proxy_username = wxMpConfigStorage.getHttp_proxy_username();
-    String http_proxy_password = wxMpConfigStorage.getHttp_proxy_password();
-
-    final HttpClientBuilder builder = HttpClients.custom();
-    if (StringUtils.isNotBlank(http_proxy_host)) {
-      // 使用代理服务器
-      if (StringUtils.isNotBlank(http_proxy_username)) {
-        // 需要用户认证的代理服务器
-        CredentialsProvider credsProvider = new BasicCredentialsProvider();
-        credsProvider.setCredentials(
-            new AuthScope(http_proxy_host, http_proxy_port),
-            new UsernamePasswordCredentials(http_proxy_username, http_proxy_password));
-        builder
-            .setDefaultCredentialsProvider(credsProvider);
-      } else {
-        // 无需用户认证的代理服务器
-      }
-      httpProxy = new HttpHost(http_proxy_host, http_proxy_port);
+    ApacheHttpClientBuilder apacheHttpClientBuilder = wxMpConfigStorage.getApacheHttpClientBuilder();
+    if (null == apacheHttpClientBuilder) {
+      apacheHttpClientBuilder = DefaultApacheHttpHttpClientBuilder.get();
     }
+    apacheHttpClientBuilder.httpProxyHost(wxMpConfigStorage.getHttp_proxy_host())
+      .httpProxyPort(wxMpConfigStorage.getHttp_proxy_port())
+      .httpProxyUsername(wxMpConfigStorage.getHttp_proxy_username())
+      .httpProxyPassword(wxMpConfigStorage.getHttp_proxy_password());
+
     if (wxConfigProvider.getSSLContext() != null){
       SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
           wxConfigProvider.getSSLContext(),
           new String[] { "TLSv1" },
           null,
           SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
-      builder.setSSLSocketFactory(sslsf);
+      apacheHttpClientBuilder.sslConnectionSocketFactory(sslsf);
     }
-    httpClient = builder.build();
+
+    httpClient = apacheHttpClientBuilder.build();
   }
 
   @Override
@@ -851,8 +794,7 @@ public class WxMpServiceImpl implements WxMpService {
 
     StringEntity entity = new StringEntity(request.toString(), Consts.UTF_8);
     httpPost.setEntity(entity);
-    try {
-      CloseableHttpResponse response = getHttpclient().execute(httpPost);
+    try(CloseableHttpResponse response = getHttpclient().execute(httpPost)) {
       String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
       XStream xstream = XStreamInitializer.getInstance();
       xstream.alias("xml", WxMpPrepayIdResult.class);
@@ -860,6 +802,8 @@ public class WxMpServiceImpl implements WxMpService {
       return wxMpPrepayIdResult;
     } catch (IOException e) {
       throw new RuntimeException("Failed to get prepay id due to IO exception.", e);
+    }finally {
+      httpPost.releaseConnection();
     }
   }
 
@@ -878,13 +822,14 @@ public class WxMpServiceImpl implements WxMpService {
   }
 
   @Override
-  public Map<String, String> getJSSDKPayInfo(String openId, String outTradeNo, double amt, String body, String tradeType, String ip, String callbackUrl) {
+  public Map<String, String> getJSSDKPayInfo(String openId, String outTradeNo, double amt, String body, String tradeType, String ip, String callbackUrl)
+      throws WxErrorException {
     Map<String, String> packageParams = new HashMap<String, String>();
     packageParams.put("appid", wxMpConfigStorage.getAppId());
     packageParams.put("mch_id", wxMpConfigStorage.getPartnerId());
     packageParams.put("body", body);
     packageParams.put("out_trade_no", outTradeNo);
-    packageParams.put("total_fee", (int) (amt * 100) + "");
+    packageParams.put("total_fee", String.format("%.0f", amt * 100));
     packageParams.put("spbill_create_ip", ip);
     packageParams.put("notify_url", callbackUrl);
     packageParams.put("trade_type", tradeType);
@@ -894,8 +839,21 @@ public class WxMpServiceImpl implements WxMpService {
   }
 
   @Override
-  public Map<String, String> getJSSDKPayInfo(Map<String, String> parameters) {
+  public Map<String, String> getJSSDKPayInfo(Map<String, String> parameters) throws WxErrorException {
     WxMpPrepayIdResult wxMpPrepayIdResult = getPrepayId(parameters);
+    
+    if (!"SUCCESS".equalsIgnoreCase(wxMpPrepayIdResult.getReturn_code())
+            ||!"SUCCESS".equalsIgnoreCase(wxMpPrepayIdResult.getResult_code())) {
+      WxError error = new WxError();
+      error.setErrorCode(-1);
+      error.setErrorMsg("return_code:" + wxMpPrepayIdResult.getReturn_code() +
+                        ";return_msg:" + wxMpPrepayIdResult.getReturn_msg() +
+                        ";result_code:" + wxMpPrepayIdResult.getResult_code() +
+                        ";err_code" + wxMpPrepayIdResult.getErr_code() +
+                        ";err_code_des" + wxMpPrepayIdResult.getErr_code_des());
+      throw new WxErrorException(error);
+    }
+    
     String prepayId = wxMpPrepayIdResult.getPrepay_id();
     if (prepayId == null || prepayId.equals("")) {
       throw new RuntimeException(String.format("Failed to get prepay id due to error code '%s'(%s).", wxMpPrepayIdResult.getErr_code(), wxMpPrepayIdResult.getErr_code_des()));
@@ -908,6 +866,7 @@ public class WxMpServiceImpl implements WxMpService {
     payInfo.put("nonceStr", System.currentTimeMillis() + "");
     payInfo.put("package", "prepay_id=" + prepayId);
     payInfo.put("signType", "MD5");
+    payInfo.put("code_url",wxMpPrepayIdResult.getCode_url());
 
     String finalSign = WxCryptUtil.createSign(payInfo, wxMpConfigStorage.getPartnerKey());
     payInfo.put("paySign", finalSign);
@@ -944,8 +903,7 @@ public class WxMpServiceImpl implements WxMpService {
 
     StringEntity entity = new StringEntity(request.toString(), Consts.UTF_8);
     httpPost.setEntity(entity);
-    try {
-      CloseableHttpResponse response = httpClient.execute(httpPost);
+    try(CloseableHttpResponse response = httpClient.execute(httpPost)) {
       String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
       XStream xstream = XStreamInitializer.getInstance();
       xstream.alias("xml", WxMpPayResult.class);
@@ -967,6 +925,61 @@ public class WxMpServiceImpl implements WxMpService {
       e.printStackTrace();
     }
     return new WxMpPayCallback();
+  }
+  
+  @Override
+  public WxMpPayRefundResult refundPay(Map<String, String> parameters) throws WxErrorException {
+    SortedMap<String, String> refundParams = new TreeMap<String, String>(parameters);
+    refundParams.put("appid", wxMpConfigStorage.getAppId());
+    refundParams.put("mch_id", wxMpConfigStorage.getPartnerId());
+    refundParams.put("nonce_str", System.currentTimeMillis() + "");
+    refundParams.put("op_user_id", wxMpConfigStorage.getPartnerId());
+    String sign = WxCryptUtil.createSign(refundParams, wxMpConfigStorage.getPartnerKey());
+    refundParams.put("sign", sign);
+
+    StringBuilder request = new StringBuilder("<xml>");
+    for (Entry<String, String> para : refundParams.entrySet()) {
+      request.append(String.format("<%s>%s</%s>", para.getKey(), para.getValue(), para.getKey()));
+    }
+    request.append("</xml>");
+    
+    HttpPost httpPost = new HttpPost("https://api.mch.weixin.qq.com/secapi/pay/refund");
+    if (httpProxy != null) {
+      RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
+      httpPost.setConfig(config);
+    }
+    
+    StringEntity entity = new StringEntity(request.toString(), Consts.UTF_8);
+    httpPost.setEntity(entity);
+    try(
+      CloseableHttpResponse response = getHttpclient().execute(httpPost)) {
+      String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
+      XStream xstream = XStreamInitializer.getInstance();
+      xstream.processAnnotations(WxMpPayRefundResult.class);
+      WxMpPayRefundResult wxMpPayRefundResult = (WxMpPayRefundResult) xstream.fromXML(responseContent);
+      
+      if (!"SUCCESS".equalsIgnoreCase(wxMpPayRefundResult.getResultCode())
+            ||!"SUCCESS".equalsIgnoreCase(wxMpPayRefundResult.getReturnCode())) {
+        WxError error = new WxError();
+        error.setErrorCode(-1);
+        error.setErrorMsg("return_code:" + wxMpPayRefundResult.getReturnCode() +
+                          ";return_msg:" + wxMpPayRefundResult.getReturnMsg() +
+                          ";result_code:" + wxMpPayRefundResult.getResultCode() +
+                          ";err_code" + wxMpPayRefundResult.getErrCode() +
+                          ";err_code_des" + wxMpPayRefundResult.getErrCodeDes());
+        throw new WxErrorException(error);
+      }
+      
+      return wxMpPayRefundResult;
+    } catch (IOException e) {
+      log.error(MessageFormatter.format("The exception was happened when sending refund '{}'.", request.toString()).getMessage(), e);
+      WxError error = new WxError();
+      error.setErrorCode(-1);
+      error.setErrorMsg("incorrect response.");
+      throw new WxErrorException(error);
+    }finally {
+      httpPost.releaseConnection();
+    }
   }
   
   @Override
@@ -1000,8 +1013,7 @@ public class WxMpServiceImpl implements WxMpService {
 
     StringEntity entity = new StringEntity(request.toString(), Consts.UTF_8);
     httpPost.setEntity(entity);
-    try {
-      CloseableHttpResponse response = getHttpclient().execute(httpPost);
+    try(CloseableHttpResponse response = getHttpclient().execute(httpPost)) {
       String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
       XStream xstream = XStreamInitializer.getInstance();
       xstream.processAnnotations(WxRedpackResult.class);
@@ -1012,6 +1024,221 @@ public class WxMpServiceImpl implements WxMpService {
       WxError error = new WxError();
       error.setErrorCode(-1);
       throw new WxErrorException(error);
+    }finally {
+      httpPost.releaseConnection();
     }
   }
+
+  /**
+   * 获得卡券api_ticket，不强制刷新卡券api_ticket
+   *
+   * @return 卡券api_ticket
+   * @throws WxErrorException
+   * @see #getCardApiTicket(boolean)
+   */
+  @Override
+  public String getCardApiTicket() throws WxErrorException {
+    return getCardApiTicket(false);
+  }
+
+  /**
+   * <pre>
+   * 获得卡券api_ticket
+   * 获得时会检查卡券apiToken是否过期，如果过期了，那么就刷新一下，否则就什么都不干
+   *
+   * 详情请见：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E9.99.84.E5.BD
+   * .954-.E5.8D.A1.E5.88.B8.E6.89.A9.E5.B1.95.E5.AD.97.E6.AE.B5.E5.8F.8A.E7.AD.BE.E5.90.8D.E7.94
+   * .9F.E6.88.90.E7.AE.97.E6.B3.95
+   * </pre>
+   *
+   * @param forceRefresh 强制刷新
+   * @return 卡券api_ticket
+   * @throws WxErrorException
+   */
+  @Override
+  public String getCardApiTicket(boolean forceRefresh) throws WxErrorException {
+    if (forceRefresh) {
+      wxMpConfigStorage.expireCardApiTicket();
+    }
+    if (wxMpConfigStorage.isCardApiTicketExpired()) {
+      synchronized (globalCardApiTicketRefreshLock) {
+        if (wxMpConfigStorage.isCardApiTicketExpired()) {
+          String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=wx_card";
+          String responseContent = execute(new SimpleGetRequestExecutor(), url, null);
+          JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
+          JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
+          String cardApiTicket = tmpJsonObject.get("ticket").getAsString();
+          int expiresInSeconds = tmpJsonObject.get("expires_in").getAsInt();
+          wxMpConfigStorage.updateCardApiTicket(cardApiTicket, expiresInSeconds);
+        }
+      }
+    }
+    return wxMpConfigStorage.getCardApiTicket();
+  }
+
+  /**
+   * <pre>
+   * 创建调用卡券api时所需要的签名
+   *
+   * 详情请见：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E9.99.84.E5.BD
+   * .954-.E5.8D.A1.E5.88.B8.E6.89.A9.E5.B1.95.E5.AD.97.E6.AE.B5.E5.8F.8A.E7.AD.BE.E5.90.8D.E7.94
+   * .9F.E6.88.90.E7.AE.97.E6.B3.95
+   * </pre>
+   *
+   * @param optionalSignParam 参与签名的参数数组。
+   *                  可以为下列字段：app_id, card_id, card_type, code, openid, location_id
+   *                  </br>注意：当做wx.chooseCard调用时，必须传入app_id参与签名，否则会造成签名失败导致拉取卡券列表为空
+   * @return 卡券Api签名对象
+   */
+  @Override
+  public WxCardApiSignature createCardApiSignature(String... optionalSignParam) throws
+      WxErrorException {
+    long timestamp = System.currentTimeMillis() / 1000;
+    String nonceStr = RandomUtils.getRandomStr();
+    String cardApiTicket = getCardApiTicket(false);
+
+    String[] signParam = Arrays.copyOf(optionalSignParam, optionalSignParam.length + 3);
+    signParam[optionalSignParam.length] = String.valueOf(timestamp);
+    signParam[optionalSignParam.length + 1] = nonceStr;
+    signParam[optionalSignParam.length + 2] = cardApiTicket;
+    try {
+      String signature = SHA1.gen(signParam);
+      WxCardApiSignature cardApiSignature = new WxCardApiSignature();
+      cardApiSignature.setTimestamp(timestamp);
+      cardApiSignature.setNonceStr(nonceStr);
+      cardApiSignature.setSignature(signature);
+      return cardApiSignature;
+    } catch (NoSuchAlgorithmException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  /**
+   * 卡券Code解码
+   *
+   * @param encryptCode 加密Code，通过JSSDK的chooseCard接口获得
+   * @return 解密后的Code
+   * @throws WxErrorException
+   */
+  @Override
+  public String decryptCardCode(String encryptCode) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/card/code/decrypt";
+    JsonObject param = new JsonObject();
+    param.addProperty("encrypt_code", encryptCode);
+    String responseContent = post(url, param.toString());
+    JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
+    JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
+    JsonPrimitive jsonPrimitive = tmpJsonObject.getAsJsonPrimitive("code");
+    return jsonPrimitive.getAsString();
+  }
+
+  /**
+   * 卡券Code查询
+   *
+   * @param cardId       卡券ID代表一类卡券
+   * @param code         单张卡券的唯一标准
+   * @param checkConsume 是否校验code核销状态，填入true和false时的code异常状态返回数据不同
+   * @return WxMpCardResult对象
+   * @throws WxErrorException
+   */
+  @Override
+  public WxMpCardResult queryCardCode(String cardId, String code, boolean checkConsume) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/card/code/get";
+    JsonObject param = new JsonObject();
+    param.addProperty("card_id", cardId);
+    param.addProperty("code", code);
+    param.addProperty("check_consume", checkConsume);
+    String responseContent = post(url, param.toString());
+    JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
+    return WxMpGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement,
+        new TypeToken<WxMpCardResult>() {
+        }.getType());
+  }
+
+  /**
+   * 卡券Code核销。核销失败会抛出异常
+   *
+   * @param code 单张卡券的唯一标准
+   * @return 调用返回的JSON字符串。
+   * <br>可用 com.google.gson.JsonParser#parse 等方法直接取JSON串中的errcode等信息。
+   * @throws WxErrorException
+   */
+  @Override
+  public String consumeCardCode(String code) throws WxErrorException {
+    return consumeCardCode(code, null);
+  }
+
+  /**
+   * 卡券Code核销。核销失败会抛出异常
+   *
+   * @param code   单张卡券的唯一标准
+   * @param cardId 当自定义Code卡券时需要传入card_id
+   * @return 调用返回的JSON字符串。
+   * <br>可用 com.google.gson.JsonParser#parse 等方法直接取JSON串中的errcode等信息。
+   * @throws WxErrorException
+   */
+  @Override
+  public String consumeCardCode(String code, String cardId) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/card/code/consume";
+    JsonObject param = new JsonObject();
+    param.addProperty("code", code);
+    
+    if (cardId != null && !"".equals(cardId)) {
+      param.addProperty("card_id", cardId);
+    }
+    
+    String responseContent = post(url, param.toString());
+    return responseContent;
+  }
+
+  /**
+   * 卡券Mark接口。
+   * 开发者在帮助消费者核销卡券之前，必须帮助先将此code（卡券串码）与一个openid绑定（即mark住），
+   * 才能进一步调用核销接口，否则报错。
+   *
+   * @param code   卡券的code码
+   * @param cardId 卡券的ID
+   * @param openId 用券用户的openid
+   * @param isMark 是否要mark（占用）这个code，填写true或者false，表示占用或解除占用
+   * @throws WxErrorException
+   */
+  @Override
+  public void markCardCode(String code, String cardId, String openId, boolean isMark) throws
+      WxErrorException {
+    String url = "https://api.weixin.qq.com/card/code/mark";
+    JsonObject param = new JsonObject();
+    param.addProperty("code", code);
+    param.addProperty("card_id", cardId);
+    param.addProperty("openid", openId);
+    param.addProperty("is_mark", isMark);
+    String responseContent = post(url, param.toString());
+    JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
+    WxMpCardResult cardResult = WxMpGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement,
+        new TypeToken<WxMpCardResult>() { }.getType());
+    if (!cardResult.getErrorCode().equals("0")) {
+      log.warn("朋友的券mark失败：{}", cardResult.getErrorMsg());
+    }
+  }
+
+  @Override
+  public String getCardDetail(String cardId) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/card/get";
+    JsonObject param = new JsonObject();
+    param.addProperty("card_id", cardId);
+    String responseContent = post(url, param.toString());
+    
+    // 判断返回值
+    JsonObject json = (new JsonParser()).parse(responseContent).getAsJsonObject();
+    String errcode = json.get("errcode").getAsString();
+    if (!"0".equals(errcode)) {
+      String errmsg = json.get("errmsg").getAsString();
+      WxError error = new WxError();
+      error.setErrorCode(Integer.valueOf(errcode));
+      error.setErrorMsg(errmsg);
+      throw new WxErrorException(error);
+    }
+    
+    return responseContent;
+  }
+
 }
