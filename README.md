@@ -1,5 +1,7 @@
 weixin-java-tools
-###  1.3.4版发布！！！
+###  1.3.4版发布！！！ By Binary Wang
+
+
 
 [![Build Status](https://travis-ci.org/chanjarster/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/chanjarster/weixin-java-tools)
 ![Maven Central](https://img.shields.io/maven-central/v/me.chanjar/weixin-java-parent.svg)
@@ -22,7 +24,7 @@ weixin-java-tools
 
 ```xml
 <dependency>
-  <groupId>com.github..binarywang</groupId>
+  <groupId>com.github.binarywang</groupId>
   <artifactId>weixin-java-mp</artifactId>
   <version>1.3.4</version>
 </dependency>
@@ -32,7 +34,7 @@ weixin-java-tools
 
 ```xml
 <dependency>
-  <groupId>com.github..binarywang</groupId>
+  <groupId>com.github.binarywang</groupId>
   <artifactId>weixin-java-cp</artifactId>
   <version>1.3.4</version>
 </dependency>
