@@ -1,16 +1,13 @@
-weixin-java-tools
+# Weixin-java-tools
 ###  1.3.4版发布！！！ By Binary Wang
 
-
-
-[![Build Status](https://travis-ci.org/chanjarster/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/chanjarster/weixin-java-tools)
-![Maven Central](https://img.shields.io/maven-central/v/me.chanjar/weixin-java-parent.svg)
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/chanjarster/weixin-java-tools?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Build Status](https://travis-ci.org/binarywang/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/binarywang/weixin-java-tools)
+![Maven Central](https://img.shields.io/maven-central/v/com.github.binarywang/weixin-java-parent.svg)
 
 ===========
 
 * 群/聊天室：请点击上方的GITTER按钮
-* 本项目的发布周期：本人子2015年6月开始进入到了一个非常忙碌的状态，且公司目前也没有开发微信相关的项目，因此本项目的维护基本靠“等”。所以靠人不如靠自己，提交pull request吧。
+* 本项目的发布周期：暂定为一月一次发布，月初或月底发布新版本，遇到重大问题需修复会及时提交新版本，欢迎大家随时提交Pull Request。
 
 ===========
 
@@ -53,12 +50,6 @@ weixin-java-tools
   </repository>
 </repositories>
 ```
-
-## 升级指南
-
-* [1.0.3升级指南](https://github.com/chanjarster/weixin-java-tools/wiki/1_0_3升级指南)
-* [1.1.0升级指南](https://github.com/chanjarster/weixin-java-tools/wiki/1_1_0升级指南)
-* [1.1.1升级指南](https://github.com/chanjarster/weixin-java-tools/wiki/1_1_1升级指南)
 
 ## 关于Pull Request
 
