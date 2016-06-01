@@ -6,10 +6,15 @@
 
 ===========
 
-* 群/聊天室：请点击上方的GITTER按钮
-* 本项目的发布周期：暂定为一月一次发布，月初或月底发布新版本，遇到重大问题需修复会及时提交新版本，欢迎大家随时提交Pull Request。
-
+* QQ群：343954419
+* 微信群：
+* ![Alt text](https://raw.githubusercontent.com/binarywang/weixin-java-tools/master/weixinqun.jpg  "微信群")
+* 
 ===========
+
+## 发布周期
+暂定为一月一次发布，月初或月底发布新版本，遇到重大问题需修复会及时提交新版本，欢迎大家随时提交Pull Request。
+
 
 微信公众号、企业号Java SDK。
 
