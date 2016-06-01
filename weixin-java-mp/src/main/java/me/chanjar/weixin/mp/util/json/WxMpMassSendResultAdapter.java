@@ -34,6 +34,9 @@ public class WxMpMassSendResultAdapter implements JsonDeserializer<WxMpMassSendR
     if (sendResultJsonObject.get("msg_id") != null && !sendResultJsonObject.get("msg_id").isJsonNull()) {
       sendResult.setMsgId(GsonHelper.getAsString(sendResultJsonObject.get("msg_id")));
     }
+    if (sendResultJsonObject.get("msg_data_id") != null && !sendResultJsonObject.get("msg_data_id").isJsonNull()) {
+      sendResult.setMsgDataId(GsonHelper.getAsString(sendResultJsonObject.get("msg_data_id")));
+    }
     return sendResult;
   }
   
