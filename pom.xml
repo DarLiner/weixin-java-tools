@@ -174,7 +174,6 @@
               </execution>
             </executions>
             <configuration>
-            	<additionalparam>-Xdoclint:none</additionalparam>
               <charset>UTF-8</charset>
               <locale>zh_CN</locale>
             </configuration>
