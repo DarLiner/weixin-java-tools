@@ -148,6 +148,16 @@
   </distributionManagement>
 
   <profiles>
+	  <profile>
+	    <id>doclint-java8-disable</id>
+	    <activation>
+	      <jdk>[1.8,)</jdk>
+	    </activation>
+	    <properties>
+	      <javadoc.opts>-Xdoclint:none</javadoc.opts>
+	    </properties>
+	  </profile>
+	  
     <profile>
       <id>release</id>
       <build>
@@ -178,6 +188,7 @@
               </execution>
             </executions>
             <configuration>
+              <additionalparam>${javadoc.opts}</additionalparam>
               <charset>UTF-8</charset>
               <locale>zh_CN</locale>
             </configuration>
