@@ -1,5 +1,9 @@
 # Weixin-java-tools
-###  1.3.4版发布！！！ By Binary Wang
+## 微信公众号、企业号Java SDK。
+
+### 详细文档请看 [wiki](https://github.com/chanjarster/weixin-java-tools/wiki)。
+
+####  1.3.4版发布！！！ By Binary Wang 2016-06-01
 
 [![Build Status](https://travis-ci.org/binarywang/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/binarywang/weixin-java-tools)
 ![Maven Central](https://img.shields.io/maven-central/v/com.github.binarywang/weixin-java-parent.svg)
@@ -15,10 +19,6 @@
 ## 发布周期
 暂定为一月一次发布，月初或月底发布新版本，遇到重大问题需修复会及时提交新版本，欢迎大家随时提交Pull Request。
 
-
-微信公众号、企业号Java SDK。
-
-详细文档请看 [wiki](https://github.com/chanjarster/weixin-java-tools/wiki)。
 
 ## Quick Start
 
