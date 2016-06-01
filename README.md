@@ -1,19 +1,20 @@
 # Weixin-java-tools
 ## 微信公众号、企业号Java SDK。
 
+[![Build Status](https://travis-ci.org/binarywang/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/binarywang/weixin-java-tools)
+![Maven Central](https://img.shields.io/maven-central/v/com.github.binarywang/weixin-java-parent.svg)
+
 ### 详细文档请看 [wiki](https://github.com/chanjarster/weixin-java-tools/wiki)。
 
 ####  1.3.4版发布！！！ By Binary Wang 2016-06-01
 
-[![Build Status](https://travis-ci.org/binarywang/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/binarywang/weixin-java-tools)
-![Maven Central](https://img.shields.io/maven-central/v/com.github.binarywang/weixin-java-parent.svg)
 
 ===========
 
 * QQ群：343954419
 * 微信群：
-* ![Alt text](https://raw.githubusercontent.com/binarywang/weixin-java-tools/master/weixinqun.jpg  "微信群")
-* 
+![Alt text](https://raw.githubusercontent.com/binarywang/weixin-java-tools/master/weixinqun.jpg  "微信群")
+ 
 ===========
 
 ## 发布周期
