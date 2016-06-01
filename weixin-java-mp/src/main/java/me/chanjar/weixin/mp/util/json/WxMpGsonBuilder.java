@@ -41,6 +41,7 @@ public class WxMpGsonBuilder {
     INSTANCE.registerTypeAdapter(WxMpCardResult.class, new WxMpCardResultGsonAdapter());
     INSTANCE.registerTypeAdapter(WxMpCard.class, new WxMpCardGsonAdapter());
     INSTANCE.registerTypeAdapter(WxMpMassPreviewMessage.class, new WxMpMassPreviewMessageGsonAdapter());
+    INSTANCE.registerTypeAdapter(WxMediaImgUploadResult.class, new WxMediaImgUploadResultGsonAdapter());
   }
 
   public static Gson create() {
