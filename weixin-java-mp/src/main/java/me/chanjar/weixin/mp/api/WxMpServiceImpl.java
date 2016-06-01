@@ -1266,4 +1266,10 @@ public class WxMpServiceImpl implements WxMpService {
     return WxMpMassSendResult.fromJson(responseContent);
   }
 
+  @Override
+  public WxMediaImgUploadResult mediaImgUpload(File file) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/media/uploadimg";
+    return execute(new MediaImgUploadRequestExecutor(), url, file);
+  }
+
 }
