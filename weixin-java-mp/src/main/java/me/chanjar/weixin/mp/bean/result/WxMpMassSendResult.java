@@ -20,6 +20,7 @@ public class WxMpMassSendResult implements Serializable {
   private String errorCode;
   private String errorMsg;
   private String msgId;
+  private String msgDataId;
 
   public String getErrorCode() {
     return errorCode;
@@ -44,7 +45,15 @@ public class WxMpMassSendResult implements Serializable {
   public void setMsgId(String msgId) {
     this.msgId = msgId;
   }
-  
+
+  public String getMsgDataId() {
+    return msgDataId;
+  }
+
+  public void setMsgDataId(String msgDataId) {
+    this.msgDataId = msgDataId;
+  }
+
   public static WxMpMassSendResult fromJson(String json) {
     return WxMpGsonBuilder.create().fromJson(json, WxMpMassSendResult.class);
   }
