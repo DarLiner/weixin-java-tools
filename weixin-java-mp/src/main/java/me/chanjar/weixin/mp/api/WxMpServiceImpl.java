@@ -1259,4 +1259,11 @@ public class WxMpServiceImpl implements WxMpService {
     return responseContent;
   }
 
+  @Override
+  public WxMpMassSendResult massMessagePreview(WxMpMassPreviewMessage wxMpMassPreviewMessage) throws Exception {
+    String url = "https://api.weixin.qq.com/cgi-bin/message/mass/preview";
+    String responseContent = execute(new SimplePostRequestExecutor(), url, wxMpMassPreviewMessage.toJson());
+    return WxMpMassSendResult.fromJson(responseContent);
+  }
+
 }

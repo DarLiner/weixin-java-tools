@@ -351,7 +351,7 @@ public interface WxMpService {
    * @throws WxErrorException
    */
   public void menuDelete(String menuid) throws WxErrorException;
-  
+
   /**
    * <pre>
    * 自定义菜单查询接口
@@ -361,7 +361,7 @@ public interface WxMpService {
    * @throws WxErrorException
    */
   public WxMenu menuGet() throws WxErrorException;
-  
+
   /**
    * <pre>
    * 测试个性化菜单匹配结果
@@ -723,7 +723,7 @@ public interface WxMpService {
   /**
    * 统一下单(详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1)
    * 在发起微信支付前，需要调用统一下单接口，获取"预支付交易会话标识"
-   * 
+   *
    * @param parameters
    *            All required/optional parameters for weixin payment
    * @return
@@ -737,10 +737,10 @@ public interface WxMpService {
    * @param parameters
    *            the required or optional parameters
    * @return
- * @throws WxErrorException 
+ * @throws WxErrorException
    */
-  Map<String, String> getJSSDKPayInfo(Map<String, String> parameters) throws WxErrorException;  	
-  	
+  Map<String, String> getJSSDKPayInfo(Map<String, String> parameters) throws WxErrorException;
+
   /**
    * 该接口调用“统一下单”接口，并拼装JSSDK发起支付请求需要的参数
    * 详见http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E5.8F.91.E8.B5.B7.E4.B8.80.E4.B8.AA.E5.BE.AE.E4.BF.A1.E6.94.AF.E4.BB.98.E8.AF.B7.E6.B1.82
@@ -752,7 +752,7 @@ public interface WxMpService {
    * @param ip 发起支付的客户端IP
    * @param notifyUrl 通知地址
    * @return
- * @throws WxErrorException 
+ * @throws WxErrorException
    * @deprecated Use me.chanjar.weixin.mp.api.WxMpService.getJSSDKPayInfo(Map<String, String>) instead
    */
   @Deprecated
@@ -773,7 +773,7 @@ public interface WxMpService {
      * @return
      */
     WxMpPayCallback getJSSDKCallbackData(String xmlData);
-    
+
     /**
      * 微信支付-申请退款
      * 详见 https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_4
@@ -784,10 +784,10 @@ public interface WxMpService {
      *        <li/> total_fee
      *        <li/> refund_fee
      * @return 退款操作结果
-     * @throws WxErrorException 
+     * @throws WxErrorException
      */
     public WxMpPayRefundResult refundPay(Map<String, String> parameters) throws WxErrorException;
-    
+
     /**
      * <pre>
      * 计算Map键值对是否和签名相符,
@@ -914,7 +914,7 @@ public interface WxMpService {
      */
   public void markCardCode(String code, String cardId, String openId, boolean isMark) throws
       WxErrorException;
-  
+
   /**
    * 查看卡券详情接口
    * 详见 https://mp.weixin.qq.com/wiki/14/8dd77aeaee85f922db5f8aa6386d385e.html#.E6.9F.A5.E7.9C.8B.E5.8D.A1.E5.88.B8.E8.AF.A6.E6.83.85
@@ -925,4 +925,15 @@ public interface WxMpService {
    * @throws WxErrorException
    */
   public String getCardDetail(String cardId) throws WxErrorException;
+
+  /*
+     * <pre>
+     * 预览接口
+     * 详情请见：http://mp.weixin.qq.com/wiki/15/40b6865b893947b764e2de8e4a1fb55f.html#.E9.A2.84.E8.A7.88.E6.8E.A5.E5.8F.A3.E3.80.90.E8.AE.A2.E9.98.85.E5.8F.B7.E4.B8.8E.E6.9C.8D.E5.8A.A1.E5.8F.B7.E8.AE.A4.E8.AF.81.E5.90.8E.E5.9D.87.E5.8F.AF.E7.94.A8.E3.80.91
+     * </pre>
+     * @param wxMpMassPreviewMessage
+     * @return wxMpMassSendResult
+     * @throws WxErrorException
+     */
+  public WxMpMassSendResult massMessagePreview(WxMpMassPreviewMessage wxMpMassPreviewMessage) throws Exception;
 }
