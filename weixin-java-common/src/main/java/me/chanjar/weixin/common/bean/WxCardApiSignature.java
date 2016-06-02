@@ -10,6 +10,8 @@ import java.io.Serializable;
  */
 public class WxCardApiSignature implements Serializable {
 
+    private static final long serialVersionUID = 158176707226975979L;
+
     private String appId;
 
     private String cardId;

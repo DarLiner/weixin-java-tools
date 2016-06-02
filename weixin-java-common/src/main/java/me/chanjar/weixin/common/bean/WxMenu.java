@@ -16,6 +16,8 @@ import java.util.List;
  */
 public class WxMenu implements Serializable {
 
+  private static final long serialVersionUID = -7083914585539687746L;
+
   private List<WxMenuButton> buttons = new ArrayList<WxMenuButton>();
 
   private WxMenuRule matchRule;

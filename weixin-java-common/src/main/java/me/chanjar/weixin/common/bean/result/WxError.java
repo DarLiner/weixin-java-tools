@@ -12,6 +12,8 @@ import java.io.Serializable;
  */
 public class WxError implements Serializable {
 
+  private static final long serialVersionUID = 7869786563361406291L;
+
   private int errorCode;
   
   private String errorMsg;
