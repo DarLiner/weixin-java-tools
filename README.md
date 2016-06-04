@@ -2,23 +2,20 @@
 
 ##  微信公众号/企业号开发Java SDK
 ### 声明：本项目基于chanjarster/weixin-java-tools，由于原作者长期不再维护，故单独拉出维护，并单独发布，且发布到maven上的groupId也会不同。
+#### 最新更新：1.3.4版发布！！！ on 2016-06-01
 
-
-### 详细文档请看 [wiki](https://github.com/chanjarster/weixin-java-tools/wiki)。
-
-####  1.3.4版发布！！！ By Binary Wang 2016-06-01
+### 详细开发文档请看 [wiki](https://github.com/chanjarster/weixin-java-tools/wiki)。
 
 ===========
 ## 使用开发交流工具：
 * QQ群：343954419
 * 微信群：
-* ![Alt text](https://raw.githubusercontent.com/binarywang/weixin-java-tools/master/weixinqun.jpg  "微信群")
+ ![Alt text](https://raw.githubusercontent.com/binarywang/weixin-java-tools/master/weixinqun.jpg  "微信群")
  
 ===========
 
 ## 发布周期
 暂定为每月发布一次，月初或月底发布新版本，遇到重大问题需修复会及时提交新版本，欢迎大家随时提交Pull Request。
-
 
 ## Quick Start
 
