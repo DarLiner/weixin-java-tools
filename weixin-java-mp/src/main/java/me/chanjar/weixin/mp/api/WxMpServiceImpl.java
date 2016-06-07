@@ -100,9 +100,10 @@ public class WxMpServiceImpl implements WxMpService {
     if (wxMpConfigStorage.isAccessTokenExpired()) {
       synchronized (globalAccessTokenRefreshLock) {
         if (wxMpConfigStorage.isAccessTokenExpired()) {
-          String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential"
-              + "&appid=" + wxMpConfigStorage.getAppId()
-              + "&secret=" + wxMpConfigStorage.getSecret();
+          String url = new StringBuffer()
+              .append("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential")
+              .append("&appid=").append(wxMpConfigStorage.getAppId())
+              .append("&secret=").append(wxMpConfigStorage.getSecret()).toString();
           try {
             HttpGet httpGet = new HttpGet(url);
             if (httpProxy != null) {
@@ -505,29 +506,31 @@ public class WxMpServiceImpl implements WxMpService {
 
   @Override
   public String oauth2buildAuthorizationUrl(String redirectURI, String scope, String state) {
-    String url = "https://open.weixin.qq.com/connect/oauth2/authorize?";
-    url += "appid=" + wxMpConfigStorage.getAppId();
-    url += "&redirect_uri=" + URIUtil.encodeURIComponent(redirectURI);
-    url += "&response_type=code";
-    url += "&scope=" + scope;
+    StringBuffer url = new StringBuffer();
+    url.append("https://open.weixin.qq.com/connect/oauth2/authorize?");
+    url.append("appid=").append(wxMpConfigStorage.getAppId());
+    url.append("&redirect_uri=").append(URIUtil.encodeURIComponent(redirectURI));
+    url.append("&response_type=code");
+    url.append("&scope=").append(scope);
     if (state != null) {
-      url += "&state=" + state;
+      url.append("&state=").append(state);
     }
-    url += "#wechat_redirect";
-    return url;
+    url.append("#wechat_redirect");
+    return url.toString();
   }
 
   @Override
   public WxMpOAuth2AccessToken oauth2getAccessToken(String code) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/sns/oauth2/access_token?";
-    url += "appid=" + wxMpConfigStorage.getAppId();
-    url += "&secret=" + wxMpConfigStorage.getSecret();
-    url += "&code=" + code;
-    url += "&grant_type=authorization_code";
+    StringBuffer url = new StringBuffer();
+    url.append("https://api.weixin.qq.com/sns/oauth2/access_token?");
+    url.append("appid=").append(wxMpConfigStorage.getAppId());
+    url.append("&secret=").append(wxMpConfigStorage.getSecret());
+    url.append("&code=").append(code);
+    url.append("&grant_type=authorization_code");
 
     try {
       RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
-      String responseText = executor.execute(getHttpclient(), httpProxy, url, null);
+      String responseText = executor.execute(getHttpclient(), httpProxy, url.toString(), null);
       return WxMpOAuth2AccessToken.fromJson(responseText);
     } catch (ClientProtocolException e) {
       throw new RuntimeException(e);
@@ -538,14 +541,15 @@ public class WxMpServiceImpl implements WxMpService {
 
   @Override
   public WxMpOAuth2AccessToken oauth2refreshAccessToken(String refreshToken) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/sns/oauth2/refresh_token?";
-    url += "appid=" + wxMpConfigStorage.getAppId();
-    url += "&grant_type=refresh_token";
-    url += "&refresh_token=" + refreshToken;
+    StringBuffer url = new StringBuffer();
+    url.append("https://api.weixin.qq.com/sns/oauth2/refresh_token?");
+    url.append("appid=").append(wxMpConfigStorage.getAppId());
+    url.append("&grant_type=refresh_token");
+    url.append("&refresh_token=").append(refreshToken);
 
     try {
       RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
-      String responseText = executor.execute(getHttpclient(), httpProxy, url, null);
+      String responseText = executor.execute(getHttpclient(), httpProxy, url.toString(), null);
       return WxMpOAuth2AccessToken.fromJson(responseText);
     } catch (ClientProtocolException e) {
       throw new RuntimeException(e);
@@ -556,18 +560,19 @@ public class WxMpServiceImpl implements WxMpService {
 
   @Override
   public WxMpUser oauth2getUserInfo(WxMpOAuth2AccessToken oAuth2AccessToken, String lang) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/sns/userinfo?";
-    url += "access_token=" + oAuth2AccessToken.getAccessToken();
-    url += "&openid=" + oAuth2AccessToken.getOpenId();
+    StringBuffer url = new StringBuffer();
+    url.append("https://api.weixin.qq.com/sns/userinfo?");
+    url.append("access_token=").append(oAuth2AccessToken.getAccessToken());
+    url.append("&openid=").append(oAuth2AccessToken.getOpenId());
     if (lang == null) {
-      url += "&lang=zh_CN";
+      url.append("&lang=zh_CN");
     } else {
-      url += "&lang=" + lang;
+      url.append("&lang=").append(lang);
     }
 
     try {
       RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
-      String responseText = executor.execute(getHttpclient(), httpProxy, url, null);
+      String responseText = executor.execute(getHttpclient(), httpProxy, url.toString(), null);
       return WxMpUser.fromJson(responseText);
     } catch (ClientProtocolException e) {
       throw new RuntimeException(e);
@@ -578,13 +583,14 @@ public class WxMpServiceImpl implements WxMpService {
 
   @Override
   public boolean oauth2validateAccessToken(WxMpOAuth2AccessToken oAuth2AccessToken) {
-    String url = "https://api.weixin.qq.com/sns/auth?";
-    url += "access_token=" + oAuth2AccessToken.getAccessToken();
-    url += "&openid=" + oAuth2AccessToken.getOpenId();
+    StringBuffer url = new StringBuffer();
+    url.append("https://api.weixin.qq.com/sns/auth?");
+    url.append("access_token=").append(oAuth2AccessToken.getAccessToken());
+    url.append("&openid=").append(oAuth2AccessToken.getOpenId());
 
     try {
       RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
-      executor.execute(getHttpclient(), httpProxy, url, null);
+      executor.execute(getHttpclient(), httpProxy, url.toString(), null);
     } catch (ClientProtocolException e) {
       throw new RuntimeException(e);
     } catch (IOException e) {
@@ -984,7 +990,7 @@ public class WxMpServiceImpl implements WxMpService {
   
   @Override
   public boolean checkJSSDKCallbackDataSignature(Map<String, String> kvm, String signature) {
-	  return signature.equals(WxCryptUtil.createSign(kvm, wxMpConfigStorage.getPartnerKey()));
+    return signature.equals(WxCryptUtil.createSign(kvm, wxMpConfigStorage.getPartnerKey()));
   }
 
   @Override
