@@ -483,9 +483,8 @@ public class WxMpServiceImpl implements WxMpService {
     try {
       return String.format(url, URLEncoder.encode(ticket, Charsets.UTF_8.name()));
     } catch (UnsupportedEncodingException e) {
-      WxError error = new WxError();
-      error.setErrorCode(-1);
-      error.setErrorMsg(e.getMessage());
+      WxError error = WxError.newBuilder().setErrorCode(-1)
+            .setErrorMsg(e.getMessage()).build();
       throw new WxErrorException(error);
     }
   }
