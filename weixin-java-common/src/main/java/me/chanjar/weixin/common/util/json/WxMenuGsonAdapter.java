@@ -62,7 +62,7 @@ public class WxMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserializ
 
   protected JsonObject convertToJson(WxMenu.WxMenuRule menuRule){
     JsonObject matchRule = new JsonObject();
-    matchRule.addProperty("group_id",menuRule.getGroupId());
+    matchRule.addProperty("tag_id",menuRule.getTagId());
     matchRule.addProperty("sex",menuRule.getSex());
     matchRule.addProperty("country",menuRule.getCountry());
     matchRule.addProperty("province",menuRule.getProvince());
