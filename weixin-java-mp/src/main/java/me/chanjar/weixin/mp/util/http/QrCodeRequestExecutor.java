@@ -30,15 +30,15 @@ import java.util.UUID;
 public class QrCodeRequestExecutor implements RequestExecutor<File, WxMpQrCodeTicket> {
 
   @Override
-  public File execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, WxMpQrCodeTicket ticket) throws WxErrorException, ClientProtocolException, IOException {
+  public File execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, 
+      WxMpQrCodeTicket ticket) throws WxErrorException, ClientProtocolException, IOException {
     if (ticket != null) {
       if (uri.indexOf('?') == -1) {
         uri += '?';
       }
-      uri += uri.endsWith("?") ? 
-          "ticket=" + URLEncoder.encode(ticket.getTicket(), "UTF-8") 
-          : 
-          "&ticket=" + URLEncoder.encode(ticket.getTicket(), "UTF-8");
+      uri += uri.endsWith("?") 
+          ? "ticket=" + URLEncoder.encode(ticket.getTicket(), "UTF-8") 
+          : "&ticket=" + URLEncoder.encode(ticket.getTicket(), "UTF-8");
     }
     
     HttpGet httpGet = new HttpGet(uri);
@@ -59,7 +59,7 @@ public class QrCodeRequestExecutor implements RequestExecutor<File, WxMpQrCodeTi
       InputStream inputStream = InputStreamResponseHandler.INSTANCE.handleResponse(response);
 
       return FileUtils.createTmpFile(inputStream, UUID.randomUUID().toString(), "jpg");
-    }finally {
+    } finally {
       httpGet.releaseConnection();
     }
 
