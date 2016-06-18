@@ -12,7 +12,7 @@ public class WxMpTemplateMessage implements Serializable {
   private String templateId;
   private String url;
   private String topColor;
-  private List<WxMpTemplateData> datas = new ArrayList<WxMpTemplateData>();
+  private List<WxMpTemplateData> data = new ArrayList<WxMpTemplateData>();
 
   public String getToUser() {
     return toUser;
@@ -46,12 +46,16 @@ public class WxMpTemplateMessage implements Serializable {
     this.topColor = topColor;
   }
 
-  public List<WxMpTemplateData> getDatas() {
-    return datas;
+  public List<WxMpTemplateData> getData() {
+    return data;
   }
 
-  public void setDatas(List<WxMpTemplateData> datas) {
-    this.datas = datas;
+  public void setData(List<WxMpTemplateData> data) {
+    this.data = data;
+  }
+
+  public void addWxMpTemplateData(WxMpTemplateData datum) {
+    this.data.add(datum);
   }
 
   public String toJson() {
