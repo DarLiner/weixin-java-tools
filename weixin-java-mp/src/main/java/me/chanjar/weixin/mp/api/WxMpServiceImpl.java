@@ -1294,4 +1294,20 @@ public class WxMpServiceImpl implements WxMpService {
     return execute(new MediaImgUploadRequestExecutor(), url, file);
   }
 
+  @Override
+  public String setIndustry(WxMpIndustry wxMpIndustry) throws WxErrorException {
+    if (null == wxMpIndustry.getPrimaryIndustry() || null == wxMpIndustry.getPrimaryIndustry().getId()
+        || null == wxMpIndustry.getSecondIndustry() || null == wxMpIndustry.getSecondIndustry().getId()) {
+      throw new IllegalArgumentException("industry id is empty");
+    }
+    String url = "https://api.weixin.qq.com/cgi-bin/template/api_set_industry";
+    return execute(new SimplePostRequestExecutor(), url, wxMpIndustry.toJson());
+  }
+
+  @Override
+  public WxMpIndustry getIndustry() throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/template/get_industry";
+    String responseContent = execute(new SimpleGetRequestExecutor(), url, null);
+    return WxMpIndustry.fromJson(responseContent);
+  }
 }

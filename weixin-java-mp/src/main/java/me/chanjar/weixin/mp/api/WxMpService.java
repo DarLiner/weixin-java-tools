@@ -965,4 +965,27 @@ public interface WxMpService {
      * @throws WxErrorException
      */
   public WxMediaImgUploadResult mediaImgUpload(File file) throws WxErrorException;
+
+  /*
+     * <pre>
+     * 设置所属行业
+     * 官方文档中暂未告知响应内容
+     * 详情请见：http://mp.weixin.qq.com/wiki/5/6dde9eaa909f83354e0094dc3ad99e05.html#.E8.AE.BE.E7.BD.AE.E6.89.80.E5.B1.9E.E8.A1.8C.E4.B8.9A
+     * </pre>
+     * @param wxMpIndustry
+     * @return JsonObject
+     * @throws WxErrorException
+     */
+  String setIndustry(WxMpIndustry wxMpIndustry) throws WxErrorException;
+
+  /***
+   * <pre>
+   * 获取设置的行业信息
+   * 详情请见：http://mp.weixin.qq.com/wiki/5/6dde9eaa909f83354e0094dc3ad99e05.html#.E8.AE.BE.E7.BD.AE.E6.89.80.E5.B1.9E.E8.A1.8C.E4.B8.9A
+   * </pre>
+   *
+   * @return wxMpIndustry
+   * @throws WxErrorException
+   */
+  WxMpIndustry getIndustry() throws WxErrorException;
 }
