@@ -72,7 +72,7 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
 
   @Override
   public String getJsapiTicket() {
-    return jsapiTicket;
+    return this.jsapiTicket;
   }
 
   public void setJsapiTicket(String jsapiTicket) {
@@ -80,7 +80,7 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   }
 
   public long getJsapiTicketExpiresTime() {
-    return jsapiTicketExpiresTime;
+    return this.jsapiTicketExpiresTime;
   }
 
   public void setJsapiTicketExpiresTime(long jsapiTicketExpiresTime) {
@@ -109,7 +109,7 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
    */
   @Override
   public String getCardApiTicket() {
-    return cardApiTicket;
+    return this.cardApiTicket;
   }
 
   @Override
@@ -163,7 +163,7 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
 
   @Override
   public String getAesKey() {
-    return aesKey;
+    return this.aesKey;
   }
 
   public void setAesKey(String aesKey) {
@@ -189,7 +189,7 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
 
   @Override
   public String getHttp_proxy_host() {
-    return http_proxy_host;
+    return this.http_proxy_host;
   }
 
   public void setHttp_proxy_host(String http_proxy_host) {
@@ -198,7 +198,7 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
 
   @Override
   public int getHttp_proxy_port() {
-    return http_proxy_port;
+    return this.http_proxy_port;
   }
 
   public void setHttp_proxy_port(int http_proxy_port) {
@@ -207,7 +207,7 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
 
   @Override
   public String getHttp_proxy_username() {
-    return http_proxy_username;
+    return this.http_proxy_username;
   }
 
   public void setHttp_proxy_username(String http_proxy_username) {
@@ -216,7 +216,7 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
 
   @Override
   public String getHttp_proxy_password() {
-    return http_proxy_password;
+    return this.http_proxy_password;
   }
 
   public void setHttp_proxy_password(String http_proxy_password) {
@@ -226,29 +226,29 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   @Override
   public String toString() {
     return "WxMpInMemoryConfigStorage{" +
-        "appId='" + appId + '\'' +
-        ", secret='" + secret + '\'' +
-        ", token='" + token + '\'' +
-        ", partnerId='" + partnerId + '\'' +
-        ", partnerKey='" + partnerKey + '\'' +
-        ", accessToken='" + accessToken + '\'' +
-        ", aesKey='" + aesKey + '\'' +
-        ", expiresTime=" + expiresTime +
-        ", http_proxy_host='" + http_proxy_host + '\'' +
-        ", http_proxy_port=" + http_proxy_port +
-        ", http_proxy_username='" + http_proxy_username + '\'' +
-        ", http_proxy_password='" + http_proxy_password + '\'' +
-        ", jsapiTicket='" + jsapiTicket + '\'' +
-        ", jsapiTicketExpiresTime='" + jsapiTicketExpiresTime + '\'' +
-        ", cardApiTicket='" + cardApiTicket + '\'' +
-        ", cardApiTicketExpiresTime='" + cardApiTicketExpiresTime + '\'' +
-        ", tmpDirFile='" + tmpDirFile + '\'' +
+        "appId='" + this.appId + '\'' +
+        ", secret='" + this.secret + '\'' +
+        ", token='" + this.token + '\'' +
+        ", partnerId='" + this.partnerId + '\'' +
+        ", partnerKey='" + this.partnerKey + '\'' +
+        ", accessToken='" + this.accessToken + '\'' +
+        ", aesKey='" + this.aesKey + '\'' +
+        ", expiresTime=" + this.expiresTime +
+        ", http_proxy_host='" + this.http_proxy_host + '\'' +
+        ", http_proxy_port=" + this.http_proxy_port +
+        ", http_proxy_username='" + this.http_proxy_username + '\'' +
+        ", http_proxy_password='" + this.http_proxy_password + '\'' +
+        ", jsapiTicket='" + this.jsapiTicket + '\'' +
+        ", jsapiTicketExpiresTime='" + this.jsapiTicketExpiresTime + '\'' +
+        ", cardApiTicket='" + this.cardApiTicket + '\'' +
+        ", cardApiTicketExpiresTime='" + this.cardApiTicketExpiresTime + '\'' +
+        ", tmpDirFile='" + this.tmpDirFile + '\'' +
         '}';
   }
 
   @Override
   public String getPartnerId() {
-      return partnerId;
+      return this.partnerId;
   }
 
   public void setPartnerId(String partnerId) {
@@ -257,7 +257,7 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
 
   @Override
   public String getPartnerKey() {
-      return partnerKey;
+      return this.partnerKey;
   }
 
   public void setPartnerKey(String partnerKey) {
@@ -275,11 +275,11 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
 
   @Override
   public SSLContext getSSLContext() {
-    return sslContext;
+    return this.sslContext;
   }
   
   public void setSSLContext(SSLContext context) {
-    sslContext = context;
+    this.sslContext = context;
   }
 
   @Override
