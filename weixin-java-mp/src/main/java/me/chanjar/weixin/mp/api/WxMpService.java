@@ -944,7 +944,7 @@ public interface WxMpService {
    */
   public String getCardDetail(String cardId) throws WxErrorException;
 
-  /*
+  /**
      * <pre>
      * 预览接口
      * 详情请见：http://mp.weixin.qq.com/wiki/15/40b6865b893947b764e2de8e4a1fb55f.html#.E9.A2.84.E8.A7.88.E6.8E.A5.E5.8F.A3.E3.80.90.E8.AE.A2.E9.98.85.E5.8F.B7.E4.B8.8E.E6.9C.8D.E5.8A.A1.E5.8F.B7.E8.AE.A4.E8.AF.81.E5.90.8E.E5.9D.87.E5.8F.AF.E7.94.A8.E3.80.91
@@ -955,7 +955,7 @@ public interface WxMpService {
      */
   public WxMpMassSendResult massMessagePreview(WxMpMassPreviewMessage wxMpMassPreviewMessage) throws Exception;
 
-  /*
+  /**
      * <pre>
      * 上传图文消息内的图片获取URL
      * 详情请见：http://mp.weixin.qq.com/wiki/15/40b6865b893947b764e2de8e4a1fb55f.html#.E4.B8.8A.E4.BC.A0.E5.9B.BE.E6.96.87.E6.B6.88.E6.81.AF.E5.86.85.E7.9A.84.E5.9B.BE.E7.89.87.E8.8E.B7.E5.8F.96URL.E3.80.90.E8.AE.A2.E9.98.85.E5.8F.B7.E4.B8.8E.E6.9C.8D.E5.8A.A1.E5.8F.B7.E8.AE.A4.E8.AF.81.E5.90.8E.E5.9D.87.E5.8F.AF.E7.94.A8.E3.80.91
@@ -966,7 +966,7 @@ public interface WxMpService {
      */
   public WxMediaImgUploadResult mediaImgUpload(File file) throws WxErrorException;
 
-  /*
+  /**
      * <pre>
      * 设置所属行业
      * 官方文档中暂未告知响应内容
