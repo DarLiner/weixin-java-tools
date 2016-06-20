@@ -1,5 +1,4 @@
-# Weixin-java-tools
-## 微信公众号、企业号Java SDK。
+# Weixin-java-tools 微信公众号、企业号Java SDK。
 
 [![Build Status](https://travis-ci.org/binarywang/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/binarywang/weixin-java-tools)
 ![Maven Central](https://img.shields.io/maven-central/v/com.github.binarywang/weixin-java-parent.svg)
