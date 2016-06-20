@@ -1,24 +1,21 @@
-# Weixin-java-tools 微信公众号、企业号Java SDK
+# Weixin Java Tools 微信公众号/企业号开发Java SDK
+## [![Build Status](https://travis-ci.org/binarywang/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/binarywang/weixin-java-tools) ![Maven Central](https://img.shields.io/maven-central/v/com.github.binarywang/weixin-java-parent.svg) <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=078f7a153d243853e24cf2b542e7a6ccbf2a592bc138080f84d11297f736ec46"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="weixin-java-tools" title="weixin-java-tools"></a>
 
-[![Build Status](https://travis-ci.org/binarywang/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/binarywang/weixin-java-tools)
-![Maven Central](https://img.shields.io/maven-central/v/com.github.binarywang/weixin-java-parent.svg)
+### 声明：本项目基于chanjarster/weixin-java-tools，由于原作者长期没有维护，故单独维护和发布，且发布到maven上的groupId也会不同。
+#### 最新更新：1.3.4版发布！！！ on 2016-06-01
 
-### 详细文档请看 [wiki](https://github.com/chanjarster/weixin-java-tools/wiki)。
-
-####  1.3.4版发布！！！ By Binary Wang 2016-06-01
-
+### 详细开发文档请看 [wiki](https://github.com/chanjarster/weixin-java-tools/wiki)。
 
 ===========
-
-* QQ群：343954419
+## 使用开发交流工具：
+* QQ群：343954419 <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=078f7a153d243853e24cf2b542e7a6ccbf2a592bc138080f84d11297f736ec46"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="weixin-java-tools" title="weixin-java-tools"></a>
 * 微信群：
-![Alt text](https://raw.githubusercontent.com/binarywang/weixin-java-tools/master/weixinqun.jpg  "微信群")
+ ![Alt text](https://raw.githubusercontent.com/binarywang/weixin-java-tools/master/weixinqun.jpg  "微信群")
  
 ===========
 
 ## 发布周期
-暂定为一月一次发布，月初或月底发布新版本，遇到重大问题需修复会及时提交新版本，欢迎大家随时提交Pull Request。
-
+暂定为每月发布一次，月初或月底发布新版本，遇到重大问题需修复会及时提交新版本，欢迎大家随时提交Pull Request。
 
 ## Quick Start
 
