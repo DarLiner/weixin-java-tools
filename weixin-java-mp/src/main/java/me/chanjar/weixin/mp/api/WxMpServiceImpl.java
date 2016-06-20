@@ -825,7 +825,7 @@ public class WxMpServiceImpl implements WxMpService {
 
   @Override
   public WxMpPrepayIdResult getPrepayId(String openId, String outTradeNo, double amt, String body, String tradeType, String ip, String callbackUrl) {
-    Map<String, String> packageParams = new HashMap<String, String>();
+    Map<String, String> packageParams = new HashMap<>();
     packageParams.put("appid", this.wxMpConfigStorage.getAppId());
     packageParams.put("mch_id", this.wxMpConfigStorage.getPartnerId());
     packageParams.put("body", body);
@@ -843,7 +843,7 @@ public class WxMpServiceImpl implements WxMpService {
   public WxMpPrepayIdResult getPrepayId(final Map<String, String> parameters) {
     String nonce_str = System.currentTimeMillis() + "";
 
-    final SortedMap<String, String> packageParams = new TreeMap<String, String>(parameters);
+    final SortedMap<String, String> packageParams = new TreeMap<>(parameters);
     packageParams.put("appid", this.wxMpConfigStorage.getAppId());
     packageParams.put("mch_id", this.wxMpConfigStorage.getPartnerId());
     packageParams.put("nonce_str", nonce_str);
@@ -895,7 +895,7 @@ public class WxMpServiceImpl implements WxMpService {
 
  	@Override
 	public Map<String, String> getJsapiPayInfo(String openId,String outTradeNo, double amt, String body,String ip, String callbackUrl) throws WxErrorException{
-		Map<String, String> packageParams = new HashMap<String, String>();
+		Map<String, String> packageParams = new HashMap<>();
 		packageParams.put("appid", this.wxMpConfigStorage.getAppId());
 		packageParams.put("mch_id", this.wxMpConfigStorage.getPartnerId());
 		packageParams.put("body", body);
@@ -911,7 +911,7 @@ public class WxMpServiceImpl implements WxMpService {
 	
 	@Override
 	public Map<String, String> getNativePayInfo(String productId,String outTradeNo, double amt, String body,String ip, String callbackUrl) throws WxErrorException{
-		Map<String, String> packageParams = new HashMap<String, String>();
+		Map<String, String> packageParams = new HashMap<>();
 		packageParams.put("appid", this.wxMpConfigStorage.getAppId());
 		packageParams.put("mch_id", this.wxMpConfigStorage.getPartnerId());
 		packageParams.put("body", body);
@@ -946,7 +946,7 @@ public class WxMpServiceImpl implements WxMpService {
       throw new RuntimeException(String.format("Failed to get prepay id due to error code '%s'(%s).", wxMpPrepayIdResult.getErr_code(), wxMpPrepayIdResult.getErr_code_des()));
     }
 
-    Map<String, String> payInfo = new HashMap<String, String>();
+    Map<String, String> payInfo = new HashMap<>();
     payInfo.put("appId", this.wxMpConfigStorage.getAppId());
     // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
     payInfo.put("timeStamp", String.valueOf(System.currentTimeMillis() / 1000));
@@ -954,7 +954,7 @@ public class WxMpServiceImpl implements WxMpService {
     payInfo.put("package", "prepay_id=" + prepayId);
     payInfo.put("signType", "MD5");
     if("NATIVE".equals(parameters.get("trade_type"))){
-	payInfo.put("codeUrl", wxMpPrepayIdResult.getCode_url());
+      payInfo.put("codeUrl", wxMpPrepayIdResult.getCode_url());
     }
 
     String finalSign = WxCryptUtil.createSign(payInfo, this.wxMpConfigStorage.getPartnerKey());
@@ -966,7 +966,7 @@ public class WxMpServiceImpl implements WxMpService {
   public WxMpPayResult getJSSDKPayResult(String transactionId, String outTradeNo) {
     String nonce_str = System.currentTimeMillis() + "";
 
-    SortedMap<String, String> packageParams = new TreeMap<String, String>();
+    SortedMap<String, String> packageParams = new TreeMap<>();
     packageParams.put("appid", this.wxMpConfigStorage.getAppId());
     packageParams.put("mch_id", this.wxMpConfigStorage.getPartnerId());
     if (transactionId != null && !"".equals(transactionId.trim()))
@@ -1018,7 +1018,7 @@ public class WxMpServiceImpl implements WxMpService {
   
   @Override
   public WxMpPayRefundResult refundPay(Map<String, String> parameters) throws WxErrorException {
-    SortedMap<String, String> refundParams = new TreeMap<String, String>(parameters);
+    SortedMap<String, String> refundParams = new TreeMap<>(parameters);
     refundParams.put("appid", this.wxMpConfigStorage.getAppId());
     refundParams.put("mch_id", this.wxMpConfigStorage.getPartnerId());
     refundParams.put("nonce_str", System.currentTimeMillis() + "");
@@ -1080,7 +1080,7 @@ public class WxMpServiceImpl implements WxMpService {
   public WxRedpackResult sendRedpack(Map<String, String> parameters) throws WxErrorException {
     String nonce_str = System.currentTimeMillis() + "";
 
-    SortedMap<String, String> packageParams = new TreeMap<String, String>(parameters);
+    SortedMap<String, String> packageParams = new TreeMap<>(parameters);
     packageParams.put("wxappid", this.wxMpConfigStorage.getAppId());
     packageParams.put("mch_id", this.wxMpConfigStorage.getPartnerId());
     packageParams.put("nonce_str", nonce_str);
