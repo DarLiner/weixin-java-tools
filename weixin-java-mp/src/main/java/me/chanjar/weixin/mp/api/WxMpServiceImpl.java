@@ -50,7 +50,6 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.Map.Entry;
@@ -523,7 +522,8 @@ public class WxMpServiceImpl implements WxMpService {
   public String qrCodePictureUrl(String ticket) throws WxErrorException {
     String url = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s";
     try {
-      return String.format(url, URLEncoder.encode(ticket, Charsets.UTF_8.name()));
+      return this.shortUrl(String.format(url, 
+                            URLEncoder.encode(ticket, Charsets.UTF_8.name())));
     } catch (UnsupportedEncodingException e) {
       WxError error = WxError.newBuilder().setErrorCode(-1)
             .setErrorMsg(e.getMessage()).build();
