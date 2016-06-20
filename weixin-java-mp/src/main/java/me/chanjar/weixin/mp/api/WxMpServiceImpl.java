@@ -86,6 +86,7 @@ public class WxMpServiceImpl implements WxMpService {
 
   protected WxSessionManager sessionManager = new StandardSessionManager();
 
+  @Override
   public boolean checkSignature(String timestamp, String nonce, String signature) {
     try {
       return SHA1.gen(wxMpConfigStorage.getToken(), timestamp, nonce).equals(signature);
@@ -94,10 +95,12 @@ public class WxMpServiceImpl implements WxMpService {
     }
   }
 
+  @Override
   public String getAccessToken() throws WxErrorException {
     return getAccessToken(false);
   }
 
+  @Override
   public String getAccessToken(boolean forceRefresh) throws WxErrorException {
     if (forceRefresh) {
       wxMpConfigStorage.expireAccessToken();
@@ -137,10 +140,12 @@ public class WxMpServiceImpl implements WxMpService {
     return wxMpConfigStorage.getAccessToken();
   }
 
+  @Override
   public String getJsapiTicket() throws WxErrorException {
     return getJsapiTicket(false);
   }
 
+  @Override
   public String getJsapiTicket(boolean forceRefresh) throws WxErrorException {
     if (forceRefresh) {
       wxMpConfigStorage.expireJsapiTicket();
@@ -161,6 +166,7 @@ public class WxMpServiceImpl implements WxMpService {
     return wxMpConfigStorage.getJsapiTicket();
   }
 
+  @Override
   public WxJsapiSignature createJsapiSignature(String url) throws WxErrorException {
     long timestamp = System.currentTimeMillis() / 1000;
     String noncestr = RandomUtils.getRandomStr();
@@ -184,11 +190,13 @@ public class WxMpServiceImpl implements WxMpService {
     }
   }
 
+  @Override
   public void customMessageSend(WxMpCustomMessage message) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/message/custom/send";
     execute(new SimplePostRequestExecutor(), url, message.toJson());
   }
 
+  @Override
   public void menuCreate(WxMenu menu) throws WxErrorException {
     if (menu.getMatchRule() != null) {
       String url = "https://api.weixin.qq.com/cgi-bin/menu/addconditional";
@@ -199,16 +207,19 @@ public class WxMpServiceImpl implements WxMpService {
     }
   }
 
+  @Override
   public void menuDelete() throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/menu/delete";
     execute(new SimpleGetRequestExecutor(), url, null);
   }
   
+  @Override
   public void menuDelete(String menuid) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/menu/delconditional";
     execute(new SimpleGetRequestExecutor(), url, "menuid=" + menuid);
   }
 
+  @Override
   public WxMenu menuGet() throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/menu/get";
     try {
@@ -223,6 +234,7 @@ public class WxMpServiceImpl implements WxMpService {
     }
   }
   
+  @Override
   public WxMenu menuTryMatch(String userid) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/menu/trymatch";
     try {
@@ -237,25 +249,30 @@ public class WxMpServiceImpl implements WxMpService {
     }
   }
 
+  @Override
   public WxMediaUploadResult mediaUpload(String mediaType, String fileType, InputStream inputStream) throws WxErrorException, IOException {
     return mediaUpload(mediaType, FileUtils.createTmpFile(inputStream, UUID.randomUUID().toString(), fileType));
   }
 
+  @Override
   public WxMediaUploadResult mediaUpload(String mediaType, File file) throws WxErrorException {
     String url = "http://file.api.weixin.qq.com/cgi-bin/media/upload?type=" + mediaType;
     return execute(new MediaUploadRequestExecutor(), url, file);
   }
 
+  @Override
   public File mediaDownload(String media_id) throws WxErrorException {
     String url = "http://file.api.weixin.qq.com/cgi-bin/media/get";
     return execute(new MediaDownloadRequestExecutor(wxMpConfigStorage.getTmpDirFile()), url, "media_id=" + media_id);
   }
 
+  @Override
   public WxMpMaterialUploadResult materialFileUpload(String mediaType, WxMpMaterial material) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/material/add_material?type=" + mediaType;
     return execute(new MaterialUploadRequestExecutor(), url, material);
   }
 
+  @Override
   public WxMpMaterialUploadResult materialNewsUpload(WxMpMaterialNews news) throws WxErrorException {
     if (news == null || news.isEmpty()) {
       throw new IllegalArgumentException("news is empty!");
@@ -265,21 +282,25 @@ public class WxMpServiceImpl implements WxMpService {
     return WxMpMaterialUploadResult.fromJson(responseContent);
   }
 
+  @Override
   public InputStream materialImageOrVoiceDownload(String media_id) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/material/get_material";
     return execute(new MaterialVoiceAndImageDownloadRequestExecutor(wxMpConfigStorage.getTmpDirFile()), url, media_id);
   }
 
+  @Override
   public WxMpMaterialVideoInfoResult materialVideoInfo(String media_id) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/material/get_material";
     return execute(new MaterialVideoInfoRequestExecutor(), url, media_id);
   }
 
+  @Override
   public WxMpMaterialNews materialNewsInfo(String media_id) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/material/get_material";
     return execute(new MaterialNewsInfoRequestExecutor(), url, media_id);
   }
 
+  @Override
   public boolean materialNewsUpdate(WxMpMaterialArticleUpdate wxMpMaterialArticleUpdate) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/material/update_news";
     String responseText = post(url, wxMpMaterialArticleUpdate.toJson());
@@ -291,11 +312,13 @@ public class WxMpServiceImpl implements WxMpService {
     }
   }
 
+  @Override
   public boolean materialDelete(String media_id) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/material/del_material";
     return execute(new MaterialDeleteRequestExecutor(), url, media_id);
   }
 
+  @Override
   public WxMpMaterialCountResult materialCount() throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/material/get_materialcount";
     String responseText = get(url, null);
@@ -307,6 +330,7 @@ public class WxMpServiceImpl implements WxMpService {
     }
   }
 
+  @Override
   public WxMpMaterialNewsBatchGetResult materialNewsBatchGet(int offset, int count) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/material/batchget_material";
     Map<String, Object> params = new HashMap<>();
@@ -322,6 +346,7 @@ public class WxMpServiceImpl implements WxMpService {
     }
   }
 
+  @Override
   public WxMpMaterialFileBatchGetResult materialFileBatchGet(String type, int offset, int count) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/material/batchget_material";
     Map<String, Object> params = new HashMap<>();
@@ -337,30 +362,35 @@ public class WxMpServiceImpl implements WxMpService {
     }
   }
 
+  @Override
   public WxMpMassUploadResult massNewsUpload(WxMpMassNews news) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/media/uploadnews";
     String responseContent = execute(new SimplePostRequestExecutor(), url, news.toJson());
     return WxMpMassUploadResult.fromJson(responseContent);
   }
 
+  @Override
   public WxMpMassUploadResult massVideoUpload(WxMpMassVideo video) throws WxErrorException {
     String url = "http://file.api.weixin.qq.com/cgi-bin/media/uploadvideo";
     String responseContent = execute(new SimplePostRequestExecutor(), url, video.toJson());
     return WxMpMassUploadResult.fromJson(responseContent);
   }
 
+  @Override
   public WxMpMassSendResult massGroupMessageSend(WxMpMassGroupMessage message) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/message/mass/sendall";
     String responseContent = execute(new SimplePostRequestExecutor(), url, message.toJson());
     return WxMpMassSendResult.fromJson(responseContent);
   }
 
+  @Override
   public WxMpMassSendResult massOpenIdsMessageSend(WxMpMassOpenIdsMessage message) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/message/mass/send";
     String responseContent = execute(new SimplePostRequestExecutor(), url, message.toJson());
     return WxMpMassSendResult.fromJson(responseContent);
   }
 
+  @Override
   public WxMpGroup groupCreate(String name) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/groups/create";
     JsonObject json = new JsonObject();
@@ -375,6 +405,7 @@ public class WxMpServiceImpl implements WxMpService {
     return WxMpGroup.fromJson(responseContent);
   }
 
+  @Override
   public List<WxMpGroup> groupGet() throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/groups/get";
     String responseContent = execute(new SimpleGetRequestExecutor(), url, null);
@@ -388,6 +419,7 @@ public class WxMpServiceImpl implements WxMpService {
         }.getType());
   }
 
+  @Override
   public long userGetGroup(String openid) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/groups/getid";
     JsonObject o = new JsonObject();
@@ -397,11 +429,13 @@ public class WxMpServiceImpl implements WxMpService {
     return GsonHelper.getAsLong(tmpJsonElement.getAsJsonObject().get("groupid"));
   }
 
+  @Override
   public void groupUpdate(WxMpGroup group) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/groups/update";
     execute(new SimplePostRequestExecutor(), url, group.toJson());
   }
 
+  @Override
   public void userUpdateGroup(String openid, long to_groupid) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/groups/members/update";
     JsonObject json = new JsonObject();
@@ -410,6 +444,7 @@ public class WxMpServiceImpl implements WxMpService {
     execute(new SimplePostRequestExecutor(), url, json.toString());
   }
 
+  @Override
   public void userUpdateRemark(String openid, String remark) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/user/info/updateremark";
     JsonObject json = new JsonObject();
@@ -418,6 +453,7 @@ public class WxMpServiceImpl implements WxMpService {
     execute(new SimplePostRequestExecutor(), url, json.toString());
   }
 
+  @Override
   public WxMpUser userInfo(String openid, String lang) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/user/info";
     lang = lang == null ? "zh_CN" : lang;
@@ -425,12 +461,14 @@ public class WxMpServiceImpl implements WxMpService {
     return WxMpUser.fromJson(responseContent);
   }
 
+  @Override
   public WxMpUserList userList(String next_openid) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/user/get";
     String responseContent = execute(new SimpleGetRequestExecutor(), url, next_openid == null ? null : "next_openid=" + next_openid);
     return WxMpUserList.fromJson(responseContent);
   }
 
+  @Override
   public WxMpQrCodeTicket qrCodeCreateTmpTicket(int scene_id, Integer expire_seconds) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/qrcode/create";
     JsonObject json = new JsonObject();
@@ -447,6 +485,7 @@ public class WxMpServiceImpl implements WxMpService {
     return WxMpQrCodeTicket.fromJson(responseContent);
   }
 
+  @Override
   public WxMpQrCodeTicket qrCodeCreateLastTicket(int scene_id) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/qrcode/create";
     JsonObject json = new JsonObject();
@@ -460,6 +499,7 @@ public class WxMpServiceImpl implements WxMpService {
     return WxMpQrCodeTicket.fromJson(responseContent);
   }
 
+  @Override
   public WxMpQrCodeTicket qrCodeCreateLastTicket(String scene_str) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/qrcode/create";
     JsonObject json = new JsonObject();
@@ -473,6 +513,7 @@ public class WxMpServiceImpl implements WxMpService {
     return WxMpQrCodeTicket.fromJson(responseContent);
   }
 
+  @Override
   public File qrCodePicture(WxMpQrCodeTicket ticket) throws WxErrorException {
     String url = "https://mp.weixin.qq.com/cgi-bin/showqrcode";
     return execute(new QrCodeRequestExecutor(), url, ticket);
@@ -490,6 +531,7 @@ public class WxMpServiceImpl implements WxMpService {
     }
   }
 
+  @Override
   public String shortUrl(String long_url) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/shorturl";
     JsonObject o = new JsonObject();
@@ -500,6 +542,7 @@ public class WxMpServiceImpl implements WxMpService {
     return tmpJsonElement.getAsJsonObject().get("short_url").getAsString();
   }
 
+  @Override
   public String templateSend(WxMpTemplateMessage templateMessage) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/message/template/send";
     String responseContent = execute(new SimplePostRequestExecutor(), url, templateMessage.toJson());
@@ -510,6 +553,7 @@ public class WxMpServiceImpl implements WxMpService {
     throw new WxErrorException(WxError.fromJson(responseContent));
   }
 
+  @Override
   public WxMpSemanticQueryResult semanticQuery(WxMpSemanticQuery semanticQuery) throws WxErrorException {
     String url = "https://api.weixin.qq.com/semantic/semproxy/search";
     String responseContent = execute(new SimplePostRequestExecutor(), url, semanticQuery.toJson());
@@ -658,10 +702,12 @@ public class WxMpServiceImpl implements WxMpService {
         }.getType());
   }
 
+  @Override
   public String get(String url, String queryParam) throws WxErrorException {
     return execute(new SimpleGetRequestExecutor(), url, queryParam);
   }
 
+  @Override
   public String post(String url, String postData) throws WxErrorException {
     return execute(new SimplePostRequestExecutor(), url, postData);
   }
@@ -675,6 +721,7 @@ public class WxMpServiceImpl implements WxMpService {
    * @return
    * @throws WxErrorException
    */
+  @Override
   public <T, E> T execute(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
     int retryTimes = 0;
     do {
@@ -740,6 +787,7 @@ public class WxMpServiceImpl implements WxMpService {
     return httpClient;
   }
 
+  @Override
   public void setWxMpConfigStorage(WxMpConfigStorage wxConfigProvider) {
     this.wxMpConfigStorage = wxConfigProvider;
 
@@ -791,6 +839,7 @@ public class WxMpServiceImpl implements WxMpService {
     return getPrepayId(packageParams);
   }
 
+  @Override
   public WxMpPrepayIdResult getPrepayId(final Map<String, String> parameters) {
     String nonce_str = System.currentTimeMillis() + "";
 
