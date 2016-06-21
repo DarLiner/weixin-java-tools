@@ -513,6 +513,17 @@ public interface WxMpService {
 
   /**
    * <pre>
+   * 换取二维码图片url地址（可以选择是否生成压缩的网址）
+   * 详情请见: <a href="http://mp.weixin.qq.com/wiki/18/167e7d94df85d8389df6c94a7a8f78ba.html">生成带参数的二维码</a>
+   * </pre>
+   * @param ticket    二维码ticket
+   * @param needShortUrl 是否需要压缩的二维码地址
+   * @return
+   * @throws WxErrorException
+   */
+  public String qrCodePictureUrl(String ticket, boolean needShortUrl) throws WxErrorException;
+  /**
+   * <pre>
    * 换取二维码图片url地址
    * 详情请见: <a href="http://mp.weixin.qq.com/wiki/18/167e7d94df85d8389df6c94a7a8f78ba.html">生成带参数的二维码</a>
    * </pre>

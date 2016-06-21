@@ -519,16 +519,26 @@ public class WxMpServiceImpl implements WxMpService {
   }
 
   @Override
-  public String qrCodePictureUrl(String ticket) throws WxErrorException {
+  public String qrCodePictureUrl(String ticket, boolean needShortUrl) throws WxErrorException {
     String url = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s";
     try {
-      return this.shortUrl(String.format(url, 
-                            URLEncoder.encode(ticket, Charsets.UTF_8.name())));
+      String resultUrl = String.format(url, 
+          URLEncoder.encode(ticket, Charsets.UTF_8.name()));
+      if(needShortUrl){
+        return this.shortUrl(resultUrl);
+      }
+      
+      return resultUrl;
     } catch (UnsupportedEncodingException e) {
       WxError error = WxError.newBuilder().setErrorCode(-1)
             .setErrorMsg(e.getMessage()).build();
       throw new WxErrorException(error);
     }
+  }
+  
+  @Override
+  public String qrCodePictureUrl(String ticket) throws WxErrorException {
+    return qrCodePictureUrl(ticket, false);
   }
 
   @Override
