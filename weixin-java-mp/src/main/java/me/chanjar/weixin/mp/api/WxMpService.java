@@ -94,7 +94,8 @@ public interface WxMpService {
 
   /**
    * <pre>
-   * 上传多媒体文件
+   * 新增临时素材
+   * 本接口即为原“上传多媒体文件”接口。
    *
    * 上传的多媒体文件有格式和大小限制，如下：
    *   图片（image）: 1M，支持JPG格式
@@ -102,7 +103,7 @@ public interface WxMpService {
    *   视频（video）：10MB，支持MP4格式
    *   缩略图（thumb）：64KB，支持JPG格式
    *
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=上传下载多媒体文件
+   * 详情请见: <a href="http://mp.weixin.qq.com/wiki/15/2d353966323806a202cd2deaafe8e557.html">新增临时素材</a>
    * </pre>
    * @param mediaType         媒体类型, 请看{@link me.chanjar.weixin.common.api.WxConsts}
    * @param fileType          文件类型，请看{@link me.chanjar.weixin.common.api.WxConsts}
@@ -241,6 +242,7 @@ public interface WxMpService {
   public WxMpMaterialFileBatchGetResult materialFileBatchGet(String type, int offset, int count) throws WxErrorException;
 
   /**
+   * 新增临时素材
    * @see #mediaUpload(String, String, InputStream)
    * @param mediaType
    * @param file
@@ -250,9 +252,10 @@ public interface WxMpService {
 
   /**
    * <pre>
-   * 下载多媒体文件
+   * 获取临时素材
+   * 本接口即为原“下载多媒体文件”接口。
    * 根据微信文档，视频文件下载不了，会返回null
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=上传下载多媒体文件
+   * 详情请见: <a href="http://mp.weixin.qq.com/wiki/9/677a85e3f3849af35de54bb5516c2521.html">获取临时素材</a>
    * </pre>
    * @params media_id
    * @return 保存到本地的临时文件
@@ -351,7 +354,7 @@ public interface WxMpService {
    * @throws WxErrorException
    */
   public void menuDelete(String menuid) throws WxErrorException;
-  
+
   /**
    * <pre>
    * 自定义菜单查询接口
@@ -361,7 +364,7 @@ public interface WxMpService {
    * @throws WxErrorException
    */
   public WxMenu menuGet() throws WxErrorException;
-  
+
   /**
    * <pre>
    * 测试个性化菜单匹配结果
@@ -465,7 +468,7 @@ public interface WxMpService {
   /**
    * <pre>
    * 换取临时二维码ticket
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=生成带参数的二维码
+   * 详情请见: <a href="http://mp.weixin.qq.com/wiki/18/167e7d94df85d8389df6c94a7a8f78ba.html">生成带参数的二维码</a>
    * </pre>
    * @param scene_id          参数。
    * @param expire_seconds    过期秒数，默认60秒，最小60秒，最大1800秒
@@ -477,7 +480,7 @@ public interface WxMpService {
   /**
    * <pre>
    * 换取永久二维码ticket
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=生成带参数的二维码
+   * 详情请见: <a href="http://mp.weixin.qq.com/wiki/18/167e7d94df85d8389df6c94a7a8f78ba.html">生成带参数的二维码</a>
    * </pre>
    * @param scene_id    参数。永久二维码时最大值为100000（目前参数只支持1--100000）
    * @return
@@ -488,7 +491,7 @@ public interface WxMpService {
   /**
    * <pre>
    * 换取永久字符串二维码ticket
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=生成带参数的二维码
+   * 详情请见: <a href="http://mp.weixin.qq.com/wiki/18/167e7d94df85d8389df6c94a7a8f78ba.html">生成带参数的二维码</a>
    * </pre>
    *
    * @param scene_str 参数。字符串类型长度现在为1到64
@@ -500,7 +503,7 @@ public interface WxMpService {
   /**
    * <pre>
    * 换取二维码图片文件，jpg格式
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=生成带参数的二维码
+   * 详情请见: <a href="http://mp.weixin.qq.com/wiki/18/167e7d94df85d8389df6c94a7a8f78ba.html">生成带参数的二维码</a>
    * </pre>
    * @param ticket    二维码ticket
    * @return
@@ -510,8 +513,19 @@ public interface WxMpService {
 
   /**
    * <pre>
+   * 换取二维码图片url地址（可以选择是否生成压缩的网址）
+   * 详情请见: <a href="http://mp.weixin.qq.com/wiki/18/167e7d94df85d8389df6c94a7a8f78ba.html">生成带参数的二维码</a>
+   * </pre>
+   * @param ticket    二维码ticket
+   * @param needShortUrl 是否需要压缩的二维码地址
+   * @return
+   * @throws WxErrorException
+   */
+  public String qrCodePictureUrl(String ticket, boolean needShortUrl) throws WxErrorException;
+  /**
+   * <pre>
    * 换取二维码图片url地址
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=生成带参数的二维码
+   * 详情请见: <a href="http://mp.weixin.qq.com/wiki/18/167e7d94df85d8389df6c94a7a8f78ba.html">生成带参数的二维码</a>
    * </pre>
    * @param ticket    二维码ticket
    * @return
@@ -723,7 +737,7 @@ public interface WxMpService {
   /**
    * 统一下单(详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1)
    * 在发起微信支付前，需要调用统一下单接口，获取"预支付交易会话标识"
-   * 
+   *
    * @param parameters
    *            All required/optional parameters for weixin payment
    * @return
@@ -732,97 +746,114 @@ public interface WxMpService {
   WxMpPrepayIdResult getPrepayId(Map<String, String> parameters);
 
   /**
-   * 该接口调用“统一下单”接口，并拼装JSSDK发起支付请求需要的参数
+   * 该接口调用“统一下单”接口，并拼装发起支付请求需要的参数
    * 详见http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E5.8F.91.E8.B5.B7.E4.B8.80.E4.B8.AA.E5.BE.AE.E4.BF.A1.E6.94.AF.E4.BB.98.E8.AF.B7.E6.B1.82
    * @param parameters
    *            the required or optional parameters
    * @return
- * @throws WxErrorException 
+ * @throws WxErrorException
    */
-  Map<String, String> getJSSDKPayInfo(Map<String, String> parameters) throws WxErrorException;  	
+  Map<String, String> getPayInfo(Map<String, String> parameters) throws WxErrorException;  	
   	
   /**
-   * 该接口调用“统一下单”接口，并拼装JSSDK发起支付请求需要的参数
+   * 该接口调用“统一下单”接口，并拼装NATIVE发起支付请求需要的参数
    * 详见http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E5.8F.91.E8.B5.B7.E4.B8.80.E4.B8.AA.E5.BE.AE.E4.BF.A1.E6.94.AF.E4.BB.98.E8.AF.B7.E6.B1.82
-   * @param openId 支付人openId
+   * tradeType 交易类型 NATIVE （其他交易类型JSAPI，APP，WAP） 
+   * @param productId 商户商品ID
    * @param outTradeNo 商户端对应订单号
    * @param amt 金额(单位元)
    * @param body 商品描述
-   * @param tradeType 交易类型 JSAPI，NATIVE，APP，WAP
    * @param ip 发起支付的客户端IP
    * @param notifyUrl 通知地址
    * @return
  * @throws WxErrorException 
-   * @deprecated Use me.chanjar.weixin.mp.api.WxMpService.getJSSDKPayInfo(Map<String, String>) instead
+   * @deprecated Use me.chanjar.weixin.mp.api.WxMpService.getPayInfo(Map<String, String>) instead
    */
   @Deprecated
-  Map<String, String> getJSSDKPayInfo(String openId, String outTradeNo, double amt, String body, String tradeType, String ip, String notifyUrl) throws WxErrorException;
+  Map<String, String> getNativePayInfo(String productId, String outTradeNo, double amt, String body, String ip, String notifyUrl) throws WxErrorException;
 
-    /**
-     * 该接口提供所有微信支付订单的查询,当支付通知处理异常戒丢失的情冴,商户可以通过该接口查询订单支付状态。
-     * 详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_2
-     * @param transactionId
-     * @param outTradeNo
-     */
-    WxMpPayResult getJSSDKPayResult(String transactionId, String outTradeNo);
+  /**
+   * 该接口调用“统一下单”接口，并拼装JSAPI发起支付请求需要的参数
+   * 详见http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E5.8F.91.E8.B5.B7.E4.B8.80.E4.B8.AA.E5.BE.AE.E4.BF.A1.E6.94.AF.E4.BB.98.E8.AF.B7.E6.B1.82
+   * tradeType 交易类型 JSAPI(其他交易类型NATIVE，APP，WAP)
+   * @param openId 支付人openId
+   * @param outTradeNo 商户端对应订单号
+   * @param amt 金额(单位元)
+   * @param body 商品描述
+   * @param ip 发起支付的客户端IP
+   * @param notifyUrl 通知地址
+   * @return
+   * @throws WxErrorException 
+   * @deprecated Use me.chanjar.weixin.mp.api.WxMpService.getPayInfo(Map<String, String>) instead
+   */
+  @Deprecated
+  Map<String, String> getJsapiPayInfo(String openId, String outTradeNo, double amt, String body, String ip, String notifyUrl) throws WxErrorException;
 
-    /**
-     * 读取支付结果通知
-     * 详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_7
-     * @param xmlData
-     * @return
-     */
-    WxMpPayCallback getJSSDKCallbackData(String xmlData);
-    
-    /**
-     * 微信支付-申请退款
-     * 详见 https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_4
-     * @param parameters 需要传入的退款参数的Map。以下几项为参数的必须项：<br/>
-     *        <li/> transaction_id
-     *        <li/> out_trade_no （仅在上述transaction_id为空时是必须项）
-     *        <li/> out_refund_no
-     *        <li/> total_fee
-     *        <li/> refund_fee
-     * @return 退款操作结果
-     * @throws WxErrorException 
-     */
-    public WxMpPayRefundResult refundPay(Map<String, String> parameters) throws WxErrorException;
-    
-    /**
-     * <pre>
-     * 计算Map键值对是否和签名相符,
-     * 按照字段名的 ASCII 码从小到大排序(字典序)后,使用 URL 键值对的 格式(即 key1=value1&key2=value2...)拼接成字符串
-     * </pre>
-     * @param kvm
-     * @param signature
-     * @return
-     */
-    public boolean checkJSSDKCallbackDataSignature(Map<String, String> kvm, String signature);
+  /**
+   * 该接口提供所有微信支付订单的查询,当支付通知处理异常戒丢失的情冴,商户可以通过该接口查询订单支付状态。
+   * 详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_2
+   * @param transactionId
+   * @param outTradeNo
+   */
+  WxMpPayResult getJSSDKPayResult(String transactionId, String outTradeNo);
 
-   /**
-    * 发送微信红包给个人用户
-    *
-    * 需要传入的必填参数如下:
-    * mch_billno//商户订单号
-    * send_name//商户名称
-    * re_openid//用户openid
-    * total_amount//红包总额
-    * total_num//红包发放总人数
-    * wishing//红包祝福语
-    * client_ip//服务器Ip地址
-    * act_name//活动名称
-    * remark //备注
-    * 文档详见:https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_5
-    *
-    * 使用现金红包功能需要在xml配置文件中额外设置:
-    * <partnerId></partnerId>微信商户平台ID
-    * <partnerKey></partnerKey>商户平台设置的API密钥
-    *
-    * @param parameters
-    * @return
-    * @throws WxErrorException
-    */
-    public WxRedpackResult sendRedpack(Map<String, String> parameters) throws WxErrorException;
+  /**
+   * 读取支付结果通知
+   * 详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_7
+   * @param xmlData
+   * @return
+   */
+  WxMpPayCallback getJSSDKCallbackData(String xmlData);
+
+  /**
+   * 微信支付-申请退款
+   * 详见 https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_4
+   * @param parameters 需要传入的退款参数的Map。以下几项为参数的必须项：<br/>
+   *        <li/> transaction_id
+   *        <li/> out_trade_no （仅在上述transaction_id为空时是必须项）
+   *        <li/> out_refund_no
+   *        <li/> total_fee
+   *        <li/> refund_fee
+   * @return 退款操作结果
+   * @throws WxErrorException
+   */
+  public WxMpPayRefundResult refundPay(Map<String, String> parameters) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 计算Map键值对是否和签名相符,
+   * 按照字段名的 ASCII 码从小到大排序(字典序)后,使用 URL 键值对的 格式(即 key1=value1&key2=value2...)拼接成字符串
+   * </pre>
+   * @param kvm
+   * @param signature
+   * @return
+   */
+  public boolean checkJSSDKCallbackDataSignature(Map<String, String> kvm, String signature);
+
+  /**
+  * 发送微信红包给个人用户
+  *
+  * 需要传入的必填参数如下:
+  * mch_billno//商户订单号
+  * send_name//商户名称
+  * re_openid//用户openid
+  * total_amount//红包总额
+  * total_num//红包发放总人数
+  * wishing//红包祝福语
+  * client_ip//服务器Ip地址
+  * act_name//活动名称
+  * remark //备注
+  * 文档详见:https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_5
+  *
+  * 使用现金红包功能需要在xml配置文件中额外设置:
+  * <partnerId></partnerId>微信商户平台ID
+  * <partnerKey></partnerKey>商户平台设置的API密钥
+  *
+  * @param parameters
+  * @return
+  * @throws WxErrorException
+  */
+  public WxRedpackResult sendRedpack(Map<String, String> parameters) throws WxErrorException;
 
   /**
    * 获得卡券api_ticket，不强制刷新卡券api_ticket
@@ -914,7 +945,7 @@ public interface WxMpService {
      */
   public void markCardCode(String code, String cardId, String openId, boolean isMark) throws
       WxErrorException;
-  
+
   /**
    * 查看卡券详情接口
    * 详见 https://mp.weixin.qq.com/wiki/14/8dd77aeaee85f922db5f8aa6386d385e.html#.E6.9F.A5.E7.9C.8B.E5.8D.A1.E5.88.B8.E8.AF.A6.E6.83.85
@@ -925,4 +956,49 @@ public interface WxMpService {
    * @throws WxErrorException
    */
   public String getCardDetail(String cardId) throws WxErrorException;
+
+  /**
+     * <pre>
+     * 预览接口
+     * 详情请见：http://mp.weixin.qq.com/wiki/15/40b6865b893947b764e2de8e4a1fb55f.html#.E9.A2.84.E8.A7.88.E6.8E.A5.E5.8F.A3.E3.80.90.E8.AE.A2.E9.98.85.E5.8F.B7.E4.B8.8E.E6.9C.8D.E5.8A.A1.E5.8F.B7.E8.AE.A4.E8.AF.81.E5.90.8E.E5.9D.87.E5.8F.AF.E7.94.A8.E3.80.91
+     * </pre>
+     * @param wxMpMassPreviewMessage
+     * @return wxMpMassSendResult
+     * @throws WxErrorException
+     */
+  public WxMpMassSendResult massMessagePreview(WxMpMassPreviewMessage wxMpMassPreviewMessage) throws Exception;
+
+  /**
+     * <pre>
+     * 上传图文消息内的图片获取URL
+     * 详情请见：http://mp.weixin.qq.com/wiki/15/40b6865b893947b764e2de8e4a1fb55f.html#.E4.B8.8A.E4.BC.A0.E5.9B.BE.E6.96.87.E6.B6.88.E6.81.AF.E5.86.85.E7.9A.84.E5.9B.BE.E7.89.87.E8.8E.B7.E5.8F.96URL.E3.80.90.E8.AE.A2.E9.98.85.E5.8F.B7.E4.B8.8E.E6.9C.8D.E5.8A.A1.E5.8F.B7.E8.AE.A4.E8.AF.81.E5.90.8E.E5.9D.87.E5.8F.AF.E7.94.A8.E3.80.91
+     * </pre>
+     * @param file
+     * @return WxMediaImgUploadResult 返回图片url
+     * @throws WxErrorException
+     */
+  public WxMediaImgUploadResult mediaImgUpload(File file) throws WxErrorException;
+
+  /**
+     * <pre>
+     * 设置所属行业
+     * 官方文档中暂未告知响应内容
+     * 详情请见：http://mp.weixin.qq.com/wiki/5/6dde9eaa909f83354e0094dc3ad99e05.html#.E8.AE.BE.E7.BD.AE.E6.89.80.E5.B1.9E.E8.A1.8C.E4.B8.9A
+     * </pre>
+     * @param wxMpIndustry
+     * @return JsonObject
+     * @throws WxErrorException
+     */
+  String setIndustry(WxMpIndustry wxMpIndustry) throws WxErrorException;
+
+  /***
+   * <pre>
+   * 获取设置的行业信息
+   * 详情请见：http://mp.weixin.qq.com/wiki/5/6dde9eaa909f83354e0094dc3ad99e05.html#.E8.AE.BE.E7.BD.AE.E6.89.80.E5.B1.9E.E8.A1.8C.E4.B8.9A
+   * </pre>
+   *
+   * @return wxMpIndustry
+   * @throws WxErrorException
+   */
+  WxMpIndustry getIndustry() throws WxErrorException;
 }

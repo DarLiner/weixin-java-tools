@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.apache.http.HttpHost;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 
 import me.chanjar.weixin.common.exception.WxErrorException;
 

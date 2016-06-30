@@ -83,7 +83,7 @@ public class WxCryptUtil {
     String encryptedXml = encrypt(genRandomStr(), plainText);
 
     // 生成安全签名
-    String timeStamp = timeStamp = Long.toString(System.currentTimeMillis() / 1000l);
+    String timeStamp = Long.toString(System.currentTimeMillis() / 1000l);
     String nonce = genRandomStr();
 
     try {

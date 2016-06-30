@@ -22,23 +22,29 @@ public class WxMpQrCodeAPITest {
   protected WxMpServiceImpl wxService;
 
   public void testQrCodeCreateTmpTicket() throws WxErrorException {
-    WxMpQrCodeTicket ticket = wxService.qrCodeCreateTmpTicket(1, null);
+    WxMpQrCodeTicket ticket = this.wxService.qrCodeCreateTmpTicket(1, null);
     Assert.assertNotNull(ticket.getUrl());
     Assert.assertNotNull(ticket.getTicket());
     Assert.assertTrue(ticket.getExpire_seconds() != -1);
   }
 
   public void testQrCodeCreateLastTicket() throws WxErrorException {
-    WxMpQrCodeTicket ticket = wxService.qrCodeCreateLastTicket(1);
+    WxMpQrCodeTicket ticket = this.wxService.qrCodeCreateLastTicket(1);
     Assert.assertNotNull(ticket.getUrl());
     Assert.assertNotNull(ticket.getTicket());
     Assert.assertTrue(ticket.getExpire_seconds() == -1);
   }
 
   public void testQrCodePicture() throws WxErrorException {
-    WxMpQrCodeTicket ticket = wxService.qrCodeCreateLastTicket(1);
-    File file = wxService.qrCodePicture(ticket);
+    WxMpQrCodeTicket ticket = this.wxService.qrCodeCreateLastTicket(1);
+    File file = this.wxService.qrCodePicture(ticket);
     Assert.assertNotNull(file);
+  }
+  
+  public void testQrCodePictureUrl() throws WxErrorException {
+    WxMpQrCodeTicket ticket = this.wxService.qrCodeCreateLastTicket(1);
+    String url = this.wxService.qrCodePictureUrl(ticket.getTicket());
+    Assert.assertNotNull(url);
   }
 
 }

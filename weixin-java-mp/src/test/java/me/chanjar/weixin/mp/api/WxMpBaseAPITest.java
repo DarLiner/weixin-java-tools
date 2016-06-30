@@ -20,9 +20,9 @@ public class WxMpBaseAPITest {
   protected WxMpServiceImpl wxService;
 
   public void testRefreshAccessToken() throws WxErrorException {
-    WxMpConfigStorage configStorage = wxService.wxMpConfigStorage;
+    WxMpConfigStorage configStorage = this.wxService.wxMpConfigStorage;
     String before = configStorage.getAccessToken();
-    wxService.getAccessToken(false);
+    this.wxService.getAccessToken(false);
 
     String after = configStorage.getAccessToken();
     Assert.assertNotEquals(before, after);

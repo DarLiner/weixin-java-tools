@@ -199,18 +199,18 @@ public class WxMpMessageRouter {
 
   protected boolean isDuplicateMessage(WxMpXmlMessage wxMessage) {
 
-    String messageId = "";
+    StringBuffer messageId = new StringBuffer();
     if (wxMessage.getMsgId() == null) {
-      messageId = String.valueOf(wxMessage.getCreateTime())
-          + "-" + wxMessage.getFromUserName()
-          + "-" + String.valueOf(wxMessage.getEventKey() == null ? "" : wxMessage.getEventKey())
-          + "-" + String.valueOf(wxMessage.getEvent() == null ? "" : wxMessage.getEvent())
+      messageId.append(wxMessage.getCreateTime())
+        .append("-").append(wxMessage.getFromUserName())
+        .append("-").append(wxMessage.getEventKey() == null ? "" : wxMessage.getEventKey())
+        .append("-").append(wxMessage.getEvent() == null ? "" : wxMessage.getEvent())
       ;
     } else {
-      messageId = String.valueOf(wxMessage.getMsgId());
+      messageId.append(wxMessage.getMsgId());
     }
 
-    if (messageDuplicateChecker.isDuplicate(messageId)) {
+    if (messageDuplicateChecker.isDuplicate(messageId.toString())) {
       return true;
     }
     return false;

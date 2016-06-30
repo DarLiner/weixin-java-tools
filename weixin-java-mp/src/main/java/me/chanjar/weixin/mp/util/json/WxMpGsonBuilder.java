@@ -40,6 +40,9 @@ public class WxMpGsonBuilder {
     INSTANCE.registerTypeAdapter(WxMpMaterialFileBatchGetResult.WxMaterialFileBatchGetNewsItem.class, new WxMpMaterialFileBatchGetGsonItemAdapter());
     INSTANCE.registerTypeAdapter(WxMpCardResult.class, new WxMpCardResultGsonAdapter());
     INSTANCE.registerTypeAdapter(WxMpCard.class, new WxMpCardGsonAdapter());
+    INSTANCE.registerTypeAdapter(WxMpMassPreviewMessage.class, new WxMpMassPreviewMessageGsonAdapter());
+    INSTANCE.registerTypeAdapter(WxMediaImgUploadResult.class, new WxMediaImgUploadResultGsonAdapter());
+    INSTANCE.registerTypeAdapter(WxMpIndustry.class, new WxMpIndustryGsonAdapter());
   }
 
   public static Gson create() {
