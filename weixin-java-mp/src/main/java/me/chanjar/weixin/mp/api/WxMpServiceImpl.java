@@ -255,13 +255,13 @@ public class WxMpServiceImpl implements WxMpService {
 
   @Override
   public WxMediaUploadResult mediaUpload(String mediaType, File file) throws WxErrorException {
-    String url = "http://file.api.weixin.qq.com/cgi-bin/media/upload?type=" + mediaType;
+    String url = "https://api.weixin.qq.com/cgi-bin/media/upload?type=" + mediaType;
     return execute(new MediaUploadRequestExecutor(), url, file);
   }
 
   @Override
   public File mediaDownload(String media_id) throws WxErrorException {
-    String url = "http://file.api.weixin.qq.com/cgi-bin/media/get";
+    String url = "https://api.weixin.qq.com/cgi-bin/media/get";
     return execute(new MediaDownloadRequestExecutor(this.wxMpConfigStorage.getTmpDirFile()), url, "media_id=" + media_id);
   }
 
@@ -370,7 +370,7 @@ public class WxMpServiceImpl implements WxMpService {
 
   @Override
   public WxMpMassUploadResult massVideoUpload(WxMpMassVideo video) throws WxErrorException {
-    String url = "http://file.api.weixin.qq.com/cgi-bin/media/uploadvideo";
+    String url = "https://api.weixin.qq.com/cgi-bin/media/uploadvideo";
     String responseContent = execute(new SimplePostRequestExecutor(), url, video.toJson());
     return WxMpMassUploadResult.fromJson(responseContent);
   }
