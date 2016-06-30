@@ -39,6 +39,7 @@
     <module>weixin-java-common</module>
     <module>weixin-java-cp</module>
     <module>weixin-java-mp</module>
+    <module>spring-demo</module>
   </modules>
 
   <properties>
