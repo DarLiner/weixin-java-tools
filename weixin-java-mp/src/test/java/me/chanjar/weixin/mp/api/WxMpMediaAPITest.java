@@ -26,21 +26,23 @@ public class WxMpMediaAPITest {
   @Inject
   protected WxMpServiceImpl wxService;
 
-  private List<String> media_ids = new ArrayList<String>();
+  private List<String> media_ids = new ArrayList<>();
   
   @Test(dataProvider="uploadMedia")
   public void testUploadMedia(String mediaType, String fileType, String fileName) throws WxErrorException, IOException {
-    InputStream inputStream = ClassLoader.getSystemResourceAsStream(fileName);
-    WxMediaUploadResult res = wxService.mediaUpload(mediaType, fileType, inputStream);
-    Assert.assertNotNull(res.getType());
-    Assert.assertNotNull(res.getCreatedAt());
-    Assert.assertTrue(res.getMediaId() != null || res.getThumbMediaId() != null);
-    
-    if (res.getMediaId() != null) {
-      media_ids.add(res.getMediaId());
-    }
-    if (res.getThumbMediaId() != null) {
-      media_ids.add(res.getThumbMediaId());
+    try(InputStream inputStream = ClassLoader.getSystemResourceAsStream(fileName)){
+      WxMediaUploadResult res = this.wxService.mediaUpload(mediaType, fileType, inputStream);
+      Assert.assertNotNull(res.getType());
+      Assert.assertNotNull(res.getCreatedAt());
+      Assert.assertTrue(res.getMediaId() != null || res.getThumbMediaId() != null);
+      
+      if (res.getMediaId() != null) {
+        this.media_ids.add(res.getMediaId());
+      }
+      
+      if (res.getThumbMediaId() != null) {
+        this.media_ids.add(res.getThumbMediaId());
+      }
     }
   }
   
@@ -56,7 +58,7 @@ public class WxMpMediaAPITest {
   
   @Test(dependsOnMethods = { "testUploadMedia" }, dataProvider="downloadMedia")
   public void testDownloadMedia(String media_id) throws WxErrorException {
-    wxService.mediaDownload(media_id);
+    this.wxService.mediaDownload(media_id);
   }
   
   @DataProvider
