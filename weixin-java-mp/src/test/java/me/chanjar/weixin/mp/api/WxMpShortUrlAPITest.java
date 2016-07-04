@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
  * 
  * @author chanjarster
  */
-@Test(groups = "shortURLAPI", dependsOnGroups = { "baseAPI" })
+@Test(groups = "shortURLAPI")
 @Guice(modules = ApiTestModule.class)
 public class WxMpShortUrlAPITest {
 

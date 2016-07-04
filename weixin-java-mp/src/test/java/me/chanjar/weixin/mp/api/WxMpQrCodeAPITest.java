@@ -14,7 +14,7 @@ import java.io.File;
  * 
  * @author chanjarster
  */
-@Test(groups = "qrCodeAPI", dependsOnGroups = { "baseAPI" })
+@Test(groups = "qrCodeAPI")
 @Guice(modules = ApiTestModule.class)
 public class WxMpQrCodeAPITest {
 
