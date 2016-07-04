@@ -74,6 +74,8 @@ public class WxMpServiceImpl implements WxMpService {
   protected final Object globalCardApiTicketRefreshLock = new Object();
 
   protected WxMpConfigStorage wxMpConfigStorage;
+  
+  protected WxMpKefuService kefuService;
 
   protected CloseableHttpClient httpClient;
 
@@ -1368,5 +1370,15 @@ public class WxMpServiceImpl implements WxMpService {
     String url = "https://api.weixin.qq.com/cgi-bin/template/get_industry";
     String responseContent = execute(new SimpleGetRequestExecutor(), url, null);
     return WxMpIndustry.fromJson(responseContent);
+  }
+
+  @Override
+  public WxMpKefuService getKefuService() {
+    return this.kefuService;
+  }
+  
+  public void setCustomerService(WxMpKefuService kefuService) {
+    this.kefuService = kefuService;
+    this.kefuService.setWxMpService(this);
   }
 }
