@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+  xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.binarywang</groupId>
   <artifactId>weixin-java-parent</artifactId>
@@ -39,7 +39,7 @@
     <module>weixin-java-common</module>
     <module>weixin-java-cp</module>
     <module>weixin-java-mp</module>
-    <module>spring-demo</module>
+    <module>weixin-java-demo-with-spring</module>
   </modules>
 
   <properties>
@@ -50,6 +50,9 @@
     <slf4j.version>1.7.10</slf4j.version>
     <logback.version>1.1.2</logback.version>
     <jodd-http.version>3.6.7</jodd-http.version>
+    <jackson.version>2.7.5</jackson.version>
+    <gson.version>2.7</gson.version>
+    <commons-lang3.version>3.4</commons-lang3.version>
   </properties>
 
   <dependencies>
@@ -82,7 +85,7 @@
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
-      <version>2.2.2</version>
+      <version>${gson.version}</version>
     </dependency>
     <dependency>
       <groupId>commons-codec</groupId>
@@ -94,8 +97,18 @@
       <artifactId>commons-io</artifactId>
       <version>2.4</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>${commons-lang3.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
   </dependencies>
-
+  
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -149,16 +162,16 @@
   </distributionManagement>
 
   <profiles>
-	  <profile>
-	    <id>doclint-java8-disable</id>
-	    <activation>
-	      <jdk>[1.8,)</jdk>
-	    </activation>
-	    <properties>
-	      <javadoc.opts>-Xdoclint:none</javadoc.opts>
-	    </properties>
-	  </profile>
-	  
+    <profile>
+      <id>doclint-java8-disable</id>
+      <activation>
+        <jdk>[1.8,)</jdk>
+      </activation>
+      <properties>
+        <javadoc.opts>-Xdoclint:none</javadoc.opts>
+      </properties>
+    </profile>
+
     <profile>
       <id>release</id>
       <build>
