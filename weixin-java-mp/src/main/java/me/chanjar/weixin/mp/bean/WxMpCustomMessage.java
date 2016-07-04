@@ -13,7 +13,8 @@ import java.util.List;
  *
  */
 public class WxMpCustomMessage implements Serializable {
-
+  private static final long serialVersionUID = -9196732086954365246L;
+  
   private String toUser;
   private String msgType;
   private String content;
@@ -23,16 +24,16 @@ public class WxMpCustomMessage implements Serializable {
   private String description;
   private String musicUrl;
   private String hqMusicUrl;
-  private List<WxArticle> articles = new ArrayList<WxArticle>();
+  private List<WxArticle> articles = new ArrayList<>();
   
   public String getToUser() {
-    return toUser;
+    return this.toUser;
   }
   public void setToUser(String toUser) {
     this.toUser = toUser;
   }
   public String getMsgType() {
-    return msgType;
+    return this.msgType;
   }
   
   /**
@@ -51,49 +52,49 @@ public class WxMpCustomMessage implements Serializable {
     this.msgType = msgType;
   }
   public String getContent() {
-    return content;
+    return this.content;
   }
   public void setContent(String content) {
     this.content = content;
   }
   public String getMediaId() {
-    return mediaId;
+    return this.mediaId;
   }
   public void setMediaId(String mediaId) {
     this.mediaId = mediaId;
   }
   public String getThumbMediaId() {
-    return thumbMediaId;
+    return this.thumbMediaId;
   }
   public void setThumbMediaId(String thumbMediaId) {
     this.thumbMediaId = thumbMediaId;
   }
   public String getTitle() {
-    return title;
+    return this.title;
   }
   public void setTitle(String title) {
     this.title = title;
   }
   public String getDescription() {
-    return description;
+    return this.description;
   }
   public void setDescription(String description) {
     this.description = description;
   }
   public String getMusicUrl() {
-    return musicUrl;
+    return this.musicUrl;
   }
   public void setMusicUrl(String musicUrl) {
     this.musicUrl = musicUrl;
   }
   public String getHqMusicUrl() {
-    return hqMusicUrl;
+    return this.hqMusicUrl;
   }
   public void setHqMusicUrl(String hqMusicUrl) {
     this.hqMusicUrl = hqMusicUrl;
   }
   public List<WxArticle> getArticles() {
-    return articles;
+    return this.articles;
   }
   public void setArticles(List<WxArticle> articles) {
     this.articles = articles;
@@ -111,25 +112,25 @@ public class WxMpCustomMessage implements Serializable {
     private String picUrl;
     
     public String getTitle() {
-      return title;
+      return this.title;
     }
     public void setTitle(String title) {
       this.title = title;
     }
     public String getDescription() {
-      return description;
+      return this.description;
     }
     public void setDescription(String description) {
       this.description = description;
     }
     public String getUrl() {
-      return url;
+      return this.url;
     }
     public void setUrl(String url) {
       this.url = url;
     }
     public String getPicUrl() {
-      return picUrl;
+      return this.picUrl;
     }
     public void setPicUrl(String picUrl) {
       this.picUrl = picUrl;

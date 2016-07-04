@@ -13,6 +13,8 @@ import java.io.Serializable;
 @XStreamAlias("xml")
 public abstract class WxMpXmlOutMessage implements Serializable {
 
+  private static final long serialVersionUID = -381382011286216263L;
+
   @XStreamAlias("ToUserName")
   @XStreamConverter(value=XStreamCDataConverter.class)
   protected String toUserName;
@@ -29,7 +31,7 @@ public abstract class WxMpXmlOutMessage implements Serializable {
   protected String msgType;
 
   public String getToUserName() {
-    return toUserName;
+    return this.toUserName;
   }
 
   public void setToUserName(String toUserName) {
@@ -37,7 +39,7 @@ public abstract class WxMpXmlOutMessage implements Serializable {
   }
 
   public String getFromUserName() {
-    return fromUserName;
+    return this.fromUserName;
   }
 
   public void setFromUserName(String fromUserName) {
@@ -45,7 +47,7 @@ public abstract class WxMpXmlOutMessage implements Serializable {
   }
 
   public Long getCreateTime() {
-    return createTime;
+    return this.createTime;
   }
 
   public void setCreateTime(Long createTime) {
@@ -53,7 +55,7 @@ public abstract class WxMpXmlOutMessage implements Serializable {
   }
 
   public String getMsgType() {
-    return msgType;
+    return this.msgType;
   }
 
   public void setMsgType(String msgType) {
@@ -61,7 +63,7 @@ public abstract class WxMpXmlOutMessage implements Serializable {
   }
   
   public String toXml() {
-    return XStreamTransformer.toXml((Class) this.getClass(), this);
+    return XStreamTransformer.toXml((Class<WxMpXmlOutMessage>) this.getClass(), this);
   }
 
   /**
@@ -121,9 +123,9 @@ public abstract class WxMpXmlOutMessage implements Serializable {
   public static NewsBuilder NEWS() {
     return new NewsBuilder();
   }
- /**
+  
+  /**
    * 获得客服消息builder
-   *
    * @return
    */
   public static TransferCustomerServiceBuilder TRANSFER_CUSTOMER_SERVICE() {

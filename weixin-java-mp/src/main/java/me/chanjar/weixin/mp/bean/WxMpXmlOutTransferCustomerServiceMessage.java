@@ -7,6 +7,8 @@ import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
 
 @XStreamAlias("xml")
 public class WxMpXmlOutTransferCustomerServiceMessage extends WxMpXmlOutMessage {
+  private static final long serialVersionUID = 1850903037285841322L;
+  
   @XStreamAlias("TransInfo")
   protected TransInfo transInfo;
 
@@ -15,7 +17,7 @@ public class WxMpXmlOutTransferCustomerServiceMessage extends WxMpXmlOutMessage 
   }
 
   public TransInfo getTransInfo() {
-    return transInfo;
+    return this.transInfo;
   }
 
   public void setTransInfo(TransInfo transInfo) {
@@ -30,7 +32,7 @@ public class WxMpXmlOutTransferCustomerServiceMessage extends WxMpXmlOutMessage 
     private String kfAccount;
 
     public String getKfAccount() {
-      return kfAccount;
+      return this.kfAccount;
     }
 
     public void setKfAccount(String kfAccount) {
