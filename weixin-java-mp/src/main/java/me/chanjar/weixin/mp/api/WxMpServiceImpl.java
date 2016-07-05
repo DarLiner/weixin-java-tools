@@ -825,6 +825,10 @@ public class WxMpServiceImpl implements WxMpService {
     this.httpClient = apacheHttpClientBuilder.build();
   }
 
+  public WxMpConfigStorage getWxMpConfigStorage() {
+    return this.wxMpConfigStorage;
+  }
+
   @Override
   public void setRetrySleepMillis(int retrySleepMillis) {
     this.retrySleepMillis = retrySleepMillis;

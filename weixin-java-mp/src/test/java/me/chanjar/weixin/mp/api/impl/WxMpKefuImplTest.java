@@ -1,5 +1,6 @@
 package me.chanjar.weixin.mp.api.impl;
 
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
 
@@ -7,6 +8,8 @@ import com.google.inject.Inject;
 
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.ApiTestModule;
+import me.chanjar.weixin.mp.api.ApiTestModule.WxXmlMpInMemoryConfigStorage;
+import me.chanjar.weixin.mp.api.WxMpConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpServiceImpl;
 import me.chanjar.weixin.mp.bean.customerservice.request.WxMpKfAccountRequest;
 import me.chanjar.weixin.mp.bean.customerservice.result.WxMpKfList;
@@ -24,8 +27,7 @@ import org.testng.Assert;
 @Test
 @Guice(modules = ApiTestModule.class)
 public class WxMpKefuImplTest {
-  private static final String KF_ACCOUNT = "kf2009@youxintest";
-  
+
   @Inject
   protected WxMpServiceImpl wxService;
 
@@ -36,34 +38,48 @@ public class WxMpKefuImplTest {
   }
 
   public void testKfOnlineList() throws WxErrorException {
-    WxMpKfOnlineList kfOnlineList = this.wxService.getKefuService().kfOnlineList();
+    WxMpKfOnlineList kfOnlineList = this.wxService.getKefuService()
+        .kfOnlineList();
     Assert.assertNotNull(kfOnlineList);
     System.err.println(kfOnlineList);
   }
 
-  public void testKfAccountAdd() throws WxErrorException {
+  @DataProvider
+  public Object[][] getKfAccount() {
+    WxXmlMpInMemoryConfigStorage configStorage = (WxXmlMpInMemoryConfigStorage) this.wxService
+        .getWxMpConfigStorage();
+    return new Object[][] { { configStorage.getKfAccount() } };
+  }
+
+  @Test(dataProvider = "getKfAccount")
+  public void testKfAccountAdd(String kfAccount) throws WxErrorException {
     WxMpKfAccountRequest request = WxMpKfAccountRequest.builder()
-        .kfAccount(KF_ACCOUNT).nickName("我晕").rawPassword("123").build();
+        .kfAccount(kfAccount).nickName("我晕").rawPassword("123").build();
     Assert.assertTrue(this.wxService.getKefuService().kfAccountAdd(request));
   }
-  
-  @Test(dependsOnMethods = { "testKfAccountAdd" })
-  public void testKfAccountUpdate() throws WxErrorException {
+
+  @Test(dependsOnMethods = {
+      "testKfAccountAdd" }, dataProvider = "getKfAccount")
+  public void testKfAccountUpdate(String kfAccount) throws WxErrorException {
     WxMpKfAccountRequest request = WxMpKfAccountRequest.builder()
-        .kfAccount(KF_ACCOUNT).nickName("我晕").rawPassword("123").build();
+        .kfAccount(kfAccount).nickName("我晕").rawPassword("123").build();
     Assert.assertTrue(this.wxService.getKefuService().kfAccountUpdate(request));
   }
-  
-  @Test(dependsOnMethods = { "testKfAccountUpdate" })
-  public void testKfAccountUploadHeadImg() throws WxErrorException {
+
+  @Test(dependsOnMethods = {
+      "testKfAccountUpdate" }, dataProvider = "getKfAccount")
+  public void testKfAccountUploadHeadImg(String kfAccount)
+      throws WxErrorException {
     File imgFile = new File("src\\test\\resources\\mm.jpeg");
-    boolean result = this.wxService.getKefuService().kfAccountUploadHeadImg(KF_ACCOUNT, imgFile);
+    boolean result = this.wxService.getKefuService()
+        .kfAccountUploadHeadImg(kfAccount, imgFile);
     Assert.assertTrue(result);
   }
-  
-  @Test(dependsOnMethods = { "testKfAccountUploadHeadImg" })
-  public void testKfAccountDel() throws WxErrorException {    
-    boolean result = this.wxService.getKefuService().kfAccountDel(KF_ACCOUNT);
+
+  @Test(dependsOnMethods = {
+      "testKfAccountUploadHeadImg" }, dataProvider = "getKfAccount")
+  public void testKfAccountDel(String kfAccount) throws WxErrorException {
+    boolean result = this.wxService.getKefuService().kfAccountDel(kfAccount);
     Assert.assertTrue(result);
   }
 

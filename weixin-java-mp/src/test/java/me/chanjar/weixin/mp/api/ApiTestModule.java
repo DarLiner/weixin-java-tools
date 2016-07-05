@@ -11,7 +11,6 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
-import me.chanjar.weixin.mp.api.impl.WxMpKefuServiceImpl;
 
 public class ApiTestModule implements Module {
 
@@ -23,7 +22,7 @@ public class ApiTestModule implements Module {
           WxXmlMpInMemoryConfigStorage.class, is1);
       WxMpServiceImpl wxService = new WxMpServiceImpl();
       wxService.setWxMpConfigStorage(config);
-      
+
       binder.bind(WxMpServiceImpl.class).toInstance(wxService);
       binder.bind(WxMpConfigStorage.class).toInstance(config);
     } catch (IOException e) {
@@ -42,7 +41,8 @@ public class ApiTestModule implements Module {
   public static class WxXmlMpInMemoryConfigStorage
       extends WxMpInMemoryConfigStorage {
 
-    protected String openId;
+    private String openId;
+    private String kfAccount;
 
     public String getOpenId() {
       return this.openId;
@@ -55,6 +55,14 @@ public class ApiTestModule implements Module {
     @Override
     public String toString() {
       return ToStringBuilder.reflectionToString(this);
+    }
+
+    public String getKfAccount() {
+      return this.kfAccount;
+    }
+
+    public void setKfAccount(String kfAccount) {
+      this.kfAccount = kfAccount;
     }
 
   }
