@@ -15,7 +15,7 @@ import me.chanjar.weixin.mp.bean.customerservice.result.WxMpKfOnlineList;
  * @author Binary Wang
  *
  */
-public interface WxMpKefuService  extends WxMpBaseChildService {  
+public interface WxMpKefuService {  
   /**
    * <pre>
    * 获取客服基本信息

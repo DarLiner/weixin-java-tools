@@ -23,6 +23,7 @@ import me.chanjar.weixin.common.util.http.*;
 import me.chanjar.weixin.common.util.json.GsonHelper;
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
+import me.chanjar.weixin.mp.api.impl.WxMpKefuServiceImpl;
 import me.chanjar.weixin.mp.bean.*;
 import me.chanjar.weixin.mp.bean.result.*;
 import me.chanjar.weixin.mp.util.http.*;
@@ -75,7 +76,7 @@ public class WxMpServiceImpl implements WxMpService {
 
   protected WxMpConfigStorage wxMpConfigStorage;
   
-  protected WxMpKefuService kefuService;
+  protected WxMpKefuService kefuService = new WxMpKefuServiceImpl(this);
 
   protected CloseableHttpClient httpClient;
 
@@ -1377,8 +1378,4 @@ public class WxMpServiceImpl implements WxMpService {
     return this.kefuService;
   }
   
-  public void setKefuService(WxMpKefuService kefuService) {
-    this.kefuService = kefuService;
-    this.kefuService.setWxMpService(this);
-  }
 }
