@@ -23,8 +23,9 @@ public class ApiTestModule implements Module {
           WxXmlMpInMemoryConfigStorage.class, is1);
       WxMpServiceImpl wxService = new WxMpServiceImpl();
       wxService.setWxMpConfigStorage(config);
-      WxMpKefuService customerService = new WxMpKefuServiceImpl();
-      wxService.setCustomerService(customerService);
+      
+      WxMpKefuService kefuService = new WxMpKefuServiceImpl();
+      wxService.setKefuService(kefuService);
 
       binder.bind(WxMpServiceImpl.class).toInstance(wxService);
       binder.bind(WxMpConfigStorage.class).toInstance(config);

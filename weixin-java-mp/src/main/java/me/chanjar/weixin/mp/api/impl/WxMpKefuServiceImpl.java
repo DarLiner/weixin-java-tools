@@ -20,6 +20,14 @@ import me.chanjar.weixin.mp.bean.customerservice.result.WxMpKfOnlineList;
 public class WxMpKefuServiceImpl implements WxMpKefuService {
   private WxMpService wxMpService;
 
+  public WxMpKefuServiceImpl(){
+    
+  }
+  
+  public WxMpKefuServiceImpl(WxMpService wxMpService) {
+    this.wxMpService = wxMpService;
+  }
+
   @Override
   public void setWxMpService(WxMpService wxMpService) {
     this.wxMpService = wxMpService;

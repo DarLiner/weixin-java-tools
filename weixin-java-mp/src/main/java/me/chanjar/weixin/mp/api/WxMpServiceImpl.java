@@ -1377,7 +1377,7 @@ public class WxMpServiceImpl implements WxMpService {
     return this.kefuService;
   }
   
-  public void setCustomerService(WxMpKefuService kefuService) {
+  public void setKefuService(WxMpKefuService kefuService) {
     this.kefuService = kefuService;
     this.kefuService.setWxMpService(this);
   }
