@@ -103,6 +103,10 @@ public class WxConsts {
   public static final String EVT_USER_ENTER_SESSION_FROM_CARD = "user_enter_session_from_card";
   public static final String EVT_CARD_SKU_REMIND = "card_sku_remind"; // 库存报警
 
+  public static final String EVT_KF_CREATE_SESSION = "kf_create_session"; // 客服接入会话
+  public static final String EVT_KF_CLOSE_SESSION = "kf_close_session"; // 客服关闭会话
+  public static final String EVT_KF_SWITCH_SESSION = "kf_switch_session"; // 客服转接会话
+
   ///////////////////////
   // 上传多媒体文件的类型
   ///////////////////////
