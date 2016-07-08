@@ -20,7 +20,7 @@ public class WxConsts {
   public static final String XML_TRANSFER_CUSTOMER_SERVICE = "transfer_customer_service";
   
   ///////////////////////
-  // 主动发送消息的消息类型
+  // 主动发送消息(即客服消息)的消息类型
   ///////////////////////
   public static final String CUSTOM_MSG_TEXT = "text";
   public static final String CUSTOM_MSG_IMAGE = "image";
