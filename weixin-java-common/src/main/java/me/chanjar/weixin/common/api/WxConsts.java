@@ -144,6 +144,10 @@ public class WxConsts {
   public static final String BUTTON_PIC_WEIXIN = "pic_weixin";
   /** 弹出地理位置选择器 */
   public static final String BUTTON_LOCATION_SELECT = "location_select";
+  /** 下发消息（除文本消息） */
+  public static final String BUTTON_MEDIA_ID = "media_id";
+  /** 跳转图文消息URL */
+  public static final String BUTTON_VIEW_LIMITED = "view_limited";
 
   ///////////////////////
   // oauth2网页授权的scope
