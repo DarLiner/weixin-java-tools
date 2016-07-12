@@ -12,8 +12,9 @@ import java.util.List;
  * @author chanjarster
  */
 public class WxMpMassOpenIdsMessage implements Serializable {
+  private static final long serialVersionUID = -8022910911104788999L;
   
-  private List<String> toUsers = new ArrayList<String>();
+  private List<String> toUsers = new ArrayList<>();
   private String msgType;
   private String content;
   private String mediaId;
@@ -23,7 +24,7 @@ public class WxMpMassOpenIdsMessage implements Serializable {
   }
   
   public String getMsgType() {
-    return msgType;
+    return this.msgType;
   }
 
   /**
@@ -43,7 +44,7 @@ public class WxMpMassOpenIdsMessage implements Serializable {
   }
 
   public String getContent() {
-    return content;
+    return this.content;
   }
 
   public void setContent(String content) {
@@ -51,7 +52,7 @@ public class WxMpMassOpenIdsMessage implements Serializable {
   }
 
   public String getMediaId() {
-    return mediaId;
+    return this.mediaId;
   }
 
   public void setMediaId(String mediaId) {
@@ -64,10 +65,9 @@ public class WxMpMassOpenIdsMessage implements Serializable {
 
   /**
    * OpenId列表，最多支持10,000个
-   * @return
    */
   public List<String> getToUsers() {
-    return toUsers;
+    return this.toUsers;
   }
 
   /**

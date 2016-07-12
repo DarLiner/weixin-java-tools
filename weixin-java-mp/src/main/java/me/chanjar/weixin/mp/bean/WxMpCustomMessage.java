@@ -140,7 +140,6 @@ public class WxMpCustomMessage implements Serializable {
   
   /**
    * 获得文本消息builder
-   * @return
    */
   public static TextBuilder TEXT() {
     return new TextBuilder();
@@ -148,7 +147,6 @@ public class WxMpCustomMessage implements Serializable {
 
   /**
    * 获得图片消息builder
-   * @return
    */
   public static ImageBuilder IMAGE() {
     return new ImageBuilder();
@@ -164,7 +162,6 @@ public class WxMpCustomMessage implements Serializable {
   
   /**
    * 获得视频消息builder
-   * @return
    */
   public static VideoBuilder VIDEO() {
     return new VideoBuilder();
@@ -172,7 +169,6 @@ public class WxMpCustomMessage implements Serializable {
   
   /**
    * 获得音乐消息builder
-   * @return
    */
   public static MusicBuilder MUSIC() {
     return new MusicBuilder();
@@ -180,7 +176,6 @@ public class WxMpCustomMessage implements Serializable {
   
   /**
    * 获得图文消息builder
-   * @return
    */
   public static NewsBuilder NEWS() {
     return new NewsBuilder();

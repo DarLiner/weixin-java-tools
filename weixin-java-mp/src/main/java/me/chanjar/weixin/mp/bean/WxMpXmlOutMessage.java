@@ -68,7 +68,6 @@ public abstract class WxMpXmlOutMessage implements Serializable {
 
   /**
    * 转换成加密的xml格式
-   * @return
    */
   public String toEncryptedXml(WxMpConfigStorage wxMpConfigStorage) {
     String plainXml = toXml();
@@ -78,7 +77,6 @@ public abstract class WxMpXmlOutMessage implements Serializable {
 
   /**
    * 获得文本消息builder
-   * @return
    */
   public static TextBuilder TEXT() {
     return new TextBuilder();
@@ -86,7 +84,6 @@ public abstract class WxMpXmlOutMessage implements Serializable {
 
   /**
    * 获得图片消息builder
-   * @return
    */
   public static ImageBuilder IMAGE() {
     return new ImageBuilder();
@@ -94,7 +91,6 @@ public abstract class WxMpXmlOutMessage implements Serializable {
 
   /**
    * 获得语音消息builder
-   * @return
    */
   public static VoiceBuilder VOICE() {
     return new VoiceBuilder();
@@ -102,7 +98,6 @@ public abstract class WxMpXmlOutMessage implements Serializable {
   
   /**
    * 获得视频消息builder
-   * @return
    */
   public static VideoBuilder VIDEO() {
     return new VideoBuilder();
@@ -110,7 +105,6 @@ public abstract class WxMpXmlOutMessage implements Serializable {
   
   /**
    * 获得音乐消息builder
-   * @return
    */
   public static MusicBuilder MUSIC() {
     return new MusicBuilder();
@@ -118,7 +112,6 @@ public abstract class WxMpXmlOutMessage implements Serializable {
   
   /**
    * 获得图文消息builder
-   * @return
    */
   public static NewsBuilder NEWS() {
     return new NewsBuilder();
@@ -126,7 +119,6 @@ public abstract class WxMpXmlOutMessage implements Serializable {
   
   /**
    * 获得客服消息builder
-   * @return
    */
   public static TransferCustomerServiceBuilder TRANSFER_CUSTOMER_SERVICE() {
     return new TransferCustomerServiceBuilder();

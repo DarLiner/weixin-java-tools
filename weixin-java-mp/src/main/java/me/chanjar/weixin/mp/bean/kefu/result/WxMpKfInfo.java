@@ -55,7 +55,6 @@ public class WxMpKfInfo implements Serializable {
 
   /**
    * accepted_case 客服当前正在接待的会话数
-   * @return
    */
   @Expose
   @SerializedName("accepted_case")

@@ -237,7 +237,6 @@ public class WxMpXmlMessage implements Serializable {
    * {@link me.chanjar.weixin.common.api.WxConsts#XML_MSG_EVENT}
    * </pre>
    *
-   * @return
    */
   public String getMsgType() {
     return this.msgType;
@@ -444,7 +443,6 @@ public class WxMpXmlMessage implements Serializable {
    * @param timestamp
    * @param nonce
    * @param msgSignature
-   * @return
    */
   public static WxMpXmlMessage fromEncryptedXml(String encryptedXml,
       WxMpConfigStorage wxMpConfigStorage, String timestamp, String nonce,
@@ -620,7 +618,6 @@ public class WxMpXmlMessage implements Serializable {
 
     /**
      * 扫描类型，一般是qrcode
-     * @return
      */
     public String getScanType() {
 
@@ -633,7 +630,6 @@ public class WxMpXmlMessage implements Serializable {
 
     /**
      * 扫描结果，即二维码对应的字符串信息
-     * @return
      */
     public String getScanResult() {
       return this.scanResult;
