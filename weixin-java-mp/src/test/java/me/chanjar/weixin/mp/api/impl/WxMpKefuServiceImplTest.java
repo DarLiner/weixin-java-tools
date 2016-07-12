@@ -28,7 +28,7 @@ import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfSessionWaitCaseList;
  */
 @Test
 @Guice(modules = ApiTestModule.class)
-public class WxMpKefuImplTest {
+public class WxMpKefuServiceImplTest {
 
   @Inject
   protected WxMpServiceImpl wxService;
