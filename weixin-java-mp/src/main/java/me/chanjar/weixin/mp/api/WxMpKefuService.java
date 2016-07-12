@@ -24,7 +24,7 @@ public interface WxMpKefuService {
   /**
    * <pre>
    * 获取客服基本信息
-   * 详情请见：<a href="http://mp.weixin.qq.com/wiki/18/749901f4e123170fb8a4d447ae6040ba.html">客服管理</a>
+   * 详情请见：<a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1458044813&token=&lang=zh_CN">客服管理</a>
    * 接口url格式：https://api.weixin.qq.com/cgi-bin/customservice/getkflist?access_token=ACCESS_TOKEN
    * </pre>
    */
@@ -33,7 +33,7 @@ public interface WxMpKefuService {
   /**
    * <pre>
    * 获取在线客服接待信息
-   * 详情请见：<a href="http://mp.weixin.qq.com/wiki/18/749901f4e123170fb8a4d447ae6040ba.html">客服管理</a>
+   * 详情请见：<a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1458044813&token=&lang=zh_CN">客服管理</a>
    * 接口url格式：https://api.weixin.qq.com/cgi-bin/customservice/getonlinekflist?access_token=ACCESS_TOKEN
    * </pre>
    */
@@ -42,7 +42,7 @@ public interface WxMpKefuService {
   /**
    * <pre>
    * 添加客服账号
-   * 详情请见：<a href="http://mp.weixin.qq.com/wiki/18/749901f4e123170fb8a4d447ae6040ba.html">客服管理</a>
+   * 详情请见：<a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1458044813&token=&lang=zh_CN">客服管理</a>
    * 接口url格式：https://api.weixin.qq.com/customservice/kfaccount/add?access_token=ACCESS_TOKEN
    * </pre>
    */
@@ -50,8 +50,8 @@ public interface WxMpKefuService {
 
   /**
    * <pre>
-   * 设置客服信息（更新）
-   * 详情请见：<a href="http://mp.weixin.qq.com/wiki/18/749901f4e123170fb8a4d447ae6040ba.html">客服管理</a>
+   * 设置客服信息（即更新客服信息）
+   * 详情请见：<a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1458044813&token=&lang=zh_CN">客服管理</a>
    * 接口url格式：https://api.weixin.qq.com/customservice/kfaccount/update?access_token=ACCESS_TOKEN
    * </pre>
    */
@@ -59,8 +59,17 @@ public interface WxMpKefuService {
 
   /**
    * <pre>
+   * 设置客服信息（即更新客服信息）
+   * 详情请见：<a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1458044813&token=&lang=zh_CN">客服管理</a>
+   * 接口url格式：https://api.weixin.qq.com/customservice/kfaccount/inviteworker?access_token=ACCESS_TOKEN
+   * </pre>
+   */
+  boolean kfAccountInviteWorker(WxMpKfAccountRequest request) throws WxErrorException;
+
+  /**
+   * <pre>
    * 上传客服头像
-   * 详情请见：<a href="http://mp.weixin.qq.com/wiki/18/749901f4e123170fb8a4d447ae6040ba.html">客服管理</a>
+   * 详情请见：<a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1458044813&token=&lang=zh_CN">客服管理</a>
    * 接口url格式：http://api.weixin.qq.com/customservice/kfaccount/uploadheadimg?access_token=ACCESS_TOKEN&kf_account=KFACCOUNT
    * </pre>
    */
@@ -70,7 +79,7 @@ public interface WxMpKefuService {
   /**
    * <pre>
    * 删除客服账号
-   * 详情请见：<a href="http://mp.weixin.qq.com/wiki/18/749901f4e123170fb8a4d447ae6040ba.html">客服管理</a>
+   * 详情请见：<a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1458044813&token=&lang=zh_CN">客服管理</a>
    * 接口url格式：https://api.weixin.qq.com/customservice/kfaccount/del?access_token=ACCESS_TOKEN&kf_account=KFACCOUNT
    * </pre>
    */

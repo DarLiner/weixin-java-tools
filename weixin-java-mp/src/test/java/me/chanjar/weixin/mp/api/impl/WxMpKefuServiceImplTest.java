@@ -60,7 +60,7 @@ public class WxMpKefuServiceImplTest {
   @Test(dataProvider = "getKfAccount")
   public void testKfAccountAdd(String kfAccount) throws WxErrorException {
     WxMpKfAccountRequest request = WxMpKfAccountRequest.builder()
-        .kfAccount(kfAccount).nickName("我晕").rawPassword("123").build();
+        .kfAccount(kfAccount).nickName("我晕").build();
     Assert.assertTrue(this.wxService.getKefuService().kfAccountAdd(request));
   }
 
@@ -68,8 +68,16 @@ public class WxMpKefuServiceImplTest {
       "testKfAccountAdd" }, dataProvider = "getKfAccount")
   public void testKfAccountUpdate(String kfAccount) throws WxErrorException {
     WxMpKfAccountRequest request = WxMpKfAccountRequest.builder()
-        .kfAccount(kfAccount).nickName("我晕").rawPassword("123").build();
+        .kfAccount(kfAccount).nickName("我晕").build();
     Assert.assertTrue(this.wxService.getKefuService().kfAccountUpdate(request));
+  }
+
+  @Test(dependsOnMethods = {
+          "testKfAccountAdd" }, dataProvider = "getKfAccount")
+  public void testKfAccountInviteWorker(String kfAccount) throws WxErrorException {
+    WxMpKfAccountRequest request = WxMpKfAccountRequest.builder()
+            .kfAccount(kfAccount).inviteWx("www_ucredit_com").build();
+    Assert.assertTrue(this.wxService.getKefuService().kfAccountInviteWorker(request));
   }
 
   @Test(dependsOnMethods = {

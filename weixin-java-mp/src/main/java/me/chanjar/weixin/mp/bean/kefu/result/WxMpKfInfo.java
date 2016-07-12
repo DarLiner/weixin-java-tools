@@ -41,17 +41,34 @@ public class WxMpKfInfo implements Serializable {
   private String nick;
 
   /**
-   *  status 客服在线状态 1：pc在线，2：手机在线。若pc和手机同时在线则为 1+2=3
+   * kf_wx 如果客服帐号已绑定了客服人员微信号，则此处显示微信号
+   */
+  @SerializedName("kf_wx")
+  private String wxAccount;
+
+  /**
+   * invite_wx 如果客服帐号尚未绑定微信号，但是已经发起了一个绑定邀请，则此处显示绑定邀请的微信号
+   */
+  @SerializedName("invite_wx")
+  private String inviteWx;
+
+  /**
+   * invite_expire_time 如果客服帐号尚未绑定微信号，但是已经发起过一个绑定邀请，则此处显示为邀请的过期时间，为unix 时间戳
+   */
+  @SerializedName("invite_expire_time")
+  private Long inviteExpireTime;
+
+  /**
+   * invite_status 邀请的状态，有等待确认“waiting”，被拒绝“rejected”，过期“expired”
+   */
+  @SerializedName("invite_status")
+  private String inviteStatus;
+
+  /**
+   *  status 客服在线状态，目前为：1、web 在线
    */
   @SerializedName("status")
   private Integer status;
-
-  /**
-   * auto_accept 客服设置的最大自动接入数
-   */
-  @Expose
-  @SerializedName("auto_accept")
-  private Integer autoAccept;
 
   /**
    * accepted_case 客服当前正在接待的会话数
@@ -66,14 +83,6 @@ public class WxMpKfInfo implements Serializable {
 
   public void setStatus(Integer status) {
     this.status = status;
-  }
-
-  public Integer getAutoAccept() {
-    return this.autoAccept;
-  }
-
-  public void setAutoAccept(Integer autoAccept) {
-    this.autoAccept = autoAccept;
   }
 
   public Integer getAcceptedCase() {
@@ -119,5 +128,37 @@ public class WxMpKfInfo implements Serializable {
   @Override
   public String toString() {
     return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+  }
+
+  public String getWxAccount() {
+    return this.wxAccount;
+  }
+
+  public void setWxAccount(String wxAccount) {
+    this.wxAccount = wxAccount;
+  }
+
+  public String getInviteWx() {
+    return this.inviteWx;
+  }
+
+  public void setInviteWx(String inviteWx) {
+    this.inviteWx = inviteWx;
+  }
+
+  public Long getInviteExpireTime() {
+    return this.inviteExpireTime;
+  }
+
+  public void setInviteExpireTime(Long inviteExpireTime) {
+    this.inviteExpireTime = inviteExpireTime;
+  }
+
+  public String getInviteStatus() {
+    return this.inviteStatus;
+  }
+
+  public void setInviteStatus(String inviteStatus) {
+    this.inviteStatus = inviteStatus;
   }
 }

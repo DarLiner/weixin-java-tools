@@ -63,6 +63,14 @@ public class WxMpKefuServiceImpl implements WxMpKefuService {
   }
 
   @Override
+  public boolean kfAccountInviteWorker(WxMpKfAccountRequest request) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/customservice/kfaccount/inviteworker";
+    this.wxMpService.execute(new SimplePostRequestExecutor(), url,
+            request.toJson());
+    return true;
+  }
+
+  @Override
   public boolean kfAccountUploadHeadImg(String kfAccount, File imgFile)
       throws WxErrorException {
     String url = "https://api.weixin.qq.com/customservice/kfaccount/uploadheadimg?kf_account="

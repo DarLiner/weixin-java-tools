@@ -23,18 +23,12 @@ public class WxMpKfAccountRequest implements Serializable {
    */
   @SerializedName("nickname")
   private String nickName;
-  
+
   /**
-   * password   客服账号登录密码，格式为密码明文的32位加密MD5值
+   * invite_wx   接收绑定邀请的客服微信号
    */
-  @SerializedName("password")
-  private String password;
-  
-  /**
-   * rawPassword   客服账号登录密码，明文密码，仅用于辅助操作
-   */
-  @SerializedName("rawPassword")
-  private String rawPassword;
+  @SerializedName("invite_wx")
+  private String inviteWx;
   
   @Override
   public String toString() {
@@ -61,31 +55,22 @@ public class WxMpKfAccountRequest implements Serializable {
     this.nickName = nickName;
   }
 
-  public String getPassword() {
-    return this.password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public String getRawPassword() {
-    return this.rawPassword;
-  }
-
-  public void setRawPassword(String rawPassword) {
-    this.rawPassword = rawPassword;
-  }
-
   public static Builder builder() {
       return new Builder();
+  }
+
+  public String getInviteWx() {
+    return this.inviteWx;
+  }
+
+  public void setInviteWx(String inviteWx) {
+    this.inviteWx = inviteWx;
   }
 
   public static class Builder {
       private String kfAccount;
       private String nickName;
-      private String password;
-      private String rawPassword;
+      private String inviteWx;
 
       @SuppressWarnings("hiding")
       public Builder kfAccount(String kfAccount) {
@@ -100,23 +85,15 @@ public class WxMpKfAccountRequest implements Serializable {
       }
 
       @SuppressWarnings("hiding")
-      public Builder password(String password) {
-          this.password = password;
-          return this;
-      }
-
-      @SuppressWarnings("hiding")
-      public Builder rawPassword(String rawPassword) {
-          this.rawPassword = rawPassword;
-          this.password(Md5Crypt.md5Crypt(rawPassword.getBytes()));
-          return this;
+      public Builder inviteWx(String inviteWx) {
+        this.inviteWx = inviteWx;
+        return this;
       }
 
       public Builder from(WxMpKfAccountRequest origin) {
           this.kfAccount(origin.kfAccount);
           this.nickName(origin.nickName);
-          this.password(origin.password);
-          this.rawPassword(origin.rawPassword);
+          this.inviteWx(origin.inviteWx);
           return this;
       }
 
@@ -124,8 +101,7 @@ public class WxMpKfAccountRequest implements Serializable {
           WxMpKfAccountRequest m = new WxMpKfAccountRequest();
           m.kfAccount = this.kfAccount;
           m.nickName = this.nickName;
-          m.password = this.password;
-          m.rawPassword = this.rawPassword;
+          m.inviteWx = this.inviteWx;
           return m;
       }
   }
