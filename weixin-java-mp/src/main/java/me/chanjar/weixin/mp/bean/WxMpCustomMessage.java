@@ -154,7 +154,6 @@ public class WxMpCustomMessage implements Serializable {
 
   /**
    * 获得语音消息builder
-   * @return
    */
   public static VoiceBuilder VOICE() {
     return new VoiceBuilder();

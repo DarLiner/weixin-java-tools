@@ -255,7 +255,7 @@ public interface WxMpService {
    * 根据微信文档，视频文件下载不了，会返回null
    * 详情请见: <a href="http://mp.weixin.qq.com/wiki/9/677a85e3f3849af35de54bb5516c2521.html">获取临时素材</a>
    * </pre>
-   * @params media_id
+   * @param media_id
    * @return 保存到本地的临时文件
    * @throws WxErrorException
    */
@@ -371,7 +371,6 @@ public interface WxMpService {
    * 分组管理接口 - 查询所有分组
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=分组管理接口
    * </pre>
-   * @return
    */
   public List<WxMpGroup> groupGet() throws WxErrorException;
 
@@ -573,7 +572,6 @@ public interface WxMpService {
    * 验证oauth2的access token是否有效
    * </pre>
    * @param oAuth2AccessToken
-   * @return
    */
   public boolean oauth2validateAccessToken(WxMpOAuth2AccessToken oAuth2AccessToken);
 

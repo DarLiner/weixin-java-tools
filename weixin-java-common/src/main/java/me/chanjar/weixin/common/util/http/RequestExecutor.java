@@ -22,7 +22,6 @@ public interface RequestExecutor<T, E> {
    * @param httpProxy http代理对象，如果没有配置代理则为空
    * @param uri       uri
    * @param data      数据
-   * @return
    * @throws WxErrorException
    * @throws ClientProtocolException
    * @throws IOException
