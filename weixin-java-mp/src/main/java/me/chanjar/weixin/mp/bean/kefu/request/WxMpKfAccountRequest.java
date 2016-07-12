@@ -1,4 +1,4 @@
-package me.chanjar.weixin.mp.bean.customerservice.request;
+package me.chanjar.weixin.mp.bean.kefu.request;
 
 import java.io.Serializable;
 

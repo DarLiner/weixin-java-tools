@@ -1,5 +1,8 @@
 package me.chanjar.weixin.mp.api.impl;
 
+import java.io.File;
+
+import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
@@ -9,15 +12,14 @@ import com.google.inject.Inject;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.ApiTestModule;
 import me.chanjar.weixin.mp.api.ApiTestModule.WxXmlMpInMemoryConfigStorage;
-import me.chanjar.weixin.mp.api.WxMpConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpServiceImpl;
-import me.chanjar.weixin.mp.bean.customerservice.request.WxMpKfAccountRequest;
-import me.chanjar.weixin.mp.bean.customerservice.result.WxMpKfList;
-import me.chanjar.weixin.mp.bean.customerservice.result.WxMpKfOnlineList;
-
-import java.io.File;
-
-import org.testng.Assert;
+import me.chanjar.weixin.mp.bean.kefu.request.WxMpKfAccountRequest;
+import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfInfo;
+import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfList;
+import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfOnlineList;
+import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfSessionGetResult;
+import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfSessionList;
+import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfSessionWaitCaseList;
 
 /**
  * 测试客服相关接口
@@ -34,14 +36,18 @@ public class WxMpKefuImplTest {
   public void testKfList() throws WxErrorException {
     WxMpKfList kfList = this.wxService.getKefuService().kfList();
     Assert.assertNotNull(kfList);
-    System.err.println(kfList);
+    for (WxMpKfInfo k : kfList.getKfList()) {
+      System.err.println(k);
+    }
   }
 
   public void testKfOnlineList() throws WxErrorException {
     WxMpKfOnlineList kfOnlineList = this.wxService.getKefuService()
         .kfOnlineList();
     Assert.assertNotNull(kfOnlineList);
-    System.err.println(kfOnlineList);
+    for (WxMpKfInfo k : kfOnlineList.getKfOnlineList()) {
+      System.err.println(k);
+    }
   }
 
   @DataProvider
@@ -76,11 +82,59 @@ public class WxMpKefuImplTest {
     Assert.assertTrue(result);
   }
 
-  @Test(dependsOnMethods = {
-      "testKfAccountUploadHeadImg" }, dataProvider = "getKfAccount")
+  @Test(dataProvider = "getKfAccount")
   public void testKfAccountDel(String kfAccount) throws WxErrorException {
     boolean result = this.wxService.getKefuService().kfAccountDel(kfAccount);
     Assert.assertTrue(result);
+  }
+
+  @DataProvider
+  public Object[][] getKfAccountAndOpenid() {
+    WxXmlMpInMemoryConfigStorage configStorage = (WxXmlMpInMemoryConfigStorage) this.wxService
+        .getWxMpConfigStorage();
+    return new Object[][] {
+        { configStorage.getKfAccount(), configStorage.getOpenId() } };
+  }
+
+  @Test(dataProvider = "getKfAccountAndOpenid")
+  public void testKfSessionCreate(String kfAccount, String openid)
+      throws WxErrorException {
+    boolean result = this.wxService.getKefuService().kfSessionCreate(openid,
+        kfAccount, "welcome");
+    Assert.assertTrue(result);
+  }
+
+  @Test(dataProvider = "getKfAccountAndOpenid")
+  public void testKfSessionClose(String kfAccount, String openid)
+      throws WxErrorException {
+    boolean result = this.wxService.getKefuService().kfSessionClose(openid,
+        kfAccount, "bye bye");
+    Assert.assertTrue(result);
+  }
+
+  @Test(dataProvider = "getKfAccountAndOpenid")
+  public void testKfSessionGet(@SuppressWarnings("unused") String kfAccount,
+      String openid) throws WxErrorException {
+    WxMpKfSessionGetResult result = this.wxService.getKefuService()
+        .kfSessionGet(openid);
+    Assert.assertNotNull(result);
+    System.err.println(result);
+  }
+
+  @Test(dataProvider = "getKfAccount")
+  public void testKfSessionList(String kfAccount) throws WxErrorException {
+    WxMpKfSessionList result = this.wxService.getKefuService()
+        .kfSessionList(kfAccount);
+    Assert.assertNotNull(result);
+    System.err.println(result);
+  }
+
+  @Test
+  public void testKfSessionGetWaitCase() throws WxErrorException {
+    WxMpKfSessionWaitCaseList result = this.wxService.getKefuService()
+        .kfSessionGetWaitCase();
+    Assert.assertNotNull(result);
+    System.err.println(result);
   }
 
 }

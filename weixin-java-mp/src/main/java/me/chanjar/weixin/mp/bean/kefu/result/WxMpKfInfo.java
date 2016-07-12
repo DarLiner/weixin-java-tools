@@ -1,8 +1,9 @@
-package me.chanjar.weixin.mp.bean.customerservice.result;
+package me.chanjar.weixin.mp.bean.kefu.result;
 
 import java.io.Serializable;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -20,38 +21,38 @@ public class WxMpKfInfo implements Serializable {
    */
   @SerializedName("kf_account")
   private String account;
-  
+
   /**
    * kf_headimgurl 客服头像地址
    */
   @SerializedName("kf_headimgurl")
   private String headImgUrl;
-  
+
   /**
    * kf_id 客服工号
    */
   @SerializedName("kf_id")
   private String id;
-  
+
   /**
    * kf_nick  客服昵称
    */
   @SerializedName("kf_nick")
   private String nick;
-  
+
   /**
    *  status 客服在线状态 1：pc在线，2：手机在线。若pc和手机同时在线则为 1+2=3
    */
   @SerializedName("status")
   private Integer status;
-  
+
   /**
    * auto_accept 客服设置的最大自动接入数
    */
   @Expose
   @SerializedName("auto_accept")
   private Integer autoAccept;
-  
+
   /**
    * accepted_case 客服当前正在接待的会话数
    * @return
@@ -118,6 +119,6 @@ public class WxMpKfInfo implements Serializable {
 
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this);
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
 }

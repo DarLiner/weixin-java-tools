@@ -4,7 +4,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import me.chanjar.weixin.mp.bean.customerservice.result.WxMpKfOnlineList;
+import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfOnlineList;
 
 @Test
 public class WxMpKfOnlineListTest {
