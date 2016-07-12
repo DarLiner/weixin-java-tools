@@ -18,10 +18,18 @@ public class WxMpKfSession {
   private String kfAccount;
 
   /**
-   * createtime 会话接入的时间 或者 来访时间，UNIX时间戳
+   * createtime 会话接入的时间，UNIX时间戳
+   * 该返回值 存在于 获取客服会话列表接口
    */
   @SerializedName("createtime")
   private long createTime;
+
+  /**
+   * latest_time 粉丝的最后一条消息的时间，UNIX时间戳
+   * 该返回值 存在于 获取未接入会话列表接口
+   */
+  @SerializedName("latest_time")
+  private long latestTime;
 
   /**
    * openid 客户openid
@@ -58,4 +66,11 @@ public class WxMpKfSession {
     this.openid = openid;
   }
 
+  public long getLatestTime() {
+    return this.latestTime;
+  }
+
+  public void setLatestTime(long latestTime) {
+    this.latestTime = latestTime;
+  }
 }
