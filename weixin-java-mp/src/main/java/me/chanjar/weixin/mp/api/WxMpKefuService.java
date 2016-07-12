@@ -89,7 +89,7 @@ public interface WxMpKefuService {
   /**
    * <pre>
    * 创建会话
-   * 开发者可以使用本接口，为多客服的客服工号创建会话，将某个客户直接指定给客服工号接待，需要注意此接口不会受客服自动接入数以及自动接入开关限制。只能为在线的客服（PC客户端在线，或者已绑定多客服助手）创建会话。
+   * 此接口在客服和用户之间创建一个会话，如果该客服和用户会话已存在，则直接返回0。指定的客服帐号必须已经绑定微信号且在线。
    * 详情请见：<a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1458044820&token=&lang=zh_CN">客服会话控制接口</a>
    * 接口url格式： https://api.weixin.qq.com/customservice/kfsession/create?access_token=ACCESS_TOKEN
    * </pre>
@@ -100,7 +100,7 @@ public interface WxMpKefuService {
    * <pre>
    * 关闭会话
    * 开发者可以使用本接口，关闭一个会话。
-   * 详情请见：<a href="http://mp.weixin.qq.com/wiki/4/4b256cfb246b22ad020e07cf8a61a738.html">客服会话控制接口</a>
+   * 详情请见：<a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1458044820&token=&lang=zh_CN">客服会话控制接口</a>
    * 接口url格式： https://api.weixin.qq.com/customservice/kfsession/close?access_token=ACCESS_TOKEN
    * </pre>
    */
@@ -110,7 +110,7 @@ public interface WxMpKefuService {
    * <pre>
    * 获取客户的会话状态
    * 此接口获取一个客户的会话，如果不存在，则kf_account为空。
-   * 详情请见：<a href="http://mp.weixin.qq.com/wiki/4/4b256cfb246b22ad020e07cf8a61a738.html">客服会话控制</a>
+   * 详情请见：<a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1458044820&token=&lang=zh_CN">客服会话控制接口</a>
    * 接口url格式： https://api.weixin.qq.com/customservice/kfsession/getsession?access_token=ACCESS_TOKEN&openid=OPENID
    * </pre>
    */
