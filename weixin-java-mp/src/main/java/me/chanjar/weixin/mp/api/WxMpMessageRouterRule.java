@@ -211,6 +211,9 @@ public class WxMpMessageRouterRule {
       WxMpXmlOutMessage res = null;
       for (WxMpMessageHandler handler : this.handlers) {
         // 返回最后handler的结果
+        if(handler == null){
+          continue;
+        }
         res = handler.handle(wxMessage, context, wxMpService, sessionManager);
       }
       return res;
