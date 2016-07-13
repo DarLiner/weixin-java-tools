@@ -94,7 +94,7 @@ public interface WxMpKefuService {
    * 接口url格式： https://api.weixin.qq.com/customservice/kfsession/create?access_token=ACCESS_TOKEN
    * </pre>
    */
-  boolean kfSessionCreate(String openid, String kfAccount, String text) throws WxErrorException;
+  boolean kfSessionCreate(String openid, String kfAccount) throws WxErrorException;
 
   /**
    * <pre>
@@ -104,7 +104,7 @@ public interface WxMpKefuService {
    * 接口url格式： https://api.weixin.qq.com/customservice/kfsession/close?access_token=ACCESS_TOKEN
    * </pre>
    */
-  boolean kfSessionClose(String openid, String kfAccount, String text) throws WxErrorException;
+  boolean kfSessionClose(String openid, String kfAccount) throws WxErrorException;
 
   /**
    * <pre>

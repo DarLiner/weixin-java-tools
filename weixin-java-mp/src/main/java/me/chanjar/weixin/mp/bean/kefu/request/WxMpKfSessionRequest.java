@@ -23,19 +23,10 @@ public class WxMpKfSessionRequest implements Serializable {
    */
   @SerializedName("openid")
   private String openid;
-  
-  /**
-   * text 附加信息，文本会展示在客服人员的多客服客户端
-   * 目前看起来无用，主要是老版的多客服客户端使用
-   */
-  @SerializedName("text")
-  @Deprecated
-  private String text;
-  
-  public WxMpKfSessionRequest(String kfAccount, String openid, String text) {
+
+  public WxMpKfSessionRequest(String kfAccount, String openid) {
     this.kfAccount = kfAccount;
     this.openid = openid;
-    this.text = text;
   }
 
   @Override
@@ -53,14 +44,6 @@ public class WxMpKfSessionRequest implements Serializable {
 
   public void setKfAccount(String kfAccount) {
     this.kfAccount = kfAccount;
-  }
-
-  public String getText() {
-    return this.text;
-  }
-
-  public void setText(String text) {
-    this.text = text;
   }
 
 }

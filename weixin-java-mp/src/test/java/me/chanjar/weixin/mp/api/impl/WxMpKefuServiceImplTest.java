@@ -108,7 +108,7 @@ public class WxMpKefuServiceImplTest {
   public void testKfSessionCreate(String kfAccount, String openid)
       throws WxErrorException {
     boolean result = this.wxService.getKefuService().kfSessionCreate(openid,
-        kfAccount, "welcome");
+        kfAccount);
     Assert.assertTrue(result);
   }
 
@@ -116,7 +116,7 @@ public class WxMpKefuServiceImplTest {
   public void testKfSessionClose(String kfAccount, String openid)
       throws WxErrorException {
     boolean result = this.wxService.getKefuService().kfSessionClose(openid,
-        kfAccount, "bye bye");
+        kfAccount);
     Assert.assertTrue(result);
   }
 

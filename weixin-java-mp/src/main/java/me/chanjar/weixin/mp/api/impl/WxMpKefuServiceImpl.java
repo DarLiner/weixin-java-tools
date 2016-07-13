@@ -88,10 +88,9 @@ public class WxMpKefuServiceImpl implements WxMpKefuService {
   }
 
   @Override
-  public boolean kfSessionCreate(String openid, String kfAccount, String text)
+  public boolean kfSessionCreate(String openid, String kfAccount)
       throws WxErrorException {
-    WxMpKfSessionRequest request = new WxMpKfSessionRequest(kfAccount, openid,
-        text);
+    WxMpKfSessionRequest request = new WxMpKfSessionRequest(kfAccount, openid);
     String url = "https://api.weixin.qq.com/customservice/kfsession/create";
     this.wxMpService.execute(new SimplePostRequestExecutor(), url,
         request.toJson());
@@ -99,10 +98,9 @@ public class WxMpKefuServiceImpl implements WxMpKefuService {
   }
 
   @Override
-  public boolean kfSessionClose(String openid, String kfAccount, String text)
+  public boolean kfSessionClose(String openid, String kfAccount)
       throws WxErrorException {
-    WxMpKfSessionRequest request = new WxMpKfSessionRequest(kfAccount, openid,
-        text);
+    WxMpKfSessionRequest request = new WxMpKfSessionRequest(kfAccount, openid);
     String url = "https://api.weixin.qq.com/customservice/kfsession/close";
     this.wxMpService.execute(new SimplePostRequestExecutor(), url,
         request.toJson());
