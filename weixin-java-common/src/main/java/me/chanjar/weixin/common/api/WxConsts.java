@@ -11,6 +11,7 @@ public class WxConsts {
   public static final String XML_MSG_TEXT = "text";
   public static final String XML_MSG_IMAGE = "image";
   public static final String XML_MSG_VOICE = "voice";
+  public static final String XML_MSG_SHORTVIDEO = "shortvideo";
   public static final String XML_MSG_VIDEO = "video";
   public static final String XML_MSG_NEWS = "news";
   public static final String XML_MSG_MUSIC = "music";
