@@ -1,14 +1,11 @@
 package me.chanjar.weixin.mp.api;
 
 import java.io.File;
+import java.util.Date;
 
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.bean.kefu.request.WxMpKfAccountRequest;
-import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfList;
-import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfOnlineList;
-import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfSessionGetResult;
-import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfSessionList;
-import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfSessionWaitCaseList;
+import me.chanjar.weixin.mp.bean.kefu.result.*;
 
 /**
  * 客服接口 ，
@@ -135,4 +132,23 @@ public interface WxMpKefuService {
    * </pre>
    */
   WxMpKfSessionWaitCaseList kfSessionGetWaitCase() throws WxErrorException;
+
+  //*******************获取聊天记录的接口***********************//
+  /**
+   * <pre>
+   * 获取聊天记录
+   * 此接口返回的聊天记录中，对于图片、语音、视频，分别展示成文本格式的[image]、[voice]、[video]
+   * 详情请见：<a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1464937269_mUtmK&token=&lang=zh_CN">获取聊天记录</a>
+   * 接口url格式： https://api.weixin.qq.com/customservice/msgrecord/getmsglist?access_token=ACCESS_TOKEN
+   * </pre>
+   *
+   * @param startTime 起始时间
+   * @param endTime 结束时间
+   * @param msgId 消息id顺序从小到大，从1开始
+   * @param number 每次获取条数，最多10000条
+   * @return 聊天记录对象
+   * @throws WxErrorException
+   */
+  WxMpKfMsgList kfMsgList(Date startTime, Date endTime, Integer msgId, Integer number) throws WxErrorException;
+
 }
