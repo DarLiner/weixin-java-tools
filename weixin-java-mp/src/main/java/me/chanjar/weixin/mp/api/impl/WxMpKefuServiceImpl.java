@@ -21,7 +21,7 @@ import me.chanjar.weixin.mp.bean.kefu.result.*;
  *
  */
 public class WxMpKefuServiceImpl implements WxMpKefuService {
-  public static final String API_URL_PREFIX = "https://api.weixin.qq.com/customservice";
+  private static final String API_URL_PREFIX = "https://api.weixin.qq.com/customservice";
   private WxMpService wxMpService;
 
   public WxMpKefuServiceImpl(WxMpService wxMpService) {
@@ -158,9 +158,9 @@ public class WxMpKefuServiceImpl implements WxMpKefuService {
   public WxMpKfMsgList kfMsgList(Date startTime, Date endTime) throws WxErrorException {
     int number = 10000;
     WxMpKfMsgList result =  this.kfMsgList(startTime,endTime, 1L, number);
-    Long msgId = result.getMsgId();
-    
-    if(result != null && result.getNumber() >= number){
+
+    if(result != null && result.getNumber() == number){
+      Long msgId = result.getMsgId();
       WxMpKfMsgList followingResult =  this.kfMsgList(startTime,endTime, msgId, number);
       while(followingResult != null  && followingResult.getRecords().size() > 0){
         result.getRecords().addAll(followingResult.getRecords());
