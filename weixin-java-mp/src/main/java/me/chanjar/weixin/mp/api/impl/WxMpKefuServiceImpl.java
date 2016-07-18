@@ -133,7 +133,11 @@ public class WxMpKefuServiceImpl implements WxMpKefuService {
   }
 
   @Override
-  public WxMpKfMsgList kfMsgList(Date startTime, Date endTime, Integer msgId, Integer number) throws WxErrorException {
+  public WxMpKfMsgList kfMsgList(Date startTime, Date endTime, Long msgId, Integer number) throws WxErrorException {
+    if(number > 10000){
+      throw new WxErrorException(WxError.newBuilder().setErrorMsg("非法参数请求，每次最多查询10000条记录！").build());
+    }
+
     if(startTime.after(endTime)){
       throw new WxErrorException(WxError.newBuilder().setErrorMsg("起始时间不能晚于结束时间！").build());
     }
@@ -148,6 +152,25 @@ public class WxMpKefuServiceImpl implements WxMpKefuService {
 
     String responseContent = this.wxMpService.execute(new SimplePostRequestExecutor(), url, param.toString());
     return WxMpKfMsgList.fromJson(responseContent);
+  }
+
+  @Override
+  public WxMpKfMsgList kfMsgList(Date startTime, Date endTime) throws WxErrorException {
+    int number = 10000;
+    WxMpKfMsgList result =  this.kfMsgList(startTime,endTime, 1L, number);
+    Long msgId = result.getMsgId();
+    
+    if(result != null && result.getNumber() >= number){
+      WxMpKfMsgList followingResult =  this.kfMsgList(startTime,endTime, msgId, number);
+      while(followingResult != null  && followingResult.getRecords().size() > 0){
+        result.getRecords().addAll(followingResult.getRecords());
+        result.setNumber(result.getNumber() + followingResult.getNumber());
+        result.setMsgId(followingResult.getMsgId());
+        followingResult = this.kfMsgList(startTime,endTime, followingResult.getMsgId(), number);
+      }
+    }
+
+    return result;
   }
 
 }

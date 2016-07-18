@@ -136,7 +136,7 @@ public interface WxMpKefuService {
   //*******************获取聊天记录的接口***********************//
   /**
    * <pre>
-   * 获取聊天记录
+   * 获取聊天记录（原始接口）
    * 此接口返回的聊天记录中，对于图片、语音、视频，分别展示成文本格式的[image]、[voice]、[video]
    * 详情请见：<a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1464937269_mUtmK&token=&lang=zh_CN">获取聊天记录</a>
    * 接口url格式： https://api.weixin.qq.com/customservice/msgrecord/getmsglist?access_token=ACCESS_TOKEN
@@ -149,6 +149,21 @@ public interface WxMpKefuService {
    * @return 聊天记录对象
    * @throws WxErrorException
    */
-  WxMpKfMsgList kfMsgList(Date startTime, Date endTime, Integer msgId, Integer number) throws WxErrorException;
+  WxMpKfMsgList kfMsgList(Date startTime, Date endTime, Long msgId, Integer number) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 获取聊天记录（优化接口，返回指定时间段内所有的聊天记录）
+   * 此接口返回的聊天记录中，对于图片、语音、视频，分别展示成文本格式的[image]、[voice]、[video]
+   * 详情请见：<a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1464937269_mUtmK&token=&lang=zh_CN">获取聊天记录</a>
+   * 接口url格式： https://api.weixin.qq.com/customservice/msgrecord/getmsglist?access_token=ACCESS_TOKEN
+   * </pre>
+   *
+   * @param startTime 起始时间
+   * @param endTime 结束时间
+   * @return 聊天记录对象
+   * @throws WxErrorException
+   */
+  WxMpKfMsgList kfMsgList(Date startTime, Date endTime) throws WxErrorException;
 
 }

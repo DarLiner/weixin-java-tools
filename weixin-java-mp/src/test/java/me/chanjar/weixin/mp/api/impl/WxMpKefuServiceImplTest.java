@@ -147,12 +147,19 @@ public class WxMpKefuServiceImplTest {
 
   @Test
   public void testKfMsgList() throws WxErrorException, JsonProcessingException {
-    BasicConfigurator.configureDefaultContext();
     Date startTime = DateTime.now().minusDays(1).toDate();
-    Date endTime = DateTime.now().toDate();
-    WxMpKfMsgList result = this.wxService.getKefuService().kfMsgList(startTime,endTime, 0, 20);
+    Date endTime = DateTime.now().minusDays(0).toDate();
+    WxMpKfMsgList result = this.wxService.getKefuService().kfMsgList(startTime,endTime, 1L, 50);
     Assert.assertNotNull(result);
     System.err.println(new ObjectMapper().writeValueAsString(result));
   }
 
+  @Test
+  public void testKfMsgListAll() throws WxErrorException, JsonProcessingException {
+    Date startTime = DateTime.now().minusDays(1).toDate();
+    Date endTime = DateTime.now().minusDays(0).toDate();
+    WxMpKfMsgList result = this.wxService.getKefuService().kfMsgList(startTime,endTime);
+    Assert.assertNotNull(result);
+    System.err.println(new ObjectMapper().writeValueAsString(result));
+  }
 }
