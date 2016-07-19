@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Date;
 
 import com.google.gson.JsonObject;
+
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.MediaUploadRequestExecutor;
@@ -13,7 +14,12 @@ import me.chanjar.weixin.mp.api.WxMpKefuService;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.kefu.request.WxMpKfAccountRequest;
 import me.chanjar.weixin.mp.bean.kefu.request.WxMpKfSessionRequest;
-import me.chanjar.weixin.mp.bean.kefu.result.*;
+import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfList;
+import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfMsgList;
+import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfOnlineList;
+import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfSessionGetResult;
+import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfSessionList;
+import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfSessionWaitCaseList;
 
 /**
  * 
@@ -30,7 +36,7 @@ public class WxMpKefuServiceImpl implements WxMpKefuService {
 
   @Override
   public WxMpKfList kfList() throws WxErrorException {
-    String url = API_URL_PREFIX + "/getkflist";
+    String url = "https://api.weixin.qq.com/cgi-bin/customservice/getkflist";
     String responseContent = this.wxMpService
         .execute(new SimpleGetRequestExecutor(), url, null);
     return WxMpKfList.fromJson(responseContent);
@@ -38,7 +44,7 @@ public class WxMpKefuServiceImpl implements WxMpKefuService {
 
   @Override
   public WxMpKfOnlineList kfOnlineList() throws WxErrorException {
-    String url = API_URL_PREFIX + "/getonlinekflist";
+    String url = "https://api.weixin.qq.com/cgi-bin/customservice/getonlinekflist";
     String responseContent = this.wxMpService
         .execute(new SimpleGetRequestExecutor(), url, null);
     return WxMpKfOnlineList.fromJson(responseContent);
