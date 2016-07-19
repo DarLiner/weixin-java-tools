@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
  * @author chanjarster
  *
  */
-@Test(groups="customMessageAPI", dependsOnGroups = "baseAPI")
+@Test(groups="customMessageAPI")
 @Guice(modules = ApiTestModule.class)
 public class WxMpCustomMessageAPITest {
 
