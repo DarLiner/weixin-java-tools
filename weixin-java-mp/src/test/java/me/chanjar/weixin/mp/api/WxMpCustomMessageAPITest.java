@@ -26,7 +26,18 @@ public class WxMpCustomMessageAPITest {
     message.setToUser(configStorage.getOpenId());
     message.setContent("欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>");
 
-    wxService.customMessageSend(message);
+    this.wxService.customMessageSend(message);
+  }
+
+  public void testSendCustomMessageWithKfAccount() throws WxErrorException {
+    ApiTestModule.WxXmlMpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlMpInMemoryConfigStorage) wxService.wxMpConfigStorage;
+    WxMpCustomMessage message = new WxMpCustomMessage();
+    message.setMsgType(WxConsts.CUSTOM_MSG_TEXT);
+    message.setToUser(configStorage.getOpenId());
+    message.setKfAccount(configStorage.getKfAccount());
+    message.setContent("欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>");
+
+    this.wxService.customMessageSend(message);
   }
 
 }

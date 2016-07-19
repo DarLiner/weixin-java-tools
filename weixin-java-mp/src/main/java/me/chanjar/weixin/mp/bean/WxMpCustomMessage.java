@@ -24,6 +24,7 @@ public class WxMpCustomMessage implements Serializable {
   private String description;
   private String musicUrl;
   private String hqMusicUrl;
+  private String kfAccount;
   private List<WxArticle> articles = new ArrayList<>();
   
   public String getToUser() {
@@ -178,6 +179,14 @@ public class WxMpCustomMessage implements Serializable {
    */
   public static NewsBuilder NEWS() {
     return new NewsBuilder();
+  }
+  
+  public String getKfAccount() {
+    return kfAccount;
+  }
+  
+  public void setKfAccount(String kfAccount) {
+    this.kfAccount = kfAccount;
   }
   
 }
