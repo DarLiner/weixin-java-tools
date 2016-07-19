@@ -3,16 +3,14 @@ package me.chanjar.weixin.mp.api.impl;
 import java.io.File;
 import java.util.Date;
 
-import ch.qos.logback.classic.BasicConfigurator;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import me.chanjar.weixin.mp.bean.kefu.result.*;
 import org.joda.time.DateTime;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -20,6 +18,13 @@ import me.chanjar.weixin.mp.api.ApiTestModule;
 import me.chanjar.weixin.mp.api.ApiTestModule.WxXmlMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpServiceImpl;
 import me.chanjar.weixin.mp.bean.kefu.request.WxMpKfAccountRequest;
+import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfInfo;
+import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfList;
+import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfMsgList;
+import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfOnlineList;
+import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfSessionGetResult;
+import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfSessionList;
+import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfSessionWaitCaseList;
 
 /**
  * 测试客服相关接口
@@ -121,7 +126,7 @@ public class WxMpKefuServiceImplTest {
   }
 
   @Test(dataProvider = "getKfAccountAndOpenid")
-  public void testKfSessionGet(@SuppressWarnings("unused") String kfAccount,
+  public void testKfSessionGet(String kfAccount,
       String openid) throws WxErrorException {
     WxMpKfSessionGetResult result = this.wxService.getKefuService()
         .kfSessionGet(openid);

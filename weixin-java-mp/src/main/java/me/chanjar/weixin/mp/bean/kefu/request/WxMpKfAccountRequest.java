@@ -2,7 +2,6 @@ package me.chanjar.weixin.mp.bean.kefu.request;
 
 import java.io.Serializable;
 
-import org.apache.commons.codec.digest.Md5Crypt;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.google.gson.annotations.SerializedName;
@@ -72,19 +71,16 @@ public class WxMpKfAccountRequest implements Serializable {
       private String nickName;
       private String inviteWx;
 
-      @SuppressWarnings("hiding")
       public Builder kfAccount(String kfAccount) {
           this.kfAccount = kfAccount;
           return this;
       }
 
-      @SuppressWarnings("hiding")
       public Builder nickName(String nickName) {
           this.nickName = nickName;
           return this;
       }
 
-      @SuppressWarnings("hiding")
       public Builder inviteWx(String inviteWx) {
         this.inviteWx = inviteWx;
         return this;
