@@ -41,19 +41,13 @@
 </dependency>
 ```
 
-## SNAPSHOT版
+## 预览版
 
-本项目的BUG修复和新特性一般会先发布在*-SNAPSHOT版里供大家预览，如果要使用*-SNAPSHOT版，则需要在你的pom.xml中添加这段：
+本项目的BUG修复和新特性一般会先发布成小版本作为临时版本，如1.3.5.X， 目前最新版本号为![Maven Central](https://img.shields.io/maven-central/v/com.github.binarywang/weixin-java-parent.svg) 
+也可以通过访问如下地址查看所有最新的版本：
+http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.github.binarywang%22%20AND%20a%3A%22weixin-java-mp%22
+http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.github.binarywang%22%20AND%20a%3A%22weixin-java-cp%22
 
-```xml
-<repositories>
-  <repository>
-      <snapshots />
-      <id>sonatype snapshots</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-  </repository>
-</repositories>
-```
 
 ## 关于Pull Request
 
