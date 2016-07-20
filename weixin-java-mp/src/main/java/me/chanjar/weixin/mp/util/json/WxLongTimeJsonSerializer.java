@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
  */
 public class WxLongTimeJsonSerializer extends JsonSerializer<Long> {
   private static SimpleDateFormat DF = new SimpleDateFormat(
-      "yyyy-MM-dd hh:mm:ss");
+      "yyyy-MM-dd HH:mm:ss");
 
   @Override
   public void serialize(Long value, JsonGenerator gen,
