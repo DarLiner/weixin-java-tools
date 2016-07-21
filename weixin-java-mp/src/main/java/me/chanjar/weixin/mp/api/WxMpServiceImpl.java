@@ -2,7 +2,6 @@ package me.chanjar.weixin.mp.api;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -16,9 +15,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.UUID;
 
-import me.chanjar.weixin.mp.api.impl.WxMpMaterialServiceImpl;
 import org.apache.http.Consts;
 import org.apache.http.HttpHost;
 import org.apache.http.client.ClientProtocolException;
@@ -44,33 +41,28 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.thoughtworks.xstream.XStream;
 
-import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.bean.WxCardApiSignature;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
-import me.chanjar.weixin.common.bean.WxMenu;
 import me.chanjar.weixin.common.bean.result.WxError;
-import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.session.StandardSessionManager;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.common.util.RandomUtils;
 import me.chanjar.weixin.common.util.crypto.SHA1;
 import me.chanjar.weixin.common.util.crypto.WxCryptUtil;
-import me.chanjar.weixin.common.util.fs.FileUtils;
 import me.chanjar.weixin.common.util.http.ApacheHttpClientBuilder;
 import me.chanjar.weixin.common.util.http.DefaultApacheHttpHttpClientBuilder;
-import me.chanjar.weixin.common.util.http.MediaDownloadRequestExecutor;
-import me.chanjar.weixin.common.util.http.MediaUploadRequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.common.util.http.SimpleGetRequestExecutor;
 import me.chanjar.weixin.common.util.http.SimplePostRequestExecutor;
 import me.chanjar.weixin.common.util.http.URIUtil;
 import me.chanjar.weixin.common.util.http.Utf8ResponseHandler;
 import me.chanjar.weixin.common.util.json.GsonHelper;
-import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
 import me.chanjar.weixin.mp.api.impl.WxMpKefuServiceImpl;
+import me.chanjar.weixin.mp.api.impl.WxMpMaterialServiceImpl;
+import me.chanjar.weixin.mp.api.impl.WxMpMenuServiceImpl;
 import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
 import me.chanjar.weixin.mp.bean.WxMpGroup;
 import me.chanjar.weixin.mp.bean.WxMpIndustry;
@@ -79,20 +71,11 @@ import me.chanjar.weixin.mp.bean.WxMpMassNews;
 import me.chanjar.weixin.mp.bean.WxMpMassOpenIdsMessage;
 import me.chanjar.weixin.mp.bean.WxMpMassPreviewMessage;
 import me.chanjar.weixin.mp.bean.WxMpMassVideo;
-import me.chanjar.weixin.mp.bean.WxMpMaterial;
-import me.chanjar.weixin.mp.bean.WxMpMaterialArticleUpdate;
-import me.chanjar.weixin.mp.bean.WxMpMaterialNews;
 import me.chanjar.weixin.mp.bean.WxMpSemanticQuery;
 import me.chanjar.weixin.mp.bean.WxMpTemplateMessage;
-import me.chanjar.weixin.mp.bean.result.WxMediaImgUploadResult;
 import me.chanjar.weixin.mp.bean.result.WxMpCardResult;
 import me.chanjar.weixin.mp.bean.result.WxMpMassSendResult;
 import me.chanjar.weixin.mp.bean.result.WxMpMassUploadResult;
-import me.chanjar.weixin.mp.bean.result.WxMpMaterialCountResult;
-import me.chanjar.weixin.mp.bean.result.WxMpMaterialFileBatchGetResult;
-import me.chanjar.weixin.mp.bean.result.WxMpMaterialNewsBatchGetResult;
-import me.chanjar.weixin.mp.bean.result.WxMpMaterialUploadResult;
-import me.chanjar.weixin.mp.bean.result.WxMpMaterialVideoInfoResult;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import me.chanjar.weixin.mp.bean.result.WxMpPayCallback;
 import me.chanjar.weixin.mp.bean.result.WxMpPayRefundResult;
@@ -105,12 +88,6 @@ import me.chanjar.weixin.mp.bean.result.WxMpUserCumulate;
 import me.chanjar.weixin.mp.bean.result.WxMpUserList;
 import me.chanjar.weixin.mp.bean.result.WxMpUserSummary;
 import me.chanjar.weixin.mp.bean.result.WxRedpackResult;
-import me.chanjar.weixin.mp.util.http.MaterialDeleteRequestExecutor;
-import me.chanjar.weixin.mp.util.http.MaterialNewsInfoRequestExecutor;
-import me.chanjar.weixin.mp.util.http.MaterialUploadRequestExecutor;
-import me.chanjar.weixin.mp.util.http.MaterialVideoInfoRequestExecutor;
-import me.chanjar.weixin.mp.util.http.MaterialVoiceAndImageDownloadRequestExecutor;
-import me.chanjar.weixin.mp.util.http.MediaImgUploadRequestExecutor;
 import me.chanjar.weixin.mp.util.http.QrCodeRequestExecutor;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
@@ -138,6 +115,8 @@ public class WxMpServiceImpl implements WxMpService {
   protected WxMpKefuService kefuService = new WxMpKefuServiceImpl(this);
 
   protected WxMpMaterialService materialService = new WxMpMaterialServiceImpl(this);
+
+  protected WxMpMenuService menuService = new WxMpMenuServiceImpl(this);
 
   protected CloseableHttpClient httpClient;
 
@@ -257,59 +236,6 @@ public class WxMpServiceImpl implements WxMpService {
   public void customMessageSend(WxMpCustomMessage message) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/message/custom/send";
     execute(new SimplePostRequestExecutor(), url, message.toJson());
-  }
-
-  @Override
-  public void menuCreate(WxMenu menu) throws WxErrorException {
-    if (menu.getMatchRule() != null) {
-      String url = "https://api.weixin.qq.com/cgi-bin/menu/addconditional";
-      execute(new SimplePostRequestExecutor(), url, menu.toJson());
-    } else {
-      String url = "https://api.weixin.qq.com/cgi-bin/menu/create";
-      execute(new SimplePostRequestExecutor(), url, menu.toJson());
-    }
-  }
-
-  @Override
-  public void menuDelete() throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/menu/delete";
-    execute(new SimpleGetRequestExecutor(), url, null);
-  }
-  
-  @Override
-  public void menuDelete(String menuid) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/menu/delconditional";
-    execute(new SimpleGetRequestExecutor(), url, "menuid=" + menuid);
-  }
-
-  @Override
-  public WxMenu menuGet() throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/menu/get";
-    try {
-      String resultContent = execute(new SimpleGetRequestExecutor(), url, null);
-      return WxMenu.fromJson(resultContent);
-    } catch (WxErrorException e) {
-      // 46003 不存在的菜单数据
-      if (e.getError().getErrorCode() == 46003) {
-        return null;
-      }
-      throw e;
-    }
-  }
-  
-  @Override
-  public WxMenu menuTryMatch(String userid) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/menu/trymatch";
-    try {
-      String resultContent = execute(new SimpleGetRequestExecutor(), url, "user_id=" + userid);
-      return WxMenu.fromJson(resultContent);
-    } catch (WxErrorException e) {
-      // 46003 不存在的菜单数据     46002 不存在的菜单版本
-      if (e.getError().getErrorCode() == 46003 || e.getError().getErrorCode() == 46002) {
-        return null;
-      }
-      throw e;
-    }
   }
 
   @Override
@@ -1323,5 +1249,10 @@ public class WxMpServiceImpl implements WxMpService {
   public WxMpMaterialService getMaterialService() {
     return this.materialService;
   }
-  
+
+  @Override
+  public WxMpMenuService getMenuService() {
+    return this.menuService;
+  }
+
 }

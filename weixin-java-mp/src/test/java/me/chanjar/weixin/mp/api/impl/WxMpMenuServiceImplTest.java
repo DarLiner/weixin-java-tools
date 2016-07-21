@@ -1,10 +1,12 @@
-package me.chanjar.weixin.mp.api;
+package me.chanjar.weixin.mp.api.impl;
 
 import com.google.inject.Inject;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.WxMenu;
 import me.chanjar.weixin.common.bean.WxMenu.WxMenuButton;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.mp.api.ApiTestModule;
+import me.chanjar.weixin.mp.api.WxMpServiceImpl;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Guice;
@@ -13,11 +15,12 @@ import org.testng.annotations.Test;
 /**
  * 测试菜单
  * @author chanjarster
+ * @author Binary Wang
  *
  */
-@Test(groups="menuAPI", dependsOnGroups="baseAPI")
+@Test(groups="menuAPI")
 @Guice(modules = ApiTestModule.class)
-public class WxMpMenuAPITest {
+public class WxMpMenuServiceImplTest {
 
   @Inject
   protected WxMpServiceImpl wxService;
@@ -25,7 +28,7 @@ public class WxMpMenuAPITest {
   @Test(dataProvider = "menu")
   public void testCreateMenu(WxMenu wxMenu) throws WxErrorException {
     System.out.println(wxMenu.toJson());
-    wxService.menuCreate(wxMenu);
+    this.wxService.getMenuService().menuCreate(wxMenu);
   }
 
   @Test
@@ -69,17 +72,19 @@ public class WxMpMenuAPITest {
 
     WxMenu menu = WxMenu.fromJson(a);
     System.out.println(menu.toJson());
-    wxService.menuCreate(menu);
+    this.wxService.getMenuService().menuCreate(menu);
   }
 
   @Test(dependsOnMethods = { "testCreateMenu"})
   public void testGetMenu() throws WxErrorException {
-    Assert.assertNotNull(wxService.menuGet());
+    WxMenu wxMenu = this.wxService.getMenuService().menuGet();
+    Assert.assertNotNull(wxMenu);
+    System.out.println(wxMenu.toJson());
   }
   
   @Test(dependsOnMethods = { "testGetMenu"})
   public void testDeleteMenu() throws WxErrorException {
-    wxService.menuDelete();
+    this.wxService.getMenuService().menuDelete();
   }
   
   @DataProvider(name="menu")

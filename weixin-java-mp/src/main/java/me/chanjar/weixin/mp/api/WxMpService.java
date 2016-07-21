@@ -1,8 +1,6 @@
 package me.chanjar.weixin.mp.api;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -10,8 +8,6 @@ import java.util.Map;
 
 import me.chanjar.weixin.common.bean.WxCardApiSignature;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
-import me.chanjar.weixin.common.bean.WxMenu;
-import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
@@ -22,20 +18,11 @@ import me.chanjar.weixin.mp.bean.WxMpMassNews;
 import me.chanjar.weixin.mp.bean.WxMpMassOpenIdsMessage;
 import me.chanjar.weixin.mp.bean.WxMpMassPreviewMessage;
 import me.chanjar.weixin.mp.bean.WxMpMassVideo;
-import me.chanjar.weixin.mp.bean.WxMpMaterial;
-import me.chanjar.weixin.mp.bean.WxMpMaterialArticleUpdate;
-import me.chanjar.weixin.mp.bean.WxMpMaterialNews;
 import me.chanjar.weixin.mp.bean.WxMpSemanticQuery;
 import me.chanjar.weixin.mp.bean.WxMpTemplateMessage;
-import me.chanjar.weixin.mp.bean.result.WxMediaImgUploadResult;
 import me.chanjar.weixin.mp.bean.result.WxMpCardResult;
 import me.chanjar.weixin.mp.bean.result.WxMpMassSendResult;
 import me.chanjar.weixin.mp.bean.result.WxMpMassUploadResult;
-import me.chanjar.weixin.mp.bean.result.WxMpMaterialCountResult;
-import me.chanjar.weixin.mp.bean.result.WxMpMaterialFileBatchGetResult;
-import me.chanjar.weixin.mp.bean.result.WxMpMaterialNewsBatchGetResult;
-import me.chanjar.weixin.mp.bean.result.WxMpMaterialUploadResult;
-import me.chanjar.weixin.mp.bean.result.WxMpMaterialVideoInfoResult;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import me.chanjar.weixin.mp.bean.result.WxMpPayCallback;
 import me.chanjar.weixin.mp.bean.result.WxMpPayRefundResult;
@@ -160,50 +147,6 @@ public interface WxMpService {
    * </pre>
    */
   public WxMpMassSendResult massOpenIdsMessageSend(WxMpMassOpenIdsMessage message) throws WxErrorException;
-
-  /**
-   * <pre>
-   * 自定义菜单创建接口
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单创建接口
-   * 如果要创建个性化菜单，请设置matchrule属性
-   * 详情请见:http://mp.weixin.qq.com/wiki/0/c48ccd12b69ae023159b4bfaa7c39c20.html
-   * </pre>
-   */
-  public void menuCreate(WxMenu menu) throws WxErrorException;
-
-  /**
-   * <pre>
-   * 自定义菜单删除接口
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单删除接口
-   * </pre>
-   */
-  public void menuDelete() throws WxErrorException;
-
-  /**
-   * <pre>
-   * 删除个性化菜单接口
-   * 详情请见: http://mp.weixin.qq.com/wiki/0/c48ccd12b69ae023159b4bfaa7c39c20.html
-   * </pre>
-   * @param menuid
-   */
-  public void menuDelete(String menuid) throws WxErrorException;
-
-  /**
-   * <pre>
-   * 自定义菜单查询接口
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单查询接口
-   * </pre>
-   */
-  public WxMenu menuGet() throws WxErrorException;
-
-  /**
-   * <pre>
-   * 测试个性化菜单匹配结果
-   * 详情请见: http://mp.weixin.qq.com/wiki/0/c48ccd12b69ae023159b4bfaa7c39c20.html
-   * </pre>
-   * @param userid 可以是粉丝的OpenID，也可以是粉丝的微信号。
-   */
-  public WxMenu menuTryMatch(String userid) throws WxErrorException;
 
   /**
    * <pre>
@@ -760,10 +703,16 @@ public interface WxMpService {
   WxMpKefuService getKefuService();
 
   /**
-   * 返回客服接口方法实现类，以方便调用个其各种接口
+   * 返回素材相关接口的方法实现类，以方便调用个其各种接口
    * @return WxMpMaterialService
    */
   WxMpMaterialService getMaterialService();
+
+  /**
+   * 返回素材相关接口的方法实现类，以方便调用个其各种接口
+   * @return WxMpMenuService
+   */
+  WxMpMenuService getMenuService();
 
   /**
    * 获取WxMpConfigStorage 对象
