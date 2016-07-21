@@ -18,6 +18,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.UUID;
 
+import me.chanjar.weixin.mp.api.impl.WxMpMaterialServiceImpl;
 import org.apache.http.Consts;
 import org.apache.http.HttpHost;
 import org.apache.http.client.ClientProtocolException;
@@ -135,6 +136,8 @@ public class WxMpServiceImpl implements WxMpService {
   protected WxMpConfigStorage wxMpConfigStorage;
   
   protected WxMpKefuService kefuService = new WxMpKefuServiceImpl(this);
+
+  protected WxMpMaterialService materialService = new WxMpMaterialServiceImpl(this);
 
   protected CloseableHttpClient httpClient;
 
@@ -306,119 +309,6 @@ public class WxMpServiceImpl implements WxMpService {
         return null;
       }
       throw e;
-    }
-  }
-
-  @Override
-  public WxMediaUploadResult mediaUpload(String mediaType, String fileType, InputStream inputStream) throws WxErrorException, IOException {
-    return mediaUpload(mediaType, FileUtils.createTmpFile(inputStream, UUID.randomUUID().toString(), fileType));
-  }
-
-  @Override
-  public WxMediaUploadResult mediaUpload(String mediaType, File file) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/media/upload?type=" + mediaType;
-    return execute(new MediaUploadRequestExecutor(), url, file);
-  }
-
-  @Override
-  public File mediaDownload(String media_id) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/media/get";
-    return execute(new MediaDownloadRequestExecutor(this.wxMpConfigStorage.getTmpDirFile()), url, "media_id=" + media_id);
-  }
-
-  @Override
-  public WxMpMaterialUploadResult materialFileUpload(String mediaType, WxMpMaterial material) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/material/add_material?type=" + mediaType;
-    return execute(new MaterialUploadRequestExecutor(), url, material);
-  }
-
-  @Override
-  public WxMpMaterialUploadResult materialNewsUpload(WxMpMaterialNews news) throws WxErrorException {
-    if (news == null || news.isEmpty()) {
-      throw new IllegalArgumentException("news is empty!");
-    }
-    String url = "https://api.weixin.qq.com/cgi-bin/material/add_news";
-    String responseContent = post(url, news.toJson());
-    return WxMpMaterialUploadResult.fromJson(responseContent);
-  }
-
-  @Override
-  public InputStream materialImageOrVoiceDownload(String media_id) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/material/get_material";
-    return execute(new MaterialVoiceAndImageDownloadRequestExecutor(this.wxMpConfigStorage.getTmpDirFile()), url, media_id);
-  }
-
-  @Override
-  public WxMpMaterialVideoInfoResult materialVideoInfo(String media_id) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/material/get_material";
-    return execute(new MaterialVideoInfoRequestExecutor(), url, media_id);
-  }
-
-  @Override
-  public WxMpMaterialNews materialNewsInfo(String media_id) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/material/get_material";
-    return execute(new MaterialNewsInfoRequestExecutor(), url, media_id);
-  }
-
-  @Override
-  public boolean materialNewsUpdate(WxMpMaterialArticleUpdate wxMpMaterialArticleUpdate) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/material/update_news";
-    String responseText = post(url, wxMpMaterialArticleUpdate.toJson());
-    WxError wxError = WxError.fromJson(responseText);
-    if (wxError.getErrorCode() == 0) {
-      return true;
-    } else {
-      throw new WxErrorException(wxError);
-    }
-  }
-
-  @Override
-  public boolean materialDelete(String media_id) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/material/del_material";
-    return execute(new MaterialDeleteRequestExecutor(), url, media_id);
-  }
-
-  @Override
-  public WxMpMaterialCountResult materialCount() throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/material/get_materialcount";
-    String responseText = get(url, null);
-    WxError wxError = WxError.fromJson(responseText);
-    if (wxError.getErrorCode() == 0) {
-      return WxMpGsonBuilder.create().fromJson(responseText, WxMpMaterialCountResult.class);
-    } else {
-      throw new WxErrorException(wxError);
-    }
-  }
-
-  @Override
-  public WxMpMaterialNewsBatchGetResult materialNewsBatchGet(int offset, int count) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/material/batchget_material";
-    Map<String, Object> params = new HashMap<>();
-    params.put("type", WxConsts.MATERIAL_NEWS);
-    params.put("offset", offset);
-    params.put("count", count);
-    String responseText = post(url, WxGsonBuilder.create().toJson(params));
-    WxError wxError = WxError.fromJson(responseText);
-    if (wxError.getErrorCode() == 0) {
-      return WxMpGsonBuilder.create().fromJson(responseText, WxMpMaterialNewsBatchGetResult.class);
-    } else {
-      throw new WxErrorException(wxError);
-    }
-  }
-
-  @Override
-  public WxMpMaterialFileBatchGetResult materialFileBatchGet(String type, int offset, int count) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/material/batchget_material";
-    Map<String, Object> params = new HashMap<>();
-    params.put("type", type);
-    params.put("offset", offset);
-    params.put("count", count);
-    String responseText = post(url, WxGsonBuilder.create().toJson(params));
-    WxError wxError = WxError.fromJson(responseText);
-    if (wxError.getErrorCode() == 0) {
-      return WxMpGsonBuilder.create().fromJson(responseText, WxMpMaterialFileBatchGetResult.class);
-    } else {
-      throw new WxErrorException(wxError);
     }
   }
 
@@ -877,6 +767,7 @@ public class WxMpServiceImpl implements WxMpService {
     this.httpClient = apacheHttpClientBuilder.build();
   }
 
+  @Override
   public WxMpConfigStorage getWxMpConfigStorage() {
     return this.wxMpConfigStorage;
   }
@@ -1407,12 +1298,6 @@ public class WxMpServiceImpl implements WxMpService {
   }
 
   @Override
-  public WxMediaImgUploadResult mediaImgUpload(File file) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/media/uploadimg";
-    return execute(new MediaImgUploadRequestExecutor(), url, file);
-  }
-
-  @Override
   public String setIndustry(WxMpIndustry wxMpIndustry) throws WxErrorException {
     if (null == wxMpIndustry.getPrimaryIndustry() || null == wxMpIndustry.getPrimaryIndustry().getId()
         || null == wxMpIndustry.getSecondIndustry() || null == wxMpIndustry.getSecondIndustry().getId()) {
@@ -1432,6 +1317,11 @@ public class WxMpServiceImpl implements WxMpService {
   @Override
   public WxMpKefuService getKefuService() {
     return this.kefuService;
+  }
+
+  @Override
+  public WxMpMaterialService getMaterialService() {
+    return this.materialService;
   }
   
 }

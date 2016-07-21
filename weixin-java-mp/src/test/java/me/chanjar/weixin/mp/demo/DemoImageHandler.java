@@ -18,7 +18,7 @@ public class DemoImageHandler implements WxMpMessageHandler {
   public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context,
       WxMpService wxMpService, WxSessionManager sessionManager) {
     try {
-      WxMediaUploadResult wxMediaUploadResult = wxMpService
+      WxMediaUploadResult wxMediaUploadResult = wxMpService.getMaterialService()
           .mediaUpload(WxConsts.MEDIA_IMAGE, WxConsts.FILE_JPG, ClassLoader.getSystemResourceAsStream("mm.jpeg"));
       WxMpXmlOutImageMessage m
           = WxMpXmlOutMessage

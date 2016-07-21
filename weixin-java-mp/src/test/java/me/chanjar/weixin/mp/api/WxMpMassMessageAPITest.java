@@ -91,7 +91,7 @@ public class WxMpMassMessageAPITest {
     {
       // 上传视频到媒体库
       InputStream inputStream = ClassLoader.getSystemResourceAsStream("mm.mp4");
-      WxMediaUploadResult uploadMediaRes = wxService.mediaUpload(WxConsts.MEDIA_VIDEO, WxConsts.FILE_MP4, inputStream);
+      WxMediaUploadResult uploadMediaRes = wxService.getMaterialService().mediaUpload(WxConsts.MEDIA_VIDEO, WxConsts.FILE_MP4, inputStream);
       Assert.assertNotNull(uploadMediaRes);
       Assert.assertNotNull(uploadMediaRes.getMediaId());
       
@@ -110,7 +110,7 @@ public class WxMpMassMessageAPITest {
      */
     {
       InputStream inputStream = ClassLoader.getSystemResourceAsStream("mm.jpeg");
-      WxMediaUploadResult uploadMediaRes = wxService.mediaUpload(WxConsts.MEDIA_IMAGE, WxConsts.FILE_JPG, inputStream);
+      WxMediaUploadResult uploadMediaRes = wxService.getMaterialService().mediaUpload(WxConsts.MEDIA_IMAGE, WxConsts.FILE_JPG, inputStream);
       Assert.assertNotNull(uploadMediaRes);
       Assert.assertNotNull(uploadMediaRes.getMediaId());
       messages[1] = new Object[] { WxConsts.MASS_MSG_IMAGE, uploadMediaRes.getMediaId() };
@@ -120,7 +120,7 @@ public class WxMpMassMessageAPITest {
      */
     {
       InputStream inputStream = ClassLoader.getSystemResourceAsStream("mm.mp3");
-      WxMediaUploadResult uploadMediaRes = wxService.mediaUpload(WxConsts.MEDIA_VOICE, WxConsts.FILE_MP3, inputStream);
+      WxMediaUploadResult uploadMediaRes = wxService.getMaterialService().mediaUpload(WxConsts.MEDIA_VOICE, WxConsts.FILE_MP3, inputStream);
       Assert.assertNotNull(uploadMediaRes);
       Assert.assertNotNull(uploadMediaRes.getMediaId());
       messages[2] = new Object[] { WxConsts.MASS_MSG_VOICE, uploadMediaRes.getMediaId() };
@@ -131,7 +131,7 @@ public class WxMpMassMessageAPITest {
     {
       // 上传照片到媒体库
       InputStream inputStream = ClassLoader.getSystemResourceAsStream("mm.jpeg");
-      WxMediaUploadResult uploadMediaRes = wxService.mediaUpload(WxConsts.MEDIA_IMAGE, WxConsts.FILE_JPG, inputStream);
+      WxMediaUploadResult uploadMediaRes = wxService.getMaterialService().mediaUpload(WxConsts.MEDIA_IMAGE, WxConsts.FILE_JPG, inputStream);
       Assert.assertNotNull(uploadMediaRes);
       Assert.assertNotNull(uploadMediaRes.getMediaId());
       
