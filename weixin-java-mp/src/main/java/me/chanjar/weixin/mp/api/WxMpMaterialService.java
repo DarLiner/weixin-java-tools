@@ -19,10 +19,11 @@ public interface WxMpMaterialService {
 
   /**
    * 新增临时素材
-   * @see #mediaUpload(String, String, InputStream)
+   *
    * @param mediaType
    * @param file
    * @throws WxErrorException
+   * @see #mediaUpload(String, String, InputStream)
    */
   public WxMediaUploadResult mediaUpload(String mediaType, File file) throws WxErrorException;
 
@@ -33,6 +34,7 @@ public interface WxMpMaterialService {
    * 根据微信文档，视频文件下载不了，会返回null
    * 详情请见: <a href="http://mp.weixin.qq.com/wiki/9/677a85e3f3849af35de54bb5516c2521.html">获取临时素材</a>
    * </pre>
+   *
    * @param media_id
    * @return 保存到本地的临时文件
    * @throws WxErrorException
@@ -44,6 +46,7 @@ public interface WxMpMaterialService {
    * 上传图文消息内的图片获取URL
    * 详情请见：http://mp.weixin.qq.com/wiki/15/40b6865b893947b764e2de8e4a1fb55f.html#.E4.B8.8A.E4.BC.A0.E5.9B.BE.E6.96.87.E6.B6.88.E6.81.AF.E5.86.85.E7.9A.84.E5.9B.BE.E7.89.87.E8.8E.B7.E5.8F.96URL.E3.80.90.E8.AE.A2.E9.98.85.E5.8F.B7.E4.B8.8E.E6.9C.8D.E5.8A.A1.E5.8F.B7.E8.AE.A4.E8.AF.81.E5.90.8E.E5.9D.87.E5.8F.AF.E7.94.A8.E3.80.91
    * </pre>
+   *
    * @param file
    * @return WxMediaImgUploadResult 返回图片url
    * @throws WxErrorException
@@ -63,9 +66,10 @@ public interface WxMpMaterialService {
    *
    * 详情请见: <a href="http://mp.weixin.qq.com/wiki/15/2d353966323806a202cd2deaafe8e557.html">新增临时素材</a>
    * </pre>
-   * @param mediaType         媒体类型, 请看{@link me.chanjar.weixin.common.api.WxConsts}
-   * @param fileType          文件类型，请看{@link me.chanjar.weixin.common.api.WxConsts}
-   * @param inputStream       输入流
+   *
+   * @param mediaType   媒体类型, 请看{@link me.chanjar.weixin.common.api.WxConsts}
+   * @param fileType    文件类型，请看{@link me.chanjar.weixin.common.api.WxConsts}
+   * @param inputStream 输入流
    * @throws WxErrorException
    */
   public WxMediaUploadResult mediaUpload(String mediaType, String fileType, InputStream inputStream) throws WxErrorException, IOException;
@@ -82,8 +86,9 @@ public interface WxMpMaterialService {
    *
    * 详情请见: http://mp.weixin.qq.com/wiki/14/7e6c03263063f4813141c3e17dd4350a.html
    * </pre>
-   * @param mediaType         媒体类型, 请看{@link me.chanjar.weixin.common.api.WxConsts}
-   * @param material          上传的素材, 请看{@link me.chanjar.weixin.mp.bean.WxMpMaterial}
+   *
+   * @param mediaType 媒体类型, 请看{@link me.chanjar.weixin.common.api.WxConsts}
+   * @param material  上传的素材, 请看{@link me.chanjar.weixin.mp.bean.WxMpMaterial}
    */
   public WxMpMaterialUploadResult materialFileUpload(String mediaType, WxMpMaterial material) throws WxErrorException;
 
@@ -93,7 +98,8 @@ public interface WxMpMaterialService {
    *
    * 详情请见: http://mp.weixin.qq.com/wiki/14/7e6c03263063f4813141c3e17dd4350a.html
    * </pre>
-   * @param news              上传的图文消息, 请看{@link me.chanjar.weixin.mp.bean.WxMpMaterialNews}
+   *
+   * @param news 上传的图文消息, 请看{@link me.chanjar.weixin.mp.bean.WxMpMaterialNews}
    */
   public WxMpMaterialUploadResult materialNewsUpload(WxMpMaterialNews news) throws WxErrorException;
 
@@ -103,7 +109,8 @@ public interface WxMpMaterialService {
    *
    * 详情请见: http://mp.weixin.qq.com/wiki/4/b3546879f07623cb30df9ca0e420a5d0.html
    * </pre>
-   * @param media_id          永久素材的id
+   *
+   * @param media_id 永久素材的id
    */
   public InputStream materialImageOrVoiceDownload(String media_id) throws WxErrorException;
 
@@ -113,7 +120,8 @@ public interface WxMpMaterialService {
    *
    * 详情请见: http://mp.weixin.qq.com/wiki/4/b3546879f07623cb30df9ca0e420a5d0.html
    * </pre>
-   * @param media_id          永久素材的id
+   *
+   * @param media_id 永久素材的id
    */
   public WxMpMaterialVideoInfoResult materialVideoInfo(String media_id) throws WxErrorException;
 
@@ -123,7 +131,8 @@ public interface WxMpMaterialService {
    *
    * 详情请见: http://mp.weixin.qq.com/wiki/4/b3546879f07623cb30df9ca0e420a5d0.html
    * </pre>
-   * @param media_id          永久素材的id
+   *
+   * @param media_id 永久素材的id
    */
   public WxMpMaterialNews materialNewsInfo(String media_id) throws WxErrorException;
 
@@ -133,7 +142,8 @@ public interface WxMpMaterialService {
    *
    * 详情请见: http://mp.weixin.qq.com/wiki/4/19a59cba020d506e767360ca1be29450.html
    * </pre>
-   * @param wxMpMaterialArticleUpdate     用来更新图文素材的bean, 请看{@link me.chanjar.weixin.mp.bean.WxMpMaterialArticleUpdate}
+   *
+   * @param wxMpMaterialArticleUpdate 用来更新图文素材的bean, 请看{@link me.chanjar.weixin.mp.bean.WxMpMaterialArticleUpdate}
    */
   public boolean materialNewsUpdate(WxMpMaterialArticleUpdate wxMpMaterialArticleUpdate) throws WxErrorException;
 
@@ -143,7 +153,8 @@ public interface WxMpMaterialService {
    *
    * 详情请见: http://mp.weixin.qq.com/wiki/5/e66f61c303db51a6c0f90f46b15af5f5.html
    * </pre>
-   * @param media_id          永久素材的id
+   *
+   * @param media_id 永久素材的id
    */
   public boolean materialDelete(String media_id) throws WxErrorException;
 
@@ -162,8 +173,9 @@ public interface WxMpMaterialService {
    *
    * 详情请见: http://mp.weixin.qq.com/wiki/12/2108cd7aafff7f388f41f37efa710204.html
    * </pre>
-   * @param offset      从全部素材的该偏移位置开始返回，0表示从第一个素材 返回
-   * @param count       返回素材的数量，取值在1到20之间
+   *
+   * @param offset 从全部素材的该偏移位置开始返回，0表示从第一个素材 返回
+   * @param count  返回素材的数量，取值在1到20之间
    */
   public WxMpMaterialNewsBatchGetResult materialNewsBatchGet(int offset, int count) throws WxErrorException;
 
@@ -173,9 +185,10 @@ public interface WxMpMaterialService {
    *
    * 详情请见: http://mp.weixin.qq.com/wiki/12/2108cd7aafff7f388f41f37efa710204.html
    * </pre>
-   * @param type        媒体类型, 请看{@link me.chanjar.weixin.common.api.WxConsts}
-   * @param offset      从全部素材的该偏移位置开始返回，0表示从第一个素材 返回
-   * @param count       返回素材的数量，取值在1到20之间
+   *
+   * @param type   媒体类型, 请看{@link me.chanjar.weixin.common.api.WxConsts}
+   * @param offset 从全部素材的该偏移位置开始返回，0表示从第一个素材 返回
+   * @param count  返回素材的数量，取值在1到20之间
    */
   public WxMpMaterialFileBatchGetResult materialFileBatchGet(String type, int offset, int count) throws WxErrorException;
 

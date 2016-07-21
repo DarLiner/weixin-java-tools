@@ -2,16 +2,11 @@ package me.chanjar.weixin.mp.api;
 
 import me.chanjar.weixin.common.bean.WxMenu;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.mp.bean.kefu.request.WxMpKfAccountRequest;
-import me.chanjar.weixin.mp.bean.kefu.result.*;
-
-import java.io.File;
-import java.util.Date;
 
 /**
  * 菜单相关操作接口
- * @author Binary Wang
  *
+ * @author Binary Wang
  */
 public interface WxMpMenuService {
 
@@ -38,6 +33,7 @@ public interface WxMpMenuService {
    * 删除个性化菜单接口
    * 详情请见: http://mp.weixin.qq.com/wiki/0/c48ccd12b69ae023159b4bfaa7c39c20.html
    * </pre>
+   *
    * @param menuid
    */
   public void menuDelete(String menuid) throws WxErrorException;
@@ -55,6 +51,7 @@ public interface WxMpMenuService {
    * 测试个性化菜单匹配结果
    * 详情请见: http://mp.weixin.qq.com/wiki/0/c48ccd12b69ae023159b4bfaa7c39c20.html
    * </pre>
+   *
    * @param userid 可以是粉丝的OpenID，也可以是粉丝的微信号。
    */
   public WxMenu menuTryMatch(String userid) throws WxErrorException;

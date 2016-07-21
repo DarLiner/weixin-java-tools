@@ -63,7 +63,7 @@ public class WxMpMassMessageAPITest {
     WxMpMassGroupMessage massMessage = new WxMpMassGroupMessage();
     massMessage.setMsgtype(WxConsts.MASS_MSG_TEXT);
     massMessage.setContent("测试群发消息\n欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>");
-    massMessage.setGroupId(wxService.groupGet().get(0).getId());
+    massMessage.setGroupId(wxService.getGroupService().groupGet().get(0).getId());
     
     WxMpMassSendResult massResult = wxService.massGroupMessageSend(massMessage);
     Assert.assertNotNull(massResult);
@@ -75,7 +75,7 @@ public class WxMpMassMessageAPITest {
     WxMpMassGroupMessage massMessage = new WxMpMassGroupMessage();
     massMessage.setMsgtype(massMsgType);
     massMessage.setMediaId(mediaId);
-    massMessage.setGroupId(wxService.groupGet().get(0).getId());
+    massMessage.setGroupId(wxService.getGroupService().groupGet().get(0).getId());
 
     WxMpMassSendResult massResult = wxService.massGroupMessageSend(massMessage);
     Assert.assertNotNull(massResult);

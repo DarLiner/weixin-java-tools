@@ -44,4 +44,9 @@ public class WxMpUserList {
   public static WxMpUserList fromJson(String json) {
     return WxMpGsonBuilder.INSTANCE.create().fromJson(json, WxMpUserList.class);
   }
+
+  @Override
+  public String toString() {
+    return  WxMpGsonBuilder.INSTANCE.create().toJson(this);
+  }
 }

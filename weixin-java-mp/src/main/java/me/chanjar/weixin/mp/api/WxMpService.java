@@ -1,40 +1,14 @@
 package me.chanjar.weixin.mp.api;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 import me.chanjar.weixin.common.bean.WxCardApiSignature;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
-import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
-import me.chanjar.weixin.mp.bean.WxMpGroup;
-import me.chanjar.weixin.mp.bean.WxMpIndustry;
-import me.chanjar.weixin.mp.bean.WxMpMassGroupMessage;
-import me.chanjar.weixin.mp.bean.WxMpMassNews;
-import me.chanjar.weixin.mp.bean.WxMpMassOpenIdsMessage;
-import me.chanjar.weixin.mp.bean.WxMpMassPreviewMessage;
-import me.chanjar.weixin.mp.bean.WxMpMassVideo;
-import me.chanjar.weixin.mp.bean.WxMpSemanticQuery;
-import me.chanjar.weixin.mp.bean.WxMpTemplateMessage;
-import me.chanjar.weixin.mp.bean.result.WxMpCardResult;
-import me.chanjar.weixin.mp.bean.result.WxMpMassSendResult;
-import me.chanjar.weixin.mp.bean.result.WxMpMassUploadResult;
-import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
-import me.chanjar.weixin.mp.bean.result.WxMpPayCallback;
-import me.chanjar.weixin.mp.bean.result.WxMpPayRefundResult;
-import me.chanjar.weixin.mp.bean.result.WxMpPayResult;
-import me.chanjar.weixin.mp.bean.result.WxMpPrepayIdResult;
-import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
-import me.chanjar.weixin.mp.bean.result.WxMpSemanticQueryResult;
-import me.chanjar.weixin.mp.bean.result.WxMpUser;
-import me.chanjar.weixin.mp.bean.result.WxMpUserCumulate;
-import me.chanjar.weixin.mp.bean.result.WxMpUserList;
-import me.chanjar.weixin.mp.bean.result.WxMpUserSummary;
-import me.chanjar.weixin.mp.bean.result.WxRedpackResult;
+import me.chanjar.weixin.mp.bean.*;
+import me.chanjar.weixin.mp.bean.result.*;
+
+import java.text.SimpleDateFormat;
+import java.util.Map;
 
 /**
  * 微信API的Service
@@ -42,6 +16,7 @@ import me.chanjar.weixin.mp.bean.result.WxRedpackResult;
 public interface WxMpService {
 
   public static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+
   /**
    * <pre>
    * 验证推送过来的消息的正确性
@@ -52,6 +27,7 @@ public interface WxMpService {
 
   /**
    * 获取access_token, 不强制刷新access_token
+   *
    * @see #getAccessToken(boolean)
    */
   public String getAccessToken() throws WxErrorException;
@@ -64,15 +40,17 @@ public interface WxMpService {
    * 另：本service的所有方法都会在access_token过期是调用此方法
    *
    * 程序员在非必要情况下尽量不要主动调用此方法
-
+   *
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=获取access_token
    * </pre>
+   *
    * @param forceRefresh 强制刷新
    */
   public String getAccessToken(boolean forceRefresh) throws WxErrorException;
 
   /**
    * 获得jsapi_ticket,不强制刷新jsapi_ticket
+   *
    * @see #getJsapiTicket(boolean)
    */
   public String getJsapiTicket() throws WxErrorException;
@@ -84,6 +62,7 @@ public interface WxMpService {
    *
    * 详情请见：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E9.99.84.E5.BD.951-JS-SDK.E4.BD.BF.E7.94.A8.E6.9D.83.E9.99.90.E7.AD.BE.E5.90.8D.E7.AE.97.E6.B3.95
    * </pre>
+   *
    * @param forceRefresh 强制刷新
    */
   public String getJsapiTicket(boolean forceRefresh) throws WxErrorException;
@@ -111,6 +90,7 @@ public interface WxMpService {
    *
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=高级群发接口
    * </pre>
+   *
    * @param news
    * @throws WxErrorException
    * @see #massGroupMessageSend(me.chanjar.weixin.mp.bean.WxMpMassGroupMessage)
@@ -123,6 +103,7 @@ public interface WxMpService {
    * 上传群发用的视频，上传后才能群发视频消息
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=高级群发接口
    * </pre>
+   *
    * @see #massGroupMessageSend(me.chanjar.weixin.mp.bean.WxMpMassGroupMessage)
    * @see #massOpenIdsMessageSend(me.chanjar.weixin.mp.bean.WxMpMassOpenIdsMessage)
    */
@@ -150,144 +131,10 @@ public interface WxMpService {
 
   /**
    * <pre>
-   * 分组管理接口 - 创建分组
-   * 最多支持创建500个分组
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=分组管理接口
-   * </pre>
-   * @param name 分组名字（30个字符以内）
-   */
-  public WxMpGroup groupCreate(String name) throws WxErrorException;
-
-  /**
-   * <pre>
-   * 分组管理接口 - 查询所有分组
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=分组管理接口
-   * </pre>
-   */
-  public List<WxMpGroup> groupGet() throws WxErrorException;
-
-  /**
-   * <pre>
-   * 分组管理接口 - 查询用户所在分组
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=分组管理接口
-   * </pre>
-   * @param openid 微信用户的openid
-   */
-  public long userGetGroup(String openid) throws WxErrorException;
-
-  /**
-   * <pre>
-   * 分组管理接口 - 修改分组名
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=分组管理接口
-   *
-   * 如果id为0(未分组),1(黑名单),2(星标组)，或者不存在的id，微信会返回系统繁忙的错误
-   * </pre>
-   * @param group 要更新的group，group的id,name必须设置
-   */
-  public void groupUpdate(WxMpGroup group) throws WxErrorException;
-
-  /**
-   * <pre>
-   * 分组管理接口 - 移动用户分组
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=分组管理接口
-   *
-   * 如果to_groupid为0(未分组),1(黑名单),2(星标组)，或者不存在的id，微信会返回系统繁忙的错误
-   * </pre>
-   * @param openid      用户openid
-   * @param to_groupid  移动到的分组id
-   */
-  public void userUpdateGroup(String openid, long to_groupid) throws WxErrorException;
-
-  /**
-   * <pre>
-   * 设置用户备注名接口
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=设置用户备注名接口
-   * </pre>
-   * @param openid    用户openid
-   * @param remark    备注名
-   */
-  public void userUpdateRemark(String openid, String remark) throws WxErrorException;
-
-  /**
-   * <pre>
-   * 获取用户基本信息
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=获取用户基本信息
-   * </pre>
-   * @param openid  用户openid
-   * @param lang    语言，zh_CN 简体(默认)，zh_TW 繁体，en 英语
-   */
-  public WxMpUser userInfo(String openid, String lang) throws WxErrorException;
-
-  /**
-   * <pre>
-   * 获取关注者列表
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=获取关注者列表
-   * </pre>
-   * @param next_openid  可选，第一个拉取的OPENID，null为从头开始拉取
-   */
-  public WxMpUserList userList(String next_openid) throws WxErrorException;
-
-  /**
-   * <pre>
-   * 换取临时二维码ticket
-   * 详情请见: <a href="http://mp.weixin.qq.com/wiki/18/167e7d94df85d8389df6c94a7a8f78ba.html">生成带参数的二维码</a>
-   * </pre>
-   * @param scene_id          参数。
-   * @param expire_seconds    过期秒数，默认60秒，最小60秒，最大1800秒
-   */
-  public WxMpQrCodeTicket qrCodeCreateTmpTicket(int scene_id, Integer expire_seconds) throws WxErrorException;
-
-  /**
-   * <pre>
-   * 换取永久二维码ticket
-   * 详情请见: <a href="http://mp.weixin.qq.com/wiki/18/167e7d94df85d8389df6c94a7a8f78ba.html">生成带参数的二维码</a>
-   * </pre>
-   * @param scene_id    参数。永久二维码时最大值为100000（目前参数只支持1--100000）
-   */
-  public WxMpQrCodeTicket qrCodeCreateLastTicket(int scene_id) throws WxErrorException;
-
-  /**
-   * <pre>
-   * 换取永久字符串二维码ticket
-   * 详情请见: <a href="http://mp.weixin.qq.com/wiki/18/167e7d94df85d8389df6c94a7a8f78ba.html">生成带参数的二维码</a>
-   * </pre>
-   *
-   * @param scene_str 参数。字符串类型长度现在为1到64
-   */
-  public WxMpQrCodeTicket qrCodeCreateLastTicket(String scene_str) throws WxErrorException;
-
-  /**
-   * <pre>
-   * 换取二维码图片文件，jpg格式
-   * 详情请见: <a href="http://mp.weixin.qq.com/wiki/18/167e7d94df85d8389df6c94a7a8f78ba.html">生成带参数的二维码</a>
-   * </pre>
-   * @param ticket    二维码ticket
-   */
-  public File qrCodePicture(WxMpQrCodeTicket ticket) throws WxErrorException;
-
-  /**
-   * <pre>
-   * 换取二维码图片url地址（可以选择是否生成压缩的网址）
-   * 详情请见: <a href="http://mp.weixin.qq.com/wiki/18/167e7d94df85d8389df6c94a7a8f78ba.html">生成带参数的二维码</a>
-   * </pre>
-   * @param ticket    二维码ticket
-   * @param needShortUrl 是否需要压缩的二维码地址
-   */
-  public String qrCodePictureUrl(String ticket, boolean needShortUrl) throws WxErrorException;
-  /**
-   * <pre>
-   * 换取二维码图片url地址
-   * 详情请见: <a href="http://mp.weixin.qq.com/wiki/18/167e7d94df85d8389df6c94a7a8f78ba.html">生成带参数的二维码</a>
-   * </pre>
-   * @param ticket    二维码ticket
-   */
-  public String qrCodePictureUrl(String ticket) throws WxErrorException;
-
-  /**
-   * <pre>
    * 长链接转短链接接口
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=长链接转短链接接口
    * </pre>
+   *
    * @param long_url
    */
   public String shortUrl(String long_url) throws WxErrorException;
@@ -297,9 +144,10 @@ public interface WxMpService {
    * 发送模板消息
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=模板消息接口
    * </pre>
+   *
    * @param templateMessage
-   * @throws WxErrorException
    * @return msgid
+   * @throws WxErrorException
    */
   public String templateSend(WxMpTemplateMessage templateMessage) throws WxErrorException;
 
@@ -316,6 +164,7 @@ public interface WxMpService {
    * 构造oauth2授权的url连接
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=网页授权获取用户基本信息
    * </pre>
+   *
    * @param scope
    * @param state
    * @return url
@@ -327,8 +176,8 @@ public interface WxMpService {
    * 构造oauth2授权的url连接
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=网页授权获取用户基本信息
    * </pre>
-   * @param redirectURI
-   *   用户授权完成后的重定向链接，无需urlencode, 方法内会进行encode
+   *
+   * @param redirectURI 用户授权完成后的重定向链接，无需urlencode, 方法内会进行encode
    * @param scope
    * @param state
    * @return url
@@ -354,8 +203,9 @@ public interface WxMpService {
    * <pre>
    * 用oauth2获取用户信息, 当前面引导授权时的scope是snsapi_userinfo的时候才可以
    * </pre>
+   *
    * @param oAuth2AccessToken
-   * @param lang zh_CN, zh_TW, en
+   * @param lang              zh_CN, zh_TW, en
    */
   public WxMpUser oauth2getUserInfo(WxMpOAuth2AccessToken oAuth2AccessToken, String lang) throws WxErrorException;
 
@@ -363,6 +213,7 @@ public interface WxMpService {
    * <pre>
    * 验证oauth2的access token是否有效
    * </pre>
+   *
    * @param oAuth2AccessToken
    */
   public boolean oauth2validateAccessToken(WxMpOAuth2AccessToken oAuth2AccessToken);
@@ -374,26 +225,6 @@ public interface WxMpService {
    * </pre>
    */
   String[] getCallbackIP() throws WxErrorException;
-
-  /**
-   * <pre>
-   * 获取用户增减数据
-   * http://mp.weixin.qq.com/wiki/3/ecfed6e1a0a03b5f35e5efac98e864b7.html
-   * </pre>
-   * @param beginDate 最大时间跨度7天
-   * @param endDate   endDate不能早于begingDate
-   */
-  List<WxMpUserSummary> getUserSummary(Date beginDate, Date endDate) throws WxErrorException;
-
-  /**
-   * <pre>
-   * 获取累计用户数据
-   * http://mp.weixin.qq.com/wiki/3/ecfed6e1a0a03b5f35e5efac98e864b7.html
-   * </pre>
-   * @param beginDate 最大时间跨度7天
-   * @param endDate   endDate不能早于begingDate
-   */
-  List<WxMpUserCumulate> getUserCumulate(Date beginDate, Date endDate) throws WxErrorException;
 
   /**
    * 当本Service没有实现某个API的时候，可以用这个，针对所有微信API中的GET请求
@@ -438,13 +269,14 @@ public interface WxMpService {
   /**
    * 统一下单(详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1)
    * 在发起微信支付前，需要调用统一下单接口，获取"预支付交易会话标识"
-   * @param openId 支付人openId
+   *
+   * @param openId     支付人openId
    * @param outTradeNo 商户端对应订单号
-   * @param amt 金额(单位元)
-   * @param body 商品描述
-   * @param tradeType 交易类型 JSAPI，NATIVE，APP，WAP
-   * @param ip 发起支付的客户端IP
-   * @param notifyUrl 通知地址
+   * @param amt        金额(单位元)
+   * @param body       商品描述
+   * @param tradeType  交易类型 JSAPI，NATIVE，APP，WAP
+   * @param ip         发起支付的客户端IP
+   * @param notifyUrl  通知地址
    * @deprecated Use me.chanjar.weixin.mp.api.WxMpService.getPrepayId(Map<String, String>) instead
    */
   @Deprecated
@@ -454,8 +286,7 @@ public interface WxMpService {
    * 统一下单(详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1)
    * 在发起微信支付前，需要调用统一下单接口，获取"预支付交易会话标识"
    *
-   * @param parameters
-   *            All required/optional parameters for weixin payment
+   * @param parameters All required/optional parameters for weixin payment
    * @throws IllegalArgumentException
    */
   WxMpPrepayIdResult getPrepayId(Map<String, String> parameters);
@@ -463,21 +294,22 @@ public interface WxMpService {
   /**
    * 该接口调用“统一下单”接口，并拼装发起支付请求需要的参数
    * 详见http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E5.8F.91.E8.B5.B7.E4.B8.80.E4.B8.AA.E5.BE.AE.E4.BF.A1.E6.94.AF.E4.BB.98.E8.AF.B7.E6.B1.82
-   * @param parameters
-   *            the required or optional parameters
+   *
+   * @param parameters the required or optional parameters
    */
-  Map<String, String> getPayInfo(Map<String, String> parameters) throws WxErrorException;  	
-  	
+  Map<String, String> getPayInfo(Map<String, String> parameters) throws WxErrorException;
+
   /**
    * 该接口调用“统一下单”接口，并拼装NATIVE发起支付请求需要的参数
    * 详见http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E5.8F.91.E8.B5.B7.E4.B8.80.E4.B8.AA.E5.BE.AE.E4.BF.A1.E6.94.AF.E4.BB.98.E8.AF.B7.E6.B1.82
-   * tradeType 交易类型 NATIVE （其他交易类型JSAPI，APP，WAP） 
-   * @param productId 商户商品ID
+   * tradeType 交易类型 NATIVE （其他交易类型JSAPI，APP，WAP）
+   *
+   * @param productId  商户商品ID
    * @param outTradeNo 商户端对应订单号
-   * @param amt 金额(单位元)
-   * @param body 商品描述
-   * @param ip 发起支付的客户端IP
-   * @param notifyUrl 通知地址
+   * @param amt        金额(单位元)
+   * @param body       商品描述
+   * @param ip         发起支付的客户端IP
+   * @param notifyUrl  通知地址
    * @deprecated Use me.chanjar.weixin.mp.api.WxMpService.getPayInfo(Map<String, String>) instead
    */
   @Deprecated
@@ -487,12 +319,13 @@ public interface WxMpService {
    * 该接口调用“统一下单”接口，并拼装JSAPI发起支付请求需要的参数
    * 详见http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E5.8F.91.E8.B5.B7.E4.B8.80.E4.B8.AA.E5.BE.AE.E4.BF.A1.E6.94.AF.E4.BB.98.E8.AF.B7.E6.B1.82
    * tradeType 交易类型 JSAPI(其他交易类型NATIVE，APP，WAP)
-   * @param openId 支付人openId
+   *
+   * @param openId     支付人openId
    * @param outTradeNo 商户端对应订单号
-   * @param amt 金额(单位元)
-   * @param body 商品描述
-   * @param ip 发起支付的客户端IP
-   * @param notifyUrl 通知地址
+   * @param amt        金额(单位元)
+   * @param body       商品描述
+   * @param ip         发起支付的客户端IP
+   * @param notifyUrl  通知地址
    * @deprecated Use me.chanjar.weixin.mp.api.WxMpService.getPayInfo(Map<String, String>) instead
    */
   @Deprecated
@@ -501,6 +334,7 @@ public interface WxMpService {
   /**
    * 该接口提供所有微信支付订单的查询,当支付通知处理异常戒丢失的情冴,商户可以通过该接口查询订单支付状态。
    * 详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_2
+   *
    * @param transactionId
    * @param outTradeNo
    */
@@ -509,6 +343,7 @@ public interface WxMpService {
   /**
    * 读取支付结果通知
    * 详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_7
+   *
    * @param xmlData
    */
   WxMpPayCallback getJSSDKCallbackData(String xmlData);
@@ -516,12 +351,13 @@ public interface WxMpService {
   /**
    * 微信支付-申请退款
    * 详见 https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_4
+   *
    * @param parameters 需要传入的退款参数的Map。以下几项为参数的必须项：<br/>
-   *        <li/> transaction_id
-   *        <li/> out_trade_no （仅在上述transaction_id为空时是必须项）
-   *        <li/> out_refund_no
-   *        <li/> total_fee
-   *        <li/> refund_fee
+   *                   <li/> transaction_id
+   *                   <li/> out_trade_no （仅在上述transaction_id为空时是必须项）
+   *                   <li/> out_refund_no
+   *                   <li/> total_fee
+   *                   <li/> refund_fee
    * @return 退款操作结果
    * @throws WxErrorException
    */
@@ -532,39 +368,41 @@ public interface WxMpService {
    * 计算Map键值对是否和签名相符,
    * 按照字段名的 ASCII 码从小到大排序(字典序)后,使用 URL 键值对的 格式(即 key1=value1&key2=value2...)拼接成字符串
    * </pre>
+   *
    * @param kvm
    * @param signature
    */
   public boolean checkJSSDKCallbackDataSignature(Map<String, String> kvm, String signature);
 
   /**
-  * 发送微信红包给个人用户
-  *
-  * 需要传入的必填参数如下:
-  * mch_billno//商户订单号
-  * send_name//商户名称
-  * re_openid//用户openid
-  * total_amount//红包总额
-  * total_num//红包发放总人数
-  * wishing//红包祝福语
-  * client_ip//服务器Ip地址
-  * act_name//活动名称
-  * remark //备注
-  * 文档详见:https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_5
-  *
-  * 使用现金红包功能需要在xml配置文件中额外设置:
-  * <partnerId></partnerId>微信商户平台ID
-  * <partnerKey></partnerKey>商户平台设置的API密钥
-  *
-  * @param parameters
-  */
+   * 发送微信红包给个人用户
+   * <p>
+   * 需要传入的必填参数如下:
+   * mch_billno//商户订单号
+   * send_name//商户名称
+   * re_openid//用户openid
+   * total_amount//红包总额
+   * total_num//红包发放总人数
+   * wishing//红包祝福语
+   * client_ip//服务器Ip地址
+   * act_name//活动名称
+   * remark //备注
+   * 文档详见:https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_5
+   * <p>
+   * 使用现金红包功能需要在xml配置文件中额外设置:
+   * <partnerId></partnerId>微信商户平台ID
+   * <partnerKey></partnerKey>商户平台设置的API密钥
+   *
+   * @param parameters
+   */
   public WxRedpackResult sendRedpack(Map<String, String> parameters) throws WxErrorException;
 
   /**
    * 获得卡券api_ticket，不强制刷新卡券api_ticket
-   * @see #getCardApiTicket(boolean)
+   *
    * @return 卡券api_ticket
    * @throws WxErrorException
+   * @see #getCardApiTicket(boolean)
    */
   public String getCardApiTicket() throws WxErrorException;
 
@@ -575,6 +413,7 @@ public interface WxMpService {
    *
    * 详情请见：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E9.99.84.E5.BD.954-.E5.8D.A1.E5.88.B8.E6.89.A9.E5.B1.95.E5.AD.97.E6.AE.B5.E5.8F.8A.E7.AD.BE.E5.90.8D.E7.94.9F.E6.88.90.E7.AE.97.E6.B3.95
    * </pre>
+   *
    * @param forceRefresh 强制刷新
    * @return 卡券api_ticket
    * @throws WxErrorException
@@ -591,15 +430,16 @@ public interface WxMpService {
    * </pre>
    *
    * @param optionalSignParam 参与签名的参数数组。
-   *                  可以为下列字段：app_id, card_id, card_type, code, openid, location_id
-   *                  </br>注意：当做wx.chooseCard调用时，必须传入app_id参与签名，否则会造成签名失败导致拉取卡券列表为空
+   *                          可以为下列字段：app_id, card_id, card_type, code, openid, location_id
+   *                          </br>注意：当做wx.chooseCard调用时，必须传入app_id参与签名，否则会造成签名失败导致拉取卡券列表为空
    * @return 卡券Api签名对象
    */
   public WxCardApiSignature createCardApiSignature(String... optionalSignParam) throws
-      WxErrorException;
+          WxErrorException;
 
   /**
    * 卡券Code解码
+   *
    * @param encryptCode 加密Code，通过JSSDK的chooseCard接口获得
    * @return 解密后的Code
    * @throws WxErrorException
@@ -608,14 +448,15 @@ public interface WxMpService {
 
   /**
    * 卡券Code查询
-   * @param cardId 卡券ID代表一类卡券
-   * @param code 单张卡券的唯一标准
+   *
+   * @param cardId       卡券ID代表一类卡券
+   * @param code         单张卡券的唯一标准
    * @param checkConsume 是否校验code核销状态，填入true和false时的code异常状态返回数据不同
    * @return WxMpCardResult对象
    * @throws WxErrorException
    */
   public WxMpCardResult queryCardCode(String cardId, String code, boolean checkConsume)
-    throws WxErrorException;
+          throws WxErrorException;
 
   /**
    * 卡券Code核销。核销失败会抛出异常
@@ -638,51 +479,55 @@ public interface WxMpService {
    */
   public String consumeCardCode(String code, String cardId) throws WxErrorException;
 
-    /**
-     * 卡券Mark接口。
-     * 开发者在帮助消费者核销卡券之前，必须帮助先将此code（卡券串码）与一个openid绑定（即mark住），
-     * 才能进一步调用核销接口，否则报错。
-     * @param code 卡券的code码
-     * @param cardId 卡券的ID
-     * @param openId 用券用户的openid
-     * @param isMark 是否要mark（占用）这个code，填写true或者false，表示占用或解除占用
-     * @throws WxErrorException
-     */
+  /**
+   * 卡券Mark接口。
+   * 开发者在帮助消费者核销卡券之前，必须帮助先将此code（卡券串码）与一个openid绑定（即mark住），
+   * 才能进一步调用核销接口，否则报错。
+   *
+   * @param code   卡券的code码
+   * @param cardId 卡券的ID
+   * @param openId 用券用户的openid
+   * @param isMark 是否要mark（占用）这个code，填写true或者false，表示占用或解除占用
+   * @throws WxErrorException
+   */
   public void markCardCode(String code, String cardId, String openId, boolean isMark) throws
-      WxErrorException;
+          WxErrorException;
 
   /**
    * 查看卡券详情接口
    * 详见 https://mp.weixin.qq.com/wiki/14/8dd77aeaee85f922db5f8aa6386d385e.html#.E6.9F.A5.E7.9C.8B.E5.8D.A1.E5.88.B8.E8.AF.A6.E6.83.85
+   *
    * @param cardId 卡券的ID
    * @return 返回的卡券详情JSON字符串
-   *         <br> [注] 由于返回的JSON格式过于复杂，难以定义其对应格式的Bean并且难以维护，因此只返回String格式的JSON串。
-   *         <br> 可由 com.google.gson.JsonParser#parse 等方法直接取JSON串中的某个字段。
+   * <br> [注] 由于返回的JSON格式过于复杂，难以定义其对应格式的Bean并且难以维护，因此只返回String格式的JSON串。
+   * <br> 可由 com.google.gson.JsonParser#parse 等方法直接取JSON串中的某个字段。
    * @throws WxErrorException
    */
   public String getCardDetail(String cardId) throws WxErrorException;
 
   /**
-     * <pre>
-     * 预览接口
-     * 详情请见：http://mp.weixin.qq.com/wiki/15/40b6865b893947b764e2de8e4a1fb55f.html#.E9.A2.84.E8.A7.88.E6.8E.A5.E5.8F.A3.E3.80.90.E8.AE.A2.E9.98.85.E5.8F.B7.E4.B8.8E.E6.9C.8D.E5.8A.A1.E5.8F.B7.E8.AE.A4.E8.AF.81.E5.90.8E.E5.9D.87.E5.8F.AF.E7.94.A8.E3.80.91
-     * </pre>
-     * @param wxMpMassPreviewMessage
-     * @return wxMpMassSendResult
-     * @throws WxErrorException
-     */
+   * <pre>
+   * 预览接口
+   * 详情请见：http://mp.weixin.qq.com/wiki/15/40b6865b893947b764e2de8e4a1fb55f.html#.E9.A2.84.E8.A7.88.E6.8E.A5.E5.8F.A3.E3.80.90.E8.AE.A2.E9.98.85.E5.8F.B7.E4.B8.8E.E6.9C.8D.E5.8A.A1.E5.8F.B7.E8.AE.A4.E8.AF.81.E5.90.8E.E5.9D.87.E5.8F.AF.E7.94.A8.E3.80.91
+   * </pre>
+   *
+   * @param wxMpMassPreviewMessage
+   * @return wxMpMassSendResult
+   * @throws WxErrorException
+   */
   public WxMpMassSendResult massMessagePreview(WxMpMassPreviewMessage wxMpMassPreviewMessage) throws Exception;
 
   /**
-     * <pre>
-     * 设置所属行业
-     * 官方文档中暂未告知响应内容
-     * 详情请见：http://mp.weixin.qq.com/wiki/5/6dde9eaa909f83354e0094dc3ad99e05.html#.E8.AE.BE.E7.BD.AE.E6.89.80.E5.B1.9E.E8.A1.8C.E4.B8.9A
-     * </pre>
-     * @param wxMpIndustry
-     * @return JsonObject
-     * @throws WxErrorException
-     */
+   * <pre>
+   * 设置所属行业
+   * 官方文档中暂未告知响应内容
+   * 详情请见：http://mp.weixin.qq.com/wiki/5/6dde9eaa909f83354e0094dc3ad99e05.html#.E8.AE.BE.E7.BD.AE.E6.89.80.E5.B1.9E.E8.A1.8C.E4.B8.9A
+   * </pre>
+   *
+   * @param wxMpIndustry
+   * @return JsonObject
+   * @throws WxErrorException
+   */
   String setIndustry(WxMpIndustry wxMpIndustry) throws WxErrorException;
 
   /***
@@ -695,28 +540,53 @@ public interface WxMpService {
    * @throws WxErrorException
    */
   WxMpIndustry getIndustry() throws WxErrorException;
-  
+
+  /**
+   * 获取WxMpConfigStorage 对象
+   *
+   * @return WxMpConfigStorage
+   */
+  WxMpConfigStorage getWxMpConfigStorage();
+
   /**
    * 返回客服接口方法实现类，以方便调用个其各种接口
+   *
    * @return WxMpKefuService
-   */ 
+   */
   WxMpKefuService getKefuService();
 
   /**
    * 返回素材相关接口的方法实现类，以方便调用个其各种接口
+   *
    * @return WxMpMaterialService
    */
   WxMpMaterialService getMaterialService();
 
   /**
-   * 返回素材相关接口的方法实现类，以方便调用个其各种接口
+   * 返回菜单相关接口的方法实现类，以方便调用个其各种接口
+   *
    * @return WxMpMenuService
    */
   WxMpMenuService getMenuService();
 
   /**
-   * 获取WxMpConfigStorage 对象
-   * @return WxMpConfigStorage
+   * 返回用户相关接口的方法实现类，以方便调用个其各种接口
+   *
+   * @return WxMpUserService
    */
-  WxMpConfigStorage getWxMpConfigStorage();
+  WxMpUserService getUserService();
+
+  /**
+   * 返回用户分组相关接口的方法实现类，以方便调用个其各种接口
+   *
+   * @return WxMpGroupService
+   */
+  WxMpGroupService getGroupService();
+
+  /**
+   * 返回二维码相关接口的方法实现类，以方便调用个其各种接口
+   *
+   * @return WxMpQrcodeService
+   */
+  WxMpQrcodeService getQrcodeService();
 }

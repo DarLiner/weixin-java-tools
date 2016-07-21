@@ -1,21 +1,26 @@
 package me.chanjar.weixin.mp.api;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
+import com.google.gson.*;
+import com.google.gson.internal.Streams;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import com.thoughtworks.xstream.XStream;
+import me.chanjar.weixin.common.bean.WxAccessToken;
+import me.chanjar.weixin.common.bean.WxCardApiSignature;
+import me.chanjar.weixin.common.bean.WxJsapiSignature;
+import me.chanjar.weixin.common.bean.result.WxError;
+import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.session.StandardSessionManager;
+import me.chanjar.weixin.common.session.WxSessionManager;
+import me.chanjar.weixin.common.util.RandomUtils;
+import me.chanjar.weixin.common.util.crypto.SHA1;
+import me.chanjar.weixin.common.util.crypto.WxCryptUtil;
+import me.chanjar.weixin.common.util.http.*;
+import me.chanjar.weixin.common.util.xml.XStreamInitializer;
+import me.chanjar.weixin.mp.api.impl.*;
+import me.chanjar.weixin.mp.bean.*;
+import me.chanjar.weixin.mp.bean.result.*;
+import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 import org.apache.http.Consts;
 import org.apache.http.HttpHost;
 import org.apache.http.client.ClientProtocolException;
@@ -31,65 +36,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.helpers.MessageFormatter;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.internal.Streams;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-import com.thoughtworks.xstream.XStream;
-
-import me.chanjar.weixin.common.bean.WxAccessToken;
-import me.chanjar.weixin.common.bean.WxCardApiSignature;
-import me.chanjar.weixin.common.bean.WxJsapiSignature;
-import me.chanjar.weixin.common.bean.result.WxError;
-import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.session.StandardSessionManager;
-import me.chanjar.weixin.common.session.WxSessionManager;
-import me.chanjar.weixin.common.util.RandomUtils;
-import me.chanjar.weixin.common.util.crypto.SHA1;
-import me.chanjar.weixin.common.util.crypto.WxCryptUtil;
-import me.chanjar.weixin.common.util.http.ApacheHttpClientBuilder;
-import me.chanjar.weixin.common.util.http.DefaultApacheHttpHttpClientBuilder;
-import me.chanjar.weixin.common.util.http.RequestExecutor;
-import me.chanjar.weixin.common.util.http.SimpleGetRequestExecutor;
-import me.chanjar.weixin.common.util.http.SimplePostRequestExecutor;
-import me.chanjar.weixin.common.util.http.URIUtil;
-import me.chanjar.weixin.common.util.http.Utf8ResponseHandler;
-import me.chanjar.weixin.common.util.json.GsonHelper;
-import me.chanjar.weixin.common.util.xml.XStreamInitializer;
-import me.chanjar.weixin.mp.api.impl.WxMpKefuServiceImpl;
-import me.chanjar.weixin.mp.api.impl.WxMpMaterialServiceImpl;
-import me.chanjar.weixin.mp.api.impl.WxMpMenuServiceImpl;
-import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
-import me.chanjar.weixin.mp.bean.WxMpGroup;
-import me.chanjar.weixin.mp.bean.WxMpIndustry;
-import me.chanjar.weixin.mp.bean.WxMpMassGroupMessage;
-import me.chanjar.weixin.mp.bean.WxMpMassNews;
-import me.chanjar.weixin.mp.bean.WxMpMassOpenIdsMessage;
-import me.chanjar.weixin.mp.bean.WxMpMassPreviewMessage;
-import me.chanjar.weixin.mp.bean.WxMpMassVideo;
-import me.chanjar.weixin.mp.bean.WxMpSemanticQuery;
-import me.chanjar.weixin.mp.bean.WxMpTemplateMessage;
-import me.chanjar.weixin.mp.bean.result.WxMpCardResult;
-import me.chanjar.weixin.mp.bean.result.WxMpMassSendResult;
-import me.chanjar.weixin.mp.bean.result.WxMpMassUploadResult;
-import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
-import me.chanjar.weixin.mp.bean.result.WxMpPayCallback;
-import me.chanjar.weixin.mp.bean.result.WxMpPayRefundResult;
-import me.chanjar.weixin.mp.bean.result.WxMpPayResult;
-import me.chanjar.weixin.mp.bean.result.WxMpPrepayIdResult;
-import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
-import me.chanjar.weixin.mp.bean.result.WxMpSemanticQueryResult;
-import me.chanjar.weixin.mp.bean.result.WxMpUser;
-import me.chanjar.weixin.mp.bean.result.WxMpUserCumulate;
-import me.chanjar.weixin.mp.bean.result.WxMpUserList;
-import me.chanjar.weixin.mp.bean.result.WxMpUserSummary;
-import me.chanjar.weixin.mp.bean.result.WxRedpackResult;
-import me.chanjar.weixin.mp.util.http.QrCodeRequestExecutor;
-import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
+import java.io.IOException;
+import java.io.StringReader;
+import java.security.NoSuchAlgorithmException;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class WxMpServiceImpl implements WxMpService {
 
@@ -117,6 +68,12 @@ public class WxMpServiceImpl implements WxMpService {
   protected WxMpMaterialService materialService = new WxMpMaterialServiceImpl(this);
 
   protected WxMpMenuService menuService = new WxMpMenuServiceImpl(this);
+
+  protected WxMpUserService userService = new WxMpUserServiceImpl(this);
+
+  protected WxMpGroupService groupService = new WxMpGroupServiceImpl(this);
+
+  protected WxMpQrcodeService qrCodeService = new WxMpQrcodeServiceImpl(this);
 
   protected CloseableHttpClient httpClient;
 
@@ -267,158 +224,6 @@ public class WxMpServiceImpl implements WxMpService {
   }
 
   @Override
-  public WxMpGroup groupCreate(String name) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/groups/create";
-    JsonObject json = new JsonObject();
-    JsonObject groupJson = new JsonObject();
-    json.add("group", groupJson);
-    groupJson.addProperty("name", name);
-
-    String responseContent = execute(
-        new SimplePostRequestExecutor(),
-        url,
-        json.toString());
-    return WxMpGroup.fromJson(responseContent);
-  }
-
-  @Override
-  public List<WxMpGroup> groupGet() throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/groups/get";
-    String responseContent = execute(new SimpleGetRequestExecutor(), url, null);
-    /*
-     * 操蛋的微信API，创建时返回的是 { group : { id : ..., name : ...} }
-     * 查询时返回的是 { groups : [ { id : ..., name : ..., count : ... }, ... ] }
-     */
-    JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement.getAsJsonObject().get("groups"),
-        new TypeToken<List<WxMpGroup>>() {
-        }.getType());
-  }
-
-  @Override
-  public long userGetGroup(String openid) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/groups/getid";
-    JsonObject o = new JsonObject();
-    o.addProperty("openid", openid);
-    String responseContent = execute(new SimplePostRequestExecutor(), url, o.toString());
-    JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
-    return GsonHelper.getAsLong(tmpJsonElement.getAsJsonObject().get("groupid"));
-  }
-
-  @Override
-  public void groupUpdate(WxMpGroup group) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/groups/update";
-    execute(new SimplePostRequestExecutor(), url, group.toJson());
-  }
-
-  @Override
-  public void userUpdateGroup(String openid, long to_groupid) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/groups/members/update";
-    JsonObject json = new JsonObject();
-    json.addProperty("openid", openid);
-    json.addProperty("to_groupid", to_groupid);
-    execute(new SimplePostRequestExecutor(), url, json.toString());
-  }
-
-  @Override
-  public void userUpdateRemark(String openid, String remark) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/user/info/updateremark";
-    JsonObject json = new JsonObject();
-    json.addProperty("openid", openid);
-    json.addProperty("remark", remark);
-    execute(new SimplePostRequestExecutor(), url, json.toString());
-  }
-
-  @Override
-  public WxMpUser userInfo(String openid, String lang) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/user/info";
-    lang = lang == null ? "zh_CN" : lang;
-    String responseContent = execute(new SimpleGetRequestExecutor(), url, "openid=" + openid + "&lang=" + lang);
-    return WxMpUser.fromJson(responseContent);
-  }
-
-  @Override
-  public WxMpUserList userList(String next_openid) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/user/get";
-    String responseContent = execute(new SimpleGetRequestExecutor(), url, next_openid == null ? null : "next_openid=" + next_openid);
-    return WxMpUserList.fromJson(responseContent);
-  }
-
-  @Override
-  public WxMpQrCodeTicket qrCodeCreateTmpTicket(int scene_id, Integer expire_seconds) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/qrcode/create";
-    JsonObject json = new JsonObject();
-    json.addProperty("action_name", "QR_SCENE");
-    if (expire_seconds != null) {
-      json.addProperty("expire_seconds", expire_seconds);
-    }
-    JsonObject actionInfo = new JsonObject();
-    JsonObject scene = new JsonObject();
-    scene.addProperty("scene_id", scene_id);
-    actionInfo.add("scene", scene);
-    json.add("action_info", actionInfo);
-    String responseContent = execute(new SimplePostRequestExecutor(), url, json.toString());
-    return WxMpQrCodeTicket.fromJson(responseContent);
-  }
-
-  @Override
-  public WxMpQrCodeTicket qrCodeCreateLastTicket(int scene_id) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/qrcode/create";
-    JsonObject json = new JsonObject();
-    json.addProperty("action_name", "QR_LIMIT_SCENE");
-    JsonObject actionInfo = new JsonObject();
-    JsonObject scene = new JsonObject();
-    scene.addProperty("scene_id", scene_id);
-    actionInfo.add("scene", scene);
-    json.add("action_info", actionInfo);
-    String responseContent = execute(new SimplePostRequestExecutor(), url, json.toString());
-    return WxMpQrCodeTicket.fromJson(responseContent);
-  }
-
-  @Override
-  public WxMpQrCodeTicket qrCodeCreateLastTicket(String scene_str) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/qrcode/create";
-    JsonObject json = new JsonObject();
-    json.addProperty("action_name", "QR_LIMIT_STR_SCENE");
-    JsonObject actionInfo = new JsonObject();
-    JsonObject scene = new JsonObject();
-    scene.addProperty("scene_str", scene_str);
-    actionInfo.add("scene", scene);
-    json.add("action_info", actionInfo);
-    String responseContent = execute(new SimplePostRequestExecutor(), url, json.toString());
-    return WxMpQrCodeTicket.fromJson(responseContent);
-  }
-
-  @Override
-  public File qrCodePicture(WxMpQrCodeTicket ticket) throws WxErrorException {
-    String url = "https://mp.weixin.qq.com/cgi-bin/showqrcode";
-    return execute(new QrCodeRequestExecutor(), url, ticket);
-  }
-
-  @Override
-  public String qrCodePictureUrl(String ticket, boolean needShortUrl) throws WxErrorException {
-    String url = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s";
-    try {
-      String resultUrl = String.format(url, 
-          URLEncoder.encode(ticket, StandardCharsets.UTF_8.name()));
-      if(needShortUrl){
-        return this.shortUrl(resultUrl);
-      }
-      
-      return resultUrl;
-    } catch (UnsupportedEncodingException e) {
-      WxError error = WxError.newBuilder().setErrorCode(-1)
-            .setErrorMsg(e.getMessage()).build();
-      throw new WxErrorException(error);
-    }
-  }
-  
-  @Override
-  public String qrCodePictureUrl(String ticket) throws WxErrorException {
-    return qrCodePictureUrl(ticket, false);
-  }
-
-  @Override
   public String shortUrl(String long_url) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/shorturl";
     JsonObject o = new JsonObject();
@@ -560,33 +365,6 @@ public class WxMpServiceImpl implements WxMpService {
       ipArray[i] = ipList.get(i).getAsString();
     }
     return ipArray;
-  }
-
-
-  @Override
-  public List<WxMpUserSummary> getUserSummary(Date beginDate, Date endDate) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/datacube/getusersummary";
-    JsonObject param = new JsonObject();
-    param.addProperty("begin_date", SIMPLE_DATE_FORMAT.format(beginDate));
-    param.addProperty("end_date", SIMPLE_DATE_FORMAT.format(endDate));
-    String responseContent = post(url, param.toString());
-    JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement.getAsJsonObject().get("list"),
-        new TypeToken<List<WxMpUserSummary>>() {
-        }.getType());
-  }
-
-  @Override
-  public List<WxMpUserCumulate> getUserCumulate(Date beginDate, Date endDate) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/datacube/getusercumulate";
-    JsonObject param = new JsonObject();
-    param.addProperty("begin_date", SIMPLE_DATE_FORMAT.format(beginDate));
-    param.addProperty("end_date", SIMPLE_DATE_FORMAT.format(endDate));
-    String responseContent = post(url, param.toString());
-    JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement.getAsJsonObject().get("list"),
-        new TypeToken<List<WxMpUserCumulate>>() {
-        }.getType());
   }
 
   @Override
@@ -1253,6 +1031,21 @@ public class WxMpServiceImpl implements WxMpService {
   @Override
   public WxMpMenuService getMenuService() {
     return this.menuService;
+  }
+
+  @Override
+  public WxMpUserService getUserService() {
+    return this.userService;
+  }
+
+  @Override
+  public WxMpGroupService getGroupService() {
+    return this.groupService;
+  }
+
+  @Override
+  public WxMpQrcodeService getQrcodeService() {
+    return this.qrCodeService;
   }
 
 }

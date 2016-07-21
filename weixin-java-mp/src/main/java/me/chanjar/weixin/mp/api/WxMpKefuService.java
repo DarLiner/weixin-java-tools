@@ -1,23 +1,24 @@
 package me.chanjar.weixin.mp.api;
 
-import java.io.File;
-import java.util.Date;
-
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.bean.kefu.request.WxMpKfAccountRequest;
 import me.chanjar.weixin.mp.bean.kefu.result.*;
+
+import java.io.File;
+import java.util.Date;
 
 /**
  * 客服接口 ，
  * 命名采用kefu拼音的原因是：
  * 其英文CustomerService如果再加上Service后缀显得有点啰嗦，
  * 如果不加又显得表意不完整
- * @author Binary Wang
  *
+ * @author Binary Wang
  */
 public interface WxMpKefuService {
 
   //*******************客服管理接口***********************//
+
   /**
    * <pre>
    * 获取客服基本信息
@@ -71,7 +72,7 @@ public interface WxMpKefuService {
    * </pre>
    */
   boolean kfAccountUploadHeadImg(String kfAccount, File imgFile)
-      throws WxErrorException;
+          throws WxErrorException;
 
   /**
    * <pre>
@@ -83,6 +84,7 @@ public interface WxMpKefuService {
   boolean kfAccountDel(String kfAccount) throws WxErrorException;
 
   //*******************客服会话控制接口***********************//
+
   /**
    * <pre>
    * 创建会话
@@ -134,6 +136,7 @@ public interface WxMpKefuService {
   WxMpKfSessionWaitCaseList kfSessionGetWaitCase() throws WxErrorException;
 
   //*******************获取聊天记录的接口***********************//
+
   /**
    * <pre>
    * 获取聊天记录（原始接口）
@@ -143,9 +146,9 @@ public interface WxMpKefuService {
    * </pre>
    *
    * @param startTime 起始时间
-   * @param endTime 结束时间
-   * @param msgId 消息id顺序从小到大，从1开始
-   * @param number 每次获取条数，最多10000条
+   * @param endTime   结束时间
+   * @param msgId     消息id顺序从小到大，从1开始
+   * @param number    每次获取条数，最多10000条
    * @return 聊天记录对象
    * @throws WxErrorException
    */
@@ -160,7 +163,7 @@ public interface WxMpKefuService {
    * </pre>
    *
    * @param startTime 起始时间
-   * @param endTime 结束时间
+   * @param endTime   结束时间
    * @return 聊天记录对象
    * @throws WxErrorException
    */
