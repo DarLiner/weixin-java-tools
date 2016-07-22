@@ -11,6 +11,7 @@ import me.chanjar.weixin.mp.api.WxMpService;
  * Created by Binary Wang on 2016/7/21.
  */
 public class WxMpMenuServiceImpl implements WxMpMenuService {
+  private static final String API_URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/menu";
 
   private WxMpService wxMpService;
 
@@ -21,29 +22,29 @@ public class WxMpMenuServiceImpl implements WxMpMenuService {
   @Override
   public void menuCreate(WxMenu menu) throws WxErrorException {
     if (menu.getMatchRule() != null) {
-      String url = "https://api.weixin.qq.com/cgi-bin/menu/addconditional";
+      String url = API_URL_PREFIX + "/addconditional";
       this.wxMpService.execute(new SimplePostRequestExecutor(), url, menu.toJson());
     } else {
-      String url = "https://api.weixin.qq.com/cgi-bin/menu/create";
+      String url = API_URL_PREFIX + "/create";
       this.wxMpService.execute(new SimplePostRequestExecutor(), url, menu.toJson());
     }
   }
 
   @Override
   public void menuDelete() throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/menu/delete";
+    String url = API_URL_PREFIX + "/delete";
     this.wxMpService.execute(new SimpleGetRequestExecutor(), url, null);
   }
 
   @Override
   public void menuDelete(String menuid) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/menu/delconditional";
+    String url = API_URL_PREFIX + "/delconditional";
     this.wxMpService.execute(new SimpleGetRequestExecutor(), url, "menuid=" + menuid);
   }
 
   @Override
   public WxMenu menuGet() throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/menu/get";
+    String url = API_URL_PREFIX + "/get";
     try {
       String resultContent = this.wxMpService.execute(new SimpleGetRequestExecutor(), url, null);
       return WxMenu.fromJson(resultContent);
@@ -58,7 +59,7 @@ public class WxMpMenuServiceImpl implements WxMpMenuService {
 
   @Override
   public WxMenu menuTryMatch(String userid) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/menu/trymatch";
+    String url = API_URL_PREFIX + "/trymatch";
     try {
       String resultContent = this.wxMpService.execute(new SimpleGetRequestExecutor(), url, "user_id=" + userid);
       return WxMenu.fromJson(resultContent);

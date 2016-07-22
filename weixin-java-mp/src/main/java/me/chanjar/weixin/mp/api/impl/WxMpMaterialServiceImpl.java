@@ -28,8 +28,8 @@ import java.util.UUID;
  * Created by Binary Wang on 2016/7/21.
  */
 public class WxMpMaterialServiceImpl implements WxMpMaterialService {
-  private static final String MEDIA_API_URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/qrcode";
-  private static final String MATERIAL_API_URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/qrcode";
+  private static final String MEDIA_API_URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/media";
+  private static final String MATERIAL_API_URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/material";
   private WxMpService wxMpService;
 
   public WxMpMaterialServiceImpl(WxMpService wxMpService) {
