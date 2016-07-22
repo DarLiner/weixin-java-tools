@@ -3,6 +3,7 @@ package me.chanjar.weixin.mp.api;
 import com.google.inject.Inject;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
@@ -20,7 +21,7 @@ public class WxMpCustomMessageAPITest {
   protected WxMpServiceImpl wxService;
 
   public void testSendCustomMessage() throws WxErrorException {
-    ApiTestModule.WxXmlMpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlMpInMemoryConfigStorage) wxService.wxMpConfigStorage;
+    ApiTestModule.WxXmlMpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlMpInMemoryConfigStorage) wxService.getWxMpConfigStorage();
     WxMpCustomMessage message = new WxMpCustomMessage();
     message.setMsgType(WxConsts.CUSTOM_MSG_TEXT);
     message.setToUser(configStorage.getOpenId());
@@ -30,7 +31,7 @@ public class WxMpCustomMessageAPITest {
   }
 
   public void testSendCustomMessageWithKfAccount() throws WxErrorException {
-    ApiTestModule.WxXmlMpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlMpInMemoryConfigStorage) wxService.wxMpConfigStorage;
+    ApiTestModule.WxXmlMpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlMpInMemoryConfigStorage) wxService.getWxMpConfigStorage();
     WxMpCustomMessage message = new WxMpCustomMessage();
     message.setMsgType(WxConsts.CUSTOM_MSG_TEXT);
     message.setToUser(configStorage.getOpenId());

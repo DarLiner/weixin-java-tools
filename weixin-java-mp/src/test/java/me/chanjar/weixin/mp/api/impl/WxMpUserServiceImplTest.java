@@ -3,7 +3,6 @@ package me.chanjar.weixin.mp.api.impl;
 import com.google.inject.Inject;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.ApiTestModule;
-import me.chanjar.weixin.mp.api.WxMpServiceImpl;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import me.chanjar.weixin.mp.bean.result.WxMpUserCumulate;
 import me.chanjar.weixin.mp.bean.result.WxMpUserList;

@@ -1,4 +1,4 @@
-package me.chanjar.weixin.mp.api;
+package me.chanjar.weixin.mp.api.impl;
 
 import com.google.gson.*;
 import com.google.gson.internal.Streams;
@@ -17,7 +17,7 @@ import me.chanjar.weixin.common.util.crypto.SHA1;
 import me.chanjar.weixin.common.util.crypto.WxCryptUtil;
 import me.chanjar.weixin.common.util.http.*;
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
-import me.chanjar.weixin.mp.api.impl.*;
+import me.chanjar.weixin.mp.api.*;
 import me.chanjar.weixin.mp.bean.*;
 import me.chanjar.weixin.mp.bean.result.*;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;

@@ -6,7 +6,6 @@ import me.chanjar.weixin.common.bean.WxMenu;
 import me.chanjar.weixin.common.bean.WxMenu.WxMenuButton;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.ApiTestModule;
-import me.chanjar.weixin.mp.api.WxMpServiceImpl;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Guice;

@@ -2,6 +2,7 @@ package me.chanjar.weixin.mp.demo;
 
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.api.*;
+import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.servlet.ServletHolder;

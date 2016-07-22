@@ -6,7 +6,6 @@ import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.fs.FileUtils;
 import me.chanjar.weixin.mp.api.ApiTestModule;
-import me.chanjar.weixin.mp.api.WxMpServiceImpl;
 import me.chanjar.weixin.mp.bean.WxMpMaterial;
 import me.chanjar.weixin.mp.bean.WxMpMaterialArticleUpdate;
 import me.chanjar.weixin.mp.bean.WxMpMaterialNews;

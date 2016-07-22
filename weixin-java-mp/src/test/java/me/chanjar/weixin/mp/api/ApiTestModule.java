@@ -3,6 +3,7 @@ package me.chanjar.weixin.mp.api;
 import java.io.IOException;
 import java.io.InputStream;
 
+import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.google.inject.Binder;
