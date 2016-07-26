@@ -14,18 +14,18 @@ import me.chanjar.weixin.mp.bean.WxMpXmlOutTransferCustomerServiceMessage;
 public final class TransferCustomerServiceBuilder extends BaseBuilder<TransferCustomerServiceBuilder, WxMpXmlOutTransferCustomerServiceMessage> {
   private String kfAccount;
 
-  public TransferCustomerServiceBuilder kfAccount(String kfAccount) {
-    this.kfAccount = kfAccount;
+  public TransferCustomerServiceBuilder kfAccount(String kf) {
+    this.kfAccount = kf;
     return this;
   }
 
-
+  @Override
   public WxMpXmlOutTransferCustomerServiceMessage build() {
     WxMpXmlOutTransferCustomerServiceMessage m = new WxMpXmlOutTransferCustomerServiceMessage();
     setCommon(m);
-    if(StringUtils.isNotBlank(kfAccount)){
+    if(StringUtils.isNotBlank(this.kfAccount)){
       WxMpXmlOutTransferCustomerServiceMessage.TransInfo transInfo = new WxMpXmlOutTransferCustomerServiceMessage.TransInfo();
-      transInfo.setKfAccount(kfAccount);
+      transInfo.setKfAccount(this.kfAccount);
       m.setTransInfo(transInfo);
     }
     return m;

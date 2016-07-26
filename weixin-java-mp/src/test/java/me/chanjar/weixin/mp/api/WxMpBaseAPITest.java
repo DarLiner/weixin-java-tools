@@ -3,6 +3,7 @@ package me.chanjar.weixin.mp.api;
 import com.google.inject.Inject;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.StringUtils;
+import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 import org.testng.Assert;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
@@ -20,7 +21,7 @@ public class WxMpBaseAPITest {
   protected WxMpServiceImpl wxService;
 
   public void testRefreshAccessToken() throws WxErrorException {
-    WxMpConfigStorage configStorage = this.wxService.wxMpConfigStorage;
+    WxMpConfigStorage configStorage = this.wxService.getWxMpConfigStorage();
     String before = configStorage.getAccessToken();
     this.wxService.getAccessToken(false);
 

@@ -14,8 +14,6 @@ public class FileUtils {
    * @param name  文件名
    * @param ext   扩展名
    * @param tmpDirFile   临时文件夹目录
-   * @return
-   * @throws IOException
    */
   public static File createTmpFile(InputStream inputStream, String name, String ext, File tmpDirFile) throws IOException {
     FileOutputStream fos = null;
@@ -56,8 +54,6 @@ public class FileUtils {
    * @param inputStream
    * @param name  文件名
    * @param ext   扩展名
-   * @return
-   * @throws IOException
    */
   public static File createTmpFile(InputStream inputStream, String name, String ext) throws IOException {
     return createTmpFile(inputStream, name, ext, null);

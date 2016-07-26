@@ -124,7 +124,6 @@ public class WxCpMessageRouter {
 
   /**
    * 开始一个新的Route规则
-   * @return
    */
   public WxCpMessageRouterRule rule() {
     return new WxCpMessageRouterRule(this);

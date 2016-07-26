@@ -14,6 +14,8 @@ import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
 
 import java.lang.reflect.Type;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class WxMpCustomMessageGsonAdapter implements JsonSerializer<WxMpCustomMessage> {
 
   public JsonElement serialize(WxMpCustomMessage message, Type typeOfSrc, JsonSerializationContext context) {
@@ -71,6 +73,12 @@ public class WxMpCustomMessageGsonAdapter implements JsonSerializer<WxMpCustomMe
       }
       newsJsonObject.add("articles", articleJsonArray);
       messageJson.add("news", newsJsonObject);
+    }
+    
+    if (StringUtils.isNotBlank(message.getKfAccount())){
+      JsonObject newsJsonObject = new JsonObject();
+      newsJsonObject.addProperty("kf_account", message.getKfAccount());
+      messageJson.add("customservice", newsJsonObject);      
     }
     
     return messageJson;

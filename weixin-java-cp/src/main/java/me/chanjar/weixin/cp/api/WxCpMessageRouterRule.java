@@ -48,7 +48,6 @@ public class WxCpMessageRouterRule {
    * 设置是否异步执行，默认是true
    *
    * @param async
-   * @return
    */
   public WxCpMessageRouterRule async(boolean async) {
     this.async = async;
@@ -59,7 +58,6 @@ public class WxCpMessageRouterRule {
    * 如果agentId匹配
    *
    * @param agentId
-   * @return
    */
   public WxCpMessageRouterRule agentId(Integer agentId) {
     this.agentId = agentId;
@@ -70,7 +68,6 @@ public class WxCpMessageRouterRule {
    * 如果msgType等于某值
    *
    * @param msgType
-   * @return
    */
   public WxCpMessageRouterRule msgType(String msgType) {
     this.msgType = msgType;
@@ -81,7 +78,6 @@ public class WxCpMessageRouterRule {
    * 如果event等于某值
    *
    * @param event
-   * @return
    */
   public WxCpMessageRouterRule event(String event) {
     this.event = event;
@@ -92,7 +88,6 @@ public class WxCpMessageRouterRule {
    * 如果eventKey等于某值
    *
    * @param eventKey
-   * @return
    */
   public WxCpMessageRouterRule eventKey(String eventKey) {
     this.eventKey = eventKey;
@@ -103,7 +98,6 @@ public class WxCpMessageRouterRule {
    * 如果content等于某值
    *
    * @param content
-   * @return
    */
   public WxCpMessageRouterRule content(String content) {
     this.content = content;
@@ -114,7 +108,6 @@ public class WxCpMessageRouterRule {
    * 如果content匹配该正则表达式
    *
    * @param regex
-   * @return
    */
   public WxCpMessageRouterRule rContent(String regex) {
     this.rContent = regex;
@@ -125,7 +118,6 @@ public class WxCpMessageRouterRule {
    * 如果fromUser等于某值
    *
    * @param fromUser
-   * @return
    */
   public WxCpMessageRouterRule fromUser(String fromUser) {
     this.fromUser = fromUser;
@@ -136,7 +128,6 @@ public class WxCpMessageRouterRule {
    * 如果消息匹配某个matcher，用在用户需要自定义更复杂的匹配规则的时候
    *
    * @param matcher
-   * @return
    */
   public WxCpMessageRouterRule matcher(WxCpMessageMatcher matcher) {
     this.matcher = matcher;
@@ -147,7 +138,6 @@ public class WxCpMessageRouterRule {
    * 设置微信消息拦截器
    *
    * @param interceptor
-   * @return
    */
   public WxCpMessageRouterRule interceptor(WxCpMessageInterceptor interceptor) {
     return interceptor(interceptor, (WxCpMessageInterceptor[]) null);
@@ -158,7 +148,6 @@ public class WxCpMessageRouterRule {
    *
    * @param interceptor
    * @param otherInterceptors
-   * @return
    */
   public WxCpMessageRouterRule interceptor(WxCpMessageInterceptor interceptor, WxCpMessageInterceptor... otherInterceptors) {
     this.interceptors.add(interceptor);
@@ -174,7 +163,6 @@ public class WxCpMessageRouterRule {
    * 设置微信消息处理器
    *
    * @param handler
-   * @return
    */
   public WxCpMessageRouterRule handler(WxCpMessageHandler handler) {
     return handler(handler, (WxCpMessageHandler[]) null);
@@ -185,7 +173,6 @@ public class WxCpMessageRouterRule {
    *
    * @param handler
    * @param otherHandlers
-   * @return
    */
   public WxCpMessageRouterRule handler(WxCpMessageHandler handler, WxCpMessageHandler... otherHandlers) {
     this.handlers.add(handler);
@@ -200,7 +187,6 @@ public class WxCpMessageRouterRule {
   /**
    * 规则结束，代表如果一个消息匹配该规则，那么它将不再会进入其他规则
    *
-   * @return
    */
   public WxCpMessageRouter end() {
     this.routerBuilder.getRules().add(this);
@@ -210,7 +196,6 @@ public class WxCpMessageRouterRule {
   /**
    * 规则结束，但是消息还会进入其他规则
    *
-   * @return
    */
   public WxCpMessageRouter next() {
     this.reEnter = true;

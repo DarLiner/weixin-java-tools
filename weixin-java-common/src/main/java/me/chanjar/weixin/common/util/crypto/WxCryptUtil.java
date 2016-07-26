@@ -35,16 +35,16 @@ public class WxCryptUtil {
   private static final Base64 base64 = new Base64();
   private static final Charset CHARSET = Charset.forName("utf-8");
 
-  private static final ThreadLocal<DocumentBuilder> builderLocal =
-      new ThreadLocal<DocumentBuilder>() {
-        @Override protected DocumentBuilder initialValue() {
-          try {
-            return DocumentBuilderFactory.newInstance().newDocumentBuilder();
-          } catch (ParserConfigurationException exc) {
-            throw new IllegalArgumentException(exc);
-          }
-        }
-      };
+  private static final ThreadLocal<DocumentBuilder> builderLocal = new ThreadLocal<DocumentBuilder>() {
+    @Override
+    protected DocumentBuilder initialValue() {
+      try {
+        return DocumentBuilderFactory.newInstance().newDocumentBuilder();
+      } catch (ParserConfigurationException exc) {
+        throw new IllegalArgumentException(exc);
+      }
+    }
+  };
 
   protected byte[] aesKey;
   protected String token;
@@ -61,7 +61,8 @@ public class WxCryptUtil {
    * @param encodingAesKey  公众平台上，开发者设置的EncodingAESKey
    * @param appidOrCorpid          公众平台appid/corpid
    */
-  public WxCryptUtil(String token, String encodingAesKey, String appidOrCorpid) {
+  public WxCryptUtil(String token, String encodingAesKey,
+      String appidOrCorpid) {
     this.token = token;
     this.appidOrCorpid = appidOrCorpid;
     this.aesKey = Base64.decodeBase64(encodingAesKey + "=");
@@ -105,7 +106,8 @@ public class WxCryptUtil {
     ByteGroup byteCollector = new ByteGroup();
     byte[] randomStringBytes = randomStr.getBytes(CHARSET);
     byte[] plainTextBytes = plainText.getBytes(CHARSET);
-    byte[] bytesOfSizeInNetworkOrder = number2BytesInNetworkOrder(plainTextBytes.length);
+    byte[] bytesOfSizeInNetworkOrder = number2BytesInNetworkOrder(
+        plainTextBytes.length);
     byte[] appIdBytes = appidOrCorpid.getBytes(CHARSET);
 
     // randomStr + networkBytesOrder + text + appid
@@ -154,7 +156,8 @@ public class WxCryptUtil {
    * @param encryptedXml 密文，对应POST请求的数据
    * @return 解密后的原文
    */
-  public String decrypt(String msgSignature, String timeStamp, String nonce, String encryptedXml) {
+  public String decrypt(String msgSignature, String timeStamp, String nonce,
+      String encryptedXml) {
     // 密钥，公众账号的app corpSecret
     // 提取密文
     String cipherText = extractEncryptPart(encryptedXml);
@@ -186,7 +189,8 @@ public class WxCryptUtil {
       // 设置解密模式为AES的CBC模式
       Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
       SecretKeySpec key_spec = new SecretKeySpec(aesKey, "AES");
-      IvParameterSpec iv = new IvParameterSpec(Arrays.copyOfRange(aesKey, 0, 16));
+      IvParameterSpec iv = new IvParameterSpec(
+          Arrays.copyOfRange(aesKey, 0, 16));
       cipher.init(Cipher.DECRYPT_MODE, key_spec, iv);
 
       // 使用BASE64对密文进行解码
@@ -208,9 +212,10 @@ public class WxCryptUtil {
 
       int xmlLength = bytesNetworkOrder2Number(networkOrder);
 
-      xmlContent = new String(Arrays.copyOfRange(bytes, 20, 20 + xmlLength), CHARSET);
-      from_appid = new String(Arrays.copyOfRange(bytes, 20 + xmlLength, bytes.length),
+      xmlContent = new String(Arrays.copyOfRange(bytes, 20, 20 + xmlLength),
           CHARSET);
+      from_appid = new String(
+          Arrays.copyOfRange(bytes, 20 + xmlLength, bytes.length), CHARSET);
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
@@ -224,34 +229,32 @@ public class WxCryptUtil {
 
   }
 
-    /**
-     * 微信公众号支付签名算法(详见:http://pay.weixin.qq.com/wiki/doc/api/index.php?chapter=4_3)
-     * @param packageParams 原始参数
-     * @param signKey 加密Key(即 商户Key)
-     * @param charset 编码
-     * @return 签名字符串
-     */
-    public static String createSign(Map<String, String> packageParams, String signKey) {
-        SortedMap<String, String> sortedMap = new TreeMap<String, String>();
-        sortedMap.putAll(packageParams);
+  /**
+   * 微信公众号支付签名算法(详见:http://pay.weixin.qq.com/wiki/doc/api/index.php?chapter=4_3)
+   * @param packageParams 原始参数
+   * @param signKey 加密Key(即 商户Key)
+   * @return 签名字符串
+   */
+  public static String createSign(Map<String, String> packageParams,
+      String signKey) {
+    SortedMap<String, String> sortedMap = new TreeMap<String, String>();
+    sortedMap.putAll(packageParams);
 
-        List<String> keys = new ArrayList<String>(packageParams.keySet());
-        Collections.sort(keys);
+    List<String> keys = new ArrayList<String>(packageParams.keySet());
+    Collections.sort(keys);
 
-
-        StringBuffer toSign = new StringBuffer();
-        for (String key : keys) {
-            String value = packageParams.get(key);
-            if (null != value && !"".equals(value) && !"sign".equals(key)
-                    && !"key".equals(key)) {
-                toSign.append(key + "=" + value + "&");
-            }
-        }
-        toSign.append("key=" + signKey);
-        String sign = DigestUtils.md5Hex(toSign.toString())
-                .toUpperCase();
-        return sign;
+    StringBuffer toSign = new StringBuffer();
+    for (String key : keys) {
+      String value = packageParams.get(key);
+      if (null != value && !"".equals(value) && !"sign".equals(key)
+          && !"key".equals(key)) {
+        toSign.append(key + "=" + value + "&");
+      }
     }
+    toSign.append("key=" + signKey);
+    String sign = DigestUtils.md5Hex(toSign.toString()).toUpperCase();
+    return sign;
+  }
 
   /**
    * 将一个数字转换成生成4个字节的网络字节序bytes数组
@@ -283,8 +286,6 @@ public class WxCryptUtil {
 
   /**
    * 随机生成16位字符串
-   *
-   * @return
    */
   private String genRandomStr() {
     String base = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -306,14 +307,12 @@ public class WxCryptUtil {
    * @param nonce     随机字符串
    * @return 生成的xml字符串
    */
-  private String generateXml(String encrypt, String signature, String timestamp, String nonce) {
-    String format =
-        "<xml>\n"
-            + "<Encrypt><![CDATA[%1$s]]></Encrypt>\n"
-            + "<MsgSignature><![CDATA[%2$s]]></MsgSignature>\n"
-            + "<TimeStamp>%3$s</TimeStamp>\n"
-            + "<Nonce><![CDATA[%4$s]]></Nonce>\n"
-            + "</xml>";
+  private String generateXml(String encrypt, String signature, String timestamp,
+      String nonce) {
+    String format = "<xml>\n" + "<Encrypt><![CDATA[%1$s]]></Encrypt>\n"
+        + "<MsgSignature><![CDATA[%2$s]]></MsgSignature>\n"
+        + "<TimeStamp>%3$s</TimeStamp>\n" + "<Nonce><![CDATA[%4$s]]></Nonce>\n"
+        + "</xml>";
     return String.format(format, encrypt, signature, timestamp, nonce);
   }
 

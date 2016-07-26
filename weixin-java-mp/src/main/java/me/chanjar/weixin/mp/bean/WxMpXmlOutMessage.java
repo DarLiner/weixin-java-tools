@@ -13,6 +13,8 @@ import java.io.Serializable;
 @XStreamAlias("xml")
 public abstract class WxMpXmlOutMessage implements Serializable {
 
+  private static final long serialVersionUID = -381382011286216263L;
+
   @XStreamAlias("ToUserName")
   @XStreamConverter(value=XStreamCDataConverter.class)
   protected String toUserName;
@@ -29,7 +31,7 @@ public abstract class WxMpXmlOutMessage implements Serializable {
   protected String msgType;
 
   public String getToUserName() {
-    return toUserName;
+    return this.toUserName;
   }
 
   public void setToUserName(String toUserName) {
@@ -37,7 +39,7 @@ public abstract class WxMpXmlOutMessage implements Serializable {
   }
 
   public String getFromUserName() {
-    return fromUserName;
+    return this.fromUserName;
   }
 
   public void setFromUserName(String fromUserName) {
@@ -45,7 +47,7 @@ public abstract class WxMpXmlOutMessage implements Serializable {
   }
 
   public Long getCreateTime() {
-    return createTime;
+    return this.createTime;
   }
 
   public void setCreateTime(Long createTime) {
@@ -53,7 +55,7 @@ public abstract class WxMpXmlOutMessage implements Serializable {
   }
 
   public String getMsgType() {
-    return msgType;
+    return this.msgType;
   }
 
   public void setMsgType(String msgType) {
@@ -61,12 +63,11 @@ public abstract class WxMpXmlOutMessage implements Serializable {
   }
   
   public String toXml() {
-    return XStreamTransformer.toXml((Class) this.getClass(), this);
+    return XStreamTransformer.toXml((Class<WxMpXmlOutMessage>) this.getClass(), this);
   }
 
   /**
    * 转换成加密的xml格式
-   * @return
    */
   public String toEncryptedXml(WxMpConfigStorage wxMpConfigStorage) {
     String plainXml = toXml();
@@ -76,7 +77,6 @@ public abstract class WxMpXmlOutMessage implements Serializable {
 
   /**
    * 获得文本消息builder
-   * @return
    */
   public static TextBuilder TEXT() {
     return new TextBuilder();
@@ -84,7 +84,6 @@ public abstract class WxMpXmlOutMessage implements Serializable {
 
   /**
    * 获得图片消息builder
-   * @return
    */
   public static ImageBuilder IMAGE() {
     return new ImageBuilder();
@@ -92,7 +91,6 @@ public abstract class WxMpXmlOutMessage implements Serializable {
 
   /**
    * 获得语音消息builder
-   * @return
    */
   public static VoiceBuilder VOICE() {
     return new VoiceBuilder();
@@ -100,7 +98,6 @@ public abstract class WxMpXmlOutMessage implements Serializable {
   
   /**
    * 获得视频消息builder
-   * @return
    */
   public static VideoBuilder VIDEO() {
     return new VideoBuilder();
@@ -108,7 +105,6 @@ public abstract class WxMpXmlOutMessage implements Serializable {
   
   /**
    * 获得音乐消息builder
-   * @return
    */
   public static MusicBuilder MUSIC() {
     return new MusicBuilder();
@@ -116,15 +112,13 @@ public abstract class WxMpXmlOutMessage implements Serializable {
   
   /**
    * 获得图文消息builder
-   * @return
    */
   public static NewsBuilder NEWS() {
     return new NewsBuilder();
   }
- /**
+  
+  /**
    * 获得客服消息builder
-   *
-   * @return
    */
   public static TransferCustomerServiceBuilder TRANSFER_CUSTOMER_SERVICE() {
     return new TransferCustomerServiceBuilder();

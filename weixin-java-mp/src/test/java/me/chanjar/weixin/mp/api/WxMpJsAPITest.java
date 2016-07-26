@@ -3,13 +3,12 @@ package me.chanjar.weixin.mp.api;
 import com.google.inject.Inject;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.crypto.SHA1;
-import me.chanjar.weixin.mp.bean.WxMpGroup;
+import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 import org.testng.Assert;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 
 /**
  * 测试jsapi ticket接口

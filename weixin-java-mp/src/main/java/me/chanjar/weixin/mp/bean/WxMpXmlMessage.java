@@ -1,18 +1,24 @@
 package me.chanjar.weixin.mp.bean;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
-import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
-import me.chanjar.weixin.mp.api.WxMpConfigStorage;
-import me.chanjar.weixin.mp.util.crypto.WxMpCryptUtil;
-import me.chanjar.weixin.mp.util.xml.XStreamTransformer;
-import org.apache.commons.io.IOUtils;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import me.chanjar.weixin.mp.util.json.WxLongTimeJsonSerializer;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
+
+import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
+import me.chanjar.weixin.mp.api.WxMpConfigStorage;
+import me.chanjar.weixin.mp.util.crypto.WxMpCryptUtil;
+import me.chanjar.weixin.mp.util.xml.XStreamTransformer;
 
 /**
  * <pre>
@@ -28,46 +34,49 @@ import java.util.List;
 @XStreamAlias("xml")
 public class WxMpXmlMessage implements Serializable {
 
+  private static final long serialVersionUID = -3586245291677274914L;
+
   ///////////////////////
   // 以下都是微信推送过来的消息的xml的element所对应的属性
   ///////////////////////
 
   @XStreamAlias("ToUserName")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String toUserName;
 
   @XStreamAlias("FromUserName")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String fromUserName;
 
   @XStreamAlias("CreateTime")
+  @JsonSerialize(using = WxLongTimeJsonSerializer.class)
   private Long createTime;
 
   @XStreamAlias("MsgType")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String msgType;
 
   @XStreamAlias("Content")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String content;
 
   @XStreamAlias("MsgId")
   private Long msgId;
 
   @XStreamAlias("PicUrl")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String picUrl;
 
   @XStreamAlias("MediaId")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String mediaId;
 
   @XStreamAlias("Format")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String format;
 
   @XStreamAlias("ThumbMediaId")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String thumbMediaId;
 
   @XStreamAlias("Location_X")
@@ -80,31 +89,31 @@ public class WxMpXmlMessage implements Serializable {
   private Double scale;
 
   @XStreamAlias("Label")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String label;
 
   @XStreamAlias("Title")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String title;
 
   @XStreamAlias("Description")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String description;
 
   @XStreamAlias("Url")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String url;
 
   @XStreamAlias("Event")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String event;
 
   @XStreamAlias("EventKey")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String eventKey;
 
   @XStreamAlias("Ticket")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String ticket;
 
   @XStreamAlias("Latitude")
@@ -117,7 +126,7 @@ public class WxMpXmlMessage implements Serializable {
   private Double precision;
 
   @XStreamAlias("Recognition")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String recognition;
 
   ///////////////////////////////////////
@@ -127,7 +136,7 @@ public class WxMpXmlMessage implements Serializable {
    * 群发的结果
    */
   @XStreamAlias("Status")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String status;
   /**
    * group_id下粉丝数；或者openid_list中的粉丝数
@@ -151,25 +160,44 @@ public class WxMpXmlMessage implements Serializable {
   private Integer errorCount;
 
   ///////////////////////////////////////
+  // 客服会话管理相关事件推送
+  ///////////////////////////////////////
+  /**
+   * 创建或关闭客服会话时的客服帐号
+   */
+  @XStreamAlias("KfAccount")
+  private String kfAccount;
+  /**
+   * 转接客服会话时的转入客服帐号
+   */
+  @XStreamAlias("ToKfAccount")
+  private String toKfAccount;
+  /**
+   * 转接客服会话时的转出客服帐号
+   */
+  @XStreamAlias("FromKfAccount")
+  private String fromKfAccount;
+
+  ///////////////////////////////////////
   // 卡券相关事件推送
   ///////////////////////////////////////
   @XStreamAlias("CardId")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String cardId;
 
   @XStreamAlias("FriendUserName")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String friendUserName;
 
   @XStreamAlias("IsGiveByFriend")
   private Integer isGiveByFriend; // 是否为转赠，1代表是，0代表否
 
   @XStreamAlias("UserCardCode")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String userCardCode;
 
   @XStreamAlias("OldUserCardCode")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String oldUserCardCode;
 
   @XStreamAlias("OuterId")
@@ -185,7 +213,7 @@ public class WxMpXmlMessage implements Serializable {
   private SendLocationInfo sendLocationInfo = new SendLocationInfo();
 
   public String getToUserName() {
-    return toUserName;
+    return this.toUserName;
   }
 
   public void setToUserName(String toUserName) {
@@ -193,7 +221,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public Long getCreateTime() {
-    return createTime;
+    return this.createTime;
   }
 
   public void setCreateTime(Long createTime) {
@@ -212,10 +240,9 @@ public class WxMpXmlMessage implements Serializable {
    * {@link me.chanjar.weixin.common.api.WxConsts#XML_MSG_EVENT}
    * </pre>
    *
-   * @return
    */
   public String getMsgType() {
-    return msgType;
+    return this.msgType;
   }
 
   /**
@@ -236,7 +263,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public String getContent() {
-    return content;
+    return this.content;
   }
 
   public void setContent(String content) {
@@ -244,7 +271,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public Long getMsgId() {
-    return msgId;
+    return this.msgId;
   }
 
   public void setMsgId(Long msgId) {
@@ -252,7 +279,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public String getPicUrl() {
-    return picUrl;
+    return this.picUrl;
   }
 
   public void setPicUrl(String picUrl) {
@@ -260,7 +287,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public String getMediaId() {
-    return mediaId;
+    return this.mediaId;
   }
 
   public void setMediaId(String mediaId) {
@@ -268,7 +295,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public String getFormat() {
-    return format;
+    return this.format;
   }
 
   public void setFormat(String format) {
@@ -276,7 +303,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public String getThumbMediaId() {
-    return thumbMediaId;
+    return this.thumbMediaId;
   }
 
   public void setThumbMediaId(String thumbMediaId) {
@@ -284,7 +311,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public Double getLocationX() {
-    return locationX;
+    return this.locationX;
   }
 
   public void setLocationX(Double locationX) {
@@ -292,7 +319,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public Double getLocationY() {
-    return locationY;
+    return this.locationY;
   }
 
   public void setLocationY(Double locationY) {
@@ -300,7 +327,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public Double getScale() {
-    return scale;
+    return this.scale;
   }
 
   public void setScale(Double scale) {
@@ -308,7 +335,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public String getLabel() {
-    return label;
+    return this.label;
   }
 
   public void setLabel(String label) {
@@ -316,7 +343,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public String getTitle() {
-    return title;
+    return this.title;
   }
 
   public void setTitle(String title) {
@@ -324,7 +351,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public String getDescription() {
-    return description;
+    return this.description;
   }
 
   public void setDescription(String description) {
@@ -332,7 +359,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public String getUrl() {
-    return url;
+    return this.url;
   }
 
   public void setUrl(String url) {
@@ -340,7 +367,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public String getEvent() {
-    return event;
+    return this.event;
   }
 
   public void setEvent(String event) {
@@ -348,7 +375,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public String getEventKey() {
-    return eventKey;
+    return this.eventKey;
   }
 
   public void setEventKey(String eventKey) {
@@ -356,7 +383,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public String getTicket() {
-    return ticket;
+    return this.ticket;
   }
 
   public void setTicket(String ticket) {
@@ -364,7 +391,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public Double getLatitude() {
-    return latitude;
+    return this.latitude;
   }
 
   public void setLatitude(Double latitude) {
@@ -372,7 +399,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public Double getLongitude() {
-    return longitude;
+    return this.longitude;
   }
 
   public void setLongitude(Double longitude) {
@@ -380,7 +407,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public Double getPrecision() {
-    return precision;
+    return this.precision;
   }
 
   public void setPrecision(Double precision) {
@@ -388,7 +415,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public String getRecognition() {
-    return recognition;
+    return this.recognition;
   }
 
   public void setRecognition(String recognition) {
@@ -396,7 +423,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public String getFromUserName() {
-    return fromUserName;
+    return this.fromUserName;
   }
 
   public void setFromUserName(String fromUserName) {
@@ -419,30 +446,29 @@ public class WxMpXmlMessage implements Serializable {
    * @param timestamp
    * @param nonce
    * @param msgSignature
-   * @return
    */
-  public static WxMpXmlMessage fromEncryptedXml(
-      String encryptedXml,
-      WxMpConfigStorage wxMpConfigStorage,
-      String timestamp, String nonce, String msgSignature) {
+  public static WxMpXmlMessage fromEncryptedXml(String encryptedXml,
+      WxMpConfigStorage wxMpConfigStorage, String timestamp, String nonce,
+      String msgSignature) {
     WxMpCryptUtil cryptUtil = new WxMpCryptUtil(wxMpConfigStorage);
-    String plainText = cryptUtil.decrypt(msgSignature, timestamp, nonce, encryptedXml);
+    String plainText = cryptUtil.decrypt(msgSignature, timestamp, nonce,
+        encryptedXml);
     return fromXml(plainText);
   }
 
-  public static WxMpXmlMessage fromEncryptedXml(
-      InputStream is,
-      WxMpConfigStorage wxMpConfigStorage,
-      String timestamp, String nonce, String msgSignature) {
+  public static WxMpXmlMessage fromEncryptedXml(InputStream is,
+      WxMpConfigStorage wxMpConfigStorage, String timestamp, String nonce,
+      String msgSignature) {
     try {
-      return fromEncryptedXml(IOUtils.toString(is, "UTF-8"), wxMpConfigStorage, timestamp, nonce, msgSignature);
+      return fromEncryptedXml(IOUtils.toString(is, "UTF-8"), wxMpConfigStorage,
+          timestamp, nonce, msgSignature);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
   }
 
   public String getStatus() {
-    return status;
+    return this.status;
   }
 
   public void setStatus(String status) {
@@ -450,7 +476,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public Integer getTotalCount() {
-    return totalCount;
+    return this.totalCount;
   }
 
   public void setTotalCount(Integer totalCount) {
@@ -458,7 +484,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public Integer getFilterCount() {
-    return filterCount;
+    return this.filterCount;
   }
 
   public void setFilterCount(Integer filterCount) {
@@ -466,7 +492,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public Integer getSentCount() {
-    return sentCount;
+    return this.sentCount;
   }
 
   public void setSentCount(Integer sentCount) {
@@ -474,7 +500,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public Integer getErrorCount() {
-    return errorCount;
+    return this.errorCount;
   }
 
   public void setErrorCount(Integer errorCount) {
@@ -482,7 +508,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public String getCardId() {
-    return cardId;
+    return this.cardId;
   }
 
   public void setCardId(String cardId) {
@@ -490,7 +516,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public String getFriendUserName() {
-    return friendUserName;
+    return this.friendUserName;
   }
 
   public void setFriendUserName(String friendUserName) {
@@ -498,7 +524,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public Integer getIsGiveByFriend() {
-    return isGiveByFriend;
+    return this.isGiveByFriend;
   }
 
   public void setIsGiveByFriend(Integer isGiveByFriend) {
@@ -506,7 +532,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public String getUserCardCode() {
-    return userCardCode;
+    return this.userCardCode;
   }
 
   public void setUserCardCode(String userCardCode) {
@@ -514,7 +540,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public String getOldUserCardCode() {
-    return oldUserCardCode;
+    return this.oldUserCardCode;
   }
 
   public void setOldUserCardCode(String oldUserCardCode) {
@@ -522,7 +548,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public Integer getOuterId() {
-    return outerId;
+    return this.outerId;
   }
 
   public void setOuterId(Integer outerId) {
@@ -530,7 +556,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public WxMpXmlMessage.ScanCodeInfo getScanCodeInfo() {
-    return scanCodeInfo;
+    return this.scanCodeInfo;
   }
 
   public void setScanCodeInfo(WxMpXmlMessage.ScanCodeInfo scanCodeInfo) {
@@ -538,7 +564,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public WxMpXmlMessage.SendPicsInfo getSendPicsInfo() {
-    return sendPicsInfo;
+    return this.sendPicsInfo;
   }
 
   public void setSendPicsInfo(WxMpXmlMessage.SendPicsInfo sendPicsInfo) {
@@ -546,31 +572,59 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public WxMpXmlMessage.SendLocationInfo getSendLocationInfo() {
-    return sendLocationInfo;
+    return this.sendLocationInfo;
   }
 
-  public void setSendLocationInfo(WxMpXmlMessage.SendLocationInfo sendLocationInfo) {
+  public void setSendLocationInfo(
+      WxMpXmlMessage.SendLocationInfo sendLocationInfo) {
     this.sendLocationInfo = sendLocationInfo;
+  }
+
+  public String getKfAccount() {
+    return this.kfAccount;
+  }
+
+  public void setKfAccount(String kfAccount) {
+    this.kfAccount = kfAccount;
+  }
+
+  public String getToKfAccount() {
+    return this.toKfAccount;
+  }
+
+  public void setToKfAccount(String toKfAccount) {
+    this.toKfAccount = toKfAccount;
+  }
+
+  public String getFromKfAccount() {
+    return this.fromKfAccount;
+  }
+
+  public void setFromKfAccount(String fromKfAccount) {
+    this.fromKfAccount = fromKfAccount;
   }
 
   @XStreamAlias("ScanCodeInfo")
   public static class ScanCodeInfo {
+    @Override
+    public String toString() {
+      return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+    }
 
     @XStreamAlias("ScanType")
-    @XStreamConverter(value=XStreamCDataConverter.class)
+    @XStreamConverter(value = XStreamCDataConverter.class)
     private String scanType;
 
     @XStreamAlias("ScanResult")
-    @XStreamConverter(value=XStreamCDataConverter.class)
+    @XStreamConverter(value = XStreamCDataConverter.class)
     private String scanResult;
 
     /**
      * 扫描类型，一般是qrcode
-     * @return
      */
     public String getScanType() {
 
-      return scanType;
+      return this.scanType;
     }
 
     public void setScanType(String scanType) {
@@ -579,10 +633,9 @@ public class WxMpXmlMessage implements Serializable {
 
     /**
      * 扫描结果，即二维码对应的字符串信息
-     * @return
      */
     public String getScanResult() {
-      return scanResult;
+      return this.scanResult;
     }
 
     public void setScanResult(String scanResult) {
@@ -593,15 +646,19 @@ public class WxMpXmlMessage implements Serializable {
 
   @XStreamAlias("SendPicsInfo")
   public static class SendPicsInfo {
+    @Override
+    public String toString() {
+      return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+    }
 
     @XStreamAlias("Count")
     private Long count;
 
     @XStreamAlias("PicList")
-    protected final List<Item> picList = new ArrayList<Item>();
+    protected final List<Item> picList = new ArrayList<>();
 
     public Long getCount() {
-      return count;
+      return this.count;
     }
 
     public void setCount(Long count) {
@@ -609,18 +666,23 @@ public class WxMpXmlMessage implements Serializable {
     }
 
     public List<Item> getPicList() {
-      return picList;
+      return this.picList;
     }
 
     @XStreamAlias("item")
     public static class Item {
+      @Override
+      public String toString() {
+        return ToStringBuilder.reflectionToString(this,
+            ToStringStyle.JSON_STYLE);
+      }
 
       @XStreamAlias("PicMd5Sum")
-      @XStreamConverter(value=XStreamCDataConverter.class)
+      @XStreamConverter(value = XStreamCDataConverter.class)
       private String picMd5Sum;
 
       public String getPicMd5Sum() {
-        return picMd5Sum;
+        return this.picMd5Sum;
       }
 
       public void setPicMd5Sum(String picMd5Sum) {
@@ -633,27 +695,32 @@ public class WxMpXmlMessage implements Serializable {
   public static class SendLocationInfo {
 
     @XStreamAlias("Location_X")
-    @XStreamConverter(value=XStreamCDataConverter.class)
+    @XStreamConverter(value = XStreamCDataConverter.class)
     private String locationX;
 
     @XStreamAlias("Location_Y")
-    @XStreamConverter(value=XStreamCDataConverter.class)
+    @XStreamConverter(value = XStreamCDataConverter.class)
     private String locationY;
 
     @XStreamAlias("Scale")
-    @XStreamConverter(value=XStreamCDataConverter.class)
+    @XStreamConverter(value = XStreamCDataConverter.class)
     private String scale;
 
     @XStreamAlias("Label")
-    @XStreamConverter(value=XStreamCDataConverter.class)
+    @XStreamConverter(value = XStreamCDataConverter.class)
     private String label;
 
     @XStreamAlias("Poiname")
-    @XStreamConverter(value=XStreamCDataConverter.class)
+    @XStreamConverter(value = XStreamCDataConverter.class)
     private String poiname;
 
+    @Override
+    public String toString() {
+      return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+    }
+
     public String getLocationX() {
-      return locationX;
+      return this.locationX;
     }
 
     public void setLocationX(String locationX) {
@@ -661,7 +728,7 @@ public class WxMpXmlMessage implements Serializable {
     }
 
     public String getLocationY() {
-      return locationY;
+      return this.locationY;
     }
 
     public void setLocationY(String locationY) {
@@ -669,7 +736,7 @@ public class WxMpXmlMessage implements Serializable {
     }
 
     public String getScale() {
-      return scale;
+      return this.scale;
     }
 
     public void setScale(String scale) {
@@ -677,7 +744,7 @@ public class WxMpXmlMessage implements Serializable {
     }
 
     public String getLabel() {
-      return label;
+      return this.label;
     }
 
     public void setLabel(String label) {
@@ -685,7 +752,7 @@ public class WxMpXmlMessage implements Serializable {
     }
 
     public String getPoiname() {
-      return poiname;
+      return this.poiname;
     }
 
     public void setPoiname(String poiname) {
@@ -695,44 +762,6 @@ public class WxMpXmlMessage implements Serializable {
 
   @Override
   public String toString() {
-    return "WxMpXmlMessage{" +
-        "toUserName='" + toUserName + '\'' +
-        ", fromUserName='" + fromUserName + '\'' +
-        ", createTime=" + createTime +
-        ", msgType='" + msgType + '\'' +
-        ", content='" + content + '\'' +
-        ", msgId=" + msgId +
-        ", picUrl='" + picUrl + '\'' +
-        ", mediaId='" + mediaId + '\'' +
-        ", format='" + format + '\'' +
-        ", thumbMediaId='" + thumbMediaId + '\'' +
-        ", locationX=" + locationX +
-        ", locationY=" + locationY +
-        ", scale=" + scale +
-        ", label='" + label + '\'' +
-        ", title='" + title + '\'' +
-        ", description='" + description + '\'' +
-        ", url='" + url + '\'' +
-        ", event='" + event + '\'' +
-        ", eventKey='" + eventKey + '\'' +
-        ", ticket='" + ticket + '\'' +
-        ", latitude=" + latitude +
-        ", longitude=" + longitude +
-        ", precision=" + precision +
-        ", recognition='" + recognition + '\'' +
-        ", status='" + status + '\'' +
-        ", totalCount=" + totalCount +
-        ", filterCount=" + filterCount +
-        ", sentCount=" + sentCount +
-        ", errorCount=" + errorCount +
-        ", cardId='" + cardId + '\'' +
-        ", isGiveByFriend=" + isGiveByFriend +
-        ", userCardCode='" + userCardCode + '\'' +
-        ", oldUserCardCode='" + oldUserCardCode + '\'' +
-        ", outerId=" + outerId +
-        ", scanCodeInfo=" + scanCodeInfo +
-        ", sendPicsInfo=" + sendPicsInfo +
-        ", sendLocationInfo=" + sendLocationInfo +
-        '}';
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
 }

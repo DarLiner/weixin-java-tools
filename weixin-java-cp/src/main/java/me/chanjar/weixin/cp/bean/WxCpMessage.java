@@ -28,7 +28,7 @@ public class WxCpMessage implements Serializable {
   private String hqMusicUrl;
   private String safe;
   private List<WxArticle> articles = new ArrayList<WxArticle>();
-  
+
   public String getToUser() {
     return toUser;
   }
@@ -63,7 +63,7 @@ public class WxCpMessage implements Serializable {
   public String getMsgType() {
     return msgType;
   }
-  
+
   public String getSafe() {
     return safe;
   }
@@ -135,18 +135,18 @@ public class WxCpMessage implements Serializable {
   public void setArticles(List<WxArticle> articles) {
     this.articles = articles;
   }
-  
+
   public String toJson() {
     return WxCpGsonBuilder.INSTANCE.create().toJson(this);
   }
-  
+
   public static class WxArticle {
-    
+
     private String title;
     private String description;
     private String url;
     private String picUrl;
-    
+
     public String getTitle() {
       return title;
     }
@@ -171,12 +171,11 @@ public class WxCpMessage implements Serializable {
     public void setPicUrl(String picUrl) {
       this.picUrl = picUrl;
     }
-    
+
   }
-  
+
   /**
    * 获得文本消息builder
-   * @return
    */
   public static TextBuilder TEXT() {
     return new TextBuilder();
@@ -184,7 +183,6 @@ public class WxCpMessage implements Serializable {
 
   /**
    * 获得图片消息builder
-   * @return
    */
   public static ImageBuilder IMAGE() {
     return new ImageBuilder();
@@ -192,23 +190,20 @@ public class WxCpMessage implements Serializable {
 
   /**
    * 获得语音消息builder
-   * @return
    */
   public static VoiceBuilder VOICE() {
     return new VoiceBuilder();
   }
-  
+
   /**
    * 获得视频消息builder
-   * @return
    */
   public static VideoBuilder VIDEO() {
     return new VideoBuilder();
   }
-  
+
   /**
    * 获得图文消息builder
-   * @return
    */
   public static NewsBuilder NEWS() {
     return new NewsBuilder();
@@ -216,10 +211,9 @@ public class WxCpMessage implements Serializable {
 
   /**
    * 获得文件消息builder
-   * @return
    */
   public static FileBuilder FILE() {
     return new FileBuilder();
   }
-  
+
 }

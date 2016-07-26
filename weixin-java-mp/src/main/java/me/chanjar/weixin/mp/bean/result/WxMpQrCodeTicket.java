@@ -45,4 +45,9 @@ public class WxMpQrCodeTicket implements Serializable {
   public static WxMpQrCodeTicket fromJson(String json) {
     return WxMpGsonBuilder.INSTANCE.create().fromJson(json, WxMpQrCodeTicket.class);
   }
+
+  @Override
+  public String toString() {
+    return WxMpGsonBuilder.INSTANCE.create().toJson(this);
+  }
 }

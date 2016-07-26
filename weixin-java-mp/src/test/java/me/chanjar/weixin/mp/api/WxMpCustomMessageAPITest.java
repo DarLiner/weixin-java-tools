@@ -3,6 +3,7 @@ package me.chanjar.weixin.mp.api;
 import com.google.inject.Inject;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
@@ -12,7 +13,7 @@ import org.testng.annotations.Test;
  * @author chanjarster
  *
  */
-@Test(groups="customMessageAPI", dependsOnGroups = "baseAPI")
+@Test(groups="customMessageAPI")
 @Guice(modules = ApiTestModule.class)
 public class WxMpCustomMessageAPITest {
 
@@ -20,13 +21,24 @@ public class WxMpCustomMessageAPITest {
   protected WxMpServiceImpl wxService;
 
   public void testSendCustomMessage() throws WxErrorException {
-    ApiTestModule.WxXmlMpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlMpInMemoryConfigStorage) wxService.wxMpConfigStorage;
+    ApiTestModule.WxXmlMpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlMpInMemoryConfigStorage) wxService.getWxMpConfigStorage();
     WxMpCustomMessage message = new WxMpCustomMessage();
     message.setMsgType(WxConsts.CUSTOM_MSG_TEXT);
     message.setToUser(configStorage.getOpenId());
     message.setContent("欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>");
 
-    wxService.customMessageSend(message);
+    this.wxService.customMessageSend(message);
+  }
+
+  public void testSendCustomMessageWithKfAccount() throws WxErrorException {
+    ApiTestModule.WxXmlMpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlMpInMemoryConfigStorage) wxService.getWxMpConfigStorage();
+    WxMpCustomMessage message = new WxMpCustomMessage();
+    message.setMsgType(WxConsts.CUSTOM_MSG_TEXT);
+    message.setToUser(configStorage.getOpenId());
+    message.setKfAccount(configStorage.getKfAccount());
+    message.setContent("欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>");
+
+    this.wxService.customMessageSend(message);
   }
 
 }
