@@ -19,7 +19,7 @@ import java.io.IOException;
 public class SimpleGetRequestExecutor implements RequestExecutor<String, String> {
 
   @Override
-  public String execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String queryParam) throws WxErrorException, ClientProtocolException, IOException {
+  public String execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String queryParam) throws WxErrorException, IOException {
     if (queryParam != null) {
       if (uri.indexOf('?') == -1) {
         uri += '?';

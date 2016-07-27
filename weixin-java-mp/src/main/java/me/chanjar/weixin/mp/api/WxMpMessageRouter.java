@@ -209,10 +209,7 @@ public class WxMpMessageRouter {
       messageId.append(wxMessage.getMsgId());
     }
 
-    if (messageDuplicateChecker.isDuplicate(messageId.toString())) {
-      return true;
-    }
-    return false;
+    return messageDuplicateChecker.isDuplicate(messageId.toString());
 
   }
 

@@ -11,6 +11,6 @@ public interface WxMpMessageMatcher {
    * 消息是否匹配某种模式
    * @param message
    */
-  public boolean match(WxMpXmlMessage message);
+  boolean match(WxMpXmlMessage message);
 
 }

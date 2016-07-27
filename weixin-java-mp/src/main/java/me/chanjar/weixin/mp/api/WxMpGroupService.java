@@ -22,7 +22,7 @@ public interface WxMpGroupService {
    *
    * @param name 分组名字（30个字符以内）
    */
-  public WxMpGroup groupCreate(String name) throws WxErrorException;
+  WxMpGroup groupCreate(String name) throws WxErrorException;
 
   /**
    * <pre>
@@ -30,7 +30,7 @@ public interface WxMpGroupService {
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=分组管理接口
    * </pre>
    */
-  public List<WxMpGroup> groupGet() throws WxErrorException;
+  List<WxMpGroup> groupGet() throws WxErrorException;
 
   /**
    * <pre>
@@ -40,7 +40,7 @@ public interface WxMpGroupService {
    *
    * @param openid 微信用户的openid
    */
-  public long userGetGroup(String openid) throws WxErrorException;
+  long userGetGroup(String openid) throws WxErrorException;
 
   /**
    * <pre>
@@ -52,7 +52,7 @@ public interface WxMpGroupService {
    *
    * @param group 要更新的group，group的id,name必须设置
    */
-  public void groupUpdate(WxMpGroup group) throws WxErrorException;
+  void groupUpdate(WxMpGroup group) throws WxErrorException;
 
   /**
    * <pre>
@@ -65,5 +65,5 @@ public interface WxMpGroupService {
    * @param openid     用户openid
    * @param to_groupid 移动到的分组id
    */
-  public void userUpdateGroup(String openid, long to_groupid) throws WxErrorException;
+  void userUpdateGroup(String openid, long to_groupid) throws WxErrorException;
 }

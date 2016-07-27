@@ -28,14 +28,14 @@ public interface InternalSessionManager {
    * @exception IllegalStateException if a new session cannot be
    *  instantiated for any reason
    */
-  public InternalSession createSession(String sessionId);
+  InternalSession createSession(String sessionId);
 
   /**
    * Remove this Session from the active Sessions for this Manager.
    *
    * @param session Session to be removed
    */
-  public void remove(InternalSession session);
+  void remove(InternalSession session);
 
   /**
    * Remove this Session from the active Sessions for this Manager.
@@ -43,7 +43,7 @@ public interface InternalSessionManager {
    * @param session   Session to be removed
    * @param update    Should the expiration statistics be updated
    */
-  public void remove(InternalSession session, boolean update);
+  void remove(InternalSession session, boolean update);
 
   /**
    * Add this Session to the set of active Sessions for this Manager.
@@ -71,7 +71,7 @@ public interface InternalSessionManager {
   /**
    * Implements the Manager interface, direct call to processExpires
    */
-  public void backgroundProcess();
+  void backgroundProcess();
 
   /**
    * Set the default maximum inactive interval (in seconds)

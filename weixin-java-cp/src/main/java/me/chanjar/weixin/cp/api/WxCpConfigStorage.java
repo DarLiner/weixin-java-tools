@@ -12,61 +12,61 @@ import java.io.File;
  */
 public interface WxCpConfigStorage {
 
-  public String getAccessToken();
+  String getAccessToken();
 
-  public boolean isAccessTokenExpired();
+  boolean isAccessTokenExpired();
 
   /**
    * 强制将access token过期掉
    */
-  public void expireAccessToken();
+  void expireAccessToken();
 
-  public void updateAccessToken(WxAccessToken accessToken);
+  void updateAccessToken(WxAccessToken accessToken);
 
-  public void updateAccessToken(String accessToken, int expiresIn);
+  void updateAccessToken(String accessToken, int expiresIn);
 
-  public String getJsapiTicket();
+  String getJsapiTicket();
 
-  public boolean isJsapiTicketExpired();
+  boolean isJsapiTicketExpired();
 
   /**
    * 强制将jsapi ticket过期掉
    */
-  public void expireJsapiTicket();
+  void expireJsapiTicket();
 
   /**
    * 应该是线程安全的
    * @param jsapiTicket
    */
-  public void updateJsapiTicket(String jsapiTicket, int expiresInSeconds);
+  void updateJsapiTicket(String jsapiTicket, int expiresInSeconds);
 
-  public String getCorpId();
+  String getCorpId();
   
-  public String getCorpSecret();
+  String getCorpSecret();
 
-  public String getAgentId();
+  String getAgentId();
 
-  public String getToken();
+  String getToken();
 
-  public String getAesKey();
+  String getAesKey();
 
-  public long getExpiresTime();
+  long getExpiresTime();
 
-  public String getOauth2redirectUri();
+  String getOauth2redirectUri();
 
-  public String getHttp_proxy_host();
+  String getHttp_proxy_host();
 
-  public int getHttp_proxy_port();
+  int getHttp_proxy_port();
 
-  public String getHttp_proxy_username();
+  String getHttp_proxy_username();
 
-  public String getHttp_proxy_password();
+  String getHttp_proxy_password();
   
-  public File getTmpDirFile();
+  File getTmpDirFile();
 
   /**
    * http client builder
    * @return ApacheHttpClientBuilder
    */
-  public ApacheHttpClientBuilder getApacheHttpClientBuilder();
+  ApacheHttpClientBuilder getApacheHttpClientBuilder();
 }
