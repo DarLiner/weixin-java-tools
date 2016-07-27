@@ -49,7 +49,6 @@ public class WxCpMessageRouterTest {
         }
       }).handler(new WxEchoCpMessageHandler(sb, "matcher")).end()
       .rule().async(async).handler(new WxEchoCpMessageHandler(sb, "ALL")).end();
-    ;
   }
   
   @Test(dataProvider="messages-1")

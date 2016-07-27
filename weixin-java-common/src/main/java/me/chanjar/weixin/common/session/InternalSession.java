@@ -13,7 +13,7 @@ public interface InternalSession {
    *
    * @param isValid The new value for the <code>isValid</code> flag
    */
-  public void setValid(boolean isValid);
+  void setValid(boolean isValid);
 
   /**
    * Return the <code>isValid</code> flag for this session.

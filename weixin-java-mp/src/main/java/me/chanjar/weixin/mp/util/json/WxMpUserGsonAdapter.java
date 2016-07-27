@@ -21,7 +21,7 @@ public class WxMpUserGsonAdapter implements JsonDeserializer<WxMpUser> {
     WxMpUser wxMpUser = new WxMpUser();
     Integer subscribe = GsonHelper.getInteger(o, "subscribe");
     if (subscribe != null) {
-      wxMpUser.setSubscribe(new Integer(0).equals(subscribe) ? false : true);
+      wxMpUser.setSubscribe(!new Integer(0).equals(subscribe));
     }
     wxMpUser.setCity(GsonHelper.getString(o, "city"));
     wxMpUser.setCountry(GsonHelper.getString(o, "country"));

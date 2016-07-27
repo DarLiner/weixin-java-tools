@@ -24,7 +24,7 @@ public class MaterialVideoInfoRequestExecutor implements RequestExecutor<WxMpMat
     super();
   }
 
-  public WxMpMaterialVideoInfoResult execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String materialId) throws WxErrorException, ClientProtocolException, IOException {
+  public WxMpMaterialVideoInfoResult execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String materialId) throws WxErrorException, IOException {
     HttpPost httpPost = new HttpPost(uri);
     if (httpProxy != null) {
       RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();

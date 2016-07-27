@@ -39,7 +39,7 @@ public class MediaDownloadRequestExecutor implements RequestExecutor<File, Strin
   
 
   @Override
-  public File execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String queryParam) throws WxErrorException, ClientProtocolException, IOException {
+  public File execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String queryParam) throws WxErrorException, IOException {
     if (queryParam != null) {
       if (uri.indexOf('?') == -1) {
         uri += '?';

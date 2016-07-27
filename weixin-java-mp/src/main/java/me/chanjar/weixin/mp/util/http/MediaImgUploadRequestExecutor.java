@@ -24,7 +24,7 @@ import java.io.IOException;
  */
 public class MediaImgUploadRequestExecutor implements RequestExecutor<WxMediaImgUploadResult, File> {
   @Override
-  public WxMediaImgUploadResult execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, File data) throws WxErrorException, ClientProtocolException, IOException {
+  public WxMediaImgUploadResult execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, File data) throws WxErrorException, IOException {
     HttpPost httpPost = new HttpPost(uri);
     if (httpProxy != null) {
       RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();

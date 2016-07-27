@@ -21,7 +21,7 @@ import java.io.IOException;
 public class SimplePostRequestExecutor implements RequestExecutor<String, String> {
 
   @Override
-  public String execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String postEntity) throws WxErrorException, ClientProtocolException, IOException {
+  public String execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String postEntity) throws WxErrorException, IOException {
     HttpPost httpPost = new HttpPost(uri);
     if (httpProxy != null) {
       RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
