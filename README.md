@@ -8,8 +8,15 @@
 
 ### 详细开发文档请看 [wiki](https://github.com/chanjarster/weixin-java-tools/wiki)。
 
+## 目前可参考的Demo项目
+https://github.com/wechat-group/weixin-java-tools-springmvc
+https://github.com/wechat-group/weixin-mp-demo
+以下为备份仓库，会保持跟主仓库同步
+http://git.oschina.net/binary/weixin-mp-demo
+https://bitbucket.org/binarywang/weixin-mp-demo
+
 ===========
-## 使用开发交流工具：
+## 开发交流工具：
 * QQ群：343954419 <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=078f7a153d243853e24cf2b542e7a6ccbf2a592bc138080f84d11297f736ec46"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="weixin-java-tools" title="weixin-java-tools"></a>
 *  注意：为保证入群成员质量，请申请入群时认真输入Github帐号ID，即你的github主页地址https://github.com/XXXX 中最后的部分XXXX的内容，谢谢~
 * 微信群： 因二维码有时间限制，如有想加入微信群的，请入QQ群后咨询获取最新入群二维码。
