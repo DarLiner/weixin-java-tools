@@ -31,7 +31,7 @@ public class QrCodeRequestExecutor implements RequestExecutor<File, WxMpQrCodeTi
 
   @Override
   public File execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, 
-      WxMpQrCodeTicket ticket) throws WxErrorException, ClientProtocolException, IOException {
+      WxMpQrCodeTicket ticket) throws WxErrorException, IOException {
     if (ticket != null) {
       if (uri.indexOf('?') == -1) {
         uri += '?';

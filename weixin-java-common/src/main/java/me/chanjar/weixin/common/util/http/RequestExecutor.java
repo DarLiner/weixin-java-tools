@@ -26,6 +26,6 @@ public interface RequestExecutor<T, E> {
    * @throws ClientProtocolException
    * @throws IOException
    */
-  public T execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, E data) throws WxErrorException, ClientProtocolException, IOException;
+  T execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, E data) throws WxErrorException, IOException;
 
 }

@@ -18,7 +18,7 @@ public interface WxMpMenuService {
    * 详情请见:http://mp.weixin.qq.com/wiki/0/c48ccd12b69ae023159b4bfaa7c39c20.html
    * </pre>
    */
-  public void menuCreate(WxMenu menu) throws WxErrorException;
+  void menuCreate(WxMenu menu) throws WxErrorException;
 
   /**
    * <pre>
@@ -26,7 +26,7 @@ public interface WxMpMenuService {
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单删除接口
    * </pre>
    */
-  public void menuDelete() throws WxErrorException;
+  void menuDelete() throws WxErrorException;
 
   /**
    * <pre>
@@ -36,7 +36,7 @@ public interface WxMpMenuService {
    *
    * @param menuid
    */
-  public void menuDelete(String menuid) throws WxErrorException;
+  void menuDelete(String menuid) throws WxErrorException;
 
   /**
    * <pre>
@@ -44,7 +44,7 @@ public interface WxMpMenuService {
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单查询接口
    * </pre>
    */
-  public WxMenu menuGet() throws WxErrorException;
+  WxMenu menuGet() throws WxErrorException;
 
   /**
    * <pre>
@@ -54,6 +54,6 @@ public interface WxMpMenuService {
    *
    * @param userid 可以是粉丝的OpenID，也可以是粉丝的微信号。
    */
-  public WxMenu menuTryMatch(String userid) throws WxErrorException;
+  WxMenu menuTryMatch(String userid) throws WxErrorException;
 
 }

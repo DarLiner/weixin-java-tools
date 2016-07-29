@@ -1,6 +1,8 @@
 package me.chanjar.weixin.mp.bean.result;
 
 import me.chanjar.weixin.mp.bean.WxMpCard;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.io.Serializable;
 
@@ -58,14 +60,7 @@ public class WxMpCardResult implements Serializable {
 
   @Override
   public String toString() {
-    return "WxMpCardResult{" +
-        "errorCode='" + errorCode + '\'' +
-        ", errorMsg='" + errorMsg + '\'' +
-        ", openId='" + openId + '\'' +
-        ", card=" + card +
-        ", userCardStatus='" + userCardStatus + '\'' +
-        ", canConsume=" + canConsume +
-        '}';
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
 
   public String getUserCardStatus() {

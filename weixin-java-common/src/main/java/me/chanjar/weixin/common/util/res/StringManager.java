@@ -211,10 +211,7 @@ public class StringManager {
                 @Override
                 protected boolean removeEldestEntry(
                         Map.Entry<Locale,StringManager> eldest) {
-                    if (size() > (LOCALE_CACHE_SIZE - 1)) {
-                        return true;
-                    }
-                    return false;
+                  return size() > (LOCALE_CACHE_SIZE - 1);
                 }
             };
             managers.put(packageName, map);

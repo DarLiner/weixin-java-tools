@@ -25,7 +25,7 @@ public interface WxMpUserService {
    * @param openid 用户openid
    * @param remark 备注名
    */
-  public void userUpdateRemark(String openid, String remark) throws WxErrorException;
+  void userUpdateRemark(String openid, String remark) throws WxErrorException;
 
   /**
    * <pre>
@@ -36,7 +36,7 @@ public interface WxMpUserService {
    * @param openid 用户openid
    * @param lang   语言，zh_CN 简体(默认)，zh_TW 繁体，en 英语
    */
-  public WxMpUser userInfo(String openid, String lang) throws WxErrorException;
+  WxMpUser userInfo(String openid, String lang) throws WxErrorException;
 
   /**
    * <pre>
@@ -46,7 +46,7 @@ public interface WxMpUserService {
    *
    * @param next_openid 可选，第一个拉取的OPENID，null为从头开始拉取
    */
-  public WxMpUserList userList(String next_openid) throws WxErrorException;
+  WxMpUserList userList(String next_openid) throws WxErrorException;
 
   /**
    * <pre>

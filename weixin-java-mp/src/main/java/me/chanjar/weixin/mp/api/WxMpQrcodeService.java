@@ -21,7 +21,7 @@ public interface WxMpQrcodeService {
    * @param scene_id       参数。
    * @param expire_seconds 过期秒数，默认60秒，最小60秒，最大1800秒
    */
-  public WxMpQrCodeTicket qrCodeCreateTmpTicket(int scene_id, Integer expire_seconds) throws WxErrorException;
+  WxMpQrCodeTicket qrCodeCreateTmpTicket(int scene_id, Integer expire_seconds) throws WxErrorException;
 
   /**
    * <pre>
@@ -31,7 +31,7 @@ public interface WxMpQrcodeService {
    *
    * @param scene_id 参数。永久二维码时最大值为100000（目前参数只支持1--100000）
    */
-  public WxMpQrCodeTicket qrCodeCreateLastTicket(int scene_id) throws WxErrorException;
+  WxMpQrCodeTicket qrCodeCreateLastTicket(int scene_id) throws WxErrorException;
 
   /**
    * <pre>
@@ -41,7 +41,7 @@ public interface WxMpQrcodeService {
    *
    * @param scene_str 参数。字符串类型长度现在为1到64
    */
-  public WxMpQrCodeTicket qrCodeCreateLastTicket(String scene_str) throws WxErrorException;
+  WxMpQrCodeTicket qrCodeCreateLastTicket(String scene_str) throws WxErrorException;
 
   /**
    * <pre>
@@ -51,7 +51,7 @@ public interface WxMpQrcodeService {
    *
    * @param ticket 二维码ticket
    */
-  public File qrCodePicture(WxMpQrCodeTicket ticket) throws WxErrorException;
+  File qrCodePicture(WxMpQrCodeTicket ticket) throws WxErrorException;
 
   /**
    * <pre>
@@ -62,7 +62,7 @@ public interface WxMpQrcodeService {
    * @param ticket       二维码ticket
    * @param needShortUrl 是否需要压缩的二维码地址
    */
-  public String qrCodePictureUrl(String ticket, boolean needShortUrl) throws WxErrorException;
+  String qrCodePictureUrl(String ticket, boolean needShortUrl) throws WxErrorException;
 
   /**
    * <pre>
@@ -72,6 +72,6 @@ public interface WxMpQrcodeService {
    *
    * @param ticket 二维码ticket
    */
-  public String qrCodePictureUrl(String ticket) throws WxErrorException;
+  String qrCodePictureUrl(String ticket) throws WxErrorException;
 
 }

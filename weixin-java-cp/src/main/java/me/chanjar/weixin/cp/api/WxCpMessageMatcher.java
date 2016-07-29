@@ -10,6 +10,6 @@ public interface WxCpMessageMatcher {
   /**
    * 消息是否匹配某种模式
    */
-  public boolean match(WxCpXmlMessage message);
+  boolean match(WxCpXmlMessage message);
 
 }

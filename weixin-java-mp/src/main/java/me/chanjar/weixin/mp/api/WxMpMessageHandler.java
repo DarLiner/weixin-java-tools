@@ -21,9 +21,9 @@ public interface WxMpMessageHandler {
    * @param sessionManager
    * @return xml格式的消息，如果在异步规则里处理的话，可以返回null
    */
-  public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage,
-                                  Map<String, Object> context,
-                                  WxMpService wxMpService,
-                                  WxSessionManager sessionManager) throws WxErrorException;
+  WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage,
+                           Map<String, Object> context,
+                           WxMpService wxMpService,
+                           WxSessionManager sessionManager) throws WxErrorException;
 
 }

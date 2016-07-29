@@ -210,10 +210,7 @@ public class WxCpMessageRouter {
       messageId = String.valueOf(wxMessage.getMsgId());
     }
 
-    if (messageDuplicateChecker.isDuplicate(messageId)) {
-      return true;
-    }
-    return false;
+    return messageDuplicateChecker.isDuplicate(messageId);
 
   }
 

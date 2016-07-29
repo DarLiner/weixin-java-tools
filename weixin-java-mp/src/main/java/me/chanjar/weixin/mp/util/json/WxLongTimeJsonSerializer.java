@@ -18,7 +18,7 @@ public class WxLongTimeJsonSerializer extends JsonSerializer<Long> {
   @Override
   public void serialize(Long value, JsonGenerator gen,
       SerializerProvider serializers)
-      throws IOException, JsonProcessingException {
+      throws IOException {
     gen.writeString(DF.format(value * 1000));
   }
 }

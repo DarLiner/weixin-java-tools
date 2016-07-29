@@ -14,7 +14,7 @@ public class InputStreamResponseHandler implements ResponseHandler<InputStream> 
 
   public static final ResponseHandler<InputStream> INSTANCE = new InputStreamResponseHandler();
   
-  public InputStream handleResponse(final HttpResponse response) throws HttpResponseException, IOException {
+  public InputStream handleResponse(final HttpResponse response) throws IOException {
     final StatusLine statusLine = response.getStatusLine();
     final HttpEntity entity = response.getEntity();
     if (statusLine.getStatusCode() >= 300) {

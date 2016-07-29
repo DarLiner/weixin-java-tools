@@ -323,9 +323,8 @@ public class StandardSession implements WxSession, InternalSession {
     if (!attributes.equals(session.attributes)) return false;
     if (!facade.equals(session.facade)) return false;
     if (!id.equals(session.id)) return false;
-    if (!manager.equals(session.manager)) return false;
+    return manager.equals(session.manager);
 
-    return true;
   }
 
   @Override

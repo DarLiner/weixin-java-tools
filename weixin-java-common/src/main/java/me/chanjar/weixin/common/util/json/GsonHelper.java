@@ -91,7 +91,7 @@ public class GsonHelper {
 	
 	public static boolean getAsPrimitiveBool(JsonElement element) {
 		Boolean r = getAsBoolean(element);
-		return r == null ? false : r.booleanValue();
+		return r != null && r.booleanValue();
 	}
 	
 	public static Double getAsDouble(JsonElement element) {

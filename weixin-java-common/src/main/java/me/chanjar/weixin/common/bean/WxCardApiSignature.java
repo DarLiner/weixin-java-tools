@@ -1,5 +1,8 @@
 package me.chanjar.weixin.common.bean;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import java.io.Serializable;
 
 /**
@@ -10,95 +13,100 @@ import java.io.Serializable;
  */
 public class WxCardApiSignature implements Serializable {
 
-    private static final long serialVersionUID = 158176707226975979L;
+  private static final long serialVersionUID = 158176707226975979L;
 
-    private String appId;
+  private String appId;
 
-    private String cardId;
+  private String cardId;
 
-    private String cardType;
+  private String cardType;
 
-    private String locationId;
+  private String locationId;
 
-    private String code;
+  private String code;
 
-    private String openId;
+  private String openId;
 
-    private Long timestamp;
+  private Long timestamp;
 
-    private String nonceStr;
+  private String nonceStr;
 
-    private String signature;
+  private String signature;
 
-    public String getAppId() {
-      return appId;
-    }
+  @Override
+  public String toString() {
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+  }
 
-    public void setAppId(String appId) {
-      this.appId = appId;
-    }
+  public String getAppId() {
+    return appId;
+  }
 
-    public String getCardId() {
-      return cardId;
-    }
+  public void setAppId(String appId) {
+    this.appId = appId;
+  }
 
-    public void setCardId(String cardId) {
-      this.cardId = cardId;
-    }
+  public String getCardId() {
+    return cardId;
+  }
 
-    public String getCardType() {
-      return cardType;
-    }
+  public void setCardId(String cardId) {
+    this.cardId = cardId;
+  }
 
-    public void setCardType(String cardType) {
-      this.cardType = cardType;
-    }
+  public String getCardType() {
+    return cardType;
+  }
 
-    public String getLocationId() {
-      return locationId;
-    }
+  public void setCardType(String cardType) {
+    this.cardType = cardType;
+  }
+
+  public String getLocationId() {
+    return locationId;
+  }
 
   public void setLocationId(String locationId) {
     this.locationId = locationId;
   }
 
   public String getCode() {
-      return code;
-    }
+    return code;
+  }
 
-    public void setCode(String code) {
-      this.code = code;
-    }
+  public void setCode(String code) {
+    this.code = code;
+  }
 
-    public String getOpenId() {
-      return openId;
-    }
+  public String getOpenId() {
+    return openId;
+  }
 
-    public void setOpenId(String openId) {
-      this.openId = openId;
-    }
+  public void setOpenId(String openId) {
+    this.openId = openId;
+  }
 
-    public Long getTimestamp() {
-      return timestamp;
-    }
+  public Long getTimestamp() {
+    return timestamp;
+  }
 
-    public void setTimestamp(Long timestamp) {
-      this.timestamp = timestamp;
-    }
+  public void setTimestamp(Long timestamp) {
+    this.timestamp = timestamp;
+  }
 
-    public String getNonceStr() {
-      return nonceStr;
-    }
+  public String getNonceStr() {
+    return nonceStr;
+  }
 
-    public void setNonceStr(String nonceStr) {
-      this.nonceStr = nonceStr;
-    }
+  public void setNonceStr(String nonceStr) {
+    this.nonceStr = nonceStr;
+  }
 
-    public String getSignature() {
-      return signature;
-    }
+  public String getSignature() {
+    return signature;
+  }
 
-    public void setSignature(String signature) {
-      this.signature = signature;
-    }
+  public void setSignature(String signature) {
+    this.signature = signature;
+  }
 }

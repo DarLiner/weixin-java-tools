@@ -87,11 +87,7 @@ public class WxMessageInMemoryDuplicateChecker implements WxMessageDuplicateChec
     }
     checkBackgroundProcessStarted();
     Long timestamp = msgId2Timestamp.putIfAbsent(messageId, System.currentTimeMillis());
-    if (timestamp == null) {
-      // 第一次接收到这个消息
-      return false;
-    }
-    return true;
+    return timestamp != null;
   }
 
 
