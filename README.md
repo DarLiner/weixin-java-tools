@@ -3,8 +3,8 @@
 
 
 ### 声明：本项目基于chanjarster/weixin-java-tools，由于原作者长期没有维护，故单独维护和发布，且发布到maven上的groupId也会不同。
-#### 最新更新：1.3.5版发布！！！ on 2016-06-30
-
+#### 最新更新：2.0.0版发布！！！ on 2016-07-31
+#####　由于本次更新涉及接口调整比较大，主要是公众号的调整，企业号无过多调整，主要是为了解决主接口类过于庞大不方便管理的问题，将接口实现代码按模块进行拆分。因此版本号直接从1.X.X直接升级到2.0.0，所以如果习惯于1.X.X版本的同学不想做过多更改的话，请慎重考虑升级到最新版本。
 ---
 
 #### 本项目主要存放在github上，地址为 :
@@ -31,8 +31,13 @@
  
 ===========
 
-## 发布周期
-暂定为每月发布一次，月初或月底发布新版本，遇到重大问题需修复会及时提交新版本，欢迎大家随时提交Pull Request。
+## 版本说明
+* 本项目定为每月发布一次正式版，版本号格式为X.X.0（如2.0.0，2.1.0等），月初或月底发布新版本，遇到重大问题需修复会及时提交新版本，欢迎大家随时提交Pull Request。
+* BUG修复和新特性一般会先发布成小版本作为临时版本（如2.0.1，2.0.2等，即尾号不为0，区别于正式版）， 目前最新版本号为![Maven Central](https://img.shields.io/maven-central/v/com.github.binarywang/weixin-java-parent.svg) 
+也可以通过访问如下地址查看所有最新的版本：
+- <a target="_blank" href="http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.github.binarywang%22%20AND%20a%3A%22weixin-java-mp%22">公众号</a>
+- <a target="_blank" href="http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.github.binarywang%22%20AND%20a%3A%22weixin-java-cp%22">企业号</a>
+
 
 ## Quick Start
 
@@ -55,13 +60,6 @@
   <version>1.3.5</version>
 </dependency>
 ```
-
-## 预览版
-
-本项目的BUG修复和新特性一般会先发布成小版本作为临时版本，如1.3.5.X， 目前最新版本号为![Maven Central](https://img.shields.io/maven-central/v/com.github.binarywang/weixin-java-parent.svg) 
-也可以通过访问如下地址查看所有最新的版本：
-- <a target="_blank" href="http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.github.binarywang%22%20AND%20a%3A%22weixin-java-mp%22">公众号</a>
-- <a target="_blank" href="http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.github.binarywang%22%20AND%20a%3A%22weixin-java-cp%22">企业号</a>
 
 
 ## 关于Pull Request
