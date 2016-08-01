@@ -33,8 +33,8 @@
 
 ## 版本说明
 * 本项目定为每月发布一次正式版，版本号格式为X.X.0（如2.0.0，2.1.0等），月初或月底发布新版本，遇到重大问题需修复会及时提交新版本，欢迎大家随时提交Pull Request。
-* BUG修复和新特性一般会先发布成小版本作为临时版本（如2.0.1，2.0.2等，即尾号不为0，以区别于正式版）， 目前最新版本号为![Maven Central](https://img.shields.io/maven-central/v/com.github.binarywang/weixin-java-parent.svg) 。
-也可以通过访问如下地址查看所有最新的版本：
+* BUG修复和新特性一般会先发布成小版本作为临时版本（如2.0.1，2.0.2等，即尾号不为0，以区别于正式版）.
+* 目前最新版本号为![Maven Central](https://img.shields.io/maven-central/v/com.github.binarywang/weixin-java-parent.svg) ，也可以通过访问如下地址查看所有最新的版本：
 - <a target="_blank" href="http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.github.binarywang%22%20AND%20a%3A%22weixin-java-mp%22">公众号</a>
 - <a target="_blank" href="http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.github.binarywang%22%20AND%20a%3A%22weixin-java-cp%22">企业号</a>
 
