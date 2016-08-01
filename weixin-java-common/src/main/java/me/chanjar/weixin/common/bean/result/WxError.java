@@ -50,7 +50,10 @@ public class WxError implements Serializable {
 
   @Override
   public String toString() {
-    return "微信错误: errcode=" + errorCode + ", errmsg=" + errorMsg + "\njson:" + json;
+    if(json != null){
+      return json;
+    }
+    return "错误: Code=" + errorCode + ", Msg=" + errorMsg;
   }
 
   public static Builder newBuilder(){
