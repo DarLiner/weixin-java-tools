@@ -14,9 +14,7 @@ import me.chanjar.weixin.common.bean.WxAccessToken;
 import java.lang.reflect.Type;
 
 /**
- * 
  * @author Daniel Qian
- *
  */
 public class WxAccessTokenAdapter implements JsonDeserializer<WxAccessToken> {
 
@@ -32,5 +30,5 @@ public class WxAccessTokenAdapter implements JsonDeserializer<WxAccessToken> {
     }
     return accessToken;
   }
-  
+
 }

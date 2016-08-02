@@ -6,11 +6,15 @@ import java.io.Serializable;
 
 public class WxMediaUploadResult implements Serializable {
   private static final long serialVersionUID = 330834334738622341L;
-  
+
   private String type;
   private String mediaId;
   private String thumbMediaId;
   private long createdAt;
+
+  public static WxMediaUploadResult fromJson(String json) {
+    return WxGsonBuilder.create().fromJson(json, WxMediaUploadResult.class);
+  }
 
   public String getType() {
     return type;
@@ -44,14 +48,10 @@ public class WxMediaUploadResult implements Serializable {
     this.thumbMediaId = thumbMediaId;
   }
 
-  public static WxMediaUploadResult fromJson(String json) {
-    return WxGsonBuilder.create().fromJson(json, WxMediaUploadResult.class);
-  }
-
   @Override
   public String toString() {
     return "WxUploadResult [type=" + type + ", media_id=" + mediaId + ", thumb_media_id=" + thumbMediaId
-        + ", created_at=" + createdAt + "]";
+            + ", created_at=" + createdAt + "]";
   }
 
 }

@@ -7,7 +7,7 @@ public class StringUtils {
 
   /**
    * <p>Checks if a CharSequence is whitespace, empty ("") or null.</p>
-   *
+   * <p>
    * <pre>
    * StringUtils.isBlank(null)      = true
    * StringUtils.isBlank("")        = true
@@ -16,9 +16,8 @@ public class StringUtils {
    * StringUtils.isBlank("  bob  ") = false
    * </pre>
    *
-   * @param cs  the CharSequence to check, may be null
+   * @param cs the CharSequence to check, may be null
    * @return {@code true} if the CharSequence is null, empty or whitespace
-   * @since 2.0
    * @since 3.0 Changed signature from isBlank(String) to isBlank(CharSequence)
    */
   public static boolean isBlank(CharSequence cs) {
@@ -36,7 +35,7 @@ public class StringUtils {
 
   /**
    * <p>Checks if a CharSequence is not empty (""), not null and not whitespace only.</p>
-   *
+   * <p>
    * <pre>
    * StringUtils.isNotBlank(null)      = false
    * StringUtils.isNotBlank("")        = false
@@ -45,10 +44,9 @@ public class StringUtils {
    * StringUtils.isNotBlank("  bob  ") = true
    * </pre>
    *
-   * @param cs  the CharSequence to check, may be null
+   * @param cs the CharSequence to check, may be null
    * @return {@code true} if the CharSequence is
-   *  not empty and not null and not whitespace
-   * @since 2.0
+   * not empty and not null and not whitespace
    * @since 3.0 Changed signature from isNotBlank(String) to isNotBlank(CharSequence)
    */
   public static boolean isNotBlank(CharSequence cs) {
@@ -57,7 +55,7 @@ public class StringUtils {
 
   /**
    * <p>Checks if a CharSequence is empty ("") or null.</p>
-   *
+   * <p>
    * <pre>
    * StringUtils.isEmpty(null)      = true
    * StringUtils.isEmpty("")        = true
@@ -65,12 +63,12 @@ public class StringUtils {
    * StringUtils.isEmpty("bob")     = false
    * StringUtils.isEmpty("  bob  ") = false
    * </pre>
-   *
+   * <p>
    * <p>NOTE: This method changed in Lang version 2.0.
    * It no longer trims the CharSequence.
    * That functionality is available in isBlank().</p>
    *
-   * @param cs  the CharSequence to check, may be null
+   * @param cs the CharSequence to check, may be null
    * @return {@code true} if the CharSequence is empty or null
    * @since 3.0 Changed signature from isEmpty(String) to isEmpty(CharSequence)
    */
@@ -80,7 +78,7 @@ public class StringUtils {
 
   /**
    * <p>Checks if a CharSequence is not empty ("") and not null.</p>
-   *
+   * <p>
    * <pre>
    * StringUtils.isNotEmpty(null)      = false
    * StringUtils.isNotEmpty("")        = false
@@ -89,7 +87,7 @@ public class StringUtils {
    * StringUtils.isNotEmpty("  bob  ") = true
    * </pre>
    *
-   * @param cs  the CharSequence to check, may be null
+   * @param cs the CharSequence to check, may be null
    * @return {@code true} if the CharSequence is not empty and not null
    * @since 3.0 Changed signature from isNotEmpty(String) to isNotEmpty(CharSequence)
    */

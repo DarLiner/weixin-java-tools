@@ -14,9 +14,7 @@ import me.chanjar.weixin.common.bean.result.WxError;
 import java.lang.reflect.Type;
 
 /**
- * 
  * @author Daniel Qian
- *
  */
 public class WxErrorAdapter implements JsonDeserializer<WxError> {
 
@@ -33,5 +31,5 @@ public class WxErrorAdapter implements JsonDeserializer<WxError> {
     wxError.setJson(json.toString());
     return wxError;
   }
-  
+
 }

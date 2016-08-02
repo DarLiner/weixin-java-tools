@@ -3,7 +3,6 @@ package me.chanjar.weixin.common.util.http;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import org.apache.http.HttpHost;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -13,8 +12,8 @@ import java.io.IOException;
 
 /**
  * 简单的GET请求执行器，请求的参数是String, 返回的结果也是String
- * @author Daniel Qian
  *
+ * @author Daniel Qian
  */
 public class SimpleGetRequestExecutor implements RequestExecutor<String, String> {
 
@@ -39,7 +38,7 @@ public class SimpleGetRequestExecutor implements RequestExecutor<String, String>
         throw new WxErrorException(error);
       }
       return responseContent;
-    }finally {
+    } finally {
       httpGet.releaseConnection();
     }
   }

@@ -4,7 +4,6 @@ import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import org.apache.http.Consts;
 import org.apache.http.HttpHost;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -15,8 +14,8 @@ import java.io.IOException;
 
 /**
  * 简单的POST请求执行器，请求的参数是String, 返回的结果也是String
- * @author Daniel Qian
  *
+ * @author Daniel Qian
  */
 public class SimplePostRequestExecutor implements RequestExecutor<String, String> {
 
@@ -40,7 +39,7 @@ public class SimplePostRequestExecutor implements RequestExecutor<String, String
         throw new WxErrorException(error);
       }
       return responseContent;
-    }finally {
+    } finally {
       httpPost.releaseConnection();
     }
   }

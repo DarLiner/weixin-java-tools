@@ -1,5 +1,7 @@
 package me.chanjar.weixin.common.bean;
 
+import me.chanjar.weixin.common.util.json.WxGsonBuilder;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
@@ -7,12 +9,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.chanjar.weixin.common.util.json.WxGsonBuilder;
-
 /**
  * 企业号菜单
- * @author Daniel Qian
  *
+ * @author Daniel Qian
  */
 public class WxMenu implements Serializable {
 
@@ -21,26 +21,6 @@ public class WxMenu implements Serializable {
   private List<WxMenuButton> buttons = new ArrayList<WxMenuButton>();
 
   private WxMenuRule matchRule;
-  
-  public List<WxMenuButton> getButtons() {
-    return buttons;
-  }
-
-  public void setButtons(List<WxMenuButton> buttons) {
-    this.buttons = buttons;
-  }
-  
-  public WxMenuRule getMatchRule() {
-    return matchRule;
-  }
-  
-  public void setMatchRule(WxMenuRule matchRule) {
-    this.matchRule = matchRule;
-  }
-  
-  public String toJson() {
-    return WxGsonBuilder.create().toJson(this);
-  }
 
   /**
    * 要用 http://mp.weixin.qq.com/wiki/16/ff9b7b85220e1396ffa16794a9d95adc.html 格式来反序列化
@@ -58,11 +38,31 @@ public class WxMenu implements Serializable {
     return WxGsonBuilder.create().fromJson(new InputStreamReader(is, StandardCharsets.UTF_8), WxMenu.class);
   }
 
+  public List<WxMenuButton> getButtons() {
+    return buttons;
+  }
+
+  public void setButtons(List<WxMenuButton> buttons) {
+    this.buttons = buttons;
+  }
+
+  public WxMenuRule getMatchRule() {
+    return matchRule;
+  }
+
+  public void setMatchRule(WxMenuRule matchRule) {
+    this.matchRule = matchRule;
+  }
+
+  public String toJson() {
+    return WxGsonBuilder.create().toJson(this);
+  }
+
   @Override
   public String toString() {
     return "WxMenu{" +
-        "buttons=" + buttons +
-        '}';
+            "buttons=" + buttons +
+            '}';
   }
 
   public static class WxMenuButton {
@@ -71,7 +71,7 @@ public class WxMenu implements Serializable {
     private String name;
     private String key;
     private String url;
-    
+
     private List<WxMenuButton> subButtons = new ArrayList<WxMenuButton>();
 
     public String getType() {
@@ -117,15 +117,15 @@ public class WxMenu implements Serializable {
     @Override
     public String toString() {
       return "WxMenuButton{" +
-          "type='" + type + '\'' +
-          ", name='" + name + '\'' +
-          ", key='" + key + '\'' +
-          ", url='" + url + '\'' +
-          ", subButtons=" + subButtons +
-          '}';
+              "type='" + type + '\'' +
+              ", name='" + name + '\'' +
+              ", key='" + key + '\'' +
+              ", url='" + url + '\'' +
+              ", subButtons=" + subButtons +
+              '}';
     }
   }
-  
+
   public static class WxMenuRule {
     private String tagId;
     private String sex;
@@ -134,51 +134,51 @@ public class WxMenu implements Serializable {
     private String city;
     private String clientPlatformType;
     private String language;
-    
+
     public String getTagId() {
       return tagId;
     }
-	
+
     public void setTagId(String tagId) {
       this.tagId = tagId;
     }
-	
+
     public String getSex() {
       return sex;
     }
-	
+
     public void setSex(String sex) {
       this.sex = sex;
     }
-	
+
     public String getCountry() {
       return country;
     }
-	
+
     public void setCountry(String country) {
       this.country = country;
     }
-	
+
     public String getProvince() {
       return province;
     }
-	
+
     public void setProvince(String province) {
       this.province = province;
     }
-	
+
     public String getCity() {
       return city;
     }
-	
+
     public void setCity(String city) {
       this.city = city;
     }
-	
+
     public String getClientPlatformType() {
       return clientPlatformType;
     }
-	
+
     public void setClientPlatformType(String clientPlatformType) {
       this.clientPlatformType = clientPlatformType;
     }
@@ -194,15 +194,15 @@ public class WxMenu implements Serializable {
     @Override
     public String toString() {
       return "matchrule:{" +
-          "tag_id='" + tagId + '\'' +
-          ", sex='" + sex + '\'' +
-          ", country" + country + '\'' +
-          ", province" + province + '\'' +
-          ", city" + city + '\'' +
-          ", client_platform_type" + clientPlatformType + '\'' +
-          ", language" + language + '\'' +
-          "}";
+              "tag_id='" + tagId + '\'' +
+              ", sex='" + sex + '\'' +
+              ", country" + country + '\'' +
+              ", province" + province + '\'' +
+              ", city" + city + '\'' +
+              ", client_platform_type" + clientPlatformType + '\'' +
+              ", language" + language + '\'' +
+              "}";
     }
   }
-	
+
 }

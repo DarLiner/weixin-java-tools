@@ -6,7 +6,6 @@ import me.chanjar.weixin.common.util.StringUtils;
 import me.chanjar.weixin.common.util.fs.FileUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpHost;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -21,11 +20,11 @@ import java.util.regex.Pattern;
 
 /**
  * 下载媒体文件请求执行器，请求的参数是String, 返回的结果是File
- * @author Daniel Qian
  *
+ * @author Daniel Qian
  */
 public class MediaDownloadRequestExecutor implements RequestExecutor<File, String> {
-	
+
   private File tmpDirFile;
 
   public MediaDownloadRequestExecutor() {
@@ -36,7 +35,7 @@ public class MediaDownloadRequestExecutor implements RequestExecutor<File, Strin
     super();
     this.tmpDirFile = tmpDirFile;
   }
-  
+
 
   @Override
   public File execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String queryParam) throws WxErrorException, IOException {
@@ -46,7 +45,7 @@ public class MediaDownloadRequestExecutor implements RequestExecutor<File, Strin
       }
       uri += uri.endsWith("?") ? queryParam : '&' + queryParam;
     }
-    
+
     HttpGet httpGet = new HttpGet(uri);
     if (httpProxy != null) {
       RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
@@ -74,7 +73,7 @@ public class MediaDownloadRequestExecutor implements RequestExecutor<File, Strin
       File localFile = FileUtils.createTmpFile(inputStream, name_ext[0], name_ext[1], tmpDirFile);
       return localFile;
 
-    }finally {
+    } finally {
       httpGet.releaseConnection();
     }
 
@@ -88,5 +87,5 @@ public class MediaDownloadRequestExecutor implements RequestExecutor<File, Strin
     String fileName = m.group(1);
     return fileName;
   }
-  
+
 }

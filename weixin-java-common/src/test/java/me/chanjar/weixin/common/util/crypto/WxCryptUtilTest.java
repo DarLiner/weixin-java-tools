@@ -69,7 +69,7 @@ public class WxCryptUtilTest {
   }
 
   public void testValidateSignatureError() throws ParserConfigurationException, SAXException,
-      IOException {
+          IOException {
     try {
       WxCryptUtil pc = new WxCryptUtil(token, encodingAesKey, appId);
       String afterEncrpt = pc.encrypt(replyMsg);

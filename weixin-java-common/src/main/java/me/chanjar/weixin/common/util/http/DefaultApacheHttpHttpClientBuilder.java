@@ -94,7 +94,7 @@ public class DefaultApacheHttpHttpClientBuilder implements ApacheHttpClientBuild
     return this;
   }
 
-  public ApacheHttpClientBuilder sslConnectionSocketFactory(SSLConnectionSocketFactory sslConnectionSocketFactory){
+  public ApacheHttpClientBuilder sslConnectionSocketFactory(SSLConnectionSocketFactory sslConnectionSocketFactory) {
     this.sslConnectionSocketFactory = sslConnectionSocketFactory;
     return this;
   }
@@ -103,18 +103,18 @@ public class DefaultApacheHttpHttpClientBuilder implements ApacheHttpClientBuild
     return idleConnectionMonitorThread;
   }
 
-  private void prepare(){
+  private void prepare() {
     Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create()
-      .register("http", plainConnectionSocketFactory)
-      .register("https", sslConnectionSocketFactory)
-      .build();
+            .register("http", plainConnectionSocketFactory)
+            .register("https", sslConnectionSocketFactory)
+            .build();
     connectionManager = new PoolingHttpClientConnectionManager(registry);
     connectionManager.setMaxTotal(maxTotalConn);
     connectionManager.setDefaultMaxPerRoute(maxConnPerHost);
     connectionManager.setDefaultSocketConfig(
-      SocketConfig.copy(SocketConfig.DEFAULT)
-        .setSoTimeout(soTimeout)
-        .build()
+            SocketConfig.copy(SocketConfig.DEFAULT)
+                    .setSoTimeout(soTimeout)
+                    .build()
     );
 
     idleConnectionMonitorThread = new IdleConnectionMonitorThread(connectionManager, idleConnTimeout, checkWaitTime);
@@ -122,22 +122,22 @@ public class DefaultApacheHttpHttpClientBuilder implements ApacheHttpClientBuild
     idleConnectionMonitorThread.start();
 
     httpClientBuilder = HttpClients.custom()
-      .setConnectionManager(connectionManager)
-      .setDefaultRequestConfig(
-        RequestConfig.custom()
-          .setSocketTimeout(soTimeout)
-          .setConnectTimeout(connectionTimeout)
-          .setConnectionRequestTimeout(connectionRequestTimeout)
-          .build()
-      )
-      .setRetryHandler(httpRequestRetryHandler);
+            .setConnectionManager(connectionManager)
+            .setDefaultRequestConfig(
+                    RequestConfig.custom()
+                            .setSocketTimeout(soTimeout)
+                            .setConnectTimeout(connectionTimeout)
+                            .setConnectionRequestTimeout(connectionRequestTimeout)
+                            .build()
+            )
+            .setRetryHandler(httpRequestRetryHandler);
 
     if (StringUtils.isNotBlank(httpProxyHost) && StringUtils.isNotBlank(httpProxyUsername)) {
       // 使用代理服务器 需要用户认证的代理服务器
       CredentialsProvider credsProvider = new BasicCredentialsProvider();
       credsProvider.setCredentials(
-        new AuthScope(httpProxyHost, httpProxyPort),
-        new UsernamePasswordCredentials(httpProxyUsername, httpProxyPassword));
+              new AuthScope(httpProxyHost, httpProxyPort),
+              new UsernamePasswordCredentials(httpProxyUsername, httpProxyPassword));
       httpClientBuilder.setDefaultCredentialsProvider(credsProvider);
     }
 
@@ -148,7 +148,7 @@ public class DefaultApacheHttpHttpClientBuilder implements ApacheHttpClientBuild
   }
 
   public CloseableHttpClient build() {
-    if(!prepared){
+    if (!prepared) {
       prepare();
       prepared = true;
     }

@@ -8,22 +8,13 @@
  */
 package me.chanjar.weixin.common.util.json;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
+import com.google.gson.*;
 import me.chanjar.weixin.common.bean.WxMenu;
 
 import java.lang.reflect.Type;
 
 /**
- * 
  * @author Daniel Qian
- *
  */
 public class WxMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserializer<WxMenu> {
 
@@ -36,11 +27,11 @@ public class WxMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserializ
       buttonArray.add(buttonJson);
     }
     json.add("button", buttonArray);
-    
+
     if (menu.getMatchRule() != null) {
       json.add("matchrule", convertToJson(menu.getMatchRule()));
     }
-    
+
     return json;
   }
 
@@ -60,15 +51,15 @@ public class WxMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserializ
     return buttonJson;
   }
 
-  protected JsonObject convertToJson(WxMenu.WxMenuRule menuRule){
+  protected JsonObject convertToJson(WxMenu.WxMenuRule menuRule) {
     JsonObject matchRule = new JsonObject();
-    matchRule.addProperty("tag_id",menuRule.getTagId());
-    matchRule.addProperty("sex",menuRule.getSex());
-    matchRule.addProperty("country",menuRule.getCountry());
-    matchRule.addProperty("province",menuRule.getProvince());
-    matchRule.addProperty("city",menuRule.getCity());
-    matchRule.addProperty("client_platform_type",menuRule.getClientPlatformType());
-    matchRule.addProperty("language",menuRule.getLanguage());
+    matchRule.addProperty("tag_id", menuRule.getTagId());
+    matchRule.addProperty("sex", menuRule.getSex());
+    matchRule.addProperty("country", menuRule.getCountry());
+    matchRule.addProperty("province", menuRule.getProvince());
+    matchRule.addProperty("city", menuRule.getCity());
+    matchRule.addProperty("client_platform_type", menuRule.getClientPlatformType());
+    matchRule.addProperty("language", menuRule.getLanguage());
     return matchRule;
   }
 
@@ -96,7 +87,7 @@ public class WxMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserializ
     }
     return menu;
   }
-  
+
   protected WxMenu.WxMenuButton convertFromJson(JsonObject json) {
     WxMenu.WxMenuButton button = new WxMenu.WxMenuButton();
     button.setName(GsonHelper.getString(json, "name"));

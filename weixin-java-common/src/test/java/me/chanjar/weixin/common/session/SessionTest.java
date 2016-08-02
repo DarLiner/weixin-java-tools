@@ -10,8 +10,8 @@ public class SessionTest {
   @DataProvider
   public Object[][] getSessionManager() {
 
-    return new Object[][] {
-        new Object[] { new StandardSessionManager() }
+    return new Object[][]{
+            new Object[]{new StandardSessionManager()}
     };
 
   }
