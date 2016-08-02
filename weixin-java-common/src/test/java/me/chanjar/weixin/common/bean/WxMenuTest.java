@@ -1,9 +1,12 @@
 package me.chanjar.weixin.common.bean;
 
-import me.chanjar.weixin.common.bean.WxMenu.WxMenuButton;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import me.chanjar.weixin.common.bean.menu.WxMenu;
+import me.chanjar.weixin.common.bean.menu.WxMenuButton;
+import me.chanjar.weixin.common.bean.menu.WxMenuRule;
 
 @Test
 public class WxMenuTest {
@@ -66,7 +69,7 @@ public class WxMenuTest {
 
     menu.getButtons().add(button1);
 
-    WxMenu.WxMenuRule wxMenuRule = new WxMenu.WxMenuRule();
+    WxMenuRule wxMenuRule = new WxMenuRule();
     wxMenuRule.setTagId("2");
     wxMenuRule.setSex("1");
     wxMenuRule.setCountry("中国");
