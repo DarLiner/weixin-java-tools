@@ -14,8 +14,8 @@ import me.chanjar.weixin.cp.bean.WxCpMessage;
  *                              .toUser(...)
  *                              .build();
  * </pre>
- * @author Daniel Qian
  *
+ * @author Daniel Qian
  */
 public final class VideoBuilder extends BaseBuilder<VideoBuilder> {
   private String mediaId;

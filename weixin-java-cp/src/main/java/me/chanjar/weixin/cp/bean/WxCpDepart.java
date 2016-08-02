@@ -16,6 +16,10 @@ public class WxCpDepart implements Serializable {
   private Integer parentId;
   private Integer order;
 
+  public static WxCpDepart fromJson(String json) {
+    return WxCpGsonBuilder.create().fromJson(json, WxCpDepart.class);
+  }
+
   public Integer getId() {
     return id;
   }
@@ -48,10 +52,6 @@ public class WxCpDepart implements Serializable {
     this.order = order;
   }
 
-  public static WxCpDepart fromJson(String json) {
-    return WxCpGsonBuilder.create().fromJson(json, WxCpDepart.class);
-  }
-
   public String toJson() {
     return WxCpGsonBuilder.create().toJson(this);
   }
@@ -59,10 +59,10 @@ public class WxCpDepart implements Serializable {
   @Override
   public String toString() {
     return "WxCpDepart{" +
-        "id=" + id +
-        ", name='" + name + '\'' +
-        ", parentId=" + parentId +
-        ", order=" + order +
-        '}';
+            "id=" + id +
+            ", name='" + name + '\'' +
+            ", parentId=" + parentId +
+            ", order=" + order +
+            '}';
   }
 }

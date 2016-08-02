@@ -36,41 +36,41 @@ public class WxCpXmlMessage implements Serializable {
   private Integer agentId;
 
   @XStreamAlias("ToUserName")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String toUserName;
 
   @XStreamAlias("FromUserName")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String fromUserName;
 
   @XStreamAlias("CreateTime")
   private Long createTime;
 
   @XStreamAlias("MsgType")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String msgType;
 
   @XStreamAlias("Content")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String content;
 
   @XStreamAlias("MsgId")
   private Long msgId;
 
   @XStreamAlias("PicUrl")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String picUrl;
 
   @XStreamAlias("MediaId")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String mediaId;
 
   @XStreamAlias("Format")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String format;
 
   @XStreamAlias("ThumbMediaId")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String thumbMediaId;
 
   @XStreamAlias("Location_X")
@@ -83,31 +83,31 @@ public class WxCpXmlMessage implements Serializable {
   private Double scale;
 
   @XStreamAlias("Label")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String label;
 
   @XStreamAlias("Title")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String title;
 
   @XStreamAlias("Description")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String description;
 
   @XStreamAlias("Url")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String url;
 
   @XStreamAlias("Event")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String event;
 
   @XStreamAlias("EventKey")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String eventKey;
 
   @XStreamAlias("Ticket")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String ticket;
 
   @XStreamAlias("Latitude")
@@ -120,7 +120,7 @@ public class WxCpXmlMessage implements Serializable {
   private Double precision;
 
   @XStreamAlias("Recognition")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String recognition;
 
   ///////////////////////////////////////
@@ -130,7 +130,7 @@ public class WxCpXmlMessage implements Serializable {
    * 群发的结果
    */
   @XStreamAlias("Status")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String status;
   /**
    * group_id下粉丝数；或者openid_list中的粉丝数
@@ -161,6 +161,43 @@ public class WxCpXmlMessage implements Serializable {
 
   @XStreamAlias("SendLocationInfo")
   private SendLocationInfo sendLocationInfo = new SendLocationInfo();
+
+  protected static WxCpXmlMessage fromXml(String xml) {
+    return XStreamTransformer.fromXml(WxCpXmlMessage.class, xml);
+  }
+
+  protected static WxCpXmlMessage fromXml(InputStream is) {
+    return XStreamTransformer.fromXml(WxCpXmlMessage.class, is);
+  }
+
+  /**
+   * 从加密字符串转换
+   *
+   * @param encryptedXml
+   * @param wxCpConfigStorage
+   * @param timestamp
+   * @param nonce
+   * @param msgSignature
+   */
+  public static WxCpXmlMessage fromEncryptedXml(
+          String encryptedXml,
+          WxCpConfigStorage wxCpConfigStorage,
+          String timestamp, String nonce, String msgSignature) {
+    WxCpCryptUtil cryptUtil = new WxCpCryptUtil(wxCpConfigStorage);
+    String plainText = cryptUtil.decrypt(msgSignature, timestamp, nonce, encryptedXml);
+    return fromXml(plainText);
+  }
+
+  public static WxCpXmlMessage fromEncryptedXml(
+          InputStream is,
+          WxCpConfigStorage wxCpConfigStorage,
+          String timestamp, String nonce, String msgSignature) {
+    try {
+      return fromEncryptedXml(IOUtils.toString(is, "UTF-8"), wxCpConfigStorage, timestamp, nonce, msgSignature);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
 
   public Integer getAgentId() {
     return agentId;
@@ -197,7 +234,6 @@ public class WxCpXmlMessage implements Serializable {
    * {@link me.chanjar.weixin.common.api.WxConsts#XML_MSG_LINK}
    * {@link me.chanjar.weixin.common.api.WxConsts#XML_MSG_EVENT}
    * </pre>
-   *
    */
   public String getMsgType() {
     return msgType;
@@ -387,43 +423,6 @@ public class WxCpXmlMessage implements Serializable {
     this.fromUserName = fromUserName;
   }
 
-  protected static WxCpXmlMessage fromXml(String xml) {
-    return XStreamTransformer.fromXml(WxCpXmlMessage.class, xml);
-  }
-
-  protected static WxCpXmlMessage fromXml(InputStream is) {
-    return XStreamTransformer.fromXml(WxCpXmlMessage.class, is);
-  }
-
-  /**
-   * 从加密字符串转换
-   *
-   * @param encryptedXml
-   * @param wxCpConfigStorage
-   * @param timestamp
-   * @param nonce
-   * @param msgSignature
-   */
-  public static WxCpXmlMessage fromEncryptedXml(
-      String encryptedXml,
-      WxCpConfigStorage wxCpConfigStorage,
-      String timestamp, String nonce, String msgSignature) {
-    WxCpCryptUtil cryptUtil = new WxCpCryptUtil(wxCpConfigStorage);
-    String plainText = cryptUtil.decrypt(msgSignature, timestamp, nonce, encryptedXml);
-    return fromXml(plainText);
-  }
-
-  public static WxCpXmlMessage fromEncryptedXml(
-      InputStream is,
-      WxCpConfigStorage wxCpConfigStorage,
-      String timestamp, String nonce, String msgSignature) {
-    try {
-      return fromEncryptedXml(IOUtils.toString(is, "UTF-8"), wxCpConfigStorage, timestamp, nonce, msgSignature);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
   public String getStatus() {
     return status;
   }
@@ -491,51 +490,51 @@ public class WxCpXmlMessage implements Serializable {
   @Override
   public String toString() {
     return "WxCpXmlMessage{" +
-        "agentId=" + agentId +
-        ", toUserName='" + toUserName + '\'' +
-        ", fromUserName='" + fromUserName + '\'' +
-        ", createTime=" + createTime +
-        ", msgType='" + msgType + '\'' +
-        ", content='" + content + '\'' +
-        ", msgId=" + msgId +
-        ", picUrl='" + picUrl + '\'' +
-        ", mediaId='" + mediaId + '\'' +
-        ", format='" + format + '\'' +
-        ", thumbMediaId='" + thumbMediaId + '\'' +
-        ", locationX=" + locationX +
-        ", locationY=" + locationY +
-        ", scale=" + scale +
-        ", label='" + label + '\'' +
-        ", title='" + title + '\'' +
-        ", description='" + description + '\'' +
-        ", url='" + url + '\'' +
-        ", event='" + event + '\'' +
-        ", eventKey='" + eventKey + '\'' +
-        ", ticket='" + ticket + '\'' +
-        ", latitude=" + latitude +
-        ", longitude=" + longitude +
-        ", precision=" + precision +
-        ", recognition='" + recognition + '\'' +
-        ", status='" + status + '\'' +
-        ", totalCount=" + totalCount +
-        ", filterCount=" + filterCount +
-        ", sentCount=" + sentCount +
-        ", errorCount=" + errorCount +
-        ", scanCodeInfo=" + scanCodeInfo +
-        ", sendPicsInfo=" + sendPicsInfo +
-        ", sendLocationInfo=" + sendLocationInfo +
-        '}';
+            "agentId=" + agentId +
+            ", toUserName='" + toUserName + '\'' +
+            ", fromUserName='" + fromUserName + '\'' +
+            ", createTime=" + createTime +
+            ", msgType='" + msgType + '\'' +
+            ", content='" + content + '\'' +
+            ", msgId=" + msgId +
+            ", picUrl='" + picUrl + '\'' +
+            ", mediaId='" + mediaId + '\'' +
+            ", format='" + format + '\'' +
+            ", thumbMediaId='" + thumbMediaId + '\'' +
+            ", locationX=" + locationX +
+            ", locationY=" + locationY +
+            ", scale=" + scale +
+            ", label='" + label + '\'' +
+            ", title='" + title + '\'' +
+            ", description='" + description + '\'' +
+            ", url='" + url + '\'' +
+            ", event='" + event + '\'' +
+            ", eventKey='" + eventKey + '\'' +
+            ", ticket='" + ticket + '\'' +
+            ", latitude=" + latitude +
+            ", longitude=" + longitude +
+            ", precision=" + precision +
+            ", recognition='" + recognition + '\'' +
+            ", status='" + status + '\'' +
+            ", totalCount=" + totalCount +
+            ", filterCount=" + filterCount +
+            ", sentCount=" + sentCount +
+            ", errorCount=" + errorCount +
+            ", scanCodeInfo=" + scanCodeInfo +
+            ", sendPicsInfo=" + sendPicsInfo +
+            ", sendLocationInfo=" + sendLocationInfo +
+            '}';
   }
 
   @XStreamAlias("ScanCodeInfo")
   public static class ScanCodeInfo {
 
     @XStreamAlias("ScanType")
-    @XStreamConverter(value=XStreamCDataConverter.class)
+    @XStreamConverter(value = XStreamCDataConverter.class)
     private String scanType;
 
     @XStreamAlias("ScanResult")
-    @XStreamConverter(value=XStreamCDataConverter.class)
+    @XStreamConverter(value = XStreamCDataConverter.class)
     private String scanResult;
 
     /**
@@ -566,11 +565,10 @@ public class WxCpXmlMessage implements Serializable {
   @XStreamAlias("SendPicsInfo")
   public static class SendPicsInfo {
 
-    @XStreamAlias("Count")
-    private Long count;
-
     @XStreamAlias("PicList")
     protected final List<Item> picList = new ArrayList<Item>();
+    @XStreamAlias("Count")
+    private Long count;
 
     public Long getCount() {
       return count;
@@ -588,7 +586,7 @@ public class WxCpXmlMessage implements Serializable {
     public static class Item {
 
       @XStreamAlias("PicMd5Sum")
-      @XStreamConverter(value=XStreamCDataConverter.class)
+      @XStreamConverter(value = XStreamCDataConverter.class)
       private String PicMd5Sum;
 
       public String getPicMd5Sum() {
@@ -605,23 +603,23 @@ public class WxCpXmlMessage implements Serializable {
   public static class SendLocationInfo {
 
     @XStreamAlias("Location_X")
-    @XStreamConverter(value=XStreamCDataConverter.class)
+    @XStreamConverter(value = XStreamCDataConverter.class)
     private String locationX;
 
     @XStreamAlias("Location_Y")
-    @XStreamConverter(value=XStreamCDataConverter.class)
+    @XStreamConverter(value = XStreamCDataConverter.class)
     private String locationY;
 
     @XStreamAlias("Scale")
-    @XStreamConverter(value=XStreamCDataConverter.class)
+    @XStreamConverter(value = XStreamCDataConverter.class)
     private String scale;
 
     @XStreamAlias("Label")
-    @XStreamConverter(value=XStreamCDataConverter.class)
+    @XStreamConverter(value = XStreamCDataConverter.class)
     private String label;
 
     @XStreamAlias("Poiname")
-    @XStreamConverter(value=XStreamCDataConverter.class)
+    @XStreamConverter(value = XStreamCDataConverter.class)
     private String poiname;
 
     public String getLocationX() {

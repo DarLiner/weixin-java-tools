@@ -37,54 +37,54 @@ public class WxCpDemoServer {
   }
 
   private static void initWeixin() {
-      InputStream is1 = ClassLoader.getSystemResourceAsStream("test-config.xml");
-      WxCpDemoInMemoryConfigStorage config = WxCpDemoInMemoryConfigStorage.fromXml(is1);
+    InputStream is1 = ClassLoader.getSystemResourceAsStream("test-config.xml");
+    WxCpDemoInMemoryConfigStorage config = WxCpDemoInMemoryConfigStorage.fromXml(is1);
 
-      wxCpConfigStorage = config;
-      wxCpService = new WxCpServiceImpl();
-      wxCpService.setWxCpConfigStorage(config);
+    wxCpConfigStorage = config;
+    wxCpService = new WxCpServiceImpl();
+    wxCpService.setWxCpConfigStorage(config);
 
-      WxCpMessageHandler handler = new WxCpMessageHandler() {
-        @Override
-        public WxCpXmlOutMessage handle(WxCpXmlMessage wxMessage, Map<String, Object> context,
-            WxCpService wxCpService, WxSessionManager sessionManager) {
-          WxCpXmlOutTextMessage m = WxCpXmlOutMessage
-              .TEXT()
-              .content("测试加密消息")
-              .fromUser(wxMessage.getToUserName())
-              .toUser(wxMessage.getFromUserName())
-              .build();
-          return m;
-        }
-      };
+    WxCpMessageHandler handler = new WxCpMessageHandler() {
+      @Override
+      public WxCpXmlOutMessage handle(WxCpXmlMessage wxMessage, Map<String, Object> context,
+                                      WxCpService wxCpService, WxSessionManager sessionManager) {
+        WxCpXmlOutTextMessage m = WxCpXmlOutMessage
+                .TEXT()
+                .content("测试加密消息")
+                .fromUser(wxMessage.getToUserName())
+                .toUser(wxMessage.getFromUserName())
+                .build();
+        return m;
+      }
+    };
 
-      WxCpMessageHandler oauth2handler = new WxCpMessageHandler() {
-        @Override
-        public WxCpXmlOutMessage handle(WxCpXmlMessage wxMessage, Map<String, Object> context,
-            WxCpService wxCpService, WxSessionManager sessionManager) {
-          String href = "<a href=\"" + wxCpService.oauth2buildAuthorizationUrl(wxCpConfigStorage.getOauth2redirectUri(), null)
-              + "\">测试oauth2</a>";
-          return WxCpXmlOutMessage
-              .TEXT()
-              .content(href)
-              .fromUser(wxMessage.getToUserName())
-              .toUser(wxMessage.getFromUserName()).build();
-        }
-      };
+    WxCpMessageHandler oauth2handler = new WxCpMessageHandler() {
+      @Override
+      public WxCpXmlOutMessage handle(WxCpXmlMessage wxMessage, Map<String, Object> context,
+                                      WxCpService wxCpService, WxSessionManager sessionManager) {
+        String href = "<a href=\"" + wxCpService.oauth2buildAuthorizationUrl(wxCpConfigStorage.getOauth2redirectUri(), null)
+                + "\">测试oauth2</a>";
+        return WxCpXmlOutMessage
+                .TEXT()
+                .content(href)
+                .fromUser(wxMessage.getToUserName())
+                .toUser(wxMessage.getFromUserName()).build();
+      }
+    };
 
-      wxCpMessageRouter = new WxCpMessageRouter(wxCpService);
-      wxCpMessageRouter
-          .rule()
-          .async(false)
-          .content("哈哈") // 拦截内容为“哈哈”的消息
-          .handler(handler)
-          .end()
-          .rule()
-          .async(false)
-          .content("oauth")
-          .handler(oauth2handler)
-          .end()
-      ;
+    wxCpMessageRouter = new WxCpMessageRouter(wxCpService);
+    wxCpMessageRouter
+            .rule()
+            .async(false)
+            .content("哈哈") // 拦截内容为“哈哈”的消息
+            .handler(handler)
+            .end()
+            .rule()
+            .async(false)
+            .content("oauth")
+            .handler(oauth2handler)
+            .end()
+    ;
 
   }
 }

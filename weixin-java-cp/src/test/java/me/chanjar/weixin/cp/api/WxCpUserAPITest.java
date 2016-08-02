@@ -28,7 +28,7 @@ public class WxCpUserAPITest {
     WxCpUser user = new WxCpUser();
     user.setUserId("some.woman");
     user.setName("Some Woman");
-    user.setDepartIds(new Integer[] { 9, 8 });
+    user.setDepartIds(new Integer[]{9, 8});
     user.setEmail("none@none.com");
     user.setGender("女");
     user.setMobile("13560084979");

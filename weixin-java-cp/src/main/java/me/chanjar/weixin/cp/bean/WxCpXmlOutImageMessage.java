@@ -7,15 +7,15 @@ import me.chanjar.weixin.common.util.xml.XStreamMediaIdConverter;
 
 @XStreamAlias("xml")
 public class WxCpXmlOutImageMessage extends WxCpXmlOutMessage {
-  
+
   @XStreamAlias("Image")
-  @XStreamConverter(value=XStreamMediaIdConverter.class)
+  @XStreamConverter(value = XStreamMediaIdConverter.class)
   private String mediaId;
 
   public WxCpXmlOutImageMessage() {
     this.msgType = WxConsts.XML_MSG_IMAGE;
   }
-  
+
   public String getMediaId() {
     return mediaId;
   }
@@ -23,5 +23,5 @@ public class WxCpXmlOutImageMessage extends WxCpXmlOutMessage {
   public void setMediaId(String mediaId) {
     this.mediaId = mediaId;
   }
-  
+
 }

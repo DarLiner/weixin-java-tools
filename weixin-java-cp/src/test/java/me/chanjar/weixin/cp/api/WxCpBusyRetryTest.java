@@ -14,7 +14,7 @@ import java.util.concurrent.Future;
 @Test
 public class WxCpBusyRetryTest {
 
-  @DataProvider(name="getService")
+  @DataProvider(name = "getService")
   public Object[][] getService() {
     WxCpService service = new WxCpServiceImpl() {
 
@@ -28,8 +28,8 @@ public class WxCpBusyRetryTest {
 
     service.setMaxRetryTimes(3);
     service.setRetrySleepMillis(500);
-    return new Object[][] {
-        new Object[] { service }
+    return new Object[][]{
+            new Object[]{service}
     };
   }
 

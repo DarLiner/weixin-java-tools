@@ -37,7 +37,7 @@ public class WxCpDepartGsonAdapter implements JsonSerializer<WxCpDepart>, JsonDe
   }
 
   public WxCpDepart deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-      throws JsonParseException {
+          throws JsonParseException {
     WxCpDepart depart = new WxCpDepart();
     JsonObject departJson = json.getAsJsonObject();
     if (departJson.get("id") != null && !departJson.get("id").isJsonNull()) {

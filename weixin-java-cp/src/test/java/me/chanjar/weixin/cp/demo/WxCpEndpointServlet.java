@@ -24,7 +24,7 @@ public class WxCpEndpointServlet extends HttpServlet {
   protected WxCpMessageRouter wxCpMessageRouter;
 
   public WxCpEndpointServlet(WxCpConfigStorage wxCpConfigStorage, WxCpService wxCpService,
-      WxCpMessageRouter wxCpMessageRouter) {
+                             WxCpMessageRouter wxCpMessageRouter) {
     this.wxCpConfigStorage = wxCpConfigStorage;
     this.wxCpService = wxCpService;
     this.wxCpMessageRouter = wxCpMessageRouter;
@@ -32,7 +32,7 @@ public class WxCpEndpointServlet extends HttpServlet {
 
   @Override
   protected void service(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+          throws ServletException, IOException {
 
     response.setContentType("text/html;charset=utf-8");
     response.setStatus(HttpServletResponse.SC_OK);
@@ -56,7 +56,7 @@ public class WxCpEndpointServlet extends HttpServlet {
     }
 
     WxCpXmlMessage inMessage = WxCpXmlMessage
-        .fromEncryptedXml(request.getInputStream(), wxCpConfigStorage, timestamp, nonce, msgSignature);
+            .fromEncryptedXml(request.getInputStream(), wxCpConfigStorage, timestamp, nonce, msgSignature);
     WxCpXmlOutMessage outMessage = wxCpMessageRouter.route(inMessage);
     if (outMessage != null) {
       response.getWriter().write(outMessage.toEncryptedXml(wxCpConfigStorage));

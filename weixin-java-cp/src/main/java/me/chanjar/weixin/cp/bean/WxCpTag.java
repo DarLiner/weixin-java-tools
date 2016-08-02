@@ -23,6 +23,10 @@ public class WxCpTag implements Serializable {
     this.name = name;
   }
 
+  public static WxCpTag fromJson(String json) {
+    return WxCpGsonBuilder.create().fromJson(json, WxCpTag.class);
+  }
+
   public String getName() {
     return name;
   }
@@ -37,10 +41,6 @@ public class WxCpTag implements Serializable {
 
   public void setId(String id) {
     this.id = id;
-  }
-
-  public static WxCpTag fromJson(String json) {
-    return WxCpGsonBuilder.create().fromJson(json, WxCpTag.class);
   }
 
   public String toJson() {

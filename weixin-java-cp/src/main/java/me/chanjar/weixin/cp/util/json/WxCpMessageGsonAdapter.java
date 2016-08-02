@@ -16,9 +16,7 @@ import me.chanjar.weixin.cp.bean.WxCpMessage;
 import java.lang.reflect.Type;
 
 /**
- * 
  * @author Daniel Qian
- *
  */
 public class WxCpMessageGsonAdapter implements JsonSerializer<WxCpMessage> {
 
@@ -83,7 +81,7 @@ public class WxCpMessageGsonAdapter implements JsonSerializer<WxCpMessage> {
       newsJsonObject.add("articles", articleJsonArray);
       messageJson.add("news", newsJsonObject);
     }
-    
+
     return messageJson;
   }
 

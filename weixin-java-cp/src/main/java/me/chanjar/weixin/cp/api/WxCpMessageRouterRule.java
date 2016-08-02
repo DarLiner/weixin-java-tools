@@ -1,8 +1,8 @@
 package me.chanjar.weixin.cp.api;
 
+import me.chanjar.weixin.common.api.WxErrorExceptionHandler;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.session.WxSessionManager;
-import me.chanjar.weixin.common.api.WxErrorExceptionHandler;
 import me.chanjar.weixin.cp.bean.WxCpXmlMessage;
 import me.chanjar.weixin.cp.bean.WxCpXmlOutMessage;
 
@@ -186,7 +186,6 @@ public class WxCpMessageRouterRule {
 
   /**
    * 规则结束，代表如果一个消息匹配该规则，那么它将不再会进入其他规则
-   *
    */
   public WxCpMessageRouter end() {
     this.routerBuilder.getRules().add(this);
@@ -195,7 +194,6 @@ public class WxCpMessageRouterRule {
 
   /**
    * 规则结束，但是消息还会进入其他规则
-   *
    */
   public WxCpMessageRouter next() {
     this.reEnter = true;
@@ -204,24 +202,24 @@ public class WxCpMessageRouterRule {
 
   protected boolean test(WxCpXmlMessage wxMessage) {
     return
-        (this.fromUser == null || this.fromUser.equals(wxMessage.getFromUserName()))
-            &&
-            (this.agentId == null || this.agentId.equals(wxMessage.getAgentId()))
-            &&
-            (this.msgType == null || this.msgType.equals(wxMessage.getMsgType()))
-            &&
-            (this.event == null || this.event.equals(wxMessage.getEvent()))
-            &&
-            (this.eventKey == null || this.eventKey.equals(wxMessage.getEventKey()))
-            &&
-            (this.content == null || this.content
-                .equals(wxMessage.getContent() == null ? null : wxMessage.getContent().trim()))
-            &&
-            (this.rContent == null || Pattern
-                .matches(this.rContent, wxMessage.getContent() == null ? "" : wxMessage.getContent().trim()))
-            &&
-            (this.matcher == null || this.matcher.match(wxMessage))
-        ;
+            (this.fromUser == null || this.fromUser.equals(wxMessage.getFromUserName()))
+                    &&
+                    (this.agentId == null || this.agentId.equals(wxMessage.getAgentId()))
+                    &&
+                    (this.msgType == null || this.msgType.equals(wxMessage.getMsgType()))
+                    &&
+                    (this.event == null || this.event.equals(wxMessage.getEvent()))
+                    &&
+                    (this.eventKey == null || this.eventKey.equals(wxMessage.getEventKey()))
+                    &&
+                    (this.content == null || this.content
+                            .equals(wxMessage.getContent() == null ? null : wxMessage.getContent().trim()))
+                    &&
+                    (this.rContent == null || Pattern
+                            .matches(this.rContent, wxMessage.getContent() == null ? "" : wxMessage.getContent().trim()))
+                    &&
+                    (this.matcher == null || this.matcher.match(wxMessage))
+            ;
   }
 
   /**
@@ -231,9 +229,9 @@ public class WxCpMessageRouterRule {
    * @return true 代表继续执行别的router，false 代表停止执行别的router
    */
   protected WxCpXmlOutMessage service(WxCpXmlMessage wxMessage,
-      WxCpService wxCpService,
-      WxSessionManager sessionManager,
-      WxErrorExceptionHandler exceptionHandler) {
+                                      WxCpService wxCpService,
+                                      WxSessionManager sessionManager,
+                                      WxErrorExceptionHandler exceptionHandler) {
 
     try {
 
