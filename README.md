@@ -2,9 +2,10 @@
 ## [![Join QQ Group](http://pub.idqqimg.com/wpa/images/group.png)](http://shang.qq.com/wpa/qunwpa?idkey=078f7a153d243853e24cf2b542e7a6ccbf2a592bc138080f84d11297f736ec46)  [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badge/)     ![Maven Central](https://img.shields.io/maven-central/v/com.github.binarywang/weixin-java-parent.svg)  [![Build Status](https://travis-ci.org/binarywang/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/binarywang/weixin-java-tools)
 
 
-### 声明：本项目基于chanjarster/weixin-java-tools，由于原作者长期没有维护，故单独维护和发布，且发布到maven上的groupId也会不同。
-#### 最新更新：2.0.0版发布！！！ on 2016-07-31
-#####　由于本次更新涉及接口调整比较大，主要是公众号的调整，企业号无过多调整，主要是为了解决主接口类过于庞大不方便管理的问题，将接口实现代码按模块进行拆分。因此版本号直接从1.X.X直接升级到2.0.0，所以如果习惯于1.X.X版本的同学不想做过多更改的话，请慎重考虑升级到最新版本。
+### 声明：本项目Fork自chanjarster/weixin-java-tools，但由于原项目已停止维护，故单独维护和发布，且发布到maven上的groupId也会不同，详细信息见下文。
+
+### 最新更新：2.0.0版发布！！！ on 2016-07-31
+####　由于本次更新涉及接口调整比较大，主要是公众号的调整，企业号无过多调整，主要是为了解决主接口类过于庞大不方便管理的问题，将接口实现代码按模块进行拆分。因此版本号直接从1.X.X直接升级到2.0.0，所以如果习惯于1.X.X版本的同学不想做过多更改的话，请慎重考虑升级到最新版本。
 ---
 
 #### 本项目主要存放在github上，地址为 :
@@ -19,7 +20,7 @@
 ## 目前可参考的Demo项目:
 * https://github.com/wechat-group/weixin-java-tools-springmvc
 * https://github.com/wechat-group/weixin-mp-demo
-* =========以下为备份仓库，会保持跟主仓库同步
+* ===========以下为备份仓库，会保持跟主仓库同步
 * http://git.oschina.net/binary/weixin-mp-demo
 * https://bitbucket.org/binarywang/weixin-mp-demo
 
@@ -41,7 +42,7 @@
 
 ## Quick Start
 
-如果要开发公众号（订阅号、服务号）应用，在你的maven项目中添加：
+* 如果要开发公众号（订阅号、服务号）应用，在你的maven项目中添加：
 
 ```xml
 <dependency>
@@ -51,7 +52,7 @@
 </dependency>
 ```
 
-如果要开发企业号应用，在你的maven项目中添加：
+* 如果要开发企业号应用，在你的maven项目中添加：
 
 ```xml
 <dependency>
@@ -61,9 +62,7 @@
 </dependency>
 ```
 
-
 ## 关于Pull Request
 
-非常欢迎和感谢对本项目发起Pull Request的同学，不过本项目基于[git flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)开发流程，因此在发起Pull Request的时候请选择develop分支。
-
-且本项目代码风格是用2个空格代表一个tab，因此在发起PR时注意一下，否则很容易发生在IDE格式化代码后与原代码产生大量diff，这样我在阅读PR的时候就很困难。
+* 非常欢迎和感谢对本项目发起Pull Request的同学，不过本项目基于[git flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)开发流程，因此在发起Pull Request的时候请选择develop分支。
+* 本项目代码风格是用2个空格代表一个Tab，因此在发起PR时请注意一下，否则很容易在IDE格式化代码后与原代码产生大量diff，这样在阅读PR的时候就比较困难。
