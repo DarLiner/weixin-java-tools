@@ -38,7 +38,7 @@ public class WxMpCardServiceImpl implements WxMpCardService {
 
   private WxMpService wxMpService;
 
-  WxMpCardServiceImpl(WxMpService wxMpService) {
+  public WxMpCardServiceImpl(WxMpService wxMpService) {
     this.wxMpService = wxMpService;
   }
 
