@@ -62,7 +62,9 @@
 </dependency>
 ```
 
-## 关于Pull Request
+## 关于代码贡献
 
-* 非常欢迎和感谢对本项目发起Pull Request的同学，不过本项目基于[git flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)开发流程，因此在发起Pull Request的时候请选择develop分支。
-* 本项目代码风格是用2个空格代表一个Tab，因此在发起PR时请注意一下，否则很容易在IDE格式化代码后与原代码产生大量diff，这样在阅读PR的时候就比较困难。
+* 非常欢迎和感谢对本项目发起Pull Request的同学，本项目可以采用两种方式接受代码贡献：
+* 第一种就是基于[Git Flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)开发流程，因此在发起Pull Request的时候请选择develop分支。
+* 另外一种贡献代码的方式就是加入SDK Developers开发组，如果对自己的代码足够自信，可以随时提交代码，注意要随时进行单元测试，保证提交代码没有明显问题，具体加入方式，请咨询管理员。
+* 本项目代码风格为使用2个空格代表一个Tab，因此在提交代码时请注意一下，否则很容易在IDE格式化代码后与原代码产生大量diff，这样会给其他人阅读代码带来极大的困扰。
