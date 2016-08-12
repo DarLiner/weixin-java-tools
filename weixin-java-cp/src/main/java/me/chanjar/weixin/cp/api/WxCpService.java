@@ -393,6 +393,16 @@ public interface WxCpService {
   void tagAddUsers(String tagId, List<String> userIds, List<String> partyIds) throws WxErrorException;
 
   /**
+   *  <pre>
+   * 构造oauth2授权的url连接
+   * </pre>
+   * 
+   * @param state
+   * @return
+   */
+  String oauth2buildAuthorizationUrl(String state);
+  
+  /**
    * <pre>
    * 构造oauth2授权的url连接
    * 详情请见: http://qydev.weixin.qq.com/wiki/index.php?title=企业获取code
