@@ -67,10 +67,6 @@ public class WxMpServiceImpl implements WxMpService {
 
   private HttpHost httpProxy;
 
-  public HttpHost getHttpProxy() {
-    return this.httpProxy;
-  }
-
   private int retrySleepMillis = 1000;
 
   private int maxRetryTimes = 5;
@@ -421,6 +417,10 @@ public class WxMpServiceImpl implements WxMpService {
       throw new RuntimeException(e);
     }
   }
+  
+  public HttpHost getHttpProxy() {
+    return this.httpProxy;
+  }
 
   public CloseableHttpClient getHttpclient() {
     return this.httpClient;
@@ -429,19 +429,23 @@ public class WxMpServiceImpl implements WxMpService {
   @Override
   public void setWxMpConfigStorage(WxMpConfigStorage wxConfigProvider) {
     this.wxMpConfigStorage = wxConfigProvider;
+    this.initHttpClient();
+  }
 
+  private void initHttpClient() {
     ApacheHttpClientBuilder apacheHttpClientBuilder = this.wxMpConfigStorage.getApacheHttpClientBuilder();
     if (null == apacheHttpClientBuilder) {
       apacheHttpClientBuilder = DefaultApacheHttpHttpClientBuilder.get();
     }
-    apacheHttpClientBuilder.httpProxyHost(this.wxMpConfigStorage.getHttp_proxy_host())
-      .httpProxyPort(this.wxMpConfigStorage.getHttp_proxy_port())
-      .httpProxyUsername(this.wxMpConfigStorage.getHttp_proxy_username())
-      .httpProxyPassword(this.wxMpConfigStorage.getHttp_proxy_password());
+    
+    apacheHttpClientBuilder.httpProxyHost(this.wxMpConfigStorage.getHttpProxyHost())
+      .httpProxyPort(this.wxMpConfigStorage.getHttpProxyPort())
+      .httpProxyUsername(this.wxMpConfigStorage.getHttpProxyUsername())
+      .httpProxyPassword(this.wxMpConfigStorage.getHttpProxyPassword());
 
-    if (wxConfigProvider.getSSLContext() != null){
+    if (this.wxMpConfigStorage.getSSLContext() != null){
       SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
-          wxConfigProvider.getSSLContext(),
+          this.wxMpConfigStorage.getSSLContext(),
           new String[] { "TLSv1" },
           null,
           SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
