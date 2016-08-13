@@ -4,6 +4,10 @@ import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.util.http.ApacheHttpClientBuilder;
 
 import javax.net.ssl.SSLContext;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import java.io.File;
 
 /**
@@ -24,10 +28,10 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
 
   protected volatile String oauth2redirectUri;
 
-  protected volatile String http_proxy_host;
-  protected volatile int http_proxy_port;
-  protected volatile String http_proxy_username;
-  protected volatile String http_proxy_password;
+  protected volatile String httpProxyHost;
+  protected volatile int httpProxyPort;
+  protected volatile String httpProxyUsername;
+  protected volatile String httpProxyPassword;
 
   protected volatile String jsapiTicket;
   protected volatile long jsapiTicketExpiresTime;
@@ -187,63 +191,41 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
     this.oauth2redirectUri = oauth2redirectUri;
   }
 
-  @Override
-  public String getHttp_proxy_host() {
-    return this.http_proxy_host;
+  public String getHttpProxyHost() {
+    return this.httpProxyHost;
   }
 
-  public void setHttp_proxy_host(String http_proxy_host) {
-    this.http_proxy_host = http_proxy_host;
+  public void setHttpProxyHost(String httpProxyHost) {
+    this.httpProxyHost = httpProxyHost;
   }
 
-  @Override
-  public int getHttp_proxy_port() {
-    return this.http_proxy_port;
+  public int getHttpProxyPort() {
+    return this.httpProxyPort;
   }
 
-  public void setHttp_proxy_port(int http_proxy_port) {
-    this.http_proxy_port = http_proxy_port;
+  public void setHttpProxyPort(int httpProxyPort) {
+    this.httpProxyPort = httpProxyPort;
   }
 
-  @Override
-  public String getHttp_proxy_username() {
-    return this.http_proxy_username;
+  public String getHttpProxyUsername() {
+    return this.httpProxyUsername;
   }
 
-  public void setHttp_proxy_username(String http_proxy_username) {
-    this.http_proxy_username = http_proxy_username;
+  public void setHttpProxyUsername(String httpProxyUsername) {
+    this.httpProxyUsername = httpProxyUsername;
   }
 
-  @Override
-  public String getHttp_proxy_password() {
-    return this.http_proxy_password;
+  public String getHttpProxyPassword() {
+    return this.httpProxyPassword;
   }
 
-  public void setHttp_proxy_password(String http_proxy_password) {
-    this.http_proxy_password = http_proxy_password;
+  public void setHttpProxyPassword(String httpProxyPassword) {
+    this.httpProxyPassword = httpProxyPassword;
   }
 
   @Override
   public String toString() {
-    return "WxMpInMemoryConfigStorage{" +
-        "appId='" + this.appId + '\'' +
-        ", secret='" + this.secret + '\'' +
-        ", token='" + this.token + '\'' +
-        ", partnerId='" + this.partnerId + '\'' +
-        ", partnerKey='" + this.partnerKey + '\'' +
-        ", accessToken='" + this.accessToken + '\'' +
-        ", aesKey='" + this.aesKey + '\'' +
-        ", expiresTime=" + this.expiresTime +
-        ", http_proxy_host='" + this.http_proxy_host + '\'' +
-        ", http_proxy_port=" + this.http_proxy_port +
-        ", http_proxy_username='" + this.http_proxy_username + '\'' +
-        ", http_proxy_password='" + this.http_proxy_password + '\'' +
-        ", jsapiTicket='" + this.jsapiTicket + '\'' +
-        ", jsapiTicketExpiresTime='" + this.jsapiTicketExpiresTime + '\'' +
-        ", cardApiTicket='" + this.cardApiTicket + '\'' +
-        ", cardApiTicketExpiresTime='" + this.cardApiTicketExpiresTime + '\'' +
-        ", tmpDirFile='" + this.tmpDirFile + '\'' +
-        '}';
+    return ToStringBuilder.reflectionToString(this,ToStringStyle.JSON_STYLE);
   }
 
   @Override
