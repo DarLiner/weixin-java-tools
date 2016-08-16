@@ -169,6 +169,10 @@ public class WxCpServiceImpl implements WxCpService {
       jsapiSignature.setNoncestr(noncestr);
       jsapiSignature.setUrl(url);
       jsapiSignature.setSignature(signature);
+      
+      // Fixed bug
+      jsapiSignature.setAppid(this.wxCpConfigStorage.getCorpId());
+      
       return jsapiSignature;
     } catch (NoSuchAlgorithmException e) {
       throw new RuntimeException(e);
