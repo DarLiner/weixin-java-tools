@@ -239,11 +239,6 @@ public class WxMpServiceImpl implements WxMpService {
   }
 
   @Override
-  public String oauth2buildAuthorizationUrl(String scope, String state) {
-    return this.oauth2buildAuthorizationUrl(this.wxMpConfigStorage.getOauth2redirectUri(), scope, state);
-  }
-
-  @Override
   public String oauth2buildAuthorizationUrl(String redirectURI, String scope, String state) {
     StringBuilder url = new StringBuilder();
     url.append("https://open.weixin.qq.com/connect/oauth2/authorize?");
