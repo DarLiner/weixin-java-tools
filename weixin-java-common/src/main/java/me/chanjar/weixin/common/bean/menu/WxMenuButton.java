@@ -12,9 +12,16 @@ public class WxMenuButton {
   private String name;
   private String key;
   private String url;
+  private String mediaId;
 
   private List<WxMenuButton> subButtons = new ArrayList<WxMenuButton>();
 
+  @Override
+  public String toString() {
+    return ToStringBuilder.reflectionToString(this, 
+        ToStringStyle.JSON_STYLE);
+  }
+  
   public String getType() {
     return type;
   }
@@ -55,8 +62,11 @@ public class WxMenuButton {
     this.subButtons = subButtons;
   }
 
-  @Override
-  public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+  public String getMediaId() {
+    return mediaId;
+  }
+
+  public void setMediaId(String mediaId) {
+    this.mediaId = mediaId;
   }
 }

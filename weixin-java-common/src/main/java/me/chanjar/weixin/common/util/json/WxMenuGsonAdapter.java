@@ -52,6 +52,7 @@ public class WxMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserializ
     buttonJson.addProperty("name", button.getName());
     buttonJson.addProperty("key", button.getKey());
     buttonJson.addProperty("url", button.getUrl());
+    buttonJson.addProperty("media_id", button.getMediaId());
     if (button.getSubButtons() != null && button.getSubButtons().size() > 0) {
       JsonArray buttonArray = new JsonArray();
       for (WxMenuButton sub_button : button.getSubButtons()) {
@@ -105,6 +106,7 @@ public class WxMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserializ
     button.setKey(GsonHelper.getString(json, "key"));
     button.setUrl(GsonHelper.getString(json, "url"));
     button.setType(GsonHelper.getString(json, "type"));
+    button.setMediaId(GsonHelper.getString(json, "media_id"));
     return button;
   }
 
