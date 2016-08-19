@@ -160,7 +160,7 @@ public interface WxCpService {
    *
    * @param menu
    * @throws WxErrorException
-   * @see #menuCreate(String, me.chanjar.weixin.common.bean.WxMenu)
+   * @see #menuCreate(String, me.chanjar.weixin.common.bean.menu.WxMenu)
    */
   void menuCreate(WxMenu menu) throws WxErrorException;
 
@@ -175,7 +175,7 @@ public interface WxCpService {
    * @param agentId 企业号应用的id
    * @param menu
    * @throws WxErrorException
-   * @see #menuCreate(me.chanjar.weixin.common.bean.WxMenu)
+   * @see #menuCreate(me.chanjar.weixin.common.bean.menu.WxMenu)
    */
   void menuCreate(String agentId, WxMenu menu) throws WxErrorException;
 
@@ -398,7 +398,7 @@ public interface WxCpService {
    * </pre>
    * 
    * @param state
-   * @return
+   * @return url
    */
   String oauth2buildAuthorizationUrl(String state);
   
