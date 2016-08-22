@@ -3,8 +3,7 @@ package me.chanjar.weixin.mp.api.impl;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.internal.Streams;
-import com.google.gson.stream.JsonReader;
+import com.google.gson.JsonParser;
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.bean.result.WxError;
@@ -29,10 +28,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.StringReader;
 import java.security.NoSuchAlgorithmException;
 
 public class WxMpServiceImpl implements WxMpService {
+
+  private static final JsonParser JSON_PARSER = new JsonParser();
 
   protected final Logger log = LoggerFactory.getLogger(WxMpServiceImpl.class);
 
@@ -141,7 +141,7 @@ public class WxMpServiceImpl implements WxMpService {
         if (this.wxMpConfigStorage.isJsapiTicketExpired()) {
           String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi";
           String responseContent = execute(new SimpleGetRequestExecutor(), url, null);
-          JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
+          JsonElement tmpJsonElement = JSON_PARSER.parse(responseContent);
           JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
           String jsapiTicket = tmpJsonObject.get("ticket").getAsString();
           int expiresInSeconds = tmpJsonObject.get("expires_in").getAsInt();
@@ -224,7 +224,7 @@ public class WxMpServiceImpl implements WxMpService {
     o.addProperty("action", "long2short");
     o.addProperty("long_url", long_url);
     String responseContent = execute(new SimplePostRequestExecutor(), url, o.toString());
-    JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
+    JsonElement tmpJsonElement = JSON_PARSER.parse(responseContent);
     return tmpJsonElement.getAsJsonObject().get("short_url").getAsString();
   }
 
@@ -232,7 +232,7 @@ public class WxMpServiceImpl implements WxMpService {
   public String templateSend(WxMpTemplateMessage templateMessage) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/message/template/send";
     String responseContent = execute(new SimplePostRequestExecutor(), url, templateMessage.toJson());
-    JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
+    JsonElement tmpJsonElement = JSON_PARSER.parse(responseContent);
     final JsonObject jsonObject = tmpJsonElement.getAsJsonObject();
     if (jsonObject.get("errcode").getAsInt() == 0){
       return jsonObject.get("msgid").getAsString();
@@ -356,7 +356,7 @@ public class WxMpServiceImpl implements WxMpService {
   public String[] getCallbackIP() throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/getcallbackip";
     String responseContent = get(url, null);
-    JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
+    JsonElement tmpJsonElement = JSON_PARSER.parse(responseContent);
     JsonArray ipList = tmpJsonElement.getAsJsonObject().get("ip_list").getAsJsonArray();
     String[] ipArray = new String[ipList.size()];
     for (int i = 0; i < ipList.size(); i++) {
