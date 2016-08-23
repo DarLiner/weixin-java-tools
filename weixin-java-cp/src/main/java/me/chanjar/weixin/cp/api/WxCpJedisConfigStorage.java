@@ -9,7 +9,7 @@ import redis.clients.jedis.JedisPool;
 
 /**
  * Jedis client implementor for wechat config storage
- * 
+ *
  * @author gaigeshen
  */
 public class WxCpJedisConfigStorage implements WxCpConfigStorage {
@@ -41,42 +41,37 @@ public class WxCpJedisConfigStorage implements WxCpConfigStorage {
 	/* Redis clients pool */
 	private final JedisPool jedisPool;
 
-	/**
-	 * 
-	 * 
-	 * @param jedis
-	 */
 	public WxCpJedisConfigStorage(String host, int port) {
 		this.jedisPool = new JedisPool(host, port);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * This method will be destroy jedis pool
 	 */
 	public void destroy() {
 		this.jedisPool.destroy();
 	}
-	
+
 	@Override
 	public String getAccessToken() {
 		try (Jedis jedis = this.jedisPool.getResource()) {
 			return jedis.get(ACCESS_TOKEN_KEY);
 		}
 	}
-	
+
 	@Override
 	public boolean isAccessTokenExpired() {
 		try (Jedis jedis = this.jedisPool.getResource()) {
 			String expiresTimeStr = jedis.get(ACCESS_TOKEN_EXPIRES_TIME_KEY);
-			
+
 			if (expiresTimeStr != null) {
 				Long expiresTime = Long.parseLong(expiresTimeStr);
 				return System.currentTimeMillis() > expiresTime;
 			}
-			
+
 			return true;
-			
+
 		}
 	}
 
@@ -96,7 +91,7 @@ public class WxCpJedisConfigStorage implements WxCpConfigStorage {
 	public synchronized void updateAccessToken(String accessToken, int expiresInSeconds) {
 		try (Jedis jedis = this.jedisPool.getResource()) {
 			jedis.set(ACCESS_TOKEN_KEY, accessToken);
-			
+
 			jedis.set(ACCESS_TOKEN_EXPIRES_TIME_KEY,
 					(System.currentTimeMillis() + (expiresInSeconds - 200) * 1000L) + "");
 		}
@@ -111,17 +106,17 @@ public class WxCpJedisConfigStorage implements WxCpConfigStorage {
 
 	@Override
 	public boolean isJsapiTicketExpired() {
-		
+
 		try (Jedis jedis = this.jedisPool.getResource()) {
 			String expiresTimeStr = jedis.get(JS_API_TICKET_EXPIRES_TIME_KEY);
-			
+
 			if (expiresTimeStr != null) {
 				Long expiresTime = Long.parseLong(expiresTimeStr);
 				return System.currentTimeMillis() > expiresTime;
 			}
-			
+
 			return true;
-			
+
 		}
 	}
 
@@ -134,14 +129,14 @@ public class WxCpJedisConfigStorage implements WxCpConfigStorage {
 
 	@Override
 	public synchronized void updateJsapiTicket(String jsapiTicket, int expiresInSeconds) {
-		
+
 		try (Jedis jedis = this.jedisPool.getResource()) {
 			jedis.set(JS_API_TICKET_KEY, jsapiTicket);
-			
+
 			jedis.set(JS_API_TICKET_EXPIRES_TIME_KEY,
 					(System.currentTimeMillis() + (expiresInSeconds - 200) * 1000L + ""));
 		}
-		
+
 	}
 
 	@Override
@@ -173,14 +168,14 @@ public class WxCpJedisConfigStorage implements WxCpConfigStorage {
 	public long getExpiresTime() {
 		try (Jedis jedis = this.jedisPool.getResource()) {
 			String expiresTimeStr = jedis.get(ACCESS_TOKEN_EXPIRES_TIME_KEY);
-			
+
 			if (expiresTimeStr != null) {
 				Long expiresTime = Long.parseLong(expiresTimeStr);
 				return expiresTime;
 			}
-			
+
 			return 0L;
-			
+
 		}
 	}
 
@@ -240,7 +235,7 @@ public class WxCpJedisConfigStorage implements WxCpConfigStorage {
 	}
 
 	// ============================ Setters below
-	
+
 	public void setOauth2redirectUri(String oauth2redirectUri) {
 		this.oauth2redirectUri = oauth2redirectUri;
 	}
