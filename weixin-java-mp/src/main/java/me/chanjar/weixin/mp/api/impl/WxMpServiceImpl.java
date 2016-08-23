@@ -64,6 +64,8 @@ public class WxMpServiceImpl implements WxMpService {
 
   private WxMpPayService payService = new WxMpPayServiceImpl(this);
 
+  private WxMpDataCubeService dataCubeService = new WxMpDataCubeServiceImpl(this);
+
   private CloseableHttpClient httpClient;
 
   private HttpHost httpProxy;
@@ -525,6 +527,11 @@ public class WxMpServiceImpl implements WxMpService {
   @Override
   public WxMpPayService getPayService() {
     return this.payService;
+  }
+
+  @Override
+  public WxMpDataCubeService getDataCubeService() {
+    return this.dataCubeService;
   }
 
 }

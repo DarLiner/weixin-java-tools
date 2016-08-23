@@ -336,4 +336,11 @@ public interface WxMpService {
    * @return WxMpPayService
    */
   WxMpPayService getPayService();
+
+  /**
+   * 返回数据分析统计相关接口的方法实现类，以方便调用个其各种接口
+   *
+   * @return WxMpDataCubeService
+   */
+  WxMpDataCubeService getDataCubeService();
 }
