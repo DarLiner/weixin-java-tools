@@ -1,11 +1,11 @@
 package me.chanjar.weixin.mp.api;
 
-import java.util.Date;
-import java.util.List;
-
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.bean.result.WxMpUserCumulate;
 import me.chanjar.weixin.mp.bean.result.WxMpUserSummary;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * 统计分析相关接口 
@@ -16,22 +16,24 @@ public interface WxMpDataCubeService {
   /**
    * <pre>
    * 获取用户增减数据
-   * http://mp.weixin.qq.com/wiki/3/ecfed6e1a0a03b5f35e5efac98e864b7.html
+   * 详情请见文档：<a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141082&token=&lang=zh_CN">用户分析数据接口</a>
+   * 接口url格式：https://api.weixin.qq.com/datacube/getusersummary?access_token=ACCESS_TOKEN
    * </pre>
    *
-   * @param beginDate 最大时间跨度7天
-   * @param endDate   endDate不能早于begingDate
+   * @param beginDate 开始时间
+   * @param endDate   最大时间跨度7天，endDate不能早于begingDate
    */
   List<WxMpUserSummary> getUserSummary(Date beginDate, Date endDate) throws WxErrorException;
 
   /**
    * <pre>
    * 获取累计用户数据
-   * http://mp.weixin.qq.com/wiki/3/ecfed6e1a0a03b5f35e5efac98e864b7.html
+   * 详情请见文档：<a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141082&token=&lang=zh_CN">用户分析数据接口</a>
+   * 接口url格式：https://api.weixin.qq.com/datacube/getusercumulate?access_token=ACCESS_TOKEN
    * </pre>
    *
-   * @param beginDate 最大时间跨度7天
-   * @param endDate   endDate不能早于begingDate
+   * @param beginDate 开始时间
+   * @param endDate   最大时间跨度7天，endDate不能早于begingDate
    */
   List<WxMpUserCumulate> getUserCumulate(Date beginDate, Date endDate) throws WxErrorException;
 }
