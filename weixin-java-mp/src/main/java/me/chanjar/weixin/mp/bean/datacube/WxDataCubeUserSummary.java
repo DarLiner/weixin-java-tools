@@ -1,4 +1,4 @@
-package me.chanjar.weixin.mp.bean.result;
+package me.chanjar.weixin.mp.bean.datacube;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
