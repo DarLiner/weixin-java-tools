@@ -1,5 +1,8 @@
 package me.chanjar.weixin.mp.bean.result;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -33,9 +36,6 @@ public class WxMpUserCumulate implements Serializable {
 
   @Override
   public String toString() {
-    return "WxMpUserCumulate{" +
-        "refDate=" + refDate +
-        ", cumulateUser=" + cumulateUser +
-        '}';
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
 }
