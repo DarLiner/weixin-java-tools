@@ -9,7 +9,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @author binarywang(https://github.com/binarywang)
  *         Created by Binary Wang on 2016/8/25.
  */
-public class WxDataCubeResultBase {
+public class WxDataCubeBaseResult {
   @Override
   public String toString() {
     return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);

@@ -4,8 +4,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfList;
-
 @Test
 public class WxMpKfListTest {
 
