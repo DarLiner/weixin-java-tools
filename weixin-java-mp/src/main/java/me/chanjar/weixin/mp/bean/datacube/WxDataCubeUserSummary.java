@@ -12,7 +12,7 @@ import java.util.Date;
  * http://mp.weixin.qq.com/wiki/3/ecfed6e1a0a03b5f35e5efac98e864b7.html
  * </pre>
  */
-public class WxMpUserSummary implements Serializable {
+public class WxDataCubeUserSummary implements Serializable {
 
   private Date refDate;
 
