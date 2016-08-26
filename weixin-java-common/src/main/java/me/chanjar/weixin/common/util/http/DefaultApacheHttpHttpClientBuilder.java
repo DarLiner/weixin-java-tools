@@ -1,6 +1,8 @@
 package me.chanjar.weixin.common.util.http;
 
-import me.chanjar.weixin.common.util.StringUtils;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
 import org.apache.http.annotation.NotThreadSafe;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -21,8 +23,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.protocol.HttpContext;
 
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+import me.chanjar.weixin.common.util.StringUtils;
 
 /**
  * httpclient 连接管理器
@@ -33,7 +34,7 @@ public class DefaultApacheHttpHttpClientBuilder implements ApacheHttpClientBuild
   private int connectionTimeout = 5000;
   private int soTimeout = 5000;
   private int idleConnTimeout = 60000;
-  private int checkWaitTime = 5000;
+  private int checkWaitTime = 60000;
   private int maxConnPerHost = 10;
   private int maxTotalConn = 50;
   private String userAgent;
@@ -74,86 +75,95 @@ public class DefaultApacheHttpHttpClientBuilder implements ApacheHttpClientBuild
     return new DefaultApacheHttpHttpClientBuilder();
   }
 
+  @Override
   public ApacheHttpClientBuilder httpProxyHost(String httpProxyHost) {
     this.httpProxyHost = httpProxyHost;
     return this;
   }
 
+  @Override
   public ApacheHttpClientBuilder httpProxyPort(int httpProxyPort) {
     this.httpProxyPort = httpProxyPort;
     return this;
   }
 
+  @Override
   public ApacheHttpClientBuilder httpProxyUsername(String httpProxyUsername) {
     this.httpProxyUsername = httpProxyUsername;
     return this;
   }
 
+  @Override
   public ApacheHttpClientBuilder httpProxyPassword(String httpProxyPassword) {
     this.httpProxyPassword = httpProxyPassword;
     return this;
   }
 
+  @Override
   public ApacheHttpClientBuilder sslConnectionSocketFactory(SSLConnectionSocketFactory sslConnectionSocketFactory) {
     this.sslConnectionSocketFactory = sslConnectionSocketFactory;
     return this;
   }
 
   public IdleConnectionMonitorThread getIdleConnectionMonitorThread() {
-    return idleConnectionMonitorThread;
+    return this.idleConnectionMonitorThread;
   }
 
   private void prepare() {
     Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create()
-            .register("http", plainConnectionSocketFactory)
-            .register("https", sslConnectionSocketFactory)
+        .register("http", this.plainConnectionSocketFactory)
+        .register("https", this.sslConnectionSocketFactory)
             .build();
-    connectionManager = new PoolingHttpClientConnectionManager(registry);
-    connectionManager.setMaxTotal(maxTotalConn);
-    connectionManager.setDefaultMaxPerRoute(maxConnPerHost);
-    connectionManager.setDefaultSocketConfig(
+    this.connectionManager = new PoolingHttpClientConnectionManager(registry);
+    this.connectionManager.setMaxTotal(this.maxTotalConn);
+    this.connectionManager.setDefaultMaxPerRoute(this.maxConnPerHost);
+    this.connectionManager.setDefaultSocketConfig(
             SocketConfig.copy(SocketConfig.DEFAULT)
-                    .setSoTimeout(soTimeout)
+            .setSoTimeout(this.soTimeout)
                     .build()
     );
 
-    idleConnectionMonitorThread = new IdleConnectionMonitorThread(connectionManager, idleConnTimeout, checkWaitTime);
-    idleConnectionMonitorThread.setDaemon(true);
-    idleConnectionMonitorThread.start();
+    this.idleConnectionMonitorThread = new IdleConnectionMonitorThread(
+        this.connectionManager, this.idleConnTimeout, this.checkWaitTime);
+    this.idleConnectionMonitorThread.setDaemon(true);
+    this.idleConnectionMonitorThread.start();
 
-    httpClientBuilder = HttpClients.custom()
-            .setConnectionManager(connectionManager)
+    this.httpClientBuilder = HttpClients.custom()
+        .setConnectionManager(this.connectionManager)
             .setDefaultRequestConfig(
                     RequestConfig.custom()
-                            .setSocketTimeout(soTimeout)
-                            .setConnectTimeout(connectionTimeout)
-                            .setConnectionRequestTimeout(connectionRequestTimeout)
+                .setSocketTimeout(this.soTimeout)
+                .setConnectTimeout(this.connectionTimeout)
+                .setConnectionRequestTimeout(this.connectionRequestTimeout)
                             .build()
             )
-            .setRetryHandler(httpRequestRetryHandler);
+        .setRetryHandler(this.httpRequestRetryHandler);
 
-    if (StringUtils.isNotBlank(httpProxyHost) && StringUtils.isNotBlank(httpProxyUsername)) {
+    if (StringUtils.isNotBlank(this.httpProxyHost)
+        && StringUtils.isNotBlank(this.httpProxyUsername)) {
       // 使用代理服务器 需要用户认证的代理服务器
       CredentialsProvider credsProvider = new BasicCredentialsProvider();
       credsProvider.setCredentials(
-              new AuthScope(httpProxyHost, httpProxyPort),
-              new UsernamePasswordCredentials(httpProxyUsername, httpProxyPassword));
-      httpClientBuilder.setDefaultCredentialsProvider(credsProvider);
+          new AuthScope(this.httpProxyHost, this.httpProxyPort),
+          new UsernamePasswordCredentials(this.httpProxyUsername,
+              this.httpProxyPassword));
+      this.httpClientBuilder.setDefaultCredentialsProvider(credsProvider);
     }
 
-    if (StringUtils.isNotBlank(userAgent)) {
-      httpClientBuilder.setUserAgent(userAgent);
+    if (StringUtils.isNotBlank(this.userAgent)) {
+      this.httpClientBuilder.setUserAgent(this.userAgent);
     }
 
   }
 
+  @Override
   public CloseableHttpClient build() {
-    if (!prepared) {
+    if (!this.prepared) {
       prepare();
-      prepared = true;
+      this.prepared = true;
     }
 
-    return httpClientBuilder.build();
+    return this.httpClientBuilder.build();
   }
 
   public static class IdleConnectionMonitorThread extends Thread {
@@ -172,11 +182,12 @@ public class DefaultApacheHttpHttpClientBuilder implements ApacheHttpClientBuild
     @Override
     public void run() {
       try {
-        while (!shutdown) {
+        while (!this.shutdown) {
           synchronized (this) {
-            wait(checkWaitTime);
-            connMgr.closeExpiredConnections();
-            connMgr.closeIdleConnections(idleConnTimeout, TimeUnit.MILLISECONDS);
+            wait(this.checkWaitTime);
+            this.connMgr.closeExpiredConnections();
+            this.connMgr.closeIdleConnections(this.idleConnTimeout,
+                TimeUnit.MILLISECONDS);
           }
         }
       } catch (InterruptedException ignore) {
@@ -190,7 +201,7 @@ public class DefaultApacheHttpHttpClientBuilder implements ApacheHttpClientBuild
     }
 
     public void shutdown() {
-      shutdown = true;
+      this.shutdown = true;
       synchronized (this) {
         notifyAll();
       }
