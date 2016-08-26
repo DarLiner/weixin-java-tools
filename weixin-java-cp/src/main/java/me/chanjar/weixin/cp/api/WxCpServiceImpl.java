@@ -591,7 +591,7 @@ public class WxCpServiceImpl implements WxCpService {
     this.wxCpConfigStorage = wxConfigProvider;
     ApacheHttpClientBuilder apacheHttpClientBuilder = wxCpConfigStorage.getApacheHttpClientBuilder();
     if (null == apacheHttpClientBuilder) {
-      apacheHttpClientBuilder = DefaultApacheHttpHttpClientBuilder.get();
+      apacheHttpClientBuilder = DefaultApacheHttpClientBuilder.get();
     }
     apacheHttpClientBuilder.httpProxyHost(wxCpConfigStorage.getHttp_proxy_host())
             .httpProxyPort(wxCpConfigStorage.getHttp_proxy_port())

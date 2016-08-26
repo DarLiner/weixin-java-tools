@@ -1,8 +1,6 @@
 package me.chanjar.weixin.common.util.http;
 
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
+import me.chanjar.weixin.common.util.StringUtils;
 import org.apache.http.annotation.NotThreadSafe;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -23,13 +21,14 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.protocol.HttpContext;
 
-import me.chanjar.weixin.common.util.StringUtils;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * httpclient 连接管理器
  */
 @NotThreadSafe
-public class DefaultApacheHttpHttpClientBuilder implements ApacheHttpClientBuilder {
+public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
   private int connectionRequestTimeout = 3000;
   private int connectionTimeout = 5000;
   private int soTimeout = 5000;
@@ -53,26 +52,19 @@ public class DefaultApacheHttpHttpClientBuilder implements ApacheHttpClientBuild
   private String httpProxyPassword;
 
   /**
-   * 连接管理器
-   */
-  private PoolingHttpClientConnectionManager connectionManager;
-  /**
    * 闲置连接监控线程
    */
   private IdleConnectionMonitorThread idleConnectionMonitorThread;
 
-  /**
-   * httpClientBuilder
-   */
   private HttpClientBuilder httpClientBuilder;
 
   private boolean prepared = false;
 
-  private DefaultApacheHttpHttpClientBuilder() {
+  private DefaultApacheHttpClientBuilder() {
   }
 
-  public static DefaultApacheHttpHttpClientBuilder get() {
-    return new DefaultApacheHttpHttpClientBuilder();
+  public static DefaultApacheHttpClientBuilder get() {
+    return new DefaultApacheHttpClientBuilder();
   }
 
   @Override
@@ -111,43 +103,44 @@ public class DefaultApacheHttpHttpClientBuilder implements ApacheHttpClientBuild
 
   private void prepare() {
     Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create()
-        .register("http", this.plainConnectionSocketFactory)
-        .register("https", this.sslConnectionSocketFactory)
+            .register("http", this.plainConnectionSocketFactory)
+            .register("https", this.sslConnectionSocketFactory)
             .build();
-    this.connectionManager = new PoolingHttpClientConnectionManager(registry);
-    this.connectionManager.setMaxTotal(this.maxTotalConn);
-    this.connectionManager.setDefaultMaxPerRoute(this.maxConnPerHost);
-    this.connectionManager.setDefaultSocketConfig(
+
+    PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager(registry);
+    connectionManager.setMaxTotal(this.maxTotalConn);
+    connectionManager.setDefaultMaxPerRoute(this.maxConnPerHost);
+    connectionManager.setDefaultSocketConfig(
             SocketConfig.copy(SocketConfig.DEFAULT)
-            .setSoTimeout(this.soTimeout)
+                    .setSoTimeout(this.soTimeout)
                     .build()
     );
 
     this.idleConnectionMonitorThread = new IdleConnectionMonitorThread(
-        this.connectionManager, this.idleConnTimeout, this.checkWaitTime);
+            connectionManager, this.idleConnTimeout, this.checkWaitTime);
     this.idleConnectionMonitorThread.setDaemon(true);
     this.idleConnectionMonitorThread.start();
 
     this.httpClientBuilder = HttpClients.custom()
-        .setConnectionManager(this.connectionManager)
+            .setConnectionManager(connectionManager)
             .setDefaultRequestConfig(
                     RequestConfig.custom()
-                .setSocketTimeout(this.soTimeout)
-                .setConnectTimeout(this.connectionTimeout)
-                .setConnectionRequestTimeout(this.connectionRequestTimeout)
+                            .setSocketTimeout(this.soTimeout)
+                            .setConnectTimeout(this.connectionTimeout)
+                            .setConnectionRequestTimeout(this.connectionRequestTimeout)
                             .build()
             )
-        .setRetryHandler(this.httpRequestRetryHandler);
+            .setRetryHandler(this.httpRequestRetryHandler);
 
     if (StringUtils.isNotBlank(this.httpProxyHost)
-        && StringUtils.isNotBlank(this.httpProxyUsername)) {
+            && StringUtils.isNotBlank(this.httpProxyUsername)) {
       // 使用代理服务器 需要用户认证的代理服务器
-      CredentialsProvider credsProvider = new BasicCredentialsProvider();
-      credsProvider.setCredentials(
-          new AuthScope(this.httpProxyHost, this.httpProxyPort),
-          new UsernamePasswordCredentials(this.httpProxyUsername,
-              this.httpProxyPassword));
-      this.httpClientBuilder.setDefaultCredentialsProvider(credsProvider);
+      CredentialsProvider provider = new BasicCredentialsProvider();
+      provider.setCredentials(
+              new AuthScope(this.httpProxyHost, this.httpProxyPort),
+              new UsernamePasswordCredentials(this.httpProxyUsername,
+                      this.httpProxyPassword));
+      this.httpClientBuilder.setDefaultCredentialsProvider(provider);
     }
 
     if (StringUtils.isNotBlank(this.userAgent)) {
@@ -187,7 +180,7 @@ public class DefaultApacheHttpHttpClientBuilder implements ApacheHttpClientBuild
             wait(this.checkWaitTime);
             this.connMgr.closeExpiredConnections();
             this.connMgr.closeIdleConnections(this.idleConnTimeout,
-                TimeUnit.MILLISECONDS);
+                    TimeUnit.MILLISECONDS);
           }
         }
       } catch (InterruptedException ignore) {

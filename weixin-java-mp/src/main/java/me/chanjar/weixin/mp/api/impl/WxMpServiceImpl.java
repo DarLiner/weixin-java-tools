@@ -457,7 +457,7 @@ public class WxMpServiceImpl implements WxMpService {
   private void initHttpClient() {
     ApacheHttpClientBuilder apacheHttpClientBuilder = this.wxMpConfigStorage.getApacheHttpClientBuilder();
     if (null == apacheHttpClientBuilder) {
-      apacheHttpClientBuilder = DefaultApacheHttpHttpClientBuilder.get();
+      apacheHttpClientBuilder = DefaultApacheHttpClientBuilder.get();
     }
     
     apacheHttpClientBuilder.httpProxyHost(this.wxMpConfigStorage.getHttpProxyHost())
