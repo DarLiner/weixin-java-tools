@@ -22,3 +22,7 @@ sw-pom.xml
 *.iml
 test-config.xml
 .idea
+/.gradle/
+/gradle/
+*.bat
+/gradlew
