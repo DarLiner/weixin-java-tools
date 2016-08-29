@@ -1,12 +1,17 @@
 package me.chanjar.weixin.mp.api.impl;
 
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
-import com.google.gson.internal.Streams;
 import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
+
 import me.chanjar.weixin.common.bean.WxCardApiSignature;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -17,12 +22,6 @@ import me.chanjar.weixin.mp.api.WxMpCardService;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpCardResult;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.StringReader;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 
 /**
  * Created by Binary Wang on 2016/7/27.
@@ -76,7 +75,7 @@ public class WxMpCardServiceImpl implements WxMpCardService {
         if (this.wxMpService.getWxMpConfigStorage().isCardApiTicketExpired()) {
           String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=wx_card";
           String responseContent = this.wxMpService.execute(new SimpleGetRequestExecutor(), url, null);
-          JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
+          JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
           JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
           String cardApiTicket = tmpJsonObject.get("ticket").getAsString();
           int expiresInSeconds = tmpJsonObject.get("expires_in").getAsInt();
@@ -136,7 +135,7 @@ public class WxMpCardServiceImpl implements WxMpCardService {
     JsonObject param = new JsonObject();
     param.addProperty("encrypt_code", encryptCode);
     String responseContent = this.wxMpService.post(url, param.toString());
-    JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
+    JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
     JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
     JsonPrimitive jsonPrimitive = tmpJsonObject.getAsJsonPrimitive("code");
     return jsonPrimitive.getAsString();
@@ -158,7 +157,7 @@ public class WxMpCardServiceImpl implements WxMpCardService {
     param.addProperty("code", code);
     param.addProperty("check_consume", checkConsume);
     String responseContent = this.wxMpService.post(url, param.toString());
-    JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
+    JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
     return WxMpGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement,
             new TypeToken<WxMpCardResult>() {
             }.getType());
@@ -217,7 +216,7 @@ public class WxMpCardServiceImpl implements WxMpCardService {
     param.addProperty("openid", openId);
     param.addProperty("is_mark", isMark);
     String responseContent = this.wxMpService.post(url, param.toString());
-    JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
+    JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
     WxMpCardResult cardResult = WxMpGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement,
             new TypeToken<WxMpCardResult>() { }.getType());
     if (!cardResult.getErrorCode().equals("0")) {
