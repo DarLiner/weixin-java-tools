@@ -31,4 +31,29 @@ public class WxDataCubeArticleTotal extends WxDataCubeBaseResult {
    */
   @SerializedName("details")
   private List<WxDataCubeArticleTotalDetail> details;
+
+  public String getMsgId() {
+    return this.msgId;
+  }
+
+  public void setMsgId(String msgId) {
+    this.msgId = msgId;
+  }
+
+  public String getTitle() {
+    return this.title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
+  public List<WxDataCubeArticleTotalDetail> getDetails() {
+    return this.details;
+  }
+
+  public void setDetails(List<WxDataCubeArticleTotalDetail> details) {
+    this.details = details;
+  }
+  
 }

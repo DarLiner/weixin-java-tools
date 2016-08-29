@@ -13,6 +13,7 @@ import java.util.Date;
  * </pre>
  */
 public class WxDataCubeUserSummary implements Serializable {
+  private static final long serialVersionUID = -2336654489906694173L;
 
   private Date refDate;
 
@@ -23,7 +24,7 @@ public class WxDataCubeUserSummary implements Serializable {
   private Integer cancelUser;
 
   public Date getRefDate() {
-    return refDate;
+    return this.refDate;
   }
 
   public void setRefDate(Date refDate) {
@@ -31,7 +32,7 @@ public class WxDataCubeUserSummary implements Serializable {
   }
 
   public Integer getUserSource() {
-    return userSource;
+    return this.userSource;
   }
 
   public void setUserSource(Integer userSource) {
@@ -39,7 +40,7 @@ public class WxDataCubeUserSummary implements Serializable {
   }
 
   public Integer getNewUser() {
-    return newUser;
+    return this.newUser;
   }
 
   public void setNewUser(Integer newUser) {
@@ -47,7 +48,7 @@ public class WxDataCubeUserSummary implements Serializable {
   }
 
   public Integer getCancelUser() {
-    return cancelUser;
+    return this.cancelUser;
   }
 
   public void setCancelUser(Integer cancelUser) {

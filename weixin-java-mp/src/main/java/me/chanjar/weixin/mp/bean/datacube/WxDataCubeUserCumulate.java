@@ -14,12 +14,14 @@ import java.util.Date;
  */
 public class WxDataCubeUserCumulate implements Serializable {
 
+  private static final long serialVersionUID = -3570981300225093657L;
+
   private Date refDate;
 
   private Integer cumulateUser;
 
   public Date getRefDate() {
-    return refDate;
+    return this.refDate;
   }
 
   public void setRefDate(Date refDate) {
@@ -27,7 +29,7 @@ public class WxDataCubeUserCumulate implements Serializable {
   }
 
   public Integer getCumulateUser() {
-    return cumulateUser;
+    return this.cumulateUser;
   }
 
   public void setCumulateUser(Integer cumulateUser) {

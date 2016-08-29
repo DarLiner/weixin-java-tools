@@ -21,4 +21,13 @@ public class WxDataCubeBaseResult {
    */
   @SerializedName("ref_date")
   private String refDate;
+
+  public String getRefDate() {
+    return this.refDate;
+  }
+
+  public void setRefDate(String refDate) {
+    this.refDate = refDate;
+  }
+  
 }
