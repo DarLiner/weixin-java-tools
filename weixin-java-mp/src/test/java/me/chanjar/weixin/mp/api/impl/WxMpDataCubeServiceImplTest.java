@@ -5,12 +5,15 @@ import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.ApiTestModule;
 import me.chanjar.weixin.mp.bean.datacube.WxDataCubeArticleResult;
 import me.chanjar.weixin.mp.bean.datacube.WxDataCubeArticleTotal;
+import me.chanjar.weixin.mp.bean.datacube.WxDataCubeMsgResult;
 import me.chanjar.weixin.mp.bean.datacube.WxDataCubeUserCumulate;
 import me.chanjar.weixin.mp.bean.datacube.WxDataCubeUserSummary;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
+
+import static org.junit.Assert.fail;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,26 +27,39 @@ import java.util.List;
  */
 @Guice(modules = ApiTestModule.class)
 public class WxMpDataCubeServiceImplTest {
-  private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+  private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+      "yyyy-MM-dd");
 
   @Inject
   protected WxMpServiceImpl wxService;
 
   @DataProvider
   public Object[][] oneDay() throws ParseException {
-    return new Object[][]{{simpleDateFormat.parse("2016-08-22")}};
+    return new Object[][] { { simpleDateFormat.parse("2016-08-22") } };
   }
 
   @DataProvider
   public Object[][] threeDays() throws ParseException {
-    return new Object[][]{{simpleDateFormat.parse("2016-08-20"),
-            simpleDateFormat.parse("2016-08-22")}};
+    return new Object[][] { { simpleDateFormat.parse("2016-08-20"),
+        simpleDateFormat.parse("2016-08-22") } };
   }
 
   @DataProvider
   public Object[][] sevenDays() throws ParseException {
-    return new Object[][]{{simpleDateFormat.parse("2016-08-16"),
-            simpleDateFormat.parse("2016-08-22")}};
+    return new Object[][] { { simpleDateFormat.parse("2016-08-16"),
+        simpleDateFormat.parse("2016-08-22") } };
+  }
+
+  @DataProvider
+  public Object[][] fifteenDays() throws ParseException {
+    return new Object[][] { { simpleDateFormat.parse("2016-08-14"),
+        simpleDateFormat.parse("2016-08-27") } };
+  }
+
+  @DataProvider
+  public Object[][] thirtyDays() throws ParseException {
+    return new Object[][] { { simpleDateFormat.parse("2016-07-30"),
+        simpleDateFormat.parse("2016-08-27") } };
   }
 
   @Test(dataProvider = "sevenDays")
@@ -67,7 +83,7 @@ public class WxMpDataCubeServiceImplTest {
   @Test(dataProvider = "oneDay")
   public void testGetArticleSummary(Date date) throws WxErrorException {
     List<WxDataCubeArticleResult> results = this.wxService.getDataCubeService()
-            .getArticleSummary(date, date);
+        .getArticleSummary(date, date);
     Assert.assertNotNull(results);
     System.out.println(results);
   }
@@ -78,7 +94,7 @@ public class WxMpDataCubeServiceImplTest {
   @Test(dataProvider = "oneDay")
   public void testGetArticleTotal(Date date) throws WxErrorException {
     List<WxDataCubeArticleTotal> results = this.wxService.getDataCubeService()
-            .getArticleTotal(date, date);
+        .getArticleTotal(date, date);
     Assert.assertNotNull(results);
     System.out.println(results);
   }
@@ -87,7 +103,7 @@ public class WxMpDataCubeServiceImplTest {
   public void testGetUserRead(Date beginDate, Date endDate)
       throws WxErrorException {
     List<WxDataCubeArticleResult> results = this.wxService.getDataCubeService()
-            .getUserRead(beginDate, endDate);
+        .getUserRead(beginDate, endDate);
     Assert.assertNotNull(results);
     System.out.println(results);
   }
@@ -95,7 +111,7 @@ public class WxMpDataCubeServiceImplTest {
   @Test(dataProvider = "oneDay")
   public void testGetUserReadHour(Date date) throws WxErrorException {
     List<WxDataCubeArticleResult> results = this.wxService.getDataCubeService()
-            .getUserReadHour(date, date);
+        .getUserReadHour(date, date);
     Assert.assertNotNull(results);
     System.out.println(results);
   }
@@ -104,7 +120,7 @@ public class WxMpDataCubeServiceImplTest {
   public void testGetUserShare(Date beginDate, Date endDate)
       throws WxErrorException {
     List<WxDataCubeArticleResult> results = this.wxService.getDataCubeService()
-            .getUserShare(beginDate, endDate);
+        .getUserShare(beginDate, endDate);
     Assert.assertNotNull(results);
     System.out.println(results);
   }
@@ -112,7 +128,69 @@ public class WxMpDataCubeServiceImplTest {
   @Test(dataProvider = "oneDay")
   public void testGetUserShareHour(Date date) throws WxErrorException {
     List<WxDataCubeArticleResult> results = this.wxService.getDataCubeService()
-            .getUserShareHour(date, date);
+        .getUserShareHour(date, date);
+    Assert.assertNotNull(results);
+    System.out.println(results);
+  }
+
+  @Test(dataProvider = "sevenDays")
+  public void testGetUpstreamMsg(Date beginDate, Date endDate) throws WxErrorException {
+    List<WxDataCubeMsgResult> results = this.wxService.getDataCubeService()
+        .getUpstreamMsg(beginDate, endDate);
+    Assert.assertNotNull(results);
+    System.out.println(results);
+  }
+
+  @Test(dataProvider = "oneDay")
+  public void testGetUpstreamMsgHour(Date date) throws WxErrorException {
+    List<WxDataCubeMsgResult> results = this.wxService.getDataCubeService()
+        .getUpstreamMsgHour(date, date);
+    Assert.assertNotNull(results);
+    System.out.println(results);
+  }
+
+  @Test(dataProvider = "thirtyDays")
+  public void testGetUpstreamMsgWeek(Date beginDate, Date endDate) throws WxErrorException {
+    List<WxDataCubeMsgResult> results = this.wxService.getDataCubeService()
+        .getUpstreamMsgWeek(beginDate, endDate);
+    Assert.assertNotNull(results);
+    System.out.println(results);
+  }
+
+  /**
+   * TODO 该接口，暂时没找到有数据的日期，无法测试验证
+   */
+  @Test(dataProvider = "thirtyDays")
+  public void testGetUpstreamMsgMonth(Date beginDate, Date endDate) throws WxErrorException {
+    List<WxDataCubeMsgResult> results = this.wxService.getDataCubeService()
+        .getUpstreamMsgMonth(beginDate, endDate);
+    Assert.assertNotNull(results);
+    System.out.println(results);
+  }
+
+  @Test(dataProvider = "fifteenDays")
+  public void testGetUpstreamMsgDist(Date beginDate, Date endDate) throws WxErrorException {
+    List<WxDataCubeMsgResult> results = this.wxService.getDataCubeService()
+        .getUpstreamMsgDist(beginDate, endDate);
+    Assert.assertNotNull(results);
+    System.out.println(results);
+  }
+
+  @Test(dataProvider = "thirtyDays")
+  public void testGetUpstreamMsgDistWeek(Date beginDate, Date endDate) throws WxErrorException {
+    List<WxDataCubeMsgResult> results = this.wxService.getDataCubeService()
+        .getUpstreamMsgDistWeek(beginDate, endDate);
+    Assert.assertNotNull(results);
+    System.out.println(results);
+  }
+
+  /**
+   * TODO 该接口，暂时没找到有数据的日期，无法测试验证
+   */
+  @Test(dataProvider = "thirtyDays")
+  public void testGetUpstreamMsgDistMonth(Date beginDate, Date endDate) throws WxErrorException {
+    List<WxDataCubeMsgResult> results = this.wxService.getDataCubeService()
+        .getUpstreamMsgDistMonth(beginDate, endDate);
     Assert.assertNotNull(results);
     System.out.println(results);
   }

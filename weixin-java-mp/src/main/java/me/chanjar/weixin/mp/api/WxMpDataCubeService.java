@@ -3,6 +3,7 @@ package me.chanjar.weixin.mp.api;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.bean.datacube.WxDataCubeArticleResult;
 import me.chanjar.weixin.mp.bean.datacube.WxDataCubeArticleTotal;
+import me.chanjar.weixin.mp.bean.datacube.WxDataCubeMsgResult;
 import me.chanjar.weixin.mp.bean.datacube.WxDataCubeUserCumulate;
 import me.chanjar.weixin.mp.bean.datacube.WxDataCubeUserSummary;
 
@@ -110,4 +111,82 @@ public interface WxMpDataCubeService {
    */
   List<WxDataCubeArticleResult> getUserShareHour(Date beginDate, Date endDate) throws WxErrorException;
 
+  //*******************消息分析数据接口***********************//
+
+  /**
+   * <pre>
+   * 获取消息发送概况数据（getupstreammsg）
+   * 详情请见文档：<a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141085&token=&lang=zh_CN">消息分析数据接口</a>
+   * 接口url格式：https://api.weixin.qq.com/datacube/getupstreammsg?access_token=ACCESS_TOKEN
+   *
+   * @param beginDate 开始时间
+   * @param endDate   最大时间跨度7天，endDate不能早于begingDate
+   */
+  List<WxDataCubeMsgResult> getUpstreamMsg(Date beginDate, Date endDate) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 获取消息分送分时数据（getupstreammsghour）
+   * 详情请见文档：<a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141085&token=&lang=zh_CN">消息分析数据接口</a>
+   * 接口url格式：https://api.weixin.qq.com/datacube/getupstreammsghour?access_token=ACCESS_TOKEN
+   *
+   * @param beginDate 开始时间
+   * @param endDate   最大时间跨度1天，endDate不能早于begingDate
+   */
+  List<WxDataCubeMsgResult> getUpstreamMsgHour(Date beginDate, Date endDate) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 获取消息发送周数据（getupstreammsgweek）
+   * 详情请见文档：<a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141085&token=&lang=zh_CN">消息分析数据接口</a>
+   * 接口url格式：https://api.weixin.qq.com/datacube/getupstreammsgweek?access_token=ACCESS_TOKEN
+   *
+   * @param beginDate 开始时间
+   * @param endDate   最大时间跨度30天，endDate不能早于begingDate
+   */
+  List<WxDataCubeMsgResult> getUpstreamMsgWeek(Date beginDate, Date endDate) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 获取消息发送月数据（getupstreammsgmonth）
+   * 详情请见文档：<a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141085&token=&lang=zh_CN">消息分析数据接口</a>
+   * 接口url格式：https://api.weixin.qq.com/datacube/getupstreammsgmonth?access_token=ACCESS_TOKEN
+   *
+   * @param beginDate 开始时间
+   * @param endDate   最大时间跨度30天，endDate不能早于begingDate
+   */
+  List<WxDataCubeMsgResult> getUpstreamMsgMonth(Date beginDate, Date endDate) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 获取消息发送分布数据（getupstreammsgdist）
+   * 详情请见文档：<a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141085&token=&lang=zh_CN">消息分析数据接口</a>
+   * 接口url格式：https://api.weixin.qq.com/datacube/getupstreammsgdist?access_token=ACCESS_TOKEN
+   *
+   * @param beginDate 开始时间
+   * @param endDate   最大时间跨度15天，endDate不能早于begingDate
+   */
+  List<WxDataCubeMsgResult> getUpstreamMsgDist(Date beginDate, Date endDate) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 获取消息发送分布周数据（getupstreammsgdistweek）
+   * 详情请见文档：<a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141085&token=&lang=zh_CN">消息分析数据接口</a>
+   * 接口url格式：https://api.weixin.qq.com/datacube/getupstreammsgdistweek?access_token=ACCESS_TOKEN
+   *
+   * @param beginDate 开始时间
+   * @param endDate   最大时间跨度30天，endDate不能早于begingDate
+   */
+  List<WxDataCubeMsgResult> getUpstreamMsgDistWeek(Date beginDate, Date endDate) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 获取消息发送分布月数据（getupstreammsgdistmonth）
+   * 详情请见文档：<a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141085&token=&lang=zh_CN">消息分析数据接口</a>
+   * 接口url格式：https://api.weixin.qq.com/datacube/getupstreammsgdistmonth?access_token=ACCESS_TOKEN
+   *
+   * @param beginDate 开始时间
+   * @param endDate   最大时间跨度30天，endDate不能早于begingDate
+   */
+  List<WxDataCubeMsgResult> getUpstreamMsgDistMonth(Date beginDate, Date endDate) throws WxErrorException;
 }
