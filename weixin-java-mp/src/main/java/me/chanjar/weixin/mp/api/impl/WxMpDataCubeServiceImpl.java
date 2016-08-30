@@ -8,6 +8,7 @@ import me.chanjar.weixin.mp.api.WxMpDataCubeService;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.datacube.WxDataCubeArticleResult;
 import me.chanjar.weixin.mp.bean.datacube.WxDataCubeArticleTotal;
+import me.chanjar.weixin.mp.bean.datacube.WxDataCubeInterfaceResult;
 import me.chanjar.weixin.mp.bean.datacube.WxDataCubeMsgResult;
 import me.chanjar.weixin.mp.bean.datacube.WxDataCubeUserCumulate;
 import me.chanjar.weixin.mp.bean.datacube.WxDataCubeUserSummary;
@@ -231,6 +232,34 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     this.log.debug("\nurl:{}\nparams:{}\nresponse:{}",url, param, responseContent);
     return WxMpGsonBuilder.INSTANCE.create().fromJson(new JsonParser().parse(responseContent).getAsJsonObject().get("list"),
             new TypeToken<List<WxDataCubeMsgResult>>() {
+            }.getType());
+  }
+
+  @Override
+  public List<WxDataCubeInterfaceResult> getInterfaceSummary(Date beginDate,
+      Date endDate) throws WxErrorException {
+    String url = API_URL_PREFIX + "/getinterfacesummary";
+    JsonObject param = new JsonObject();
+    param.addProperty("begin_date", WxMpService.SIMPLE_DATE_FORMAT.format(beginDate));
+    param.addProperty("end_date", WxMpService.SIMPLE_DATE_FORMAT.format(endDate));
+    String responseContent = this.wxMpService.post(url, param.toString());
+    this.log.debug("\nurl:{}\nparams:{}\nresponse:{}",url, param, responseContent);
+    return WxMpGsonBuilder.INSTANCE.create().fromJson(new JsonParser().parse(responseContent).getAsJsonObject().get("list"),
+            new TypeToken<List<WxDataCubeInterfaceResult>>() {
+            }.getType());
+  }
+
+  @Override
+  public List<WxDataCubeInterfaceResult> getInterfaceSummaryHour(Date beginDate,
+      Date endDate) throws WxErrorException {
+    String url = API_URL_PREFIX + "/getinterfacesummaryhour";
+    JsonObject param = new JsonObject();
+    param.addProperty("begin_date", WxMpService.SIMPLE_DATE_FORMAT.format(beginDate));
+    param.addProperty("end_date", WxMpService.SIMPLE_DATE_FORMAT.format(endDate));
+    String responseContent = this.wxMpService.post(url, param.toString());
+    this.log.debug("\nurl:{}\nparams:{}\nresponse:{}",url, param, responseContent);
+    return WxMpGsonBuilder.INSTANCE.create().fromJson(new JsonParser().parse(responseContent).getAsJsonObject().get("list"),
+            new TypeToken<List<WxDataCubeInterfaceResult>>() {
             }.getType());
   }
 }

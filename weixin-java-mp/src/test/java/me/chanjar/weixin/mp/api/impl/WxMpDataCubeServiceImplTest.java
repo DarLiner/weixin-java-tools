@@ -1,24 +1,25 @@
 package me.chanjar.weixin.mp.api.impl;
 
-import com.google.inject.Inject;
-import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.mp.api.ApiTestModule;
-import me.chanjar.weixin.mp.bean.datacube.WxDataCubeArticleResult;
-import me.chanjar.weixin.mp.bean.datacube.WxDataCubeArticleTotal;
-import me.chanjar.weixin.mp.bean.datacube.WxDataCubeMsgResult;
-import me.chanjar.weixin.mp.bean.datacube.WxDataCubeUserCumulate;
-import me.chanjar.weixin.mp.bean.datacube.WxDataCubeUserSummary;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
 
-import static org.junit.Assert.fail;
+import com.google.inject.Inject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.mp.api.ApiTestModule;
+import me.chanjar.weixin.mp.bean.datacube.WxDataCubeArticleResult;
+import me.chanjar.weixin.mp.bean.datacube.WxDataCubeArticleTotal;
+import me.chanjar.weixin.mp.bean.datacube.WxDataCubeInterfaceResult;
+import me.chanjar.weixin.mp.bean.datacube.WxDataCubeMsgResult;
+import me.chanjar.weixin.mp.bean.datacube.WxDataCubeUserCumulate;
+import me.chanjar.weixin.mp.bean.datacube.WxDataCubeUserSummary;
 
 /**
  * 测试统计分析相关的接口
@@ -191,6 +192,22 @@ public class WxMpDataCubeServiceImplTest {
   public void testGetUpstreamMsgDistMonth(Date beginDate, Date endDate) throws WxErrorException {
     List<WxDataCubeMsgResult> results = this.wxService.getDataCubeService()
         .getUpstreamMsgDistMonth(beginDate, endDate);
+    Assert.assertNotNull(results);
+    System.out.println(results);
+  }
+
+  @Test(dataProvider = "thirtyDays")
+  public void testGetInterfaceSummary(Date beginDate, Date endDate) throws WxErrorException {
+    List<WxDataCubeInterfaceResult> results = this.wxService.getDataCubeService()
+        .getInterfaceSummary(beginDate, endDate);
+    Assert.assertNotNull(results);
+    System.out.println(results);
+  }
+
+  @Test(dataProvider = "oneDay")
+  public void testGetInterfaceSummaryHour(Date date) throws WxErrorException {
+    List<WxDataCubeInterfaceResult> results = this.wxService.getDataCubeService()
+        .getInterfaceSummaryHour(date, date);
     Assert.assertNotNull(results);
     System.out.println(results);
   }
