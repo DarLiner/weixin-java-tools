@@ -8,22 +8,7 @@
 ####　由于本次更新涉及接口调整比较大，主要是公众号的调整，企业号无过多调整，主要是为了解决主接口类过于庞大不方便管理的问题，将接口实现代码按模块进行拆分。因此版本号直接从1.X.X直接升级到2.0.0，所以如果习惯于1.X.X版本的同学不想做过多更改的话，请慎重考虑升级到最新版本。
 ---
 
-#### 本项目主要存放在github上，地址为 :
-* https://github.com/wechat-group/weixin-java-tools
-* ===========但同时会在其他几个网站同步更新，地址分别是:
-* https://bitbucket.org/binarywang/weixin-java-tools
-* http://git.oschina.net/binary/weixin-java-tools
-* https://git.coding.net/binarywang/weixin-java-tools.git
-
 ### 详细开发文档请看 [wiki](https://github.com/chanjarster/weixin-java-tools/wiki)。
-
-## 目前可参考的Demo项目:
-* https://github.com/wechat-group/weixin-java-tools-springmvc
-* https://github.com/wechat-group/weixin-mp-demo
-* ===========以下为备份仓库，会保持跟主仓库同步
-* http://git.oschina.net/binary/weixin-mp-demo
-* https://bitbucket.org/binarywang/weixin-mp-demo
-
 ===========
 ## 开发交流工具：
 * QQ群：343954419 [![Join QQ Group](http://pub.idqqimg.com/wpa/images/group.png)](http://shang.qq.com/wpa/qunwpa?idkey=078f7a153d243853e24cf2b542e7a6ccbf2a592bc138080f84d11297f736ec46)
@@ -67,6 +52,21 @@ compile 'com.github.binarywang:weixin-java-mp:2.0.0'
 ```groovy
 compile 'com.github.binarywang:weixin-java-cp:2.0.0'
 ```
+
+#### 本项目主要存放在github上，地址为 :
+* https://github.com/wechat-group/weixin-java-tools
+* ===========但同时会在其他几个网站同步更新，地址分别是:
+* https://bitbucket.org/binarywang/weixin-java-tools
+* http://git.oschina.net/binary/weixin-java-tools
+* https://git.coding.net/binarywang/weixin-java-tools.git
+
+
+## 目前可参考的Demo项目:
+* https://github.com/wechat-group/weixin-java-tools-springmvc
+* https://github.com/wechat-group/weixin-mp-demo
+* ===========以下为备份仓库，会保持跟主仓库同步
+* http://git.oschina.net/binary/weixin-mp-demo
+* https://bitbucket.org/binarywang/weixin-mp-demo
 
 ## 关于代码贡献
 
