@@ -40,10 +40,9 @@
 - [【企业号】](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.github.binarywang%22%20AND%20a%3A%22weixin-java-cp%22)
 
 
-## Quick Start
+## Maven & Gradle
 
-* 如果要开发公众号（订阅号、服务号）应用，在你的maven项目中添加：
-
+* 公众号（订阅号、服务号）：
 ```xml
 <dependency>
   <groupId>com.github.binarywang</groupId>
@@ -52,14 +51,21 @@
 </dependency>
 ```
 
-* 如果要开发企业号应用，在你的maven项目中添加：
+```groovy
+compile 'com.github.binarywang:weixin-java-mp:2.0.0'
+```
 
+* 企业号：
 ```xml
 <dependency>
   <groupId>com.github.binarywang</groupId>
   <artifactId>weixin-java-cp</artifactId>
   <version>2.0.0</version>
 </dependency>
+```
+
+```groovy
+compile 'com.github.binarywang:weixin-java-cp:2.0.0'
 ```
 
 ## 关于代码贡献
