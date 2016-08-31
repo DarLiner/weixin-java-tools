@@ -19,6 +19,7 @@ import java.lang.reflect.Type;
 
 public class WxMpMaterialArticleUpdateGsonAdapter implements JsonSerializer<WxMpMaterialArticleUpdate> {
 
+  @Override
   public JsonElement serialize(WxMpMaterialArticleUpdate wxMpMaterialArticleUpdate, Type typeOfSrc, JsonSerializationContext context) {
     JsonObject articleUpdateJson = new JsonObject();
     articleUpdateJson.addProperty("media_id", wxMpMaterialArticleUpdate.getMediaId());

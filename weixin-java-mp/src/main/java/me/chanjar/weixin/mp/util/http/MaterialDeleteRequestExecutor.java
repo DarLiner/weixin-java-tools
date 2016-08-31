@@ -24,6 +24,7 @@ public class MaterialDeleteRequestExecutor implements RequestExecutor<Boolean, S
     super();
   }
 
+  @Override
   public Boolean execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String materialId) throws WxErrorException, IOException {
     HttpPost httpPost = new HttpPost(uri);
     if (httpProxy != null) {

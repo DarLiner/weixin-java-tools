@@ -26,6 +26,7 @@ public final class VideoBuilder extends BaseBuilder<VideoBuilder, WxMpXmlOutVide
     return this;
   }
   
+  @Override
   public WxMpXmlOutVideoMessage build() {
     WxMpXmlOutVideoMessage m = new WxMpXmlOutVideoMessage();
     setCommon(m);

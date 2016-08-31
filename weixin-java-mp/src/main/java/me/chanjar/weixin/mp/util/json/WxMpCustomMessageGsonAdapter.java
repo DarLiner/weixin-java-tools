@@ -18,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 
 public class WxMpCustomMessageGsonAdapter implements JsonSerializer<WxMpCustomMessage> {
 
+  @Override
   public JsonElement serialize(WxMpCustomMessage message, Type typeOfSrc, JsonSerializationContext context) {
     JsonObject messageJson = new JsonObject();
     messageJson.addProperty("touser", message.getToUser());

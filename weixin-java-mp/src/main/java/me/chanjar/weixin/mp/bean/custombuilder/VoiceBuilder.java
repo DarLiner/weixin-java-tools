@@ -23,6 +23,7 @@ public final class VoiceBuilder extends BaseBuilder<VoiceBuilder> {
     return this;
   }
 
+  @Override
   public WxMpCustomMessage build() {
     WxMpCustomMessage m = super.build();
     m.setMediaId(this.mediaId);

@@ -25,6 +25,7 @@ public class WxMpUserCumulateGsonAdapter implements JsonDeserializer<WxDataCubeU
 
   private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
+  @Override
   public WxDataCubeUserCumulate deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
     WxDataCubeUserCumulate cumulate = new WxDataCubeUserCumulate();
     JsonObject summaryJsonObject = json.getAsJsonObject();

@@ -18,6 +18,7 @@ public final class NewsBuilder extends BaseBuilder<NewsBuilder, WxMpXmlOutNewsMe
     return this;
   }
   
+  @Override
   public WxMpXmlOutNewsMessage build() {
     WxMpXmlOutNewsMessage m = new WxMpXmlOutNewsMessage();
     for(WxMpXmlOutNewsMessage.Item item : articles) {

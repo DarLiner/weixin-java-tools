@@ -21,6 +21,7 @@ import java.lang.reflect.Type;
  */
 public class WxQrCodeTicketAdapter implements JsonDeserializer<WxMpQrCodeTicket> {
 
+  @Override
   public WxMpQrCodeTicket deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
     WxMpQrCodeTicket ticket = new WxMpQrCodeTicket();
     JsonObject ticketJsonObject = json.getAsJsonObject();

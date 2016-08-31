@@ -191,6 +191,7 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
     this.oauth2redirectUri = oauth2redirectUri;
   }
 
+  @Override
   public String getHttpProxyHost() {
     return this.httpProxyHost;
   }
@@ -199,6 +200,7 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
     this.httpProxyHost = httpProxyHost;
   }
 
+  @Override
   public int getHttpProxyPort() {
     return this.httpProxyPort;
   }
@@ -207,6 +209,7 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
     this.httpProxyPort = httpProxyPort;
   }
 
+  @Override
   public String getHttpProxyUsername() {
     return this.httpProxyUsername;
   }
@@ -215,6 +218,7 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
     this.httpProxyUsername = httpProxyUsername;
   }
 
+  @Override
   public String getHttpProxyPassword() {
     return this.httpProxyPassword;
   }

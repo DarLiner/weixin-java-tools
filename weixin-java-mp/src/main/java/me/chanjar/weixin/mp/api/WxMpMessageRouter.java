@@ -161,6 +161,7 @@ public class WxMpMessageRouter {
       if(rule.isAsync()) {
         futures.add(
             executorService.submit(new Runnable() {
+              @Override
               public void run() {
                 rule.service(wxMessage, wxMpService, sessionManager, exceptionHandler);
               }

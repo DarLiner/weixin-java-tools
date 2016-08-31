@@ -52,6 +52,7 @@ public final class MusicBuilder extends BaseBuilder<MusicBuilder> {
     return this;
   }
 
+  @Override
   public WxMpCustomMessage build() {
     WxMpCustomMessage m = super.build();
     m.setMusicUrl(this.musicUrl);

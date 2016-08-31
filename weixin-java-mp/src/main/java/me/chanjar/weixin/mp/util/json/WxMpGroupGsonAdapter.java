@@ -16,6 +16,7 @@ import java.lang.reflect.Type;
 
 public class WxMpGroupGsonAdapter implements JsonSerializer<WxMpGroup>, JsonDeserializer<WxMpGroup> {
 
+  @Override
   public JsonElement serialize(WxMpGroup group, Type typeOfSrc, JsonSerializationContext context) {
     JsonObject json = new JsonObject();
     JsonObject groupJson = new JsonObject();
@@ -26,6 +27,7 @@ public class WxMpGroupGsonAdapter implements JsonSerializer<WxMpGroup>, JsonDese
     return json;
   }
 
+  @Override
   public WxMpGroup deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
     WxMpGroup group = new WxMpGroup();
     JsonObject groupJson = json.getAsJsonObject();

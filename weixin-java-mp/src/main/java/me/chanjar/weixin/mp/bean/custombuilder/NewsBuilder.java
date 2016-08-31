@@ -28,6 +28,7 @@ public final class NewsBuilder extends BaseBuilder<NewsBuilder> {
     return this;
   }
 
+  @Override
   public WxMpCustomMessage build() {
     WxMpCustomMessage m = super.build();
     m.setArticles(this.articles);

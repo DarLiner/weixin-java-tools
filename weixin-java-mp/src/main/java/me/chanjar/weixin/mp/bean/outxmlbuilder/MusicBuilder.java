@@ -40,6 +40,7 @@ public final class MusicBuilder extends BaseBuilder<MusicBuilder, WxMpXmlOutMusi
     return this;
   }
 
+  @Override
   public WxMpXmlOutMusicMessage build() {
     WxMpXmlOutMusicMessage m = new WxMpXmlOutMusicMessage();
     setCommon(m);

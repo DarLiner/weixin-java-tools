@@ -34,6 +34,7 @@ public class MaterialVoiceAndImageDownloadRequestExecutor implements RequestExec
     this.tmpDirFile = tmpDirFile;
   }
 
+  @Override
   public InputStream execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String materialId) throws WxErrorException, IOException {
     HttpPost httpPost = new HttpPost(uri);
     if (httpProxy != null) {

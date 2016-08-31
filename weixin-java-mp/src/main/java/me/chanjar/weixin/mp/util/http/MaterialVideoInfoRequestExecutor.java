@@ -24,6 +24,7 @@ public class MaterialVideoInfoRequestExecutor implements RequestExecutor<WxMpMat
     super();
   }
 
+  @Override
   public WxMpMaterialVideoInfoResult execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String materialId) throws WxErrorException, IOException {
     HttpPost httpPost = new HttpPost(uri);
     if (httpProxy != null) {

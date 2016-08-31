@@ -23,6 +23,7 @@ import java.lang.reflect.Type;
  */
 public class WxMpMassVideoAdapter implements JsonSerializer<WxMpMassVideo> {
 
+  @Override
   public JsonElement serialize(WxMpMassVideo message, Type typeOfSrc, JsonSerializationContext context) {
     JsonObject messageJson = new JsonObject();
     messageJson.addProperty("media_id", message.getMediaId());
