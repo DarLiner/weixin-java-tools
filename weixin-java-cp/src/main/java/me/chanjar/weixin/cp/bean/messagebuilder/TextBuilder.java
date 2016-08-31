@@ -8,8 +8,8 @@ import me.chanjar.weixin.cp.bean.WxCpMessage;
  * <pre>
  * 用法: WxCustomMessage m = WxCustomMessage.TEXT().content(...).toUser(...).build();
  * </pre>
- * @author Daniel Qian
  *
+ * @author Daniel Qian
  */
 public final class TextBuilder extends BaseBuilder<TextBuilder> {
   private String content;

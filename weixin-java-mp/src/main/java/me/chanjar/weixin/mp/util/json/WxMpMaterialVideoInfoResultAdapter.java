@@ -11,6 +11,7 @@ import java.lang.reflect.Type;
  */
 public class WxMpMaterialVideoInfoResultAdapter implements JsonDeserializer<WxMpMaterialVideoInfoResult> {
 
+  @Override
   public WxMpMaterialVideoInfoResult deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
     WxMpMaterialVideoInfoResult uploadResult = new WxMpMaterialVideoInfoResult();
     JsonObject uploadResultJsonObject = json.getAsJsonObject();

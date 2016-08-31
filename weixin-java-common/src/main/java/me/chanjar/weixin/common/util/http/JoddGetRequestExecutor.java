@@ -18,39 +18,39 @@ import java.io.IOException;
  */
 public class JoddGetRequestExecutor implements RequestExecutor<String, String> {
 
-    @Override
-    public String execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri,
-        String queryParam) throws WxErrorException, IOException {
-        if (queryParam != null) {
-            if (uri.indexOf('?') == -1) {
-                uri += '?';
-            }
-            uri += uri.endsWith("?") ? queryParam : '&' + queryParam;
-        }
-
-        SocketHttpConnectionProvider provider = new SocketHttpConnectionProvider();
-
-        if (httpProxy != null) {
-            ProxyInfo proxyInfoObj = new ProxyInfo(
-                ProxyInfo.ProxyType.HTTP,
-                httpProxy.getHostName(),
-                httpProxy.getPort(), "", "");
-            provider.useProxy(proxyInfoObj);
-        }
-
-        HttpRequest request = HttpRequest.get(uri);
-        request.method("GET");
-        request.charset("UTF-8");
-
-        HttpResponse response = request.open(provider).send();
-        response.charset("UTF-8");
-        String result = response.bodyText();
-
-        WxError error = WxError.fromJson(result);
-        if (error.getErrorCode() != 0) {
-            throw new WxErrorException(error);
-        }
-        return result;
+  @Override
+  public String execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri,
+                        String queryParam) throws WxErrorException, IOException {
+    if (queryParam != null) {
+      if (uri.indexOf('?') == -1) {
+        uri += '?';
+      }
+      uri += uri.endsWith("?") ? queryParam : '&' + queryParam;
     }
+
+    SocketHttpConnectionProvider provider = new SocketHttpConnectionProvider();
+
+    if (httpProxy != null) {
+      ProxyInfo proxyInfoObj = new ProxyInfo(
+              ProxyInfo.ProxyType.HTTP,
+              httpProxy.getHostName(),
+              httpProxy.getPort(), "", "");
+      provider.useProxy(proxyInfoObj);
+    }
+
+    HttpRequest request = HttpRequest.get(uri);
+    request.method("GET");
+    request.charset("UTF-8");
+
+    HttpResponse response = request.open(provider).send();
+    response.charset("UTF-8");
+    String result = response.bodyText();
+
+    WxError error = WxError.fromJson(result);
+    if (error.getErrorCode() != 0) {
+      throw new WxErrorException(error);
+    }
+    return result;
+  }
 
 }

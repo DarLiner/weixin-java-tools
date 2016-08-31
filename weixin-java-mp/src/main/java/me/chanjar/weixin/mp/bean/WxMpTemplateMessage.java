@@ -8,14 +8,18 @@ import java.util.List;
 
 public class WxMpTemplateMessage implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 5063374783759519418L;
   private String toUser;
   private String templateId;
   private String url;
   private String topColor;
-  private List<WxMpTemplateData> data = new ArrayList<WxMpTemplateData>();
+  private List<WxMpTemplateData> data = new ArrayList<>();
 
   public String getToUser() {
-    return toUser;
+    return this.toUser;
   }
 
   public void setToUser(String toUser) {
@@ -23,7 +27,7 @@ public class WxMpTemplateMessage implements Serializable {
   }
 
   public String getTemplateId() {
-    return templateId;
+    return this.templateId;
   }
 
   public void setTemplateId(String templateId) {
@@ -31,7 +35,7 @@ public class WxMpTemplateMessage implements Serializable {
   }
 
   public String getUrl() {
-    return url;
+    return this.url;
   }
 
   public void setUrl(String url) {
@@ -39,7 +43,7 @@ public class WxMpTemplateMessage implements Serializable {
   }
 
   public String getTopColor() {
-    return topColor;
+    return this.topColor;
   }
 
   public void setTopColor(String topColor) {
@@ -47,7 +51,7 @@ public class WxMpTemplateMessage implements Serializable {
   }
 
   public List<WxMpTemplateData> getData() {
-    return data;
+    return this.data;
   }
 
   public void setData(List<WxMpTemplateData> data) {

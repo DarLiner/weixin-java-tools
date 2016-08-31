@@ -11,12 +11,11 @@ import java.util.List;
 @XStreamAlias("xml")
 public class WxCpXmlOutNewsMessage extends WxCpXmlOutMessage {
 
-  @XStreamAlias("ArticleCount")
-  protected int articleCount;
-  
   @XStreamAlias("Articles")
   protected final List<Item> articles = new ArrayList<Item>();
-  
+  @XStreamAlias("ArticleCount")
+  protected int articleCount;
+
   public WxCpXmlOutNewsMessage() {
     this.msgType = WxConsts.XML_MSG_NEWS;
   }
@@ -29,31 +28,31 @@ public class WxCpXmlOutNewsMessage extends WxCpXmlOutMessage {
     this.articles.add(item);
     this.articleCount = this.articles.size();
   }
-  
+
   public List<Item> getArticles() {
     return articles;
   }
-  
-  
+
+
   @XStreamAlias("item")
   public static class Item {
-    
+
     @XStreamAlias("Title")
-    @XStreamConverter(value=XStreamCDataConverter.class)
+    @XStreamConverter(value = XStreamCDataConverter.class)
     private String Title;
 
     @XStreamAlias("Description")
-    @XStreamConverter(value=XStreamCDataConverter.class)
+    @XStreamConverter(value = XStreamCDataConverter.class)
     private String Description;
 
     @XStreamAlias("PicUrl")
-    @XStreamConverter(value=XStreamCDataConverter.class)
+    @XStreamConverter(value = XStreamCDataConverter.class)
     private String PicUrl;
-    
+
     @XStreamAlias("Url")
-    @XStreamConverter(value=XStreamCDataConverter.class)
+    @XStreamConverter(value = XStreamCDataConverter.class)
     private String Url;
-    
+
     public String getTitle() {
       return Title;
     }

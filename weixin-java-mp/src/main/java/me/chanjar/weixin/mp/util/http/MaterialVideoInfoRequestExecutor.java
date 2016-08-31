@@ -7,7 +7,6 @@ import me.chanjar.weixin.common.util.http.Utf8ResponseHandler;
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 import me.chanjar.weixin.mp.bean.result.WxMpMaterialVideoInfoResult;
 import org.apache.http.HttpHost;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -24,6 +23,7 @@ public class MaterialVideoInfoRequestExecutor implements RequestExecutor<WxMpMat
     super();
   }
 
+  @Override
   public WxMpMaterialVideoInfoResult execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String materialId) throws WxErrorException, IOException {
     HttpPost httpPost = new HttpPost(uri);
     if (httpProxy != null) {

@@ -3,6 +3,8 @@ package me.chanjar.weixin.mp.util.json;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import me.chanjar.weixin.mp.bean.*;
+import me.chanjar.weixin.mp.bean.datacube.WxDataCubeUserCumulate;
+import me.chanjar.weixin.mp.bean.datacube.WxDataCubeUserSummary;
 import me.chanjar.weixin.mp.bean.result.*;
 
 public class WxMpGsonBuilder {
@@ -25,8 +27,8 @@ public class WxMpGsonBuilder {
     INSTANCE.registerTypeAdapter(WxMpTemplateMessage.class, new WxMpTemplateMessageGsonAdapter());
     INSTANCE.registerTypeAdapter(WxMpSemanticQueryResult.class, new WxMpSemanticQueryResultAdapter());
     INSTANCE.registerTypeAdapter(WxMpOAuth2AccessToken.class, new WxMpOAuth2AccessTokenAdapter());
-    INSTANCE.registerTypeAdapter(WxMpUserSummary.class, new WxMpUserSummaryGsonAdapter());
-    INSTANCE.registerTypeAdapter(WxMpUserCumulate.class, new WxMpUserCumulateGsonAdapter());
+    INSTANCE.registerTypeAdapter(WxDataCubeUserSummary.class, new WxMpUserSummaryGsonAdapter());
+    INSTANCE.registerTypeAdapter(WxDataCubeUserCumulate.class, new WxMpUserCumulateGsonAdapter());
     INSTANCE.registerTypeAdapter(WxMpMaterialUploadResult.class, new WxMpMaterialUploadResultAdapter());
     INSTANCE.registerTypeAdapter(WxMpMaterialVideoInfoResult.class, new WxMpMaterialVideoInfoResultAdapter());
     INSTANCE.registerTypeAdapter(WxMpMassNews.WxMpMassNewsArticle.class, new WxMpMassNewsArticleGsonAdapter());

@@ -10,8 +10,7 @@ package me.chanjar.weixin.mp.util.json;
 
 import com.google.gson.*;
 import me.chanjar.weixin.common.util.json.GsonHelper;
-import me.chanjar.weixin.mp.bean.result.WxMpMassUploadResult;
-import me.chanjar.weixin.mp.bean.result.WxMpUserSummary;
+import me.chanjar.weixin.mp.bean.datacube.WxDataCubeUserSummary;
 
 import java.lang.reflect.Type;
 import java.text.ParseException;
@@ -20,13 +19,14 @@ import java.text.SimpleDateFormat;
 /**
  * @author Daniel Qian
  */
-public class WxMpUserSummaryGsonAdapter implements JsonDeserializer<WxMpUserSummary> {
+public class WxMpUserSummaryGsonAdapter implements JsonDeserializer<WxDataCubeUserSummary> {
 
   private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
-  public WxMpUserSummary deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+  @Override
+  public WxDataCubeUserSummary deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
       throws JsonParseException {
-    WxMpUserSummary summary = new WxMpUserSummary();
+    WxDataCubeUserSummary summary = new WxDataCubeUserSummary();
     JsonObject summaryJsonObject = json.getAsJsonObject();
 
     try {

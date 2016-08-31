@@ -2,6 +2,10 @@
  * 对公众平台发送给公众账号的消息加解密示例代码.
  *
  * @copyright Copyright (c) 1998-2014 Tencent Inc.
+ * <p>
+ * 针对org.apache.commons.codec.binary.Base64，
+ * 需要导入架包commons-codec-1.9（或commons-codec-1.8等其他版本）
+ * 官方下载地址：http://commons.apache.org/proper/commons-codec/download_codec.cgi
  */
 
 // ------------------------------------------------------------------------
@@ -62,10 +66,49 @@ public class WxCryptUtil {
    * @param appidOrCorpid          公众平台appid/corpid
    */
   public WxCryptUtil(String token, String encodingAesKey,
-      String appidOrCorpid) {
+                     String appidOrCorpid) {
     this.token = token;
     this.appidOrCorpid = appidOrCorpid;
     this.aesKey = Base64.decodeBase64(encodingAesKey + "=");
+  }
+
+  /**
+   * 微信公众号支付签名算法(详见:http://pay.weixin.qq.com/wiki/doc/api/index.php?chapter=4_3)
+   * @param packageParams 原始参数
+   * @param signKey 加密Key(即 商户Key)
+   * @return 签名字符串
+   */
+  public static String createSign(Map<String, String> packageParams,
+                                  String signKey) {
+    SortedMap<String, String> sortedMap = new TreeMap<String, String>();
+    sortedMap.putAll(packageParams);
+
+    List<String> keys = new ArrayList<String>(packageParams.keySet());
+    Collections.sort(keys);
+
+    StringBuffer toSign = new StringBuffer();
+    for (String key : keys) {
+      String value = packageParams.get(key);
+      if (null != value && !"".equals(value) && !"sign".equals(key)
+              && !"key".equals(key)) {
+        toSign.append(key + "=" + value + "&");
+      }
+    }
+    toSign.append("key=" + signKey);
+    String sign = DigestUtils.md5Hex(toSign.toString()).toUpperCase();
+    return sign;
+  }
+
+  static String extractEncryptPart(String xml) {
+    try {
+      DocumentBuilder db = builderLocal.get();
+      Document document = db.parse(new InputSource(new StringReader(xml)));
+
+      Element root = document.getDocumentElement();
+      return root.getElementsByTagName("Encrypt").item(0).getTextContent();
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
   }
 
   /**
@@ -107,7 +150,7 @@ public class WxCryptUtil {
     byte[] randomStringBytes = randomStr.getBytes(CHARSET);
     byte[] plainTextBytes = plainText.getBytes(CHARSET);
     byte[] bytesOfSizeInNetworkOrder = number2BytesInNetworkOrder(
-        plainTextBytes.length);
+            plainTextBytes.length);
     byte[] appIdBytes = appidOrCorpid.getBytes(CHARSET);
 
     // randomStr + networkBytesOrder + text + appid
@@ -157,7 +200,7 @@ public class WxCryptUtil {
    * @return 解密后的原文
    */
   public String decrypt(String msgSignature, String timeStamp, String nonce,
-      String encryptedXml) {
+                        String encryptedXml) {
     // 密钥，公众账号的app corpSecret
     // 提取密文
     String cipherText = extractEncryptPart(encryptedXml);
@@ -190,7 +233,7 @@ public class WxCryptUtil {
       Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
       SecretKeySpec key_spec = new SecretKeySpec(aesKey, "AES");
       IvParameterSpec iv = new IvParameterSpec(
-          Arrays.copyOfRange(aesKey, 0, 16));
+              Arrays.copyOfRange(aesKey, 0, 16));
       cipher.init(Cipher.DECRYPT_MODE, key_spec, iv);
 
       // 使用BASE64对密文进行解码
@@ -213,9 +256,9 @@ public class WxCryptUtil {
       int xmlLength = bytesNetworkOrder2Number(networkOrder);
 
       xmlContent = new String(Arrays.copyOfRange(bytes, 20, 20 + xmlLength),
-          CHARSET);
+              CHARSET);
       from_appid = new String(
-          Arrays.copyOfRange(bytes, 20 + xmlLength, bytes.length), CHARSET);
+              Arrays.copyOfRange(bytes, 20 + xmlLength, bytes.length), CHARSET);
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
@@ -227,33 +270,6 @@ public class WxCryptUtil {
 
     return xmlContent;
 
-  }
-
-  /**
-   * 微信公众号支付签名算法(详见:http://pay.weixin.qq.com/wiki/doc/api/index.php?chapter=4_3)
-   * @param packageParams 原始参数
-   * @param signKey 加密Key(即 商户Key)
-   * @return 签名字符串
-   */
-  public static String createSign(Map<String, String> packageParams,
-      String signKey) {
-    SortedMap<String, String> sortedMap = new TreeMap<String, String>();
-    sortedMap.putAll(packageParams);
-
-    List<String> keys = new ArrayList<String>(packageParams.keySet());
-    Collections.sort(keys);
-
-    StringBuffer toSign = new StringBuffer();
-    for (String key : keys) {
-      String value = packageParams.get(key);
-      if (null != value && !"".equals(value) && !"sign".equals(key)
-          && !"key".equals(key)) {
-        toSign.append(key + "=" + value + "&");
-      }
-    }
-    toSign.append("key=" + signKey);
-    String sign = DigestUtils.md5Hex(toSign.toString()).toUpperCase();
-    return sign;
   }
 
   /**
@@ -308,24 +324,12 @@ public class WxCryptUtil {
    * @return 生成的xml字符串
    */
   private String generateXml(String encrypt, String signature, String timestamp,
-      String nonce) {
+                             String nonce) {
     String format = "<xml>\n" + "<Encrypt><![CDATA[%1$s]]></Encrypt>\n"
-        + "<MsgSignature><![CDATA[%2$s]]></MsgSignature>\n"
-        + "<TimeStamp>%3$s</TimeStamp>\n" + "<Nonce><![CDATA[%4$s]]></Nonce>\n"
-        + "</xml>";
+            + "<MsgSignature><![CDATA[%2$s]]></MsgSignature>\n"
+            + "<TimeStamp>%3$s</TimeStamp>\n" + "<Nonce><![CDATA[%4$s]]></Nonce>\n"
+            + "</xml>";
     return String.format(format, encrypt, signature, timestamp, nonce);
-  }
-
-  static String extractEncryptPart(String xml) {
-    try {
-      DocumentBuilder db = builderLocal.get();
-      Document document = db.parse(new InputSource(new StringReader(xml)));
-
-      Element root = document.getDocumentElement();
-      return root.getElementsByTagName("Encrypt").item(0).getTextContent();
-    } catch (Exception e) {
-      throw new RuntimeException(e);
-    }
   }
 
 }

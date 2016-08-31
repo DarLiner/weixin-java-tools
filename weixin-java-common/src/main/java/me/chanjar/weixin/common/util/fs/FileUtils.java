@@ -10,17 +10,18 @@ public class FileUtils {
 
   /**
    * 创建临时文件
+   *
    * @param inputStream
-   * @param name  文件名
-   * @param ext   扩展名
-   * @param tmpDirFile   临时文件夹目录
+   * @param name        文件名
+   * @param ext         扩展名
+   * @param tmpDirFile  临时文件夹目录
    */
   public static File createTmpFile(InputStream inputStream, String name, String ext, File tmpDirFile) throws IOException {
     FileOutputStream fos = null;
     try {
       File tmpFile;
       if (tmpDirFile == null) {
-    	  tmpFile = File.createTempFile(name, '.' + ext);
+        tmpFile = File.createTempFile(name, '.' + ext);
       } else {
         tmpFile = File.createTempFile(name, '.' + ext, tmpDirFile);
       }
@@ -51,12 +52,13 @@ public class FileUtils {
 
   /**
    * 创建临时文件
+   *
    * @param inputStream
-   * @param name  文件名
-   * @param ext   扩展名
+   * @param name        文件名
+   * @param ext         扩展名
    */
   public static File createTmpFile(InputStream inputStream, String name, String ext) throws IOException {
     return createTmpFile(inputStream, name, ext, null);
   }
-  
+
 }

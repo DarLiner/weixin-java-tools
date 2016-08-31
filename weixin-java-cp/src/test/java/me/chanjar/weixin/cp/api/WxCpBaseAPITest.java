@@ -9,8 +9,8 @@ import org.testng.annotations.Test;
 
 /**
  * 基础API测试
- * @author Daniel Qian
  *
+ * @author Daniel Qian
  */
 @Test(groups = "baseAPI")
 @Guice(modules = ApiTestModule.class)

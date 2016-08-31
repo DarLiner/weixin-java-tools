@@ -10,17 +10,6 @@ import java.io.InputStream;
 
 public class ApiTestModule implements Module {
 
-  @Override
-  public void configure(Binder binder) {
-      InputStream is1 = ClassLoader.getSystemResourceAsStream("test-config.xml");
-      WxXmlCpInMemoryConfigStorage config = fromXml(WxXmlCpInMemoryConfigStorage.class, is1);
-      WxCpServiceImpl wxService = new WxCpServiceImpl();
-      wxService.setWxCpConfigStorage(config);
-
-      binder.bind(WxCpServiceImpl.class).toInstance(wxService);
-      binder.bind(WxCpConfigStorage.class).toInstance(config);
-  }
-
   public static <T> T fromXml(Class<T> clazz, InputStream is) {
     XStream xstream = XStreamInitializer.getInstance();
     xstream.alias("xml", clazz);
@@ -28,9 +17,20 @@ public class ApiTestModule implements Module {
     return (T) xstream.fromXML(is);
   }
 
+  @Override
+  public void configure(Binder binder) {
+    InputStream is1 = ClassLoader.getSystemResourceAsStream("test-config.xml");
+    WxXmlCpInMemoryConfigStorage config = fromXml(WxXmlCpInMemoryConfigStorage.class, is1);
+    WxCpServiceImpl wxService = new WxCpServiceImpl();
+    wxService.setWxCpConfigStorage(config);
+
+    binder.bind(WxCpServiceImpl.class).toInstance(wxService);
+    binder.bind(WxCpConfigStorage.class).toInstance(config);
+  }
+
   @XStreamAlias("xml")
   public static class WxXmlCpInMemoryConfigStorage extends WxCpInMemoryConfigStorage {
-    
+
     protected String userId;
 
     protected String departmentId;
@@ -40,6 +40,7 @@ public class ApiTestModule implements Module {
     public String getUserId() {
       return userId;
     }
+
     public void setUserId(String userId) {
       this.userId = userId;
     }
@@ -63,11 +64,11 @@ public class ApiTestModule implements Module {
     @Override
     public String toString() {
       return super.toString() + " > WxXmlCpConfigStorage{" +
-          "userId='" + userId + '\'' +
-          ", departmentId='" + departmentId + '\'' +
-          ", tagId='" + tagId + '\'' +
-          '}';
+              "userId='" + userId + '\'' +
+              ", departmentId='" + departmentId + '\'' +
+              ", tagId='" + tagId + '\'' +
+              '}';
     }
   }
-  
+
 }

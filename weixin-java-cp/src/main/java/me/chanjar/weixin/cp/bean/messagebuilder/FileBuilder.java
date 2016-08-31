@@ -8,8 +8,8 @@ import me.chanjar.weixin.cp.bean.WxCpMessage;
  * <pre>
  * 用法: WxCustomMessage m = WxCustomMessage.FILE().mediaId(...).toUser(...).build();
  * </pre>
- * @author Daniel Qian
  *
+ * @author Daniel Qian
  */
 public final class FileBuilder extends BaseBuilder<FileBuilder> {
   private String mediaId;

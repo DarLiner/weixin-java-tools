@@ -6,11 +6,15 @@ import java.io.Serializable;
 
 public class WxMpMaterialUploadResult implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -128818731449449537L;
   private String mediaId;
   private String url;
 
   public String getMediaId() {
-    return mediaId;
+    return this.mediaId;
   }
 
   public void setMediaId(String mediaId) {
@@ -18,7 +22,7 @@ public class WxMpMaterialUploadResult implements Serializable {
   }
 
   public String getUrl() {
-    return url;
+    return this.url;
   }
 
   public void setUrl(String url) {
@@ -31,7 +35,7 @@ public class WxMpMaterialUploadResult implements Serializable {
 
   @Override
   public String toString() {
-    return "WxMpMaterialUploadResult [media_id=" + mediaId + ", url=" + url + "]";
+    return "WxMpMaterialUploadResult [media_id=" + this.mediaId + ", url=" + this.url + "]";
   }
 
 }

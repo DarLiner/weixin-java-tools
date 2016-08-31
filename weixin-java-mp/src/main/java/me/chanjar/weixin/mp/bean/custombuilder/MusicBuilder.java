@@ -52,13 +52,14 @@ public final class MusicBuilder extends BaseBuilder<MusicBuilder> {
     return this;
   }
 
+  @Override
   public WxMpCustomMessage build() {
     WxMpCustomMessage m = super.build();
     m.setMusicUrl(this.musicUrl);
     m.setHqMusicUrl(this.hqMusicUrl);
-    m.setTitle(title);
-    m.setDescription(description);
-    m.setThumbMediaId(thumbMediaId);
+    m.setTitle(this.title);
+    m.setDescription(this.description);
+    m.setThumbMediaId(this.thumbMediaId);
     return m;
   }
 }

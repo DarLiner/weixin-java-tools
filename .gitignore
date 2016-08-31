@@ -13,6 +13,7 @@ test-output
 hs_err_pid*
 
 target
+bin
 .project
 .classpath
 .settings
@@ -21,3 +22,7 @@ sw-pom.xml
 *.iml
 test-config.xml
 .idea
+/.gradle/
+/gradle/
+*.bat
+/gradlew

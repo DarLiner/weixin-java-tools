@@ -1,8 +1,14 @@
 package me.chanjar.weixin.mp.bean.result;
 
-import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
-
 import java.io.Serializable;
+import java.lang.reflect.Type;
+import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+
+import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
 /**
  * 微信用户信息
@@ -11,6 +17,10 @@ import java.io.Serializable;
  */
 public class WxMpUser implements Serializable {
 
+  /**
+   * @fields serialVersionUID
+   */
+  private static final long serialVersionUID = 5788154322646488738L;
   protected Boolean subscribe;
   protected String openId;
   protected String nickname;
@@ -27,70 +37,70 @@ public class WxMpUser implements Serializable {
   protected Integer groupId;
 
   public Boolean getSubscribe() {
-    return subscribe;
+    return this.subscribe;
   }
   public Boolean isSubscribe() {
-    return subscribe;
+    return this.subscribe;
   }
   public void setSubscribe(Boolean subscribe) {
     this.subscribe = subscribe;
   }
   public String getOpenId() {
-    return openId;
+    return this.openId;
   }
   public void setOpenId(String openId) {
     this.openId = openId;
   }
   public String getNickname() {
-    return nickname;
+    return this.nickname;
   }
   public void setNickname(String nickname) {
     this.nickname = nickname;
   }
   public String getSex() {
-    return sex;
+    return this.sex;
   }
   public void setSex(String sex) {
     this.sex = sex;
   }
   public String getLanguage() {
-    return language;
+    return this.language;
   }
   public void setLanguage(String language) {
     this.language = language;
   }
   public String getCity() {
-    return city;
+    return this.city;
   }
   public void setCity(String city) {
     this.city = city;
   }
   public String getProvince() {
-    return province;
+    return this.province;
   }
   public void setProvince(String province) {
     this.province = province;
   }
   public String getCountry() {
-    return country;
+    return this.country;
   }
   public void setCountry(String country) {
     this.country = country;
   }
   public String getHeadImgUrl() {
-    return headImgUrl;
+    return this.headImgUrl;
   }
   public void setHeadImgUrl(String headImgUrl) {
     this.headImgUrl = headImgUrl;
   }
   public Long getSubscribeTime() {
-    return subscribeTime;
+    return this.subscribeTime;
   }
   public void setSubscribeTime(Long subscribeTime) {
     this.subscribeTime = subscribeTime;
   }
   public String getUnionId() {
-    return unionId;
+    return this.unionId;
   }
   public void setUnionId(String unionId) {
     this.unionId = unionId;
@@ -98,7 +108,7 @@ public class WxMpUser implements Serializable {
 
   public Integer getSexId() {
 
-    return sexId;
+    return this.sexId;
   }
 
   public void setSexId(Integer sexId) {
@@ -106,13 +116,13 @@ public class WxMpUser implements Serializable {
   }
 
   public String getRemark() {
-    return remark;
+    return this.remark;
   }
   public void setRemark(String remark) {
     this.remark = remark;
   }
   public Integer getGroupId() {
-    return groupId;
+    return this.groupId;
   }
   public void setGroupId(Integer groupId) {
     this.groupId = groupId;
@@ -122,22 +132,29 @@ public class WxMpUser implements Serializable {
     return WxMpGsonBuilder.INSTANCE.create().fromJson(json, WxMpUser.class);
   }
 
+  public static List<WxMpUser> fromJsonList(String json) {
+    Type collectionType = new TypeToken<List<WxMpUser>>() {}.getType();
+    Gson gson = WxMpGsonBuilder.INSTANCE.create();
+    JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
+    return gson.fromJson(jsonObject.get("user_info_list"), collectionType);
+  }
+
   @Override
   public String toString() {
     return "WxMpUser{" +
-        "subscribe=" + subscribe +
-        ", openId='" + openId + '\'' +
-        ", nickname='" + nickname + '\'' +
-        ", sex='" + sex + '\'' +
-        ", language='" + language + '\'' +
-        ", city='" + city + '\'' +
-        ", province='" + province + '\'' +
-        ", country='" + country + '\'' +
-        ", headImgUrl='" + headImgUrl + '\'' +
-        ", subscribeTime=" + subscribeTime +
-        ", unionId='" + unionId + '\'' +
-        ", remark='" + remark + '\'' +
-        ", groupId='" + groupId + '\'' +
+        "subscribe=" + this.subscribe +
+        ", openId='" + this.openId + '\'' +
+        ", nickname='" + this.nickname + '\'' +
+        ", sex='" + this.sex + '\'' +
+        ", language='" + this.language + '\'' +
+        ", city='" + this.city + '\'' +
+        ", province='" + this.province + '\'' +
+        ", country='" + this.country + '\'' +
+        ", headImgUrl='" + this.headImgUrl + '\'' +
+        ", subscribeTime=" + this.subscribeTime +
+        ", unionId='" + this.unionId + '\'' +
+        ", remark='" + this.remark + '\'' +
+        ", groupId='" + this.groupId + '\'' +
         '}';
   }
 }

@@ -1,15 +1,17 @@
 package me.chanjar.weixin.mp.api.impl;
 
-import com.google.inject.Inject;
-import me.chanjar.weixin.common.api.WxConsts;
-import me.chanjar.weixin.common.bean.WxMenu;
-import me.chanjar.weixin.common.bean.WxMenu.WxMenuButton;
-import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.mp.api.ApiTestModule;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
+
+import com.google.inject.Inject;
+
+import me.chanjar.weixin.common.api.WxConsts;
+import me.chanjar.weixin.common.bean.menu.WxMenu;
+import me.chanjar.weixin.common.bean.menu.WxMenuButton;
+import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.mp.api.ApiTestModule;
 
 /**
  * 测试菜单

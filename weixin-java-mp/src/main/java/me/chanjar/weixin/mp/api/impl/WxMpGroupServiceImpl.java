@@ -1,10 +1,12 @@
 package me.chanjar.weixin.mp.api.impl;
 
+import java.util.List;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.internal.Streams;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
+
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.SimpleGetRequestExecutor;
 import me.chanjar.weixin.common.util.http.SimplePostRequestExecutor;
@@ -13,9 +15,6 @@ import me.chanjar.weixin.mp.api.WxMpGroupService;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.WxMpGroup;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
-
-import java.io.StringReader;
-import java.util.List;
 
 /**
  * Created by Binary Wang on 2016/7/21.
@@ -51,7 +50,7 @@ public class WxMpGroupServiceImpl implements WxMpGroupService {
      * 操蛋的微信API，创建时返回的是 { group : { id : ..., name : ...} }
      * 查询时返回的是 { groups : [ { id : ..., name : ..., count : ... }, ... ] }
      */
-    JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
+    JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
     return WxMpGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement.getAsJsonObject().get("groups"),
             new TypeToken<List<WxMpGroup>>() {
             }.getType());
@@ -63,7 +62,7 @@ public class WxMpGroupServiceImpl implements WxMpGroupService {
     JsonObject o = new JsonObject();
     o.addProperty("openid", openid);
     String responseContent = this.wxMpService.execute(new SimplePostRequestExecutor(), url, o.toString());
-    JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
+    JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
     return GsonHelper.getAsLong(tmpJsonElement.getAsJsonObject().get("groupid"));
   }
 

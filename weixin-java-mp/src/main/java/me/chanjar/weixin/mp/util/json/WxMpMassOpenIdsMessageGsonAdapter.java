@@ -16,6 +16,7 @@ import java.lang.reflect.Type;
 
 public class WxMpMassOpenIdsMessageGsonAdapter implements JsonSerializer<WxMpMassOpenIdsMessage> {
 
+  @Override
   public JsonElement serialize(WxMpMassOpenIdsMessage message, Type typeOfSrc, JsonSerializationContext context) {
     JsonObject messageJson = new JsonObject();
     

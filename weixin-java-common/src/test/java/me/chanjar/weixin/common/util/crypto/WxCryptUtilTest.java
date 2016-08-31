@@ -45,16 +45,24 @@ public class WxCryptUtilTest {
 
     Element root = document.getDocumentElement();
     String cipherText = root.getElementsByTagName("Encrypt").item(0).getTextContent();
+    System.out.println(cipherText);
+    
     String msgSignature = root.getElementsByTagName("MsgSignature").item(0).getTextContent();
+    System.out.println(msgSignature);
+    
     String timestamp = root.getElementsByTagName("TimeStamp").item(0).getTextContent();
+    System.out.println(timestamp);
+    
     String nonce = root.getElementsByTagName("Nonce").item(0).getTextContent();
-
+    System.out.println(nonce);
+    
     String messageText = String.format(xmlFormat, cipherText);
-
+    System.out.println(messageText);
+    
     // 第三方收到企业号平台发送的消息
     String plainMessage = pc.decrypt(cipherText);
-
     System.out.println(plainMessage);
+    
     assertEquals(plainMessage, replyMsg);
   }
 
@@ -69,7 +77,7 @@ public class WxCryptUtilTest {
   }
 
   public void testValidateSignatureError() throws ParserConfigurationException, SAXException,
-      IOException {
+          IOException {
     try {
       WxCryptUtil pc = new WxCryptUtil(token, encodingAesKey, appId);
       String afterEncrpt = pc.encrypt(replyMsg);

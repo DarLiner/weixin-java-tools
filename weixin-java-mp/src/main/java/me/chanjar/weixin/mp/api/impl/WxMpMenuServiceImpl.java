@@ -1,6 +1,6 @@
 package me.chanjar.weixin.mp.api.impl;
 
-import me.chanjar.weixin.common.bean.WxMenu;
+import me.chanjar.weixin.common.bean.menu.WxMenu;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.SimpleGetRequestExecutor;
 import me.chanjar.weixin.common.util.http.SimplePostRequestExecutor;

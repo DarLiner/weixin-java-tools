@@ -7,7 +7,6 @@ import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpHost;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -34,6 +33,7 @@ public class MaterialVoiceAndImageDownloadRequestExecutor implements RequestExec
     this.tmpDirFile = tmpDirFile;
   }
 
+  @Override
   public InputStream execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String materialId) throws WxErrorException, IOException {
     HttpPost httpPost = new HttpPost(uri);
     if (httpProxy != null) {

@@ -12,13 +12,13 @@ import java.util.List;
  * 用法:
  * WxCustomMessage m = WxCustomMessage.NEWS().addArticle(article).toUser(...).build();
  * </pre>
- * @author Daniel Qian
  *
+ * @author Daniel Qian
  */
 public final class NewsBuilder extends BaseBuilder<NewsBuilder> {
 
   private List<WxCpMessage.WxArticle> articles = new ArrayList<WxCpMessage.WxArticle>();
-  
+
   public NewsBuilder() {
     this.msgType = WxConsts.CUSTOM_MSG_NEWS;
   }

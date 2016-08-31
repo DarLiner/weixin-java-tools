@@ -8,6 +8,10 @@ import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
 @XStreamAlias("xml")
 public class WxMpXmlOutMusicMessage extends WxMpXmlOutMessage {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -4159937804975448945L;
   @XStreamAlias("Music")
   protected final Music music = new Music();
 
@@ -16,43 +20,43 @@ public class WxMpXmlOutMusicMessage extends WxMpXmlOutMessage {
   }
 
   public String getTitle() {
-    return music.getTitle();
+    return this.music.getTitle();
   }
 
   public void setTitle(String title) {
-    music.setTitle(title);
+    this.music.setTitle(title);
   }
 
   public String getDescription() {
-    return music.getDescription();
+    return this.music.getDescription();
   }
 
   public void setDescription(String description) {
-    music.setDescription(description);
+    this.music.setDescription(description);
   }
   
   public String getThumbMediaId() {
-    return music.getThumbMediaId();
+    return this.music.getThumbMediaId();
   }
 
   public void setThumbMediaId(String thumbMediaId) {
-    music.setThumbMediaId(thumbMediaId);
+    this.music.setThumbMediaId(thumbMediaId);
   }
 
   public String getMusicUrl() {
-    return music.getMusicUrl();
+    return this.music.getMusicUrl();
   }
 
   public void setMusicUrl(String musicUrl) {
-    music.setMusicUrl(musicUrl);
+    this.music.setMusicUrl(musicUrl);
   }
 
   public String getHqMusicUrl() {
-    return music.getHqMusicUrl();
+    return this.music.getHqMusicUrl();
   }
 
   public void setHqMusicUrl(String hqMusicUrl) {
-    music.setHqMusicUrl(hqMusicUrl);
+    this.music.setHqMusicUrl(hqMusicUrl);
   }
   
   @XStreamAlias("Music")
@@ -79,7 +83,7 @@ public class WxMpXmlOutMusicMessage extends WxMpXmlOutMessage {
     private String hqMusicUrl;
     
     public String getTitle() {
-      return title;
+      return this.title;
     }
 
     public void setTitle(String title) {
@@ -87,7 +91,7 @@ public class WxMpXmlOutMusicMessage extends WxMpXmlOutMessage {
     }
 
     public String getDescription() {
-      return description;
+      return this.description;
     }
 
     public void setDescription(String description) {
@@ -95,7 +99,7 @@ public class WxMpXmlOutMusicMessage extends WxMpXmlOutMessage {
     }
 
     public String getThumbMediaId() {
-      return thumbMediaId;
+      return this.thumbMediaId;
     }
 
     public void setThumbMediaId(String thumbMediaId) {
@@ -103,7 +107,7 @@ public class WxMpXmlOutMusicMessage extends WxMpXmlOutMessage {
     }
 
     public String getMusicUrl() {
-      return musicUrl;
+      return this.musicUrl;
     }
 
     public void setMusicUrl(String musicUrl) {
@@ -111,7 +115,7 @@ public class WxMpXmlOutMusicMessage extends WxMpXmlOutMessage {
     }
 
     public String getHqMusicUrl() {
-      return hqMusicUrl;
+      return this.hqMusicUrl;
     }
 
     public void setHqMusicUrl(String hqMusicUrl) {

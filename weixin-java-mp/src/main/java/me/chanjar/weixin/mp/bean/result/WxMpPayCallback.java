@@ -12,6 +12,10 @@ import java.io.Serializable;
  * @author ukid
  */
 public class WxMpPayCallback implements Serializable {
+    /**
+   * 
+   */
+  private static final long serialVersionUID = -4143804055690843641L;
     private String return_code;
     private String return_msg;
 
@@ -42,111 +46,111 @@ public class WxMpPayCallback implements Serializable {
     private String time_end;
 
     public String getReturn_code() {
-        return return_code;
+        return this.return_code;
     }
 
     public String getReturn_msg() {
-        return return_msg;
+        return this.return_msg;
     }
 
     public String getAppid() {
-        return appid;
+        return this.appid;
     }
 
     public String getMch_id() {
-        return mch_id;
+        return this.mch_id;
     }
 
     public String getDevice_info() {
-        return device_info;
+        return this.device_info;
     }
 
     public String getNonce_str() {
-        return nonce_str;
+        return this.nonce_str;
     }
 
     public String getSign() {
-        return sign;
+        return this.sign;
     }
 
     public String getResult_code() {
-        return result_code;
+        return this.result_code;
     }
 
     public String getErr_code() {
-        return err_code;
+        return this.err_code;
     }
 
     public String getErr_code_des() {
-        return err_code_des;
+        return this.err_code_des;
     }
 
     public String getOpenid() {
-        return openid;
+        return this.openid;
     }
 
     public String getIs_subscribe() {
-        return is_subscribe;
+        return this.is_subscribe;
     }
 
     public String getTrade_type() {
-        return trade_type;
+        return this.trade_type;
     }
 
     public String getBank_type() {
-        return bank_type;
+        return this.bank_type;
     }
 
     public String getTotal_fee() {
-        return total_fee;
+        return this.total_fee;
     }
 
     public String getFee_type() {
-        return fee_type;
+        return this.fee_type;
     }
 
     public String getCash_fee() {
-        return cash_fee;
+        return this.cash_fee;
     }
 
     public String getCash_fee_type() {
-        return cash_fee_type;
+        return this.cash_fee_type;
     }
 
     public String getCoupon_fee() {
-        return coupon_fee;
+        return this.coupon_fee;
     }
 
     public String getCoupon_count() {
-        return coupon_count;
+        return this.coupon_count;
     }
 
     public String getCoupon_batch_id_$n() {
-        return coupon_batch_id_$n;
+        return this.coupon_batch_id_$n;
     }
 
     public String getCoupon_id_$n() {
-        return coupon_id_$n;
+        return this.coupon_id_$n;
     }
 
     public String getCoupon_fee_$n() {
-        return coupon_fee_$n;
+        return this.coupon_fee_$n;
     }
 
     public String getTransaction_id() {
-        return transaction_id;
+        return this.transaction_id;
     }
 
     public String getOut_trade_no() {
-        return out_trade_no;
+        return this.out_trade_no;
     }
 
     public String getAttach() {
-        return attach;
+        return this.attach;
     }
 
     public String getTime_end() {
-        return time_end;
+        return this.time_end;
     }
 
     public void setReturn_code(String return_code) {
@@ -259,21 +263,21 @@ public class WxMpPayCallback implements Serializable {
 
     @Override
     public String toString() {
-        return "WxMpPayCallback [return_code=" + return_code + ", return_msg="
-                + return_msg + ", appid=" + appid + ", mch_id=" + mch_id
-                + ", device_info=" + device_info + ", nonce_str=" + nonce_str
-                + ", sign=" + sign + ", result_code=" + result_code
-                + ", err_code=" + err_code + ", err_code_des=" + err_code_des
-                + ", openid=" + openid + ", is_subscribe=" + is_subscribe
-                + ", trade_type=" + trade_type + ", bank_type=" + bank_type
-                + ", total_fee=" + total_fee + ", fee_type=" + fee_type
-                + ", cash_fee=" + cash_fee + ", cash_fee_type=" + cash_fee_type
-                + ", coupon_fee=" + coupon_fee + ", coupon_count="
-                + coupon_count + ", coupon_batch_id_$n=" + coupon_batch_id_$n
-                + ", coupon_id_$n=" + coupon_id_$n + ", coupon_fee_$n="
-                + coupon_fee_$n + ", transaction_id=" + transaction_id
-                + ", out_trade_no=" + out_trade_no + ", attach=" + attach
-                + ", time_end=" + time_end + "]";
+        return "WxMpPayCallback [return_code=" + this.return_code + ", return_msg="
+                + this.return_msg + ", appid=" + this.appid + ", mch_id=" + this.mch_id
+                + ", device_info=" + this.device_info + ", nonce_str=" + this.nonce_str
+                + ", sign=" + this.sign + ", result_code=" + this.result_code
+                + ", err_code=" + this.err_code + ", err_code_des=" + this.err_code_des
+                + ", openid=" + this.openid + ", is_subscribe=" + this.is_subscribe
+                + ", trade_type=" + this.trade_type + ", bank_type=" + this.bank_type
+                + ", total_fee=" + this.total_fee + ", fee_type=" + this.fee_type
+                + ", cash_fee=" + this.cash_fee + ", cash_fee_type=" + this.cash_fee_type
+                + ", coupon_fee=" + this.coupon_fee + ", coupon_count="
+                + this.coupon_count + ", coupon_batch_id_$n=" + this.coupon_batch_id_$n
+                + ", coupon_id_$n=" + this.coupon_id_$n + ", coupon_fee_$n="
+                + this.coupon_fee_$n + ", transaction_id=" + this.transaction_id
+                + ", out_trade_no=" + this.out_trade_no + ", attach=" + this.attach
+                + ", time_end=" + this.time_end + "]";
     }
 
 }

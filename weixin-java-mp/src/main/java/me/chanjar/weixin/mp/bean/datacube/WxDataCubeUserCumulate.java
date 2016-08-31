@@ -1,4 +1,7 @@
-package me.chanjar.weixin.mp.bean.result;
+package me.chanjar.weixin.mp.bean.datacube;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -9,14 +12,16 @@ import java.util.Date;
  * http://mp.weixin.qq.com/wiki/3/ecfed6e1a0a03b5f35e5efac98e864b7.html
  * </pre>
  */
-public class WxMpUserCumulate implements Serializable {
+public class WxDataCubeUserCumulate implements Serializable {
+
+  private static final long serialVersionUID = -3570981300225093657L;
 
   private Date refDate;
 
   private Integer cumulateUser;
 
   public Date getRefDate() {
-    return refDate;
+    return this.refDate;
   }
 
   public void setRefDate(Date refDate) {
@@ -24,7 +29,7 @@ public class WxMpUserCumulate implements Serializable {
   }
 
   public Integer getCumulateUser() {
-    return cumulateUser;
+    return this.cumulateUser;
   }
 
   public void setCumulateUser(Integer cumulateUser) {
@@ -33,9 +38,6 @@ public class WxMpUserCumulate implements Serializable {
 
   @Override
   public String toString() {
-    return "WxMpUserCumulate{" +
-        "refDate=" + refDate +
-        ", cumulateUser=" + cumulateUser +
-        '}';
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
 }

@@ -13,6 +13,7 @@ import java.util.List;
  */
 public class WxCpUser implements Serializable {
 
+  private final List<Attr> extAttrs = new ArrayList<Attr>();
   private String userId;
   private String name;
   private Integer[] departIds;
@@ -25,7 +26,10 @@ public class WxCpUser implements Serializable {
   private String avatar;
   private Integer status;
   private Integer enable;
-  private final List<Attr> extAttrs = new ArrayList<Attr>();
+
+  public static WxCpUser fromJson(String json) {
+    return WxCpGsonBuilder.INSTANCE.create().fromJson(json, WxCpUser.class);
+  }
 
   public String getUserId() {
     return userId;
@@ -116,13 +120,13 @@ public class WxCpUser implements Serializable {
   }
 
   public Integer getEnable() {
-	return enable;
+    return enable;
   }
-	
+
   public void setEnable(Integer enable) {
-	this.enable = enable;
+    this.enable = enable;
   }
-	
+
   public void addExtAttr(String name, String value) {
     this.extAttrs.add(new Attr(name, value));
   }
@@ -133,10 +137,6 @@ public class WxCpUser implements Serializable {
 
   public String toJson() {
     return WxCpGsonBuilder.INSTANCE.create().toJson(this);
-  }
-
-  public static WxCpUser fromJson(String json) {
-    return WxCpGsonBuilder.INSTANCE.create().fromJson(json, WxCpUser.class);
   }
 
   public static class Attr {

@@ -1,9 +1,9 @@
 package me.chanjar.weixin.common.util.crypto;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-
-import org.apache.commons.codec.digest.DigestUtils;
 
 /**
  * Created by Daniel Qian on 14/10/19.
@@ -37,4 +37,4 @@ public class SHA1 {
     }
     return DigestUtils.sha1Hex(sb.toString());
   }
- }
+}

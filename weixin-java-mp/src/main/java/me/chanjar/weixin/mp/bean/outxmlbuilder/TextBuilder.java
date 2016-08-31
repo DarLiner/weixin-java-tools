@@ -15,6 +15,7 @@ public final class TextBuilder extends BaseBuilder<TextBuilder, WxMpXmlOutTextMe
     return this;
   }
 
+  @Override
   public WxMpXmlOutTextMessage build() {
     WxMpXmlOutTextMessage m = new WxMpXmlOutTextMessage();
     setCommon(m);

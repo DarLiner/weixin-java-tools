@@ -44,7 +44,7 @@ public class WxCpDepartAPITest {
     }
   }
 
-  @Test(dependsOnMethods = { "testDepartGet", "testDepartCreate" })
+  @Test(dependsOnMethods = {"testDepartGet", "testDepartCreate"})
   public void testDepartUpdate() throws WxErrorException {
     System.out.println("=================更新部门");
     depart.setName("子部门改名" + System.currentTimeMillis());

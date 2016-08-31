@@ -7,8 +7,8 @@ import java.io.File;
 
 /**
  * 微信客户端配置存储
- * @author Daniel Qian
  *
+ * @author Daniel Qian
  */
 public interface WxCpConfigStorage {
 
@@ -36,12 +36,13 @@ public interface WxCpConfigStorage {
 
   /**
    * 应该是线程安全的
+   *
    * @param jsapiTicket
    */
   void updateJsapiTicket(String jsapiTicket, int expiresInSeconds);
 
   String getCorpId();
-  
+
   String getCorpSecret();
 
   String getAgentId();
@@ -61,11 +62,12 @@ public interface WxCpConfigStorage {
   String getHttp_proxy_username();
 
   String getHttp_proxy_password();
-  
+
   File getTmpDirFile();
 
   /**
    * http client builder
+   *
    * @return ApacheHttpClientBuilder
    */
   ApacheHttpClientBuilder getApacheHttpClientBuilder();

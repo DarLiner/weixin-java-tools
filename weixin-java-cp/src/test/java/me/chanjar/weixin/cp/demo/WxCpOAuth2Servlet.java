@@ -18,8 +18,9 @@ public class WxCpOAuth2Servlet extends HttpServlet {
     this.wxCpService = wxCpService;
   }
 
-  @Override protected void service(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  @Override
+  protected void service(HttpServletRequest request, HttpServletResponse response)
+          throws ServletException, IOException {
 
     response.setContentType("text/html;charset=utf-8");
     response.setStatus(HttpServletResponse.SC_OK);

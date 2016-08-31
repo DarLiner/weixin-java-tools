@@ -13,6 +13,7 @@ import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 
 public class WxMpOAuth2AccessTokenAdapter implements JsonDeserializer<WxMpOAuth2AccessToken> {
 
+  @Override
   public WxMpOAuth2AccessToken deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws
       JsonParseException {
     WxMpOAuth2AccessToken accessToken = new WxMpOAuth2AccessToken();

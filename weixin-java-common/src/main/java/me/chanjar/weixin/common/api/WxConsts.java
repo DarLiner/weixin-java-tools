@@ -19,7 +19,7 @@ public class WxConsts {
   public static final String XML_MSG_LINK = "link";
   public static final String XML_MSG_EVENT = "event";
   public static final String XML_TRANSFER_CUSTOMER_SERVICE = "transfer_customer_service";
-  
+
   ///////////////////////
   // 主动发送消息(即客服消息)的消息类型
   ///////////////////////
@@ -33,7 +33,7 @@ public class WxConsts {
   public static final String CUSTOM_MSG_TRANSFER_CUSTOMER_SERVICE = "transfer_customer_service";
   public static final String CUSTOM_MSG_SAFE_NO = "0";
   public static final String CUSTOM_MSG_SAFE_YES = "1";
-  
+
   ///////////////////////
   // 群发消息的消息类型
   ///////////////////////
@@ -42,7 +42,7 @@ public class WxConsts {
   public static final String MASS_MSG_VOICE = "voice";
   public static final String MASS_MSG_IMAGE = "image";
   public static final String MASS_MSG_VIDEO = "mpvideo";
-  
+
   ///////////////////////
   // 群发消息后微信端推送给服务器的反馈消息
   ///////////////////////
@@ -57,25 +57,11 @@ public class WxConsts {
   public static final String MASS_ST_涉嫌版权 = "err(20013)";
   public static final String MASS_ST_涉嫌互推_互相宣传 = "err(22000)";
   public static final String MASS_ST_涉嫌其他 = "err(21000)";
-  
+
   /**
    * 群发反馈消息代码所对应的文字描述
    */
   public static final Map<String, String> MASS_ST_2_DESC = new HashMap<String, String>();
-  static {
-    MASS_ST_2_DESC.put(MASS_ST_SUCCESS, "发送成功");
-    MASS_ST_2_DESC.put(MASS_ST_FAIL, "发送失败");
-    MASS_ST_2_DESC.put(MASS_ST_涉嫌广告, "涉嫌广告");
-    MASS_ST_2_DESC.put(MASS_ST_涉嫌政治, "涉嫌政治");
-    MASS_ST_2_DESC.put(MASS_ST_涉嫌社会, "涉嫌社会");
-    MASS_ST_2_DESC.put(MASS_ST_涉嫌色情, "涉嫌色情");
-    MASS_ST_2_DESC.put(MASS_ST_涉嫌违法犯罪, "涉嫌违法犯罪");
-    MASS_ST_2_DESC.put(MASS_ST_涉嫌欺诈, "涉嫌欺诈");
-    MASS_ST_2_DESC.put(MASS_ST_涉嫌版权, "涉嫌版权");
-    MASS_ST_2_DESC.put(MASS_ST_涉嫌互推_互相宣传, "涉嫌互推_互相宣传");
-    MASS_ST_2_DESC.put(MASS_ST_涉嫌其他, "涉嫌其他");
-  }
-  
   ///////////////////////
   // 微信端推送过来的事件类型
   ///////////////////////
@@ -103,11 +89,9 @@ public class WxConsts {
   public static final String EVT_USER_VIEW_CARD = "user_view_card";
   public static final String EVT_USER_ENTER_SESSION_FROM_CARD = "user_enter_session_from_card";
   public static final String EVT_CARD_SKU_REMIND = "card_sku_remind"; // 库存报警
-
   public static final String EVT_KF_CREATE_SESSION = "kf_create_session"; // 客服接入会话
   public static final String EVT_KF_CLOSE_SESSION = "kf_close_session"; // 客服关闭会话
   public static final String EVT_KF_SWITCH_SESSION = "kf_switch_session"; // 客服转接会话
-
   ///////////////////////
   // 上传多媒体文件的类型
   ///////////////////////
@@ -116,7 +100,6 @@ public class WxConsts {
   public static final String MEDIA_VIDEO = "video";
   public static final String MEDIA_THUMB = "thumb";
   public static final String MEDIA_FILE = "file";
-  
   ///////////////////////
   // 文件类型
   ///////////////////////
@@ -124,40 +107,63 @@ public class WxConsts {
   public static final String FILE_MP3 = "mp3";
   public static final String FILE_AMR = "amr";
   public static final String FILE_MP4 = "mp4";
+  /**
+   * 点击推事件
+   */
+  public static final String BUTTON_CLICK = "click";
 
 
   ///////////////////////
   // 自定义菜单的按钮类型
   ///////////////////////
-  /** 点击推事件 */
-  public static final String BUTTON_CLICK = "click";
-  /** 跳转URL */
+  /**
+   * 跳转URL
+   */
   public static final String BUTTON_VIEW = "view";
-  /** 扫码推事件 */
+  /**
+   * 扫码推事件
+   */
   public static final String BUTTON_SCANCODE_PUSH = "scancode_push";
-  /** 扫码推事件且弹出“消息接收中”提示框 */
+  /**
+   * 扫码推事件且弹出“消息接收中”提示框
+   */
   public static final String BUTTON_SCANCODE_WAITMSG = "scancode_waitmsg";
-  /** 弹出系统拍照发图 */
+  /**
+   * 弹出系统拍照发图
+   */
   public static final String BUTTON_PIC_SYSPHOTO = "pic_sysphoto";
-  /** 弹出拍照或者相册发图 */
+  /**
+   * 弹出拍照或者相册发图
+   */
   public static final String BUTTON_PIC_PHOTO_OR_ALBUM = "pic_photo_or_album";
-  /** 弹出微信相册发图器 */
+  /**
+   * 弹出微信相册发图器
+   */
   public static final String BUTTON_PIC_WEIXIN = "pic_weixin";
-  /** 弹出地理位置选择器 */
+  /**
+   * 弹出地理位置选择器
+   */
   public static final String BUTTON_LOCATION_SELECT = "location_select";
-  /** 下发消息（除文本消息） */
+  /**
+   * 下发消息（除文本消息）
+   */
   public static final String BUTTON_MEDIA_ID = "media_id";
-  /** 跳转图文消息URL */
+  /**
+   * 跳转图文消息URL
+   */
   public static final String BUTTON_VIEW_LIMITED = "view_limited";
+  /**
+   * 不弹出授权页面，直接跳转，只能获取用户openid
+   */
+  public static final String OAUTH2_SCOPE_BASE = "snsapi_base";
 
   ///////////////////////
   // oauth2网页授权的scope
   ///////////////////////
-  /** 不弹出授权页面，直接跳转，只能获取用户openid */
-  public static final String OAUTH2_SCOPE_BASE = "snsapi_base";
-  /** 弹出授权页面，可通过openid拿到昵称、性别、所在地。并且，即使在未关注的情况下，只要用户授权，也能获取其信息 */
+  /**
+   * 弹出授权页面，可通过openid拿到昵称、性别、所在地。并且，即使在未关注的情况下，只要用户授权，也能获取其信息
+   */
   public static final String OAUTH2_SCOPE_USER_INFO = "snsapi_userinfo";
-
   ///////////////////////
   // 永久素材类型
   ///////////////////////
@@ -165,4 +171,18 @@ public class WxConsts {
   public static final String MATERIAL_VOICE = "voice";
   public static final String MATERIAL_IMAGE = "image";
   public static final String MATERIAL_VIDEO = "video";
+
+  static {
+    MASS_ST_2_DESC.put(MASS_ST_SUCCESS, "发送成功");
+    MASS_ST_2_DESC.put(MASS_ST_FAIL, "发送失败");
+    MASS_ST_2_DESC.put(MASS_ST_涉嫌广告, "涉嫌广告");
+    MASS_ST_2_DESC.put(MASS_ST_涉嫌政治, "涉嫌政治");
+    MASS_ST_2_DESC.put(MASS_ST_涉嫌社会, "涉嫌社会");
+    MASS_ST_2_DESC.put(MASS_ST_涉嫌色情, "涉嫌色情");
+    MASS_ST_2_DESC.put(MASS_ST_涉嫌违法犯罪, "涉嫌违法犯罪");
+    MASS_ST_2_DESC.put(MASS_ST_涉嫌欺诈, "涉嫌欺诈");
+    MASS_ST_2_DESC.put(MASS_ST_涉嫌版权, "涉嫌版权");
+    MASS_ST_2_DESC.put(MASS_ST_涉嫌互推_互相宣传, "涉嫌互推_互相宣传");
+    MASS_ST_2_DESC.put(MASS_ST_涉嫌其他, "涉嫌其他");
+  }
 }

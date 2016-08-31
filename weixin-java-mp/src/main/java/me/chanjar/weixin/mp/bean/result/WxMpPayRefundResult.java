@@ -85,7 +85,7 @@ public class WxMpPayRefundResult implements Serializable {
   private String couponRefundId;
 
   public String getReturnCode() {
-    return returnCode;
+    return this.returnCode;
   }
   
   public void setReturnCode(String returnCode) {
@@ -93,7 +93,7 @@ public class WxMpPayRefundResult implements Serializable {
   }
   
   public String getReturnMsg() {
-    return returnMsg;
+    return this.returnMsg;
   }
   
   public void setReturnMsg(String returnMsg) {
@@ -101,7 +101,7 @@ public class WxMpPayRefundResult implements Serializable {
   }
   
   public String getResultCode() {
-    return resultCode;
+    return this.resultCode;
   }
   
   public void setResultCode(String resultCode) {
@@ -109,7 +109,7 @@ public class WxMpPayRefundResult implements Serializable {
   }
   
   public String getErrCode() {
-    return errCode;
+    return this.errCode;
   }
   
   public void setErrCode(String errCode) {
@@ -117,7 +117,7 @@ public class WxMpPayRefundResult implements Serializable {
   }
   
   public String getErrCodeDes() {
-    return errCodeDes;
+    return this.errCodeDes;
   }
   
   public void setErrCodeDes(String errCodeDes) {
@@ -125,7 +125,7 @@ public class WxMpPayRefundResult implements Serializable {
   }
   
   public String getAppid() {
-    return appid;
+    return this.appid;
   }
   
   public void setAppid(String appid) {
@@ -133,7 +133,7 @@ public class WxMpPayRefundResult implements Serializable {
   }
   
   public String getMchId() {
-    return mchId;
+    return this.mchId;
   }
   
   public void setMchId(String mchId) {
@@ -141,7 +141,7 @@ public class WxMpPayRefundResult implements Serializable {
   }
   
   public String getDeviceInfo() {
-    return deviceInfo;
+    return this.deviceInfo;
   }
   
   public void setDeviceInfo(String deviceInfo) {
@@ -149,7 +149,7 @@ public class WxMpPayRefundResult implements Serializable {
   }
   
   public String getNonceStr() {
-    return nonceStr;
+    return this.nonceStr;
   }
   
   public void setNonceStr(String nonceStr) {
@@ -157,7 +157,7 @@ public class WxMpPayRefundResult implements Serializable {
   }
   
   public String getSign() {
-    return sign;
+    return this.sign;
   }
   
   public void setSign(String sign) {
@@ -165,7 +165,7 @@ public class WxMpPayRefundResult implements Serializable {
   }
   
   public String getTransactionId() {
-    return transactionId;
+    return this.transactionId;
   }
   
   public void setTransactionId(String transactionId) {
@@ -173,7 +173,7 @@ public class WxMpPayRefundResult implements Serializable {
   }
   
   public String getOutTradeNo() {
-    return outTradeNo;
+    return this.outTradeNo;
   }
   
   public void setOutTradeNo(String outTradeNo) {
@@ -181,7 +181,7 @@ public class WxMpPayRefundResult implements Serializable {
   }
   
   public String getOutRefundNo() {
-    return outRefundNo;
+    return this.outRefundNo;
   }
   
   public void setOutRefundNo(String outRefundNo) {
@@ -189,7 +189,7 @@ public class WxMpPayRefundResult implements Serializable {
   }
   
   public String getRefundId() {
-    return refundId;
+    return this.refundId;
   }
   
   public void setRefundId(String refundId) {
@@ -197,7 +197,7 @@ public class WxMpPayRefundResult implements Serializable {
   }
   
   public String getRefundChannel() {
-    return refundChannel;
+    return this.refundChannel;
   }
   
   public void setRefundChannel(String refundChannel) {
@@ -205,7 +205,7 @@ public class WxMpPayRefundResult implements Serializable {
   }
   
   public String getRefundFee() {
-    return refundFee;
+    return this.refundFee;
   }
   
   public void setRefundFee(String refundFee) {
@@ -213,7 +213,7 @@ public class WxMpPayRefundResult implements Serializable {
   }
   
   public String getTotalFee() {
-    return totalFee;
+    return this.totalFee;
   }
   
   public void setTotalFee(String totalFee) {
@@ -221,7 +221,7 @@ public class WxMpPayRefundResult implements Serializable {
   }
   
   public String getFeeType() {
-    return feeType;
+    return this.feeType;
   }
   
   public void setFeeType(String feeType) {
@@ -229,7 +229,7 @@ public class WxMpPayRefundResult implements Serializable {
   }
   
   public String getCashFee() {
-    return cashFee;
+    return this.cashFee;
   }
   
   public void setCashFee(String cashFee) {
@@ -237,7 +237,7 @@ public class WxMpPayRefundResult implements Serializable {
   }
   
   public String getCashRefundfee() {
-    return cashRefundfee;
+    return this.cashRefundfee;
   }
   
   public void setCashRefundfee(String cashRefundfee) {
@@ -245,7 +245,7 @@ public class WxMpPayRefundResult implements Serializable {
   }
   
   public String getCouponRefundFee() {
-    return couponRefundFee;
+    return this.couponRefundFee;
   }
   
   public void setCouponRefundFee(String couponRefundFee) {
@@ -253,7 +253,7 @@ public class WxMpPayRefundResult implements Serializable {
   }
   
   public String getCouponRefundCount() {
-    return couponRefundCount;
+    return this.couponRefundCount;
   }
   
   public void setCouponRefundCount(String couponRefundCount) {
@@ -261,7 +261,7 @@ public class WxMpPayRefundResult implements Serializable {
   }
   
   public String getCouponRefundId() {
-    return couponRefundId;
+    return this.couponRefundId;
   }
   
   public void setCouponRefundId(String couponRefundId) {
@@ -271,8 +271,8 @@ public class WxMpPayRefundResult implements Serializable {
   @Override
   public String toString() {
     return "[" +
-      "return_code:" + returnCode + ";" +
-      "return_msg" + returnMsg + ";";
+      "return_code:" + this.returnCode + ";" +
+      "return_msg" + this.returnMsg + ";";
   }
 
 }

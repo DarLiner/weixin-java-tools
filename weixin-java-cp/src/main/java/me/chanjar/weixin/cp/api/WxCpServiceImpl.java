@@ -9,7 +9,7 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
-import me.chanjar.weixin.common.bean.WxMenu;
+import me.chanjar.weixin.common.bean.menu.WxMenu;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -64,17 +64,13 @@ public class WxCpServiceImpl implements WxCpService {
   protected CloseableHttpClient httpClient;
 
   protected HttpHost httpProxy;
-
-  private int retrySleepMillis = 1000;
-
-  private int maxRetryTimes = 5;
-
   protected WxSessionManager sessionManager = new StandardSessionManager();
-
   /**
    * 临时文件目录
    */
   protected File tmpDirFile;
+  private int retrySleepMillis = 1000;
+  private int maxRetryTimes = 5;
 
   public boolean checkSignature(String msgSignature, String timestamp, String nonce, String data) {
     try {
@@ -101,8 +97,8 @@ public class WxCpServiceImpl implements WxCpService {
       synchronized (globalAccessTokenRefreshLock) {
         if (wxCpConfigStorage.isAccessTokenExpired()) {
           String url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?"
-              + "&corpid=" + wxCpConfigStorage.getCorpId()
-              + "&corpsecret=" + wxCpConfigStorage.getCorpSecret();
+                  + "&corpid=" + wxCpConfigStorage.getCorpId()
+                  + "&corpsecret=" + wxCpConfigStorage.getCorpSecret();
           try {
             HttpGet httpGet = new HttpGet(url);
             if (httpProxy != null) {
@@ -113,7 +109,7 @@ public class WxCpServiceImpl implements WxCpService {
             String resultContent = null;
             try (CloseableHttpResponse response = httpclient.execute(httpGet)) {
               resultContent = new BasicResponseHandler().handleResponse(response);
-            }finally {
+            } finally {
               httpGet.releaseConnection();
             }
             WxError error = WxError.fromJson(resultContent);
@@ -163,16 +159,20 @@ public class WxCpServiceImpl implements WxCpService {
     String jsapiTicket = getJsapiTicket(false);
     try {
       String signature = SHA1.genWithAmple(
-          "jsapi_ticket=" + jsapiTicket,
-          "noncestr=" + noncestr,
-          "timestamp=" + timestamp,
-          "url=" + url
+              "jsapi_ticket=" + jsapiTicket,
+              "noncestr=" + noncestr,
+              "timestamp=" + timestamp,
+              "url=" + url
       );
       WxJsapiSignature jsapiSignature = new WxJsapiSignature();
       jsapiSignature.setTimestamp(timestamp);
       jsapiSignature.setNoncestr(noncestr);
       jsapiSignature.setUrl(url);
       jsapiSignature.setSignature(signature);
+      
+      // Fixed bug
+      jsapiSignature.setAppid(this.wxCpConfigStorage.getCorpId());
+      
       return jsapiSignature;
     } catch (NoSuchAlgorithmException e) {
       throw new RuntimeException(e);
@@ -227,7 +227,7 @@ public class WxCpServiceImpl implements WxCpService {
   }
 
   public WxMediaUploadResult mediaUpload(String mediaType, String fileType, InputStream inputStream)
-      throws WxErrorException, IOException {
+          throws WxErrorException, IOException {
     return mediaUpload(mediaType, FileUtils.createTmpFile(inputStream, UUID.randomUUID().toString(), fileType));
   }
 
@@ -245,9 +245,9 @@ public class WxCpServiceImpl implements WxCpService {
   public Integer departCreate(WxCpDepart depart) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/department/create";
     String responseContent = execute(
-      new SimplePostRequestExecutor(),
-      url,
-      depart.toJson());
+            new SimplePostRequestExecutor(),
+            url,
+            depart.toJson());
     JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
     return GsonHelper.getAsInteger(tmpJsonElement.getAsJsonObject().get("id"));
   }
@@ -271,11 +271,11 @@ public class WxCpServiceImpl implements WxCpService {
      */
     JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
     return WxCpGsonBuilder.INSTANCE.create()
-        .fromJson(
-            tmpJsonElement.getAsJsonObject().get("department"),
-            new TypeToken<List<WxCpDepart>>() {
-            }.getType()
-        );
+            .fromJson(
+                    tmpJsonElement.getAsJsonObject().get("department"),
+                    new TypeToken<List<WxCpDepart>>() {
+                    }.getType()
+            );
   }
 
   @Override
@@ -331,10 +331,11 @@ public class WxCpServiceImpl implements WxCpService {
     String responseContent = get(url, params);
     JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
     return WxCpGsonBuilder.INSTANCE.create()
-        .fromJson(
-            tmpJsonElement.getAsJsonObject().get("userlist"),
-            new TypeToken<List<WxCpUser>>() { }.getType()
-        );
+            .fromJson(
+                    tmpJsonElement.getAsJsonObject().get("userlist"),
+                    new TypeToken<List<WxCpUser>>() {
+                    }.getType()
+            );
   }
 
   @Override
@@ -353,10 +354,11 @@ public class WxCpServiceImpl implements WxCpService {
     String responseContent = get(url, params);
     JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
     return WxCpGsonBuilder.INSTANCE.create()
-        .fromJson(
-            tmpJsonElement.getAsJsonObject().get("userlist"),
-            new TypeToken<List<WxCpUser>>() { }.getType()
-        );
+            .fromJson(
+                    tmpJsonElement.getAsJsonObject().get("userlist"),
+                    new TypeToken<List<WxCpUser>>() {
+                    }.getType()
+            );
   }
 
   @Override
@@ -390,11 +392,11 @@ public class WxCpServiceImpl implements WxCpService {
     String responseContent = get(url, null);
     JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
     return WxCpGsonBuilder.INSTANCE.create()
-        .fromJson(
-            tmpJsonElement.getAsJsonObject().get("taglist"),
-            new TypeToken<List<WxCpTag>>() {
-            }.getType()
-        );
+            .fromJson(
+                    tmpJsonElement.getAsJsonObject().get("taglist"),
+                    new TypeToken<List<WxCpTag>>() {
+                    }.getType()
+            );
   }
 
   @Override
@@ -403,10 +405,11 @@ public class WxCpServiceImpl implements WxCpService {
     String responseContent = get(url, null);
     JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
     return WxCpGsonBuilder.INSTANCE.create()
-        .fromJson(
-            tmpJsonElement.getAsJsonObject().get("userlist"),
-            new TypeToken<List<WxCpUser>>() { }.getType()
-        );
+            .fromJson(
+                    tmpJsonElement.getAsJsonObject().get("userlist"),
+                    new TypeToken<List<WxCpUser>>() {
+                    }.getType()
+            );
   }
 
   @Override
@@ -445,8 +448,16 @@ public class WxCpServiceImpl implements WxCpService {
   }
 
   @Override
+	public String oauth2buildAuthorizationUrl(String state) {
+  	return this.oauth2buildAuthorizationUrl(
+  		this.wxCpConfigStorage.getOauth2redirectUri(),
+  		state
+  	);
+	}
+
+	@Override
   public String oauth2buildAuthorizationUrl(String redirectUri, String state) {
-    String url = "https://open.weixin.qq.com/connect/oauth2/authorize?" ;
+    String url = "https://open.weixin.qq.com/connect/oauth2/authorize?";
     url += "appid=" + wxCpConfigStorage.getCorpId();
     url += "&redirect_uri=" + URIUtil.encodeURIComponent(redirectUri);
     url += "&response_type=code";
@@ -466,12 +477,12 @@ public class WxCpServiceImpl implements WxCpService {
   @Override
   public String[] oauth2getUserInfo(String agentId, String code) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?"
-        + "code=" + code
-        + "&agendid=" + agentId;
+            + "code=" + code
+            + "&agendid=" + agentId;
     String responseText = get(url, null);
     JsonElement je = Streams.parse(new JsonReader(new StringReader(responseText)));
     JsonObject jo = je.getAsJsonObject();
-    return new String[] {GsonHelper.getString(jo, "UserId"), GsonHelper.getString(jo, "DeviceId")};
+    return new String[]{GsonHelper.getString(jo, "UserId"), GsonHelper.getString(jo, "DeviceId")};
   }
 
   @Override
@@ -494,7 +505,7 @@ public class WxCpServiceImpl implements WxCpService {
     JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
     JsonArray jsonArray = tmpJsonElement.getAsJsonObject().get("ip_list").getAsJsonArray();
     String[] ips = new String[jsonArray.size()];
-    for(int i = 0; i < jsonArray.size(); i++) {
+    for (int i = 0; i < jsonArray.size(); i++) {
       ips[i] = jsonArray.get(i).getAsString();
     }
     return ips;
@@ -533,7 +544,7 @@ public class WxCpServiceImpl implements WxCpService {
           throw e;
         }
       }
-    } while(++retryTimes < maxRetryTimes);
+    } while (++retryTimes < maxRetryTimes);
 
     throw new RuntimeException("微信服务端异常，超出重试次数");
   }
@@ -571,6 +582,7 @@ public class WxCpServiceImpl implements WxCpService {
       throw new RuntimeException(e);
     }
   }
+
   protected CloseableHttpClient getHttpclient() {
     return httpClient;
   }
@@ -579,12 +591,12 @@ public class WxCpServiceImpl implements WxCpService {
     this.wxCpConfigStorage = wxConfigProvider;
     ApacheHttpClientBuilder apacheHttpClientBuilder = wxCpConfigStorage.getApacheHttpClientBuilder();
     if (null == apacheHttpClientBuilder) {
-      apacheHttpClientBuilder = DefaultApacheHttpHttpClientBuilder.get();
+      apacheHttpClientBuilder = DefaultApacheHttpClientBuilder.get();
     }
     apacheHttpClientBuilder.httpProxyHost(wxCpConfigStorage.getHttp_proxy_host())
-      .httpProxyPort(wxCpConfigStorage.getHttp_proxy_port())
-      .httpProxyUsername(wxCpConfigStorage.getHttp_proxy_username())
-      .httpProxyPassword(wxCpConfigStorage.getHttp_proxy_password());
+            .httpProxyPort(wxCpConfigStorage.getHttp_proxy_port())
+            .httpProxyUsername(wxCpConfigStorage.getHttp_proxy_username())
+            .httpProxyPassword(wxCpConfigStorage.getHttp_proxy_password());
 
     httpClient = apacheHttpClientBuilder.build();
   }
@@ -621,27 +633,27 @@ public class WxCpServiceImpl implements WxCpService {
   public void setSessionManager(WxSessionManager sessionManager) {
     this.sessionManager = sessionManager;
   }
-  
+
   @Override
   public String replaceParty(String mediaId) throws WxErrorException {
-	  String url = "https://qyapi.weixin.qq.com/cgi-bin/batch/replaceparty";
-	  JsonObject jsonObject = new JsonObject();
-	  jsonObject.addProperty("media_id", mediaId);
-	  return post(url, jsonObject.toString());
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/batch/replaceparty";
+    JsonObject jsonObject = new JsonObject();
+    jsonObject.addProperty("media_id", mediaId);
+    return post(url, jsonObject.toString());
   }
 
   @Override
   public String replaceUser(String mediaId) throws WxErrorException {
-	  String url = "https://qyapi.weixin.qq.com/cgi-bin/batch/replaceuser";
-	  JsonObject jsonObject = new JsonObject();
-	  jsonObject.addProperty("media_id", mediaId);
-	  return post(url, jsonObject.toString());
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/batch/replaceuser";
+    JsonObject jsonObject = new JsonObject();
+    jsonObject.addProperty("media_id", mediaId);
+    return post(url, jsonObject.toString());
   }
 
   @Override
   public String getTaskResult(String joinId) throws WxErrorException {
-	  String url = "https://qyapi.weixin.qq.com/cgi-bin/batch/getresult?jobid="+joinId;
-	  return get(url, null);
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/batch/getresult?jobid=" + joinId;
+    return get(url, null);
   }
 
   public File getTmpDirFile() {

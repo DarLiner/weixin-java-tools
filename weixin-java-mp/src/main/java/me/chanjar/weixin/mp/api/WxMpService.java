@@ -158,16 +158,6 @@ public interface WxMpService {
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=网页授权获取用户基本信息
    * </pre>
    *
-   * @return url
-   */
-  String oauth2buildAuthorizationUrl(String scope, String state);
-
-  /**
-   * <pre>
-   * 构造oauth2授权的url连接
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=网页授权获取用户基本信息
-   * </pre>
-   *
    * @param redirectURI 用户授权完成后的重定向链接，无需urlencode, 方法内会进行encode
    * @return url
    */
@@ -346,4 +336,11 @@ public interface WxMpService {
    * @return WxMpPayService
    */
   WxMpPayService getPayService();
+
+  /**
+   * 返回数据分析统计相关接口的方法实现类，以方便调用个其各种接口
+   *
+   * @return WxMpDataCubeService
+   */
+  WxMpDataCubeService getDataCubeService();
 }

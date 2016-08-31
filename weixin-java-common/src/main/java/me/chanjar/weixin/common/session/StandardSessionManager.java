@@ -13,16 +13,65 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class StandardSessionManager implements WxSessionManager, InternalSessionManager {
 
-  protected final Logger log = LoggerFactory.getLogger(StandardSessionManager.class);
-
   protected static final StringManager sm =
-      StringManager.getManager(Constants.Package);
+          StringManager.getManager(Constants.Package);
+  /**
+   * The descriptive name of this Manager implementation (for logging).
+   */
+  private static final String name = "SessionManagerImpl";
+  protected final Logger log = LoggerFactory.getLogger(StandardSessionManager.class);
+  private final Object maxActiveUpdateLock = new Object();
+  /**
+   * 后台清理线程是否已经开启
+   */
+  private final AtomicBoolean backgroundProcessStarted = new AtomicBoolean(false);
 
+
+  // -------------------------------------- InternalSessionManager
   /**
    * The set of currently active Sessions for this Manager, keyed by
    * session identifier.
    */
   protected Map<String, InternalSession> sessions = new ConcurrentHashMap<String, InternalSession>();
+  /**
+   * The maximum number of active Sessions allowed, or -1 for no limit.
+   */
+  protected int maxActiveSessions = -1;
+
+  /**
+   * Number of session creations that failed due to maxActiveSessions.
+   */
+  protected int rejectedSessions = 0;
+
+  /**
+   * The default maximum inactive interval for Sessions created by
+   * this Manager.
+   */
+  protected int maxInactiveInterval = 30 * 60;
+
+  // Number of sessions created by this manager
+  protected long sessionCounter = 0;
+
+  protected volatile int maxActive = 0;
+  /**
+   * Processing time during session expiration.
+   */
+  protected long processingTime = 0;
+  /**
+   * Frequency of the session expiration, and related manager operations.
+   * Manager operations will be done once for the specified amount of
+   * backgrondProcess calls (ie, the lower the amount, the most often the
+   * checks will occur).
+   */
+  protected int processExpiresFrequency = 6;
+  /**
+   * background processor delay in seconds
+   */
+  protected int backgroundProcessorDelay = 10;
+  /**
+   * Iteration count for background processing.
+   */
+  private int count = 0;
 
   @Override
   public WxSession getSession(String sessionId) {
@@ -33,7 +82,7 @@ public class StandardSessionManager implements WxSessionManager, InternalSession
   public WxSession getSession(String sessionId, boolean create) {
     if (sessionId == null) {
       throw new IllegalStateException
-          (sm.getString("sessionManagerImpl.getSession.ise"));
+              (sm.getString("sessionManagerImpl.getSession.ise"));
     }
 
     InternalSession session = findSession(sessionId);
@@ -60,64 +109,6 @@ public class StandardSessionManager implements WxSessionManager, InternalSession
     return session.getSession();
   }
 
-
-  // -------------------------------------- InternalSessionManager
-  /**
-   * The descriptive name of this Manager implementation (for logging).
-   */
-  private static final String name = "SessionManagerImpl";
-
-  /**
-   * The maximum number of active Sessions allowed, or -1 for no limit.
-   */
-  protected int maxActiveSessions = -1;
-
-  /**
-   * Number of session creations that failed due to maxActiveSessions.
-   */
-  protected int rejectedSessions = 0;
-
-  /**
-   * The default maximum inactive interval for Sessions created by
-   * this Manager.
-   */
-  protected int maxInactiveInterval = 30 * 60;
-
-  // Number of sessions created by this manager
-  protected long sessionCounter=0;
-
-  protected volatile int maxActive=0;
-
-  private final Object maxActiveUpdateLock = new Object();
-
-  /**
-   * Processing time during session expiration.
-   */
-  protected long processingTime = 0;
-
-  /**
-   * Iteration count for background processing.
-   */
-  private int count = 0;
-
-  /**
-   * Frequency of the session expiration, and related manager operations.
-   * Manager operations will be done once for the specified amount of
-   * backgrondProcess calls (ie, the lower the amount, the most often the
-   * checks will occur).
-   */
-  protected int processExpiresFrequency = 6;
-
-  /**
-   * background processor delay in seconds
-   */
-  protected int backgroundProcessorDelay = 10;
-
-  /**
-   * 后台清理线程是否已经开启
-   */
-  private final AtomicBoolean backgroundProcessStarted = new AtomicBoolean(false);
-
   @Override
   public void remove(InternalSession session) {
     remove(session, false);
@@ -129,7 +120,6 @@ public class StandardSessionManager implements WxSessionManager, InternalSession
       sessions.remove(session.getIdInternal());
     }
   }
-
 
 
   @Override
@@ -145,15 +135,15 @@ public class StandardSessionManager implements WxSessionManager, InternalSession
   public InternalSession createSession(String sessionId) {
     if (sessionId == null) {
       throw new IllegalStateException
-          (sm.getString("sessionManagerImpl.createSession.ise"));
+              (sm.getString("sessionManagerImpl.createSession.ise"));
     }
 
     if ((maxActiveSessions >= 0) &&
-        (getActiveSessions() >= maxActiveSessions)) {
+            (getActiveSessions() >= maxActiveSessions)) {
       rejectedSessions++;
       throw new TooManyActiveSessionsException(
-          sm.getString("sessionManagerImpl.createSession.tmase"),
-          maxActiveSessions);
+              sm.getString("sessionManagerImpl.createSession.tmase"),
+              maxActiveSessions);
     }
 
     // Recycle or create a Session instance
@@ -216,14 +206,14 @@ public class StandardSessionManager implements WxSessionManager, InternalSession
 
     sessions.put(session.getIdInternal(), session);
     int size = getActiveSessions();
-    if( size > maxActive ) {
-      synchronized(maxActiveUpdateLock) {
-        if( size > maxActive ) {
+    if (size > maxActive) {
+      synchronized (maxActiveUpdateLock) {
+        if (size > maxActive) {
           maxActive = size;
         }
       }
     }
-    
+
   }
 
   /**
@@ -251,19 +241,19 @@ public class StandardSessionManager implements WxSessionManager, InternalSession
 
     long timeNow = System.currentTimeMillis();
     InternalSession sessions[] = findSessions();
-    int expireHere = 0 ;
+    int expireHere = 0;
 
-    if(log.isDebugEnabled())
+    if (log.isDebugEnabled())
       log.debug("Start expire sessions {} at {} sessioncount {}", getName(), timeNow, sessions.length);
     for (int i = 0; i < sessions.length; i++) {
-      if (sessions[i]!=null && !sessions[i].isValid()) {
+      if (sessions[i] != null && !sessions[i].isValid()) {
         expireHere++;
       }
     }
     long timeEnd = System.currentTimeMillis();
-    if(log.isDebugEnabled())
+    if (log.isDebugEnabled())
       log.debug("End expire sessions {} processingTime {} expired sessions: {}", getName(), timeEnd - timeNow, expireHere);
-    processingTime += ( timeEnd - timeNow );
+    processingTime += (timeEnd - timeNow);
 
   }
 

@@ -13,6 +13,10 @@ import java.io.Serializable;
  * @author chanjarster
  */
 public class WxMpPrepayIdResult implements Serializable {
+    /**
+   * 
+   */
+  private static final long serialVersionUID = -8970574397788396143L;
     private String return_code;
     private String return_msg;
     private String appid;
@@ -27,7 +31,7 @@ public class WxMpPrepayIdResult implements Serializable {
     private String code_url;
 
     public String getReturn_code() {
-        return return_code;
+        return this.return_code;
     }
 
     public void setReturn_code(String return_code) {
@@ -35,7 +39,7 @@ public class WxMpPrepayIdResult implements Serializable {
     }
 
     public String getReturn_msg() {
-        return return_msg;
+        return this.return_msg;
     }
 
     public void setReturn_msg(String return_msg) {
@@ -43,7 +47,7 @@ public class WxMpPrepayIdResult implements Serializable {
     }
 
     public String getAppid() {
-        return appid;
+        return this.appid;
     }
 
     public void setAppid(String appid) {
@@ -51,7 +55,7 @@ public class WxMpPrepayIdResult implements Serializable {
     }
 
     public String getMch_id() {
-        return mch_id;
+        return this.mch_id;
     }
 
     public void setMch_id(String mch_id) {
@@ -59,7 +63,7 @@ public class WxMpPrepayIdResult implements Serializable {
     }
 
     public String getNonce_str() {
-        return nonce_str;
+        return this.nonce_str;
     }
 
     public void setNonce_str(String nonce_str) {
@@ -67,7 +71,7 @@ public class WxMpPrepayIdResult implements Serializable {
     }
 
     public String getSign() {
-        return sign;
+        return this.sign;
     }
 
     public void setSign(String sign) {
@@ -75,7 +79,7 @@ public class WxMpPrepayIdResult implements Serializable {
     }
 
     public String getResult_code() {
-        return result_code;
+        return this.result_code;
     }
 
     public void setResult_code(String result_code) {
@@ -83,7 +87,7 @@ public class WxMpPrepayIdResult implements Serializable {
     }
 
     public String getPrepay_id() {
-        return prepay_id;
+        return this.prepay_id;
     }
 
     public void setPrepay_id(String prepay_id) {
@@ -91,7 +95,7 @@ public class WxMpPrepayIdResult implements Serializable {
     }
 
     public String getTrade_type() {
-        return trade_type;
+        return this.trade_type;
     }
 
     public void setTrade_type(String trade_type) {
@@ -99,7 +103,7 @@ public class WxMpPrepayIdResult implements Serializable {
     }
     
     public String getErr_code() {
-      return err_code;
+      return this.err_code;
     }
 
     public void setErr_code(String err_code) {
@@ -107,7 +111,7 @@ public class WxMpPrepayIdResult implements Serializable {
     }
 
     public String getErr_code_des() {
-      return err_code_des;
+      return this.err_code_des;
     }
 
     public void setErr_code_des(String err_code_des) {
@@ -115,7 +119,7 @@ public class WxMpPrepayIdResult implements Serializable {
     }
 
     public String getCode_url() {
-      return code_url;
+      return this.code_url;
     }
 
     public void setCode_url(String code_url) {

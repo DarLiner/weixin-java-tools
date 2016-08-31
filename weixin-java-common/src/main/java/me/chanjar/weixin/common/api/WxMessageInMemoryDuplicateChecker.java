@@ -46,7 +46,8 @@ public class WxMessageInMemoryDuplicateChecker implements WxMessageDuplicateChec
 
   /**
    * WxMsgIdInMemoryDuplicateChecker构造函数
-   * @param timeToLive 一个消息ID在内存的过期时间：毫秒
+   *
+   * @param timeToLive  一个消息ID在内存的过期时间：毫秒
    * @param clearPeriod 每隔多少周期检查消息ID是否过期：毫秒
    */
   public WxMessageInMemoryDuplicateChecker(Long timeToLive, Long clearPeriod) {

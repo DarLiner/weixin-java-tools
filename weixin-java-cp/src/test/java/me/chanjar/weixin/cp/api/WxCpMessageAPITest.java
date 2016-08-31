@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
  * @author Daniel Qian
  *
  */
-@Test(groups="customMessageAPI", dependsOnGroups = "baseAPI")
+@Test(groups = "customMessageAPI", dependsOnGroups = "baseAPI")
 @Guice(modules = ApiTestModule.class)
 public class WxCpMessageAPITest {
 
@@ -29,11 +29,11 @@ public class WxCpMessageAPITest {
     wxService.messageSend(message1);
 
     WxCpMessage message2 = WxCpMessage
-        .TEXT()
-        .agentId(configStorage.getAgentId())
-        .toUser(configStorage.getUserId())
-        .content("欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>")
-        .build();
+            .TEXT()
+            .agentId(configStorage.getAgentId())
+            .toUser(configStorage.getUserId())
+            .content("欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>")
+            .build();
     wxService.messageSend(message2);
 
   }

@@ -1,4 +1,7 @@
-package me.chanjar.weixin.mp.bean.result;
+package me.chanjar.weixin.mp.bean.datacube;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -9,7 +12,8 @@ import java.util.Date;
  * http://mp.weixin.qq.com/wiki/3/ecfed6e1a0a03b5f35e5efac98e864b7.html
  * </pre>
  */
-public class WxMpUserSummary implements Serializable {
+public class WxDataCubeUserSummary implements Serializable {
+  private static final long serialVersionUID = -2336654489906694173L;
 
   private Date refDate;
 
@@ -20,7 +24,7 @@ public class WxMpUserSummary implements Serializable {
   private Integer cancelUser;
 
   public Date getRefDate() {
-    return refDate;
+    return this.refDate;
   }
 
   public void setRefDate(Date refDate) {
@@ -28,7 +32,7 @@ public class WxMpUserSummary implements Serializable {
   }
 
   public Integer getUserSource() {
-    return userSource;
+    return this.userSource;
   }
 
   public void setUserSource(Integer userSource) {
@@ -36,7 +40,7 @@ public class WxMpUserSummary implements Serializable {
   }
 
   public Integer getNewUser() {
-    return newUser;
+    return this.newUser;
   }
 
   public void setNewUser(Integer newUser) {
@@ -44,7 +48,7 @@ public class WxMpUserSummary implements Serializable {
   }
 
   public Integer getCancelUser() {
-    return cancelUser;
+    return this.cancelUser;
   }
 
   public void setCancelUser(Integer cancelUser) {
@@ -53,11 +57,6 @@ public class WxMpUserSummary implements Serializable {
 
   @Override
   public String toString() {
-    return "WxMpUserSummary{" +
-        "refDate=" + refDate +
-        ", userSource=" + userSource +
-        ", newUser=" + newUser +
-        ", cancelUser=" + cancelUser +
-        '}';
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
 }

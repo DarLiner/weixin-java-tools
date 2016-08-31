@@ -14,9 +14,7 @@ import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import java.lang.reflect.Type;
 
 /**
- * 
  * @author Daniel Qian
- *
  */
 public class WxMediaUploadResultAdapter implements JsonDeserializer<WxMediaUploadResult> {
 
@@ -38,5 +36,5 @@ public class WxMediaUploadResultAdapter implements JsonDeserializer<WxMediaUploa
     }
     return uploadResult;
   }
-  
+
 }
