@@ -14,6 +14,10 @@ import java.io.Serializable;
  */
 public class WxMpMassUploadResult implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 6568157943644994029L;
   private String type;
   private String mediaId;
   private long createdAt;

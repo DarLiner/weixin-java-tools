@@ -12,6 +12,10 @@ import java.io.Serializable;
  * @author ukid
  */
 public class WxMpPayCallback implements Serializable {
+    /**
+   * 
+   */
+  private static final long serialVersionUID = -4143804055690843641L;
     private String return_code;
     private String return_msg;
 

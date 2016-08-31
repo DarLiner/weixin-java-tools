@@ -11,6 +11,10 @@ import java.io.Serializable;
  */
 public class WxMpMassGroupMessage implements Serializable {
   
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -6625914040986749286L;
   private Long groupId;
   private String msgtype;
   private String content;

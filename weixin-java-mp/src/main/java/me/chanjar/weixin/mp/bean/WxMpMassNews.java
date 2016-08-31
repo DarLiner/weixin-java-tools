@@ -13,6 +13,10 @@ import java.util.List;
  */
 public class WxMpMassNews implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 565937155013581016L;
   private List<WxMpMassNewsArticle> articles = new ArrayList<WxMpMassNewsArticle>();
 
   public List<WxMpMassNewsArticle> getArticles() {

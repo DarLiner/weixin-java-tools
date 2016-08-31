@@ -8,6 +8,10 @@ import java.util.List;
 
 public class WxMpTemplateMessage implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 5063374783759519418L;
   private String toUser;
   private String templateId;
   private String url;

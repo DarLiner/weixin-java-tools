@@ -7,6 +7,10 @@ import java.io.Serializable;
  */
 public class WxMpTemplateData implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 6301835292940277870L;
   private String name;
   private String value;
   private String color;

@@ -11,6 +11,11 @@ import java.util.List;
 @XStreamAlias("xml")
 public class WxMpXmlOutNewsMessage extends WxMpXmlOutMessage {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -4604402850905714772L;
+
   @XStreamAlias("ArticleCount")
   protected int articleCount;
   

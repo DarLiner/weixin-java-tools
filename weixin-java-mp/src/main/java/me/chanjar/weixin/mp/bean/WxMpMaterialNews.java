@@ -8,6 +8,10 @@ import java.util.List;
 
 public class WxMpMaterialNews implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -3283203652013494976L;
   private List<WxMpMaterialNewsArticle> articles = new ArrayList<WxMpMaterialNewsArticle>();
 
   public List<WxMpMaterialNewsArticle> getArticles() {

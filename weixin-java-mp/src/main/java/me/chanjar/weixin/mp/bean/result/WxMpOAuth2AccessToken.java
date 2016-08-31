@@ -6,6 +6,11 @@ import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
 public class WxMpOAuth2AccessToken implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -1345910558078620805L;
+
   private String accessToken;
 
   private int expiresIn = -1;

@@ -8,6 +8,10 @@ import java.util.List;
 
 public class WxMpMaterialNewsBatchGetResult implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -1617952797921001666L;
   private int totalCount;
   private int itemCount;
   private List<WxMaterialNewsBatchGetNewsItem> items;

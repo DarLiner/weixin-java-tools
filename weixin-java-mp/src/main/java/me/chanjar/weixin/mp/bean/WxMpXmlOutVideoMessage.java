@@ -8,6 +8,10 @@ import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
 @XStreamAlias("xml")
 public class WxMpXmlOutVideoMessage extends WxMpXmlOutMessage {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1745902309380113978L;
   @XStreamAlias("Video")
   protected final Video video = new Video();
 

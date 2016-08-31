@@ -11,6 +11,10 @@ import java.io.Serializable;
  */
 public class WxMpGroup implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1554709708638735270L;
   private long id = -1;
   private String name;
   private long count;

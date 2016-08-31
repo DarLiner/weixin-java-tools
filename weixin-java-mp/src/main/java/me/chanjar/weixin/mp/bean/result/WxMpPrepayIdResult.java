@@ -13,6 +13,10 @@ import java.io.Serializable;
  * @author chanjarster
  */
 public class WxMpPrepayIdResult implements Serializable {
+    /**
+   * 
+   */
+  private static final long serialVersionUID = -8970574397788396143L;
     private String return_code;
     private String return_msg;
     private String appid;

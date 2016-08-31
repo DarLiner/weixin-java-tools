@@ -11,6 +11,10 @@ import java.io.Serializable;
  */
 public class WxMpQrCodeTicket implements Serializable {
   
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 5777119669111011584L;
   protected String ticket;
   protected int expire_seconds = -1;
   protected String url;
