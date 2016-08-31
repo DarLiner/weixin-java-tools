@@ -24,7 +24,6 @@ public class WxMpUserQuery {
   /**
    * 语言使用默认(zh_CN)
    * 
-   * @description
    * @param openIdList
    */
   public WxMpUserQuery(List<String> openIdList) {
@@ -98,7 +97,6 @@ public class WxMpUserQuery {
   /**
    * 获取查询参数列表
    * 
-   * @return
    */
   public List<WxMpUserQueryParam> getQueryParamList() {
     return this.queryParamList;
