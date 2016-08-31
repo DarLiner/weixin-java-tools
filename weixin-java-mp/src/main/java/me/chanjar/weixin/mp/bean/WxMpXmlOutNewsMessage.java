@@ -22,7 +22,7 @@ public class WxMpXmlOutNewsMessage extends WxMpXmlOutMessage {
   }
 
   public int getArticleCount() {
-    return articleCount;
+    return this.articleCount;
   }
 
   public void addArticle(Item item) {
@@ -31,7 +31,7 @@ public class WxMpXmlOutNewsMessage extends WxMpXmlOutMessage {
   }
   
   public List<Item> getArticles() {
-    return articles;
+    return this.articles;
   }
   
   
@@ -55,35 +55,35 @@ public class WxMpXmlOutNewsMessage extends WxMpXmlOutMessage {
     private String Url;
     
     public String getTitle() {
-      return Title;
+      return this.Title;
     }
 
     public void setTitle(String title) {
-      Title = title;
+      this.Title = title;
     }
 
     public String getDescription() {
-      return Description;
+      return this.Description;
     }
 
     public void setDescription(String description) {
-      Description = description;
+      this.Description = description;
     }
 
     public String getPicUrl() {
-      return PicUrl;
+      return this.PicUrl;
     }
 
     public void setPicUrl(String picUrl) {
-      PicUrl = picUrl;
+      this.PicUrl = picUrl;
     }
 
     public String getUrl() {
-      return Url;
+      return this.Url;
     }
 
     public void setUrl(String url) {
-      Url = url;
+      this.Url = url;
     }
 
   }

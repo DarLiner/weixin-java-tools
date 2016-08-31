@@ -15,7 +15,7 @@ public class WxMediaImgUploadResult implements Serializable {
   }
 
   public String getUrl() {
-    return url;
+    return this.url;
   }
 
   public void setUrl(String url) {

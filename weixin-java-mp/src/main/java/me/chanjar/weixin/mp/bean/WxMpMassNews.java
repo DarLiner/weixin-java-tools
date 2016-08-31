@@ -16,7 +16,7 @@ public class WxMpMassNews implements Serializable {
   private List<WxMpMassNewsArticle> articles = new ArrayList<WxMpMassNewsArticle>();
 
   public List<WxMpMassNewsArticle> getArticles() {
-    return articles;
+    return this.articles;
   }
 
   public void addArticle(WxMpMassNewsArticle article) {
@@ -28,7 +28,7 @@ public class WxMpMassNews implements Serializable {
   }
 
   public boolean isEmpty() {
-    return articles == null || articles.isEmpty();
+    return this.articles == null || this.articles.isEmpty();
   }
 
   /**
@@ -76,7 +76,7 @@ public class WxMpMassNews implements Serializable {
     private boolean showCoverPic;
 
     public String getThumbMediaId() {
-      return thumbMediaId;
+      return this.thumbMediaId;
     }
 
     public void setThumbMediaId(String thumbMediaId) {
@@ -84,7 +84,7 @@ public class WxMpMassNews implements Serializable {
     }
 
     public String getAuthor() {
-      return author;
+      return this.author;
     }
 
     public void setAuthor(String author) {
@@ -92,7 +92,7 @@ public class WxMpMassNews implements Serializable {
     }
 
     public String getTitle() {
-      return title;
+      return this.title;
     }
 
     public void setTitle(String title) {
@@ -100,7 +100,7 @@ public class WxMpMassNews implements Serializable {
     }
 
     public String getContentSourceUrl() {
-      return contentSourceUrl;
+      return this.contentSourceUrl;
     }
 
     public void setContentSourceUrl(String contentSourceUrl) {
@@ -108,7 +108,7 @@ public class WxMpMassNews implements Serializable {
     }
 
     public String getContent() {
-      return content;
+      return this.content;
     }
 
     public void setContent(String content) {
@@ -116,7 +116,7 @@ public class WxMpMassNews implements Serializable {
     }
 
     public String getDigest() {
-      return digest;
+      return this.digest;
     }
 
     public void setDigest(String digest) {
@@ -124,7 +124,7 @@ public class WxMpMassNews implements Serializable {
     }
 
     public boolean isShowCoverPic() {
-      return showCoverPic;
+      return this.showCoverPic;
     }
 
     public void setShowCoverPic(boolean showCoverPic) {
@@ -133,14 +133,14 @@ public class WxMpMassNews implements Serializable {
 
     @Override
     public String toString() {
-      return "WxMpMassNewsArticle [" + "thumbMediaId=" + thumbMediaId + ", author=" + author + ", title=" + title +
-          ", contentSourceUrl=" + contentSourceUrl + ", content=" + content + ", digest=" + digest +
-          ", showCoverPic=" + showCoverPic + "]";
+      return "WxMpMassNewsArticle [" + "thumbMediaId=" + this.thumbMediaId + ", author=" + this.author + ", title=" + this.title +
+          ", contentSourceUrl=" + this.contentSourceUrl + ", content=" + this.content + ", digest=" + this.digest +
+          ", showCoverPic=" + this.showCoverPic + "]";
     }
   }
 
   @Override
   public String toString() {
-    return "WxMpMassNews [" + "articles=" + articles + "]";
+    return "WxMpMassNews [" + "articles=" + this.articles + "]";
   }
 }

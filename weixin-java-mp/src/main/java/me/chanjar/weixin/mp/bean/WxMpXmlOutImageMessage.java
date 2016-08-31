@@ -13,7 +13,7 @@ public class WxMpXmlOutImageMessage extends WxMpXmlOutMessage {
   private String mediaId;
 
   public String getMediaId() {
-    return mediaId;
+    return this.mediaId;
   }
 
   public void setMediaId(String mediaId) {

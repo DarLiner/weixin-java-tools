@@ -30,9 +30,9 @@ public final class VideoBuilder extends BaseBuilder<VideoBuilder, WxMpXmlOutVide
   public WxMpXmlOutVideoMessage build() {
     WxMpXmlOutVideoMessage m = new WxMpXmlOutVideoMessage();
     setCommon(m);
-    m.setTitle(title);
-    m.setDescription(description);
-    m.setMediaId(mediaId);
+    m.setTitle(this.title);
+    m.setDescription(this.description);
+    m.setMediaId(this.mediaId);
     return m;
   }
   

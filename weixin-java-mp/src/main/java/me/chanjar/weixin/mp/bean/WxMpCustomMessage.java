@@ -182,7 +182,7 @@ public class WxMpCustomMessage implements Serializable {
   }
   
   public String getKfAccount() {
-    return kfAccount;
+    return this.kfAccount;
   }
   
   public void setKfAccount(String kfAccount) {

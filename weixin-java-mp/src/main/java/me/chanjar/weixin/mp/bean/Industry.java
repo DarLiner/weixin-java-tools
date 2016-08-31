@@ -13,7 +13,7 @@ public class Industry implements Serializable {
     private String secondClass;
 
     public String getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(String id) {
@@ -21,7 +21,7 @@ public class Industry implements Serializable {
     }
 
     public String getFirstClass() {
-        return firstClass;
+        return this.firstClass;
     }
 
     public void setFirstClass(String firstClass) {
@@ -29,7 +29,7 @@ public class Industry implements Serializable {
     }
 
     public String getSecondClass() {
-        return secondClass;
+        return this.secondClass;
     }
 
     public void setSecondClass(String secondClass) {

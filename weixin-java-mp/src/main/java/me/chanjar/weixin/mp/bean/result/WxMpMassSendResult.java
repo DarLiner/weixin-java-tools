@@ -23,7 +23,7 @@ public class WxMpMassSendResult implements Serializable {
   private String msgDataId;
 
   public String getErrorCode() {
-    return errorCode;
+    return this.errorCode;
   }
 
   public void setErrorCode(String errorCode) {
@@ -31,7 +31,7 @@ public class WxMpMassSendResult implements Serializable {
   }
 
   public String getErrorMsg() {
-    return errorMsg;
+    return this.errorMsg;
   }
 
   public void setErrorMsg(String errorMsg) {
@@ -39,7 +39,7 @@ public class WxMpMassSendResult implements Serializable {
   }
 
   public String getMsgId() {
-    return msgId;
+    return this.msgId;
   }
 
   public void setMsgId(String msgId) {
@@ -47,7 +47,7 @@ public class WxMpMassSendResult implements Serializable {
   }
 
   public String getMsgDataId() {
-    return msgDataId;
+    return this.msgDataId;
   }
 
   public void setMsgDataId(String msgDataId) {
@@ -60,7 +60,7 @@ public class WxMpMassSendResult implements Serializable {
 
   @Override
   public String toString() {
-    return "WxMassSendResult [errcode=" + errorCode + ", errmsg=" + errorMsg + ", msg_id=" + msgId + "]";
+    return "WxMassSendResult [errcode=" + this.errorCode + ", errmsg=" + this.errorMsg + ", msg_id=" + this.msgId + "]";
   }
   
 }

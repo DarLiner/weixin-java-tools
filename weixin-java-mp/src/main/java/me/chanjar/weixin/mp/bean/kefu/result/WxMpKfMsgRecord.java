@@ -46,7 +46,7 @@ public class WxMpKfMsgRecord {
     return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
   public String getWorker() {
-    return worker;
+    return this.worker;
   }
 
   public void setWorker(String worker) {
@@ -54,7 +54,7 @@ public class WxMpKfMsgRecord {
   }
 
   public String getOpenid() {
-    return openid;
+    return this.openid;
   }
 
   public void setOpenid(String openid) {
@@ -62,7 +62,7 @@ public class WxMpKfMsgRecord {
   }
 
   public String getText() {
-    return text;
+    return this.text;
   }
 
   public void setText(String text) {
@@ -70,7 +70,7 @@ public class WxMpKfMsgRecord {
   }
 
   public Long getTime() {
-    return time;
+    return this.time;
   }
 
   public void setTime(Long time) {
@@ -78,7 +78,7 @@ public class WxMpKfMsgRecord {
   }
 
   public Integer getOperateCode() {
-    return operateCode;
+    return this.operateCode;
   }
 
   public void setOperateCode(Integer operateCode) {

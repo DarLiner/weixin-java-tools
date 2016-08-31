@@ -21,7 +21,7 @@ public class WxMpSemanticQueryResult implements Serializable {
   private String text;
 
   public String getQuery() {
-    return query;
+    return this.query;
   }
 
   public void setQuery(String query) {
@@ -29,7 +29,7 @@ public class WxMpSemanticQueryResult implements Serializable {
   }
 
   public String getType() {
-    return type;
+    return this.type;
   }
 
   public void setType(String type) {
@@ -37,7 +37,7 @@ public class WxMpSemanticQueryResult implements Serializable {
   }
 
   public String getSemantic() {
-    return semantic;
+    return this.semantic;
   }
 
   public void setSemantic(String semantic) {
@@ -45,7 +45,7 @@ public class WxMpSemanticQueryResult implements Serializable {
   }
 
   public String getResult() {
-    return result;
+    return this.result;
   }
 
   public void setResult(String result) {
@@ -53,7 +53,7 @@ public class WxMpSemanticQueryResult implements Serializable {
   }
 
   public String getAnswer() {
-    return answer;
+    return this.answer;
   }
 
   public void setAnswer(String answer) {
@@ -61,7 +61,7 @@ public class WxMpSemanticQueryResult implements Serializable {
   }
 
   public String getText() {
-    return text;
+    return this.text;
   }
 
   public void setText(String text) {

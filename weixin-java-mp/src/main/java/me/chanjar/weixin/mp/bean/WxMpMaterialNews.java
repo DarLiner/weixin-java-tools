@@ -11,7 +11,7 @@ public class WxMpMaterialNews implements Serializable {
   private List<WxMpMaterialNewsArticle> articles = new ArrayList<WxMpMaterialNewsArticle>();
 
   public List<WxMpMaterialNewsArticle> getArticles() {
-    return articles;
+    return this.articles;
   }
 
   public void addArticle(WxMpMaterialNewsArticle article) {
@@ -23,7 +23,7 @@ public class WxMpMaterialNews implements Serializable {
   }
 
   public boolean isEmpty() {
-    return articles == null || articles.isEmpty();
+    return this.articles == null || this.articles.isEmpty();
   }
 
   /**
@@ -82,7 +82,7 @@ public class WxMpMaterialNews implements Serializable {
     private String url;
 
     public String getThumbMediaId() {
-      return thumbMediaId;
+      return this.thumbMediaId;
     }
 
     public void setThumbMediaId(String thumbMediaId) {
@@ -90,7 +90,7 @@ public class WxMpMaterialNews implements Serializable {
     }
 
     public String getAuthor() {
-      return author;
+      return this.author;
     }
 
     public void setAuthor(String author) {
@@ -98,7 +98,7 @@ public class WxMpMaterialNews implements Serializable {
     }
 
     public String getTitle() {
-      return title;
+      return this.title;
     }
 
     public void setTitle(String title) {
@@ -106,7 +106,7 @@ public class WxMpMaterialNews implements Serializable {
     }
 
     public String getContentSourceUrl() {
-      return contentSourceUrl;
+      return this.contentSourceUrl;
     }
 
     public void setContentSourceUrl(String contentSourceUrl) {
@@ -114,7 +114,7 @@ public class WxMpMaterialNews implements Serializable {
     }
 
     public String getContent() {
-      return content;
+      return this.content;
     }
 
     public void setContent(String content) {
@@ -122,7 +122,7 @@ public class WxMpMaterialNews implements Serializable {
     }
 
     public String getDigest() {
-      return digest;
+      return this.digest;
     }
 
     public void setDigest(String digest) {
@@ -130,7 +130,7 @@ public class WxMpMaterialNews implements Serializable {
     }
 
     public boolean isShowCoverPic() {
-      return showCoverPic;
+      return this.showCoverPic;
     }
 
     public void setShowCoverPic(boolean showCoverPic) {
@@ -138,7 +138,7 @@ public class WxMpMaterialNews implements Serializable {
     }
 
     public String getUrl() {
-        return url;
+        return this.url;
     }
 
     public void setUrl(String url) {
@@ -146,7 +146,7 @@ public class WxMpMaterialNews implements Serializable {
     }
 
     public String getThumbUrl() {
-      return thumbUrl;
+      return this.thumbUrl;
     }
 
     public void setThumbUrl(String thumbUrl) {
@@ -155,14 +155,14 @@ public class WxMpMaterialNews implements Serializable {
 
     @Override
     public String toString() {
-      return "WxMpMassNewsArticle [" + "thumbMediaId=" + thumbMediaId + "thumbUrl=" + thumbUrl + ", author=" + author + ", title=" + title +
-          ", contentSourceUrl=" + contentSourceUrl + ", content=" + content + ", digest=" + digest +
-          ", showCoverPic=" + showCoverPic +", url=" + url + "]";
+      return "WxMpMassNewsArticle [" + "thumbMediaId=" + this.thumbMediaId + "thumbUrl=" + this.thumbUrl + ", author=" + this.author + ", title=" + this.title +
+          ", contentSourceUrl=" + this.contentSourceUrl + ", content=" + this.content + ", digest=" + this.digest +
+          ", showCoverPic=" + this.showCoverPic +", url=" + this.url + "]";
     }
   }
 
   @Override
   public String toString() {
-    return "WxMpMaterialNews [" + "articles=" + articles + "]";
+    return "WxMpMaterialNews [" + "articles=" + this.articles + "]";
   }
 }

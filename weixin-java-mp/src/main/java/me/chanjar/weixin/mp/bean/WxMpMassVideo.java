@@ -16,7 +16,7 @@ public class WxMpMassVideo implements Serializable {
   private String description;
 
   public String getTitle() {
-    return title;
+    return this.title;
   }
 
   public void setTitle(String title) {
@@ -24,7 +24,7 @@ public class WxMpMassVideo implements Serializable {
   }
 
   public String getDescription() {
-    return description;
+    return this.description;
   }
 
   public void setDescription(String description) {
@@ -32,7 +32,7 @@ public class WxMpMassVideo implements Serializable {
   }
 
   public String getMediaId() {
-    return mediaId;
+    return this.mediaId;
   }
 
   public void setMediaId(String mediaId) {

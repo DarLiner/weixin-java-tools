@@ -22,7 +22,7 @@ public class WxMpIndustry implements Serializable {
     }
 
     public Industry getPrimaryIndustry() {
-        return primaryIndustry;
+        return this.primaryIndustry;
     }
 
     public void setPrimaryIndustry(Industry primaryIndustry) {
@@ -30,7 +30,7 @@ public class WxMpIndustry implements Serializable {
     }
 
     public Industry getSecondIndustry() {
-        return secondIndustry;
+        return this.secondIndustry;
     }
 
     public void setSecondIndustry(Industry secondIndustry) {

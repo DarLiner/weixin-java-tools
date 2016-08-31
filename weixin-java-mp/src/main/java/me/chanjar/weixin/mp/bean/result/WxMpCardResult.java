@@ -27,7 +27,7 @@ public class WxMpCardResult implements Serializable {
   private Boolean canConsume;
 
   public String getErrorCode() {
-    return errorCode;
+    return this.errorCode;
   }
 
   public void setErrorCode(String errorCode) {
@@ -35,7 +35,7 @@ public class WxMpCardResult implements Serializable {
   }
 
   public String getErrorMsg() {
-    return errorMsg;
+    return this.errorMsg;
   }
 
   public void setErrorMsg(String errorMsg) {
@@ -43,7 +43,7 @@ public class WxMpCardResult implements Serializable {
   }
 
   public String getOpenId() {
-    return openId;
+    return this.openId;
   }
 
   public void setOpenId(String openId) {
@@ -51,7 +51,7 @@ public class WxMpCardResult implements Serializable {
   }
 
   public WxMpCard getCard() {
-    return card;
+    return this.card;
   }
 
   public void setCard(WxMpCard card) {
@@ -64,7 +64,7 @@ public class WxMpCardResult implements Serializable {
   }
 
   public String getUserCardStatus() {
-    return userCardStatus;
+    return this.userCardStatus;
   }
 
   public void setUserCardStatus(String userCardStatus) {
@@ -72,7 +72,7 @@ public class WxMpCardResult implements Serializable {
   }
 
   public Boolean getCanConsume() {
-    return canConsume;
+    return this.canConsume;
   }
 
   public void setCanConsume(Boolean canConsume) {

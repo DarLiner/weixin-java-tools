@@ -15,19 +15,19 @@ public class WxMpGroup implements Serializable {
   private String name;
   private long count;
   public long getId() {
-    return id;
+    return this.id;
   }
   public void setId(long id) {
     this.id = id;
   }
   public String getName() {
-    return name;
+    return this.name;
   }
   public void setName(String name) {
     this.name = name;
   }
   public long getCount() {
-    return count;
+    return this.count;
   }
   public void setCount(long count) {
     this.count = count;
@@ -42,7 +42,7 @@ public class WxMpGroup implements Serializable {
   }
   @Override
   public String toString() {
-    return "WxMpGroup [id=" + id + ", name=" + name + ", count=" + count + "]";
+    return "WxMpGroup [id=" + this.id + ", name=" + this.name + ", count=" + this.count + "]";
   }
   
 }

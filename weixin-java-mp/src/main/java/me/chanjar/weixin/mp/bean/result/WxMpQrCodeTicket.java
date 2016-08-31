@@ -16,7 +16,7 @@ public class WxMpQrCodeTicket implements Serializable {
   protected String url;
 
   public String getTicket() {
-    return ticket;
+    return this.ticket;
   }
 
   public void setTicket(String ticket) {
@@ -27,7 +27,7 @@ public class WxMpQrCodeTicket implements Serializable {
    * 如果返回-1说明是永久
    */
   public int getExpire_seconds() {
-    return expire_seconds;
+    return this.expire_seconds;
   }
 
   public void setExpire_seconds(int expire_seconds) {
@@ -35,7 +35,7 @@ public class WxMpQrCodeTicket implements Serializable {
   }
 
   public String getUrl() {
-    return url;
+    return this.url;
   }
 
   public void setUrl(String url) {

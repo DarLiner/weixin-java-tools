@@ -17,7 +17,7 @@ public class WxMpXmlOutTextMessage extends WxMpXmlOutMessage {
   }
   
   public String getContent() {
-    return content;
+    return this.content;
   }
 
   public void setContent(String content) {

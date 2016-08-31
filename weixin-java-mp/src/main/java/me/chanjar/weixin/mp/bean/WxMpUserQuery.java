@@ -53,7 +53,7 @@ public class WxMpUserQuery {
    * @return {@link WxMpUserQuery}
    */
   public WxMpUserQuery add(String openId, String lang) {
-    queryParamList.add(new WxMpUserQueryParam(openId, lang));
+    this.queryParamList.add(new WxMpUserQueryParam(openId, lang));
     return this;
   }
 
@@ -68,7 +68,7 @@ public class WxMpUserQuery {
    * @return {@link WxMpUserQuery}
    */
   public WxMpUserQuery add(String openId) {
-    queryParamList.add(new WxMpUserQueryParam(openId));
+    this.queryParamList.add(new WxMpUserQueryParam(openId));
     return this;
   }
 
@@ -79,7 +79,7 @@ public class WxMpUserQuery {
    * @return {@link WxMpUserQuery}
    */
   public WxMpUserQuery remove(String openId) {
-    queryParamList.remove(new WxMpUserQueryParam(openId));
+    this.queryParamList.remove(new WxMpUserQueryParam(openId));
     return this;
   }
 
@@ -91,7 +91,7 @@ public class WxMpUserQuery {
    * @return {@link WxMpUserQuery}
    */
   public WxMpUserQuery remove(String openId, String lang) {
-    queryParamList.remove(new WxMpUserQueryParam(openId, lang));
+    this.queryParamList.remove(new WxMpUserQueryParam(openId, lang));
     return this;
   }
 
@@ -101,12 +101,12 @@ public class WxMpUserQuery {
    * @return
    */
   public List<WxMpUserQueryParam> getQueryParamList() {
-    return queryParamList;
+    return this.queryParamList;
   }
 
   public String toJsonString() {
     Map<String, Object> map = new HashMap<>();
-    map.put("user_list", queryParamList);
+    map.put("user_list", this.queryParamList);
     return new Gson().toJson(map);
   }
 
@@ -136,7 +136,7 @@ public class WxMpUserQuery {
     }
 
     public String getOpenid() {
-      return openid;
+      return this.openid;
     }
 
     public void setOpenid(String openid) {
@@ -144,7 +144,7 @@ public class WxMpUserQuery {
     }
 
     public String getLang() {
-      return lang;
+      return this.lang;
     }
 
     public void setLang(String lang) {
@@ -156,8 +156,8 @@ public class WxMpUserQuery {
       final int prime = 31;
       int result = 1;
       result = prime * result + getOuterType().hashCode();
-      result = prime * result + ((lang == null) ? 0 : lang.hashCode());
-      result = prime * result + ((openid == null) ? 0 : openid.hashCode());
+      result = prime * result + ((this.lang == null) ? 0 : this.lang.hashCode());
+      result = prime * result + ((this.openid == null) ? 0 : this.openid.hashCode());
       return result;
     }
 
@@ -172,15 +172,15 @@ public class WxMpUserQuery {
       WxMpUserQueryParam other = (WxMpUserQueryParam) obj;
       if (!getOuterType().equals(other.getOuterType()))
         return false;
-      if (lang == null) {
+      if (this.lang == null) {
         if (other.lang != null)
           return false;
-      } else if (!lang.equals(other.lang))
+      } else if (!this.lang.equals(other.lang))
         return false;
-      if (openid == null) {
+      if (this.openid == null) {
         if (other.openid != null)
           return false;
-      } else if (!openid.equals(other.openid))
+      } else if (!this.openid.equals(other.openid))
         return false;
       return true;
     }

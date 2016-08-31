@@ -47,72 +47,72 @@ public class WxRedpackResult implements Serializable {
   String sendListid;
   
   public String getErrCode() {
-    return errCode;
+    return this.errCode;
   }
   
   public String getErrCodeDes() {
-    return errCodeDes;
+    return this.errCodeDes;
   }
 
   public String getReturnCode() {
-    return returnCode;
+    return this.returnCode;
   }
 
   public String getReturnMsg() {
-    return returnMsg;
+    return this.returnMsg;
   }
 
   public String getSign() {
-    return sign;
+    return this.sign;
   }
 
   public String getResultCode() {
-    return resultCode;
+    return this.resultCode;
   }
 
   public String getMchBillno() {
-    return mchBillno;
+    return this.mchBillno;
   }
 
   public String getMchId() {
-    return mchId;
+    return this.mchId;
   }
 
   public String getWxappid() {
-    return wxappid;
+    return this.wxappid;
   }
 
   public String getReOpenid() {
-    return reOpenid;
+    return this.reOpenid;
   }
 
   public int getTotalAmount() {
-    return totalAmount;
+    return this.totalAmount;
   }
 
   public String getSendTime() {
-    return sendTime;
+    return this.sendTime;
   }
 
   public String getSendListid() {
-    return sendListid;
+    return this.sendListid;
   }
   
   @Override
   public String toString() {
     return "WxRedpackResult{" +
-        "returnCode=" + returnCode +
-        ", returnMsg=" + returnMsg +
-        ", sign=" + sign +
-        ", errCode=" + errCode +
-        ", errCodeDes=" + errCodeDes +
-        ", mchBillno=" + mchBillno +
-        ", mchId=" + mchId +
-        ", wxappid=" + wxappid +
-        ", reOpenid=" + reOpenid +
-        ", totalAmount=" + totalAmount +
-        ", sendTime=" + sendTime +
-        ", sendListid=" + sendListid +
+        "returnCode=" + this.returnCode +
+        ", returnMsg=" + this.returnMsg +
+        ", sign=" + this.sign +
+        ", errCode=" + this.errCode +
+        ", errCodeDes=" + this.errCodeDes +
+        ", mchBillno=" + this.mchBillno +
+        ", mchId=" + this.mchId +
+        ", wxappid=" + this.wxappid +
+        ", reOpenid=" + this.reOpenid +
+        ", totalAmount=" + this.totalAmount +
+        ", sendTime=" + this.sendTime +
+        ", sendListid=" + this.sendListid +
         '}';
   }
 }
