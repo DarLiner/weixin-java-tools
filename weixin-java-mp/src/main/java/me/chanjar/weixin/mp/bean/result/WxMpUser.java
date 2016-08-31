@@ -1,8 +1,14 @@
 package me.chanjar.weixin.mp.bean.result;
 
-import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
-
 import java.io.Serializable;
+import java.lang.reflect.Type;
+import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+
+import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
 /**
  * 微信用户信息
@@ -11,6 +17,10 @@ import java.io.Serializable;
  */
 public class WxMpUser implements Serializable {
 
+  /**
+   * @fields serialVersionUID
+   */
+  private static final long serialVersionUID = 5788154322646488738L;
   protected Boolean subscribe;
   protected String openId;
   protected String nickname;
@@ -120,6 +130,13 @@ public class WxMpUser implements Serializable {
 
   public static WxMpUser fromJson(String json) {
     return WxMpGsonBuilder.INSTANCE.create().fromJson(json, WxMpUser.class);
+  }
+
+  public static List<WxMpUser> fromJsonList(String json) {
+    Type collectionType = new TypeToken<List<WxMpUser>>() {}.getType();
+    Gson gson = WxMpGsonBuilder.INSTANCE.create();
+    JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
+    return gson.fromJson(jsonObject.get("user_info_list"), collectionType);
   }
 
   @Override

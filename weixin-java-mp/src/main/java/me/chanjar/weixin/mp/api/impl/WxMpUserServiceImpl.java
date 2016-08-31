@@ -1,5 +1,7 @@
 package me.chanjar.weixin.mp.api.impl;
 
+import java.util.List;
+
 import com.google.gson.JsonObject;
 
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -7,6 +9,7 @@ import me.chanjar.weixin.common.util.http.SimpleGetRequestExecutor;
 import me.chanjar.weixin.common.util.http.SimplePostRequestExecutor;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.WxMpUserService;
+import me.chanjar.weixin.mp.bean.WxMpUserQuery;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import me.chanjar.weixin.mp.bean.result.WxMpUserList;
 
@@ -43,6 +46,18 @@ public class WxMpUserServiceImpl implements WxMpUserService {
     String url = API_URL_PREFIX + "/get";
     String responseContent = this.wxMpService.execute(new SimpleGetRequestExecutor(), url, next_openid == null ? null : "next_openid=" + next_openid);
     return WxMpUserList.fromJson(responseContent);
+  }
+
+  @Override
+  public List<WxMpUser> userInfoList(List<String> openidList) throws WxErrorException {
+    return userInfoList(new WxMpUserQuery(openidList));
+  }
+
+  @Override
+  public List<WxMpUser> userInfoList(WxMpUserQuery userQuery) throws WxErrorException {
+    String url = API_URL_PREFIX + "/info/batchget";
+    String responseContent = this.wxMpService.execute(new SimpleGetRequestExecutor(), url, userQuery.toJsonString());
+    return WxMpUser.fromJsonList(responseContent);
   }
 
 }
