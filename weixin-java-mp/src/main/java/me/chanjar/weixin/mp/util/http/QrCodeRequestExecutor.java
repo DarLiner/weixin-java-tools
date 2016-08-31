@@ -9,7 +9,6 @@ import me.chanjar.weixin.common.util.http.Utf8ResponseHandler;
 import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
 import org.apache.http.Header;
 import org.apache.http.HttpHost;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
