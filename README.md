@@ -32,12 +32,12 @@
 <dependency>
   <groupId>com.github.binarywang</groupId>
   <artifactId>weixin-java-mp</artifactId>
-  <version>2.0.0</version>
+  <version>2.1.0</version>
 </dependency>
 ```
 
 ```groovy
-compile 'com.github.binarywang:weixin-java-mp:2.0.0'
+compile 'com.github.binarywang:weixin-java-mp:2.1.0'
 ```
 
 * 企业号：
@@ -45,12 +45,12 @@ compile 'com.github.binarywang:weixin-java-mp:2.0.0'
 <dependency>
   <groupId>com.github.binarywang</groupId>
   <artifactId>weixin-java-cp</artifactId>
-  <version>2.0.0</version>
+  <version>2.1.0</version>
 </dependency>
 ```
 
 ```groovy
-compile 'com.github.binarywang:weixin-java-cp:2.0.0'
+compile 'com.github.binarywang:weixin-java-cp:2.1.0'
 ```
 
 #### 本项目主要存放在github上，地址为 :
