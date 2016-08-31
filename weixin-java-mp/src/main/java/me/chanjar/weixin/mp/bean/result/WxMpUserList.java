@@ -14,7 +14,7 @@ public class WxMpUserList {
 
   protected int total = -1;
   protected int count = -1;
-  protected List<String> openIds = new ArrayList<String>();
+  protected List<String> openIds = new ArrayList<>();
   protected String nextOpenId;
   public int getTotal() {
     return this.total;

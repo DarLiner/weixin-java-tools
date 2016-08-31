@@ -17,7 +17,7 @@ public class WxMpMassNews implements Serializable {
    * 
    */
   private static final long serialVersionUID = 565937155013581016L;
-  private List<WxMpMassNewsArticle> articles = new ArrayList<WxMpMassNewsArticle>();
+  private List<WxMpMassNewsArticle> articles = new ArrayList<>();
 
   public List<WxMpMassNewsArticle> getArticles() {
     return this.articles;

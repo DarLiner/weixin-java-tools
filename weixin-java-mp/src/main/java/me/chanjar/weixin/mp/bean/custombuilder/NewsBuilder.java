@@ -17,7 +17,7 @@ import java.util.List;
  */
 public final class NewsBuilder extends BaseBuilder<NewsBuilder> {
 
-  private List<WxMpCustomMessage.WxArticle> articles = new ArrayList<WxMpCustomMessage.WxArticle>();
+  private List<WxMpCustomMessage.WxArticle> articles = new ArrayList<>();
   
   public NewsBuilder() {
     this.msgType = WxConsts.CUSTOM_MSG_NEWS;

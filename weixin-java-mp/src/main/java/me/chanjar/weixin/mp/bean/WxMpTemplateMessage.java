@@ -16,7 +16,7 @@ public class WxMpTemplateMessage implements Serializable {
   private String templateId;
   private String url;
   private String topColor;
-  private List<WxMpTemplateData> data = new ArrayList<WxMpTemplateData>();
+  private List<WxMpTemplateData> data = new ArrayList<>();
 
   public String getToUser() {
     return this.toUser;

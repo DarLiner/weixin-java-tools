@@ -11,7 +11,7 @@ import java.util.List;
  */
 public final class NewsBuilder extends BaseBuilder<NewsBuilder, WxMpXmlOutNewsMessage> {
 
-  protected final List<WxMpXmlOutNewsMessage.Item> articles = new ArrayList<WxMpXmlOutNewsMessage.Item>();
+  protected final List<WxMpXmlOutNewsMessage.Item> articles = new ArrayList<>();
   
   public NewsBuilder addArticle(WxMpXmlOutNewsMessage.Item item) {
     this.articles.add(item);
