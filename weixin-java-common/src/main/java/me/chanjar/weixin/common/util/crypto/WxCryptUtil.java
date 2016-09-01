@@ -17,11 +17,16 @@
  */
 package me.chanjar.weixin.common.util.crypto;
 
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.InputSource;
+import java.io.StringReader;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
@@ -29,10 +34,12 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.StringReader;
-import java.nio.charset.Charset;
-import java.security.NoSuchAlgorithmException;
-import java.util.*;
+
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.InputSource;
 
 public class WxCryptUtil {
 
@@ -130,13 +137,9 @@ public class WxCryptUtil {
     String timeStamp = Long.toString(System.currentTimeMillis() / 1000l);
     String nonce = genRandomStr();
 
-    try {
-      String signature = SHA1.gen(this.token, timeStamp, nonce, encryptedXml);
-      String result = generateXml(encryptedXml, signature, timeStamp, nonce);
-      return result;
-    } catch (NoSuchAlgorithmException e) {
-      throw new RuntimeException(e);
-    }
+    String signature = SHA1.gen(this.token, timeStamp, nonce, encryptedXml);
+    String result = generateXml(encryptedXml, signature, timeStamp, nonce);
+    return result;
   }
 
   /**
@@ -205,14 +208,10 @@ public class WxCryptUtil {
     // 提取密文
     String cipherText = extractEncryptPart(encryptedXml);
 
-    try {
-      // 验证安全签名
-      String signature = SHA1.gen(this.token, timeStamp, nonce, cipherText);
-      if (!signature.equals(msgSignature)) {
-        throw new RuntimeException("加密消息签名校验失败");
-      }
-    } catch (NoSuchAlgorithmException e) {
-      throw new RuntimeException(e);
+    // 验证安全签名
+    String signature = SHA1.gen(this.token, timeStamp, nonce, cipherText);
+    if (!signature.equals(msgSignature)) {
+      throw new RuntimeException("加密消息签名校验失败");
     }
 
     // 解密
@@ -277,7 +276,7 @@ public class WxCryptUtil {
    *
    * @param number
    */
-  private byte[] number2BytesInNetworkOrder(int number) {
+  private static byte[] number2BytesInNetworkOrder(int number) {
     byte[] orderBytes = new byte[4];
     orderBytes[3] = (byte) (number & 0xFF);
     orderBytes[2] = (byte) (number >> 8 & 0xFF);
@@ -291,7 +290,7 @@ public class WxCryptUtil {
    *
    * @param bytesInNetworkOrder
    */
-  private int bytesNetworkOrder2Number(byte[] bytesInNetworkOrder) {
+  private static int bytesNetworkOrder2Number(byte[] bytesInNetworkOrder) {
     int sourceNumber = 0;
     for (int i = 0; i < 4; i++) {
       sourceNumber <<= 8;
@@ -303,7 +302,7 @@ public class WxCryptUtil {
   /**
    * 随机生成16位字符串
    */
-  private String genRandomStr() {
+  private static String genRandomStr() {
     String base = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     Random random = new Random();
     StringBuffer sb = new StringBuffer();
@@ -323,8 +322,8 @@ public class WxCryptUtil {
    * @param nonce     随机字符串
    * @return 生成的xml字符串
    */
-  private String generateXml(String encrypt, String signature, String timestamp,
-                             String nonce) {
+  private static String generateXml(String encrypt, String signature,
+      String timestamp, String nonce) {
     String format = "<xml>\n" + "<Encrypt><![CDATA[%1$s]]></Encrypt>\n"
             + "<MsgSignature><![CDATA[%2$s]]></MsgSignature>\n"
             + "<TimeStamp>%3$s</TimeStamp>\n" + "<Nonce><![CDATA[%4$s]]></Nonce>\n"
