@@ -157,26 +157,22 @@ public class WxCpServiceImpl implements WxCpService {
     long timestamp = System.currentTimeMillis() / 1000;
     String noncestr = RandomUtils.getRandomStr();
     String jsapiTicket = getJsapiTicket(false);
-    try {
-      String signature = SHA1.genWithAmple(
-              "jsapi_ticket=" + jsapiTicket,
-              "noncestr=" + noncestr,
-              "timestamp=" + timestamp,
-              "url=" + url
-      );
-      WxJsapiSignature jsapiSignature = new WxJsapiSignature();
-      jsapiSignature.setTimestamp(timestamp);
-      jsapiSignature.setNoncestr(noncestr);
-      jsapiSignature.setUrl(url);
-      jsapiSignature.setSignature(signature);
-      
-      // Fixed bug
-      jsapiSignature.setAppid(this.wxCpConfigStorage.getCorpId());
-      
-      return jsapiSignature;
-    } catch (NoSuchAlgorithmException e) {
-      throw new RuntimeException(e);
-    }
+    String signature = SHA1.genWithAmple(
+            "jsapi_ticket=" + jsapiTicket,
+            "noncestr=" + noncestr,
+            "timestamp=" + timestamp,
+            "url=" + url
+    );
+    WxJsapiSignature jsapiSignature = new WxJsapiSignature();
+    jsapiSignature.setTimestamp(timestamp);
+    jsapiSignature.setNoncestr(noncestr);
+    jsapiSignature.setUrl(url);
+    jsapiSignature.setSignature(signature);
+    
+    // Fixed bug
+    jsapiSignature.setAppid(this.wxCpConfigStorage.getCorpId());
+    
+    return jsapiSignature;
   }
 
   public void messageSend(WxCpMessage message) throws WxErrorException {
