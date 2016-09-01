@@ -24,7 +24,7 @@ public class WxMpJsAPITest {
 
 
   public void testJsapiTicket() throws WxErrorException {
-    String jsapiTicket = wxService.getJsapiTicket(false);
+    String jsapiTicket = this.wxService.getJsapiTicket(false);
     System.out.println(jsapiTicket);
     Assert.assertNotNull(jsapiTicket);
   }

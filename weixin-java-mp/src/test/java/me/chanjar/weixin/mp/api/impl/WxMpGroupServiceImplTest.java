@@ -35,15 +35,15 @@ public class WxMpGroupServiceImplTest {
     Assert.assertNotNull(groupList);
     Assert.assertTrue(groupList.size() > 0);
     for (WxMpGroup g : groupList) {
-      group = g;
+      this.group = g;
       Assert.assertNotNull(g.getName());
     }
   }
   
   @Test(dependsOnMethods={"testGroupGet", "testGroupCreate"})
   public void getGroupUpdate() throws WxErrorException {
-    group.setName("分组改名");
-    this.wxService.getGroupService().groupUpdate(group);
+    this.group.setName("分组改名");
+    this.wxService.getGroupService().groupUpdate(this.group);
   }
 
 }
