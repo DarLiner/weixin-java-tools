@@ -80,10 +80,10 @@ public class WxCryptUtil {
    */
   public static String createSign(Map<String, String> packageParams,
                                   String signKey) {
-    SortedMap<String, String> sortedMap = new TreeMap<String, String>();
+    SortedMap<String, String> sortedMap = new TreeMap<>();
     sortedMap.putAll(packageParams);
 
-    List<String> keys = new ArrayList<String>(packageParams.keySet());
+    List<String> keys = new ArrayList<>(packageParams.keySet());
     Collections.sort(keys);
 
     StringBuffer toSign = new StringBuffer();
@@ -131,7 +131,7 @@ public class WxCryptUtil {
     String nonce = genRandomStr();
 
     try {
-      String signature = SHA1.gen(token, timeStamp, nonce, encryptedXml);
+      String signature = SHA1.gen(this.token, timeStamp, nonce, encryptedXml);
       String result = generateXml(encryptedXml, signature, timeStamp, nonce);
       return result;
     } catch (NoSuchAlgorithmException e) {
@@ -151,7 +151,7 @@ public class WxCryptUtil {
     byte[] plainTextBytes = plainText.getBytes(CHARSET);
     byte[] bytesOfSizeInNetworkOrder = number2BytesInNetworkOrder(
             plainTextBytes.length);
-    byte[] appIdBytes = appidOrCorpid.getBytes(CHARSET);
+    byte[] appIdBytes = this.appidOrCorpid.getBytes(CHARSET);
 
     // randomStr + networkBytesOrder + text + appid
     byteCollector.addBytes(randomStringBytes);
@@ -169,8 +169,8 @@ public class WxCryptUtil {
     try {
       // 设置加密模式为AES的CBC模式
       Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
-      SecretKeySpec keySpec = new SecretKeySpec(aesKey, "AES");
-      IvParameterSpec iv = new IvParameterSpec(aesKey, 0, 16);
+      SecretKeySpec keySpec = new SecretKeySpec(this.aesKey, "AES");
+      IvParameterSpec iv = new IvParameterSpec(this.aesKey, 0, 16);
       cipher.init(Cipher.ENCRYPT_MODE, keySpec, iv);
 
       // 加密
@@ -207,7 +207,7 @@ public class WxCryptUtil {
 
     try {
       // 验证安全签名
-      String signature = SHA1.gen(token, timeStamp, nonce, cipherText);
+      String signature = SHA1.gen(this.token, timeStamp, nonce, cipherText);
       if (!signature.equals(msgSignature)) {
         throw new RuntimeException("加密消息签名校验失败");
       }
@@ -231,9 +231,9 @@ public class WxCryptUtil {
     try {
       // 设置解密模式为AES的CBC模式
       Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
-      SecretKeySpec key_spec = new SecretKeySpec(aesKey, "AES");
+      SecretKeySpec key_spec = new SecretKeySpec(this.aesKey, "AES");
       IvParameterSpec iv = new IvParameterSpec(
-              Arrays.copyOfRange(aesKey, 0, 16));
+              Arrays.copyOfRange(this.aesKey, 0, 16));
       cipher.init(Cipher.DECRYPT_MODE, key_spec, iv);
 
       // 使用BASE64对密文进行解码
@@ -264,7 +264,7 @@ public class WxCryptUtil {
     }
 
     // appid不相同的情况
-    if (!from_appid.equals(appidOrCorpid)) {
+    if (!from_appid.equals(this.appidOrCorpid)) {
       throw new RuntimeException("AppID不正确");
     }
 

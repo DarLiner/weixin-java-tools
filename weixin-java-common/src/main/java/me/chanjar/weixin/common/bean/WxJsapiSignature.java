@@ -19,7 +19,7 @@ public class WxJsapiSignature implements Serializable {
   private String signature;
 
   public String getSignature() {
-    return signature;
+    return this.signature;
   }
 
   public void setSignature(String signature) {
@@ -27,7 +27,7 @@ public class WxJsapiSignature implements Serializable {
   }
 
   public String getNoncestr() {
-    return noncestr;
+    return this.noncestr;
   }
 
   public void setNoncestr(String noncestr) {
@@ -35,7 +35,7 @@ public class WxJsapiSignature implements Serializable {
   }
 
   public long getTimestamp() {
-    return timestamp;
+    return this.timestamp;
   }
 
   public void setTimestamp(long timestamp) {
@@ -43,7 +43,7 @@ public class WxJsapiSignature implements Serializable {
   }
 
   public String getUrl() {
-    return url;
+    return this.url;
   }
 
   public void setUrl(String url) {
@@ -51,7 +51,7 @@ public class WxJsapiSignature implements Serializable {
   }
 
   public String getAppid() {
-    return appid;
+    return this.appid;
   }
 
   public void setAppid(String appid) {

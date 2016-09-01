@@ -47,7 +47,7 @@ import java.util.*;
 public class StringManager {
 
   private static final Map<String, Map<Locale, StringManager>> managers =
-          new Hashtable<String, Map<Locale, StringManager>>();
+          new Hashtable<>();
   private static int LOCALE_CACHE_SIZE = 10;
   /**
    * The ResourceBundle for this StringManager.
@@ -81,10 +81,10 @@ public class StringManager {
         }
       }
     }
-    bundle = bnd;
+    this.bundle = bnd;
     // Get the actual locale, which may be different from the requested one
-    if (bundle != null) {
-      Locale bundleLocale = bundle.getLocale();
+    if (this.bundle != null) {
+      Locale bundleLocale = this.bundle.getLocale();
       if (bundleLocale.equals(Locale.ROOT)) {
         this.locale = Locale.ENGLISH;
       } else {
@@ -192,8 +192,8 @@ public class StringManager {
 
     try {
       // Avoid NPE if bundle is null and treat it like an MRE
-      if (bundle != null) {
-        str = bundle.getString(key);
+      if (this.bundle != null) {
+        str = this.bundle.getString(key);
       }
     } catch (MissingResourceException mre) {
       //bad: shouldn't mask an exception the following way:
@@ -227,7 +227,7 @@ public class StringManager {
     }
 
     MessageFormat mf = new MessageFormat(value);
-    mf.setLocale(locale);
+    mf.setLocale(this.locale);
     return mf.format(args, new StringBuffer(), null).toString();
   }
 
@@ -235,6 +235,6 @@ public class StringManager {
    * Identify the Locale this StringManager is associated with
    */
   public Locale getLocale() {
-    return locale;
+    return this.locale;
   }
 }

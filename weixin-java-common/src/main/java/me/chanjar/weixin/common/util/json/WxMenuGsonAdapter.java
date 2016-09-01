@@ -29,6 +29,7 @@ import me.chanjar.weixin.common.bean.menu.WxMenuRule;
  */
 public class WxMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserializer<WxMenu> {
 
+  @Override
   public JsonElement serialize(WxMenu menu, Type typeOfSrc, JsonSerializationContext context) {
     JsonObject json = new JsonObject();
 
@@ -75,6 +76,7 @@ public class WxMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserializ
     return matchRule;
   }
 
+  @Override
   public WxMenu deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
     /*
      * 操蛋的微信

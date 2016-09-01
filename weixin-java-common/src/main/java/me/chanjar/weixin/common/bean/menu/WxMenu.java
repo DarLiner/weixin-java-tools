@@ -19,7 +19,7 @@ public class WxMenu implements Serializable {
 
   private static final long serialVersionUID = -7083914585539687746L;
 
-  private List<WxMenuButton> buttons = new ArrayList<WxMenuButton>();
+  private List<WxMenuButton> buttons = new ArrayList<>();
 
   private WxMenuRule matchRule;
 
@@ -40,7 +40,7 @@ public class WxMenu implements Serializable {
   }
 
   public List<WxMenuButton> getButtons() {
-    return buttons;
+    return this.buttons;
   }
 
   public void setButtons(List<WxMenuButton> buttons) {
@@ -48,7 +48,7 @@ public class WxMenu implements Serializable {
   }
 
   public WxMenuRule getMatchRule() {
-    return matchRule;
+    return this.matchRule;
   }
 
   public void setMatchRule(WxMenuRule matchRule) {
@@ -62,7 +62,7 @@ public class WxMenu implements Serializable {
   @Override
   public String toString() {
     return "WxMenu{" +
-            "buttons=" + buttons +
+            "buttons=" + this.buttons +
             '}';
   }
 

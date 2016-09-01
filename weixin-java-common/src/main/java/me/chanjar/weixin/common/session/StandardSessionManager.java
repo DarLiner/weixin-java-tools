@@ -32,7 +32,7 @@ public class StandardSessionManager implements WxSessionManager, InternalSession
    * The set of currently active Sessions for this Manager, keyed by
    * session identifier.
    */
-  protected Map<String, InternalSession> sessions = new ConcurrentHashMap<String, InternalSession>();
+  protected Map<String, InternalSession> sessions = new ConcurrentHashMap<>();
   /**
    * The maximum number of active Sessions allowed, or -1 for no limit.
    */
@@ -117,7 +117,7 @@ public class StandardSessionManager implements WxSessionManager, InternalSession
   @Override
   public void remove(InternalSession session, boolean update) {
     if (session.getIdInternal() != null) {
-      sessions.remove(session.getIdInternal());
+      this.sessions.remove(session.getIdInternal());
     }
   }
 
@@ -127,7 +127,7 @@ public class StandardSessionManager implements WxSessionManager, InternalSession
 
     if (id == null)
       return (null);
-    return sessions.get(id);
+    return this.sessions.get(id);
 
   }
 
@@ -138,12 +138,12 @@ public class StandardSessionManager implements WxSessionManager, InternalSession
               (sm.getString("sessionManagerImpl.createSession.ise"));
     }
 
-    if ((maxActiveSessions >= 0) &&
-            (getActiveSessions() >= maxActiveSessions)) {
-      rejectedSessions++;
+    if ((this.maxActiveSessions >= 0) &&
+            (getActiveSessions() >= this.maxActiveSessions)) {
+      this.rejectedSessions++;
       throw new TooManyActiveSessionsException(
               sm.getString("sessionManagerImpl.createSession.tmase"),
-              maxActiveSessions);
+              this.maxActiveSessions);
     }
 
     // Recycle or create a Session instance
@@ -155,7 +155,7 @@ public class StandardSessionManager implements WxSessionManager, InternalSession
     session.setMaxInactiveInterval(this.maxInactiveInterval);
     String id = sessionId;
     session.setId(id);
-    sessionCounter++;
+    this.sessionCounter++;
 
     return (session);
 
@@ -164,7 +164,7 @@ public class StandardSessionManager implements WxSessionManager, InternalSession
 
   @Override
   public int getActiveSessions() {
-    return sessions.size();
+    return this.sessions.size();
   }
 
 
@@ -185,17 +185,17 @@ public class StandardSessionManager implements WxSessionManager, InternalSession
   public void add(InternalSession session) {
 
     // 当第一次有session创建的时候，开启session清理线程
-    if (!backgroundProcessStarted.getAndSet(true)) {
+    if (!this.backgroundProcessStarted.getAndSet(true)) {
       Thread t = new Thread(new Runnable() {
         @Override
         public void run() {
           while (true) {
             try {
               // 每秒清理一次
-              Thread.sleep(backgroundProcessorDelay * 1000l);
+              Thread.sleep(StandardSessionManager.this.backgroundProcessorDelay * 1000l);
               backgroundProcess();
             } catch (InterruptedException e) {
-              log.error("SessionManagerImpl.backgroundProcess error", e);
+              StandardSessionManager.this.log.error("SessionManagerImpl.backgroundProcess error", e);
             }
           }
         }
@@ -204,12 +204,12 @@ public class StandardSessionManager implements WxSessionManager, InternalSession
       t.start();
     }
 
-    sessions.put(session.getIdInternal(), session);
+    this.sessions.put(session.getIdInternal(), session);
     int size = getActiveSessions();
-    if (size > maxActive) {
-      synchronized (maxActiveUpdateLock) {
-        if (size > maxActive) {
-          maxActive = size;
+    if (size > this.maxActive) {
+      synchronized (this.maxActiveUpdateLock) {
+        if (size > this.maxActive) {
+          this.maxActive = size;
         }
       }
     }
@@ -223,14 +223,14 @@ public class StandardSessionManager implements WxSessionManager, InternalSession
   @Override
   public InternalSession[] findSessions() {
 
-    return sessions.values().toArray(new InternalSession[0]);
+    return this.sessions.values().toArray(new InternalSession[0]);
 
   }
 
   @Override
   public void backgroundProcess() {
-    count = (count + 1) % processExpiresFrequency;
-    if (count == 0)
+    this.count = (this.count + 1) % this.processExpiresFrequency;
+    if (this.count == 0)
       processExpires();
   }
 
@@ -243,17 +243,17 @@ public class StandardSessionManager implements WxSessionManager, InternalSession
     InternalSession sessions[] = findSessions();
     int expireHere = 0;
 
-    if (log.isDebugEnabled())
-      log.debug("Start expire sessions {} at {} sessioncount {}", getName(), timeNow, sessions.length);
+    if (this.log.isDebugEnabled())
+      this.log.debug("Start expire sessions {} at {} sessioncount {}", getName(), timeNow, sessions.length);
     for (int i = 0; i < sessions.length; i++) {
       if (sessions[i] != null && !sessions[i].isValid()) {
         expireHere++;
       }
     }
     long timeEnd = System.currentTimeMillis();
-    if (log.isDebugEnabled())
-      log.debug("End expire sessions {} processingTime {} expired sessions: {}", getName(), timeEnd - timeNow, expireHere);
-    processingTime += (timeEnd - timeNow);
+    if (this.log.isDebugEnabled())
+      this.log.debug("End expire sessions {} processingTime {} expired sessions: {}", getName(), timeEnd - timeNow, expireHere);
+    this.processingTime += (timeEnd - timeNow);
 
   }
 
