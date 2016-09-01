@@ -19,6 +19,7 @@ import java.lang.reflect.Type;
 
 public class WxMpTemplateMessageGsonAdapter implements JsonSerializer<WxMpTemplateMessage> {
 
+  @Override
   public JsonElement serialize(WxMpTemplateMessage message, Type typeOfSrc, JsonSerializationContext context) {
     JsonObject messageJson = new JsonObject();
     messageJson.addProperty("touser", message.getToUser());

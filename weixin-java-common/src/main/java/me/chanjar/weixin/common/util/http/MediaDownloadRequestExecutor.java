@@ -70,7 +70,7 @@ public class MediaDownloadRequestExecutor implements RequestExecutor<File, Strin
         return null;
       }
       String[] name_ext = fileName.split("\\.");
-      File localFile = FileUtils.createTmpFile(inputStream, name_ext[0], name_ext[1], tmpDirFile);
+      File localFile = FileUtils.createTmpFile(inputStream, name_ext[0], name_ext[1], this.tmpDirFile);
       return localFile;
 
     } finally {

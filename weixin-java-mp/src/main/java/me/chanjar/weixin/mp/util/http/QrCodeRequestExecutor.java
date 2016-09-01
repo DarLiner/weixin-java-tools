@@ -9,7 +9,6 @@ import me.chanjar.weixin.common.util.http.Utf8ResponseHandler;
 import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
 import org.apache.http.Header;
 import org.apache.http.HttpHost;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -47,7 +46,8 @@ public class QrCodeRequestExecutor implements RequestExecutor<File, WxMpQrCodeTi
       httpGet.setConfig(config);
     }
 
-    try (CloseableHttpResponse response = httpclient.execute(httpGet)) {
+    try (CloseableHttpResponse response = httpclient.execute(httpGet);
+        InputStream inputStream = InputStreamResponseHandler.INSTANCE.handleResponse(response);) {
       Header[] contentTypeHeader = response.getHeaders("Content-Type");
       if (contentTypeHeader != null && contentTypeHeader.length > 0) {
         // 出错
@@ -56,8 +56,6 @@ public class QrCodeRequestExecutor implements RequestExecutor<File, WxMpQrCodeTi
           throw new WxErrorException(WxError.fromJson(responseContent));
         }
       }
-      InputStream inputStream = InputStreamResponseHandler.INSTANCE.handleResponse(response);
-
       return FileUtils.createTmpFile(inputStream, UUID.randomUUID().toString(), "jpg");
     } finally {
       httpGet.releaseConnection();

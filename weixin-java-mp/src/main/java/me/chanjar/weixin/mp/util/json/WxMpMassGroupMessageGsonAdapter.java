@@ -19,6 +19,7 @@ import java.lang.reflect.Type;
 
 public class WxMpMassGroupMessageGsonAdapter implements JsonSerializer<WxMpMassGroupMessage> {
 
+  @Override
   public JsonElement serialize(WxMpMassGroupMessage message, Type typeOfSrc, JsonSerializationContext context) {
     JsonObject messageJson = new JsonObject();
     

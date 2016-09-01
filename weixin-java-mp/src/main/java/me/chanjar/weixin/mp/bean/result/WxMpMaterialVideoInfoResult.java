@@ -6,12 +6,16 @@ import java.io.Serializable;
 
 public class WxMpMaterialVideoInfoResult implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1269131745333792202L;
   private String title;
   private String description;
   private String downUrl;
 
   public String getTitle() {
-    return title;
+    return this.title;
   }
 
   public void setTitle(String title) {
@@ -19,7 +23,7 @@ public class WxMpMaterialVideoInfoResult implements Serializable {
   }
 
   public String getDescription() {
-    return description;
+    return this.description;
   }
 
   public void setDescription(String description) {
@@ -27,7 +31,7 @@ public class WxMpMaterialVideoInfoResult implements Serializable {
   }
 
   public String getDownUrl() {
-    return downUrl;
+    return this.downUrl;
   }
 
   public void setDownUrl(String downUrl) {
@@ -40,7 +44,7 @@ public class WxMpMaterialVideoInfoResult implements Serializable {
 
   @Override
   public String toString() {
-    return "WxMpMaterialVideoInfoResult [title=" + title + ", description=" + description + ", downUrl=" + downUrl + "]";
+    return "WxMpMaterialVideoInfoResult [title=" + this.title + ", description=" + this.description + ", downUrl=" + this.downUrl + "]";
   }
 
 }

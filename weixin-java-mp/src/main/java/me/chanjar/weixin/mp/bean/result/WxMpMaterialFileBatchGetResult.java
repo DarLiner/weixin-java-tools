@@ -6,12 +6,16 @@ import java.util.List;
 
 public class WxMpMaterialFileBatchGetResult implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -560388368297267884L;
   private int totalCount;
   private int itemCount;
   private List<WxMaterialFileBatchGetNewsItem> items;
 
   public int getTotalCount() {
-    return totalCount;
+    return this.totalCount;
   }
 
   public void setTotalCount(int totalCount) {
@@ -19,7 +23,7 @@ public class WxMpMaterialFileBatchGetResult implements Serializable {
   }
 
   public int getItemCount() {
-    return itemCount;
+    return this.itemCount;
   }
 
   public void setItemCount(int itemCount) {
@@ -27,7 +31,7 @@ public class WxMpMaterialFileBatchGetResult implements Serializable {
   }
 
   public List<WxMaterialFileBatchGetNewsItem> getItems() {
-    return items;
+    return this.items;
   }
 
   public void setItems(List<WxMaterialFileBatchGetNewsItem> items) {
@@ -36,7 +40,7 @@ public class WxMpMaterialFileBatchGetResult implements Serializable {
 
   @Override
   public String toString() {
-    return "WxMpMaterialFileBatchGetResult [" + "totalCount=" + totalCount + ", itemCount=" + itemCount + ", items=" + items + "]";
+    return "WxMpMaterialFileBatchGetResult [" + "totalCount=" + this.totalCount + ", itemCount=" + this.itemCount + ", items=" + this.items + "]";
   }
 
   public static class WxMaterialFileBatchGetNewsItem {
@@ -46,7 +50,7 @@ public class WxMpMaterialFileBatchGetResult implements Serializable {
     private String url;
 
     public String getMediaId() {
-      return mediaId;
+      return this.mediaId;
     }
 
     public void setMediaId(String mediaId) {
@@ -54,7 +58,7 @@ public class WxMpMaterialFileBatchGetResult implements Serializable {
     }
 
     public Date getUpdateTime() {
-      return updateTime;
+      return this.updateTime;
     }
 
     public void setUpdateTime(Date updateTime) {
@@ -62,7 +66,7 @@ public class WxMpMaterialFileBatchGetResult implements Serializable {
     }
 
     public String getName() {
-      return name;
+      return this.name;
     }
 
     public void setName(String name) {
@@ -70,7 +74,7 @@ public class WxMpMaterialFileBatchGetResult implements Serializable {
     }
 
     public String getUrl() {
-      return url;
+      return this.url;
     }
 
     public void setUrl(String url) {
@@ -79,7 +83,7 @@ public class WxMpMaterialFileBatchGetResult implements Serializable {
 
     @Override
     public String toString() {
-      return "WxMaterialFileBatchGetNewsItem [" + "mediaId=" + mediaId + ", updateTime=" + updateTime + ", name=" + name + ", url=" + url + "]";
+      return "WxMaterialFileBatchGetNewsItem [" + "mediaId=" + this.mediaId + ", updateTime=" + this.updateTime + ", name=" + this.name + ", url=" + this.url + "]";
     }
   }
 }

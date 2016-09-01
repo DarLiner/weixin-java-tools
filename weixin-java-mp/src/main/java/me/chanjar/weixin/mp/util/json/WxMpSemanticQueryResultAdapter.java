@@ -21,6 +21,7 @@ import java.lang.reflect.Type;
  */
 public class WxMpSemanticQueryResultAdapter implements JsonDeserializer<WxMpSemanticQueryResult> {
 
+  @Override
   public WxMpSemanticQueryResult deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
     WxMpSemanticQueryResult result = new WxMpSemanticQueryResult();
     JsonObject resultJsonObject = json.getAsJsonObject();

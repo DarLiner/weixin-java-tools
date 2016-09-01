@@ -42,7 +42,7 @@ public class WxMpCardServiceImplTest {
   public void testCreateCardApiSignature() throws Exception {
     //app_id, card_id, card_type, code, openid, location_id
 
-    String[] param = {"123", cardId, "", code, openid, ""};
+    String[] param = {"123", this.cardId, "", this.code, this.openid, ""};
     WxCardApiSignature cardApiSignature = this.wxService.getCardService().createCardApiSignature(param);
     assertNotNull(cardApiSignature);
     System.out.println(cardApiSignature);
@@ -58,34 +58,34 @@ public class WxMpCardServiceImplTest {
 
   @Test
   public void testQueryCardCode() throws Exception {
-    WxMpCardResult wxMpCardResult = this.wxService.getCardService().queryCardCode(cardId, code, false);
+    WxMpCardResult wxMpCardResult = this.wxService.getCardService().queryCardCode(this.cardId, this.code, false);
     assertNotNull(wxMpCardResult);
     System.out.println(wxMpCardResult);
   }
 
   @Test
   public void testConsumeCardCode() throws Exception {
-    String result = this.wxService.getCardService().consumeCardCode(code);
+    String result = this.wxService.getCardService().consumeCardCode(this.code);
     assertNotNull(result);
     System.out.println(result);
   }
 
   @Test
   public void testConsumeCardCodeWithCardId() throws Exception {
-    String result = this.wxService.getCardService().consumeCardCode(code, cardId);
+    String result = this.wxService.getCardService().consumeCardCode(this.code, this.cardId);
     assertNotNull(result);
     System.out.println(result);
   }
 
   @Test
   public void testMarkCardCode() throws Exception {
-    this.wxService.getCardService().markCardCode(code, cardId, openid, true);
+    this.wxService.getCardService().markCardCode(this.code, this.cardId, this.openid, true);
     System.out.println("done");
   }
 
   @Test
   public void testGetCardDetail() throws Exception {
-    String result = this.wxService.getCardService().getCardDetail(cardId);
+    String result = this.wxService.getCardService().getCardDetail(this.cardId);
     assertNotNull(result);
     System.out.println(result);
   }

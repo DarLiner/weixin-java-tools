@@ -6,12 +6,16 @@ import java.io.Serializable;
 
 public class WxMpMaterialArticleUpdate implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -7611963949517780270L;
   private String mediaId;
   private int index;
   private WxMpMaterialNews.WxMpMaterialNewsArticle articles;
 
   public String getMediaId() {
-    return mediaId;
+    return this.mediaId;
   }
 
   public void setMediaId(String mediaId) {
@@ -19,7 +23,7 @@ public class WxMpMaterialArticleUpdate implements Serializable {
   }
 
   public int getIndex() {
-    return index;
+    return this.index;
   }
 
   public void setIndex(int index) {
@@ -27,7 +31,7 @@ public class WxMpMaterialArticleUpdate implements Serializable {
   }
 
   public WxMpMaterialNews.WxMpMaterialNewsArticle getArticles() {
-    return articles;
+    return this.articles;
   }
 
   public void setArticles(WxMpMaterialNews.WxMpMaterialNewsArticle articles) {
@@ -40,6 +44,6 @@ public class WxMpMaterialArticleUpdate implements Serializable {
 
   @Override
   public String toString() {
-    return "WxMpMaterialArticleUpdate [" + "mediaId=" + mediaId + ", index=" + index + ", articles=" + articles + "]";
+    return "WxMpMaterialArticleUpdate [" + "mediaId=" + this.mediaId + ", index=" + this.index + ", articles=" + this.articles + "]";
   }
 }

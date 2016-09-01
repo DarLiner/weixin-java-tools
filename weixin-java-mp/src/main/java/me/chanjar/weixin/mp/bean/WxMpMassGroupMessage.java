@@ -11,6 +11,10 @@ import java.io.Serializable;
  */
 public class WxMpMassGroupMessage implements Serializable {
   
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -6625914040986749286L;
   private Long groupId;
   private String msgtype;
   private String content;
@@ -21,7 +25,7 @@ public class WxMpMassGroupMessage implements Serializable {
   }
   
   public String getMsgtype() {
-    return msgtype;
+    return this.msgtype;
   }
 
   /**
@@ -41,7 +45,7 @@ public class WxMpMassGroupMessage implements Serializable {
   }
 
   public String getContent() {
-    return content;
+    return this.content;
   }
 
   public void setContent(String content) {
@@ -49,7 +53,7 @@ public class WxMpMassGroupMessage implements Serializable {
   }
 
   public String getMediaId() {
-    return mediaId;
+    return this.mediaId;
   }
 
   public void setMediaId(String mediaId) {
@@ -61,7 +65,7 @@ public class WxMpMassGroupMessage implements Serializable {
   }
 
   public Long getGroupId() {
-    return groupId;
+    return this.groupId;
   }
 
   /**

@@ -21,7 +21,7 @@ public class WxMpKfMsgList {
   private Long msgId;
 
   public List<WxMpKfMsgRecord> getRecords() {
-    return records;
+    return this.records;
   }
 
   public void setRecords(List<WxMpKfMsgRecord> records) {
@@ -29,7 +29,7 @@ public class WxMpKfMsgList {
   }
 
   public Integer getNumber() {
-    return number;
+    return this.number;
   }
 
   public void setNumber(Integer number) {
@@ -37,7 +37,7 @@ public class WxMpKfMsgList {
   }
 
   public Long getMsgId() {
-    return msgId;
+    return this.msgId;
   }
 
   public void setMsgId(Long msgId) {

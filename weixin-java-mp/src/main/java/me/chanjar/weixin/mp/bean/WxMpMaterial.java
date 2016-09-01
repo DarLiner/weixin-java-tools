@@ -22,14 +22,14 @@ public class WxMpMaterial {
   }
 
   public Map<String, String> getForm() {
-    Map<String, String> form = new HashMap<String, String>();
-    form.put("title", videoTitle);
-    form.put("introduction", videoIntroduction);
+    Map<String, String> form = new HashMap<>();
+    form.put("title", this.videoTitle);
+    form.put("introduction", this.videoIntroduction);
     return form;
   }
 
   public String getVideoTitle() {
-    return videoTitle;
+    return this.videoTitle;
   }
 
   public void setVideoTitle(String videoTitle) {
@@ -37,7 +37,7 @@ public class WxMpMaterial {
   }
 
   public String getVideoIntroduction() {
-    return videoIntroduction;
+    return this.videoIntroduction;
   }
 
   public void setVideoIntroduction(String videoIntroduction) {
@@ -45,7 +45,7 @@ public class WxMpMaterial {
   }
 
   public String getName() {
-    return name;
+    return this.name;
   }
 
   public void setName(String name) {
@@ -53,7 +53,7 @@ public class WxMpMaterial {
   }
 
   public File getFile() {
-    return file;
+    return this.file;
   }
 
   public void setFile(File file) {
@@ -62,6 +62,6 @@ public class WxMpMaterial {
 
   @Override
   public String toString() {
-    return "WxMpMaterial [" + "name=" + name + ", file=" + file + ", videoTitle=" + videoTitle + ", videoIntroduction=" + videoIntroduction + "]";
+    return "WxMpMaterial [" + "name=" + this.name + ", file=" + this.file + ", videoTitle=" + this.videoTitle + ", videoIntroduction=" + this.videoIntroduction + "]";
   }
 }

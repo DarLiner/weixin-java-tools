@@ -16,7 +16,7 @@ public class WxAccessToken implements Serializable {
   }
 
   public String getAccessToken() {
-    return accessToken;
+    return this.accessToken;
   }
 
   public void setAccessToken(String accessToken) {
@@ -24,7 +24,7 @@ public class WxAccessToken implements Serializable {
   }
 
   public int getExpiresIn() {
-    return expiresIn;
+    return this.expiresIn;
   }
 
   public void setExpiresIn(int expiresIn) {

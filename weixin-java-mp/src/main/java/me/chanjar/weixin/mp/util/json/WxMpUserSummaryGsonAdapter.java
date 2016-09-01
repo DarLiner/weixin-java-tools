@@ -23,6 +23,7 @@ public class WxMpUserSummaryGsonAdapter implements JsonDeserializer<WxDataCubeUs
 
   private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
+  @Override
   public WxDataCubeUserSummary deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
       throws JsonParseException {
     WxDataCubeUserSummary summary = new WxDataCubeUserSummary();

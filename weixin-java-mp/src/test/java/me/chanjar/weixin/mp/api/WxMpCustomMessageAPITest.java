@@ -21,7 +21,7 @@ public class WxMpCustomMessageAPITest {
   protected WxMpServiceImpl wxService;
 
   public void testSendCustomMessage() throws WxErrorException {
-    ApiTestModule.WxXmlMpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlMpInMemoryConfigStorage) wxService.getWxMpConfigStorage();
+    ApiTestModule.WxXmlMpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage();
     WxMpCustomMessage message = new WxMpCustomMessage();
     message.setMsgType(WxConsts.CUSTOM_MSG_TEXT);
     message.setToUser(configStorage.getOpenId());
@@ -31,7 +31,7 @@ public class WxMpCustomMessageAPITest {
   }
 
   public void testSendCustomMessageWithKfAccount() throws WxErrorException {
-    ApiTestModule.WxXmlMpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlMpInMemoryConfigStorage) wxService.getWxMpConfigStorage();
+    ApiTestModule.WxXmlMpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage();
     WxMpCustomMessage message = new WxMpCustomMessage();
     message.setMsgType(WxConsts.CUSTOM_MSG_TEXT);
     message.setToUser(configStorage.getOpenId());

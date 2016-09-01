@@ -19,6 +19,7 @@ import java.lang.reflect.Type;
  */
 public class WxMpMaterialCountResultAdapter implements JsonDeserializer<WxMpMaterialCountResult> {
 
+  @Override
   public WxMpMaterialCountResult deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
     WxMpMaterialCountResult countResult = new WxMpMaterialCountResult();
     JsonObject materialCountResultJsonObject = json.getAsJsonObject();

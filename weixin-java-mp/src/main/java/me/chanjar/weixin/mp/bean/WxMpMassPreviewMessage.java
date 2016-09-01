@@ -8,6 +8,10 @@ import java.io.Serializable;
  * @author miller
  */
 public class WxMpMassPreviewMessage implements Serializable {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 9095211638358424020L;
   private String toWxUsername;
   private String msgType;
   private String content;
@@ -18,7 +22,7 @@ public class WxMpMassPreviewMessage implements Serializable {
   }
 
   public String getToWxUsername() {
-    return toWxUsername;
+    return this.toWxUsername;
   }
 
   public void setToWxUsername(String toWxUsername) {
@@ -26,7 +30,7 @@ public class WxMpMassPreviewMessage implements Serializable {
   }
 
   public String getMsgType() {
-    return msgType;
+    return this.msgType;
   }
 
   /**
@@ -47,7 +51,7 @@ public class WxMpMassPreviewMessage implements Serializable {
   }
 
   public String getContent() {
-    return content;
+    return this.content;
   }
 
   public void setContent(String content) {
@@ -55,7 +59,7 @@ public class WxMpMassPreviewMessage implements Serializable {
   }
 
   public String getMediaId() {
-    return mediaId;
+    return this.mediaId;
   }
 
   public void setMediaId(String mediaId) {

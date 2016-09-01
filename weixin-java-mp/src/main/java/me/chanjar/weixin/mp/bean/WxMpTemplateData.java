@@ -7,6 +7,10 @@ import java.io.Serializable;
  */
 public class WxMpTemplateData implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 6301835292940277870L;
   private String name;
   private String value;
   private String color;
@@ -26,7 +30,7 @@ public class WxMpTemplateData implements Serializable {
   }
 
   public String getName() {
-    return name;
+    return this.name;
   }
 
   public void setName(String name) {
@@ -34,7 +38,7 @@ public class WxMpTemplateData implements Serializable {
   }
 
   public String getValue() {
-    return value;
+    return this.value;
   }
 
   public void setValue(String value) {
@@ -42,7 +46,7 @@ public class WxMpTemplateData implements Serializable {
   }
 
   public String getColor() {
-    return color;
+    return this.color;
   }
   public void setColor(String color) {
     this.color = color;

@@ -1,11 +1,11 @@
 package me.chanjar.weixin.mp.api;
 
-import java.util.List;
-
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.bean.WxMpUserQuery;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import me.chanjar.weixin.mp.bean.result.WxMpUserList;
+
+import java.util.List;
 
 /**
  * 用户管理和统计相关操作接口
@@ -42,7 +42,7 @@ public interface WxMpUserService {
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=批量获取用户基本信息
    * </pre>
    *
-   * @param openid 用户openid, lang 使用默认(zh_CN 简体)
+   * @param openidList 用户openid列表
    */
   List<WxMpUser> userInfoList(List<String> openidList) throws WxErrorException;
 

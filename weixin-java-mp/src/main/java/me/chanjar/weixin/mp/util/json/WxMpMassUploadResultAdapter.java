@@ -21,6 +21,7 @@ import java.lang.reflect.Type;
  */
 public class WxMpMassUploadResultAdapter implements JsonDeserializer<WxMpMassUploadResult> {
 
+  @Override
   public WxMpMassUploadResult deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
     WxMpMassUploadResult uploadResult = new WxMpMassUploadResult();
     JsonObject uploadResultJsonObject = json.getAsJsonObject();

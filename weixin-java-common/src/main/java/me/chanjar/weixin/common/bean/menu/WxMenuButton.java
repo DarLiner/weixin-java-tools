@@ -14,7 +14,7 @@ public class WxMenuButton {
   private String url;
   private String mediaId;
 
-  private List<WxMenuButton> subButtons = new ArrayList<WxMenuButton>();
+  private List<WxMenuButton> subButtons = new ArrayList<>();
 
   @Override
   public String toString() {
@@ -23,7 +23,7 @@ public class WxMenuButton {
   }
   
   public String getType() {
-    return type;
+    return this.type;
   }
 
   public void setType(String type) {
@@ -31,7 +31,7 @@ public class WxMenuButton {
   }
 
   public String getName() {
-    return name;
+    return this.name;
   }
 
   public void setName(String name) {
@@ -39,7 +39,7 @@ public class WxMenuButton {
   }
 
   public String getKey() {
-    return key;
+    return this.key;
   }
 
   public void setKey(String key) {
@@ -47,7 +47,7 @@ public class WxMenuButton {
   }
 
   public String getUrl() {
-    return url;
+    return this.url;
   }
 
   public void setUrl(String url) {
@@ -55,7 +55,7 @@ public class WxMenuButton {
   }
 
   public List<WxMenuButton> getSubButtons() {
-    return subButtons;
+    return this.subButtons;
   }
 
   public void setSubButtons(List<WxMenuButton> subButtons) {
@@ -63,7 +63,7 @@ public class WxMenuButton {
   }
 
   public String getMediaId() {
-    return mediaId;
+    return this.mediaId;
   }
 
   public void setMediaId(String mediaId) {

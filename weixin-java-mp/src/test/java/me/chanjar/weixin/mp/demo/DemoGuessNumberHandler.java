@@ -30,7 +30,7 @@ public class DemoGuessNumberHandler implements WxMpMessageHandler, WxMpMessageMa
   }
 
   private boolean isUserAnswering(WxMpXmlMessage message) {
-    return pattern.matcher(message.getContent()).matches();
+    return this.pattern.matcher(message.getContent()).matches();
   }
 
   @Override
@@ -68,7 +68,7 @@ public class DemoGuessNumberHandler implements WxMpMessageHandler, WxMpMessageMa
     }
 
     session.setAttribute("guessing", Boolean.TRUE);
-    session.setAttribute("number", random.nextInt(100));
+    session.setAttribute("number", this.random.nextInt(100));
   }
 
 

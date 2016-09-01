@@ -163,7 +163,7 @@ public class WxMpMessageRouterTest {
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService,
         WxSessionManager sessionManager) {
-      sb.append(this.echoStr).append(',');
+      this.sb.append(this.echoStr).append(',');
       return null;
     }
 

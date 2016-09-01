@@ -40,7 +40,7 @@ public class TooManyActiveSessionsException
                                         int maxActive) {
     super(message);
 
-    maxActiveSessions = maxActive;
+    this.maxActiveSessions = maxActive;
   }
 
   /**
@@ -49,6 +49,6 @@ public class TooManyActiveSessionsException
    * @return The maximum number of sessions allowed by the session manager.
    */
   public int getMaxActiveSessions() {
-    return maxActiveSessions;
+    return this.maxActiveSessions;
   }
 }

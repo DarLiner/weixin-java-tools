@@ -20,7 +20,7 @@ public class WxMpShortUrlAPITest {
   protected WxMpServiceImpl wxService;
 
   public void testShortUrl() throws WxErrorException {
-    String shortUrl = wxService.shortUrl("www.baidu.com");
+    String shortUrl = this.wxService.shortUrl("www.baidu.com");
     Assert.assertNotNull(shortUrl);
   }
 

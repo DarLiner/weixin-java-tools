@@ -4,13 +4,17 @@ import java.io.Serializable;
 
 public class WxMpMaterialCountResult implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -5568772662085874138L;
   private int voiceCount;
   private int videoCount;
   private int imageCount;
   private int newsCount;
 
   public int getVoiceCount() {
-    return voiceCount;
+    return this.voiceCount;
   }
 
   public void setVoiceCount(int voiceCount) {
@@ -18,7 +22,7 @@ public class WxMpMaterialCountResult implements Serializable {
   }
 
   public int getVideoCount() {
-    return videoCount;
+    return this.videoCount;
   }
 
   public void setVideoCount(int videoCount) {
@@ -26,7 +30,7 @@ public class WxMpMaterialCountResult implements Serializable {
   }
 
   public int getImageCount() {
-    return imageCount;
+    return this.imageCount;
   }
 
   public void setImageCount(int imageCount) {
@@ -34,7 +38,7 @@ public class WxMpMaterialCountResult implements Serializable {
   }
 
   public int getNewsCount() {
-    return newsCount;
+    return this.newsCount;
   }
 
   public void setNewsCount(int newsCount) {
@@ -43,8 +47,8 @@ public class WxMpMaterialCountResult implements Serializable {
 
   @Override
   public String toString() {
-    return "WxMpMaterialCountResult [" + "voiceCount=" + voiceCount + ", videoCount=" + videoCount
-        + ", imageCount=" + imageCount + ", newsCount=" + newsCount + "]";
+    return "WxMpMaterialCountResult [" + "voiceCount=" + this.voiceCount + ", videoCount=" + this.videoCount
+        + ", imageCount=" + this.imageCount + ", newsCount=" + this.newsCount + "]";
   }
 }
 

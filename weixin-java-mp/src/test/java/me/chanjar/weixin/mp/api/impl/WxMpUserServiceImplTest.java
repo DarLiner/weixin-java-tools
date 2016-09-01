@@ -25,12 +25,12 @@ public class WxMpUserServiceImplTest {
   protected WxMpServiceImpl wxService;
 
   public void testUserUpdateRemark() throws WxErrorException {
-    ApiTestModule.WxXmlMpInMemoryConfigStorage configProvider = (ApiTestModule.WxXmlMpInMemoryConfigStorage) wxService.getWxMpConfigStorage();
+    ApiTestModule.WxXmlMpInMemoryConfigStorage configProvider = (ApiTestModule.WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage();
     this.wxService.getUserService().userUpdateRemark(configProvider.getOpenId(), "测试备注名");
   }
 
   public void testUserInfo() throws WxErrorException {
-    ApiTestModule.WxXmlMpInMemoryConfigStorage configProvider = (ApiTestModule.WxXmlMpInMemoryConfigStorage) wxService.getWxMpConfigStorage();
+    ApiTestModule.WxXmlMpInMemoryConfigStorage configProvider = (ApiTestModule.WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage();
     WxMpUser user = this.wxService.getUserService().userInfo(configProvider.getOpenId(), null);
     Assert.assertNotNull(user);
     System.out.println(user);
@@ -46,13 +46,13 @@ public class WxMpUserServiceImplTest {
   }
 
   public void testGroupQueryUserGroup() throws WxErrorException {
-    ApiTestModule.WxXmlMpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlMpInMemoryConfigStorage) wxService.getWxMpConfigStorage();
+    ApiTestModule.WxXmlMpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage();
     long groupid = this.wxService.getGroupService().userGetGroup(configStorage.getOpenId());
     Assert.assertTrue(groupid != -1l);
   }
 
   public void testGroupMoveUser() throws WxErrorException {
-    ApiTestModule.WxXmlMpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlMpInMemoryConfigStorage) wxService.getWxMpConfigStorage();
+    ApiTestModule.WxXmlMpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage();
     this.wxService.getGroupService().userUpdateGroup(configStorage.getOpenId(), this.wxService.getGroupService().groupGet().get(3).getId());
   }
 
