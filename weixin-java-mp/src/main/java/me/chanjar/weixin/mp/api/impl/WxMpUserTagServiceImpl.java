@@ -6,6 +6,8 @@ import me.chanjar.weixin.common.util.http.SimplePostRequestExecutor;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.WxMpUserTagService;
 import me.chanjar.weixin.mp.bean.tag.WxUserTag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -13,6 +15,7 @@ import me.chanjar.weixin.mp.bean.tag.WxUserTag;
  *         Created by Binary Wang on 2016/9/2.
  */
 public class WxMpUserTagServiceImpl implements WxMpUserTagService {
+  protected final Logger log = LoggerFactory.getLogger(WxMpDataCubeServiceImpl.class);
   private static final String API_URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/tags";
 
   private WxMpService wxMpService;
@@ -33,6 +36,7 @@ public class WxMpUserTagServiceImpl implements WxMpUserTagService {
             new SimplePostRequestExecutor(),
             url,
             json.toString());
+    this.log.debug("\nurl:{}\nparams:{}\nresponse:{}",url, name, responseContent);
     return WxUserTag.fromJson(responseContent);
   }
 }
