@@ -15,6 +15,7 @@ import java.util.List;
  * 
  * @author chanjarster
  */
+@Deprecated
 @Test(groups = "groupAPI")
 @Guice(modules = ApiTestModule.class)
 public class WxMpGroupServiceImplTest {
