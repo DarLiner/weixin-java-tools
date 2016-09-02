@@ -314,7 +314,15 @@ public interface WxMpService {
    *
    * @return WxMpGroupService
    */
+  
   WxMpGroupService getGroupService();
+
+  /**
+   * 返回用户标签相关接口的方法实现类，以方便调用个其各种接口
+   *
+   * @return WxMpUserTagService
+   */
+  WxMpUserTagService getUserTagService();
 
   /**
    * 返回二维码相关接口的方法实现类，以方便调用个其各种接口
