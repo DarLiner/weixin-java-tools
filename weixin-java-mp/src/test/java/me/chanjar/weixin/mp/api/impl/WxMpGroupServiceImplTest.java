@@ -47,4 +47,15 @@ public class WxMpGroupServiceImplTest {
     this.wxService.getGroupService().groupUpdate(this.group);
   }
 
+  public void testGroupQueryUserGroup() throws WxErrorException {
+    ApiTestModule.WxXmlMpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage();
+    long groupid = this.wxService.getGroupService().userGetGroup(configStorage.getOpenId());
+    Assert.assertTrue(groupid != -1l);
+  }
+
+  public void testGroupMoveUser() throws WxErrorException {
+    ApiTestModule.WxXmlMpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage();
+    this.wxService.getGroupService().userUpdateGroup(configStorage.getOpenId(), this.wxService.getGroupService().groupGet().get(3).getId());
+  }
+
 }
