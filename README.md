@@ -14,7 +14,7 @@
 * 微信群： 因二维码有时间限制，如有想加入微信群的，请入QQ群后咨询获取最新入群二维码。
 * QQ群：343954419 [![Join QQ Group](http://pub.idqqimg.com/wpa/images/group.png)](http://shang.qq.com/wpa/qunwpa?idkey=078f7a153d243853e24cf2b542e7a6ccbf2a592bc138080f84d11297f736ec46)
 * ***注意：为保证入群成员质量，请申请入群前，先Star本项目，然后在申请入群时，输入您的Github帐号ID，以便管理员核对，ID即你的github主页地址https://github.com/XXXX 中最后的部分XXXX的内容，或者在github网页右上角点击头像查看，如下图Signed in as下方黄色标识内容即是：***
-![github_id](https://raw.githubusercontent.com/wechat-group/weixin-java-tools/develop/res/github_id.png)
+* ![github_id](https://raw.githubusercontent.com/wechat-group/weixin-java-tools/develop/res/github_id.png)
  
 ===========
 
