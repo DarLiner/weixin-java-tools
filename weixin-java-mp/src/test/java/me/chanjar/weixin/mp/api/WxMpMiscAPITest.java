@@ -23,7 +23,7 @@ public class WxMpMiscAPITest {
 
   @Test
   public void testGetCallbackIP() throws WxErrorException {
-    String[] ipArray = wxService.getCallbackIP();
+    String[] ipArray = this.wxService.getCallbackIP();
     System.out.println(Arrays.toString(ipArray));
     Assert.assertNotNull(ipArray);
     Assert.assertNotEquals(ipArray.length, 0);

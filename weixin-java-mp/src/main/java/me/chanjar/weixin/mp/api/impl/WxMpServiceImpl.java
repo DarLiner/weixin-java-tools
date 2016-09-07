@@ -282,6 +282,23 @@ public class WxMpServiceImpl implements WxMpService {
     return url.toString();
   }
 
+  @Override
+  public String buildQrConnectUrl(String redirectURI, String scope,
+      String state) {
+    StringBuilder url = new StringBuilder();
+    url.append("https://open.weixin.qq.com/connect/qrconnect?");
+    url.append("appid=").append(this.wxMpConfigStorage.getAppId());
+    url.append("&redirect_uri=").append(URIUtil.encodeURIComponent(redirectURI));
+    url.append("&response_type=code");
+    url.append("&scope=").append(scope);
+    if (state != null) {
+      url.append("&state=").append(state);
+    }
+    
+    url.append("#wechat_redirect");
+    return url.toString();
+  }
+
   private WxMpOAuth2AccessToken getOAuth2AccessToken(StringBuilder url) throws WxErrorException {
     try {
       RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
