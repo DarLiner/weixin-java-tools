@@ -44,6 +44,7 @@ public class ApiTestModule implements Module {
 
     private String openId;
     private String kfAccount;
+    private String qrconnectRedirectUrl;
 
     public String getOpenId() {
       return this.openId;
@@ -64,6 +65,14 @@ public class ApiTestModule implements Module {
 
     public void setKfAccount(String kfAccount) {
       this.kfAccount = kfAccount;
+    }
+
+    public String getQrconnectRedirectUrl() {
+      return this.qrconnectRedirectUrl;
+    }
+
+    public void setQrconnectRedirectUrl(String qrconnectRedirectUrl) {
+      this.qrconnectRedirectUrl = qrconnectRedirectUrl;
     }
 
   }
