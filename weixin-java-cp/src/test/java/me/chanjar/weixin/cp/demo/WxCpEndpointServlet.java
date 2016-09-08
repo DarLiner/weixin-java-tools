@@ -43,12 +43,12 @@ public class WxCpEndpointServlet extends HttpServlet {
     String echostr = request.getParameter("echostr");
 
     if (StringUtils.isNotBlank(echostr)) {
-      if (!wxCpService.checkSignature(msgSignature, timestamp, nonce, echostr)) {
+      if (!this.wxCpService.checkSignature(msgSignature, timestamp, nonce, echostr)) {
         // 消息签名不正确，说明不是公众平台发过来的消息
         response.getWriter().println("非法请求");
         return;
       }
-      WxCpCryptUtil cryptUtil = new WxCpCryptUtil(wxCpConfigStorage);
+      WxCpCryptUtil cryptUtil = new WxCpCryptUtil(this.wxCpConfigStorage);
       String plainText = cryptUtil.decrypt(echostr);
       // 说明是一个仅仅用来验证的请求，回显echostr
       response.getWriter().println(plainText);
@@ -56,10 +56,10 @@ public class WxCpEndpointServlet extends HttpServlet {
     }
 
     WxCpXmlMessage inMessage = WxCpXmlMessage
-            .fromEncryptedXml(request.getInputStream(), wxCpConfigStorage, timestamp, nonce, msgSignature);
-    WxCpXmlOutMessage outMessage = wxCpMessageRouter.route(inMessage);
+            .fromEncryptedXml(request.getInputStream(), this.wxCpConfigStorage, timestamp, nonce, msgSignature);
+    WxCpXmlOutMessage outMessage = this.wxCpMessageRouter.route(inMessage);
     if (outMessage != null) {
-      response.getWriter().write(outMessage.toEncryptedXml(wxCpConfigStorage));
+      response.getWriter().write(outMessage.toEncryptedXml(this.wxCpConfigStorage));
     }
 
     return;

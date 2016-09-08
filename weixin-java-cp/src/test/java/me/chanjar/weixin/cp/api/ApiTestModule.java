@@ -38,7 +38,7 @@ public class ApiTestModule implements Module {
     protected String tagId;
 
     public String getUserId() {
-      return userId;
+      return this.userId;
     }
 
     public void setUserId(String userId) {
@@ -46,7 +46,7 @@ public class ApiTestModule implements Module {
     }
 
     public String getDepartmentId() {
-      return departmentId;
+      return this.departmentId;
     }
 
     public void setDepartmentId(String departmentId) {
@@ -54,7 +54,7 @@ public class ApiTestModule implements Module {
     }
 
     public String getTagId() {
-      return tagId;
+      return this.tagId;
     }
 
     public void setTagId(String tagId) {
@@ -64,9 +64,9 @@ public class ApiTestModule implements Module {
     @Override
     public String toString() {
       return super.toString() + " > WxXmlCpConfigStorage{" +
-              "userId='" + userId + '\'' +
-              ", departmentId='" + departmentId + '\'' +
-              ", tagId='" + tagId + '\'' +
+              "userId='" + this.userId + '\'' +
+              ", departmentId='" + this.departmentId + '\'' +
+              ", tagId='" + this.tagId + '\'' +
               '}';
     }
   }

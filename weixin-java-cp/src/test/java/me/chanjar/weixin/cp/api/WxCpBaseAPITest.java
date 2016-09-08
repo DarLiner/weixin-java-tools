@@ -20,9 +20,9 @@ public class WxCpBaseAPITest {
   protected WxCpServiceImpl wxService;
 
   public void testRefreshAccessToken() throws WxErrorException {
-    WxCpConfigStorage configStorage = wxService.wxCpConfigStorage;
+    WxCpConfigStorage configStorage = this.wxService.wxCpConfigStorage;
     String before = configStorage.getAccessToken();
-    wxService.getAccessToken(false);
+    this.wxService.getAccessToken(false);
 
     String after = configStorage.getAccessToken();
 
