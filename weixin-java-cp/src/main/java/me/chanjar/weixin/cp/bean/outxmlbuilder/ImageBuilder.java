@@ -16,6 +16,7 @@ public final class ImageBuilder extends BaseBuilder<ImageBuilder, WxCpXmlOutImag
     return this;
   }
 
+  @Override
   public WxCpXmlOutImageMessage build() {
     WxCpXmlOutImageMessage m = new WxCpXmlOutImageMessage();
     setCommon(m);

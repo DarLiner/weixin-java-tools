@@ -14,6 +14,10 @@ import java.util.List;
  */
 public class WxCpMessage implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -2082278303476631708L;
   private String toUser;
   private String toParty;
   private String toTag;
@@ -27,7 +31,7 @@ public class WxCpMessage implements Serializable {
   private String musicUrl;
   private String hqMusicUrl;
   private String safe;
-  private List<WxArticle> articles = new ArrayList<WxArticle>();
+  private List<WxArticle> articles = new ArrayList<>();
 
   /**
    * 获得文本消息builder

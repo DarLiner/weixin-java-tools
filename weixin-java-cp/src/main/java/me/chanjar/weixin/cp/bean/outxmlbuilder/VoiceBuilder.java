@@ -16,6 +16,7 @@ public final class VoiceBuilder extends BaseBuilder<VoiceBuilder, WxCpXmlOutVoic
     return this;
   }
 
+  @Override
   public WxCpXmlOutVoiceMessage build() {
     WxCpXmlOutVoiceMessage m = new WxCpXmlOutVoiceMessage();
     setCommon(m);

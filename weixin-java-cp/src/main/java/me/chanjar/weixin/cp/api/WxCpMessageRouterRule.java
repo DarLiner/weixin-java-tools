@@ -36,9 +36,9 @@ public class WxCpMessageRouterRule {
 
   private Integer agentId;
 
-  private List<WxCpMessageHandler> handlers = new ArrayList<WxCpMessageHandler>();
+  private List<WxCpMessageHandler> handlers = new ArrayList<>();
 
-  private List<WxCpMessageInterceptor> interceptors = new ArrayList<WxCpMessageInterceptor>();
+  private List<WxCpMessageInterceptor> interceptors = new ArrayList<>();
 
   protected WxCpMessageRouterRule(WxCpMessageRouter routerBuilder) {
     this.routerBuilder = routerBuilder;
@@ -235,7 +235,7 @@ public class WxCpMessageRouterRule {
 
     try {
 
-      Map<String, Object> context = new HashMap<String, Object>();
+      Map<String, Object> context = new HashMap<>();
       // 如果拦截器不通过
       for (WxCpMessageInterceptor interceptor : this.interceptors) {
         if (!interceptor.intercept(wxMessage, context, wxCpService, sessionManager)) {

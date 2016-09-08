@@ -12,7 +12,7 @@ import java.util.List;
 public class WxCpXmlOutNewsMessage extends WxCpXmlOutMessage {
 
   @XStreamAlias("Articles")
-  protected final List<Item> articles = new ArrayList<Item>();
+  protected final List<Item> articles = new ArrayList<>();
   @XStreamAlias("ArticleCount")
   protected int articleCount;
 

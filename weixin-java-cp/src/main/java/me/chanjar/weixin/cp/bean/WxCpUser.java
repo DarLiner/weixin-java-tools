@@ -13,7 +13,11 @@ import java.util.List;
  */
 public class WxCpUser implements Serializable {
 
-  private final List<Attr> extAttrs = new ArrayList<Attr>();
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -5696099236344075582L;
+  private final List<Attr> extAttrs = new ArrayList<>();
   private String userId;
   private String name;
   private Integer[] departIds;

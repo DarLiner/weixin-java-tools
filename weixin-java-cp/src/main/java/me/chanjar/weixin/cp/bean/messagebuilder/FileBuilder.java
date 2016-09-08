@@ -23,6 +23,7 @@ public final class FileBuilder extends BaseBuilder<FileBuilder> {
     return this;
   }
 
+  @Override
   public WxCpMessage build() {
     WxCpMessage m = super.build();
     m.setMediaId(this.mediaId);

@@ -32,6 +32,11 @@ public class WxCpXmlMessage implements Serializable {
   // 以下都是微信推送过来的消息的xml的element所对应的属性
   ///////////////////////
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -1042994982179476410L;
+
   @XStreamAlias("AgentID")
   private Integer agentId;
 
@@ -566,7 +571,7 @@ public class WxCpXmlMessage implements Serializable {
   public static class SendPicsInfo {
 
     @XStreamAlias("PicList")
-    protected final List<Item> picList = new ArrayList<Item>();
+    protected final List<Item> picList = new ArrayList<>();
     @XStreamAlias("Count")
     private Long count;
 

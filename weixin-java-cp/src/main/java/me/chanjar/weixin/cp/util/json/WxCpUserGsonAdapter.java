@@ -19,6 +19,7 @@ import java.lang.reflect.Type;
  */
 public class WxCpUserGsonAdapter implements JsonDeserializer<WxCpUser>, JsonSerializer<WxCpUser> {
 
+  @Override
   public WxCpUser deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
           throws JsonParseException {
     JsonObject o = json.getAsJsonObject();

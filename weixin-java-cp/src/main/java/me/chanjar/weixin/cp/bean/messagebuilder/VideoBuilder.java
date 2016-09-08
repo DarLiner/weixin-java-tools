@@ -47,6 +47,7 @@ public final class VideoBuilder extends BaseBuilder<VideoBuilder> {
     return this;
   }
 
+  @Override
   public WxCpMessage build() {
     WxCpMessage m = super.build();
     m.setMediaId(this.mediaId);

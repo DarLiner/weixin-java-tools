@@ -9,6 +9,11 @@ import java.io.Serializable;
  */
 public class WxCpTag implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -7243320279646928402L;
+
   private String id;
 
   private String name;
