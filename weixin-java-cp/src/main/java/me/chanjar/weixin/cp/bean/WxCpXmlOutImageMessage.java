@@ -17,7 +17,7 @@ public class WxCpXmlOutImageMessage extends WxCpXmlOutMessage {
   }
 
   public String getMediaId() {
-    return mediaId;
+    return this.mediaId;
   }
 
   public void setMediaId(String mediaId) {

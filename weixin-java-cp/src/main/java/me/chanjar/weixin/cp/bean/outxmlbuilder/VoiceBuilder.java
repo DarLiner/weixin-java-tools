@@ -19,7 +19,7 @@ public final class VoiceBuilder extends BaseBuilder<VoiceBuilder, WxCpXmlOutVoic
   public WxCpXmlOutVoiceMessage build() {
     WxCpXmlOutVoiceMessage m = new WxCpXmlOutVoiceMessage();
     setCommon(m);
-    m.setMediaId(mediaId);
+    m.setMediaId(this.mediaId);
     return m;
   }
 

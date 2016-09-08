@@ -50,9 +50,9 @@ public final class VideoBuilder extends BaseBuilder<VideoBuilder> {
   public WxCpMessage build() {
     WxCpMessage m = super.build();
     m.setMediaId(this.mediaId);
-    m.setTitle(title);
-    m.setDescription(description);
-    m.setThumbMediaId(thumbMediaId);
+    m.setTitle(this.title);
+    m.setDescription(this.description);
+    m.setThumbMediaId(this.thumbMediaId);
     return m;
   }
 }

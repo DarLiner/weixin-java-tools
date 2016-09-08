@@ -22,7 +22,7 @@ public final class NewsBuilder extends BaseBuilder<NewsBuilder, WxCpXmlOutNewsMe
 
   public WxCpXmlOutNewsMessage build() {
     WxCpXmlOutNewsMessage m = new WxCpXmlOutNewsMessage();
-    for (Item item : articles) {
+    for (Item item : this.articles) {
       m.addArticle(item);
     }
     setCommon(m);

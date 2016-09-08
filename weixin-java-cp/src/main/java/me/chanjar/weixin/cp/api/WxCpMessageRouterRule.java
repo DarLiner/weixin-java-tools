@@ -300,7 +300,7 @@ public class WxCpMessageRouterRule {
   }
 
   public boolean isAsync() {
-    return async;
+    return this.async;
   }
 
   public void setAsync(boolean async) {
@@ -308,7 +308,7 @@ public class WxCpMessageRouterRule {
   }
 
   public boolean isReEnter() {
-    return reEnter;
+    return this.reEnter;
   }
 
   public void setReEnter(boolean reEnter) {

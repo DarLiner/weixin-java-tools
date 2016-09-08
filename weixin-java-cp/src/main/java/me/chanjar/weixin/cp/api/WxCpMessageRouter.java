@@ -144,7 +144,7 @@ public class WxCpMessageRouter {
 
     final List<WxCpMessageRouterRule> matchRules = new ArrayList<WxCpMessageRouterRule>();
     // 收集匹配的规则
-    for (final WxCpMessageRouterRule rule : rules) {
+    for (final WxCpMessageRouterRule rule : this.rules) {
       if (rule.test(wxMessage)) {
         matchRules.add(rule);
         if (!rule.isReEnter()) {
@@ -163,34 +163,34 @@ public class WxCpMessageRouter {
       // 返回最后一个非异步的rule的执行结果
       if (rule.isAsync()) {
         futures.add(
-                executorService.submit(new Runnable() {
+                this.executorService.submit(new Runnable() {
                   public void run() {
-                    rule.service(wxMessage, wxCpService, sessionManager, exceptionHandler);
+                    rule.service(wxMessage, WxCpMessageRouter.this.wxCpService, WxCpMessageRouter.this.sessionManager, WxCpMessageRouter.this.exceptionHandler);
                   }
                 })
         );
       } else {
-        res = rule.service(wxMessage, wxCpService, sessionManager, exceptionHandler);
+        res = rule.service(wxMessage, this.wxCpService, this.sessionManager, this.exceptionHandler);
         // 在同步操作结束，session访问结束
-        log.debug("End session access: async=false, sessionId={}", wxMessage.getFromUserName());
+        this.log.debug("End session access: async=false, sessionId={}", wxMessage.getFromUserName());
         sessionEndAccess(wxMessage);
       }
     }
 
     if (futures.size() > 0) {
-      executorService.submit(new Runnable() {
+      this.executorService.submit(new Runnable() {
         @Override
         public void run() {
           for (Future future : futures) {
             try {
               future.get();
-              log.debug("End session access: async=true, sessionId={}", wxMessage.getFromUserName());
+              WxCpMessageRouter.this.log.debug("End session access: async=true, sessionId={}", wxMessage.getFromUserName());
               // 异步操作结束，session访问结束
               sessionEndAccess(wxMessage);
             } catch (InterruptedException e) {
-              log.error("Error happened when wait task finish", e);
+              WxCpMessageRouter.this.log.error("Error happened when wait task finish", e);
             } catch (ExecutionException e) {
-              log.error("Error happened when wait task finish", e);
+              WxCpMessageRouter.this.log.error("Error happened when wait task finish", e);
             }
           }
         }
@@ -213,7 +213,7 @@ public class WxCpMessageRouter {
       messageId = String.valueOf(wxMessage.getMsgId());
     }
 
-    return messageDuplicateChecker.isDuplicate(messageId);
+    return this.messageDuplicateChecker.isDuplicate(messageId);
 
   }
 
@@ -224,7 +224,7 @@ public class WxCpMessageRouter {
    */
   protected void sessionEndAccess(WxCpXmlMessage wxMessage) {
 
-    InternalSession session = ((InternalSessionManager) sessionManager).findSession(wxMessage.getFromUserName());
+    InternalSession session = ((InternalSessionManager) this.sessionManager).findSession(wxMessage.getFromUserName());
     if (session != null) {
       session.endAccess();
     }
