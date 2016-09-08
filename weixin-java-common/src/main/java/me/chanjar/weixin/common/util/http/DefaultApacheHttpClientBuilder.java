@@ -108,6 +108,7 @@ public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
             .register("https", this.sslConnectionSocketFactory)
             .build();
 
+    @SuppressWarnings("resource")
     PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager(registry);
     connectionManager.setMaxTotal(this.maxTotalConn);
     connectionManager.setDefaultMaxPerRoute(this.maxConnPerHost);
