@@ -1,9 +1,12 @@
 package me.chanjar.weixin.mp.bean.tag;
 
+import java.util.List;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
@@ -53,7 +56,15 @@ public class WxUserTag {
   }
 
   public static WxUserTag fromJson(String json) {
-    return WxMpGsonBuilder.create().fromJson(new JsonParser().parse(json).getAsJsonObject().get("tag"), WxUserTag.class);
+    return WxMpGsonBuilder.create().fromJson(
+        new JsonParser().parse(json).getAsJsonObject().get("tag"),
+        WxUserTag.class);
+  }
+
+  public static List<WxUserTag> listFromJson(String json) {
+    return WxMpGsonBuilder.create().fromJson(
+        new JsonParser().parse(json).getAsJsonObject().get("tags"),
+        new TypeToken<List<WxUserTag>>(){}.getType());
   }
 
   public String toJson() {
