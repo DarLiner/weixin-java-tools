@@ -1,13 +1,15 @@
 package me.chanjar.weixin.cp.api;
 
-import com.google.inject.Inject;
-import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.cp.bean.WxCpDepart;
+import java.util.List;
+
 import org.testng.Assert;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
 
-import java.util.List;
+import com.google.inject.Inject;
+
+import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.cp.bean.WxCpDepart;
 
 /**
  * 测试部门接口
@@ -24,11 +26,12 @@ public class WxCpDepartAPITest {
   protected WxCpDepart depart;
 
   public void testDepartCreate() throws WxErrorException {
-    WxCpDepart depart = new WxCpDepart();
-    depart.setName("子部门" + System.currentTimeMillis());
-    depart.setParentId(1);
-    depart.setOrder(1);
-    Integer departId = this.wxCpService.departCreate(depart);
+    WxCpDepart cpDepart = new WxCpDepart();
+    cpDepart.setName("子部门" + System.currentTimeMillis());
+    cpDepart.setParentId(1);
+    cpDepart.setOrder(1);
+    Integer departId = this.wxCpService.departCreate(cpDepart);
+    System.out.println(departId);
   }
 
   @Test(dependsOnMethods = "testDepartCreate")

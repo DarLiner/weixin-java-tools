@@ -1,5 +1,11 @@
 package me.chanjar.weixin.cp.demo;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import me.chanjar.weixin.common.util.StringUtils;
 import me.chanjar.weixin.cp.api.WxCpConfigStorage;
 import me.chanjar.weixin.cp.api.WxCpMessageRouter;
@@ -8,17 +14,11 @@ import me.chanjar.weixin.cp.bean.WxCpXmlMessage;
 import me.chanjar.weixin.cp.bean.WxCpXmlOutMessage;
 import me.chanjar.weixin.cp.util.crypto.WxCpCryptUtil;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
 /**
  * @author Daniel Qian
  */
 public class WxCpEndpointServlet extends HttpServlet {
-
+  private static final long serialVersionUID = 1L;
   protected WxCpConfigStorage wxCpConfigStorage;
   protected WxCpService wxCpService;
   protected WxCpMessageRouter wxCpMessageRouter;
@@ -32,7 +32,7 @@ public class WxCpEndpointServlet extends HttpServlet {
 
   @Override
   protected void service(HttpServletRequest request, HttpServletResponse response)
-          throws ServletException, IOException {
+      throws IOException {
 
     response.setContentType("text/html;charset=utf-8");
     response.setStatus(HttpServletResponse.SC_OK);

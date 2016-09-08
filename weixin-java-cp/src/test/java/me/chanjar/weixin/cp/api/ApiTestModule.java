@@ -1,12 +1,14 @@
 package me.chanjar.weixin.cp.api;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import me.chanjar.weixin.common.util.xml.XStreamInitializer;
 
-import java.io.InputStream;
+import me.chanjar.weixin.common.util.xml.XStreamInitializer;
 
 public class ApiTestModule implements Module {
 
@@ -19,13 +21,18 @@ public class ApiTestModule implements Module {
 
   @Override
   public void configure(Binder binder) {
-    InputStream is1 = ClassLoader.getSystemResourceAsStream("test-config.xml");
-    WxXmlCpInMemoryConfigStorage config = fromXml(WxXmlCpInMemoryConfigStorage.class, is1);
-    WxCpServiceImpl wxService = new WxCpServiceImpl();
-    wxService.setWxCpConfigStorage(config);
+    try (InputStream is1 = ClassLoader
+        .getSystemResourceAsStream("test-config.xml")) {
+      WxXmlCpInMemoryConfigStorage config = fromXml(
+          WxXmlCpInMemoryConfigStorage.class, is1);
+      WxCpServiceImpl wxService = new WxCpServiceImpl();
+      wxService.setWxCpConfigStorage(config);
 
-    binder.bind(WxCpServiceImpl.class).toInstance(wxService);
-    binder.bind(WxCpConfigStorage.class).toInstance(config);
+      binder.bind(WxCpServiceImpl.class).toInstance(wxService);
+      binder.bind(WxCpConfigStorage.class).toInstance(config);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   @XStreamAlias("xml")
