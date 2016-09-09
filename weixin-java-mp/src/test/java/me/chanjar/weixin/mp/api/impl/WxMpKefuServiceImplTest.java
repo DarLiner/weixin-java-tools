@@ -78,7 +78,7 @@ public class WxMpKefuServiceImplTest {
           "testKfAccountAdd" }, dataProvider = "getKfAccount")
   public void testKfAccountInviteWorker(String kfAccount) throws WxErrorException {
     WxMpKfAccountRequest request = WxMpKfAccountRequest.builder()
-            .kfAccount(kfAccount).inviteWx("www_ucredit_com").build();
+        .kfAccount(kfAccount).inviteWx("    ").build();
     Assert.assertTrue(this.wxService.getKefuService().kfAccountInviteWorker(request));
   }
 
