@@ -9,8 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpDataCubeService;
@@ -21,7 +19,6 @@ import me.chanjar.weixin.mp.bean.datacube.WxDataCubeInterfaceResult;
 import me.chanjar.weixin.mp.bean.datacube.WxDataCubeMsgResult;
 import me.chanjar.weixin.mp.bean.datacube.WxDataCubeUserCumulate;
 import me.chanjar.weixin.mp.bean.datacube.WxDataCubeUserSummary;
-import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
 /**
  *  Created by Binary Wang on 2016/8/23.
@@ -48,9 +45,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     param.addProperty("end_date", this.dateFormat.format(endDate));
     String responseContent = this.wxMpService.post(url, param.toString());
     this.log.debug("\nurl:{}\nparams:{}\nresponse:{}",url, param, responseContent);
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(new JsonParser().parse(responseContent).getAsJsonObject().get("list"),
-            new TypeToken<List<WxDataCubeUserSummary>>() {
-            }.getType());
+    return WxDataCubeUserSummary.fromJson(responseContent);
   }
 
   @Override
@@ -61,9 +56,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     param.addProperty("end_date", this.dateFormat.format(endDate));
     String responseContent = this.wxMpService.post(url, param.toString());
     this.log.debug("\nurl:{}\nparams:{}\nresponse:{}",url, param, responseContent);
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(new JsonParser().parse(responseContent).getAsJsonObject().get("list"),
-            new TypeToken<List<WxDataCubeUserCumulate>>() {
-            }.getType());
+    return WxDataCubeUserCumulate.fromJson(responseContent);
   }
 
   @Override
@@ -74,9 +67,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     param.addProperty("end_date", this.dateFormat.format(endDate));
     String responseContent = this.wxMpService.post(url, param.toString());
     this.log.debug("\nurl:{}\nparams:{}\nresponse:{}",url, param, responseContent);
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(new JsonParser().parse(responseContent).getAsJsonObject().get("list"),
-            new TypeToken<List<WxDataCubeArticleResult>>() {
-            }.getType());
+    return WxDataCubeArticleResult.fromJson(responseContent);
   }
 
   @Override
@@ -87,9 +78,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     param.addProperty("end_date", this.dateFormat.format(endDate));
     String responseContent = this.wxMpService.post(url, param.toString());
     this.log.debug("\nurl:{}\nparams:{}\nresponse:{}",url, param, responseContent);
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(new JsonParser().parse(responseContent).getAsJsonObject().get("list"),
-            new TypeToken<List<WxDataCubeArticleTotal>>() {
-            }.getType());
+    return WxDataCubeArticleTotal.fromJson(responseContent);
   }
 
   @Override
@@ -100,9 +89,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     param.addProperty("end_date", this.dateFormat.format(endDate));
     String responseContent = this.wxMpService.post(url, param.toString());
     this.log.debug("\nurl:{}\nparams:{}\nresponse:{}",url, param, responseContent);
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(new JsonParser().parse(responseContent).getAsJsonObject().get("list"),
-            new TypeToken<List<WxDataCubeArticleResult>>() {
-            }.getType());
+    return WxDataCubeArticleResult.fromJson(responseContent);
   }
 
   @Override
@@ -113,9 +100,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     param.addProperty("end_date", this.dateFormat.format(endDate));
     String responseContent = this.wxMpService.post(url, param.toString());
     this.log.debug("\nurl:{}\nparams:{}\nresponse:{}",url, param, responseContent);
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(new JsonParser().parse(responseContent).getAsJsonObject().get("list"),
-            new TypeToken<List<WxDataCubeArticleResult>>() {
-            }.getType());
+    return WxDataCubeArticleResult.fromJson(responseContent);
   }
 
   @Override
@@ -126,9 +111,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     param.addProperty("end_date", this.dateFormat.format(endDate));
     String responseContent = this.wxMpService.post(url, param.toString());
     this.log.debug("\nurl:{}\nparams:{}\nresponse:{}",url, param, responseContent);
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(new JsonParser().parse(responseContent).getAsJsonObject().get("list"),
-            new TypeToken<List<WxDataCubeArticleResult>>() {
-            }.getType());
+    return WxDataCubeArticleResult.fromJson(responseContent);
   }
 
   @Override
@@ -139,9 +122,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     param.addProperty("end_date", this.dateFormat.format(endDate));
     String responseContent = this.wxMpService.post(url, param.toString());
     this.log.debug("\nurl:{}\nparams:{}\nresponse:{}",url, param, responseContent);
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(new JsonParser().parse(responseContent).getAsJsonObject().get("list"),
-            new TypeToken<List<WxDataCubeArticleResult>>() {
-            }.getType());
+    return WxDataCubeArticleResult.fromJson(responseContent);
   }
 
   @Override
@@ -153,9 +134,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     param.addProperty("end_date", this.dateFormat.format(endDate));
     String responseContent = this.wxMpService.post(url, param.toString());
     this.log.debug("\nurl:{}\nparams:{}\nresponse:{}",url, param, responseContent);
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(new JsonParser().parse(responseContent).getAsJsonObject().get("list"),
-            new TypeToken<List<WxDataCubeMsgResult>>() {
-            }.getType());
+    return WxDataCubeMsgResult.fromJson(responseContent);
   }
 
   @Override
@@ -167,9 +146,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     param.addProperty("end_date", this.dateFormat.format(endDate));
     String responseContent = this.wxMpService.post(url, param.toString());
     this.log.debug("\nurl:{}\nparams:{}\nresponse:{}",url, param, responseContent);
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(new JsonParser().parse(responseContent).getAsJsonObject().get("list"),
-            new TypeToken<List<WxDataCubeMsgResult>>() {
-            }.getType());
+    return WxDataCubeMsgResult.fromJson(responseContent);
   }
 
   @Override
@@ -181,9 +158,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     param.addProperty("end_date", this.dateFormat.format(endDate));
     String responseContent = this.wxMpService.post(url, param.toString());
     this.log.debug("\nurl:{}\nparams:{}\nresponse:{}",url, param, responseContent);
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(new JsonParser().parse(responseContent).getAsJsonObject().get("list"),
-            new TypeToken<List<WxDataCubeMsgResult>>() {
-            }.getType());
+    return WxDataCubeMsgResult.fromJson(responseContent);
   }
 
   @Override
@@ -195,9 +170,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     param.addProperty("end_date", this.dateFormat.format(endDate));
     String responseContent = this.wxMpService.post(url, param.toString());
     this.log.debug("\nurl:{}\nparams:{}\nresponse:{}",url, param, responseContent);
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(new JsonParser().parse(responseContent).getAsJsonObject().get("list"),
-            new TypeToken<List<WxDataCubeMsgResult>>() {
-            }.getType());
+    return WxDataCubeMsgResult.fromJson(responseContent);
   }
 
   @Override
@@ -209,9 +182,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     param.addProperty("end_date", this.dateFormat.format(endDate));
     String responseContent = this.wxMpService.post(url, param.toString());
     this.log.debug("\nurl:{}\nparams:{}\nresponse:{}",url, param, responseContent);
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(new JsonParser().parse(responseContent).getAsJsonObject().get("list"),
-            new TypeToken<List<WxDataCubeMsgResult>>() {
-            }.getType());
+    return WxDataCubeMsgResult.fromJson(responseContent);
   }
 
   @Override
@@ -223,9 +194,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     param.addProperty("end_date", this.dateFormat.format(endDate));
     String responseContent = this.wxMpService.post(url, param.toString());
     this.log.debug("\nurl:{}\nparams:{}\nresponse:{}",url, param, responseContent);
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(new JsonParser().parse(responseContent).getAsJsonObject().get("list"),
-            new TypeToken<List<WxDataCubeMsgResult>>() {
-            }.getType());
+    return WxDataCubeMsgResult.fromJson(responseContent);
   }
 
   @Override
@@ -237,9 +206,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     param.addProperty("end_date", this.dateFormat.format(endDate));
     String responseContent = this.wxMpService.post(url, param.toString());
     this.log.debug("\nurl:{}\nparams:{}\nresponse:{}",url, param, responseContent);
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(new JsonParser().parse(responseContent).getAsJsonObject().get("list"),
-            new TypeToken<List<WxDataCubeMsgResult>>() {
-            }.getType());
+    return WxDataCubeMsgResult.fromJson(responseContent);
   }
 
   @Override
@@ -251,9 +218,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     param.addProperty("end_date", this.dateFormat.format(endDate));
     String responseContent = this.wxMpService.post(url, param.toString());
     this.log.debug("\nurl:{}\nparams:{}\nresponse:{}",url, param, responseContent);
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(new JsonParser().parse(responseContent).getAsJsonObject().get("list"),
-            new TypeToken<List<WxDataCubeInterfaceResult>>() {
-            }.getType());
+    return WxDataCubeInterfaceResult.fromJson(responseContent);
   }
 
   @Override
@@ -265,8 +230,6 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     param.addProperty("end_date", this.dateFormat.format(endDate));
     String responseContent = this.wxMpService.post(url, param.toString());
     this.log.debug("\nurl:{}\nparams:{}\nresponse:{}",url, param, responseContent);
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(new JsonParser().parse(responseContent).getAsJsonObject().get("list"),
-            new TypeToken<List<WxDataCubeInterfaceResult>>() {
-            }.getType());
+    return WxDataCubeInterfaceResult.fromJson(responseContent);
   }
 }

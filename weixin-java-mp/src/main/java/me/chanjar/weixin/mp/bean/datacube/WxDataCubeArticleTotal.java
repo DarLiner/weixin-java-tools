@@ -1,8 +1,12 @@
 package me.chanjar.weixin.mp.bean.datacube;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
+
+import com.google.gson.JsonParser;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.reflect.TypeToken;
+
+import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
 /**
  * 图文分析数据接口返回结果对象
@@ -10,6 +14,8 @@ import java.util.List;
  *         Created by Binary Wang on 2016/8/24.
  */
 public class WxDataCubeArticleTotal extends WxDataCubeBaseResult {
+
+  private static final JsonParser JSON_PARSER = new JsonParser();
 
   /**
    * msgid
@@ -55,5 +61,11 @@ public class WxDataCubeArticleTotal extends WxDataCubeBaseResult {
   public void setDetails(List<WxDataCubeArticleTotalDetail> details) {
     this.details = details;
   }
-  
+
+  public static List<WxDataCubeArticleTotal> fromJson(String json) {
+    return WxMpGsonBuilder.INSTANCE.create().fromJson(
+        JSON_PARSER.parse(json).getAsJsonObject().get("list"),
+        new TypeToken<List<WxDataCubeArticleTotal>>() {
+        }.getType());
+  }
 }
