@@ -29,7 +29,7 @@ import me.chanjar.weixin.mp.bean.datacube.WxDataCubeUserCumulate;
  */
 public class WxMpUserCumulateGsonAdapter implements JsonDeserializer<WxDataCubeUserCumulate> {
 
-  private static final FastDateFormat SIMPLE_DATE_FORMAT = FastDateFormat
+  private static final FastDateFormat DATE_FORMAT = FastDateFormat
       .getInstance("yyyy-MM-dd");
 
   @Override
@@ -40,7 +40,7 @@ public class WxMpUserCumulateGsonAdapter implements JsonDeserializer<WxDataCubeU
     try {
       String refDate = GsonHelper.getString(summaryJsonObject, "ref_date");
       if (refDate != null) {
-        cumulate.setRefDate(SIMPLE_DATE_FORMAT.parse(refDate));
+        cumulate.setRefDate(DATE_FORMAT.parse(refDate));
       }
       cumulate.setCumulateUser(GsonHelper.getInteger(summaryJsonObject, "cumulate_user"));
     } catch (ParseException e) {
