@@ -6,8 +6,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import me.chanjar.weixin.mp.util.json.WxLongTimeJsonSerializer;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -49,7 +47,6 @@ public class WxMpXmlMessage implements Serializable {
   private String fromUserName;
 
   @XStreamAlias("CreateTime")
-  @JsonSerialize(using = WxLongTimeJsonSerializer.class)
   private Long createTime;
 
   @XStreamAlias("MsgType")
