@@ -1,10 +1,10 @@
 package me.chanjar.weixin.mp.api.impl;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.time.FastDateFormat;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Guice;
@@ -28,39 +28,39 @@ import me.chanjar.weixin.mp.bean.datacube.WxDataCubeUserSummary;
  */
 @Guice(modules = ApiTestModule.class)
 public class WxMpDataCubeServiceImplTest {
-  private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
-      "yyyy-MM-dd");
+  private FastDateFormat simpleDateFormat = FastDateFormat
+      .getInstance("yyyy-MM-dd");
 
   @Inject
   protected WxMpServiceImpl wxService;
 
   @DataProvider
   public Object[][] oneDay() throws ParseException {
-    return new Object[][] { { simpleDateFormat.parse("2016-08-22") } };
+    return new Object[][] { { this.simpleDateFormat.parse("2016-08-22") } };
   }
 
   @DataProvider
   public Object[][] threeDays() throws ParseException {
-    return new Object[][] { { simpleDateFormat.parse("2016-08-20"),
-        simpleDateFormat.parse("2016-08-22") } };
+    return new Object[][] { { this.simpleDateFormat.parse("2016-08-20"),
+        this.simpleDateFormat.parse("2016-08-22") } };
   }
 
   @DataProvider
   public Object[][] sevenDays() throws ParseException {
-    return new Object[][] { { simpleDateFormat.parse("2016-08-16"),
-        simpleDateFormat.parse("2016-08-22") } };
+    return new Object[][] { { this.simpleDateFormat.parse("2016-08-16"),
+        this.simpleDateFormat.parse("2016-08-22") } };
   }
 
   @DataProvider
   public Object[][] fifteenDays() throws ParseException {
-    return new Object[][] { { simpleDateFormat.parse("2016-08-14"),
-        simpleDateFormat.parse("2016-08-27") } };
+    return new Object[][] { { this.simpleDateFormat.parse("2016-08-14"),
+        this.simpleDateFormat.parse("2016-08-27") } };
   }
 
   @DataProvider
   public Object[][] thirtyDays() throws ParseException {
-    return new Object[][] { { simpleDateFormat.parse("2016-07-30"),
-        simpleDateFormat.parse("2016-08-27") } };
+    return new Object[][] { { this.simpleDateFormat.parse("2016-07-30"),
+        this.simpleDateFormat.parse("2016-08-27") } };
   }
 
   @Test(dataProvider = "sevenDays")

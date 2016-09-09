@@ -8,13 +8,19 @@
  */
 package me.chanjar.weixin.mp.util.json;
 
-import com.google.gson.*;
-import me.chanjar.weixin.common.util.json.GsonHelper;
-import me.chanjar.weixin.mp.bean.datacube.WxDataCubeUserCumulate;
-
 import java.lang.reflect.Type;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
+import org.apache.commons.lang3.time.FastDateFormat;
+
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+
+import me.chanjar.weixin.common.util.json.GsonHelper;
+import me.chanjar.weixin.mp.bean.datacube.WxDataCubeUserCumulate;
 
 /**
  * 
@@ -23,7 +29,8 @@ import java.text.SimpleDateFormat;
  */
 public class WxMpUserCumulateGsonAdapter implements JsonDeserializer<WxDataCubeUserCumulate> {
 
-  private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+  private static final FastDateFormat SIMPLE_DATE_FORMAT = FastDateFormat
+      .getInstance("yyyy-MM-dd");
 
   @Override
   public WxDataCubeUserCumulate deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {

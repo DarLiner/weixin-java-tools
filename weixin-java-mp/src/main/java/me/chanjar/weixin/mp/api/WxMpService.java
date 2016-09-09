@@ -3,17 +3,25 @@ package me.chanjar.weixin.mp.api;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
-import me.chanjar.weixin.mp.bean.*;
-import me.chanjar.weixin.mp.bean.result.*;
-
-import java.text.SimpleDateFormat;
+import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
+import me.chanjar.weixin.mp.bean.WxMpIndustry;
+import me.chanjar.weixin.mp.bean.WxMpMassGroupMessage;
+import me.chanjar.weixin.mp.bean.WxMpMassNews;
+import me.chanjar.weixin.mp.bean.WxMpMassOpenIdsMessage;
+import me.chanjar.weixin.mp.bean.WxMpMassPreviewMessage;
+import me.chanjar.weixin.mp.bean.WxMpMassVideo;
+import me.chanjar.weixin.mp.bean.WxMpSemanticQuery;
+import me.chanjar.weixin.mp.bean.WxMpTemplateMessage;
+import me.chanjar.weixin.mp.bean.result.WxMpMassSendResult;
+import me.chanjar.weixin.mp.bean.result.WxMpMassUploadResult;
+import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
+import me.chanjar.weixin.mp.bean.result.WxMpSemanticQueryResult;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
 
 /**
  * 微信API的Service
  */
 public interface WxMpService {
-
-  SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
   /**
    * <pre>
