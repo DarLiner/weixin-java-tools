@@ -31,6 +31,7 @@ public class ApiTestModule implements Module {
     }
   }
 
+  @SuppressWarnings("unchecked")
   public static <T> T fromXml(Class<T> clazz, InputStream is) {
     XStream xstream = XStreamInitializer.getInstance();
     xstream.alias("xml", clazz);
