@@ -1,5 +1,12 @@
 package me.chanjar.weixin.mp.demo;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import me.chanjar.weixin.common.util.StringUtils;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
@@ -7,16 +14,11 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
 /**
  * @author Daniel Qian
  */
 public class WxMpEndpointServlet extends HttpServlet {
+  private static final long serialVersionUID = 1L;
 
   protected WxMpConfigStorage wxMpConfigStorage;
   protected WxMpService wxMpService;
@@ -29,7 +31,8 @@ public class WxMpEndpointServlet extends HttpServlet {
     this.wxMpMessageRouter = wxMpMessageRouter;
   }
 
-  @Override protected void service(HttpServletRequest request, HttpServletResponse response)
+  @Override
+  protected void service(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
     response.setContentType("text/html;charset=utf-8");

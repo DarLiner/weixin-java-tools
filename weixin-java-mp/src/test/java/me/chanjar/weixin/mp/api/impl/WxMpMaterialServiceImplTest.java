@@ -1,6 +1,24 @@
 package me.chanjar.weixin.mp.api.impl;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import org.apache.commons.io.IOUtils;
+import org.testng.Assert;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Guice;
+import org.testng.annotations.Test;
+
 import com.google.inject.Inject;
+
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -9,17 +27,11 @@ import me.chanjar.weixin.mp.api.ApiTestModule;
 import me.chanjar.weixin.mp.bean.WxMpMaterial;
 import me.chanjar.weixin.mp.bean.WxMpMaterialArticleUpdate;
 import me.chanjar.weixin.mp.bean.WxMpMaterialNews;
-import me.chanjar.weixin.mp.bean.result.*;
-import org.apache.commons.io.IOUtils;
-import org.testng.Assert;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Guice;
-import org.testng.annotations.Test;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.*;
+import me.chanjar.weixin.mp.bean.result.WxMpMaterialCountResult;
+import me.chanjar.weixin.mp.bean.result.WxMpMaterialFileBatchGetResult;
+import me.chanjar.weixin.mp.bean.result.WxMpMaterialNewsBatchGetResult;
+import me.chanjar.weixin.mp.bean.result.WxMpMaterialUploadResult;
+import me.chanjar.weixin.mp.bean.result.WxMpMaterialVideoInfoResult;
 
 /**
  * 素材管理相关接口的测试
@@ -199,6 +211,7 @@ public class WxMpMaterialServiceImplTest {
   @Test(dependsOnMethods = {"testUpdateNewsInfo"})
   public void testMaterialNewsList() throws WxErrorException {
     WxMpMaterialNewsBatchGetResult wxMpMaterialNewsBatchGetResult = this.wxService.getMaterialService().materialNewsBatchGet(0, 20);
+    Assert.assertNotNull(wxMpMaterialNewsBatchGetResult);
     return;
   }
 
@@ -207,6 +220,10 @@ public class WxMpMaterialServiceImplTest {
     WxMpMaterialFileBatchGetResult wxMpMaterialVoiceBatchGetResult = this.wxService.getMaterialService().materialFileBatchGet(WxConsts.MATERIAL_VOICE, 0, 20);
     WxMpMaterialFileBatchGetResult wxMpMaterialVideoBatchGetResult = this.wxService.getMaterialService().materialFileBatchGet(WxConsts.MATERIAL_VIDEO, 0, 20);
     WxMpMaterialFileBatchGetResult wxMpMaterialImageBatchGetResult = this.wxService.getMaterialService().materialFileBatchGet(WxConsts.MATERIAL_IMAGE, 0, 20);
+
+    Assert.assertNotNull(wxMpMaterialVoiceBatchGetResult);
+    Assert.assertNotNull(wxMpMaterialVideoBatchGetResult);
+    Assert.assertNotNull(wxMpMaterialImageBatchGetResult);
     return;
   }
 

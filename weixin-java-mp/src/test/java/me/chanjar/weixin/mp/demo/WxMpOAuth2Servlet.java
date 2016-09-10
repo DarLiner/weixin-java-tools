@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class WxMpOAuth2Servlet extends HttpServlet {
+  private static final long serialVersionUID = 1L;
 
   protected WxMpService wxMpService;
 
@@ -19,7 +20,8 @@ public class WxMpOAuth2Servlet extends HttpServlet {
     this.wxMpService = wxMpService;
   }
 
-  @Override protected void service(HttpServletRequest request, HttpServletResponse response)
+  @Override
+  protected void service(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
     response.setContentType("text/html;charset=utf-8");
