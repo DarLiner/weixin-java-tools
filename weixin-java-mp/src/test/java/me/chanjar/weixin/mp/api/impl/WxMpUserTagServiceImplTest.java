@@ -1,14 +1,15 @@
 package me.chanjar.weixin.mp.api.impl;
 
-import com.google.inject.Inject;
-import me.chanjar.weixin.mp.api.ApiTestModule;
-import me.chanjar.weixin.mp.bean.tag.WxUserTag;
-
 import java.util.List;
 
 import org.testng.Assert;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
+
+import com.google.inject.Inject;
+
+import me.chanjar.weixin.mp.api.ApiTestModule;
+import me.chanjar.weixin.mp.bean.tag.WxUserTag;
 
 /**
  *
@@ -21,11 +22,14 @@ public class WxMpUserTagServiceImplTest {
   @Inject
   protected WxMpServiceImpl wxService;
 
+  private Integer tagId;
+
   @Test
   public void testTagCreate() throws Exception {
-    String tagName = "测试标签";
+    String tagName = "测试标签" + System.currentTimeMillis();
     WxUserTag res = this.wxService.getUserTagService().tagCreate(tagName);
     System.out.println(res);
+    this.tagId = res.getId();
     Assert.assertEquals(tagName, res.getName());
   }
 
@@ -34,6 +38,14 @@ public class WxMpUserTagServiceImplTest {
     List<WxUserTag> res = this.wxService.getUserTagService().tagGet();
     System.out.println(res);
     Assert.assertNotNull(res);
+  }
+
+  @Test(dependsOnMethods = { "testTagCreate" })
+  public void testTagUpdate() throws Exception {
+    String tagName = "修改标签" + System.currentTimeMillis();
+    Boolean res = this.wxService.getUserTagService().tagUpdate(this.tagId, tagName);
+    System.out.println(res);
+    Assert.assertTrue(res);
   }
 
 }
