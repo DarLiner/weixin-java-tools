@@ -66,6 +66,10 @@ public class WxMpUserTagServiceImpl implements WxMpUserTagService {
     String responseContent = this.wxMpService.post(url, json.toString());
     this.log.debug("\nurl:{}\nparams:{}\nresponse:{}", url, json.toString(), responseContent);
     WxError wxError = WxError.fromJson(responseContent);
-    return wxError.getErrorCode() == 0;
+    if (wxError.getErrorCode() == 0) {
+      return true;
+    }
+
+    throw new WxErrorException(wxError);
   }
 }
