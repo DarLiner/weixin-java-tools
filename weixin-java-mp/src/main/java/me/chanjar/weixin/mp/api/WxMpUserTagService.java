@@ -45,4 +45,14 @@ public interface WxMpUserTagService {
    */
   Boolean tagUpdate(Integer id, String name) throws WxErrorException;
 
+  /**
+   * <pre>
+   * 删除标签
+   * 详情请见：<a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140837&token=&lang=zh_CN">用户标签管理</a>
+   * 接口url格式： https://api.weixin.qq.com/cgi-bin/tags/delete?access_token=ACCESS_TOKEN
+   * </pre>
+   *
+   */
+  Boolean tagDelete(Integer id) throws WxErrorException;
+
 }

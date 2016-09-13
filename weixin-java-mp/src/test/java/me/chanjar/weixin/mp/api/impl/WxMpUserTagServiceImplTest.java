@@ -48,4 +48,11 @@ public class WxMpUserTagServiceImplTest {
     Assert.assertTrue(res);
   }
 
+  @Test(dependsOnMethods = { "testTagCreate" })
+  public void testTagDelete() throws Exception {
+    Boolean res = this.wxService.getUserTagService().tagDelete(this.tagId);
+    System.out.println(res);
+    Assert.assertTrue(res);
+  }
+
 }
