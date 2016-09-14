@@ -26,10 +26,10 @@ public class WxCpInMemoryConfigStorage implements WxCpConfigStorage {
 
   protected volatile String oauth2redirectUri;
 
-  protected volatile String http_proxy_host;
-  protected volatile int http_proxy_port;
-  protected volatile String http_proxy_username;
-  protected volatile String http_proxy_password;
+  protected volatile String httpProxyHost;
+  protected volatile int httpProxyPort;
+  protected volatile String httpProxyUsername;
+  protected volatile String httpProxyPassword;
 
   protected volatile String jsapiTicket;
   protected volatile long jsapiTicketExpiresTime;
@@ -166,39 +166,39 @@ public class WxCpInMemoryConfigStorage implements WxCpConfigStorage {
   }
 
   @Override
-  public String getHttp_proxy_host() {
-    return this.http_proxy_host;
+  public String getHttpProxyHost() {
+    return this.httpProxyHost;
   }
 
-  public void setHttp_proxy_host(String http_proxy_host) {
-    this.http_proxy_host = http_proxy_host;
-  }
-
-  @Override
-  public int getHttp_proxy_port() {
-    return this.http_proxy_port;
-  }
-
-  public void setHttp_proxy_port(int http_proxy_port) {
-    this.http_proxy_port = http_proxy_port;
+  public void setHttpProxyHost(String httpProxyHost) {
+    this.httpProxyHost = httpProxyHost;
   }
 
   @Override
-  public String getHttp_proxy_username() {
-    return this.http_proxy_username;
+  public int getHttpProxyPort() {
+    return this.httpProxyPort;
   }
 
-  public void setHttp_proxy_username(String http_proxy_username) {
-    this.http_proxy_username = http_proxy_username;
+  public void setHttpProxyPort(int httpProxyPort) {
+    this.httpProxyPort = httpProxyPort;
   }
 
   @Override
-  public String getHttp_proxy_password() {
-    return this.http_proxy_password;
+  public String getHttpProxyUsername() {
+    return this.httpProxyUsername;
   }
 
-  public void setHttp_proxy_password(String http_proxy_password) {
-    this.http_proxy_password = http_proxy_password;
+  public void setHttpProxyUsername(String httpProxyUsername) {
+    this.httpProxyUsername = httpProxyUsername;
+  }
+
+  @Override
+  public String getHttpProxyPassword() {
+    return this.httpProxyPassword;
+  }
+
+  public void setHttpProxyPassword(String httpProxyPassword) {
+    this.httpProxyPassword = httpProxyPassword;
   }
 
   @Override

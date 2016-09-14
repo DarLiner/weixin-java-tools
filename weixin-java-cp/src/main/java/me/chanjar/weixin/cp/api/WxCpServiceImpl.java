@@ -626,11 +626,13 @@ public class WxCpServiceImpl implements WxCpService {
       apacheHttpClientBuilder = DefaultApacheHttpClientBuilder.get();
     }
     apacheHttpClientBuilder
-        .httpProxyHost(this.wxCpConfigStorage.getHttp_proxy_host())
-        .httpProxyPort(this.wxCpConfigStorage.getHttp_proxy_port())
-        .httpProxyUsername(this.wxCpConfigStorage.getHttp_proxy_username())
-        .httpProxyPassword(this.wxCpConfigStorage.getHttp_proxy_password());
+        .httpProxyHost(this.wxCpConfigStorage.getHttpProxyHost())
+        .httpProxyPort(this.wxCpConfigStorage.getHttpProxyPort())
+        .httpProxyUsername(this.wxCpConfigStorage.getHttpProxyUsername())
+        .httpProxyPassword(this.wxCpConfigStorage.getHttpProxyPassword());
 
+    this.httpProxy = new HttpHost(this.wxCpConfigStorage.getHttpProxyHost(),
+        this.wxCpConfigStorage.getHttpProxyPort());
     this.httpClient = apacheHttpClientBuilder.build();
   }
 
