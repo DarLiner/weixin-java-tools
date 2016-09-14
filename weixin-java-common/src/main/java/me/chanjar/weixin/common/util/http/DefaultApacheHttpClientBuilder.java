@@ -1,8 +1,6 @@
 package me.chanjar.weixin.common.util.http;
 
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
+import me.chanjar.weixin.common.util.StringUtils;
 import org.apache.http.annotation.NotThreadSafe;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -23,7 +21,8 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.protocol.HttpContext;
 
-import me.chanjar.weixin.common.util.StringUtils;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * httpclient 连接管理器
@@ -104,44 +103,45 @@ public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
 
   private void prepare() {
     Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create()
-            .register("http", this.plainConnectionSocketFactory)
-            .register("https", this.sslConnectionSocketFactory)
-            .build();
+      .register("http", this.plainConnectionSocketFactory)
+      .register("https", this.sslConnectionSocketFactory)
+      .build();
 
     @SuppressWarnings("resource")
     PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager(registry);
     connectionManager.setMaxTotal(this.maxTotalConn);
     connectionManager.setDefaultMaxPerRoute(this.maxConnPerHost);
     connectionManager.setDefaultSocketConfig(
-            SocketConfig.copy(SocketConfig.DEFAULT)
-                    .setSoTimeout(this.soTimeout)
-                    .build()
+      SocketConfig.copy(SocketConfig.DEFAULT)
+        .setSoTimeout(this.soTimeout)
+        .build()
     );
 
     this.idleConnectionMonitorThread = new IdleConnectionMonitorThread(
-            connectionManager, this.idleConnTimeout, this.checkWaitTime);
+      connectionManager, this.idleConnTimeout, this.checkWaitTime);
     this.idleConnectionMonitorThread.setDaemon(true);
     this.idleConnectionMonitorThread.start();
 
     this.httpClientBuilder = HttpClients.custom()
-            .setConnectionManager(connectionManager)
-            .setDefaultRequestConfig(
-                    RequestConfig.custom()
-                            .setSocketTimeout(this.soTimeout)
-                            .setConnectTimeout(this.connectionTimeout)
-                            .setConnectionRequestTimeout(this.connectionRequestTimeout)
-                            .build()
-            )
-            .setRetryHandler(this.httpRequestRetryHandler);
+      .setConnectionManager(connectionManager)
+      .setConnectionManagerShared(true)
+      .setDefaultRequestConfig(
+        RequestConfig.custom()
+          .setSocketTimeout(this.soTimeout)
+          .setConnectTimeout(this.connectionTimeout)
+          .setConnectionRequestTimeout(this.connectionRequestTimeout)
+          .build()
+      )
+      .setRetryHandler(this.httpRequestRetryHandler);
 
     if (StringUtils.isNotBlank(this.httpProxyHost)
-            && StringUtils.isNotBlank(this.httpProxyUsername)) {
+      && StringUtils.isNotBlank(this.httpProxyUsername)) {
       // 使用代理服务器 需要用户认证的代理服务器
       CredentialsProvider provider = new BasicCredentialsProvider();
       provider.setCredentials(
-              new AuthScope(this.httpProxyHost, this.httpProxyPort),
-              new UsernamePasswordCredentials(this.httpProxyUsername,
-                      this.httpProxyPassword));
+        new AuthScope(this.httpProxyHost, this.httpProxyPort),
+        new UsernamePasswordCredentials(this.httpProxyUsername,
+          this.httpProxyPassword));
       this.httpClientBuilder.setDefaultCredentialsProvider(provider);
     }
 
@@ -182,7 +182,7 @@ public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
             wait(this.checkWaitTime);
             this.connMgr.closeExpiredConnections();
             this.connMgr.closeIdleConnections(this.idleConnTimeout,
-                    TimeUnit.MILLISECONDS);
+              TimeUnit.MILLISECONDS);
           }
         }
       } catch (InterruptedException ignore) {
