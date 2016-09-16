@@ -1,11 +1,13 @@
 package me.chanjar.weixin.cp.api;
 
+import org.testng.annotations.Guice;
+import org.testng.annotations.Test;
+
 import com.google.inject.Inject;
+
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.cp.bean.WxCpMessage;
-import org.testng.annotations.Guice;
-import org.testng.annotations.Test;
 
 /***
  * 测试发送消息
@@ -20,7 +22,7 @@ public class WxCpMessageAPITest {
   protected WxCpServiceImpl wxService;
 
   public void testSendCustomMessage() throws WxErrorException {
-    ApiTestModule.WxXmlCpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlCpInMemoryConfigStorage) this.wxService.wxCpConfigStorage;
+    ApiTestModule.WxXmlCpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlCpInMemoryConfigStorage) this.wxService.configStorage;
     WxCpMessage message1 = new WxCpMessage();
     message1.setAgentId(configStorage.getAgentId());
     message1.setMsgType(WxConsts.CUSTOM_MSG_TEXT);
@@ -32,7 +34,7 @@ public class WxCpMessageAPITest {
             .TEXT()
             .agentId(configStorage.getAgentId())
             .toUser(configStorage.getUserId())
-            .content("欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>")
+        .content("欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>")
             .build();
     this.wxService.messageSend(message2);
 

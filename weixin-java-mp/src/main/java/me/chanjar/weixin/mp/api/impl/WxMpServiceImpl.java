@@ -515,8 +515,10 @@ public class WxMpServiceImpl implements WxMpService {
       apacheHttpClientBuilder.sslConnectionSocketFactory(sslsf);
     }
 
-    this.httpProxy = new HttpHost(this.configStorage.getHttpProxyHost(),
-        this.configStorage.getHttpProxyPort());
+    if (this.configStorage.getHttpProxyHost() != null && this.configStorage.getHttpProxyPort() > 0) {
+      this.httpProxy = new HttpHost(this.configStorage.getHttpProxyHost(), this.configStorage.getHttpProxyPort());
+    }
+
     this.httpClient = apacheHttpClientBuilder.build();
   }
 
