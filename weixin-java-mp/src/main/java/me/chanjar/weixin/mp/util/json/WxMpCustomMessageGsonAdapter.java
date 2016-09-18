@@ -75,6 +75,12 @@ public class WxMpCustomMessageGsonAdapter implements JsonSerializer<WxMpCustomMe
       newsJsonObject.add("articles", articleJsonArray);
       messageJson.add("news", newsJsonObject);
     }
+
+    if (WxConsts.CUSTOM_MSG_WXCARD.equals(message.getMsgType())) {
+      JsonObject wxcard = new JsonObject();
+      wxcard.addProperty("card_id", message.getCardId());
+      messageJson.add("wxcard", wxcard);
+    }
     
     if (StringUtils.isNotBlank(message.getKfAccount())){
       JsonObject newsJsonObject = new JsonObject();
