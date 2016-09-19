@@ -11,9 +11,11 @@ import org.testng.annotations.Test;
 
 import com.google.inject.Inject;
 
+import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.ApiTestModule;
 import me.chanjar.weixin.mp.api.ApiTestModule.WxXmlMpInMemoryConfigStorage;
+import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
 import me.chanjar.weixin.mp.bean.kefu.request.WxMpKfAccountRequest;
 import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfInfo;
 import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfList;
@@ -34,6 +36,31 @@ public class WxMpKefuServiceImplTest {
 
   @Inject
   protected WxMpServiceImpl wxService;
+
+  public void testSendCustomMessage() throws WxErrorException {
+    ApiTestModule.WxXmlMpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlMpInMemoryConfigStorage) this.wxService
+        .getWxMpConfigStorage();
+    WxMpCustomMessage message = new WxMpCustomMessage();
+    message.setMsgType(WxConsts.CUSTOM_MSG_TEXT);
+    message.setToUser(configStorage.getOpenId());
+    message.setContent(
+        "欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>");
+
+    this.wxService.getKefuService().customMessageSend(message);
+  }
+
+  public void testSendCustomMessageWithKfAccount() throws WxErrorException {
+    ApiTestModule.WxXmlMpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlMpInMemoryConfigStorage) this.wxService
+        .getWxMpConfigStorage();
+    WxMpCustomMessage message = new WxMpCustomMessage();
+    message.setMsgType(WxConsts.CUSTOM_MSG_TEXT);
+    message.setToUser(configStorage.getOpenId());
+    message.setKfAccount(configStorage.getKfAccount());
+    message.setContent(
+        "欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>");
+
+    this.wxService.getKefuService().customMessageSend(message);
+  }
 
   public void testKfList() throws WxErrorException {
     WxMpKfList kfList = this.wxService.getKefuService().kfList();
@@ -123,7 +150,7 @@ public class WxMpKefuServiceImplTest {
   }
 
   @Test(dataProvider = "getKfAccountAndOpenid")
-  public void testKfSessionGet(String kfAccount,
+  public void testKfSessionGet(@SuppressWarnings("unused") String kfAccount,
       String openid) throws WxErrorException {
     WxMpKfSessionGetResult result = this.wxService.getKefuService()
         .kfSessionGet(openid);

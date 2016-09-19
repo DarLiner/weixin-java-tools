@@ -3,7 +3,6 @@ package me.chanjar.weixin.mp.api;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
-import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
 import me.chanjar.weixin.mp.bean.WxMpIndustry;
 import me.chanjar.weixin.mp.bean.WxMpMassGroupMessage;
 import me.chanjar.weixin.mp.bean.WxMpMassNews;
@@ -81,14 +80,6 @@ public interface WxMpService {
    * </pre>
    */
   WxJsapiSignature createJsapiSignature(String url) throws WxErrorException;
-
-  /**
-   * <pre>
-   * 发送客服消息
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=发送客服消息
-   * </pre>
-   */
-  void customMessageSend(WxMpCustomMessage message) throws WxErrorException;
 
   /**
    * <pre>

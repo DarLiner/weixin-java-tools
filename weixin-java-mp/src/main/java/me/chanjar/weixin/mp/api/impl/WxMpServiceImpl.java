@@ -44,7 +44,6 @@ import me.chanjar.weixin.mp.api.WxMpQrcodeService;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.WxMpUserService;
 import me.chanjar.weixin.mp.api.WxMpUserTagService;
-import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
 import me.chanjar.weixin.mp.bean.WxMpIndustry;
 import me.chanjar.weixin.mp.bean.WxMpMassGroupMessage;
 import me.chanjar.weixin.mp.bean.WxMpMassNews;
@@ -201,12 +200,6 @@ public class WxMpServiceImpl implements WxMpService {
     jsapiSignature.setUrl(url);
     jsapiSignature.setSignature(signature);
     return jsapiSignature;
-  }
-
-  @Override
-  public void customMessageSend(WxMpCustomMessage message) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/message/custom/send";
-    execute(new SimplePostRequestExecutor(), url, message.toJson());
   }
 
   @Override

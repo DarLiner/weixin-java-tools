@@ -1,5 +1,9 @@
 package me.chanjar.weixin.mp.demo;
 
+import java.util.Map;
+import java.util.Random;
+import java.util.regex.Pattern;
+
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.session.WxSession;
 import me.chanjar.weixin.common.session.WxSessionManager;
@@ -9,10 +13,6 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
-
-import java.util.Map;
-import java.util.Random;
-import java.util.regex.Pattern;
 
 public class DemoGuessNumberHandler implements WxMpMessageHandler, WxMpMessageMatcher {
 
@@ -57,14 +57,14 @@ public class DemoGuessNumberHandler implements WxMpMessageHandler, WxMpMessageMa
           .toUser(wxMessage.getFromUserName())
           .content("请猜一个100以内的数字")
           .build();
-      wxMpService.customMessageSend(m);
+      wxMpService.getKefuService().customMessageSend(m);
     } else {
       WxMpCustomMessage m = WxMpCustomMessage
           .TEXT()
           .toUser(wxMessage.getFromUserName())
           .content("放弃了吗？那请重新猜一个100以内的数字")
           .build();
-      wxMpService.customMessageSend(m);
+      wxMpService.getKefuService().customMessageSend(m);
     }
 
     session.setAttribute("guessing", Boolean.TRUE);
@@ -92,7 +92,7 @@ public class DemoGuessNumberHandler implements WxMpMessageHandler, WxMpMessageMa
           .toUser(wxMessage.getFromUserName())
           .content("小了")
           .build();
-      wxMpService.customMessageSend(m);
+      wxMpService.getKefuService().customMessageSend(m);
 
     } else if (guessNumber > answer) {
       WxMpCustomMessage m = WxMpCustomMessage
@@ -100,7 +100,7 @@ public class DemoGuessNumberHandler implements WxMpMessageHandler, WxMpMessageMa
           .toUser(wxMessage.getFromUserName())
           .content("大了")
           .build();
-      wxMpService.customMessageSend(m);
+      wxMpService.getKefuService().customMessageSend(m);
     } else {
       WxMpCustomMessage m = WxMpCustomMessage
           .TEXT()
@@ -108,7 +108,7 @@ public class DemoGuessNumberHandler implements WxMpMessageHandler, WxMpMessageMa
           .content("Bingo!")
           .build();
       session.removeAttribute("guessing");
-      wxMpService.customMessageSend(m);
+      wxMpService.getKefuService().customMessageSend(m);
     }
 
   }
