@@ -1,15 +1,14 @@
 package me.chanjar.weixin.mp.api.impl;
 
-import java.util.List;
-
+import com.google.inject.Inject;
+import me.chanjar.weixin.mp.api.ApiTestModule;
+import me.chanjar.weixin.mp.bean.tag.WxTagListUser;
+import me.chanjar.weixin.mp.bean.tag.WxUserTag;
 import org.testng.Assert;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
 
-import com.google.inject.Inject;
-
-import me.chanjar.weixin.mp.api.ApiTestModule;
-import me.chanjar.weixin.mp.bean.tag.WxUserTag;
+import java.util.List;
 
 /**
  *
@@ -22,7 +21,7 @@ public class WxMpUserTagServiceImplTest {
   @Inject
   protected WxMpServiceImpl wxService;
 
-  private Integer tagId;
+  private Integer tagId = 2;
 
   @Test
   public void testTagCreate() throws Exception {
@@ -55,4 +54,10 @@ public class WxMpUserTagServiceImplTest {
     Assert.assertTrue(res);
   }
 
+  @Test
+  public void testTagListUser() throws Exception {
+    WxTagListUser res = this.wxService.getUserTagService().tagListUser(this.tagId, null);
+    System.out.println(res);
+    Assert.assertNotNull(res);
+  }
 }
