@@ -1,9 +1,10 @@
 package me.chanjar.weixin.mp.api;
 
-import java.util.List;
-
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.mp.bean.tag.WxTagListUser;
 import me.chanjar.weixin.mp.bean.tag.WxUserTag;
+
+import java.util.List;
 
 /**
  * 用户标签管理相关接口
@@ -54,5 +55,15 @@ public interface WxMpUserTagService {
    *
    */
   Boolean tagDelete(Integer id) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 获取标签下粉丝列表
+   * 详情请见：<a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140837&token=&lang=zh_CN">用户标签管理</a>
+   * 接口url格式： https://api.weixin.qq.com/cgi-bin/user/tag/get?access_token=ACCESS_TOKEN
+   * </pre>
+   *
+   */
+  WxTagListUser tagListUser(Integer tagId, String nextOpenid) throws WxErrorException;
 
 }
