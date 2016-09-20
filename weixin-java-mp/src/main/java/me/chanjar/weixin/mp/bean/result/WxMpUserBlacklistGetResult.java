@@ -8,14 +8,14 @@ import java.util.List;
 /**
  * @author miller
  */
-public class WxMpUserBlackListGetResult {
+public class WxMpUserBlacklistGetResult {
   protected int total = -1;
   protected int count = -1;
-  protected List<String> openIds = new ArrayList<>();
-  protected String nextOpenId;
+  protected List<String> openidList = new ArrayList<>();
+  protected String nextOpenid;
 
-  public static WxMpUserBlackListGetResult fromJson(String json) {
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(json, WxMpUserBlackListGetResult.class);
+  public static WxMpUserBlacklistGetResult fromJson(String json) {
+    return WxMpGsonBuilder.INSTANCE.create().fromJson(json, WxMpUserBlacklistGetResult.class);
   }
 
   public int getTotal() {
@@ -34,20 +34,20 @@ public class WxMpUserBlackListGetResult {
     this.count = count;
   }
 
-  public List<String> getOpenIds() {
-    return this.openIds;
+  public List<String> getOpenidList() {
+    return this.openidList;
   }
 
-  public void setOpenIds(List<String> openIds) {
-    this.openIds = openIds;
+  public void setOpenidList(List<String> openidList) {
+    this.openidList = openidList;
   }
 
-  public String getNextOpenId() {
-    return this.nextOpenId;
+  public String getNextOpenid() {
+    return this.nextOpenid;
   }
 
-  public void setNextOpenId(String nextOpenId) {
-    this.nextOpenId = nextOpenId;
+  public void setNextOpenid(String nextOpenid) {
+    this.nextOpenid = nextOpenid;
   }
 
   @Override

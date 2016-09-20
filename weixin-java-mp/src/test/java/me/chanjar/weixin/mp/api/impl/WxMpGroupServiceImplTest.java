@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * 测试分组接口
- * 
+ *
  * @author chanjarster
  */
 @Deprecated
@@ -24,7 +24,7 @@ public class WxMpGroupServiceImplTest {
   protected WxMpServiceImpl wxService;
 
   protected WxMpGroup group;
-  
+
   public void testGroupCreate() throws WxErrorException {
     WxMpGroup res = this.wxService.getGroupService().groupCreate("测试分组1");
     Assert.assertEquals(res.getName(), "测试分组1");
@@ -40,7 +40,7 @@ public class WxMpGroupServiceImplTest {
       Assert.assertNotNull(g.getName());
     }
   }
-  
+
   @Test(dependsOnMethods={"testGroupGet", "testGroupCreate"})
   public void getGroupUpdate() throws WxErrorException {
     this.group.setName("分组改名");
@@ -49,13 +49,13 @@ public class WxMpGroupServiceImplTest {
 
   public void testGroupQueryUserGroup() throws WxErrorException {
     ApiTestModule.WxXmlMpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage();
-    long groupid = this.wxService.getGroupService().userGetGroup(configStorage.getOpenId());
+    long groupid = this.wxService.getGroupService().userGetGroup(configStorage.getOpenid());
     Assert.assertTrue(groupid != -1l);
   }
 
   public void testGroupMoveUser() throws WxErrorException {
     ApiTestModule.WxXmlMpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage();
-    this.wxService.getGroupService().userUpdateGroup(configStorage.getOpenId(), this.wxService.getGroupService().groupGet().get(3).getId());
+    this.wxService.getGroupService().userUpdateGroup(configStorage.getOpenid(), this.wxService.getGroupService().groupGet().get(3).getId());
   }
 
 }

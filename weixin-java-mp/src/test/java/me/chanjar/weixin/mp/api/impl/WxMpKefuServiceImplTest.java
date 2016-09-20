@@ -42,7 +42,7 @@ public class WxMpKefuServiceImplTest {
         .getWxMpConfigStorage();
     WxMpCustomMessage message = new WxMpCustomMessage();
     message.setMsgType(WxConsts.CUSTOM_MSG_TEXT);
-    message.setToUser(configStorage.getOpenId());
+    message.setToUser(configStorage.getOpenid());
     message.setContent(
         "欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>");
 
@@ -54,7 +54,7 @@ public class WxMpKefuServiceImplTest {
         .getWxMpConfigStorage();
     WxMpCustomMessage message = new WxMpCustomMessage();
     message.setMsgType(WxConsts.CUSTOM_MSG_TEXT);
-    message.setToUser(configStorage.getOpenId());
+    message.setToUser(configStorage.getOpenid());
     message.setKfAccount(configStorage.getKfAccount());
     message.setContent(
         "欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>");
@@ -130,7 +130,7 @@ public class WxMpKefuServiceImplTest {
     WxXmlMpInMemoryConfigStorage configStorage = (WxXmlMpInMemoryConfigStorage) this.wxService
         .getWxMpConfigStorage();
     return new Object[][] {
-        { configStorage.getKfAccount(), configStorage.getOpenId() } };
+        { configStorage.getKfAccount(), configStorage.getOpenid() } };
   }
 
   @Test(dataProvider = "getKfAccountAndOpenid")

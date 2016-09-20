@@ -370,5 +370,5 @@ public interface WxMpService {
    *
    * @return WxMpUserBlackListService
    */
-  WxMpUserBlackListService getBlackListService();
+  WxMpUserBlacklistService getBlackListService();
 }

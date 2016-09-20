@@ -28,7 +28,7 @@ import me.chanjar.weixin.mp.api.WxMpMenuService;
 import me.chanjar.weixin.mp.api.WxMpPayService;
 import me.chanjar.weixin.mp.api.WxMpQrcodeService;
 import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.api.WxMpUserBlackListService;
+import me.chanjar.weixin.mp.api.WxMpUserBlacklistService;
 import me.chanjar.weixin.mp.api.WxMpUserService;
 import me.chanjar.weixin.mp.api.WxMpUserTagService;
 import me.chanjar.weixin.mp.bean.WxMpIndustry;
@@ -95,7 +95,7 @@ public class WxMpServiceImpl implements WxMpService {
 
   private WxMpDataCubeService dataCubeService = new WxMpDataCubeServiceImpl(this);
 
-  private WxMpUserBlackListService blackListService = new WxMpUserBlackListServiceImpl(this);
+  private WxMpUserBlacklistService blackListService = new WxMpUserBlacklistServiceImpl(this);
 
   private CloseableHttpClient httpClient;
 
@@ -582,7 +582,7 @@ public class WxMpServiceImpl implements WxMpService {
   }
 
   @Override
-  public WxMpUserBlackListService getBlackListService() {
+  public WxMpUserBlacklistService getBlackListService() {
     return this.blackListService;
   }
 
