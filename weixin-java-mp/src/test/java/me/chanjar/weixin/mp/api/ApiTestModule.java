@@ -31,6 +31,7 @@ public class ApiTestModule implements Module {
     }
   }
 
+  @SuppressWarnings("unchecked")
   public static <T> T fromXml(Class<T> clazz, InputStream is) {
     XStream xstream = XStreamInitializer.getInstance();
     xstream.alias("xml", clazz);
@@ -42,15 +43,16 @@ public class ApiTestModule implements Module {
   public static class WxXmlMpInMemoryConfigStorage
       extends WxMpInMemoryConfigStorage {
 
-    private String openId;
+    private String openid;
     private String kfAccount;
+    private String qrconnectRedirectUrl;
 
-    public String getOpenId() {
-      return this.openId;
+    public String getOpenid() {
+      return this.openid;
     }
 
-    public void setOpenId(String openId) {
-      this.openId = openId;
+    public void setOpenid(String openid) {
+      this.openid = openid;
     }
 
     @Override
@@ -64,6 +66,14 @@ public class ApiTestModule implements Module {
 
     public void setKfAccount(String kfAccount) {
       this.kfAccount = kfAccount;
+    }
+
+    public String getQrconnectRedirectUrl() {
+      return this.qrconnectRedirectUrl;
+    }
+
+    public void setQrconnectRedirectUrl(String qrconnectRedirectUrl) {
+      this.qrconnectRedirectUrl = qrconnectRedirectUrl;
     }
 
   }

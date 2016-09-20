@@ -3,17 +3,24 @@ package me.chanjar.weixin.mp.api;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
-import me.chanjar.weixin.mp.bean.*;
-import me.chanjar.weixin.mp.bean.result.*;
-
-import java.text.SimpleDateFormat;
+import me.chanjar.weixin.mp.bean.WxMpIndustry;
+import me.chanjar.weixin.mp.bean.WxMpMassGroupMessage;
+import me.chanjar.weixin.mp.bean.WxMpMassNews;
+import me.chanjar.weixin.mp.bean.WxMpMassOpenIdsMessage;
+import me.chanjar.weixin.mp.bean.WxMpMassPreviewMessage;
+import me.chanjar.weixin.mp.bean.WxMpMassVideo;
+import me.chanjar.weixin.mp.bean.WxMpSemanticQuery;
+import me.chanjar.weixin.mp.bean.WxMpTemplateMessage;
+import me.chanjar.weixin.mp.bean.result.WxMpMassSendResult;
+import me.chanjar.weixin.mp.bean.result.WxMpMassUploadResult;
+import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
+import me.chanjar.weixin.mp.bean.result.WxMpSemanticQueryResult;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
 
 /**
  * 微信API的Service
  */
 public interface WxMpService {
-
-  SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
   /**
    * <pre>
@@ -73,14 +80,6 @@ public interface WxMpService {
    * </pre>
    */
   WxJsapiSignature createJsapiSignature(String url) throws WxErrorException;
-
-  /**
-   * <pre>
-   * 发送客服消息
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=发送客服消息
-   * </pre>
-   */
-  void customMessageSend(WxMpCustomMessage message) throws WxErrorException;
 
   /**
    * <pre>
@@ -151,6 +150,20 @@ public interface WxMpService {
    * </pre>
    */
   WxMpSemanticQueryResult semanticQuery(WxMpSemanticQuery semanticQuery) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 构造第三方使用网站应用授权登录的url
+   * 详情请见: <a href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419316505&token=&lang=zh_CN">网站应用微信登录开发指南</a>
+   * URL格式为：https://open.weixin.qq.com/connect/qrconnect?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
+   * </pre>
+   *
+   * @param redirectURI 用户授权完成后的重定向链接，无需urlencode, 方法内会进行encode
+   * @param scope 应用授权作用域，拥有多个作用域用逗号（,）分隔，网页应用目前仅填写snsapi_login即可
+   * @param state 非必填，用于保持请求和回调的状态，授权请求后原样带回给第三方。该参数可用于防止csrf攻击（跨站请求伪造攻击），建议第三方带上该参数，可设置为简单的随机数加session进行校验
+   * @return url
+   */
+  String buildQrConnectUrl(String redirectURI, String scope, String state);
 
   /**
    * <pre>
@@ -314,7 +327,15 @@ public interface WxMpService {
    *
    * @return WxMpGroupService
    */
+
   WxMpGroupService getGroupService();
+
+  /**
+   * 返回用户标签相关接口的方法实现类，以方便调用个其各种接口
+   *
+   * @return WxMpUserTagService
+   */
+  WxMpUserTagService getUserTagService();
 
   /**
    * 返回二维码相关接口的方法实现类，以方便调用个其各种接口
@@ -343,4 +364,11 @@ public interface WxMpService {
    * @return WxMpDataCubeService
    */
   WxMpDataCubeService getDataCubeService();
+
+  /**
+   * 返回用户黑名单管理相关接口的方法实现类，以方便调用其各种借口
+   *
+   * @return WxMpUserBlackListService
+   */
+  WxMpUserBlacklistService getBlackListService();
 }

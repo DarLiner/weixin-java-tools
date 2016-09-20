@@ -1,12 +1,9 @@
 package me.chanjar.weixin.mp.api.impl;
 
-import java.util.List;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.SimpleGetRequestExecutor;
 import me.chanjar.weixin.common.util.http.SimplePostRequestExecutor;
@@ -16,9 +13,12 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.WxMpGroup;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
+import java.util.List;
+
 /**
  * Created by Binary Wang on 2016/7/21.
  */
+@Deprecated
 public class WxMpGroupServiceImpl implements WxMpGroupService {
   private static final String API_URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/groups";
   private WxMpService wxMpService;

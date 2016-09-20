@@ -16,27 +16,27 @@ public class WxCpXmlOutVideoMessage extends WxCpXmlOutMessage {
   }
 
   public String getMediaId() {
-    return video.getMediaId();
+    return this.video.getMediaId();
   }
 
   public void setMediaId(String mediaId) {
-    video.setMediaId(mediaId);
+    this.video.setMediaId(mediaId);
   }
 
   public String getTitle() {
-    return video.getTitle();
+    return this.video.getTitle();
   }
 
   public void setTitle(String title) {
-    video.setTitle(title);
+    this.video.setTitle(title);
   }
 
   public String getDescription() {
-    return video.getDescription();
+    return this.video.getDescription();
   }
 
   public void setDescription(String description) {
-    video.setDescription(description);
+    this.video.setDescription(description);
   }
 
 
@@ -56,7 +56,7 @@ public class WxCpXmlOutVideoMessage extends WxCpXmlOutMessage {
     private String description;
 
     public String getMediaId() {
-      return mediaId;
+      return this.mediaId;
     }
 
     public void setMediaId(String mediaId) {
@@ -64,7 +64,7 @@ public class WxCpXmlOutVideoMessage extends WxCpXmlOutMessage {
     }
 
     public String getTitle() {
-      return title;
+      return this.title;
     }
 
     public void setTitle(String title) {
@@ -72,7 +72,7 @@ public class WxCpXmlOutVideoMessage extends WxCpXmlOutMessage {
     }
 
     public String getDescription() {
-      return description;
+      return this.description;
     }
 
     public void setDescription(String description) {

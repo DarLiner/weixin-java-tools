@@ -1,6 +1,12 @@
 package me.chanjar.weixin.mp.bean.datacube;
 
+import java.util.List;
+
+import com.google.gson.JsonParser;
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.reflect.TypeToken;
+
+import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
 /**
  * 接口分析数据接口返回结果对象
@@ -8,6 +14,8 @@ import com.google.gson.annotations.SerializedName;
  *         Created by Binary Wang on 2016/8/30.
  */
 public class WxDataCubeInterfaceResult extends WxDataCubeBaseResult {
+
+  private static final JsonParser JSON_PARSER = new JsonParser();
 
   /**
    * ref_hour
@@ -82,6 +90,13 @@ public class WxDataCubeInterfaceResult extends WxDataCubeBaseResult {
 
   public void setMaxTimeCost(Integer maxTimeCost) {
     this.maxTimeCost = maxTimeCost;
+  }
+
+  public static List<WxDataCubeInterfaceResult> fromJson(String json) {
+    return WxMpGsonBuilder.INSTANCE.create().fromJson(
+        JSON_PARSER.parse(json).getAsJsonObject().get("list"),
+        new TypeToken<List<WxDataCubeInterfaceResult>>() {
+        }.getType());
   }
  
 }

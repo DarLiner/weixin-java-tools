@@ -13,7 +13,11 @@ import java.util.List;
  */
 public class WxCpUser implements Serializable {
 
-  private final List<Attr> extAttrs = new ArrayList<Attr>();
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -5696099236344075582L;
+  private final List<Attr> extAttrs = new ArrayList<>();
   private String userId;
   private String name;
   private Integer[] departIds;
@@ -32,7 +36,7 @@ public class WxCpUser implements Serializable {
   }
 
   public String getUserId() {
-    return userId;
+    return this.userId;
   }
 
   public void setUserId(String userId) {
@@ -40,7 +44,7 @@ public class WxCpUser implements Serializable {
   }
 
   public String getName() {
-    return name;
+    return this.name;
   }
 
   public void setName(String name) {
@@ -48,7 +52,7 @@ public class WxCpUser implements Serializable {
   }
 
   public Integer[] getDepartIds() {
-    return departIds;
+    return this.departIds;
   }
 
   public void setDepartIds(Integer[] departIds) {
@@ -56,7 +60,7 @@ public class WxCpUser implements Serializable {
   }
 
   public String getGender() {
-    return gender;
+    return this.gender;
   }
 
   public void setGender(String gender) {
@@ -64,7 +68,7 @@ public class WxCpUser implements Serializable {
   }
 
   public String getPosition() {
-    return position;
+    return this.position;
   }
 
   public void setPosition(String position) {
@@ -72,7 +76,7 @@ public class WxCpUser implements Serializable {
   }
 
   public String getMobile() {
-    return mobile;
+    return this.mobile;
   }
 
   public void setMobile(String mobile) {
@@ -80,7 +84,7 @@ public class WxCpUser implements Serializable {
   }
 
   public String getTel() {
-    return tel;
+    return this.tel;
   }
 
   public void setTel(String tel) {
@@ -88,7 +92,7 @@ public class WxCpUser implements Serializable {
   }
 
   public String getEmail() {
-    return email;
+    return this.email;
   }
 
   public void setEmail(String email) {
@@ -96,7 +100,7 @@ public class WxCpUser implements Serializable {
   }
 
   public String getWeiXinId() {
-    return weiXinId;
+    return this.weiXinId;
   }
 
   public void setWeiXinId(String weiXinId) {
@@ -104,7 +108,7 @@ public class WxCpUser implements Serializable {
   }
 
   public String getAvatar() {
-    return avatar;
+    return this.avatar;
   }
 
   public void setAvatar(String avatar) {
@@ -112,7 +116,7 @@ public class WxCpUser implements Serializable {
   }
 
   public Integer getStatus() {
-    return status;
+    return this.status;
   }
 
   public void setStatus(Integer status) {
@@ -120,7 +124,7 @@ public class WxCpUser implements Serializable {
   }
 
   public Integer getEnable() {
-    return enable;
+    return this.enable;
   }
 
   public void setEnable(Integer enable) {
@@ -132,7 +136,7 @@ public class WxCpUser implements Serializable {
   }
 
   public List<Attr> getExtAttrs() {
-    return extAttrs;
+    return this.extAttrs;
   }
 
   public String toJson() {
@@ -150,7 +154,7 @@ public class WxCpUser implements Serializable {
     }
 
     public String getName() {
-      return name;
+      return this.name;
     }
 
     public void setName(String name) {
@@ -158,7 +162,7 @@ public class WxCpUser implements Serializable {
     }
 
     public String getValue() {
-      return value;
+      return this.value;
     }
 
     public void setValue(String value) {

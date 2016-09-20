@@ -8,8 +8,10 @@ import java.util.List;
 /**
  * 用户分组相关操作接口
  * @author Binary Wang
+ * 分组接口属于老接口，不知道啥时候被替换成用户标签接口
  *
  */
+@Deprecated
 public interface WxMpGroupService {
 
 

@@ -26,12 +26,12 @@ public class WxMpUserServiceImplTest {
 
   public void testUserUpdateRemark() throws WxErrorException {
     ApiTestModule.WxXmlMpInMemoryConfigStorage configProvider = (ApiTestModule.WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage();
-    this.wxService.getUserService().userUpdateRemark(configProvider.getOpenId(), "测试备注名");
+    this.wxService.getUserService().userUpdateRemark(configProvider.getOpenid(), "测试备注名");
   }
 
   public void testUserInfo() throws WxErrorException {
     ApiTestModule.WxXmlMpInMemoryConfigStorage configProvider = (ApiTestModule.WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage();
-    WxMpUser user = this.wxService.getUserService().userInfo(configProvider.getOpenId(), null);
+    WxMpUser user = this.wxService.getUserService().userInfo(configProvider.getOpenid(), null);
     Assert.assertNotNull(user);
     System.out.println(user);
   }
@@ -43,17 +43,6 @@ public class WxMpUserServiceImplTest {
     Assert.assertFalse(wxMpUserList.getTotal() == -1);
     Assert.assertFalse(wxMpUserList.getOpenIds().size() == -1);
     System.out.println(wxMpUserList);
-  }
-
-  public void testGroupQueryUserGroup() throws WxErrorException {
-    ApiTestModule.WxXmlMpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage();
-    long groupid = this.wxService.getGroupService().userGetGroup(configStorage.getOpenId());
-    Assert.assertTrue(groupid != -1l);
-  }
-
-  public void testGroupMoveUser() throws WxErrorException {
-    ApiTestModule.WxXmlMpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage();
-    this.wxService.getGroupService().userUpdateGroup(configStorage.getOpenId(), this.wxService.getGroupService().groupGet().get(3).getId());
   }
 
 }

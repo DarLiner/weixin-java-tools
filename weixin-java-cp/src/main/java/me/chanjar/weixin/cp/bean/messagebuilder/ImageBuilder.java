@@ -23,6 +23,7 @@ public final class ImageBuilder extends BaseBuilder<ImageBuilder> {
     return this;
   }
 
+  @Override
   public WxCpMessage build() {
     WxCpMessage m = super.build();
     m.setMediaId(this.mediaId);

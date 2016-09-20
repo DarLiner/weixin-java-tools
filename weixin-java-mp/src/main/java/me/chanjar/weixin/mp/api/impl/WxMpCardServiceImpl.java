@@ -1,6 +1,5 @@
 package me.chanjar.weixin.mp.api.impl;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 import org.slf4j.Logger;
@@ -111,16 +110,12 @@ public class WxMpCardServiceImpl implements WxMpCardService {
     signParam[optionalSignParam.length] = String.valueOf(timestamp);
     signParam[optionalSignParam.length + 1] = nonceStr;
     signParam[optionalSignParam.length + 2] = cardApiTicket;
-    try {
-      String signature = SHA1.gen(signParam);
-      WxCardApiSignature cardApiSignature = new WxCardApiSignature();
-      cardApiSignature.setTimestamp(timestamp);
-      cardApiSignature.setNonceStr(nonceStr);
-      cardApiSignature.setSignature(signature);
-      return cardApiSignature;
-    } catch (NoSuchAlgorithmException e) {
-      throw new WxErrorException(WxError.newBuilder().setErrorMsg(e.getMessage()).build());
-    }
+    String signature = SHA1.gen(signParam);
+    WxCardApiSignature cardApiSignature = new WxCardApiSignature();
+    cardApiSignature.setTimestamp(timestamp);
+    cardApiSignature.setNonceStr(nonceStr);
+    cardApiSignature.setSignature(signature);
+    return cardApiSignature;
   }
 
   /**

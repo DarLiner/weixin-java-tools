@@ -1,19 +1,21 @@
 # Weixin Java Tools 微信公众号/企业号开发Java SDK
-## [![Join QQ Group](http://pub.idqqimg.com/wpa/images/group.png)](http://shang.qq.com/wpa/qunwpa?idkey=078f7a153d243853e24cf2b542e7a6ccbf2a592bc138080f84d11297f736ec46)  [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badge/)     ![Maven Central](https://img.shields.io/maven-central/v/com.github.binarywang/weixin-java-parent.svg)  [![Build Status](https://travis-ci.org/binarywang/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/binarywang/weixin-java-tools)
+## [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badge/)     ![Maven Central](https://img.shields.io/maven-central/v/com.github.binarywang/weixin-java-parent.svg)  [![Build Status](https://travis-ci.org/binarywang/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/binarywang/weixin-java-tools)
 
 
 ### 声明：本项目Fork自chanjarster/weixin-java-tools，但由于原项目已停止维护，故单独维护和发布，且发布到maven上的groupId也会不同，详细信息见下文。
 
 ### 最新更新：2.1.0版发布！！！ on 2016-08-31
-####　自2.0.0版本以来，接口调整比较大，主要是公众号的调整，企业号无过多调整，主要是为了解决主接口类过于庞大不方便管理的问题，将接口实现代码按模块进行拆分。所以如果习惯于1.X.X版本的同学不想做过多更改的话，请慎重考虑升级到2.X.X版本。
+
+#### ***自2.0.0版本以来，接口调整比较大，主要是公众号的调整，企业号无过多调整，主要是为了解决主接口类过于庞大不方便管理的问题，将接口实现代码按模块进行拆分。所以如果习惯于1.X.X版本的同学不想做过多更改的话，请慎重考虑升级到2.X.X版本.***
 ---
 
 ### 详细开发文档请看 [wiki](https://github.com/chanjarster/weixin-java-tools/wiki)。
 ===========
 ## 开发交流工具：
-* QQ群：343954419 [![Join QQ Group](http://pub.idqqimg.com/wpa/images/group.png)](http://shang.qq.com/wpa/qunwpa?idkey=078f7a153d243853e24cf2b542e7a6ccbf2a592bc138080f84d11297f736ec46)
-*  注意：为保证入群成员质量，请申请入群时认真输入Github帐号ID，即你的github主页地址https://github.com/XXXX 中最后的部分XXXX的内容，谢谢~
 * 微信群： 因二维码有时间限制，如有想加入微信群的，请入QQ群后咨询获取最新入群二维码。
+* QQ群：343954419 [![Join QQ Group](http://pub.idqqimg.com/wpa/images/group.png)](http://shang.qq.com/wpa/qunwpa?idkey=078f7a153d243853e24cf2b542e7a6ccbf2a592bc138080f84d11297f736ec46)
+* ***注意：为保证入群成员质量，请申请入群前，先Star本项目，然后在申请入群时，输入您的Github帐号ID，以便管理员核对，ID即你的github主页地址https://github.com/XXXX 中最后的部分XXXX的内容，或者在github网页右上角点击头像查看，如下图Signed in as下方黄色标识内容即是：***
+* ![github_id](https://raw.githubusercontent.com/wechat-group/weixin-java-tools/develop/res/github_id.png)
  
 ===========
 

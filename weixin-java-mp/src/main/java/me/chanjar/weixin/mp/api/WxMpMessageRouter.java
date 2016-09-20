@@ -1,24 +1,25 @@
 package me.chanjar.weixin.mp.api;
 
-import me.chanjar.weixin.common.session.InternalSession;
-import me.chanjar.weixin.common.session.InternalSessionManager;
-import me.chanjar.weixin.common.session.StandardSessionManager;
-import me.chanjar.weixin.common.session.WxSessionManager;
-import me.chanjar.weixin.common.util.LogExceptionHandler;
-import me.chanjar.weixin.common.api.WxErrorExceptionHandler;
-import me.chanjar.weixin.common.api.WxMessageDuplicateChecker;
-import me.chanjar.weixin.common.api.WxMessageInMemoryDuplicateChecker;
-import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
-import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import me.chanjar.weixin.common.api.WxErrorExceptionHandler;
+import me.chanjar.weixin.common.api.WxMessageDuplicateChecker;
+import me.chanjar.weixin.common.api.WxMessageInMemoryDuplicateChecker;
+import me.chanjar.weixin.common.session.InternalSession;
+import me.chanjar.weixin.common.session.InternalSessionManager;
+import me.chanjar.weixin.common.session.StandardSessionManager;
+import me.chanjar.weixin.common.session.WxSessionManager;
+import me.chanjar.weixin.common.util.LogExceptionHandler;
+import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
+import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
 
 /**
  * <pre>
@@ -155,7 +156,7 @@ public class WxMpMessageRouter {
     }
 
     WxMpXmlOutMessage res = null;
-    final List<Future> futures = new ArrayList<>();
+    final List<Future<?>> futures = new ArrayList<>();
     for (final WxMpMessageRouterRule rule : matchRules) {
       // 返回最后一个非异步的rule的执行结果
       if(rule.isAsync()) {
@@ -179,7 +180,7 @@ public class WxMpMessageRouter {
       this.executorService.submit(new Runnable() {
         @Override
         public void run() {
-          for (Future future : futures) {
+          for (Future<?> future : futures) {
             try {
               future.get();
               WxMpMessageRouter.this.log.debug("End session access: async=true, sessionId={}", wxMessage.getFromUserName());

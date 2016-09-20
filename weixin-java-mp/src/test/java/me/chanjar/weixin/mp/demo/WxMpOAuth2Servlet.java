@@ -1,29 +1,28 @@
 package me.chanjar.weixin.mp.demo;
 
-import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
-import me.chanjar.weixin.mp.bean.result.WxMpUser;
+import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
+import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
 
 public class WxMpOAuth2Servlet extends HttpServlet {
-
-  /**
-   * 
-   */
   private static final long serialVersionUID = 1L;
+
   protected WxMpService wxMpService;
 
   public WxMpOAuth2Servlet(WxMpService wxMpService) {
     this.wxMpService = wxMpService;
   }
 
-  @Override protected void service(HttpServletRequest request, HttpServletResponse response)
+  @Override
+  protected void service(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
     response.setContentType("text/html;charset=utf-8");

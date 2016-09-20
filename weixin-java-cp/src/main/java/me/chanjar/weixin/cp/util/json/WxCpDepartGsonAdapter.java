@@ -19,6 +19,7 @@ import java.lang.reflect.Type;
  */
 public class WxCpDepartGsonAdapter implements JsonSerializer<WxCpDepart>, JsonDeserializer<WxCpDepart> {
 
+  @Override
   public JsonElement serialize(WxCpDepart group, Type typeOfSrc, JsonSerializationContext context) {
     JsonObject json = new JsonObject();
     if (group.getId() != null) {
@@ -36,6 +37,7 @@ public class WxCpDepartGsonAdapter implements JsonSerializer<WxCpDepart>, JsonDe
     return json;
   }
 
+  @Override
   public WxCpDepart deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
           throws JsonParseException {
     WxCpDepart depart = new WxCpDepart();

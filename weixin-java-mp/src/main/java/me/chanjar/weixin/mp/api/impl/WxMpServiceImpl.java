@@ -12,10 +12,38 @@ import me.chanjar.weixin.common.session.StandardSessionManager;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.common.util.RandomUtils;
 import me.chanjar.weixin.common.util.crypto.SHA1;
-import me.chanjar.weixin.common.util.http.*;
-import me.chanjar.weixin.mp.api.*;
-import me.chanjar.weixin.mp.bean.*;
-import me.chanjar.weixin.mp.bean.result.*;
+import me.chanjar.weixin.common.util.http.ApacheHttpClientBuilder;
+import me.chanjar.weixin.common.util.http.DefaultApacheHttpClientBuilder;
+import me.chanjar.weixin.common.util.http.RequestExecutor;
+import me.chanjar.weixin.common.util.http.SimpleGetRequestExecutor;
+import me.chanjar.weixin.common.util.http.SimplePostRequestExecutor;
+import me.chanjar.weixin.common.util.http.URIUtil;
+import me.chanjar.weixin.mp.api.WxMpCardService;
+import me.chanjar.weixin.mp.api.WxMpConfigStorage;
+import me.chanjar.weixin.mp.api.WxMpDataCubeService;
+import me.chanjar.weixin.mp.api.WxMpGroupService;
+import me.chanjar.weixin.mp.api.WxMpKefuService;
+import me.chanjar.weixin.mp.api.WxMpMaterialService;
+import me.chanjar.weixin.mp.api.WxMpMenuService;
+import me.chanjar.weixin.mp.api.WxMpPayService;
+import me.chanjar.weixin.mp.api.WxMpQrcodeService;
+import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.api.WxMpUserBlacklistService;
+import me.chanjar.weixin.mp.api.WxMpUserService;
+import me.chanjar.weixin.mp.api.WxMpUserTagService;
+import me.chanjar.weixin.mp.bean.WxMpIndustry;
+import me.chanjar.weixin.mp.bean.WxMpMassGroupMessage;
+import me.chanjar.weixin.mp.bean.WxMpMassNews;
+import me.chanjar.weixin.mp.bean.WxMpMassOpenIdsMessage;
+import me.chanjar.weixin.mp.bean.WxMpMassPreviewMessage;
+import me.chanjar.weixin.mp.bean.WxMpMassVideo;
+import me.chanjar.weixin.mp.bean.WxMpSemanticQuery;
+import me.chanjar.weixin.mp.bean.WxMpTemplateMessage;
+import me.chanjar.weixin.mp.bean.result.WxMpMassSendResult;
+import me.chanjar.weixin.mp.bean.result.WxMpMassUploadResult;
+import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
+import me.chanjar.weixin.mp.bean.result.WxMpSemanticQueryResult;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -28,7 +56,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 
 public class WxMpServiceImpl implements WxMpService {
 
@@ -46,8 +73,8 @@ public class WxMpServiceImpl implements WxMpService {
    */
   private final Object globalJsapiTicketRefreshLock = new Object();
 
-  private WxMpConfigStorage wxMpConfigStorage;
-  
+  private WxMpConfigStorage configStorage;
+
   private WxMpKefuService kefuService = new WxMpKefuServiceImpl(this);
 
   private WxMpMaterialService materialService = new WxMpMaterialServiceImpl(this);
@@ -58,6 +85,8 @@ public class WxMpServiceImpl implements WxMpService {
 
   private WxMpGroupService groupService = new WxMpGroupServiceImpl(this);
 
+  private WxMpUserTagService tagService = new WxMpUserTagServiceImpl(this);
+
   private WxMpQrcodeService qrCodeService = new WxMpQrcodeServiceImpl(this);
 
   private WxMpCardService cardService = new WxMpCardServiceImpl(this);
@@ -65,6 +94,8 @@ public class WxMpServiceImpl implements WxMpService {
   private WxMpPayService payService = new WxMpPayServiceImpl(this);
 
   private WxMpDataCubeService dataCubeService = new WxMpDataCubeServiceImpl(this);
+
+  private WxMpUserBlacklistService blackListService = new WxMpUserBlacklistServiceImpl(this);
 
   private CloseableHttpClient httpClient;
 
@@ -79,7 +110,8 @@ public class WxMpServiceImpl implements WxMpService {
   @Override
   public boolean checkSignature(String timestamp, String nonce, String signature) {
     try {
-      return SHA1.gen(this.wxMpConfigStorage.getToken(), timestamp, nonce).equals(signature);
+      return SHA1.gen(this.configStorage.getToken(), timestamp, nonce)
+          .equals(signature);
     } catch (Exception e) {
       return false;
     }
@@ -93,14 +125,14 @@ public class WxMpServiceImpl implements WxMpService {
   @Override
   public String getAccessToken(boolean forceRefresh) throws WxErrorException {
     if (forceRefresh) {
-      this.wxMpConfigStorage.expireAccessToken();
+      this.configStorage.expireAccessToken();
     }
-    if (this.wxMpConfigStorage.isAccessTokenExpired()) {
+    if (this.configStorage.isAccessTokenExpired()) {
       synchronized (this.globalAccessTokenRefreshLock) {
-        if (this.wxMpConfigStorage.isAccessTokenExpired()) {
+        if (this.configStorage.isAccessTokenExpired()) {
           String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential" +
-                  "&appid=" + this.wxMpConfigStorage.getAppId() +
-                  "&secret=" + this.wxMpConfigStorage.getSecret();
+              "&appid=" + this.configStorage.getAppId() + "&secret="
+              + this.configStorage.getSecret();
           try {
             HttpGet httpGet = new HttpGet(url);
             if (this.httpProxy != null) {
@@ -114,7 +146,8 @@ public class WxMpServiceImpl implements WxMpService {
                 throw new WxErrorException(error);
               }
               WxAccessToken accessToken = WxAccessToken.fromJson(resultContent);
-              this.wxMpConfigStorage.updateAccessToken(accessToken.getAccessToken(), accessToken.getExpiresIn());
+              this.configStorage.updateAccessToken(accessToken.getAccessToken(),
+                  accessToken.getExpiresIn());
             }finally {
               httpGet.releaseConnection();
             }
@@ -124,7 +157,7 @@ public class WxMpServiceImpl implements WxMpService {
         }
       }
     }
-    return this.wxMpConfigStorage.getAccessToken();
+    return this.configStorage.getAccessToken();
   }
 
   @Override
@@ -135,23 +168,23 @@ public class WxMpServiceImpl implements WxMpService {
   @Override
   public String getJsapiTicket(boolean forceRefresh) throws WxErrorException {
     if (forceRefresh) {
-      this.wxMpConfigStorage.expireJsapiTicket();
+      this.configStorage.expireJsapiTicket();
     }
 
-    if (this.wxMpConfigStorage.isJsapiTicketExpired()) {
+    if (this.configStorage.isJsapiTicketExpired()) {
       synchronized (this.globalJsapiTicketRefreshLock) {
-        if (this.wxMpConfigStorage.isJsapiTicketExpired()) {
+        if (this.configStorage.isJsapiTicketExpired()) {
           String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi";
           String responseContent = execute(new SimpleGetRequestExecutor(), url, null);
           JsonElement tmpJsonElement = JSON_PARSER.parse(responseContent);
           JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
           String jsapiTicket = tmpJsonObject.get("ticket").getAsString();
           int expiresInSeconds = tmpJsonObject.get("expires_in").getAsInt();
-          this.wxMpConfigStorage.updateJsapiTicket(jsapiTicket, expiresInSeconds);
+          this.configStorage.updateJsapiTicket(jsapiTicket, expiresInSeconds);
         }
       }
     }
-    return this.wxMpConfigStorage.getJsapiTicket();
+    return this.configStorage.getJsapiTicket();
   }
 
   @Override
@@ -159,29 +192,15 @@ public class WxMpServiceImpl implements WxMpService {
     long timestamp = System.currentTimeMillis() / 1000;
     String noncestr = RandomUtils.getRandomStr();
     String jsapiTicket = getJsapiTicket(false);
-    try {
-      String signature = SHA1.genWithAmple(
-          "jsapi_ticket=" + jsapiTicket,
-          "noncestr=" + noncestr,
-          "timestamp=" + timestamp,
-          "url=" + url
-      );
-      WxJsapiSignature jsapiSignature = new WxJsapiSignature();
-      jsapiSignature.setAppid(this.wxMpConfigStorage.getAppId());
-      jsapiSignature.setTimestamp(timestamp);
-      jsapiSignature.setNoncestr(noncestr);
-      jsapiSignature.setUrl(url);
-      jsapiSignature.setSignature(signature);
-      return jsapiSignature;
-    } catch (NoSuchAlgorithmException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  @Override
-  public void customMessageSend(WxMpCustomMessage message) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/message/custom/send";
-    execute(new SimplePostRequestExecutor(), url, message.toJson());
+    String signature = SHA1.genWithAmple("jsapi_ticket=" + jsapiTicket,
+        "noncestr=" + noncestr, "timestamp=" + timestamp, "url=" + url);
+    WxJsapiSignature jsapiSignature = new WxJsapiSignature();
+    jsapiSignature.setAppid(this.configStorage.getAppId());
+    jsapiSignature.setTimestamp(timestamp);
+    jsapiSignature.setNoncestr(noncestr);
+    jsapiSignature.setUrl(url);
+    jsapiSignature.setSignature(signature);
+    return jsapiSignature;
   }
 
   @Override
@@ -271,13 +290,30 @@ public class WxMpServiceImpl implements WxMpService {
   public String oauth2buildAuthorizationUrl(String redirectURI, String scope, String state) {
     StringBuilder url = new StringBuilder();
     url.append("https://open.weixin.qq.com/connect/oauth2/authorize?");
-    url.append("appid=").append(this.wxMpConfigStorage.getAppId());
+    url.append("appid=").append(this.configStorage.getAppId());
     url.append("&redirect_uri=").append(URIUtil.encodeURIComponent(redirectURI));
     url.append("&response_type=code");
     url.append("&scope=").append(scope);
     if (state != null) {
       url.append("&state=").append(state);
     }
+    url.append("#wechat_redirect");
+    return url.toString();
+  }
+
+  @Override
+  public String buildQrConnectUrl(String redirectURI, String scope,
+      String state) {
+    StringBuilder url = new StringBuilder();
+    url.append("https://open.weixin.qq.com/connect/qrconnect?");
+    url.append("appid=").append(this.configStorage.getAppId());
+    url.append("&redirect_uri=").append(URIUtil.encodeURIComponent(redirectURI));
+    url.append("&response_type=code");
+    url.append("&scope=").append(scope);
+    if (state != null) {
+      url.append("&state=").append(state);
+    }
+
     url.append("#wechat_redirect");
     return url.toString();
   }
@@ -296,8 +332,8 @@ public class WxMpServiceImpl implements WxMpService {
   public WxMpOAuth2AccessToken oauth2getAccessToken(String code) throws WxErrorException {
     StringBuilder url = new StringBuilder();
     url.append("https://api.weixin.qq.com/sns/oauth2/access_token?");
-    url.append("appid=").append(this.wxMpConfigStorage.getAppId());
-    url.append("&secret=").append(this.wxMpConfigStorage.getSecret());
+    url.append("appid=").append(this.configStorage.getAppId());
+    url.append("&secret=").append(this.configStorage.getSecret());
     url.append("&code=").append(code);
     url.append("&grant_type=authorization_code");
 
@@ -308,7 +344,7 @@ public class WxMpServiceImpl implements WxMpService {
   public WxMpOAuth2AccessToken oauth2refreshAccessToken(String refreshToken) throws WxErrorException {
     StringBuilder url = new StringBuilder();
     url.append("https://api.weixin.qq.com/sns/oauth2/refresh_token?");
-    url.append("appid=").append(this.wxMpConfigStorage.getAppId());
+    url.append("appid=").append(this.configStorage.getAppId());
     url.append("&grant_type=refresh_token");
     url.append("&refresh_token=").append(refreshToken);
 
@@ -428,7 +464,7 @@ public class WxMpServiceImpl implements WxMpService {
        */
       if (error.getErrorCode() == 42001 || error.getErrorCode() == 40001) {
         // 强制设置wxMpConfigStorage它的access token过期了，这样在下一次请求里就会刷新access token
-        this.wxMpConfigStorage.expireAccessToken();
+        this.configStorage.expireAccessToken();
         return execute(executor, uri, data);
       }
       if (error.getErrorCode() != 0) {
@@ -439,7 +475,7 @@ public class WxMpServiceImpl implements WxMpService {
       throw new RuntimeException(e);
     }
   }
-  
+
   public HttpHost getHttpProxy() {
     return this.httpProxy;
   }
@@ -450,25 +486,31 @@ public class WxMpServiceImpl implements WxMpService {
 
   @Override
   public void setWxMpConfigStorage(WxMpConfigStorage wxConfigProvider) {
-    this.wxMpConfigStorage = wxConfigProvider;
+    this.configStorage = wxConfigProvider;
     this.initHttpClient();
   }
 
   private void initHttpClient() {
-    ApacheHttpClientBuilder apacheHttpClientBuilder = this.wxMpConfigStorage.getApacheHttpClientBuilder();
+    ApacheHttpClientBuilder apacheHttpClientBuilder = this.configStorage
+        .getApacheHttpClientBuilder();
     if (null == apacheHttpClientBuilder) {
       apacheHttpClientBuilder = DefaultApacheHttpClientBuilder.get();
     }
-    
-    apacheHttpClientBuilder.httpProxyHost(this.wxMpConfigStorage.getHttpProxyHost())
-      .httpProxyPort(this.wxMpConfigStorage.getHttpProxyPort())
-      .httpProxyUsername(this.wxMpConfigStorage.getHttpProxyUsername())
-      .httpProxyPassword(this.wxMpConfigStorage.getHttpProxyPassword());
 
-    if (this.wxMpConfigStorage.getSSLContext() != null){
+    apacheHttpClientBuilder.httpProxyHost(this.configStorage.getHttpProxyHost())
+        .httpProxyPort(this.configStorage.getHttpProxyPort())
+        .httpProxyUsername(this.configStorage.getHttpProxyUsername())
+        .httpProxyPassword(this.configStorage.getHttpProxyPassword());
+
+    if (this.configStorage.getSSLContext() != null) {
       SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
-          this.wxMpConfigStorage.getSSLContext(), new String[] { "TLSv1" }, null, new DefaultHostnameVerifier());
+          this.configStorage.getSSLContext(), new String[] { "TLSv1" }, null,
+          new DefaultHostnameVerifier());
       apacheHttpClientBuilder.sslConnectionSocketFactory(sslsf);
+    }
+
+    if (this.configStorage.getHttpProxyHost() != null && this.configStorage.getHttpProxyPort() > 0) {
+      this.httpProxy = new HttpHost(this.configStorage.getHttpProxyHost(), this.configStorage.getHttpProxyPort());
     }
 
     this.httpClient = apacheHttpClientBuilder.build();
@@ -476,7 +518,7 @@ public class WxMpServiceImpl implements WxMpService {
 
   @Override
   public WxMpConfigStorage getWxMpConfigStorage() {
-    return this.wxMpConfigStorage;
+    return this.configStorage;
   }
 
   @Override
@@ -515,6 +557,11 @@ public class WxMpServiceImpl implements WxMpService {
   }
 
   @Override
+  public WxMpUserTagService getUserTagService() {
+    return this.tagService;
+  }
+
+  @Override
   public WxMpQrcodeService getQrcodeService() {
     return this.qrCodeService;
   }
@@ -532,6 +579,11 @@ public class WxMpServiceImpl implements WxMpService {
   @Override
   public WxMpDataCubeService getDataCubeService() {
     return this.dataCubeService;
+  }
+
+  @Override
+  public WxMpUserBlacklistService getBlackListService() {
+    return this.blackListService;
   }
 
 }

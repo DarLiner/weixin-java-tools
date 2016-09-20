@@ -12,7 +12,7 @@ import java.util.List;
 public class WxCpXmlOutNewsMessage extends WxCpXmlOutMessage {
 
   @XStreamAlias("Articles")
-  protected final List<Item> articles = new ArrayList<Item>();
+  protected final List<Item> articles = new ArrayList<>();
   @XStreamAlias("ArticleCount")
   protected int articleCount;
 
@@ -21,7 +21,7 @@ public class WxCpXmlOutNewsMessage extends WxCpXmlOutMessage {
   }
 
   public int getArticleCount() {
-    return articleCount;
+    return this.articleCount;
   }
 
   public void addArticle(Item item) {
@@ -30,7 +30,7 @@ public class WxCpXmlOutNewsMessage extends WxCpXmlOutMessage {
   }
 
   public List<Item> getArticles() {
-    return articles;
+    return this.articles;
   }
 
 
@@ -54,35 +54,35 @@ public class WxCpXmlOutNewsMessage extends WxCpXmlOutMessage {
     private String Url;
 
     public String getTitle() {
-      return Title;
+      return this.Title;
     }
 
     public void setTitle(String title) {
-      Title = title;
+      this.Title = title;
     }
 
     public String getDescription() {
-      return Description;
+      return this.Description;
     }
 
     public void setDescription(String description) {
-      Description = description;
+      this.Description = description;
     }
 
     public String getPicUrl() {
-      return PicUrl;
+      return this.PicUrl;
     }
 
     public void setPicUrl(String picUrl) {
-      PicUrl = picUrl;
+      this.PicUrl = picUrl;
     }
 
     public String getUrl() {
-      return Url;
+      return this.Url;
     }
 
     public void setUrl(String url) {
-      Url = url;
+      this.Url = url;
     }
 
   }

@@ -62,7 +62,7 @@ public abstract class WxCpXmlOutMessage {
   }
 
   public String getToUserName() {
-    return toUserName;
+    return this.toUserName;
   }
 
   public void setToUserName(String toUserName) {
@@ -70,7 +70,7 @@ public abstract class WxCpXmlOutMessage {
   }
 
   public String getFromUserName() {
-    return fromUserName;
+    return this.fromUserName;
   }
 
   public void setFromUserName(String fromUserName) {
@@ -78,7 +78,7 @@ public abstract class WxCpXmlOutMessage {
   }
 
   public Long getCreateTime() {
-    return createTime;
+    return this.createTime;
   }
 
   public void setCreateTime(Long createTime) {
@@ -86,7 +86,7 @@ public abstract class WxCpXmlOutMessage {
   }
 
   public String getMsgType() {
-    return msgType;
+    return this.msgType;
   }
 
   public void setMsgType(String msgType) {
