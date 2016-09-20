@@ -1,23 +1,9 @@
 package me.chanjar.weixin.mp.api.impl;
 
-import java.io.IOException;
-
-import org.apache.http.HttpHost;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.conn.ssl.DefaultHostnameVerifier;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.bean.result.WxError;
@@ -42,6 +28,7 @@ import me.chanjar.weixin.mp.api.WxMpMenuService;
 import me.chanjar.weixin.mp.api.WxMpPayService;
 import me.chanjar.weixin.mp.api.WxMpQrcodeService;
 import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.api.WxMpUserBlackListService;
 import me.chanjar.weixin.mp.api.WxMpUserService;
 import me.chanjar.weixin.mp.api.WxMpUserTagService;
 import me.chanjar.weixin.mp.bean.WxMpIndustry;
@@ -57,6 +44,18 @@ import me.chanjar.weixin.mp.bean.result.WxMpMassUploadResult;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import me.chanjar.weixin.mp.bean.result.WxMpSemanticQueryResult;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
+import org.apache.http.HttpHost;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.ssl.DefaultHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 
 public class WxMpServiceImpl implements WxMpService {
 
@@ -75,7 +74,7 @@ public class WxMpServiceImpl implements WxMpService {
   private final Object globalJsapiTicketRefreshLock = new Object();
 
   private WxMpConfigStorage configStorage;
-  
+
   private WxMpKefuService kefuService = new WxMpKefuServiceImpl(this);
 
   private WxMpMaterialService materialService = new WxMpMaterialServiceImpl(this);
@@ -95,6 +94,8 @@ public class WxMpServiceImpl implements WxMpService {
   private WxMpPayService payService = new WxMpPayServiceImpl(this);
 
   private WxMpDataCubeService dataCubeService = new WxMpDataCubeServiceImpl(this);
+
+  private WxMpUserBlackListService blackListService = new WxMpUserBlackListServiceImpl(this);
 
   private CloseableHttpClient httpClient;
 
@@ -312,7 +313,7 @@ public class WxMpServiceImpl implements WxMpService {
     if (state != null) {
       url.append("&state=").append(state);
     }
-    
+
     url.append("#wechat_redirect");
     return url.toString();
   }
@@ -474,7 +475,7 @@ public class WxMpServiceImpl implements WxMpService {
       throw new RuntimeException(e);
     }
   }
-  
+
   public HttpHost getHttpProxy() {
     return this.httpProxy;
   }
@@ -495,7 +496,7 @@ public class WxMpServiceImpl implements WxMpService {
     if (null == apacheHttpClientBuilder) {
       apacheHttpClientBuilder = DefaultApacheHttpClientBuilder.get();
     }
-    
+
     apacheHttpClientBuilder.httpProxyHost(this.configStorage.getHttpProxyHost())
         .httpProxyPort(this.configStorage.getHttpProxyPort())
         .httpProxyUsername(this.configStorage.getHttpProxyUsername())
@@ -578,6 +579,11 @@ public class WxMpServiceImpl implements WxMpService {
   @Override
   public WxMpDataCubeService getDataCubeService() {
     return this.dataCubeService;
+  }
+
+  @Override
+  public WxMpUserBlackListService getBlackListService() {
+    return this.blackListService;
   }
 
 }

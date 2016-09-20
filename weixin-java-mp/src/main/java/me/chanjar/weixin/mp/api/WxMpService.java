@@ -327,7 +327,7 @@ public interface WxMpService {
    *
    * @return WxMpGroupService
    */
-  
+
   WxMpGroupService getGroupService();
 
   /**
@@ -364,4 +364,11 @@ public interface WxMpService {
    * @return WxMpDataCubeService
    */
   WxMpDataCubeService getDataCubeService();
+
+  /**
+   * 返回用户黑名单管理相关接口的方法实现类，以方便调用其各种借口
+   *
+   * @return WxMpUserBlackListService
+   */
+  WxMpUserBlackListService getBlackListService();
 }
