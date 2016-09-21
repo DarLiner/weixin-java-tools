@@ -130,4 +130,27 @@ public class WxMpUserTagServiceImpl implements WxMpUserTagService {
 
     throw new WxErrorException(wxError);
   }
+
+  @Override
+  public boolean batchUntagging(Integer tagId, String[] openids) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/tags/members/batchuntagging";
+
+    JsonObject json = new JsonObject();
+    json.addProperty("tagid", tagId);
+    JsonArray openidArrayJson = new JsonArray();
+    for (String openid : openids) {
+      openidArrayJson.add(openid);
+    }
+    json.add("openid_list", openidArrayJson);
+
+    String responseContent = this.wxMpService.post(url, json.toString());
+    this.log.debug("\nurl:{}\nparams:{}\nresponse:{}", url, json.toString(),
+      responseContent);
+    WxError wxError = WxError.fromJson(responseContent);
+    if (wxError.getErrorCode() == 0) {
+      return true;
+    }
+
+    throw new WxErrorException(wxError);
+  }
 }
