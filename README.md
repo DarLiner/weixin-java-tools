@@ -1,5 +1,5 @@
 # Weixin Java Tools 微信公众号/企业号开发Java SDK
-## [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badge/)     ![Maven Central](https://img.shields.io/maven-central/v/com.github.binarywang/weixin-java-parent.svg)  [![Build Status](https://travis-ci.org/binarywang/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/binarywang/weixin-java-tools)
+## [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badge/)     ![Maven Central](https://img.shields.io/maven-central/v/com.github.binarywang/weixin-java-parent.svg)  [![Build Status](https://travis-ci.org/wechat-group/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/wechat-group/weixin-java-tools)
 
 
 ### 声明：本项目Fork自chanjarster/weixin-java-tools，但由于原项目已停止维护，故单独维护和发布，且发布到maven上的groupId也会不同，详细信息见下文。
