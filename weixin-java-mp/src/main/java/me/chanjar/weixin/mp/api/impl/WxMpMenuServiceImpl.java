@@ -30,33 +30,24 @@ public class WxMpMenuServiceImpl implements WxMpMenuService {
     if (menu.getMatchRule() != null) {
       url = API_URL_PREFIX + "/addconditional";
     } 
-    if(log.isTraceEnabled()){
-      log.trace("开始创建菜单：{}", menuJson);
-    }
+    log.trace("开始创建菜单：{}", menuJson);
       
     String result = this.wxMpService.execute(new SimplePostRequestExecutor(), url,menuJson);
-    
-    if(log.isDebugEnabled()){
-      log.debug("创建菜单：{},结果：{}", menuJson, result);
-    }
+    log.debug("创建菜单：{},结果：{}", menuJson, result);
   }
 
   @Override
   public void menuDelete() throws WxErrorException {
     String url = API_URL_PREFIX + "/delete";
     String result  = this.wxMpService.execute(new SimpleGetRequestExecutor(), url, null);
-    if(log.isDebugEnabled()){
-      log.debug("删除菜单结果：{}", result);
-    }
+    log.debug("删除菜单结果：{}", result);
   }
 
   @Override
   public void menuDelete(String menuid) throws WxErrorException {
     String url = API_URL_PREFIX + "/delconditional";
     String result  = this.wxMpService.execute(new SimpleGetRequestExecutor(), url, "menuid=" + menuid);
-    if(log.isDebugEnabled()){
-      log.debug("根据MeunId({})删除菜单结果：{}", menuid,result);
-    }
+    log.debug("根据MeunId({})删除菜单结果：{}", menuid,result);
   }
 
   @Override
