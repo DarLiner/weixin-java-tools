@@ -68,4 +68,12 @@ public class WxMpUserTagServiceImplTest {
     System.out.println(res);
     Assert.assertTrue(res);
   }
+
+  @Test
+  public void testUserTagList() throws Exception {
+    List<Integer> res = this.wxService.getUserTagService().userTagList(
+        ((ApiTestModule.WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage()).getOpenid());
+    System.out.println(res);
+    Assert.assertNotNull(res);
+  }
 }

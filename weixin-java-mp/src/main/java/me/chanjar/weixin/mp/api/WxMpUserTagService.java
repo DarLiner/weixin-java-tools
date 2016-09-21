@@ -86,4 +86,15 @@ public interface WxMpUserTagService {
    */
   boolean batchUntagging(Integer tagId, String[] openids) throws WxErrorException;
 
+
+  /**
+   * <pre>
+   * 获取用户身上的标签列表
+   * 详情请见：<a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140837&token=&lang=zh_CN">用户标签管理</a>
+   * 接口url格式： https://api.weixin.qq.com/cgi-bin/tags/getidlist?access_token=ACCESS_TOKEN
+   * </pre>
+   *
+   */
+  List<Integer> userTagList(String openid) throws WxErrorException;
+
 }

@@ -2,12 +2,15 @@ package me.chanjar.weixin.mp.api.impl;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.WxMpUserTagService;
 import me.chanjar.weixin.mp.bean.tag.WxTagListUser;
 import me.chanjar.weixin.mp.bean.tag.WxUserTag;
+import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -152,5 +155,22 @@ public class WxMpUserTagServiceImpl implements WxMpUserTagService {
     }
 
     throw new WxErrorException(wxError);
+  }
+
+  @Override
+  public List<Integer> userTagList(String openid) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/tags/getidlist";
+
+    JsonObject json = new JsonObject();
+    json.addProperty("openid", openid);
+
+    String responseContent = this.wxMpService.post(url, json.toString());
+    this.log.debug("\nurl:{}\nparams:{}\nresponse:{}", url, json.toString(),
+      responseContent);
+
+    return WxMpGsonBuilder.create().fromJson(
+        new JsonParser().parse(responseContent).getAsJsonObject().get("tagid_list"),
+        new TypeToken<List<Integer>>() {
+    }.getType());
   }
 }
