@@ -1,5 +1,6 @@
 package me.chanjar.weixin.mp.api.impl;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -105,5 +106,28 @@ public class WxMpUserTagServiceImpl implements WxMpUserTagService {
     this.log.debug("\nurl:{}\nparams:{}\nresponse:{}", url, json.toString(),
       responseContent);
     return WxTagListUser.fromJson(responseContent);
+  }
+
+  @Override
+  public boolean batchTagging(Integer tagId, String[] openids) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging";
+
+    JsonObject json = new JsonObject();
+    json.addProperty("tagid", tagId);
+    JsonArray openidArrayJson = new JsonArray();
+    for (String openid : openids) {
+      openidArrayJson.add(openid);
+    }
+    json.add("openid_list", openidArrayJson);
+
+    String responseContent = this.wxMpService.post(url, json.toString());
+    this.log.debug("\nurl:{}\nparams:{}\nresponse:{}", url, json.toString(),
+      responseContent);
+    WxError wxError = WxError.fromJson(responseContent);
+    if (wxError.getErrorCode() == 0) {
+      return true;
+    }
+
+    throw new WxErrorException(wxError);
   }
 }

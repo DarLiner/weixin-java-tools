@@ -60,4 +60,12 @@ public class WxMpUserTagServiceImplTest {
     System.out.println(res);
     Assert.assertNotNull(res);
   }
+
+  @Test
+  public void testBatchTagging() throws Exception {
+    String[] openids = new String[]{((ApiTestModule.WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage()).getOpenid()};
+    boolean res = this.wxService.getUserTagService().batchTagging(this.tagId, openids);
+    System.out.println(res);
+    Assert.assertTrue(res);
+  }
 }
