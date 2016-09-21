@@ -1,11 +1,17 @@
 package me.chanjar.weixin.mp.bean;
 
-import me.chanjar.weixin.mp.bean.custombuilder.*;
-import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import me.chanjar.weixin.mp.bean.custombuilder.ImageBuilder;
+import me.chanjar.weixin.mp.bean.custombuilder.MusicBuilder;
+import me.chanjar.weixin.mp.bean.custombuilder.NewsBuilder;
+import me.chanjar.weixin.mp.bean.custombuilder.TextBuilder;
+import me.chanjar.weixin.mp.bean.custombuilder.VideoBuilder;
+import me.chanjar.weixin.mp.bean.custombuilder.VoiceBuilder;
+import me.chanjar.weixin.mp.bean.custombuilder.WxCardBuilder;
+import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
 /**
  * 客服消息
@@ -98,7 +104,7 @@ public class WxMpCustomMessage implements Serializable {
   }
 
   public String getCardId() {
-    return cardId;
+    return this.cardId;
   }
 
   public void setCardId(String cardId) {
@@ -195,7 +201,6 @@ public class WxMpCustomMessage implements Serializable {
 
   /**
    * 获得卡券消息builder
-   * @return
    */
   public static WxCardBuilder WXCARD() {
     return new WxCardBuilder();
