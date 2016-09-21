@@ -2,6 +2,9 @@ package me.chanjar.weixin.mp.bean.result;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 /**
  * <pre>
  * 查询订单支付状态返回的结果
@@ -13,9 +16,11 @@ import java.io.Serializable;
  * @author ukid
  */
 public class WxMpPayResult implements Serializable {
-  /**
-   * 
-   */
+  @Override
+  public String toString() {
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+  }
+
   private static final long serialVersionUID = -570934170727777190L;
   
   private String return_code;
@@ -51,92 +56,93 @@ public class WxMpPayResult implements Serializable {
    * 
    */
   private String cash_fee_type;
+
   public String getReturn_code() {
-    return return_code;
+    return this.return_code;
   }
 
   public String getReturn_msg() {
-    return return_msg;
+    return this.return_msg;
   }
 
   public String getAppid() {
-    return appid;
+    return this.appid;
   }
 
   public String getMch_id() {
-    return mch_id;
+    return this.mch_id;
   }
 
   public String getNonce_str() {
-    return nonce_str;
+    return this.nonce_str;
   }
 
   public String getSign() {
-    return sign;
+    return this.sign;
   }
 
   public String getResult_code() {
-    return result_code;
+    return this.result_code;
   }
 
   public String getErr_code() {
-    return err_code;
+    return this.err_code;
   }
 
   public String getErr_code_des() {
-    return err_code_des;
+    return this.err_code_des;
   }
 
   public String getTrade_state() {
-    return trade_state;
+    return this.trade_state;
   }
 
   public String getDevice_info() {
-    return device_info;
+    return this.device_info;
   }
 
   public String getOpenid() {
-    return openid;
+    return this.openid;
   }
 
   public String getIs_subscribe() {
-    return is_subscribe;
+    return this.is_subscribe;
   }
 
   public String getTrade_type() {
-    return trade_type;
+    return this.trade_type;
   }
 
   public String getBank_type() {
-    return bank_type;
+    return this.bank_type;
   }
 
   public String getTotal_fee() {
-    return total_fee;
+    return this.total_fee;
   }
 
   public String getCoupon_fee() {
-    return coupon_fee;
+    return this.coupon_fee;
   }
 
   public String getFee_type() {
-    return fee_type;
+    return this.fee_type;
   }
 
   public String getTransaction_id() {
-    return transaction_id;
+    return this.transaction_id;
   }
 
   public String getOut_trade_no() {
-    return out_trade_no;
+    return this.out_trade_no;
   }
 
   public String getAttach() {
-    return attach;
+    return this.attach;
   }
 
   public String getTime_end() {
-    return time_end;
+    return this.time_end;
   }
 
   public void setReturn_code(String return_code) {
@@ -228,67 +234,26 @@ public class WxMpPayResult implements Serializable {
   }
 
   public String getTrade_state_desc() {
-    return trade_state_desc;
+    return this.trade_state_desc;
   }
 
   public void setTrade_state_desc(String trade_state_desc) {
     this.trade_state_desc = trade_state_desc;
   }
 
-  @Override
-  public String toString() {
-    return "WxMpPayResult{" +
-        "return_code=" + return_code +
-        ", return_msg='" + return_msg + '\'' +
-        ", appid='" + appid + '\'' +
-        ", mch_id='" + mch_id + '\'' +
-        ", nonce_str='" + nonce_str + '\'' +
-        ", sign='" + sign + '\'' +
-        ", result_code='" + result_code + '\'' +
-        ", err_code='" + err_code + '\'' +
-        ", err_code_des='" + err_code_des + '\'' +
-        ", trade_state=" + trade_state +
-        ", trade_state_desc=" + trade_state_desc +
-        ", device_info='" + device_info + '\'' +
-        ", openid='" + openid + '\'' +
-        ", is_subscribe='" + is_subscribe + '\'' +
-        ", trade_type='" + trade_type + '\'' +
-        ", bank_type='" + bank_type + '\'' +
-        ", total_fee='" + total_fee + '\'' +
-        ", coupon_fee='" + coupon_fee + '\'' +
-        ", fee_type='" + fee_type + '\'' +
-        ", transaction_id='" + transaction_id + '\'' +
-        ", out_trade_no='" + out_trade_no + '\'' +
-        ", attach='" + attach + '\'' +
-        ", time_end='" + time_end + '\'' +
-        '}';
+  public String getCash_fee() {
+    return this.cash_fee;
   }
 
-/**
- * @return the cash_fee
- */
-public String getCash_fee() {
-	return cash_fee;
-}
+  public void setCash_fee(String cash_fee) {
+    this.cash_fee = cash_fee;
+  }
 
-/**
- * @param cash_fee the cash_fee to set
- */
-public void setCash_fee(String cash_fee) {
-	this.cash_fee = cash_fee;
-}
+  public String getCash_fee_type() {
+    return this.cash_fee_type;
+  }
 
-/**
- * @return the cash_fee_type
- */
-public String getCash_fee_type() {
-	return cash_fee_type;
-}
-
-/**
- * @param cash_fee_type the cash_fee_type to set
- */
-public void setCash_fee_type(String cash_fee_type) {
-	this.cash_fee_type = cash_fee_type;
-}
+  public void setCash_fee_type(String cash_fee_type) {
+    this.cash_fee_type = cash_fee_type;
+  }
 }
