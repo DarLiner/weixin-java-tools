@@ -12,38 +12,10 @@ import me.chanjar.weixin.common.session.StandardSessionManager;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.common.util.RandomUtils;
 import me.chanjar.weixin.common.util.crypto.SHA1;
-import me.chanjar.weixin.common.util.http.ApacheHttpClientBuilder;
-import me.chanjar.weixin.common.util.http.DefaultApacheHttpClientBuilder;
-import me.chanjar.weixin.common.util.http.RequestExecutor;
-import me.chanjar.weixin.common.util.http.SimpleGetRequestExecutor;
-import me.chanjar.weixin.common.util.http.SimplePostRequestExecutor;
-import me.chanjar.weixin.common.util.http.URIUtil;
-import me.chanjar.weixin.mp.api.WxMpCardService;
-import me.chanjar.weixin.mp.api.WxMpConfigStorage;
-import me.chanjar.weixin.mp.api.WxMpDataCubeService;
-import me.chanjar.weixin.mp.api.WxMpGroupService;
-import me.chanjar.weixin.mp.api.WxMpKefuService;
-import me.chanjar.weixin.mp.api.WxMpMaterialService;
-import me.chanjar.weixin.mp.api.WxMpMenuService;
-import me.chanjar.weixin.mp.api.WxMpPayService;
-import me.chanjar.weixin.mp.api.WxMpQrcodeService;
-import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.api.WxMpUserBlacklistService;
-import me.chanjar.weixin.mp.api.WxMpUserService;
-import me.chanjar.weixin.mp.api.WxMpUserTagService;
-import me.chanjar.weixin.mp.bean.WxMpIndustry;
-import me.chanjar.weixin.mp.bean.WxMpMassGroupMessage;
-import me.chanjar.weixin.mp.bean.WxMpMassNews;
-import me.chanjar.weixin.mp.bean.WxMpMassOpenIdsMessage;
-import me.chanjar.weixin.mp.bean.WxMpMassPreviewMessage;
-import me.chanjar.weixin.mp.bean.WxMpMassVideo;
-import me.chanjar.weixin.mp.bean.WxMpSemanticQuery;
-import me.chanjar.weixin.mp.bean.WxMpTemplateMessage;
-import me.chanjar.weixin.mp.bean.result.WxMpMassSendResult;
-import me.chanjar.weixin.mp.bean.result.WxMpMassUploadResult;
-import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
-import me.chanjar.weixin.mp.bean.result.WxMpSemanticQueryResult;
-import me.chanjar.weixin.mp.bean.result.WxMpUser;
+import me.chanjar.weixin.common.util.http.*;
+import me.chanjar.weixin.mp.api.*;
+import me.chanjar.weixin.mp.bean.*;
+import me.chanjar.weixin.mp.bean.result.*;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -421,7 +393,9 @@ public class WxMpServiceImpl implements WxMpService {
     int retryTimes = 0;
     do {
       try {
-        return executeInternal(executor, uri, data);
+        T result = executeInternal(executor, uri, data);
+        this.log.debug("\nurl:{}\nparams:{}\nresponse:{}",uri, data, result);
+        return result;
       } catch (WxErrorException e) {
         WxError error = e.getError();
         /**
@@ -465,7 +439,7 @@ public class WxMpServiceImpl implements WxMpService {
       if (error.getErrorCode() == 42001 || error.getErrorCode() == 40001) {
         // 强制设置wxMpConfigStorage它的access token过期了，这样在下一次请求里就会刷新access token
         this.configStorage.expireAccessToken();
-        return execute(executor, uri, data);
+        return this.execute(executor, uri, data);
       }
       if (error.getErrorCode() != 0) {
         throw new WxErrorException(error);
