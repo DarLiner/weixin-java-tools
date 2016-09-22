@@ -50,7 +50,10 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService {
   @Override
   public File mediaDownload(String media_id) throws WxErrorException {
     String url = MEDIA_API_URL_PREFIX + "/get";
-    return this.wxMpService.execute(new MediaDownloadRequestExecutor(this.wxMpService.getWxMpConfigStorage().getTmpDirFile()), url, "media_id=" + media_id);
+    return this.wxMpService.execute(
+      new MediaDownloadRequestExecutor(this.wxMpService.getWxMpConfigStorage().getTmpDirFile()),
+      url,
+      "media_id=" + media_id);
   }
 
   @Override
