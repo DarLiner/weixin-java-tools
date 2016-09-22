@@ -1,13 +1,6 @@
 package me.chanjar.weixin.mp.api.impl;
 
-import java.io.File;
-import java.util.Date;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.gson.JsonObject;
-
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -17,15 +10,15 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
 import me.chanjar.weixin.mp.bean.kefu.request.WxMpKfAccountRequest;
 import me.chanjar.weixin.mp.bean.kefu.request.WxMpKfSessionRequest;
-import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfList;
-import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfMsgList;
-import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfOnlineList;
-import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfSessionGetResult;
-import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfSessionList;
-import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfSessionWaitCaseList;
+import me.chanjar.weixin.mp.bean.kefu.result.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.util.Date;
 
 /**
- * 
+ *
  * @author Binary Wang
  *
  */
@@ -33,6 +26,7 @@ public class WxMpKefuServiceImpl implements WxMpKefuService {
   protected final Logger log = LoggerFactory
       .getLogger(WxMpKefuServiceImpl.class);
   private static final String API_URL_PREFIX = "https://api.weixin.qq.com/customservice";
+  private static final String API_URL_PREFIX_WITH_CGI_BIN = "https://api.weixin.qq.com/cgi-bin/customservice";
   private WxMpService wxMpService;
 
   public WxMpKefuServiceImpl(WxMpService wxMpService) {
@@ -44,26 +38,20 @@ public class WxMpKefuServiceImpl implements WxMpKefuService {
       throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/message/custom/send";
     String responseContent = this.wxMpService.post(url, message.toJson());
-    this.log.debug("\nurl:{}\nparams:{}\nresponse:{}", url, message.toJson(),
-        responseContent);
     return true;
   }
 
   @Override
   public WxMpKfList kfList() throws WxErrorException {
-    String url = API_URL_PREFIX + "/getkflist";
+    String url = API_URL_PREFIX_WITH_CGI_BIN + "/getkflist";
     String responseContent = this.wxMpService.get(url, null);
-    this.log.debug("\nurl:{}\nparams:{}\nresponse:{}", url, null,
-        responseContent);
     return WxMpKfList.fromJson(responseContent);
   }
 
   @Override
   public WxMpKfOnlineList kfOnlineList() throws WxErrorException {
-    String url = API_URL_PREFIX + "/getonlinekflist";
+    String url = API_URL_PREFIX_WITH_CGI_BIN + "/getonlinekflist";
     String responseContent = this.wxMpService.get(url, null);
-    this.log.debug("\nurl:{}\nparams:{}\nresponse:{}", url, null,
-        responseContent);
     return WxMpKfOnlineList.fromJson(responseContent);
   }
 
@@ -72,8 +60,6 @@ public class WxMpKefuServiceImpl implements WxMpKefuService {
       throws WxErrorException {
     String url = API_URL_PREFIX + "/kfaccount/add";
     String responseContent = this.wxMpService.post(url, request.toJson());
-    this.log.debug("\nurl:{}\nparams:{}\nresponse:{}", url, request.toJson(),
-        responseContent);
     return true;
   }
 
@@ -82,8 +68,6 @@ public class WxMpKefuServiceImpl implements WxMpKefuService {
       throws WxErrorException {
     String url = API_URL_PREFIX + "/kfaccount/update";
     String responseContent = this.wxMpService.post(url, request.toJson());
-    this.log.debug("\nurl:{}\nparams:{}\nresponse:{}", url, request.toJson(),
-        responseContent);
     return true;
   }
 
@@ -91,8 +75,6 @@ public class WxMpKefuServiceImpl implements WxMpKefuService {
   public boolean kfAccountInviteWorker(WxMpKfAccountRequest request) throws WxErrorException {
     String url = API_URL_PREFIX + "/kfaccount/inviteworker";
     String responseContent = this.wxMpService.post(url, request.toJson());
-    this.log.debug("\nurl:{}\nparams:{}\nresponse:{}", url, request.toJson(),
-        responseContent);
     return true;
   }
 
@@ -102,9 +84,6 @@ public class WxMpKefuServiceImpl implements WxMpKefuService {
     String url = API_URL_PREFIX + "/kfaccount/uploadheadimg?kf_account=" + kfAccount;
     WxMediaUploadResult responseContent = this.wxMpService
         .execute(new MediaUploadRequestExecutor(), url, imgFile);
-    this.log.debug("\nurl:{}\nparams:{}&file:{}\nresponse:{}", url, kfAccount,
-        imgFile.getAbsolutePath(),
-        responseContent);
     return true;
   }
 
@@ -112,8 +91,6 @@ public class WxMpKefuServiceImpl implements WxMpKefuService {
   public boolean kfAccountDel(String kfAccount) throws WxErrorException {
     String url = API_URL_PREFIX + "/kfaccount/del?kf_account=" + kfAccount;
     String responseContent = this.wxMpService.get(url, null);
-    this.log.debug("\nurl:{}\nparams:{}\nresponse:{}", url, null,
-        responseContent);
     return true;
   }
 
@@ -123,8 +100,6 @@ public class WxMpKefuServiceImpl implements WxMpKefuService {
     WxMpKfSessionRequest request = new WxMpKfSessionRequest(kfAccount, openid);
     String url = API_URL_PREFIX + "/kfsession/create";
     String responseContent = this.wxMpService.post(url, request.toJson());
-    this.log.debug("\nurl:{}\nparams:{}\nresponse:{}", url, request.toJson(),
-        responseContent);
     return true;
   }
 
@@ -134,8 +109,6 @@ public class WxMpKefuServiceImpl implements WxMpKefuService {
     WxMpKfSessionRequest request = new WxMpKfSessionRequest(kfAccount, openid);
     String url = API_URL_PREFIX + "/kfsession/close";
     String responseContent = this.wxMpService.post(url, request.toJson());
-    this.log.debug("\nurl:{}\nparams:{}\nresponse:{}", url, request.toJson(),
-        responseContent);
     return true;
   }
 
@@ -144,8 +117,6 @@ public class WxMpKefuServiceImpl implements WxMpKefuService {
       throws WxErrorException {
     String url = API_URL_PREFIX + "/kfsession/getsession?openid=" + openid;
     String responseContent = this.wxMpService.get(url, null);
-    this.log.debug("\nurl:{}\nparams:{}\nresponse:{}", url, null,
-        responseContent);
     return WxMpKfSessionGetResult.fromJson(responseContent);
   }
 
@@ -154,8 +125,6 @@ public class WxMpKefuServiceImpl implements WxMpKefuService {
       throws WxErrorException {
     String url = API_URL_PREFIX + "/kfsession/getsessionlist?kf_account=" + kfAccount;
     String responseContent = this.wxMpService.get(url, null);
-    this.log.debug("\nurl:{}\nparams:{}\nresponse:{}", url, null,
-        responseContent);
     return WxMpKfSessionList.fromJson(responseContent);
   }
 
@@ -164,8 +133,6 @@ public class WxMpKefuServiceImpl implements WxMpKefuService {
       throws WxErrorException {
     String url = API_URL_PREFIX + "/kfsession/getwaitcase";
     String responseContent = this.wxMpService.get(url, null);
-    this.log.debug("\nurl:{}\nparams:{}\nresponse:{}", url, null,
-        responseContent);
     return WxMpKfSessionWaitCaseList.fromJson(responseContent);
   }
 
@@ -188,8 +155,7 @@ public class WxMpKefuServiceImpl implements WxMpKefuService {
     param.addProperty("number", number); //number	每次获取条数，最多10000条
 
     String responseContent = this.wxMpService.post(url, param.toString());
-    this.log.debug("\nurl:{}\nparams:{}\nresponse:{}", url, param.toString(),
-        responseContent);
+
     return WxMpKfMsgList.fromJson(responseContent);
   }
 
