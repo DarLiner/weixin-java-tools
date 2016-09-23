@@ -195,7 +195,6 @@ public class WxMpCustomMessage implements Serializable {
 
   /**
    * 获得卡券消息builder
-   * @return
    */
   public static WxCardBuilder WXCARD() {
     return new WxCardBuilder();
