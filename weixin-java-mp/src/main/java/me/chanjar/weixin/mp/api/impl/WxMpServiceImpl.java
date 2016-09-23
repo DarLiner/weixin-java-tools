@@ -394,7 +394,7 @@ public class WxMpServiceImpl implements WxMpService {
     do {
       try {
         T result = executeInternal(executor, uri, data);
-        this.log.debug("\nurl:{}\nparams:{}\nresponse:{}",uri, data, result);
+        this.log.debug("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}",uri, data, result);
         return result;
       } catch (WxErrorException e) {
         WxError error = e.getError();
