@@ -439,7 +439,13 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     }
 
     String responseContent = this.wxMpService.post(url, xstream.toXML(request));
-    return (WxRedpackResult) xstream.fromXML(responseContent);
+    WxRedpackResult redpackResult = (WxRedpackResult) xstream.fromXML(responseContent);
+    if("FAIL".equals(redpackResult.getResultCode())){
+      throw new WxErrorException(
+          WxError.newBuilder().setErrorMsg(redpackResult.getErrCode() + ":" + redpackResult.getErrCodeDes()).build());
+    }
+
+    return redpackResult;
   }
 
   private Map<String, String> xmlBean2Map(Object bean) {
@@ -465,7 +471,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   }
 
   /**
-   * 微信公众号支付签名算法(详见:http://pay.weixin.qq.com/wiki/doc/api/index.php?chapter=4_3)
+   * 微信公众号支付签名算法(详见:https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=4_3)
    * @param packageParams 原始参数
    * @param signKey 加密Key(即 商户Key)
    * @return 签名字符串
