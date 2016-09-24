@@ -7,6 +7,7 @@ import me.chanjar.weixin.mp.bean.pay.WxMpPayCallback;
 import me.chanjar.weixin.mp.bean.pay.WxMpPayRefundResult;
 import me.chanjar.weixin.mp.bean.pay.WxMpPayResult;
 import me.chanjar.weixin.mp.bean.pay.WxRedpackResult;
+import me.chanjar.weixin.mp.bean.pay.WxSendRedpackRequest;
 import me.chanjar.weixin.mp.bean.result.WxMpPrepayIdResult;
 
 /**
@@ -138,5 +139,17 @@ public interface WxMpPayService {
    * <partnerKey></partnerKey>商户平台设置的API密钥
    *
    */
+  @Deprecated
   WxRedpackResult sendRedpack(Map<String, String> parameters) throws WxErrorException;
+
+  /**
+   * 发送微信红包给个人用户
+   * <pre> 
+   * 文档详见:
+   * 发送普通红包 https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_4&index=3
+   * 发送裂变红包 https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_5&index=4
+   * </pre>
+   */
+  WxRedpackResult sendRedpack(WxSendRedpackRequest request) throws WxErrorException;
+
 }

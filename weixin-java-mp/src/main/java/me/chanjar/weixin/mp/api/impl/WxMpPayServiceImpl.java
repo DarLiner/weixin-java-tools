@@ -1,6 +1,28 @@
 package me.chanjar.weixin.mp.api.impl;
 
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
+import org.apache.http.Consts;
+import org.apache.http.HttpHost;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.joor.Reflect;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.helpers.MessageFormatter;
+
+import com.beust.jcommander.internal.Maps;
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.crypto.WxCryptUtil;
@@ -11,22 +33,8 @@ import me.chanjar.weixin.mp.bean.pay.WxMpPayCallback;
 import me.chanjar.weixin.mp.bean.pay.WxMpPayRefundResult;
 import me.chanjar.weixin.mp.bean.pay.WxMpPayResult;
 import me.chanjar.weixin.mp.bean.pay.WxRedpackResult;
-import me.chanjar.weixin.mp.bean.result.*;
-import org.apache.http.Consts;
-import org.apache.http.HttpHost;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.helpers.MessageFormatter;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import me.chanjar.weixin.mp.bean.pay.WxSendRedpackRequest;
+import me.chanjar.weixin.mp.bean.result.WxMpPrepayIdResult;
 
 /**
  * Created by Binary Wang on 2016/7/28.
@@ -77,7 +85,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     packageParams.put("nonce_str", System.currentTimeMillis() + "");
     checkParameters(packageParams);
 
-    String sign = WxCryptUtil.createSign(packageParams,
+    String sign = WxCryptUtil.createSignForPay(packageParams,
             this.wxMpService.getWxMpConfigStorage().getPartnerKey());
     packageParams.put("sign", sign);
 
@@ -211,7 +219,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
       payInfo.put("codeUrl", wxMpPrepayIdResult.getCode_url());
     }
 
-    String finalSign = WxCryptUtil.createSign(payInfo,
+    String finalSign = WxCryptUtil.createSignForPay(payInfo,
             this.wxMpService.getWxMpConfigStorage().getPartnerKey());
     payInfo.put("paySign", finalSign);
     return payInfo;
@@ -238,7 +246,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     }
 
     packageParams.put("nonce_str", nonce_str);
-    packageParams.put("sign", WxCryptUtil.createSign(packageParams,
+    packageParams.put("sign", WxCryptUtil.createSignForPay(packageParams,
             this.wxMpService.getWxMpConfigStorage().getPartnerKey()));
 
     StringBuilder request = new StringBuilder("<xml>");
@@ -295,7 +303,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     refundParams.put("nonce_str", System.currentTimeMillis() + "");
     refundParams.put("op_user_id",
             this.wxMpService.getWxMpConfigStorage().getPartnerId());
-    String sign = WxCryptUtil.createSign(refundParams,
+    String sign = WxCryptUtil.createSignForPay(refundParams,
             this.wxMpService.getWxMpConfigStorage().getPartnerKey());
     refundParams.put("sign", sign);
 
@@ -354,11 +362,12 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   @Override
   public boolean checkJSSDKCallbackDataSignature(Map<String, String> kvm,
                                                  String signature) {
-    return signature.equals(WxCryptUtil.createSign(kvm,
+    return signature.equals(WxCryptUtil.createSignForPay(kvm,
             this.wxMpService.getWxMpConfigStorage().getPartnerKey()));
   }
 
   @Override
+  @Deprecated
   public WxRedpackResult sendRedpack(Map<String, String> parameters)
           throws WxErrorException {
     SortedMap<String, String> packageParams = new TreeMap<>(parameters);
@@ -368,7 +377,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
             this.wxMpService.getWxMpConfigStorage().getPartnerId());
     packageParams.put("nonce_str", System.currentTimeMillis() + "");
 
-    String sign = WxCryptUtil.createSign(packageParams,
+    String sign = WxCryptUtil.createSignForPay(packageParams,
             this.wxMpService.getWxMpConfigStorage().getPartnerKey());
     packageParams.put("sign", sign);
 
@@ -407,6 +416,51 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     } finally {
       httpPost.releaseConnection();
     }
+  }
+
+  @Override
+  public WxRedpackResult sendRedpack(WxSendRedpackRequest request) throws WxErrorException {
+    XStream xstream = XStreamInitializer.getInstance();
+    xstream.processAnnotations(WxRedpackResult.class);
+
+    request.setWxAppid(this.wxMpService.getWxMpConfigStorage().getAppId());
+    request.setMchId(this.wxMpService.getWxMpConfigStorage().getPartnerId());
+    request.setNonceStr(System.currentTimeMillis() + "");
+
+    String sign = WxCryptUtil.createSignForPay(xmlBean2Map(request),
+        this.wxMpService.getWxMpConfigStorage().getPartnerKey());
+    request.setSign(sign);
+
+    String url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack";
+    if (request.getAmtType() != null) {
+      //裂变红包
+      url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/sendgroupredpack";
+    }
+
+    String responseContent = this.wxMpService.post(url, xstream.toXML(request));
+    return (WxRedpackResult) xstream.fromXML(responseContent);
+  }
+
+  private Map<String, String> xmlBean2Map(Object bean) {
+    Map<String, String> result = Maps.newHashMap();
+    for (Entry<String, Reflect> entry : Reflect.on(bean).fields().entrySet()) {
+      Reflect reflect = entry.getValue();
+      if (reflect.get() == null) {
+        continue;
+      }
+
+      try {
+        Field field = WxSendRedpackRequest.class.getDeclaredField(entry.getKey());
+        if (field.isAnnotationPresent(XStreamAlias.class)) {
+          result.put(reflect.get().toString(), field.getAnnotation(XStreamAlias.class).value());
+        }
+      } catch (NoSuchFieldException | SecurityException e) {
+        e.printStackTrace();
+      }
+
+    }
+
+    return result;
   }
 
 }

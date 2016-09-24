@@ -85,8 +85,7 @@ public class WxCryptUtil {
    * @param signKey 加密Key(即 商户Key)
    * @return 签名字符串
    */
-  public static String createSign(Map<String, String> packageParams,
-                                  String signKey) {
+  public static String createSignForPay(Map<String, String> packageParams, String signKey) {
     SortedMap<String, String> sortedMap = new TreeMap<>();
     sortedMap.putAll(packageParams);
 

@@ -156,4 +156,141 @@ public class WxSendRedpackRequest {
    */
   @XStreamAlias("consume_mch_id")
   private String consumeMchId;
+
+  public String getMchBillno() {
+    return mchBillno;
+  }
+
+  public void setMchBillno(String mchBillno) {
+    this.mchBillno = mchBillno;
+  }
+
+  public String getSendName() {
+    return sendName;
+  }
+
+  public void setSendName(String sendName) {
+    this.sendName = sendName;
+  }
+
+  public String getReOpenid() {
+    return reOpenid;
+  }
+
+  public void setReOpenid(String reOpenid) {
+    this.reOpenid = reOpenid;
+  }
+
+  public Integer getTotalAmount() {
+    return totalAmount;
+  }
+
+  public void setTotalAmount(Integer totalAmount) {
+    this.totalAmount = totalAmount;
+  }
+
+  public Integer getTotalNum() {
+    return totalNum;
+  }
+
+  public void setTotalNum(Integer totalNum) {
+    this.totalNum = totalNum;
+  }
+
+  public String getAmtType() {
+    return amtType;
+  }
+
+  public void setAmtType(String amtType) {
+    this.amtType = amtType;
+  }
+
+  public String getWishing() {
+    return wishing;
+  }
+
+  public void setWishing(String wishing) {
+    this.wishing = wishing;
+  }
+
+  public String getClientIp() {
+    return clientIp;
+  }
+
+  public void setClientIp(String clientIp) {
+    this.clientIp = clientIp;
+  }
+
+  public String getActName() {
+    return actName;
+  }
+
+  public void setActName(String actName) {
+    this.actName = actName;
+  }
+
+  public String getRemark() {
+    return remark;
+  }
+
+  public void setRemark(String remark) {
+    this.remark = remark;
+  }
+
+  public String getWxAppid() {
+    return wxAppid;
+  }
+
+  public void setWxAppid(String wxAppid) {
+    this.wxAppid = wxAppid;
+  }
+
+  public String getMchId() {
+    return mchId;
+  }
+
+  public void setMchId(String mchId) {
+    this.mchId = mchId;
+  }
+
+  public String getNonceStr() {
+    return nonceStr;
+  }
+
+  public void setNonceStr(String nonceStr) {
+    this.nonceStr = nonceStr;
+  }
+
+  public String getSign() {
+    return sign;
+  }
+
+  public void setSign(String sign) {
+    this.sign = sign;
+  }
+
+  public String getSceneId() {
+    return sceneId;
+  }
+
+  public void setSceneId(String sceneId) {
+    this.sceneId = sceneId;
+  }
+
+  public String getRiskInfo() {
+    return riskInfo;
+  }
+
+  public void setRiskInfo(String riskInfo) {
+    this.riskInfo = riskInfo;
+  }
+
+  public String getConsumeMchId() {
+    return consumeMchId;
+  }
+
+  public void setConsumeMchId(String consumeMchId) {
+    this.consumeMchId = consumeMchId;
+  }
+
 }
