@@ -421,6 +421,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   @Override
   public WxRedpackResult sendRedpack(WxSendRedpackRequest request) throws WxErrorException {
     XStream xstream = XStreamInitializer.getInstance();
+    xstream.processAnnotations(WxSendRedpackRequest.class);
     xstream.processAnnotations(WxRedpackResult.class);
 
     request.setWxAppid(this.wxMpService.getWxMpConfigStorage().getAppId());
