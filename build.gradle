@@ -11,11 +11,11 @@ subprojects {
   targetCompatibility = 1.7
 
 
-  repositories {
+  //repositories {
     //mavenLocal()
 
     //maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
-  }
+  //}
 
 
   dependencies {
