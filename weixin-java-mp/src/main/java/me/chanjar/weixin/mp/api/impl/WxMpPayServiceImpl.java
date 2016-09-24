@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.http.Consts;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
@@ -25,7 +26,6 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.util.crypto.WxCryptUtil;
 import me.chanjar.weixin.common.util.http.Utf8ResponseHandler;
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
 import me.chanjar.weixin.mp.api.WxMpPayService;
@@ -85,7 +85,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     packageParams.put("nonce_str", System.currentTimeMillis() + "");
     checkParameters(packageParams);
 
-    String sign = WxCryptUtil.createSignForPay(packageParams,
+    String sign = this.createSign(packageParams,
             this.wxMpService.getWxMpConfigStorage().getPartnerKey());
     packageParams.put("sign", sign);
 
@@ -219,7 +219,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
       payInfo.put("codeUrl", wxMpPrepayIdResult.getCode_url());
     }
 
-    String finalSign = WxCryptUtil.createSignForPay(payInfo,
+    String finalSign = this.createSign(payInfo,
             this.wxMpService.getWxMpConfigStorage().getPartnerKey());
     payInfo.put("paySign", finalSign);
     return payInfo;
@@ -246,7 +246,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     }
 
     packageParams.put("nonce_str", nonce_str);
-    packageParams.put("sign", WxCryptUtil.createSignForPay(packageParams,
+    packageParams.put("sign", this.createSign(packageParams,
             this.wxMpService.getWxMpConfigStorage().getPartnerKey()));
 
     StringBuilder request = new StringBuilder("<xml>");
@@ -303,7 +303,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     refundParams.put("nonce_str", System.currentTimeMillis() + "");
     refundParams.put("op_user_id",
             this.wxMpService.getWxMpConfigStorage().getPartnerId());
-    String sign = WxCryptUtil.createSignForPay(refundParams,
+    String sign = this.createSign(refundParams,
             this.wxMpService.getWxMpConfigStorage().getPartnerKey());
     refundParams.put("sign", sign);
 
@@ -362,7 +362,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   @Override
   public boolean checkJSSDKCallbackDataSignature(Map<String, String> kvm,
                                                  String signature) {
-    return signature.equals(WxCryptUtil.createSignForPay(kvm,
+    return signature.equals(this.createSign(kvm,
             this.wxMpService.getWxMpConfigStorage().getPartnerKey()));
   }
 
@@ -377,7 +377,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
             this.wxMpService.getWxMpConfigStorage().getPartnerId());
     packageParams.put("nonce_str", System.currentTimeMillis() + "");
 
-    String sign = WxCryptUtil.createSignForPay(packageParams,
+    String sign = this.createSign(packageParams,
             this.wxMpService.getWxMpConfigStorage().getPartnerKey());
     packageParams.put("sign", sign);
 
@@ -428,7 +428,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     request.setMchId(this.wxMpService.getWxMpConfigStorage().getPartnerId());
     request.setNonceStr(System.currentTimeMillis() + "");
 
-    String sign = WxCryptUtil.createSignForPay(xmlBean2Map(request),
+    String sign = this.createSign(xmlBean2Map(request),
         this.wxMpService.getWxMpConfigStorage().getPartnerKey());
     request.setSign(sign);
 
@@ -453,7 +453,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
       try {
         Field field = WxSendRedpackRequest.class.getDeclaredField(entry.getKey());
         if (field.isAnnotationPresent(XStreamAlias.class)) {
-          result.put(reflect.get().toString(), field.getAnnotation(XStreamAlias.class).value());
+          result.put(field.getAnnotation(XStreamAlias.class).value(), reflect.get().toString());
         }
       } catch (NoSuchFieldException | SecurityException e) {
         e.printStackTrace();
@@ -462,6 +462,28 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     }
 
     return result;
+  }
+
+  /**
+   * 微信公众号支付签名算法(详见:http://pay.weixin.qq.com/wiki/doc/api/index.php?chapter=4_3)
+   * @param packageParams 原始参数
+   * @param signKey 加密Key(即 商户Key)
+   * @return 签名字符串
+   */
+  private String createSign(Map<String, String> packageParams, String signKey) {
+    SortedMap<String, String> sortedMap = new TreeMap<>(packageParams);
+
+    StringBuffer toSign = new StringBuffer();
+    for (String key : sortedMap.keySet()) {
+      String value = packageParams.get(key);
+      if (null != value && !"".equals(value) && !"sign".equals(key) && !"key".equals(key)) {
+        toSign.append(key + "=" + value + "&");
+      }
+    }
+
+    toSign.append("key=" + signKey);
+
+    return DigestUtils.md5Hex(toSign.toString()).toUpperCase();
   }
 
 }
