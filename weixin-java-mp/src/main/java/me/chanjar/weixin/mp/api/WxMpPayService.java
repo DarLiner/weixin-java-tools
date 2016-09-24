@@ -119,7 +119,7 @@ public interface WxMpPayService {
   boolean checkJSSDKCallbackDataSignature(Map<String, String> kvm, String signature);
 
   /**
-   * 发送微信红包给个人用户
+   * 发送普通微信红包给个人用户
    * <pre>
    * 需要传入的必填参数如下:
    * mch_billno//商户订单号
@@ -131,7 +131,7 @@ public interface WxMpPayService {
    * client_ip//服务器Ip地址
    * act_name//活动名称
    * remark //备注
-   * 文档详见:https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_5
+   * 文档详见:https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_4&index=3
    * 使用现金红包功能需要在xml配置文件中额外设置:
    * </pre>
    * <partnerId></partnerId>微信商户平台ID
