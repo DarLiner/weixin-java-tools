@@ -1,4 +1,4 @@
-package me.chanjar.weixin.mp.bean.result;
+package me.chanjar.weixin.mp.bean.pay;
 
 import java.io.Serializable;
 

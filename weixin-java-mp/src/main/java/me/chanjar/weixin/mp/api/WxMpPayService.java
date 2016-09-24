@@ -1,9 +1,13 @@
 package me.chanjar.weixin.mp.api;
 
-import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.mp.bean.result.*;
-
 import java.util.Map;
+
+import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.mp.bean.pay.WxMpPayCallback;
+import me.chanjar.weixin.mp.bean.pay.WxMpPayRefundResult;
+import me.chanjar.weixin.mp.bean.pay.WxMpPayResult;
+import me.chanjar.weixin.mp.bean.pay.WxRedpackResult;
+import me.chanjar.weixin.mp.bean.result.WxMpPrepayIdResult;
 
 /**
  *  微信支付相关接口
@@ -116,7 +120,7 @@ public interface WxMpPayService {
 
   /**
    * 发送微信红包给个人用户
-   * <p>
+   * <pre>
    * 需要传入的必填参数如下:
    * mch_billno//商户订单号
    * send_name//商户名称
@@ -128,8 +132,8 @@ public interface WxMpPayService {
    * act_name//活动名称
    * remark //备注
    * 文档详见:https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_5
-   * <p>
    * 使用现金红包功能需要在xml配置文件中额外设置:
+   * </pre>
    * <partnerId></partnerId>微信商户平台ID
    * <partnerKey></partnerKey>商户平台设置的API密钥
    *

@@ -8,7 +8,7 @@ import org.junit.Test;
 import com.thoughtworks.xstream.XStream;
 
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
-import me.chanjar.weixin.mp.bean.result.WxRedpackResult;
+import me.chanjar.weixin.mp.bean.pay.WxRedpackResult;
 
 public class WxRedpackResultTest {
 
