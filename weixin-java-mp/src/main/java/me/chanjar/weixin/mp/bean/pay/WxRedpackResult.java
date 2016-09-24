@@ -2,6 +2,9 @@ package me.chanjar.weixin.mp.bean.pay;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 /**
@@ -13,9 +16,6 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 @XStreamAlias("xml")
 public class WxRedpackResult implements Serializable {
 
-  /**
-   * 
-   */
   private static final long serialVersionUID = -4837415036337132073L;
 
   @XStreamAlias("return_code")
@@ -100,19 +100,6 @@ public class WxRedpackResult implements Serializable {
   
   @Override
   public String toString() {
-    return "WxRedpackResult{" +
-        "returnCode=" + this.returnCode +
-        ", returnMsg=" + this.returnMsg +
-        ", sign=" + this.sign +
-        ", errCode=" + this.errCode +
-        ", errCodeDes=" + this.errCodeDes +
-        ", mchBillno=" + this.mchBillno +
-        ", mchId=" + this.mchId +
-        ", wxappid=" + this.wxappid +
-        ", reOpenid=" + this.reOpenid +
-        ", totalAmount=" + this.totalAmount +
-        ", sendTime=" + this.sendTime +
-        ", sendListid=" + this.sendListid +
-        '}';
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
 }
