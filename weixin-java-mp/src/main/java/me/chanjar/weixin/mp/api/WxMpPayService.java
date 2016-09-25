@@ -8,6 +8,7 @@ import me.chanjar.weixin.mp.bean.pay.WxMpPayRefundResult;
 import me.chanjar.weixin.mp.bean.pay.WxMpPayResult;
 import me.chanjar.weixin.mp.bean.pay.WxRedpackResult;
 import me.chanjar.weixin.mp.bean.pay.WxSendRedpackRequest;
+import me.chanjar.weixin.mp.bean.pay.WxUnifiedOrderRequest;
 import me.chanjar.weixin.mp.bean.result.WxMpPrepayIdResult;
 
 /**
@@ -16,7 +17,6 @@ import me.chanjar.weixin.mp.bean.result.WxMpPrepayIdResult;
  * @author binarywang (https://github.com/binarywang)
  */
 public interface WxMpPayService {
-
 
   /**
    * 统一下单(详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1)
@@ -39,12 +39,22 @@ public interface WxMpPayService {
    * 在发起微信支付前，需要调用统一下单接口，获取"预支付交易会话标识"
    *
    * @param parameters All required/optional parameters for weixin payment
+   * @deprecated use me.chanjar.weixin.mp.api.WxMpPayService.unifiedOrder(WxUnifiedOrderRequest) instead 
    */
+  @Deprecated
   WxMpPrepayIdResult getPrepayId(Map<String, String> parameters);
 
   /**
+   * 统一下单(详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1)
+   * 在发起微信支付前，需要调用统一下单接口，获取"预支付交易会话标识"
+   * 接口地址：https://api.mch.weixin.qq.com/pay/unifiedorder
+   *
+   */
+  WxMpPrepayIdResult unifiedOrder(WxUnifiedOrderRequest request);
+
+  /**
    * 该接口调用“统一下单”接口，并拼装发起支付请求需要的参数
-   * 详见http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E5.8F.91.E8.B5.B7.E4.B8.80.E4.B8.AA.E5.BE.AE.E4.BF.A1.E6.94.AF.E4.BB.98.E8.AF.B7.E6.B1.82
+   * 详见http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115&token=&lang=zh_CN
    *
    * @param parameters the required or optional parameters
    */
@@ -52,7 +62,7 @@ public interface WxMpPayService {
 
   /**
    * 该接口调用“统一下单”接口，并拼装NATIVE发起支付请求需要的参数
-   * 详见http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E5.8F.91.E8.B5.B7.E4.B8.80.E4.B8.AA.E5.BE.AE.E4.BF.A1.E6.94.AF.E4.BB.98.E8.AF.B7.E6.B1.82
+   * 详见http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115&token=&lang=zh_CN
    * tradeType 交易类型 NATIVE （其他交易类型JSAPI，APP，WAP）
    *
    * @param productId  商户商品ID
@@ -61,14 +71,14 @@ public interface WxMpPayService {
    * @param body       商品描述
    * @param ip         发起支付的客户端IP
    * @param notifyUrl  通知地址
-   * @deprecated Use me.chanjar.weixin.mp.api.WxMpService.getPayInfo(Map<String, String>) instead
+   * @deprecated Use me.chanjar.weixin.mp.api.WxMpPayService.getPayInfo(Map<String, String>) instead
    */
   @Deprecated
   Map<String, String> getNativePayInfo(String productId, String outTradeNo, double amt, String body, String ip, String notifyUrl) throws WxErrorException;
 
   /**
    * 该接口调用“统一下单”接口，并拼装JSAPI发起支付请求需要的参数
-   * 详见http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E5.8F.91.E8.B5.B7.E4.B8.80.E4.B8.AA.E5.BE.AE.E4.BF.A1.E6.94.AF.E4.BB.98.E8.AF.B7.E6.B1.82
+   * 详见http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115&token=&lang=zh_CN
    * tradeType 交易类型 JSAPI(其他交易类型NATIVE，APP，WAP)
    *
    * @param openId     支付人openId
@@ -77,7 +87,7 @@ public interface WxMpPayService {
    * @param body       商品描述
    * @param ip         发起支付的客户端IP
    * @param notifyUrl  通知地址
-   * @deprecated Use me.chanjar.weixin.mp.api.WxMpService.getPayInfo(Map<String, String>) instead
+   * @deprecated Use me.chanjar.weixin.mp.api.WxMpPayService.getPayInfo(Map<String, String>) instead
    */
   @Deprecated
   Map<String, String> getJsapiPayInfo(String openId, String outTradeNo, double amt, String body, String ip, String notifyUrl) throws WxErrorException;
@@ -137,6 +147,7 @@ public interface WxMpPayService {
    * </pre>
    * <partnerId></partnerId>微信商户平台ID
    * <partnerKey></partnerKey>商户平台设置的API密钥
+   * @deprecated use me.chanjar.weixin.mp.api.WxMpPayService.sendRedpack(WxSendRedpackRequest) instead
    *
    */
   @Deprecated

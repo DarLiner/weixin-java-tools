@@ -56,6 +56,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   }
 
   @Override
+  @Deprecated
   public WxMpPrepayIdResult getPrepayId(String openId, String outTradeNo,
                                         double amt, String body, String tradeType, String ip,
                                         String callbackUrl) {
@@ -144,6 +145,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   }
 
   @Override
+  @Deprecated
   public Map<String, String> getJsapiPayInfo(String openId, String outTradeNo,
                                              double amt, String body, String ip, String callbackUrl)
           throws WxErrorException {
@@ -164,6 +166,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   }
 
   @Override
+  @Deprecated
   public Map<String, String> getNativePayInfo(String productId,
                                               String outTradeNo, double amt, String body, String ip, String callbackUrl)
           throws WxErrorException {
