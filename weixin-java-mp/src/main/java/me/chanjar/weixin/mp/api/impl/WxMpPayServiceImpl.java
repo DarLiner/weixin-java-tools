@@ -9,6 +9,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.joor.Reflect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -168,6 +169,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   }
 
   @Override
+  @Deprecated
   public Map<String, String> getPayInfo(Map<String, String> parameters)
       throws WxErrorException {
     WxMpPrepayIdResult wxMpPrepayIdResult = getPrepayId(parameters);
@@ -477,7 +479,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
 
     if (!TRADE_TYPES.contains(request.getTradeType())) {
       throw new IllegalArgumentException(
-          "trade_type目前必须为" + TRADE_TYPES + "其中之一");
+"trade_type目前必须为" + TRADE_TYPES + "其中之一");
 
     }
 
@@ -489,6 +491,41 @@ public class WxMpPayServiceImpl implements WxMpPayService {
         && request.getProductId() == null) {
       throw new IllegalArgumentException("当 trade_type是'NATIVE'时未指定product_id");
     }
+  }
+
+  @Override
+  public Map<String, String> getPayInfo(WxUnifiedOrderRequest request) throws WxErrorException {
+    WxUnifiedOrderResult unifiedOrderResult = this.unifiedOrder(request);
+
+    if (!"SUCCESS".equalsIgnoreCase(unifiedOrderResult.getReturnCode())
+        || !"SUCCESS".equalsIgnoreCase(unifiedOrderResult.getResultCode())) {
+      throw new WxErrorException(WxError.newBuilder().setErrorCode(-1)
+          .setErrorMsg("return_code:" + unifiedOrderResult.getReturnCode() + ";return_msg:"
+          + unifiedOrderResult.getReturnMsg() + ";result_code:" + unifiedOrderResult.getResultCode() + ";err_code"
+              + unifiedOrderResult.getErrCode() + ";err_code_des" + unifiedOrderResult.getErrCodeDes())
+          .build());
+    }
+
+    String prepayId = unifiedOrderResult.getPrepayId();
+    if (StringUtils.isBlank(prepayId)) {
+      throw new RuntimeException(String.format("Failed to get prepay id due to error code '%s'(%s).",
+          unifiedOrderResult.getErrCode(), unifiedOrderResult.getErrCodeDes()));
+    }
+
+    Map<String, String> payInfo = new HashMap<>();
+    payInfo.put("appId", this.wxMpService.getWxMpConfigStorage().getAppId());
+    // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+    payInfo.put("timeStamp", String.valueOf(System.currentTimeMillis() / 1000));
+    payInfo.put("nonceStr", System.currentTimeMillis() + "");
+    payInfo.put("package", "prepay_id=" + prepayId);
+    payInfo.put("signType", "MD5");
+    if ("NATIVE".equals(request.getTradeType())) {
+      payInfo.put("codeUrl", unifiedOrderResult.getCodeURL());
+    }
+
+    String finalSign = this.createSign(payInfo, this.wxMpService.getWxMpConfigStorage().getPartnerKey());
+    payInfo.put("paySign", finalSign);
+    return payInfo;
   }
 
 }

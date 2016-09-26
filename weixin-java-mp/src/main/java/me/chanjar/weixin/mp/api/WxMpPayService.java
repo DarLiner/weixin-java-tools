@@ -65,8 +65,17 @@ public interface WxMpPayService {
    * 详见http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115&token=&lang=zh_CN
    *
    * @param parameters the required or optional parameters
+   * @deprecated use me.chanjar.weixin.mp.api.WxMpPayService.getPayInfo(WxUnifiedOrderRequest) instead.
    */
+  @Deprecated
   Map<String, String> getPayInfo(Map<String, String> parameters) throws WxErrorException;
+
+  /**
+   * 该接口调用“统一下单”接口，并拼装发起支付请求需要的参数
+   * 详见http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115&token=&lang=zh_CN
+   *
+   */
+  Map<String, String> getPayInfo(WxUnifiedOrderRequest request) throws WxErrorException;
 
   /**
    * 该接口调用“统一下单”接口，并拼装NATIVE发起支付请求需要的参数
@@ -79,7 +88,7 @@ public interface WxMpPayService {
    * @param body       商品描述
    * @param ip         发起支付的客户端IP
    * @param notifyUrl  通知地址
-   * @deprecated Use me.chanjar.weixin.mp.api.WxMpPayService.getPayInfo(Map<String, String>) instead
+   * @deprecated Use me.chanjar.weixin.mp.api.WxMpPayService.getPayInfo(WxUnifiedOrderRequest) instead
    */
   @Deprecated
   Map<String, String> getNativePayInfo(String productId, String outTradeNo, double amt, String body, String ip, String notifyUrl) throws WxErrorException;
@@ -95,7 +104,7 @@ public interface WxMpPayService {
    * @param body       商品描述
    * @param ip         发起支付的客户端IP
    * @param notifyUrl  通知地址
-   * @deprecated Use me.chanjar.weixin.mp.api.WxMpPayService.getPayInfo(Map<String, String>) instead
+   * @deprecated Use me.chanjar.weixin.mp.api.WxMpPayService.getPayInfo(WxUnifiedOrderRequest) instead
    */
   @Deprecated
   Map<String, String> getJsapiPayInfo(String openId, String outTradeNo, double amt, String body, String ip, String notifyUrl) throws WxErrorException;
