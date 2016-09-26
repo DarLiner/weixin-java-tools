@@ -6,10 +6,11 @@ import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.bean.pay.WxMpPayCallback;
 import me.chanjar.weixin.mp.bean.pay.WxMpPayRefundResult;
 import me.chanjar.weixin.mp.bean.pay.WxMpPayResult;
+import me.chanjar.weixin.mp.bean.pay.WxMpPrepayIdResult;
 import me.chanjar.weixin.mp.bean.pay.WxRedpackResult;
 import me.chanjar.weixin.mp.bean.pay.WxSendRedpackRequest;
 import me.chanjar.weixin.mp.bean.pay.WxUnifiedOrderRequest;
-import me.chanjar.weixin.mp.bean.result.WxMpPrepayIdResult;
+import me.chanjar.weixin.mp.bean.pay.WxUnifiedOrderResult;
 
 /**
  *  微信支付相关接口
@@ -48,9 +49,11 @@ public interface WxMpPayService {
    * 统一下单(详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1)
    * 在发起微信支付前，需要调用统一下单接口，获取"预支付交易会话标识"
    * 接口地址：https://api.mch.weixin.qq.com/pay/unifiedorder
+   * @throws WxErrorException 
    *
    */
-  WxMpPrepayIdResult unifiedOrder(WxUnifiedOrderRequest request);
+  WxUnifiedOrderResult unifiedOrder(WxUnifiedOrderRequest request)
+      throws WxErrorException;
 
   /**
    * 该接口调用“统一下单”接口，并拼装发起支付请求需要的参数

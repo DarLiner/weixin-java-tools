@@ -5,9 +5,12 @@ import org.testng.annotations.Test;
 
 import com.google.inject.Inject;
 
+import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.ApiTestModule;
 import me.chanjar.weixin.mp.bean.pay.WxRedpackResult;
 import me.chanjar.weixin.mp.bean.pay.WxSendRedpackRequest;
+import me.chanjar.weixin.mp.bean.pay.WxUnifiedOrderRequest;
+import me.chanjar.weixin.mp.bean.pay.WxUnifiedOrderResult;
 
 /**
  * 测试支付相关接口
@@ -23,11 +26,6 @@ public class WxMpPayServiceImplTest {
 
   @Test
   public void testGetPrepayId() throws Exception {
-
-  }
-
-  @Test
-  public void testGetPrepayId1() throws Exception {
 
   }
 
@@ -78,4 +76,16 @@ public class WxMpPayServiceImplTest {
     System.err.println(redpackResult);
   }
 
+  /**
+   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#unifiedOrder(me.chanjar.weixin.mp.bean.pay.WxUnifiedOrderRequest)}.
+   * @throws WxErrorException 
+   */
+  @Test
+  public void testUnifiedOrder() throws WxErrorException {
+    WxUnifiedOrderResult result = this.wxService.getPayService()
+        .unifiedOrder(WxUnifiedOrderRequest.builder().body("1111111")
+            .totalFee(1).spbillCreateIp("111111").notifyURL("111111")
+            .tradeType("JSAPI1").openid("122").outTradeNo("111111").build());
+    System.err.println(result);
+  }
 }

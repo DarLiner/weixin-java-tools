@@ -158,7 +158,7 @@ public class WxSendRedpackRequest {
   private String consumeMchId;
 
   public String getMchBillno() {
-    return mchBillno;
+    return this.mchBillno;
   }
 
   public void setMchBillno(String mchBillno) {
@@ -166,7 +166,7 @@ public class WxSendRedpackRequest {
   }
 
   public String getSendName() {
-    return sendName;
+    return this.sendName;
   }
 
   public void setSendName(String sendName) {
@@ -174,7 +174,7 @@ public class WxSendRedpackRequest {
   }
 
   public String getReOpenid() {
-    return reOpenid;
+    return this.reOpenid;
   }
 
   public void setReOpenid(String reOpenid) {
@@ -182,7 +182,7 @@ public class WxSendRedpackRequest {
   }
 
   public Integer getTotalAmount() {
-    return totalAmount;
+    return this.totalAmount;
   }
 
   public void setTotalAmount(Integer totalAmount) {
@@ -190,7 +190,7 @@ public class WxSendRedpackRequest {
   }
 
   public Integer getTotalNum() {
-    return totalNum;
+    return this.totalNum;
   }
 
   public void setTotalNum(Integer totalNum) {
@@ -198,7 +198,7 @@ public class WxSendRedpackRequest {
   }
 
   public String getAmtType() {
-    return amtType;
+    return this.amtType;
   }
 
   public void setAmtType(String amtType) {
@@ -206,7 +206,7 @@ public class WxSendRedpackRequest {
   }
 
   public String getWishing() {
-    return wishing;
+    return this.wishing;
   }
 
   public void setWishing(String wishing) {
@@ -214,7 +214,7 @@ public class WxSendRedpackRequest {
   }
 
   public String getClientIp() {
-    return clientIp;
+    return this.clientIp;
   }
 
   public void setClientIp(String clientIp) {
@@ -222,7 +222,7 @@ public class WxSendRedpackRequest {
   }
 
   public String getActName() {
-    return actName;
+    return this.actName;
   }
 
   public void setActName(String actName) {
@@ -230,7 +230,7 @@ public class WxSendRedpackRequest {
   }
 
   public String getRemark() {
-    return remark;
+    return this.remark;
   }
 
   public void setRemark(String remark) {
@@ -238,7 +238,7 @@ public class WxSendRedpackRequest {
   }
 
   public String getWxAppid() {
-    return wxAppid;
+    return this.wxAppid;
   }
 
   public void setWxAppid(String wxAppid) {
@@ -246,7 +246,7 @@ public class WxSendRedpackRequest {
   }
 
   public String getMchId() {
-    return mchId;
+    return this.mchId;
   }
 
   public void setMchId(String mchId) {
@@ -254,7 +254,7 @@ public class WxSendRedpackRequest {
   }
 
   public String getNonceStr() {
-    return nonceStr;
+    return this.nonceStr;
   }
 
   public void setNonceStr(String nonceStr) {
@@ -262,7 +262,7 @@ public class WxSendRedpackRequest {
   }
 
   public String getSign() {
-    return sign;
+    return this.sign;
   }
 
   public void setSign(String sign) {
@@ -270,7 +270,7 @@ public class WxSendRedpackRequest {
   }
 
   public String getSceneId() {
-    return sceneId;
+    return this.sceneId;
   }
 
   public void setSceneId(String sceneId) {
@@ -278,7 +278,7 @@ public class WxSendRedpackRequest {
   }
 
   public String getRiskInfo() {
-    return riskInfo;
+    return this.riskInfo;
   }
 
   public void setRiskInfo(String riskInfo) {
@@ -286,7 +286,7 @@ public class WxSendRedpackRequest {
   }
 
   public String getConsumeMchId() {
-    return consumeMchId;
+    return this.consumeMchId;
   }
 
   public void setConsumeMchId(String consumeMchId) {

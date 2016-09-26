@@ -19,32 +19,32 @@ public class WxRedpackResult implements Serializable {
   private static final long serialVersionUID = -4837415036337132073L;
 
   @XStreamAlias("return_code")
-  String returnCode;
+  private String returnCode;
   @XStreamAlias("return_msg")
-  String returnMsg;
+  private String returnMsg;
   @XStreamAlias("sign")
-  String sign;
+  private String sign;
   @XStreamAlias("result_code")
-  String resultCode;
+  private String resultCode;
   
   @XStreamAlias("err_code")
-  String errCode;
+  private String errCode;
   @XStreamAlias("err_code_des")
-  String errCodeDes;
+  private String errCodeDes;
   @XStreamAlias("mch_billno")
-  String mchBillno;
+  private String mchBillno;
   @XStreamAlias("mch_id")
-  String mchId;
+  private String mchId;
   @XStreamAlias("wxappid")
-  String wxappid;
+  private String wxappid;
   @XStreamAlias("re_openid")
-  String reOpenid;
+  private String reOpenid;
   @XStreamAlias("total_amount")
-  int totalAmount;
+  private int totalAmount;
   @XStreamAlias("send_time")
-  String sendTime;
+  private String sendTime;
   @XStreamAlias("send_listid")
-  String sendListid;
+  private String sendListid;
   
   public String getErrCode() {
     return this.errCode;

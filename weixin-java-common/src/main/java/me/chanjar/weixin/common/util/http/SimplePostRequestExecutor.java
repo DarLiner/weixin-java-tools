@@ -35,6 +35,12 @@ public class SimplePostRequestExecutor implements RequestExecutor<String, String
 
     try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
       String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
+      if (responseContent.isEmpty()) {
+        throw new WxErrorException(
+            WxError.newBuilder().setErrorCode(9999).setErrorMsg("无响应内容")
+                .build());
+      }
+
       if (responseContent.startsWith("<xml>")) {
         //xml格式输出直接返回
         return responseContent;
