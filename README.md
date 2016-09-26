@@ -20,16 +20,16 @@
 ===========
 
 ## 版本说明
-* 本项目定为每月发布一次正式版，版本号格式为X.X.0（如2.0.0，2.1.0等），月初或月底发布新版本，遇到重大问题需修复会及时提交新版本，欢迎大家随时提交Pull Request。
-* BUG修复和新特性一般会先发布成小版本作为临时版本（如2.0.1，2.0.2等，即尾号不为0，以区别于正式版）。
-* 目前最新版本号为 ![Maven Central](https://img.shields.io/maven-central/v/com.github.binarywang/weixin-java-parent.svg) ，也可以通过访问如下地址查看所有最新的版本：
-- [【公众号】](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.github.binarywang%22%20AND%20a%3A%22weixin-java-mp%22)
-- [【企业号】](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.github.binarywang%22%20AND%20a%3A%22weixin-java-cp%22)
-
+* 本项目定为每月发布一次正式版，版本号格式为X.X.0（如2.0.0，2.1.0等），月初或月底发布新版本，遇到重大问题需修复会及时提交新版本，欢迎大家随时提交Pull Request；
+* BUG修复和新特性一般会先发布成小版本作为临时版本（如2.0.1，2.0.2等，即尾号不为0，以区别于正式版）；
+* 目前最新版本号为 ![Maven Central](https://img.shields.io/maven-central/v/com.github.binarywang/weixin-java-parent.svg) ，也可以通过访问链接[【公众号】](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.github.binarywang%22%20AND%20a%3A%22weixin-java-mp%22) [【企业号】](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.github.binarywang%22%20AND%20a%3A%22weixin-java-cp%22)
+分别查看所有最新的版本。 
 
 ## Maven & Gradle
 
 * 公众号（订阅号、服务号）：
+
+maven：
 ```xml
 <dependency>
   <groupId>com.github.binarywang</groupId>
@@ -37,12 +37,14 @@
   <version>2.1.0</version>
 </dependency>
 ```
-
+gradle：
 ```groovy
 compile 'com.github.binarywang:weixin-java-mp:2.1.0'
 ```
 
 * 企业号：
+
+maven：
 ```xml
 <dependency>
   <groupId>com.github.binarywang</groupId>
@@ -50,7 +52,7 @@ compile 'com.github.binarywang:weixin-java-mp:2.1.0'
   <version>2.1.0</version>
 </dependency>
 ```
-
+gradle：
 ```groovy
 compile 'com.github.binarywang:weixin-java-cp:2.1.0'
 ```
@@ -63,16 +65,14 @@ compile 'com.github.binarywang:weixin-java-cp:2.1.0'
 * https://git.coding.net/binarywang/weixin-java-tools.git
 
 
-## 目前可参考的Demo项目:
-* https://github.com/wechat-group/weixin-java-tools-springmvc
-* https://github.com/wechat-group/weixin-mp-demo
-* ===========以下为备份仓库，会保持跟主仓库同步
-* http://git.oschina.net/binary/weixin-mp-demo
-* https://bitbucket.org/binarywang/weixin-mp-demo
+## 目前可参考的Demo项目有两个:
+1. https://github.com/wechat-group/weixin-mp-demo
+1. https://github.com/wechat-group/weixin-java-tools-springmvc
 
 ## 关于代码贡献
+* 非常欢迎和感谢对本项目发起Pull Request的同学，本项目代码风格为使用2个空格代表一个Tab，因此在提交代码时请注意一下，否则很容易在IDE格式化代码后与原代码产生大量diff，这样会给其他人阅读代码带来极大的困扰。
+* 为了便于设置，本项目引入editorconfig插件，请使用eclipse的同学在贡献代码前安装相关插件，IntelliJ IDEA则自带支持，无需额外安装插件。
+* 本项目可以采用两种方式接受代码贡献：
 
-* 非常欢迎和感谢对本项目发起Pull Request的同学，本项目可以采用两种方式接受代码贡献：
-* 第一种就是基于[Git Flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)开发流程，因此在发起Pull Request的时候请选择develop分支。
-* 另外一种贡献代码的方式就是加入SDK Developers开发组，如果对自己的代码足够自信，可以随时提交代码，注意要随时进行单元测试，保证提交代码没有明显问题，具体加入方式，请咨询管理员。
-* 本项目代码风格为使用2个空格代表一个Tab，因此在提交代码时请注意一下，否则很容易在IDE格式化代码后与原代码产生大量diff，这样会给其他人阅读代码带来极大的困扰。
+1. 第一种就是基于[Git Flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)开发流程，因此在发起Pull Request的时候请选择develop分支。
+1. 另外一种贡献代码的方式就是加入SDK Developers开发组，如果对自己的代码足够自信，可以随时提交代码，注意要随时进行单元测试，保证提交代码没有明显问题，具体加入方式，请咨询管理员。

@@ -23,6 +23,7 @@ public final class WxCardBuilder extends BaseBuilder<WxCardBuilder> {
     return this;
   }
 
+  @Override
   public WxMpCustomMessage build() {
     WxMpCustomMessage m = super.build();
     m.setCardId(this.cardId);
