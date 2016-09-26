@@ -30,20 +30,25 @@ public interface WxMpPayService {
    * @param tradeType  交易类型 JSAPI，NATIVE，APP，WAP
    * @param ip         发起支付的客户端IP
    * @param notifyUrl  通知地址
+   * @throws WxErrorException 
    * @deprecated Use me.chanjar.weixin.mp.api.WxMpService.getPrepayId(Map<String, String>) instead
    */
   @Deprecated
-  WxMpPrepayIdResult getPrepayId(String openId, String outTradeNo, double amt, String body, String tradeType, String ip, String notifyUrl);
+  WxMpPrepayIdResult getPrepayId(String openId, String outTradeNo, double amt,
+      String body, String tradeType, String ip, String notifyUrl)
+      throws WxErrorException;
 
   /**
    * 统一下单(详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1)
    * 在发起微信支付前，需要调用统一下单接口，获取"预支付交易会话标识"
    *
    * @param parameters All required/optional parameters for weixin payment
+   * @throws WxErrorException 
    * @deprecated use me.chanjar.weixin.mp.api.WxMpPayService.unifiedOrder(WxUnifiedOrderRequest) instead 
    */
   @Deprecated
-  WxMpPrepayIdResult getPrepayId(Map<String, String> parameters);
+  WxMpPrepayIdResult getPrepayId(Map<String, String> parameters)
+      throws WxErrorException;
 
   /**
    * 统一下单(详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1)
@@ -98,9 +103,11 @@ public interface WxMpPayService {
   /**
    * 该接口提供所有微信支付订单的查询,当支付通知处理异常戒丢失的情冴,商户可以通过该接口查询订单支付状态。
    * 详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_2
+   * @throws WxErrorException 
    *
    */
-  WxMpPayResult getJSSDKPayResult(String transactionId, String outTradeNo);
+  WxMpPayResult getJSSDKPayResult(String transactionId, String outTradeNo)
+      throws WxErrorException;
 
   /**
    * 读取支付结果通知
