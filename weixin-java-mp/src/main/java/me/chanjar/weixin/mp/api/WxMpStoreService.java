@@ -1,6 +1,7 @@
 package me.chanjar.weixin.mp.api;
 
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.mp.bean.WxMpStoreBaseInfo;
 
 /**
  * 门店管理的相关接口代码
@@ -19,8 +20,6 @@ public interface WxMpStoreService {
    * 接口格式： http://api.weixin.qq.com/cgi-bin/poi/addpoi?access_token=TOKEN
    * </pre>
    *
-   * @param scene_id       参数。
-   * @param expire_seconds 过期秒数，默认60秒，最小60秒，最大1800秒
    */
-  void userUpdateRemark(String openid, String remark) throws WxErrorException;
+  void add(WxMpStoreBaseInfo request) throws WxErrorException;
 }
