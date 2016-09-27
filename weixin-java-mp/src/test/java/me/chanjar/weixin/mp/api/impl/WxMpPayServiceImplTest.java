@@ -85,7 +85,7 @@ public class WxMpPayServiceImplTest {
     WxUnifiedOrderResult result = this.wxService.getPayService()
         .unifiedOrder(WxUnifiedOrderRequest.builder().body("1111111")
             .totalFee(1).spbillCreateIp("111111").notifyURL("111111")
-            .tradeType("JSAPI1").openid("122").outTradeNo("111111").build());
+            .tradeType("JSAPI").openid("122").outTradeNo("111111").build());
     System.err.println(result);
   }
 }
