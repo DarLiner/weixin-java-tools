@@ -7,13 +7,16 @@ import java.util.Map.Entry;
 import org.joor.Reflect;
 
 import com.google.common.collect.Lists;
+import com.google.gson.JsonObject;
 
 import me.chanjar.weixin.common.annotation.Required;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.WxMpStoreService;
-import me.chanjar.weixin.mp.bean.WxMpStoreBaseInfo;
+import me.chanjar.weixin.mp.bean.store.WxMpStoreBaseInfo;
+import me.chanjar.weixin.mp.bean.store.WxMpStoreInfo;
+import me.chanjar.weixin.mp.bean.store.WxMpStoreListResult;
 
 /**
  *  Created by Binary Wang on 2016/9/26.
@@ -21,6 +24,7 @@ import me.chanjar.weixin.mp.bean.WxMpStoreBaseInfo;
  *
  */
 public class WxMpStoreServiceImpl implements WxMpStoreService {
+  private static final String API_BASE_URL = "http://api.weixin.qq.com/cgi-bin/poi";
 
   private WxMpService wxMpService;
 
@@ -32,10 +36,8 @@ public class WxMpStoreServiceImpl implements WxMpStoreService {
   public void add(WxMpStoreBaseInfo request) throws WxErrorException {
     checkParameters(request);
 
-    String url = "http://api.weixin.qq.com/cgi-bin/poi/addpoi";
-    //    String data = "{\"business\":{\"base_info\":{\"business_name\":\"haha\",\"branch_name\":\"abc\",\"province\":\"aaa\",\"city\":\"aaa\",\"district\":\"aaa\",\"telephone\":\"122\",\"categories\":\"adsdas\",\"offset_type\":\"1\",\"longitude\":\"115.32375\",\"latitude\":\"25.097486\"}}}";
+    String url = API_BASE_URL + "/addpoi";
     String response = this.wxMpService.post(url, request.toJson());
-    //    String response = this.wxMpService.post(url, data);
     WxError wxError = WxError.fromJson(response);
     if (wxError.getErrorCode() != 0) {
       throw new WxErrorException(wxError);
@@ -62,6 +64,52 @@ public class WxMpStoreServiceImpl implements WxMpStoreService {
       throw new IllegalArgumentException("必填字段[" + nullFields + "]必须提供值");
     }
 
+  }
+
+  @Override
+  public List<WxMpStoreInfo> list(int begin, int limit)
+      throws WxErrorException {
+    String url = API_BASE_URL + "/getpoilist";
+    JsonObject params = new JsonObject();
+    params.addProperty("begin", begin);
+    params.addProperty("limit", limit);
+    String response = this.wxMpService.post(url, params.toString());
+
+    WxError wxError = WxError.fromJson(response);
+    if (wxError.getErrorCode() != 0) {
+      throw new WxErrorException(wxError);
+    }
+
+    return WxMpStoreListResult.fromJson(response).getBusinessList();
+  }
+
+  @Override
+  public List<WxMpStoreInfo> listAll() throws WxErrorException {
+    int limit = 10;
+    String url = API_BASE_URL + "/getpoilist";
+    JsonObject params = new JsonObject();
+    params.addProperty("begin", 0);
+    params.addProperty("limit", limit);//返回数据条数，最大允许50，默认为20
+    String response = this.wxMpService.post(url, params.toString());
+
+    WxError wxError = WxError.fromJson(response);
+    if (wxError.getErrorCode() != 0) {
+      throw new WxErrorException(wxError);
+    }
+
+    WxMpStoreListResult listResult = WxMpStoreListResult.fromJson(response);
+    List<WxMpStoreInfo> stores = Lists
+        .newArrayList(listResult.getBusinessList());
+    if (listResult.getTotalCount() > limit) {
+      params = new JsonObject();
+      params.addProperty("begin", limit);
+      params.addProperty("limit", listResult.getTotalCount() - limit);
+      stores.addAll(WxMpStoreListResult
+          .fromJson(this.wxMpService.post(url, params.toString()))
+          .getBusinessList());
+    }
+
+    return stores;
   }
 
 }

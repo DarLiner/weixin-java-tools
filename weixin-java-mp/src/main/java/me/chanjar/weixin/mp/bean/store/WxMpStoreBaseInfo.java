@@ -1,7 +1,10 @@
-package me.chanjar.weixin.mp.bean;
+package me.chanjar.weixin.mp.bean.store;
 
 import java.math.BigDecimal;
 import java.util.List;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -16,6 +19,10 @@ import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
  *         Created by Binary Wang on 2016-09-23.
  */
 public class WxMpStoreBaseInfo {
+  @Override
+  public String toString() {
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+  }
 
   public String toJson() {
     JsonElement base_info = WxMpGsonBuilder.create().toJsonTree(this);
@@ -180,6 +187,24 @@ public class WxMpStoreBaseInfo {
   @SerializedName("avg_price")
   private Integer avgPrice;
 
+  /**
+   * 门店是否可用状态。1 表示系统错误、2 表示审核中、3 审核通过、4 审核驳回。当该字段为1、2、4 状态时，poi_id 为空
+   */
+  @SerializedName("available_state")
+  private Integer availableState;
+
+  /**
+   * 扩展字段是否正在更新中。1 表示扩展字段正在更新中，尚未生效，不允许再次更新； 0 表示扩展字段没有在更新中或更新已生效，可以再次更新
+   */
+  @SerializedName("update_status")
+  private Integer updateStatus;
+
+  /**
+   * 门店poi id
+   */
+  @SerializedName("poi_id")
+  private String poiId;
+
   public String getSid() {
     return this.sid;
   }
@@ -324,6 +349,30 @@ public class WxMpStoreBaseInfo {
     this.avgPrice = avgPrice;
   }
 
+  public Integer getAvailableState() {
+    return this.availableState;
+  }
+
+  public void setAvailableState(Integer availableState) {
+    this.availableState = availableState;
+  }
+
+  public Integer getUpdateStatus() {
+    return this.updateStatus;
+  }
+
+  public void setUpdateStatus(Integer updateStatus) {
+    this.updateStatus = updateStatus;
+  }
+
+  public String getPoiId() {
+    return this.poiId;
+  }
+
+  public void setPoiId(String poiId) {
+    this.poiId = poiId;
+  }
+
   public static WxMpStoreBaseInfoBuilder builder() {
     return new WxMpStoreBaseInfoBuilder();
   }
@@ -347,6 +396,9 @@ public class WxMpStoreBaseInfo {
     private String introduction;
     private String openTime;
     private Integer avgPrice;
+    private Integer availableState;
+    private Integer updateStatus;
+    private String poiId;
 
     public WxMpStoreBaseInfoBuilder sid(String sid) {
       this.sid = sid;
@@ -438,6 +490,21 @@ public class WxMpStoreBaseInfo {
       return this;
     }
 
+    public WxMpStoreBaseInfoBuilder availableState(Integer availableState) {
+      this.availableState = availableState;
+      return this;
+    }
+
+    public WxMpStoreBaseInfoBuilder updateStatus(Integer updateStatus) {
+      this.updateStatus = updateStatus;
+      return this;
+    }
+
+    public WxMpStoreBaseInfoBuilder poiId(String poiId) {
+      this.poiId = poiId;
+      return this;
+    }
+
     public WxMpStoreBaseInfoBuilder from(WxMpStoreBaseInfo origin) {
       this.sid(origin.sid);
       this.businessName(origin.businessName);
@@ -457,6 +524,9 @@ public class WxMpStoreBaseInfo {
       this.introduction(origin.introduction);
       this.openTime(origin.openTime);
       this.avgPrice(origin.avgPrice);
+      this.availableState(origin.availableState);
+      this.updateStatus(origin.updateStatus);
+      this.poiId(origin.poiId);
       return this;
     }
 
@@ -480,6 +550,9 @@ public class WxMpStoreBaseInfo {
       m.introduction = this.introduction;
       m.openTime = this.openTime;
       m.avgPrice = this.avgPrice;
+      m.availableState = this.availableState;
+      m.updateStatus = this.updateStatus;
+      m.poiId = this.poiId;
       return m;
     }
   }

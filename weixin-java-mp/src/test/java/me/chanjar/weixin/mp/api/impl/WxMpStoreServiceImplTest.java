@@ -4,7 +4,10 @@
  */
 package me.chanjar.weixin.mp.api.impl;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
@@ -13,7 +16,8 @@ import com.google.inject.Inject;
 
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.ApiTestModule;
-import me.chanjar.weixin.mp.bean.WxMpStoreBaseInfo;
+import me.chanjar.weixin.mp.bean.store.WxMpStoreBaseInfo;
+import me.chanjar.weixin.mp.bean.store.WxMpStoreInfo;
 
 /**
  * @author 王彬 (Binary Wang)
@@ -26,17 +30,31 @@ public class WxMpStoreServiceImplTest {
   private WxMpServiceImpl wxMpService;
 
   /**
-   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpStoreServiceImpl#add(me.chanjar.weixin.mp.bean.WxMpStoreBaseInfo)}.
+   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpStoreServiceImpl#add(me.chanjar.weixin.mp.bean.store.WxMpStoreBaseInfo)}.
    * @throws WxErrorException 
    */
   public void testAdd() throws WxErrorException {
     this.wxMpService.getStoreService()
         .add(WxMpStoreBaseInfo.builder().businessName("haha").branchName("abc")
             .province("aaa").district("aaa").telephone("122").address("abc")
-            .categories(new String[] { "美食,川菜,火锅" })
+            .categories(new String[] { "美食,江浙菜" })
             .longitude(new BigDecimal("115.32375"))
             .latitude(new BigDecimal("25.097486")).city("aaa").offsetType(1)
             .build());
+  }
+
+  public void testList() throws WxErrorException {
+    List<WxMpStoreInfo> list = this.wxMpService.getStoreService().list(0, 10);
+    assertNotNull(list);
+    System.err.println(list.size());
+    System.err.println(list);
+  }
+
+  public void testListAll() throws WxErrorException {
+    List<WxMpStoreInfo> list = this.wxMpService.getStoreService().listAll();
+    assertNotNull(list);
+    System.err.println(list.size());
+    System.err.println(list);
   }
 
 }
