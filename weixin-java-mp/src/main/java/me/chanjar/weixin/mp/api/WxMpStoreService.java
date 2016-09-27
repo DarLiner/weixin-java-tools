@@ -5,6 +5,7 @@ import java.util.List;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.bean.store.WxMpStoreBaseInfo;
 import me.chanjar.weixin.mp.bean.store.WxMpStoreInfo;
+import me.chanjar.weixin.mp.bean.store.WxMpStoreListResult;
 
 /**
  * 门店管理的相关接口代码
@@ -36,7 +37,7 @@ public interface WxMpStoreService {
    * @param limit 返回数据条数，最大允许50，默认为20
    * @throws WxErrorException
    */
-  List<WxMpStoreInfo> list(int begin, int limit) throws WxErrorException;
+  WxMpStoreListResult list(int begin, int limit) throws WxErrorException;
 
   /**
    * <pre>

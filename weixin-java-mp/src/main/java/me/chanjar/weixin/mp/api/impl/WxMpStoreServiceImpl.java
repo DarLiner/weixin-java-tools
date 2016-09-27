@@ -67,7 +67,7 @@ public class WxMpStoreServiceImpl implements WxMpStoreService {
   }
 
   @Override
-  public List<WxMpStoreInfo> list(int begin, int limit)
+  public WxMpStoreListResult list(int begin, int limit)
       throws WxErrorException {
     String url = API_BASE_URL + "/getpoilist";
     JsonObject params = new JsonObject();
@@ -80,33 +80,25 @@ public class WxMpStoreServiceImpl implements WxMpStoreService {
       throw new WxErrorException(wxError);
     }
 
-    return WxMpStoreListResult.fromJson(response).getBusinessList();
+    return WxMpStoreListResult.fromJson(response);
   }
 
   @Override
   public List<WxMpStoreInfo> listAll() throws WxErrorException {
-    int limit = 10;
-    String url = API_BASE_URL + "/getpoilist";
-    JsonObject params = new JsonObject();
-    params.addProperty("begin", 0);
-    params.addProperty("limit", limit);//返回数据条数，最大允许50，默认为20
-    String response = this.wxMpService.post(url, params.toString());
-
-    WxError wxError = WxError.fromJson(response);
-    if (wxError.getErrorCode() != 0) {
-      throw new WxErrorException(wxError);
-    }
-
-    WxMpStoreListResult listResult = WxMpStoreListResult.fromJson(response);
-    List<WxMpStoreInfo> stores = Lists
-        .newArrayList(listResult.getBusinessList());
-    if (listResult.getTotalCount() > limit) {
-      params = new JsonObject();
-      params.addProperty("begin", limit);
-      params.addProperty("limit", listResult.getTotalCount() - limit);
-      stores.addAll(WxMpStoreListResult
-          .fromJson(this.wxMpService.post(url, params.toString()))
-          .getBusinessList());
+    int limit = 50;
+    WxMpStoreListResult list = this.list(0, limit);
+    List<WxMpStoreInfo> stores = list.getBusinessList();
+    if (list.getTotalCount() > limit) {
+      int begin = limit;
+      WxMpStoreListResult followingList = this.list(begin, limit);
+      while (followingList.getBusinessList().size() > 0) {
+        stores.addAll(followingList.getBusinessList());
+        begin += limit;
+        if (begin >= list.getTotalCount()) {
+          break;
+        }
+        followingList = this.list(begin, limit);
+      }
     }
 
     return stores;
