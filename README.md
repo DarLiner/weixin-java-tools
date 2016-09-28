@@ -4,18 +4,17 @@
 
 ### 注意：
 1. ***本项目Fork自chanjarster/weixin-java-tools，但由于原项目已停止维护，故单独维护和发布，且发布到maven上的groupId也会不同，详细信息见下文。***
-2. ***自2.0.0版本以来，主要是公众号的接口调整比较大，主要是为了解决主接口类过于庞大不方便管理的问题，将接口实现代码按模块进行拆分。***
+1. ***自2.0.0版本以来，主要是公众号的接口调整比较大，主要是为了解决主接口类过于庞大不方便管理的问题，将接口实现代码按模块进行拆分。***
+1. 最新更新：2016-08-31 发布2.1.0正式版！
 
-### 最新更新：2.1.0版发布！！！ on 2016-08-31
-
-### 详细开发文档请看 [wiki](https://github.com/chanjarster/weixin-java-tools/wiki)。
 ===========
-## 开发交流工具：
-* 微信群： 因二维码有时间限制，如有想加入微信群的，请入QQ群后咨询获取最新入群二维码。
-* QQ群：343954419 [![Join QQ Group](http://pub.idqqimg.com/wpa/images/group.png)](http://shang.qq.com/wpa/qunwpa?idkey=078f7a153d243853e24cf2b542e7a6ccbf2a592bc138080f84d11297f736ec46)
-* ***注意：为保证入群成员质量，请申请入群前，先Star本项目，然后在申请入群时，输入您的Github帐号ID，以便管理员核对，ID即你的github主页地址https://github.com/XXXX 中最后的部分XXXX的内容，或者在github网页右上角点击头像查看，如下图Signed in as下方黄色标识内容即是：***
-* ![github_id](https://raw.githubusercontent.com/wechat-group/weixin-java-tools/develop/res/github_id.png)
- 
+
+## 开发交流方式：
+1. ***入群须知：为保证入群成员质量，请申请入群前，先Star本项目，然后在申请入群时，输入您的Github帐号ID，以便管理员核对，ID即你的github主页地址https://github.com/XXXX 中最后的部分XXXX的内容，或者在github网页右上角点击头像后查看Signed in as后方内容。***
+1. QQ群：343954419 [![Join QQ Group](http://pub.idqqimg.com/wpa/images/group.png)](http://shang.qq.com/wpa/qunwpa?idkey=078f7a153d243853e24cf2b542e7a6ccbf2a592bc138080f84d11297f736ec46)
+1. 微信群： 因二维码有时间限制，如有想加入微信群的，请入QQ群后咨询获取最新入群二维码。
+1. 有功能需求或由于微信官方接口调整导致的代码问题，可以直接提出issue，便于讨论追踪问题。
+1. 详细开发文档请看 [Wiki](https://github.com/wechat-group/weixin-java-tools/wiki)。
 ===========
 
 ## 版本说明
