@@ -3,6 +3,7 @@ package me.chanjar.weixin.mp.api.impl;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 import me.chanjar.weixin.common.annotation.Required;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -11,6 +12,7 @@ import me.chanjar.weixin.mp.api.WxMpStoreService;
 import me.chanjar.weixin.mp.bean.store.WxMpStoreBaseInfo;
 import me.chanjar.weixin.mp.bean.store.WxMpStoreInfo;
 import me.chanjar.weixin.mp.bean.store.WxMpStoreListResult;
+import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 import org.joor.Reflect;
 
 import java.lang.reflect.Field;
@@ -137,6 +139,20 @@ public class WxMpStoreServiceImpl implements WxMpStoreService {
     if (wxError.getErrorCode() != 0) {
       throw new WxErrorException(wxError);
     }
+  }
+
+  @Override
+  public List<String> listCategories() throws WxErrorException {
+    String url = API_BASE_URL + "/getwxcategory";
+    String response = this.wxMpService.get(url, null);
+    WxError wxError = WxError.fromJson(response);
+    if (wxError.getErrorCode() != 0) {
+      throw new WxErrorException(wxError);
+    }
+
+    return WxMpGsonBuilder.create().fromJson(
+        new JsonParser().parse(response).getAsJsonObject().get("category_list"),
+        new TypeToken<List<String>>(){}.getType());
   }
 
 }
