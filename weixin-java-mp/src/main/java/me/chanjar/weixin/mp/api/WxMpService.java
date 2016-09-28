@@ -323,14 +323,6 @@ public interface WxMpService {
   WxMpUserService getUserService();
 
   /**
-   * 返回用户分组相关接口方法的实现类对象，以方便调用个其各种接口
-   *
-   * @return WxMpGroupService
-   */
-
-  WxMpGroupService getGroupService();
-
-  /**
    * 返回用户标签相关接口方法的实现类对象，以方便调用个其各种接口
    *
    * @return WxMpUserTagService
