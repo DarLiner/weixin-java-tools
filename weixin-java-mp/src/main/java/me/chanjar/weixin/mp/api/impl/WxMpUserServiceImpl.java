@@ -56,7 +56,7 @@ public class WxMpUserServiceImpl implements WxMpUserService {
   @Override
   public List<WxMpUser> userInfoList(WxMpUserQuery userQuery) throws WxErrorException {
     String url = API_URL_PREFIX + "/info/batchget";
-    String responseContent = this.wxMpService.execute(new SimpleGetRequestExecutor(), url, userQuery.toJsonString());
+    String responseContent = this.wxMpService.execute(new SimplePostRequestExecutor(), url, userQuery.toJsonString());
     return WxMpUser.fromJsonList(responseContent);
   }
 
