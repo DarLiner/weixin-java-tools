@@ -1,11 +1,11 @@
 package me.chanjar.weixin.mp.api;
 
-import java.util.List;
-
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.bean.store.WxMpStoreBaseInfo;
 import me.chanjar.weixin.mp.bean.store.WxMpStoreInfo;
 import me.chanjar.weixin.mp.bean.store.WxMpStoreListResult;
+
+import java.util.List;
 
 /**
  * 门店管理的相关接口代码
@@ -26,6 +26,21 @@ public interface WxMpStoreService {
    *
    */
   void add(WxMpStoreBaseInfo request) throws WxErrorException;
+
+
+  /**
+   * <pre>
+   * 查询门店信息
+   * 创建门店后获取poi_id 后，商户可以利用poi_id，查询具体某条门店的信息。
+   * 若在查询时，update_status 字段为1，表明在5 个工作日内曾用update 接口修改过门店扩展字段，该扩展字段为最新的修改字段，尚未经过审核采纳，因此不是最终结果。
+   * 最终结果会在5 个工作日内，最终确认是否采纳，并前端生效（但该扩展字段的采纳过程不影响门店的可用性，即available_state仍为审核通过状态）
+   * 注：扩展字段为公共编辑信息（大家都可修改），修改将会审核，并决定是否对修改建议进行采纳，但不会影响该门店的生效可用状态。
+   * 详情请见: <a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444378120&token=&lang=zh_CN">微信门店接口</a>
+   * </pre>
+   * @param poiId  门店poiId
+   * @throws WxErrorException
+   */
+  WxMpStoreBaseInfo get(String poiId) throws WxErrorException;
 
   /**
    * <pre>
