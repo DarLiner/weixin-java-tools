@@ -1,9 +1,23 @@
 package me.chanjar.weixin.mp.api.impl;
 
+import java.io.IOException;
+
+import org.apache.http.HttpHost;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.ssl.DefaultHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.bean.result.WxError;
@@ -28,6 +42,7 @@ import me.chanjar.weixin.mp.api.WxMpMenuService;
 import me.chanjar.weixin.mp.api.WxMpPayService;
 import me.chanjar.weixin.mp.api.WxMpQrcodeService;
 import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.api.WxMpStoreService;
 import me.chanjar.weixin.mp.api.WxMpUserBlacklistService;
 import me.chanjar.weixin.mp.api.WxMpUserService;
 import me.chanjar.weixin.mp.api.WxMpUserTagService;
@@ -44,18 +59,6 @@ import me.chanjar.weixin.mp.bean.result.WxMpMassUploadResult;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import me.chanjar.weixin.mp.bean.result.WxMpSemanticQueryResult;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
-import org.apache.http.HttpHost;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.conn.ssl.DefaultHostnameVerifier;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
 
 public class WxMpServiceImpl implements WxMpService {
 
@@ -92,6 +95,8 @@ public class WxMpServiceImpl implements WxMpService {
   private WxMpCardService cardService = new WxMpCardServiceImpl(this);
 
   private WxMpPayService payService = new WxMpPayServiceImpl(this);
+
+  private WxMpStoreService storeService = new WxMpStoreServiceImpl(this);
 
   private WxMpDataCubeService dataCubeService = new WxMpDataCubeServiceImpl(this);
 
@@ -252,9 +257,8 @@ public class WxMpServiceImpl implements WxMpService {
   @Override
   public String templateSend(WxMpTemplateMessage templateMessage) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/message/template/send";
-    String responseContent = execute(new SimplePostRequestExecutor(), url, templateMessage.toJson());
-    JsonElement tmpJsonElement = JSON_PARSER.parse(responseContent);
-    final JsonObject jsonObject = tmpJsonElement.getAsJsonObject();
+    String responseContent = this.post(url, templateMessage.toJson());
+    final JsonObject jsonObject = JSON_PARSER.parse(responseContent).getAsJsonObject();
     if (jsonObject.get("errcode").getAsInt() == 0){
       return jsonObject.get("msgid").getAsString();
     }
@@ -421,7 +425,9 @@ public class WxMpServiceImpl implements WxMpService {
     int retryTimes = 0;
     do {
       try {
-        return executeInternal(executor, uri, data);
+        T result = executeInternal(executor, uri, data);
+        this.log.debug("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}",uri, data, result);
+        return result;
       } catch (WxErrorException e) {
         WxError error = e.getError();
         /**
@@ -465,9 +471,11 @@ public class WxMpServiceImpl implements WxMpService {
       if (error.getErrorCode() == 42001 || error.getErrorCode() == 40001) {
         // 强制设置wxMpConfigStorage它的access token过期了，这样在下一次请求里就会刷新access token
         this.configStorage.expireAccessToken();
-        return execute(executor, uri, data);
+        return this.execute(executor, uri, data);
       }
       if (error.getErrorCode() != 0) {
+        this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}", uri, data,
+            error);
         throw new WxErrorException(error);
       }
       return null;
@@ -584,6 +592,11 @@ public class WxMpServiceImpl implements WxMpService {
   @Override
   public WxMpUserBlacklistService getBlackListService() {
     return this.blackListService;
+  }
+
+  @Override
+  public WxMpStoreService getStoreService() {
+    return this.storeService;
   }
 
 }

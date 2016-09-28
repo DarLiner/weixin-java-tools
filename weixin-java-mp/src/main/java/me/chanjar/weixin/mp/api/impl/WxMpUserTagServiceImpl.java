@@ -1,17 +1,21 @@
 package me.chanjar.weixin.mp.api.impl;
 
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.WxMpUserTagService;
+import me.chanjar.weixin.mp.bean.tag.WxTagListUser;
 import me.chanjar.weixin.mp.bean.tag.WxUserTag;
+import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /**
  *
@@ -91,5 +95,82 @@ public class WxMpUserTagServiceImpl implements WxMpUserTagService {
     }
 
     throw new WxErrorException(wxError);
+  }
+
+  @Override
+  public WxTagListUser tagListUser(Integer tagId, String nextOpenid) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/user/tag/get";
+
+    JsonObject json = new JsonObject();
+    json.addProperty("tagid", tagId);
+    json.addProperty("next_openid", StringUtils.trimToEmpty(nextOpenid));
+
+    String responseContent = this.wxMpService.post(url, json.toString());
+    this.log.debug("\nurl:{}\nparams:{}\nresponse:{}", url, json.toString(),
+      responseContent);
+    return WxTagListUser.fromJson(responseContent);
+  }
+
+  @Override
+  public boolean batchTagging(Integer tagId, String[] openids) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging";
+
+    JsonObject json = new JsonObject();
+    json.addProperty("tagid", tagId);
+    JsonArray openidArrayJson = new JsonArray();
+    for (String openid : openids) {
+      openidArrayJson.add(openid);
+    }
+    json.add("openid_list", openidArrayJson);
+
+    String responseContent = this.wxMpService.post(url, json.toString());
+    this.log.debug("\nurl:{}\nparams:{}\nresponse:{}", url, json.toString(),
+      responseContent);
+    WxError wxError = WxError.fromJson(responseContent);
+    if (wxError.getErrorCode() == 0) {
+      return true;
+    }
+
+    throw new WxErrorException(wxError);
+  }
+
+  @Override
+  public boolean batchUntagging(Integer tagId, String[] openids) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/tags/members/batchuntagging";
+
+    JsonObject json = new JsonObject();
+    json.addProperty("tagid", tagId);
+    JsonArray openidArrayJson = new JsonArray();
+    for (String openid : openids) {
+      openidArrayJson.add(openid);
+    }
+    json.add("openid_list", openidArrayJson);
+
+    String responseContent = this.wxMpService.post(url, json.toString());
+    this.log.debug("\nurl:{}\nparams:{}\nresponse:{}", url, json.toString(),
+      responseContent);
+    WxError wxError = WxError.fromJson(responseContent);
+    if (wxError.getErrorCode() == 0) {
+      return true;
+    }
+
+    throw new WxErrorException(wxError);
+  }
+
+  @Override
+  public List<Integer> userTagList(String openid) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/tags/getidlist";
+
+    JsonObject json = new JsonObject();
+    json.addProperty("openid", openid);
+
+    String responseContent = this.wxMpService.post(url, json.toString());
+    this.log.debug("\nurl:{}\nparams:{}\nresponse:{}", url, json.toString(),
+      responseContent);
+
+    return WxMpGsonBuilder.create().fromJson(
+        new JsonParser().parse(responseContent).getAsJsonObject().get("tagid_list"),
+        new TypeToken<List<Integer>>() {
+    }.getType());
   }
 }

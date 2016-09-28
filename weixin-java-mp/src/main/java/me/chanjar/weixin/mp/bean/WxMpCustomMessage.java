@@ -1,11 +1,17 @@
 package me.chanjar.weixin.mp.bean;
 
-import me.chanjar.weixin.mp.bean.custombuilder.*;
-import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import me.chanjar.weixin.mp.bean.custombuilder.ImageBuilder;
+import me.chanjar.weixin.mp.bean.custombuilder.MusicBuilder;
+import me.chanjar.weixin.mp.bean.custombuilder.NewsBuilder;
+import me.chanjar.weixin.mp.bean.custombuilder.TextBuilder;
+import me.chanjar.weixin.mp.bean.custombuilder.VideoBuilder;
+import me.chanjar.weixin.mp.bean.custombuilder.VoiceBuilder;
+import me.chanjar.weixin.mp.bean.custombuilder.WxCardBuilder;
+import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
 /**
  * 客服消息
@@ -14,7 +20,7 @@ import java.util.List;
  */
 public class WxMpCustomMessage implements Serializable {
   private static final long serialVersionUID = -9196732086954365246L;
-  
+
   private String toUser;
   private String msgType;
   private String content;
@@ -25,8 +31,9 @@ public class WxMpCustomMessage implements Serializable {
   private String musicUrl;
   private String hqMusicUrl;
   private String kfAccount;
+  private String cardId;
   private List<WxArticle> articles = new ArrayList<>();
-  
+
   public String getToUser() {
     return this.toUser;
   }
@@ -36,7 +43,7 @@ public class WxMpCustomMessage implements Serializable {
   public String getMsgType() {
     return this.msgType;
   }
-  
+
   /**
    * <pre>
    * 请使用
@@ -46,6 +53,7 @@ public class WxMpCustomMessage implements Serializable {
    * {@link me.chanjar.weixin.common.api.WxConsts#CUSTOM_MSG_MUSIC}
    * {@link me.chanjar.weixin.common.api.WxConsts#CUSTOM_MSG_VIDEO}
    * {@link me.chanjar.weixin.common.api.WxConsts#CUSTOM_MSG_NEWS}
+   * {@link me.chanjar.weixin.common.api.WxConsts#CUSTOM_MSG_WXCARD}
    * </pre>
    * @param msgType
    */
@@ -94,24 +102,33 @@ public class WxMpCustomMessage implements Serializable {
   public void setHqMusicUrl(String hqMusicUrl) {
     this.hqMusicUrl = hqMusicUrl;
   }
+
+  public String getCardId() {
+    return this.cardId;
+  }
+
+  public void setCardId(String cardId) {
+    this.cardId = cardId;
+  }
+
   public List<WxArticle> getArticles() {
     return this.articles;
   }
   public void setArticles(List<WxArticle> articles) {
     this.articles = articles;
   }
-  
+
   public String toJson() {
     return WxMpGsonBuilder.INSTANCE.create().toJson(this);
   }
-  
+
   public static class WxArticle {
-    
+
     private String title;
     private String description;
     private String url;
     private String picUrl;
-    
+
     public String getTitle() {
       return this.title;
     }
@@ -136,9 +153,9 @@ public class WxMpCustomMessage implements Serializable {
     public void setPicUrl(String picUrl) {
       this.picUrl = picUrl;
     }
-    
+
   }
-  
+
   /**
    * 获得文本消息builder
    */
@@ -159,34 +176,41 @@ public class WxMpCustomMessage implements Serializable {
   public static VoiceBuilder VOICE() {
     return new VoiceBuilder();
   }
-  
+
   /**
    * 获得视频消息builder
    */
   public static VideoBuilder VIDEO() {
     return new VideoBuilder();
   }
-  
+
   /**
    * 获得音乐消息builder
    */
   public static MusicBuilder MUSIC() {
     return new MusicBuilder();
   }
-  
+
   /**
    * 获得图文消息builder
    */
   public static NewsBuilder NEWS() {
     return new NewsBuilder();
   }
-  
+
+
+  /**
+   * 获得卡券消息builder
+   */
+  public static WxCardBuilder WXCARD() {
+    return new WxCardBuilder();
+  }
+
   public String getKfAccount() {
     return this.kfAccount;
   }
-  
+
   public void setKfAccount(String kfAccount) {
     this.kfAccount = kfAccount;
   }
-  
 }

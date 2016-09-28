@@ -36,7 +36,7 @@ public class WxMpMassMessageAPITest {
   @Test
   public void testTextMassOpenIdsMessageSend() throws WxErrorException {
     // 发送群发消息
-    ApiTestModule.WxXmlMpInMemoryConfigStorage configProvider = (ApiTestModule.WxXmlMpInMemoryConfigStorage) this.wxService
+    WxXmlMpInMemoryConfigStorage configProvider = (WxXmlMpInMemoryConfigStorage) this.wxService
         .getWxMpConfigStorage();
     WxMpMassOpenIdsMessage massMessage = new WxMpMassOpenIdsMessage();
     massMessage.setMsgType(WxConsts.MASS_MSG_TEXT);
@@ -53,7 +53,7 @@ public class WxMpMassMessageAPITest {
   public void testMediaMassOpenIdsMessageSend(String massMsgType,
       String mediaId) throws WxErrorException {
     // 发送群发消息
-    ApiTestModule.WxXmlMpInMemoryConfigStorage configProvider = (ApiTestModule.WxXmlMpInMemoryConfigStorage) this.wxService
+    WxXmlMpInMemoryConfigStorage configProvider = (WxXmlMpInMemoryConfigStorage) this.wxService
         .getWxMpConfigStorage();
     WxMpMassOpenIdsMessage massMessage = new WxMpMassOpenIdsMessage();
     massMessage.setMsgType(massMsgType);

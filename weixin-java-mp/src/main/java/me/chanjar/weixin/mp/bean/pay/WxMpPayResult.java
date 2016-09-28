@@ -1,6 +1,9 @@
-package me.chanjar.weixin.mp.bean.result;
+package me.chanjar.weixin.mp.bean.pay;
 
 import java.io.Serializable;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * <pre>
@@ -13,9 +16,11 @@ import java.io.Serializable;
  * @author ukid
  */
 public class WxMpPayResult implements Serializable {
-  /**
-   * 
-   */
+  @Override
+  public String toString() {
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+  }
+
   private static final long serialVersionUID = -570934170727777190L;
   
   private String return_code;
@@ -41,6 +46,16 @@ public class WxMpPayResult implements Serializable {
   private String out_trade_no;
   private String attach;
   private String time_end;
+ /**
+  *  现金支付金额	cash_fee	是	Int	100	现金支付金额订单现金支付金额，详见支付金额
+  */
+  private String cash_fee;
+  
+  /**
+   * 现金支付货币类型	cash_fee_type	否
+   * 
+   */
+  private String cash_fee_type;
 
   public String getReturn_code() {
     return this.return_code;
@@ -226,32 +241,19 @@ public class WxMpPayResult implements Serializable {
     this.trade_state_desc = trade_state_desc;
   }
 
-  @Override
-  public String toString() {
-    return "WxMpPayResult{" +
-        "return_code=" + this.return_code +
-        ", return_msg='" + this.return_msg + '\'' +
-        ", appid='" + this.appid + '\'' +
-        ", mch_id='" + this.mch_id + '\'' +
-        ", nonce_str='" + this.nonce_str + '\'' +
-        ", sign='" + this.sign + '\'' +
-        ", result_code='" + this.result_code + '\'' +
-        ", err_code='" + this.err_code + '\'' +
-        ", err_code_des='" + this.err_code_des + '\'' +
-        ", trade_state=" + this.trade_state +
-        ", trade_state_desc=" + this.trade_state_desc +
-        ", device_info='" + this.device_info + '\'' +
-        ", openid='" + this.openid + '\'' +
-        ", is_subscribe='" + this.is_subscribe + '\'' +
-        ", trade_type='" + this.trade_type + '\'' +
-        ", bank_type='" + this.bank_type + '\'' +
-        ", total_fee='" + this.total_fee + '\'' +
-        ", coupon_fee='" + this.coupon_fee + '\'' +
-        ", fee_type='" + this.fee_type + '\'' +
-        ", transaction_id='" + this.transaction_id + '\'' +
-        ", out_trade_no='" + this.out_trade_no + '\'' +
-        ", attach='" + this.attach + '\'' +
-        ", time_end='" + this.time_end + '\'' +
-        '}';
+  public String getCash_fee() {
+    return this.cash_fee;
+  }
+
+  public void setCash_fee(String cash_fee) {
+    this.cash_fee = cash_fee;
+  }
+
+  public String getCash_fee_type() {
+    return this.cash_fee_type;
+  }
+
+  public void setCash_fee_type(String cash_fee_type) {
+    this.cash_fee_type = cash_fee_type;
   }
 }
