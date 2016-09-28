@@ -190,7 +190,7 @@ public class WxMpServiceImpl implements WxMpService {
   }
 
   @Override
-  public WxMpMassSendResult massGroupMessageSend(WxMpMassGroupMessage message) throws WxErrorException {
+  public WxMpMassSendResult massGroupMessageSend(WxMpMassTagMessage message) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/message/mass/sendall";
     String responseContent = execute(new SimplePostRequestExecutor(), url, message.toJson());
     return WxMpMassSendResult.fromJson(responseContent);

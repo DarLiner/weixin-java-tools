@@ -1,10 +1,10 @@
 package me.chanjar.weixin.mp.api;
 
+import java.util.List;
+
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.bean.tag.WxTagListUser;
 import me.chanjar.weixin.mp.bean.tag.WxUserTag;
-
-import java.util.List;
 
 /**
  * 用户标签管理相关接口
@@ -44,7 +44,7 @@ public interface WxMpUserTagService {
    * </pre>
    *
    */
-  Boolean tagUpdate(Integer id, String name) throws WxErrorException;
+  Boolean tagUpdate(Long tagId, String name) throws WxErrorException;
 
   /**
    * <pre>
@@ -54,7 +54,7 @@ public interface WxMpUserTagService {
    * </pre>
    *
    */
-  Boolean tagDelete(Integer id) throws WxErrorException;
+  Boolean tagDelete(Long tagId) throws WxErrorException;
 
   /**
    * <pre>
@@ -64,7 +64,8 @@ public interface WxMpUserTagService {
    * </pre>
    *
    */
-  WxTagListUser tagListUser(Integer tagId, String nextOpenid) throws WxErrorException;
+  WxTagListUser tagListUser(Long tagId, String nextOpenid)
+      throws WxErrorException;
 
   /**
    * <pre>
@@ -74,7 +75,7 @@ public interface WxMpUserTagService {
    * </pre>
    *
    */
-  boolean batchTagging(Integer tagId, String[] openids) throws WxErrorException;
+  boolean batchTagging(Long tagId, String[] openids) throws WxErrorException;
 
   /**
    * <pre>
@@ -84,7 +85,7 @@ public interface WxMpUserTagService {
    * </pre>
    *
    */
-  boolean batchUntagging(Integer tagId, String[] openids) throws WxErrorException;
+  boolean batchUntagging(Long tagId, String[] openids) throws WxErrorException;
 
 
   /**

@@ -14,9 +14,9 @@ import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
-import me.chanjar.weixin.mp.bean.WxMpMassGroupMessage;
 import me.chanjar.weixin.mp.bean.WxMpMassNews;
 import me.chanjar.weixin.mp.bean.WxMpMassOpenIdsMessage;
+import me.chanjar.weixin.mp.bean.WxMpMassTagMessage;
 import me.chanjar.weixin.mp.bean.WxMpMassVideo;
 import me.chanjar.weixin.mp.bean.result.WxMpMassSendResult;
 import me.chanjar.weixin.mp.bean.result.WxMpMassUploadResult;
@@ -68,11 +68,11 @@ public class WxMpMassMessageAPITest {
 
   @Test
   public void testTextMassGroupMessageSend() throws WxErrorException {
-    WxMpMassGroupMessage massMessage = new WxMpMassGroupMessage();
+    WxMpMassTagMessage massMessage = new WxMpMassTagMessage();
     massMessage.setMsgtype(WxConsts.MASS_MSG_TEXT);
     massMessage.setContent("测试群发消息\n欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>");
     massMessage
-        .setGroupId(this.wxService.getGroupService().groupGet().get(0).getId());
+        .setTagId(this.wxService.getUserTagService().tagGet().get(0).getId());
 
     WxMpMassSendResult massResult = this.wxService
         .massGroupMessageSend(massMessage);
@@ -83,11 +83,11 @@ public class WxMpMassMessageAPITest {
   @Test(dataProvider="massMessages")
   public void testMediaMassGroupMessageSend(String massMsgType, String mediaId)
       throws WxErrorException {
-    WxMpMassGroupMessage massMessage = new WxMpMassGroupMessage();
+    WxMpMassTagMessage massMessage = new WxMpMassTagMessage();
     massMessage.setMsgtype(massMsgType);
     massMessage.setMediaId(mediaId);
     massMessage
-        .setGroupId(this.wxService.getGroupService().groupGet().get(0).getId());
+        .setTagId(this.wxService.getUserTagService().tagGet().get(0).getId());
 
     WxMpMassSendResult massResult = this.wxService
         .massGroupMessageSend(massMessage);

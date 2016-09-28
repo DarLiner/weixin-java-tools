@@ -1,15 +1,17 @@
 package me.chanjar.weixin.mp.api.impl;
 
-import com.google.inject.Inject;
-import me.chanjar.weixin.mp.api.ApiTestModule;
-import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
-import me.chanjar.weixin.mp.bean.tag.WxTagListUser;
-import me.chanjar.weixin.mp.bean.tag.WxUserTag;
+import java.util.List;
+
 import org.testng.Assert;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
 
-import java.util.List;
+import com.google.inject.Inject;
+
+import me.chanjar.weixin.mp.api.ApiTestModule;
+import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
+import me.chanjar.weixin.mp.bean.tag.WxTagListUser;
+import me.chanjar.weixin.mp.bean.tag.WxUserTag;
 
 /**
  *
@@ -22,7 +24,7 @@ public class WxMpUserTagServiceImplTest {
   @Inject
   protected WxMpServiceImpl wxService;
 
-  private Integer tagId = 2;
+  private Long tagId = 2L;
 
   @Test
   public void testTagCreate() throws Exception {

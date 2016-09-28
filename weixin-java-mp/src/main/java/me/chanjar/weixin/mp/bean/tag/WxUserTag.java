@@ -19,7 +19,7 @@ public class WxUserTag {
   /**
    * id	标签id，由微信分配
    */
-  private Integer id;
+  private Long id;
 
   /**
    * name	标签名，UTF8编码
@@ -47,11 +47,11 @@ public class WxUserTag {
     this.count = count;
   }
 
-  public Integer getId() {
+  public Long getId() {
     return this.id;
   }
 
-  public void setId(Integer id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
