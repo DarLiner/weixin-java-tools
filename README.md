@@ -12,15 +12,16 @@
 ## 开发交流方式：
 1. ***入群须知：为保证入群成员质量，请申请入群前，先Star本项目，然后在申请入群时，输入您的Github帐号ID，以便管理员核对，ID即你的github主页地址https://github.com/XXXX 中最后的部分XXXX的内容，或者在github网页右上角点击头像后查看Signed in as后方内容。***
 1. QQ群：343954419 [![Join QQ Group](http://pub.idqqimg.com/wpa/images/group.png)](http://shang.qq.com/wpa/qunwpa?idkey=078f7a153d243853e24cf2b542e7a6ccbf2a592bc138080f84d11297f736ec46)
-1. 微信群： 因二维码有时间限制，如有想加入微信群的，请入QQ群后咨询获取最新入群二维码。
-1. 有功能需求或由于微信官方接口调整导致的代码问题，可以直接提出issue，便于讨论追踪问题。
+1. 微信群： 因二维码有时间限制，如有想加入微信群的，请入QQ群后咨询获取最新入群二维码；
+1. 有功能需求或由于微信官方接口调整导致的代码问题，可以直接提出issue，便于讨论追踪问题；
 1. 详细开发文档请看 [Wiki](https://github.com/wechat-group/weixin-java-tools/wiki)。
+
 ===========
 
 ## 版本说明
 * 本项目定为每月发布一次正式版，版本号格式为X.X.0（如2.0.0，2.1.0等），月初或月底发布新版本，遇到重大问题需修复会及时提交新版本，欢迎大家随时提交Pull Request；
 * BUG修复和新特性一般会先发布成小版本作为临时版本（如2.0.1，2.0.2等，即尾号不为0，以区别于正式版）；
-* 目前最新版本号为 ![Maven Central](https://img.shields.io/maven-central/v/com.github.binarywang/weixin-java-parent.svg) ，也可以通过访问链接[【公众号】]、(http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.github.binarywang%22%20AND%20a%3A%22weixin-java-mp%22) [【企业号】](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.github.binarywang%22%20AND%20a%3A%22weixin-java-cp%22)
+* 目前最新版本号为 ![Maven Central](https://img.shields.io/maven-central/v/com.github.binarywang/weixin-java-parent.svg) ，也可以通过访问链接[【公众号】](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.github.binarywang%22%20AND%20a%3A%22weixin-java-mp%22) 、[【企业号】](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.github.binarywang%22%20AND%20a%3A%22weixin-java-cp%22)
 分别查看所有最新的版本。 
 
 ## Maven & Gradle
