@@ -1,22 +1,20 @@
 package me.chanjar.weixin.mp.bean;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
+import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
+import me.chanjar.weixin.mp.api.WxMpConfigStorage;
+import me.chanjar.weixin.mp.util.crypto.WxMpCryptUtil;
+import me.chanjar.weixin.mp.util.xml.XStreamTransformer;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
-
-import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
-import me.chanjar.weixin.mp.api.WxMpConfigStorage;
-import me.chanjar.weixin.mp.util.crypto.WxMpCryptUtil;
-import me.chanjar.weixin.mp.util.xml.XStreamTransformer;
 
 /**
  * <pre>
@@ -208,6 +206,69 @@ public class WxMpXmlMessage implements Serializable {
 
   @XStreamAlias("SendLocationInfo")
   private SendLocationInfo sendLocationInfo = new SendLocationInfo();
+
+  ///////////////////////////////////////
+  // 门店审核事件推送
+  ///////////////////////////////////////
+  /**
+   * UniqId
+   * 商户自己内部ID，即字段中的sid
+   */
+  @XStreamAlias("UniqId")
+  private String storeUniqId;
+
+  /**
+   * PoiId
+   * 微信的门店ID，微信内门店唯一标示ID
+   */
+  @XStreamAlias("PoiId")
+  private String poiId;
+
+  /**
+   * Result
+   * 审核结果，成功succ 或失败fail
+   */
+  @XStreamAlias("Result")
+  private String result;
+
+  /**
+   * msg
+   * 成功的通知信息，或审核失败的驳回理由
+   */
+  @XStreamAlias("msg")
+  private String msg;
+
+  public String getStoreUniqId() {
+    return storeUniqId;
+  }
+
+  public void setStoreUniqId(String storeUniqId) {
+    this.storeUniqId = storeUniqId;
+  }
+
+  public String getPoiId() {
+    return poiId;
+  }
+
+  public void setPoiId(String poiId) {
+    this.poiId = poiId;
+  }
+
+  public String getResult() {
+    return result;
+  }
+
+  public void setResult(String result) {
+    this.result = result;
+  }
+
+  public String getMsg() {
+    return msg;
+  }
+
+  public void setMsg(String msg) {
+    this.msg = msg;
+  }
 
   public String getToUserName() {
     return this.toUserName;
