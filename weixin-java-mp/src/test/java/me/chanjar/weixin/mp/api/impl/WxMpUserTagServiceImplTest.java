@@ -2,6 +2,7 @@ package me.chanjar.weixin.mp.api.impl;
 
 import com.google.inject.Inject;
 import me.chanjar.weixin.mp.api.ApiTestModule;
+import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.bean.tag.WxTagListUser;
 import me.chanjar.weixin.mp.bean.tag.WxUserTag;
 import org.testng.Assert;
@@ -63,7 +64,7 @@ public class WxMpUserTagServiceImplTest {
 
   @Test
   public void testBatchUntagging() throws Exception {
-    String[] openids = new String[]{((ApiTestModule.WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage()).getOpenid()};
+    String[] openids = new String[]{((WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage()).getOpenid()};
     boolean res = this.wxService.getUserTagService().batchUntagging(this.tagId, openids);
     System.out.println(res);
     Assert.assertTrue(res);
@@ -72,7 +73,7 @@ public class WxMpUserTagServiceImplTest {
   @Test
   public void testUserTagList() throws Exception {
     List<Integer> res = this.wxService.getUserTagService().userTagList(
-        ((ApiTestModule.WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage()).getOpenid());
+        ((WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage()).getOpenid());
     System.out.println(res);
     Assert.assertNotNull(res);
   }

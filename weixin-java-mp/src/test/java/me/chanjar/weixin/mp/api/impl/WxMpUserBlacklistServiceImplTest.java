@@ -1,6 +1,7 @@
 package me.chanjar.weixin.mp.api.impl;
 
 import me.chanjar.weixin.mp.api.ApiTestModule;
+import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.bean.result.WxMpUserBlacklistGetResult;
 import org.testng.Assert;
 import org.testng.annotations.Guice;
@@ -21,7 +22,7 @@ public class WxMpUserBlacklistServiceImplTest {
 
   @Test
   public void testGetBlacklist() throws Exception {
-    ApiTestModule.WxXmlMpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlMpInMemoryConfigStorage) this.wxService
+    WxXmlMpInMemoryConfigStorage configStorage = (WxXmlMpInMemoryConfigStorage) this.wxService
       .getWxMpConfigStorage();
     WxMpUserBlacklistGetResult wxMpUserBlacklistGetResult = this.wxService.getBlackListService().getBlacklist(configStorage.getOpenid());
     Assert.assertNotNull(wxMpUserBlacklistGetResult);
@@ -33,7 +34,7 @@ public class WxMpUserBlacklistServiceImplTest {
 
   @Test
   public void testPushToBlacklist() throws Exception {
-    ApiTestModule.WxXmlMpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlMpInMemoryConfigStorage) this.wxService
+    WxXmlMpInMemoryConfigStorage configStorage = (WxXmlMpInMemoryConfigStorage) this.wxService
       .getWxMpConfigStorage();
     List<String> openidList = new ArrayList<>();
     openidList.add(configStorage.getOpenid());
@@ -42,7 +43,7 @@ public class WxMpUserBlacklistServiceImplTest {
 
   @Test
   public void testPullFromBlacklist() throws Exception {
-    ApiTestModule.WxXmlMpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlMpInMemoryConfigStorage) this.wxService
+    WxXmlMpInMemoryConfigStorage configStorage = (WxXmlMpInMemoryConfigStorage) this.wxService
       .getWxMpConfigStorage();
     List<String> openidList = new ArrayList<>();
     openidList.add(configStorage.getOpenid());

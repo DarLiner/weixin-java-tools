@@ -7,6 +7,7 @@ import com.google.inject.Inject;
 
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.ApiTestModule;
+import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.bean.pay.WxRedpackResult;
 import me.chanjar.weixin.mp.bean.pay.WxSendRedpackRequest;
 import me.chanjar.weixin.mp.bean.pay.WxUnifiedOrderRequest;
@@ -71,7 +72,7 @@ public class WxMpPayServiceImplTest {
     request.setClientIp("aaa");
     request.setMchBillno("aaaa");
     request
-        .setReOpenid(((ApiTestModule.WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage()).getOpenid());
+        .setReOpenid(((WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage()).getOpenid());
     WxRedpackResult redpackResult = this.wxService.getPayService().sendRedpack(request);
     System.err.println(redpackResult);
   }

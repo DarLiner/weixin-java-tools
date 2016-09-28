@@ -8,6 +8,7 @@ import com.google.inject.Inject;
 
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.ApiTestModule;
+import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import me.chanjar.weixin.mp.bean.result.WxMpUserList;
 
@@ -25,12 +26,12 @@ public class WxMpUserServiceImplTest {
   protected WxMpServiceImpl wxService;
 
   public void testUserUpdateRemark() throws WxErrorException {
-    ApiTestModule.WxXmlMpInMemoryConfigStorage configProvider = (ApiTestModule.WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage();
+    WxXmlMpInMemoryConfigStorage configProvider = (WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage();
     this.wxService.getUserService().userUpdateRemark(configProvider.getOpenid(), "测试备注名");
   }
 
   public void testUserInfo() throws WxErrorException {
-    ApiTestModule.WxXmlMpInMemoryConfigStorage configProvider = (ApiTestModule.WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage();
+    WxXmlMpInMemoryConfigStorage configProvider = (WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage();
     WxMpUser user = this.wxService.getUserService().userInfo(configProvider.getOpenid(), null);
     Assert.assertNotNull(user);
     System.out.println(user);

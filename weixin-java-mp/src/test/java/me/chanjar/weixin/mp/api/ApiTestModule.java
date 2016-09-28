@@ -3,15 +3,12 @@ package me.chanjar.weixin.mp.api;
 import java.io.IOException;
 import java.io.InputStream;
 
-import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
+import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 
 public class ApiTestModule implements Module {
 
@@ -19,8 +16,8 @@ public class ApiTestModule implements Module {
   public void configure(Binder binder) {
     try (InputStream is1 = ClassLoader
         .getSystemResourceAsStream("test-config.xml")) {
-      WxXmlMpInMemoryConfigStorage config = fromXml(
-          WxXmlMpInMemoryConfigStorage.class, is1);
+      WxXmlMpInMemoryConfigStorage config = this
+          .fromXml(WxXmlMpInMemoryConfigStorage.class, is1);
       WxMpServiceImpl wxService = new WxMpServiceImpl();
       wxService.setWxMpConfigStorage(config);
 
@@ -32,50 +29,11 @@ public class ApiTestModule implements Module {
   }
 
   @SuppressWarnings("unchecked")
-  public static <T> T fromXml(Class<T> clazz, InputStream is) {
+  private <T> T fromXml(Class<T> clazz, InputStream is) {
     XStream xstream = XStreamInitializer.getInstance();
     xstream.alias("xml", clazz);
     xstream.processAnnotations(clazz);
     return (T) xstream.fromXML(is);
-  }
-
-  @XStreamAlias("xml")
-  public static class WxXmlMpInMemoryConfigStorage
-      extends WxMpInMemoryConfigStorage {
-
-    private String openid;
-    private String kfAccount;
-    private String qrconnectRedirectUrl;
-
-    public String getOpenid() {
-      return this.openid;
-    }
-
-    public void setOpenid(String openid) {
-      this.openid = openid;
-    }
-
-    @Override
-    public String toString() {
-      return ToStringBuilder.reflectionToString(this);
-    }
-
-    public String getKfAccount() {
-      return this.kfAccount;
-    }
-
-    public void setKfAccount(String kfAccount) {
-      this.kfAccount = kfAccount;
-    }
-
-    public String getQrconnectRedirectUrl() {
-      return this.qrconnectRedirectUrl;
-    }
-
-    public void setQrconnectRedirectUrl(String qrconnectRedirectUrl) {
-      this.qrconnectRedirectUrl = qrconnectRedirectUrl;
-    }
-
   }
 
 }

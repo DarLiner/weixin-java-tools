@@ -257,9 +257,8 @@ public class WxMpServiceImpl implements WxMpService {
   @Override
   public String templateSend(WxMpTemplateMessage templateMessage) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/message/template/send";
-    String responseContent = execute(new SimplePostRequestExecutor(), url, templateMessage.toJson());
-    JsonElement tmpJsonElement = JSON_PARSER.parse(responseContent);
-    final JsonObject jsonObject = tmpJsonElement.getAsJsonObject();
+    String responseContent = this.post(url, templateMessage.toJson());
+    final JsonObject jsonObject = JSON_PARSER.parse(responseContent).getAsJsonObject();
     if (jsonObject.get("errcode").getAsInt() == 0){
       return jsonObject.get("msgid").getAsString();
     }

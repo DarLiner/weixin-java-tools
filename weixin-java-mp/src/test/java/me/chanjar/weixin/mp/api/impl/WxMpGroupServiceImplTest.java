@@ -3,6 +3,7 @@ package me.chanjar.weixin.mp.api.impl;
 import com.google.inject.Inject;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.ApiTestModule;
+import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.bean.WxMpGroup;
 import org.testng.Assert;
 import org.testng.annotations.Guice;
@@ -48,13 +49,13 @@ public class WxMpGroupServiceImplTest {
   }
 
   public void testGroupQueryUserGroup() throws WxErrorException {
-    ApiTestModule.WxXmlMpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage();
+    WxXmlMpInMemoryConfigStorage configStorage = (WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage();
     long groupid = this.wxService.getGroupService().userGetGroup(configStorage.getOpenid());
     Assert.assertTrue(groupid != -1l);
   }
 
   public void testGroupMoveUser() throws WxErrorException {
-    ApiTestModule.WxXmlMpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage();
+    WxXmlMpInMemoryConfigStorage configStorage = (WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage();
     this.wxService.getGroupService().userUpdateGroup(configStorage.getOpenid(), this.wxService.getGroupService().groupGet().get(3).getId());
   }
 
