@@ -57,6 +57,18 @@ public class WxMpStoreServiceImpl implements WxMpStoreService {
         .get("business").getAsJsonObject().get("base_info").toString());
   }
 
+  @Override
+  public void delete(String poiId) throws WxErrorException {
+    String url = API_BASE_URL + "/delpoi";
+    JsonObject paramObject = new JsonObject();
+    paramObject.addProperty("poi_id",poiId);
+    String response = this.wxMpService.post(url, paramObject.toString());
+    WxError wxError = WxError.fromJson(response);
+    if (wxError.getErrorCode() != 0) {
+      throw new WxErrorException(wxError);
+    }
+  }
+
   private void checkParameters(WxMpStoreBaseInfo request) {
     List<String> nullFields = Lists.newArrayList();
     for (Entry<String, Reflect> entry : Reflect.on(request).fields()

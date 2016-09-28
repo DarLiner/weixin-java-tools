@@ -52,6 +52,10 @@ public class WxMpStoreServiceImplTest {
     System.err.println(result);
   }
 
+  public void testDelete() throws WxErrorException {
+    this.wxMpService.getStoreService().delete("463558057");
+  }
+
   public void testList() throws WxErrorException {
     WxMpStoreListResult result = this.wxMpService.getStoreService().list(0, 10);
     assertNotNull(result);

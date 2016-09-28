@@ -36,10 +36,21 @@ public interface WxMpStoreService {
    * 注：扩展字段为公共编辑信息（大家都可修改），修改将会审核，并决定是否对修改建议进行采纳，但不会影响该门店的生效可用状态。
    * 详情请见: <a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444378120&token=&lang=zh_CN">微信门店接口</a>
    * </pre>
-   * @param poiId  门店poiId
+   * @param poiId  门店Id
    * @throws WxErrorException
    */
   WxMpStoreBaseInfo get(String poiId) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 删除门店
+   * 商户可以通过该接口，删除已经成功创建的门店。请商户慎重调用该接口。
+   * 详情请见: <a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444378120&token=&lang=zh_CN">微信门店接口</a>
+   * </pre>
+   * @param poiId  门店Id
+   * @throws WxErrorException
+   */
+  void delete(String poiId) throws WxErrorException;
 
   /**
    * <pre>
