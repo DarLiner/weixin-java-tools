@@ -15,7 +15,8 @@ import java.util.List;
 import static org.junit.Assert.assertNotNull;
 
 /**
- * @author 王彬 (Binary Wang)
+ * @author binarywang(https://github.com/binarywang)
+ *         Created by Binary Wang on 2016-09-23.
  *
  */
 @Test
@@ -35,6 +36,14 @@ public class WxMpStoreServiceImplTest {
             .longitude(new BigDecimal("115.32375"))
             .latitude(new BigDecimal("25.097486")).city("aaa").offsetType(1)
             .build());
+  }
+
+  public void testUpdate() throws WxErrorException {
+    this.wxMpService.getStoreService()
+      .update(WxMpStoreBaseInfo.builder().poiId("291503654").telephone("020-12345678")
+        .sid("aaa").avgPrice(35).openTime("8:00-20:00").special("免费wifi，外卖服务")
+        .introduction("麦当劳是全球大型跨国连锁餐厅，1940 年创立于美国，在世界上大约拥有3 万间分店。主要售卖汉堡包，以及薯条、炸鸡、汽水、冰品、沙拉、水果等快餐食品").offsetType(1)
+        .build());
   }
 
   public void testGet() throws WxErrorException {

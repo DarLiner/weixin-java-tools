@@ -27,7 +27,6 @@ public interface WxMpStoreService {
    */
   void add(WxMpStoreBaseInfo request) throws WxErrorException;
 
-
   /**
    * <pre>
    * 查询门店信息
@@ -63,4 +62,15 @@ public interface WxMpStoreService {
    * @throws WxErrorException
    */
   List<WxMpStoreInfo> listAll() throws WxErrorException;
+
+  /**
+   * <pre>
+   * 修改门店服务信息
+   * 商户可以通过该接口，修改门店的服务信息，包括：sid、图片列表、营业时间、推荐、特色服务、简介、人均价格、电话8个字段（名称、坐标、地址等不可修改）修改后需要人工审核。
+   * 详情请见: <a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444378120&token=&lang=zh_CN">微信门店接口</a>
+   * </pre>
+   * @throws WxErrorException
+   */
+  void update(WxMpStoreBaseInfo info) throws WxErrorException;
+
 }

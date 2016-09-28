@@ -117,4 +117,14 @@ public class WxMpStoreServiceImpl implements WxMpStoreService {
     return stores;
   }
 
+  @Override
+  public void update(WxMpStoreBaseInfo request) throws WxErrorException {
+    String url = API_BASE_URL + "/updatepoi";
+    String response = this.wxMpService.post(url, request.toJson());
+    WxError wxError = WxError.fromJson(response);
+    if (wxError.getErrorCode() != 0) {
+      throw new WxErrorException(wxError);
+    }
+  }
+
 }
