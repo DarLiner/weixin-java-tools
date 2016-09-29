@@ -1,20 +1,22 @@
 package me.chanjar.weixin.mp.bean;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
-import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
-import me.chanjar.weixin.mp.api.WxMpConfigStorage;
-import me.chanjar.weixin.mp.util.crypto.WxMpCryptUtil;
-import me.chanjar.weixin.mp.util.xml.XStreamTransformer;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
+
+import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
+import me.chanjar.weixin.mp.api.WxMpConfigStorage;
+import me.chanjar.weixin.mp.util.crypto.WxMpCryptUtil;
+import me.chanjar.weixin.mp.util.xml.XStreamTransformer;
 
 /**
  * <pre>
@@ -239,7 +241,7 @@ public class WxMpXmlMessage implements Serializable {
   private String msg;
 
   public String getStoreUniqId() {
-    return storeUniqId;
+    return this.storeUniqId;
   }
 
   public void setStoreUniqId(String storeUniqId) {
@@ -247,7 +249,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public String getPoiId() {
-    return poiId;
+    return this.poiId;
   }
 
   public void setPoiId(String poiId) {
@@ -255,7 +257,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public String getResult() {
-    return result;
+    return this.result;
   }
 
   public void setResult(String result) {
@@ -263,7 +265,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public String getMsg() {
-    return msg;
+    return this.msg;
   }
 
   public void setMsg(String msg) {

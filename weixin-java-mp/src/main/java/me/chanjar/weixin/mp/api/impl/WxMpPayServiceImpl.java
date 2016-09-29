@@ -28,7 +28,6 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.pay.WxMpPayCallback;
 import me.chanjar.weixin.mp.bean.pay.WxMpPayRefundResult;
 import me.chanjar.weixin.mp.bean.pay.WxMpPayResult;
-import me.chanjar.weixin.mp.bean.pay.WxMpPrepayIdResult;
 import me.chanjar.weixin.mp.bean.pay.WxRedpackResult;
 import me.chanjar.weixin.mp.bean.pay.WxSendRedpackRequest;
 import me.chanjar.weixin.mp.bean.pay.WxUnifiedOrderRequest;
@@ -287,7 +286,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
 
     if (!TRADE_TYPES.contains(request.getTradeType())) {
       throw new IllegalArgumentException(
-"trade_type目前必须为" + TRADE_TYPES + "其中之一");
+          "trade_type目前必须为" + TRADE_TYPES + "其中之一");
 
     }
 
