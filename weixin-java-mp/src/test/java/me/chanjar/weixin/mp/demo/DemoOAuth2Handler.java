@@ -21,7 +21,7 @@ public class DemoOAuth2Handler implements WxMpMessageHandler {
         wxMpService.getWxMpConfigStorage().getOauth2redirectUri(),
         WxConsts.OAUTH2_SCOPE_USER_INFO, null) + "\">测试oauth2</a>";
     return WxMpXmlOutMessage.TEXT().content(href)
-        .fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName())
+        .fromUser(wxMessage.getToUser()).toUser(wxMessage.getFromUser())
         .build();
   }
 }

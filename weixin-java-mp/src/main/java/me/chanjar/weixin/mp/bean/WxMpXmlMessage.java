@@ -40,11 +40,11 @@ public class WxMpXmlMessage implements Serializable {
 
   @XStreamAlias("ToUserName")
   @XStreamConverter(value = XStreamCDataConverter.class)
-  private String toUserName;
+  private String toUser;
 
   @XStreamAlias("FromUserName")
   @XStreamConverter(value = XStreamCDataConverter.class)
-  private String fromUserName;
+  private String fromUser;
 
   @XStreamAlias("CreateTime")
   private Long createTime;
@@ -272,12 +272,12 @@ public class WxMpXmlMessage implements Serializable {
     this.msg = msg;
   }
 
-  public String getToUserName() {
-    return this.toUserName;
+  public String getToUser() {
+    return this.toUser;
   }
 
-  public void setToUserName(String toUserName) {
-    this.toUserName = toUserName;
+  public void setToUser(String toUser) {
+    this.toUser = toUser;
   }
 
   public Long getCreateTime() {
@@ -482,12 +482,12 @@ public class WxMpXmlMessage implements Serializable {
     this.recognition = recognition;
   }
 
-  public String getFromUserName() {
-    return this.fromUserName;
+  public String getFromUser() {
+    return this.fromUser;
   }
 
-  public void setFromUserName(String fromUserName) {
-    this.fromUserName = fromUserName;
+  public void setFromUser(String fromUser) {
+    this.fromUser = fromUser;
   }
 
   public static WxMpXmlMessage fromXml(String xml) {

@@ -24,8 +24,8 @@ public class DemoImageHandler implements WxMpMessageHandler {
           = WxMpXmlOutMessage
           .IMAGE()
           .mediaId(wxMediaUploadResult.getMediaId())
-          .fromUser(wxMessage.getToUserName())
-          .toUser(wxMessage.getFromUserName())
+          .fromUser(wxMessage.getToUser())
+          .toUser(wxMessage.getFromUser())
           .build();
       return m;
     } catch (WxErrorException e) {

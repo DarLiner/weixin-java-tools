@@ -26,21 +26,6 @@ public class WxMpPayServiceImplTest {
   protected WxMpServiceImpl wxService;
 
   @Test
-  public void testGetPrepayId() throws Exception {
-
-  }
-
-  @Test
-  public void testGetJsapiPayInfo() throws Exception {
-
-  }
-
-  @Test
-  public void testGetNativePayInfo() throws Exception {
-
-  }
-
-  @Test
   public void testGetPayInfo() throws Exception {
 
   }
@@ -79,7 +64,7 @@ public class WxMpPayServiceImplTest {
 
   /**
    * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#unifiedOrder(me.chanjar.weixin.mp.bean.pay.WxUnifiedOrderRequest)}.
-   * @throws WxErrorException 
+   * @throws WxErrorException
    */
   @Test
   public void testUnifiedOrder() throws WxErrorException {
