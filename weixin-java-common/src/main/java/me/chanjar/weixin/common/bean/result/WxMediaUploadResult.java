@@ -17,7 +17,7 @@ public class WxMediaUploadResult implements Serializable {
   }
 
   public String getType() {
-    return type;
+    return this.type;
   }
 
   public void setType(String type) {
@@ -25,7 +25,7 @@ public class WxMediaUploadResult implements Serializable {
   }
 
   public String getMediaId() {
-    return mediaId;
+    return this.mediaId;
   }
 
   public void setMediaId(String mediaId) {
@@ -33,7 +33,7 @@ public class WxMediaUploadResult implements Serializable {
   }
 
   public long getCreatedAt() {
-    return createdAt;
+    return this.createdAt;
   }
 
   public void setCreatedAt(long createdAt) {
@@ -41,7 +41,7 @@ public class WxMediaUploadResult implements Serializable {
   }
 
   public String getThumbMediaId() {
-    return thumbMediaId;
+    return this.thumbMediaId;
   }
 
   public void setThumbMediaId(String thumbMediaId) {
@@ -50,8 +50,8 @@ public class WxMediaUploadResult implements Serializable {
 
   @Override
   public String toString() {
-    return "WxUploadResult [type=" + type + ", media_id=" + mediaId + ", thumb_media_id=" + thumbMediaId
-            + ", created_at=" + createdAt + "]";
+    return "WxUploadResult [type=" + this.type + ", media_id=" + this.mediaId + ", thumb_media_id=" + this.thumbMediaId
+            + ", created_at=" + this.createdAt + "]";
   }
 
 }

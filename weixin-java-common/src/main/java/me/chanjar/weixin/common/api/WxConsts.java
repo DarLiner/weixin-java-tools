@@ -30,6 +30,7 @@ public class WxConsts {
   public static final String CUSTOM_MSG_MUSIC = "music";
   public static final String CUSTOM_MSG_NEWS = "news";
   public static final String CUSTOM_MSG_FILE = "file";
+  public static final String CUSTOM_MSG_WXCARD = "wxcard";
   public static final String CUSTOM_MSG_TRANSFER_CUSTOMER_SERVICE = "transfer_customer_service";
   public static final String CUSTOM_MSG_SAFE_NO = "0";
   public static final String CUSTOM_MSG_SAFE_YES = "1";
@@ -61,7 +62,7 @@ public class WxConsts {
   /**
    * 群发反馈消息代码所对应的文字描述
    */
-  public static final Map<String, String> MASS_ST_2_DESC = new HashMap<String, String>();
+  public static final Map<String, String> MASS_ST_2_DESC = new HashMap<>();
   ///////////////////////
   // 微信端推送过来的事件类型
   ///////////////////////
@@ -92,6 +93,8 @@ public class WxConsts {
   public static final String EVT_KF_CREATE_SESSION = "kf_create_session"; // 客服接入会话
   public static final String EVT_KF_CLOSE_SESSION = "kf_close_session"; // 客服关闭会话
   public static final String EVT_KF_SWITCH_SESSION = "kf_switch_session"; // 客服转接会话
+  public static final String EVT_POI_CHECK_NOTIFY = "poi_check_notify"; //门店审核事件推送
+
   ///////////////////////
   // 上传多媒体文件的类型
   ///////////////////////

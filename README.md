@@ -5,7 +5,7 @@
 ### 注意：
 1. ***本项目Fork自chanjarster/weixin-java-tools，但由于原项目已停止维护，故单独维护和发布，且发布到maven上的groupId也会不同，详细信息见下文。***
 1. ***自2.0.0版本以来，主要是公众号的接口调整比较大，主要是为了解决主接口类过于庞大不方便管理的问题，将接口实现代码按模块进行拆分。***
-1. 最新更新：2016-08-31 发布2.1.0正式版！
+1. 最新更新：2016-09-30 发布2.2.0正式版！
 
 ===========
 
@@ -33,12 +33,12 @@ maven：
 <dependency>
   <groupId>com.github.binarywang</groupId>
   <artifactId>weixin-java-mp</artifactId>
-  <version>2.1.0</version>
+  <version>2.2.0</version>
 </dependency>
 ```
 gradle：
 ```groovy
-compile 'com.github.binarywang:weixin-java-mp:2.1.0'
+compile 'com.github.binarywang:weixin-java-mp:2.2.0'
 ```
 
 * 企业号：
@@ -48,12 +48,12 @@ maven：
 <dependency>
   <groupId>com.github.binarywang</groupId>
   <artifactId>weixin-java-cp</artifactId>
-  <version>2.1.0</version>
+  <version>2.2.0</version>
 </dependency>
 ```
 gradle：
 ```groovy
-compile 'com.github.binarywang:weixin-java-cp:2.1.0'
+compile 'com.github.binarywang:weixin-java-cp:2.2.0'
 ```
 
 #### 本项目主要存放在github上，地址为 :
@@ -74,4 +74,4 @@ compile 'com.github.binarywang:weixin-java-cp:2.1.0'
 * 本项目可以采用两种方式接受代码贡献：
 
 1. 第一种就是基于[Git Flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)开发流程，因此在发起Pull Request的时候请选择develop分支。
-1. 另外一种贡献代码的方式就是加入SDK Developers开发组，如果对自己的代码足够自信，可以随时提交代码，注意要随时进行单元测试，保证提交代码没有明显问题，具体加入方式，请咨询管理员。
+1. 另外一种贡献代码的方式就是加入SDK Developers开发组，前提是对自己的代码足够自信就可以申请加入，加入之后可以随时直接提交代码，但要注意对所做的修改或新增的代码进行单元测试，保证提交代码没有明显问题，具体加入方式，请咨询管理员。

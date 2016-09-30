@@ -1,6 +1,9 @@
-package me.chanjar.weixin.mp.bean.result;
+package me.chanjar.weixin.mp.bean.pay;
 
 import java.io.Serializable;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
@@ -13,38 +16,35 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 @XStreamAlias("xml")
 public class WxRedpackResult implements Serializable {
 
-  /**
-   * 
-   */
   private static final long serialVersionUID = -4837415036337132073L;
 
   @XStreamAlias("return_code")
-  String returnCode;
+  private String returnCode;
   @XStreamAlias("return_msg")
-  String returnMsg;
+  private String returnMsg;
   @XStreamAlias("sign")
-  String sign;
+  private String sign;
   @XStreamAlias("result_code")
-  String resultCode;
+  private String resultCode;
   
   @XStreamAlias("err_code")
-  String errCode;
+  private String errCode;
   @XStreamAlias("err_code_des")
-  String errCodeDes;
+  private String errCodeDes;
   @XStreamAlias("mch_billno")
-  String mchBillno;
+  private String mchBillno;
   @XStreamAlias("mch_id")
-  String mchId;
+  private String mchId;
   @XStreamAlias("wxappid")
-  String wxappid;
+  private String wxappid;
   @XStreamAlias("re_openid")
-  String reOpenid;
+  private String reOpenid;
   @XStreamAlias("total_amount")
-  int totalAmount;
+  private int totalAmount;
   @XStreamAlias("send_time")
-  String sendTime;
+  private String sendTime;
   @XStreamAlias("send_listid")
-  String sendListid;
+  private String sendListid;
   
   public String getErrCode() {
     return this.errCode;
@@ -100,19 +100,6 @@ public class WxRedpackResult implements Serializable {
   
   @Override
   public String toString() {
-    return "WxRedpackResult{" +
-        "returnCode=" + this.returnCode +
-        ", returnMsg=" + this.returnMsg +
-        ", sign=" + this.sign +
-        ", errCode=" + this.errCode +
-        ", errCodeDes=" + this.errCodeDes +
-        ", mchBillno=" + this.mchBillno +
-        ", mchId=" + this.mchId +
-        ", wxappid=" + this.wxappid +
-        ", reOpenid=" + this.reOpenid +
-        ", totalAmount=" + this.totalAmount +
-        ", sendTime=" + this.sendTime +
-        ", sendListid=" + this.sendListid +
-        '}';
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }
 }

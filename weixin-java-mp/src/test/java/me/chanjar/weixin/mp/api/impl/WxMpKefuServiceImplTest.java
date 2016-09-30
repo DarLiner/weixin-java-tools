@@ -9,13 +9,13 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 
+import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.ApiTestModule;
-import me.chanjar.weixin.mp.api.ApiTestModule.WxXmlMpInMemoryConfigStorage;
+import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
+import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
 import me.chanjar.weixin.mp.bean.kefu.request.WxMpKfAccountRequest;
 import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfInfo;
 import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfList;
@@ -36,6 +36,31 @@ public class WxMpKefuServiceImplTest {
 
   @Inject
   protected WxMpServiceImpl wxService;
+
+  public void testSendCustomMessage() throws WxErrorException {
+    WxXmlMpInMemoryConfigStorage configStorage = (WxXmlMpInMemoryConfigStorage) this.wxService
+        .getWxMpConfigStorage();
+    WxMpCustomMessage message = new WxMpCustomMessage();
+    message.setMsgType(WxConsts.CUSTOM_MSG_TEXT);
+    message.setToUser(configStorage.getOpenid());
+    message.setContent(
+        "欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>");
+
+    this.wxService.getKefuService().customMessageSend(message);
+  }
+
+  public void testSendCustomMessageWithKfAccount() throws WxErrorException {
+    WxXmlMpInMemoryConfigStorage configStorage = (WxXmlMpInMemoryConfigStorage) this.wxService
+        .getWxMpConfigStorage();
+    WxMpCustomMessage message = new WxMpCustomMessage();
+    message.setMsgType(WxConsts.CUSTOM_MSG_TEXT);
+    message.setToUser(configStorage.getOpenid());
+    message.setKfAccount(configStorage.getKfAccount());
+    message.setContent(
+        "欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>");
+
+    this.wxService.getKefuService().customMessageSend(message);
+  }
 
   public void testKfList() throws WxErrorException {
     WxMpKfList kfList = this.wxService.getKefuService().kfList();
@@ -80,7 +105,7 @@ public class WxMpKefuServiceImplTest {
           "testKfAccountAdd" }, dataProvider = "getKfAccount")
   public void testKfAccountInviteWorker(String kfAccount) throws WxErrorException {
     WxMpKfAccountRequest request = WxMpKfAccountRequest.builder()
-            .kfAccount(kfAccount).inviteWx("www_ucredit_com").build();
+        .kfAccount(kfAccount).inviteWx("    ").build();
     Assert.assertTrue(this.wxService.getKefuService().kfAccountInviteWorker(request));
   }
 
@@ -105,7 +130,7 @@ public class WxMpKefuServiceImplTest {
     WxXmlMpInMemoryConfigStorage configStorage = (WxXmlMpInMemoryConfigStorage) this.wxService
         .getWxMpConfigStorage();
     return new Object[][] {
-        { configStorage.getKfAccount(), configStorage.getOpenId() } };
+        { configStorage.getKfAccount(), configStorage.getOpenid() } };
   }
 
   @Test(dataProvider = "getKfAccountAndOpenid")
@@ -125,7 +150,7 @@ public class WxMpKefuServiceImplTest {
   }
 
   @Test(dataProvider = "getKfAccountAndOpenid")
-  public void testKfSessionGet(String kfAccount,
+  public void testKfSessionGet(@SuppressWarnings("unused") String kfAccount,
       String openid) throws WxErrorException {
     WxMpKfSessionGetResult result = this.wxService.getKefuService()
         .kfSessionGet(openid);
@@ -150,20 +175,20 @@ public class WxMpKefuServiceImplTest {
   }
 
   @Test
-  public void testKfMsgList() throws WxErrorException, JsonProcessingException {
+  public void testKfMsgList() throws WxErrorException {
     Date startTime = DateTime.now().minusDays(1).toDate();
     Date endTime = DateTime.now().minusDays(0).toDate();
     WxMpKfMsgList result = this.wxService.getKefuService().kfMsgList(startTime,endTime, 1L, 50);
     Assert.assertNotNull(result);
-    System.err.println(new ObjectMapper().writeValueAsString(result));
+    System.err.println(result);
   }
 
   @Test
-  public void testKfMsgListAll() throws WxErrorException, JsonProcessingException {
+  public void testKfMsgListAll() throws WxErrorException {
     Date startTime = DateTime.now().minusDays(1).toDate();
     Date endTime = DateTime.now().minusDays(0).toDate();
     WxMpKfMsgList result = this.wxService.getKefuService().kfMsgList(startTime,endTime);
     Assert.assertNotNull(result);
-    System.err.println(new ObjectMapper().writeValueAsString(result));
+    System.err.println(result);
   }
 }

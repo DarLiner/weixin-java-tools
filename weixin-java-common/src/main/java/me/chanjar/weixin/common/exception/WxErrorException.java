@@ -14,7 +14,7 @@ public class WxErrorException extends Exception {
   }
 
   public WxError getError() {
-    return error;
+    return this.error;
   }
 
 

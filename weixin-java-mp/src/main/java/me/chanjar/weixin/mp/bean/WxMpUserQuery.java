@@ -24,22 +24,22 @@ public class WxMpUserQuery {
   /**
    * 语言使用默认(zh_CN)
    * 
-   * @param openIdList
+   * @param openids
    */
-  public WxMpUserQuery(List<String> openIdList) {
+  public WxMpUserQuery(List<String> openids) {
     super();
-    add(openIdList);
+    add(openids);
   }
 
   /**
    * 添加OpenId列表，语言使用默认(zh_CN)
    * 
-   * @param openIdList
+   * @param openids
    * @return {@link WxMpUserQuery}
    */
-  public WxMpUserQuery add(List<String> openIdList) {
-    for (String openId : openIdList) {
-      this.add(openId);
+  public WxMpUserQuery add(List<String> openids) {
+    for (String openid : openids) {
+      this.add(openid);
     }
     return this;
   }
@@ -47,12 +47,12 @@ public class WxMpUserQuery {
   /**
    * 添加一个OpenId
    * 
-   * @param openId
+   * @param openid
    * @param lang 国家地区语言版本，zh_CN 简体，zh_TW 繁体，en 英语
    * @return {@link WxMpUserQuery}
    */
-  public WxMpUserQuery add(String openId, String lang) {
-    this.queryParamList.add(new WxMpUserQueryParam(openId, lang));
+  public WxMpUserQuery add(String openid, String lang) {
+    this.queryParamList.add(new WxMpUserQueryParam(openid, lang));
     return this;
   }
 
@@ -63,34 +63,34 @@ public class WxMpUserQuery {
    * 该方法默认lang = zh_CN
    * </pre>
    * 
-   * @param openId
+   * @param openid
    * @return {@link WxMpUserQuery}
    */
-  public WxMpUserQuery add(String openId) {
-    this.queryParamList.add(new WxMpUserQueryParam(openId));
+  public WxMpUserQuery add(String openid) {
+    this.queryParamList.add(new WxMpUserQueryParam(openid));
     return this;
   }
 
   /**
    * 删除指定的OpenId，语言使用默认(zh_CN)
    * 
-   * @param openId
+   * @param openid
    * @return {@link WxMpUserQuery}
    */
-  public WxMpUserQuery remove(String openId) {
-    this.queryParamList.remove(new WxMpUserQueryParam(openId));
+  public WxMpUserQuery remove(String openid) {
+    this.queryParamList.remove(new WxMpUserQueryParam(openid));
     return this;
   }
 
   /**
    * 删除指定的OpenId
    * 
-   * @param openId
+   * @param openid
    * @param lang 国家地区语言版本，zh_CN 简体，zh_TW 繁体，en 英语
    * @return {@link WxMpUserQuery}
    */
-  public WxMpUserQuery remove(String openId, String lang) {
-    this.queryParamList.remove(new WxMpUserQueryParam(openId, lang));
+  public WxMpUserQuery remove(String openid, String lang) {
+    this.queryParamList.remove(new WxMpUserQueryParam(openid, lang));
     return this;
   }
 
@@ -110,9 +110,6 @@ public class WxMpUserQuery {
 
   // 查询参数封装
   public class WxMpUserQueryParam implements Serializable {
-    /**
-     * @fields serialVersionUID
-     */
     private static final long serialVersionUID = -6863571795702385319L;
     private String openid;
     private String lang;

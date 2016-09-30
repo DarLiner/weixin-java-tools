@@ -1,5 +1,8 @@
 package me.chanjar.weixin.mp.api.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.testng.Assert;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
@@ -7,8 +10,11 @@ import org.testng.annotations.Test;
 import com.google.inject.Inject;
 
 import me.chanjar.weixin.common.api.WxConsts;
+import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.ApiTestModule;
-import me.chanjar.weixin.mp.api.ApiTestModule.WxXmlMpInMemoryConfigStorage;
+import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
+import me.chanjar.weixin.mp.bean.WxMpTemplateData;
+import me.chanjar.weixin.mp.bean.WxMpTemplateMessage;
 
 @Test
 @Guice(modules = ApiTestModule.class)
@@ -82,9 +88,18 @@ public class WxMpServiceImplTest {
     Assert.fail("Not yet implemented");
   }
 
-  @Test
-  public void testTemplateSend() {
-    Assert.fail("Not yet implemented");
+  @Test(invocationCount = 100, threadPoolSize = 30)
+  public void testTemplateSend() throws WxErrorException {
+    SimpleDateFormat dateFormat = new SimpleDateFormat(
+        "yyyy-MM-dd HH:mm:ss.SSS");
+    WxXmlMpInMemoryConfigStorage configStorage = (WxXmlMpInMemoryConfigStorage) this.wxService
+        .getWxMpConfigStorage();
+    WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()
+        .toUser(configStorage.getOpenid())
+        .templateId(configStorage.getTemplateId()).build();
+    templateMessage.addWxMpTemplateData(
+        new WxMpTemplateData("first", dateFormat.format(new Date())));
+    this.wxService.templateSend(templateMessage);
   }
 
   @Test

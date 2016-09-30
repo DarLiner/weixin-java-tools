@@ -13,7 +13,7 @@ public class WxMenuRule {
   private String language;
 
   public String getTagId() {
-    return tagId;
+    return this.tagId;
   }
 
   public void setTagId(String tagId) {
@@ -21,7 +21,7 @@ public class WxMenuRule {
   }
 
   public String getSex() {
-    return sex;
+    return this.sex;
   }
 
   public void setSex(String sex) {
@@ -29,7 +29,7 @@ public class WxMenuRule {
   }
 
   public String getCountry() {
-    return country;
+    return this.country;
   }
 
   public void setCountry(String country) {
@@ -37,7 +37,7 @@ public class WxMenuRule {
   }
 
   public String getProvince() {
-    return province;
+    return this.province;
   }
 
   public void setProvince(String province) {
@@ -45,7 +45,7 @@ public class WxMenuRule {
   }
 
   public String getCity() {
-    return city;
+    return this.city;
   }
 
   public void setCity(String city) {
@@ -53,7 +53,7 @@ public class WxMenuRule {
   }
 
   public String getClientPlatformType() {
-    return clientPlatformType;
+    return this.clientPlatformType;
   }
 
   public void setClientPlatformType(String clientPlatformType) {
@@ -61,7 +61,7 @@ public class WxMenuRule {
   }
 
   public String getLanguage() {
-    return language;
+    return this.language;
   }
 
   public void setLanguage(String language) {

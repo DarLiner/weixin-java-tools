@@ -8,7 +8,7 @@ import org.junit.Test;
 import com.thoughtworks.xstream.XStream;
 
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
-import me.chanjar.weixin.mp.bean.result.WxRedpackResult;
+import me.chanjar.weixin.mp.bean.pay.WxRedpackResult;
 
 public class WxRedpackResultTest {
 
@@ -16,8 +16,8 @@ public class WxRedpackResultTest {
 
   @Before
   public void setup() {
-     xstream = XStreamInitializer.getInstance();
-     xstream.processAnnotations(WxRedpackResult.class);
+     this.xstream = XStreamInitializer.getInstance();
+     this.xstream.processAnnotations(WxRedpackResult.class);
   }
   
   @Test public void loadSuccessResult() {
@@ -35,7 +35,7 @@ public class WxRedpackResultTest {
         "<send_listid>100000000020150520314766074200</send_listid>\n" + 
         "<send_time>20150520102602</send_time>\n" + 
         "</xml>";
-    WxRedpackResult wxMpRedpackResult = (WxRedpackResult) xstream.fromXML(successSample);
+    WxRedpackResult wxMpRedpackResult = (WxRedpackResult) this.xstream.fromXML(successSample);
     assertEquals("SUCCESS", wxMpRedpackResult.getReturnCode());
     assertEquals("SUCCESS", wxMpRedpackResult.getResultCode());
     assertEquals("20150520102602", wxMpRedpackResult.getSendTime());
@@ -54,7 +54,7 @@ public class WxRedpackResultTest {
         "<re_openid><![CDATA[onqOjjmM1tad-3ROpncN-yUfa6uI]]></re_openid>\n" + 
         "<total_amount>1</total_amount>\n" + 
         "</xml>";
-    WxRedpackResult wxMpRedpackResult = (WxRedpackResult) xstream.fromXML(failureSample);
+    WxRedpackResult wxMpRedpackResult = (WxRedpackResult) this.xstream.fromXML(failureSample);
     assertEquals("FAIL", wxMpRedpackResult.getReturnCode());
     assertEquals("FAIL", wxMpRedpackResult.getResultCode());
     assertEquals("onqOjjmM1tad-3ROpncN-yUfa6uI", wxMpRedpackResult.getReOpenid());

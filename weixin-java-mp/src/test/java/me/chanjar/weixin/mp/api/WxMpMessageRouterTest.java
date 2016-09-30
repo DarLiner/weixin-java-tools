@@ -163,7 +163,7 @@ public class WxMpMessageRouterTest {
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService,
         WxSessionManager sessionManager) {
-      sb.append(this.echoStr).append(',');
+      this.sb.append(this.echoStr).append(',');
       return null;
     }
 
@@ -195,7 +195,7 @@ public class WxMpMessageRouterTest {
         .rule().async(false).handler(new WxSessionMessageHandler()).end();
 
     WxMpXmlMessage msg = new WxMpXmlMessage();
-    msg.setFromUserName("abc");
+    msg.setFromUser("abc");
     router.route(msg);
 
     Thread.sleep(2000l);
@@ -215,7 +215,7 @@ public class WxMpMessageRouterTest {
           .rule().async(true).handler(new WxSessionMessageHandler()).end();
 
       WxMpXmlMessage msg = new WxMpXmlMessage();
-      msg.setFromUserName("abc");
+      msg.setFromUser("abc");
       router.route(msg);
 
       Thread.sleep(2000l);
@@ -229,7 +229,7 @@ public class WxMpMessageRouterTest {
           .rule().async(false).handler(new WxSessionMessageHandler()).end();
 
       WxMpXmlMessage msg = new WxMpXmlMessage();
-      msg.setFromUserName("abc");
+      msg.setFromUser("abc");
       router.route(msg);
 
       Thread.sleep(2000l);
@@ -249,7 +249,7 @@ public class WxMpMessageRouterTest {
         .rule().async(true).handler(new WxSessionMessageHandler()).end();
 
     WxMpXmlMessage msg = new WxMpXmlMessage();
-    msg.setFromUserName("abc");
+    msg.setFromUser("abc");
     router.route(msg);
 
     Thread.sleep(2000l);
@@ -268,7 +268,7 @@ public class WxMpMessageRouterTest {
           .rule().async(false).handler(new WxSessionMessageHandler()).end();
 
       WxMpXmlMessage msg = new WxMpXmlMessage();
-      msg.setFromUserName("abc");
+      msg.setFromUser("abc");
       router.route(msg);
 
       Thread.sleep(2000l);
@@ -282,7 +282,7 @@ public class WxMpMessageRouterTest {
           .rule().async(true).handler(new WxSessionMessageHandler()).end();
 
       WxMpXmlMessage msg = new WxMpXmlMessage();
-      msg.setFromUserName("abc");
+      msg.setFromUser("abc");
       router.route(msg);
 
       Thread.sleep(2000l);
@@ -295,7 +295,7 @@ public class WxMpMessageRouterTest {
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService,
         WxSessionManager sessionManager) {
-      sessionManager.getSession(wxMessage.getFromUserName());
+      sessionManager.getSession(wxMessage.getFromUser());
       return null;
     }
 

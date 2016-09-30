@@ -14,6 +14,10 @@ import java.util.List;
  */
 public class WxCpMessage implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -2082278303476631708L;
   private String toUser;
   private String toParty;
   private String toTag;
@@ -27,7 +31,7 @@ public class WxCpMessage implements Serializable {
   private String musicUrl;
   private String hqMusicUrl;
   private String safe;
-  private List<WxArticle> articles = new ArrayList<WxArticle>();
+  private List<WxArticle> articles = new ArrayList<>();
 
   /**
    * 获得文本消息builder
@@ -72,7 +76,7 @@ public class WxCpMessage implements Serializable {
   }
 
   public String getToUser() {
-    return toUser;
+    return this.toUser;
   }
 
   public void setToUser(String toUser) {
@@ -80,7 +84,7 @@ public class WxCpMessage implements Serializable {
   }
 
   public String getToParty() {
-    return toParty;
+    return this.toParty;
   }
 
   public void setToParty(String toParty) {
@@ -88,7 +92,7 @@ public class WxCpMessage implements Serializable {
   }
 
   public String getToTag() {
-    return toTag;
+    return this.toTag;
   }
 
   public void setToTag(String toTag) {
@@ -96,7 +100,7 @@ public class WxCpMessage implements Serializable {
   }
 
   public String getAgentId() {
-    return agentId;
+    return this.agentId;
   }
 
   public void setAgentId(String agentId) {
@@ -104,7 +108,7 @@ public class WxCpMessage implements Serializable {
   }
 
   public String getMsgType() {
-    return msgType;
+    return this.msgType;
   }
 
   /**
@@ -125,7 +129,7 @@ public class WxCpMessage implements Serializable {
   }
 
   public String getSafe() {
-    return safe;
+    return this.safe;
   }
 
   public void setSafe(String safe) {
@@ -133,7 +137,7 @@ public class WxCpMessage implements Serializable {
   }
 
   public String getContent() {
-    return content;
+    return this.content;
   }
 
   public void setContent(String content) {
@@ -141,7 +145,7 @@ public class WxCpMessage implements Serializable {
   }
 
   public String getMediaId() {
-    return mediaId;
+    return this.mediaId;
   }
 
   public void setMediaId(String mediaId) {
@@ -149,7 +153,7 @@ public class WxCpMessage implements Serializable {
   }
 
   public String getThumbMediaId() {
-    return thumbMediaId;
+    return this.thumbMediaId;
   }
 
   public void setThumbMediaId(String thumbMediaId) {
@@ -157,7 +161,7 @@ public class WxCpMessage implements Serializable {
   }
 
   public String getTitle() {
-    return title;
+    return this.title;
   }
 
   public void setTitle(String title) {
@@ -165,7 +169,7 @@ public class WxCpMessage implements Serializable {
   }
 
   public String getDescription() {
-    return description;
+    return this.description;
   }
 
   public void setDescription(String description) {
@@ -173,7 +177,7 @@ public class WxCpMessage implements Serializable {
   }
 
   public String getMusicUrl() {
-    return musicUrl;
+    return this.musicUrl;
   }
 
   public void setMusicUrl(String musicUrl) {
@@ -181,7 +185,7 @@ public class WxCpMessage implements Serializable {
   }
 
   public String getHqMusicUrl() {
-    return hqMusicUrl;
+    return this.hqMusicUrl;
   }
 
   public void setHqMusicUrl(String hqMusicUrl) {
@@ -189,7 +193,7 @@ public class WxCpMessage implements Serializable {
   }
 
   public List<WxArticle> getArticles() {
-    return articles;
+    return this.articles;
   }
 
   public void setArticles(List<WxArticle> articles) {
@@ -208,7 +212,7 @@ public class WxCpMessage implements Serializable {
     private String picUrl;
 
     public String getTitle() {
-      return title;
+      return this.title;
     }
 
     public void setTitle(String title) {
@@ -216,7 +220,7 @@ public class WxCpMessage implements Serializable {
     }
 
     public String getDescription() {
-      return description;
+      return this.description;
     }
 
     public void setDescription(String description) {
@@ -224,7 +228,7 @@ public class WxCpMessage implements Serializable {
     }
 
     public String getUrl() {
-      return url;
+      return this.url;
     }
 
     public void setUrl(String url) {
@@ -232,7 +236,7 @@ public class WxCpMessage implements Serializable {
     }
 
     public String getPicUrl() {
-      return picUrl;
+      return this.picUrl;
     }
 
     public void setPicUrl(String picUrl) {

@@ -55,13 +55,13 @@ public interface WxCpConfigStorage {
 
   String getOauth2redirectUri();
 
-  String getHttp_proxy_host();
+  String getHttpProxyHost();
 
-  int getHttp_proxy_port();
+  int getHttpProxyPort();
 
-  String getHttp_proxy_username();
+  String getHttpProxyUsername();
 
-  String getHttp_proxy_password();
+  String getHttpProxyPassword();
 
   File getTmpDirFile();
 

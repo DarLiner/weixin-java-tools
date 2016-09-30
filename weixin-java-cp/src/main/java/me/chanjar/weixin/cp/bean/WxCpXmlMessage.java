@@ -32,6 +32,11 @@ public class WxCpXmlMessage implements Serializable {
   // 以下都是微信推送过来的消息的xml的element所对应的属性
   ///////////////////////
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -1042994982179476410L;
+
   @XStreamAlias("AgentID")
   private Integer agentId;
 
@@ -200,7 +205,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public Integer getAgentId() {
-    return agentId;
+    return this.agentId;
   }
 
   public void setAgentId(Integer agentId) {
@@ -208,7 +213,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public String getToUserName() {
-    return toUserName;
+    return this.toUserName;
   }
 
   public void setToUserName(String toUserName) {
@@ -216,7 +221,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public Long getCreateTime() {
-    return createTime;
+    return this.createTime;
   }
 
   public void setCreateTime(Long createTime) {
@@ -236,7 +241,7 @@ public class WxCpXmlMessage implements Serializable {
    * </pre>
    */
   public String getMsgType() {
-    return msgType;
+    return this.msgType;
   }
 
   /**
@@ -256,7 +261,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public String getContent() {
-    return content;
+    return this.content;
   }
 
   public void setContent(String content) {
@@ -264,7 +269,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public Long getMsgId() {
-    return msgId;
+    return this.msgId;
   }
 
   public void setMsgId(Long msgId) {
@@ -272,7 +277,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public String getPicUrl() {
-    return picUrl;
+    return this.picUrl;
   }
 
   public void setPicUrl(String picUrl) {
@@ -280,7 +285,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public String getMediaId() {
-    return mediaId;
+    return this.mediaId;
   }
 
   public void setMediaId(String mediaId) {
@@ -288,7 +293,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public String getFormat() {
-    return format;
+    return this.format;
   }
 
   public void setFormat(String format) {
@@ -296,7 +301,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public String getThumbMediaId() {
-    return thumbMediaId;
+    return this.thumbMediaId;
   }
 
   public void setThumbMediaId(String thumbMediaId) {
@@ -304,7 +309,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public Double getLocationX() {
-    return locationX;
+    return this.locationX;
   }
 
   public void setLocationX(Double locationX) {
@@ -312,7 +317,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public Double getLocationY() {
-    return locationY;
+    return this.locationY;
   }
 
   public void setLocationY(Double locationY) {
@@ -320,7 +325,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public Double getScale() {
-    return scale;
+    return this.scale;
   }
 
   public void setScale(Double scale) {
@@ -328,7 +333,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public String getLabel() {
-    return label;
+    return this.label;
   }
 
   public void setLabel(String label) {
@@ -336,7 +341,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public String getTitle() {
-    return title;
+    return this.title;
   }
 
   public void setTitle(String title) {
@@ -344,7 +349,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public String getDescription() {
-    return description;
+    return this.description;
   }
 
   public void setDescription(String description) {
@@ -352,7 +357,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public String getUrl() {
-    return url;
+    return this.url;
   }
 
   public void setUrl(String url) {
@@ -360,7 +365,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public String getEvent() {
-    return event;
+    return this.event;
   }
 
   public void setEvent(String event) {
@@ -368,7 +373,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public String getEventKey() {
-    return eventKey;
+    return this.eventKey;
   }
 
   public void setEventKey(String eventKey) {
@@ -376,7 +381,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public String getTicket() {
-    return ticket;
+    return this.ticket;
   }
 
   public void setTicket(String ticket) {
@@ -384,7 +389,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public Double getLatitude() {
-    return latitude;
+    return this.latitude;
   }
 
   public void setLatitude(Double latitude) {
@@ -392,7 +397,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public Double getLongitude() {
-    return longitude;
+    return this.longitude;
   }
 
   public void setLongitude(Double longitude) {
@@ -400,7 +405,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public Double getPrecision() {
-    return precision;
+    return this.precision;
   }
 
   public void setPrecision(Double precision) {
@@ -408,7 +413,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public String getRecognition() {
-    return recognition;
+    return this.recognition;
   }
 
   public void setRecognition(String recognition) {
@@ -416,7 +421,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public String getFromUserName() {
-    return fromUserName;
+    return this.fromUserName;
   }
 
   public void setFromUserName(String fromUserName) {
@@ -424,7 +429,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public String getStatus() {
-    return status;
+    return this.status;
   }
 
   public void setStatus(String status) {
@@ -432,7 +437,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public Integer getTotalCount() {
-    return totalCount;
+    return this.totalCount;
   }
 
   public void setTotalCount(Integer totalCount) {
@@ -440,7 +445,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public Integer getFilterCount() {
-    return filterCount;
+    return this.filterCount;
   }
 
   public void setFilterCount(Integer filterCount) {
@@ -448,7 +453,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public Integer getSentCount() {
-    return sentCount;
+    return this.sentCount;
   }
 
   public void setSentCount(Integer sentCount) {
@@ -456,7 +461,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public Integer getErrorCount() {
-    return errorCount;
+    return this.errorCount;
   }
 
   public void setErrorCount(Integer errorCount) {
@@ -464,7 +469,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public WxCpXmlMessage.ScanCodeInfo getScanCodeInfo() {
-    return scanCodeInfo;
+    return this.scanCodeInfo;
   }
 
   public void setScanCodeInfo(WxCpXmlMessage.ScanCodeInfo scanCodeInfo) {
@@ -472,7 +477,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public WxCpXmlMessage.SendPicsInfo getSendPicsInfo() {
-    return sendPicsInfo;
+    return this.sendPicsInfo;
   }
 
   public void setSendPicsInfo(WxCpXmlMessage.SendPicsInfo sendPicsInfo) {
@@ -480,7 +485,7 @@ public class WxCpXmlMessage implements Serializable {
   }
 
   public WxCpXmlMessage.SendLocationInfo getSendLocationInfo() {
-    return sendLocationInfo;
+    return this.sendLocationInfo;
   }
 
   public void setSendLocationInfo(WxCpXmlMessage.SendLocationInfo sendLocationInfo) {
@@ -490,39 +495,39 @@ public class WxCpXmlMessage implements Serializable {
   @Override
   public String toString() {
     return "WxCpXmlMessage{" +
-            "agentId=" + agentId +
-            ", toUserName='" + toUserName + '\'' +
-            ", fromUserName='" + fromUserName + '\'' +
-            ", createTime=" + createTime +
-            ", msgType='" + msgType + '\'' +
-            ", content='" + content + '\'' +
-            ", msgId=" + msgId +
-            ", picUrl='" + picUrl + '\'' +
-            ", mediaId='" + mediaId + '\'' +
-            ", format='" + format + '\'' +
-            ", thumbMediaId='" + thumbMediaId + '\'' +
-            ", locationX=" + locationX +
-            ", locationY=" + locationY +
-            ", scale=" + scale +
-            ", label='" + label + '\'' +
-            ", title='" + title + '\'' +
-            ", description='" + description + '\'' +
-            ", url='" + url + '\'' +
-            ", event='" + event + '\'' +
-            ", eventKey='" + eventKey + '\'' +
-            ", ticket='" + ticket + '\'' +
-            ", latitude=" + latitude +
-            ", longitude=" + longitude +
-            ", precision=" + precision +
-            ", recognition='" + recognition + '\'' +
-            ", status='" + status + '\'' +
-            ", totalCount=" + totalCount +
-            ", filterCount=" + filterCount +
-            ", sentCount=" + sentCount +
-            ", errorCount=" + errorCount +
-            ", scanCodeInfo=" + scanCodeInfo +
-            ", sendPicsInfo=" + sendPicsInfo +
-            ", sendLocationInfo=" + sendLocationInfo +
+            "agentId=" + this.agentId +
+            ", toUserName='" + this.toUserName + '\'' +
+            ", fromUserName='" + this.fromUserName + '\'' +
+            ", createTime=" + this.createTime +
+            ", msgType='" + this.msgType + '\'' +
+            ", content='" + this.content + '\'' +
+            ", msgId=" + this.msgId +
+            ", picUrl='" + this.picUrl + '\'' +
+            ", mediaId='" + this.mediaId + '\'' +
+            ", format='" + this.format + '\'' +
+            ", thumbMediaId='" + this.thumbMediaId + '\'' +
+            ", locationX=" + this.locationX +
+            ", locationY=" + this.locationY +
+            ", scale=" + this.scale +
+            ", label='" + this.label + '\'' +
+            ", title='" + this.title + '\'' +
+            ", description='" + this.description + '\'' +
+            ", url='" + this.url + '\'' +
+            ", event='" + this.event + '\'' +
+            ", eventKey='" + this.eventKey + '\'' +
+            ", ticket='" + this.ticket + '\'' +
+            ", latitude=" + this.latitude +
+            ", longitude=" + this.longitude +
+            ", precision=" + this.precision +
+            ", recognition='" + this.recognition + '\'' +
+            ", status='" + this.status + '\'' +
+            ", totalCount=" + this.totalCount +
+            ", filterCount=" + this.filterCount +
+            ", sentCount=" + this.sentCount +
+            ", errorCount=" + this.errorCount +
+            ", scanCodeInfo=" + this.scanCodeInfo +
+            ", sendPicsInfo=" + this.sendPicsInfo +
+            ", sendLocationInfo=" + this.sendLocationInfo +
             '}';
   }
 
@@ -542,7 +547,7 @@ public class WxCpXmlMessage implements Serializable {
      */
     public String getScanType() {
 
-      return scanType;
+      return this.scanType;
     }
 
     public void setScanType(String scanType) {
@@ -553,7 +558,7 @@ public class WxCpXmlMessage implements Serializable {
      * 扫描结果，即二维码对应的字符串信息
      */
     public String getScanResult() {
-      return scanResult;
+      return this.scanResult;
     }
 
     public void setScanResult(String scanResult) {
@@ -566,12 +571,12 @@ public class WxCpXmlMessage implements Serializable {
   public static class SendPicsInfo {
 
     @XStreamAlias("PicList")
-    protected final List<Item> picList = new ArrayList<Item>();
+    protected final List<Item> picList = new ArrayList<>();
     @XStreamAlias("Count")
     private Long count;
 
     public Long getCount() {
-      return count;
+      return this.count;
     }
 
     public void setCount(Long count) {
@@ -579,7 +584,7 @@ public class WxCpXmlMessage implements Serializable {
     }
 
     public List<Item> getPicList() {
-      return picList;
+      return this.picList;
     }
 
     @XStreamAlias("item")
@@ -590,11 +595,11 @@ public class WxCpXmlMessage implements Serializable {
       private String PicMd5Sum;
 
       public String getPicMd5Sum() {
-        return PicMd5Sum;
+        return this.PicMd5Sum;
       }
 
       public void setPicMd5Sum(String picMd5Sum) {
-        PicMd5Sum = picMd5Sum;
+        this.PicMd5Sum = picMd5Sum;
       }
     }
   }
@@ -623,7 +628,7 @@ public class WxCpXmlMessage implements Serializable {
     private String poiname;
 
     public String getLocationX() {
-      return locationX;
+      return this.locationX;
     }
 
     public void setLocationX(String locationX) {
@@ -631,7 +636,7 @@ public class WxCpXmlMessage implements Serializable {
     }
 
     public String getLocationY() {
-      return locationY;
+      return this.locationY;
     }
 
     public void setLocationY(String locationY) {
@@ -639,7 +644,7 @@ public class WxCpXmlMessage implements Serializable {
     }
 
     public String getScale() {
-      return scale;
+      return this.scale;
     }
 
     public void setScale(String scale) {
@@ -647,7 +652,7 @@ public class WxCpXmlMessage implements Serializable {
     }
 
     public String getLabel() {
-      return label;
+      return this.label;
     }
 
     public void setLabel(String label) {
@@ -655,7 +660,7 @@ public class WxCpXmlMessage implements Serializable {
     }
 
     public String getPoiname() {
-      return poiname;
+      return this.poiname;
     }
 
     public void setPoiname(String poiname) {

@@ -168,7 +168,7 @@ public class WxMpMessageRouterRule {
    */
   protected boolean test(WxMpXmlMessage wxMessage) {
     return
-        (this.fromUser == null || this.fromUser.equals(wxMessage.getFromUserName()))
+        (this.fromUser == null || this.fromUser.equals(wxMessage.getFromUser()))
             &&
             (this.msgType == null || this.msgType.toLowerCase().equals((wxMessage.getMsgType()==null?null:wxMessage.getMsgType().toLowerCase())))
             &&

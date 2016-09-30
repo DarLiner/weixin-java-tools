@@ -5,8 +5,6 @@ import java.util.List;
 import com.google.gson.JsonObject;
 
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.util.http.SimpleGetRequestExecutor;
-import me.chanjar.weixin.common.util.http.SimplePostRequestExecutor;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.WxMpUserService;
 import me.chanjar.weixin.mp.bean.WxMpUserQuery;
@@ -30,33 +28,37 @@ public class WxMpUserServiceImpl implements WxMpUserService {
     JsonObject json = new JsonObject();
     json.addProperty("openid", openid);
     json.addProperty("remark", remark);
-    this.wxMpService.execute(new SimplePostRequestExecutor(), url, json.toString());
+    this.wxMpService.post(url, json.toString());
   }
 
   @Override
   public WxMpUser userInfo(String openid, String lang) throws WxErrorException {
     String url = API_URL_PREFIX + "/info";
     lang = lang == null ? "zh_CN" : lang;
-    String responseContent = this.wxMpService.execute(new SimpleGetRequestExecutor(), url, "openid=" + openid + "&lang=" + lang);
+    String responseContent = this.wxMpService.get(url,
+        "openid=" + openid + "&lang=" + lang);
     return WxMpUser.fromJson(responseContent);
   }
 
   @Override
   public WxMpUserList userList(String next_openid) throws WxErrorException {
     String url = API_URL_PREFIX + "/get";
-    String responseContent = this.wxMpService.execute(new SimpleGetRequestExecutor(), url, next_openid == null ? null : "next_openid=" + next_openid);
+    String responseContent = this.wxMpService.get(url,
+        next_openid == null ? null : "next_openid=" + next_openid);
     return WxMpUserList.fromJson(responseContent);
   }
 
   @Override
-  public List<WxMpUser> userInfoList(List<String> openidList) throws WxErrorException {
-    return userInfoList(new WxMpUserQuery(openidList));
+  public List<WxMpUser> userInfoList(List<String> openids)
+      throws WxErrorException {
+    return this.userInfoList(new WxMpUserQuery(openids));
   }
 
   @Override
   public List<WxMpUser> userInfoList(WxMpUserQuery userQuery) throws WxErrorException {
     String url = API_URL_PREFIX + "/info/batchget";
-    String responseContent = this.wxMpService.execute(new SimpleGetRequestExecutor(), url, userQuery.toJsonString());
+    String responseContent = this.wxMpService.post(url,
+        userQuery.toJsonString());
     return WxMpUser.fromJsonList(responseContent);
   }
 

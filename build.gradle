@@ -2,7 +2,7 @@ allprojects  {
   apply plugin: 'maven'
 
   group = 'com.github.binarywang'
-  version = '2.1.0-SNAPSHOT'
+  version = '2.2.0'
 }
 
 subprojects {
@@ -13,8 +13,8 @@ subprojects {
 
   repositories {
     mavenLocal()
-
-    maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
+    maven { url "http://central.maven.org/maven2" }
+    //maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
   }
 
 
@@ -24,6 +24,8 @@ subprojects {
     compile group: 'org.apache.httpcomponents', name: 'httpmime', version:'4.5'
     compile group: 'org.jodd', name: 'jodd-http', version:'3.6.7'
     compile group: 'com.google.code.gson', name: 'gson', version:'2.7'
+    compile group: 'com.google.guava', name: 'guava', version:'19.0'
+    compile group: 'org.jooq', name: 'joor', version:'0.9.6'
     compile group: 'commons-codec', name: 'commons-codec', version:'1.10'
     compile group: 'commons-io', name: 'commons-io', version:'2.5'
     compile group: 'org.apache.commons', name: 'commons-lang3', version:'3.4'

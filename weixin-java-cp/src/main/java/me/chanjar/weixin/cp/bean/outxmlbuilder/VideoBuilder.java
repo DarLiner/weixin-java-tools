@@ -28,12 +28,13 @@ public final class VideoBuilder extends BaseBuilder<VideoBuilder, WxCpXmlOutVide
     return this;
   }
 
+  @Override
   public WxCpXmlOutVideoMessage build() {
     WxCpXmlOutVideoMessage m = new WxCpXmlOutVideoMessage();
     setCommon(m);
-    m.setTitle(title);
-    m.setDescription(description);
-    m.setMediaId(mediaId);
+    m.setTitle(this.title);
+    m.setDescription(this.description);
+    m.setMediaId(this.mediaId);
     return m;
   }
 

@@ -23,6 +23,7 @@ public final class TextBuilder extends BaseBuilder<TextBuilder> {
     return this;
   }
 
+  @Override
   public WxCpMessage build() {
     WxCpMessage m = super.build();
     m.setContent(this.content);

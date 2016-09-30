@@ -35,7 +35,7 @@ public class URIUtil {
   private static String getHex(byte buf[]) {
     StringBuilder o = new StringBuilder(buf.length * 3);
     for (int i = 0; i < buf.length; i++) {
-      int n = (int) buf[i] & 0xff;
+      int n = buf[i] & 0xff;
       o.append("%");
       if (n < 0x10) {
         o.append("0");

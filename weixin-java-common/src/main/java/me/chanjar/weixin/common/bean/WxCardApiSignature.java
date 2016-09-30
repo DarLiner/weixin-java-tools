@@ -39,7 +39,7 @@ public class WxCardApiSignature implements Serializable {
   }
 
   public String getAppId() {
-    return appId;
+    return this.appId;
   }
 
   public void setAppId(String appId) {
@@ -47,7 +47,7 @@ public class WxCardApiSignature implements Serializable {
   }
 
   public String getCardId() {
-    return cardId;
+    return this.cardId;
   }
 
   public void setCardId(String cardId) {
@@ -55,7 +55,7 @@ public class WxCardApiSignature implements Serializable {
   }
 
   public String getCardType() {
-    return cardType;
+    return this.cardType;
   }
 
   public void setCardType(String cardType) {
@@ -63,7 +63,7 @@ public class WxCardApiSignature implements Serializable {
   }
 
   public String getLocationId() {
-    return locationId;
+    return this.locationId;
   }
 
   public void setLocationId(String locationId) {
@@ -71,7 +71,7 @@ public class WxCardApiSignature implements Serializable {
   }
 
   public String getCode() {
-    return code;
+    return this.code;
   }
 
   public void setCode(String code) {
@@ -79,7 +79,7 @@ public class WxCardApiSignature implements Serializable {
   }
 
   public String getOpenId() {
-    return openId;
+    return this.openId;
   }
 
   public void setOpenId(String openId) {
@@ -87,7 +87,7 @@ public class WxCardApiSignature implements Serializable {
   }
 
   public Long getTimestamp() {
-    return timestamp;
+    return this.timestamp;
   }
 
   public void setTimestamp(Long timestamp) {
@@ -95,7 +95,7 @@ public class WxCardApiSignature implements Serializable {
   }
 
   public String getNonceStr() {
-    return nonceStr;
+    return this.nonceStr;
   }
 
   public void setNonceStr(String nonceStr) {
@@ -103,7 +103,7 @@ public class WxCardApiSignature implements Serializable {
   }
 
   public String getSignature() {
-    return signature;
+    return this.signature;
   }
 
   public void setSignature(String signature) {

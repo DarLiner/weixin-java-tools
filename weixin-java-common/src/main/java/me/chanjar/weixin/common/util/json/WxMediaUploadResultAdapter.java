@@ -18,6 +18,7 @@ import java.lang.reflect.Type;
  */
 public class WxMediaUploadResultAdapter implements JsonDeserializer<WxMediaUploadResult> {
 
+  @Override
   public WxMediaUploadResult deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
     WxMediaUploadResult uploadResult = new WxMediaUploadResult();
     JsonObject uploadResultJsonObject = json.getAsJsonObject();

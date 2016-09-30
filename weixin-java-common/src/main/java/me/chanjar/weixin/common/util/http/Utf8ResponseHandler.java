@@ -19,6 +19,7 @@ public class Utf8ResponseHandler implements ResponseHandler<String> {
 
   public static final ResponseHandler<String> INSTANCE = new Utf8ResponseHandler();
 
+  @Override
   public String handleResponse(final HttpResponse response) throws IOException {
     final StatusLine statusLine = response.getStatusLine();
     final HttpEntity entity = response.getEntity();

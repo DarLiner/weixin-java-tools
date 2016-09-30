@@ -5,7 +5,8 @@
     <aesKey>公众号EncodingAESKey</aesKey>
     <accessToken>可以不填写</accessToken>
     <expiresTime>可以不填写</expiresTime>
-    <openId>某个加你公众号的用户的openId</openId>
+    <openid>某个加你公众号的用户的openId</openid>
+    <templateId>模版消息的模版ID</templateId>
     <oauth2redirectUri>网页授权获取用户信息回调地址</oauth2redirectUri>
     <qrconnectRedirectUrl>网页应用授权登陆回调地址</qrconnectRedirectUrl>
     <kfAccount>完整客服账号，格式为：账号前缀@公众号微信号</kfAccount>

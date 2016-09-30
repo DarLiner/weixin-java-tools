@@ -13,16 +13,17 @@ import java.util.List;
  */
 public final class NewsBuilder extends BaseBuilder<NewsBuilder, WxCpXmlOutNewsMessage> {
 
-  protected final List<Item> articles = new ArrayList<Item>();
+  protected final List<Item> articles = new ArrayList<>();
 
   public NewsBuilder addArticle(Item item) {
     this.articles.add(item);
     return this;
   }
 
+  @Override
   public WxCpXmlOutNewsMessage build() {
     WxCpXmlOutNewsMessage m = new WxCpXmlOutNewsMessage();
-    for (Item item : articles) {
+    for (Item item : this.articles) {
       m.addArticle(item);
     }
     setCommon(m);

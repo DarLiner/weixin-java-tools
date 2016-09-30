@@ -11,6 +11,10 @@ import java.io.Serializable;
  */
 public class WxCpDepart implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -5028321625140879571L;
   private Integer id;
   private String name;
   private Integer parentId;
@@ -21,7 +25,7 @@ public class WxCpDepart implements Serializable {
   }
 
   public Integer getId() {
-    return id;
+    return this.id;
   }
 
   public void setId(Integer id) {
@@ -29,7 +33,7 @@ public class WxCpDepart implements Serializable {
   }
 
   public String getName() {
-    return name;
+    return this.name;
   }
 
   public void setName(String name) {
@@ -37,7 +41,7 @@ public class WxCpDepart implements Serializable {
   }
 
   public Integer getParentId() {
-    return parentId;
+    return this.parentId;
   }
 
   public void setParentId(Integer parentId) {
@@ -45,7 +49,7 @@ public class WxCpDepart implements Serializable {
   }
 
   public Integer getOrder() {
-    return order;
+    return this.order;
   }
 
   public void setOrder(Integer order) {
@@ -59,10 +63,10 @@ public class WxCpDepart implements Serializable {
   @Override
   public String toString() {
     return "WxCpDepart{" +
-            "id=" + id +
-            ", name='" + name + '\'' +
-            ", parentId=" + parentId +
-            ", order=" + order +
+            "id=" + this.id +
+            ", name='" + this.name + '\'' +
+            ", parentId=" + this.parentId +
+            ", order=" + this.order +
             '}';
   }
 }

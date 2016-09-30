@@ -1,5 +1,7 @@
 package me.chanjar.weixin.common.util.xml;
 
+import java.io.Writer;
+
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.core.util.QuickWriter;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
@@ -7,8 +9,6 @@ import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 import com.thoughtworks.xstream.io.xml.XppDriver;
 import com.thoughtworks.xstream.security.NullPermission;
 import com.thoughtworks.xstream.security.PrimitiveTypePermission;
-
-import java.io.Writer;
 
 public class XStreamInitializer {
 
@@ -25,14 +25,19 @@ public class XStreamInitializer {
 
           @Override
           protected void writeText(QuickWriter writer, String text) {
-            if (text.startsWith(PREFIX_CDATA) && text.endsWith(SUFFIX_CDATA)) {
+            if (text.startsWith(this.PREFIX_CDATA) && text.endsWith(this.SUFFIX_CDATA)) {
               writer.write(text);
-            } else if (text.startsWith(PREFIX_MEDIA_ID) && text.endsWith(SUFFIX_MEDIA_ID)) {
+            } else if (text.startsWith(this.PREFIX_MEDIA_ID) && text.endsWith(this.SUFFIX_MEDIA_ID)) {
               writer.write(text);
             } else {
               super.writeText(writer, text);
             }
 
+          }
+
+          @Override
+          public String encodeNode(String name) {
+            return name;//防止将_转换成__
           }
         };
       }
