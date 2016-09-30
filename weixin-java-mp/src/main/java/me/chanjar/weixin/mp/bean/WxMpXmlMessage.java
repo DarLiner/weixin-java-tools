@@ -20,11 +20,10 @@ import me.chanjar.weixin.mp.util.xml.XStreamTransformer;
 
 /**
  * <pre>
- * 微信推送过来的消息，也是同步回复给用户的消息，xml格式
- * 相关字段的解释看微信开发者文档：
- * http://mp.weixin.qq.com/wiki/index.php?title=接收普通消息
- * http://mp.weixin.qq.com/wiki/index.php?title=接收事件推送
- * http://mp.weixin.qq.com/wiki/index.php?title=接收语音识别结果
+ * 微信推送过来的消息，xml格式
+ * 部分未注释的字段的解释请查阅相关微信开发文档：
+ * <a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140453&token=&lang=zh_CN">接收普通消息</a>
+ * <a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140454&token=&lang=zh_CN">接收事件推送</a>
  * </pre>
  *
  * @author chanjarster
