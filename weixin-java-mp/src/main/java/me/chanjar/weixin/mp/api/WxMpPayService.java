@@ -6,7 +6,6 @@ import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.bean.pay.WxMpPayCallback;
 import me.chanjar.weixin.mp.bean.pay.WxMpPayRefundResult;
 import me.chanjar.weixin.mp.bean.pay.WxMpPayResult;
-import me.chanjar.weixin.mp.bean.pay.WxMpPrepayIdResult;
 import me.chanjar.weixin.mp.bean.pay.WxRedpackResult;
 import me.chanjar.weixin.mp.bean.pay.WxSendRedpackRequest;
 import me.chanjar.weixin.mp.bean.pay.WxUnifiedOrderRequest;

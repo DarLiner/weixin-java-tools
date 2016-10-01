@@ -11,8 +11,6 @@ import java.util.TreeMap;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.joor.Reflect;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -42,7 +40,6 @@ public class WxMpPayServiceImpl implements WxMpPayService {
 
   private static final List<String> TRADE_TYPES = Lists.newArrayList("JSAPI",
       "NATIVE", "APP");
-  private final Logger log = LoggerFactory.getLogger(WxMpPayServiceImpl.class);
   private WxMpService wxMpService;
 
   public WxMpPayServiceImpl(WxMpService wxMpService) {
@@ -286,7 +283,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
 
     if (!TRADE_TYPES.contains(request.getTradeType())) {
       throw new IllegalArgumentException(
-          "trade_type目前必须为" + TRADE_TYPES + "其中之一");
+"trade_type目前必须为" + TRADE_TYPES + "其中之一");
 
     }
 

@@ -1,6 +1,5 @@
 package me.chanjar.weixin.mp.bean.store;
 
-import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
