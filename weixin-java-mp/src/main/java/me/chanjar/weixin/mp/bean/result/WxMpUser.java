@@ -121,6 +121,9 @@ public class WxMpUser implements Serializable {
     this.subscribeTime = subscribeTime;
   }
 
+  /**
+   *只有在将公众号绑定到微信开放平台帐号后，才会出现该字段。
+   */
   public String getUnionId() {
     return this.unionId;
   }
