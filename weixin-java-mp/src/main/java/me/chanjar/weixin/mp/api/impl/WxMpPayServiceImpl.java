@@ -38,6 +38,7 @@ import me.chanjar.weixin.mp.bean.pay.WxUnifiedOrderResult;
  */
 public class WxMpPayServiceImpl implements WxMpPayService {
 
+  private static final String PAY_BASE_URL = "https://api.mch.weixin.qq.com";
   private static final List<String> TRADE_TYPES = Lists.newArrayList("JSAPI",
       "NATIVE", "APP");
   private WxMpService wxMpService;
@@ -77,7 +78,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     }
     request.append("</xml>");
 
-    String url = "https://api.mch.weixin.qq.com/pay/orderquery";
+    String url = PAY_BASE_URL + "/pay/orderquery";
     String responseContent = this.wxMpService.post(url, request.toString());
     XStream xstream = XStreamInitializer.getInstance();
     xstream.alias("xml", WxMpPayResult.class);
@@ -119,7 +120,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     }
     request.append("</xml>");
 
-    String url = "https://api.mch.weixin.qq.com/secapi/pay/refund";
+    String url = PAY_BASE_URL + "/secapi/pay/refund";
     String responseContent = this.wxMpService.post(url, request.toString());
     XStream xstream = XStreamInitializer.getInstance();
     xstream.processAnnotations(WxMpPayRefundResult.class);
@@ -163,10 +164,10 @@ public class WxMpPayServiceImpl implements WxMpPayService {
         this.wxMpService.getWxMpConfigStorage().getPartnerKey());
     request.setSign(sign);
 
-    String url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack";
+    String url = PAY_BASE_URL + "/mmpaymkttransfers/sendredpack";
     if (request.getAmtType() != null) {
       //裂变红包
-      url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/sendgroupredpack";
+      url = PAY_BASE_URL + "/mmpaymkttransfers/sendgroupredpack";
     }
 
     String responseContent = this.wxMpService.post(url, xstream.toXML(request));
@@ -245,7 +246,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
         this.wxMpService.getWxMpConfigStorage().getPartnerKey());
     request.setSign(sign);
 
-    String url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+    String url = PAY_BASE_URL + "/pay/unifiedorder";
 
     String responseContent = this.wxMpService.post(url, xstream.toXML(request));
     WxUnifiedOrderResult result = (WxUnifiedOrderResult) xstream
@@ -282,8 +283,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     }
 
     if (!TRADE_TYPES.contains(request.getTradeType())) {
-      throw new IllegalArgumentException(
-"trade_type目前必须为" + TRADE_TYPES + "其中之一");
+      throw new IllegalArgumentException("trade_type目前必须为" + TRADE_TYPES + "其中之一");
 
     }
 
