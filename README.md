@@ -56,6 +56,8 @@ gradle：
 compile 'com.github.binarywang:weixin-java-cp:2.2.0'
 ```
 
+===========
+
 #### 本项目主要存放在github上，地址为 :
 * https://github.com/wechat-group/weixin-java-tools
 * ===========但同时会在其他几个网站同步更新，地址分别是:
@@ -63,11 +65,12 @@ compile 'com.github.binarywang:weixin-java-cp:2.2.0'
 * http://git.oschina.net/binary/weixin-java-tools
 * https://git.coding.net/binarywang/weixin-java-tools.git
 
-
+===========
 ## 目前可参考的Demo项目有两个:
 1. https://github.com/wechat-group/weixin-mp-demo
 1. https://github.com/wechat-group/weixin-java-tools-springmvc
 
+===========
 ## 关于代码贡献
 1. 非常欢迎和感谢对本项目发起Pull Request的同学，本项目代码风格为使用2个空格代表一个Tab，因此在提交代码时请注意一下，否则很容易在IDE格式化代码后与原代码产生大量diff，这样会给其他人阅读代码带来极大的困扰。
 1. 为了便于设置，本项目引入editorconfig插件，请使用eclipse的同学在贡献代码前安装相关插件，IntelliJ IDEA则自带支持，无需额外安装插件。
