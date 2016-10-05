@@ -6,6 +6,8 @@
     <accessToken>可以不填写</accessToken>
     <expiresTime>可以不填写</expiresTime>
     <openid>某个加你公众号的用户的openId</openid>
+    <partnerId>微信商户平台ID</partnerId>
+    <partnerKey>商户平台设置的API密钥</partnerKey>
     <templateId>模版消息的模版ID</templateId>
     <oauth2redirectUri>网页授权获取用户信息回调地址</oauth2redirectUri>
     <qrconnectRedirectUrl>网页应用授权登陆回调地址</qrconnectRedirectUrl>
