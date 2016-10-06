@@ -1,8 +1,11 @@
 package me.chanjar.weixin.mp.api;
 
+import java.io.File;
 import java.util.Map;
 
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.mp.bean.pay.WxEntPayRequest;
+import me.chanjar.weixin.mp.bean.pay.WxEntPayResult;
 import me.chanjar.weixin.mp.bean.pay.WxMpPayCallback;
 import me.chanjar.weixin.mp.bean.pay.WxMpPayRefundResult;
 import me.chanjar.weixin.mp.bean.pay.WxMpPayResult;
@@ -84,5 +87,18 @@ public interface WxMpPayService {
    * </pre>
    */
   WxRedpackResult sendRedpack(WxSendRedpackRequest request) throws WxErrorException;
+
+  /**
+   * <pre> 
+   * 企业付款业务是基于微信支付商户平台的资金管理能力，为了协助商户方便地实现企业向个人付款，针对部分有开发能力的商户，提供通过API完成企业付款的功能。
+   * 比如目前的保险行业向客户退保、给付、理赔。
+   * 企业付款将使用商户的可用余额，需确保可用余额充足。查看可用余额、充值、提现请登录商户平台“资金管理”https://pay.weixin.qq.com/进行操作。
+   * 注意：与商户微信支付收款资金并非同一账户，需要单独充值。
+   * 文档详见:https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=14_2
+   * 接口链接：https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers
+   * @param keyFile  证书文件对象
+   * </pre>
+   */
+  WxEntPayResult entPay(WxEntPayRequest request, File keyFile) throws WxErrorException;
 
 }

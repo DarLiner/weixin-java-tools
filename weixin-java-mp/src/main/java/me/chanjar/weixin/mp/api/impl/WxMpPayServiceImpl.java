@@ -1,6 +1,9 @@
 package me.chanjar.weixin.mp.api.impl;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.lang.reflect.Field;
+import java.security.KeyStore;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,8 +11,19 @@ import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import javax.net.ssl.SSLContext;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ssl.DefaultHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContexts;
+import org.apache.http.util.EntityUtils;
 import org.joor.Reflect;
 
 import com.google.common.collect.Lists;
@@ -23,6 +37,8 @@ import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
 import me.chanjar.weixin.mp.api.WxMpPayService;
 import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.pay.WxEntPayRequest;
+import me.chanjar.weixin.mp.bean.pay.WxEntPayResult;
 import me.chanjar.weixin.mp.bean.pay.WxMpPayCallback;
 import me.chanjar.weixin.mp.bean.pay.WxMpPayRefundResult;
 import me.chanjar.weixin.mp.bean.pay.WxMpPayResult;
@@ -263,6 +279,23 @@ public class WxMpPayServiceImpl implements WxMpPayService {
 
   private void checkParameters(WxUnifiedOrderRequest request) {
 
+    checkNotNullParams(request);
+
+    if (!TRADE_TYPES.contains(request.getTradeType())) {
+      throw new IllegalArgumentException("trade_type目前必须为" + TRADE_TYPES + "其中之一");
+
+    }
+
+    if ("JSAPI".equals(request.getTradeType()) && request.getOpenid() == null) {
+      throw new IllegalArgumentException("当 trade_type是'JSAPI'时未指定openid");
+    }
+
+    if ("NATIVE".equals(request.getTradeType()) && request.getProductId() == null) {
+      throw new IllegalArgumentException("当 trade_type是'NATIVE'时未指定product_id");
+    }
+  }
+
+  private void checkNotNullParams(Object request) {
     List<String> nullFields = Lists.newArrayList();
     for (Entry<String, Reflect> entry : Reflect.on(request).fields()
         .entrySet()) {
@@ -280,20 +313,6 @@ public class WxMpPayServiceImpl implements WxMpPayService {
 
     if (!nullFields.isEmpty()) {
       throw new IllegalArgumentException("必填字段[" + nullFields + "]必须提供值");
-    }
-
-    if (!TRADE_TYPES.contains(request.getTradeType())) {
-      throw new IllegalArgumentException("trade_type目前必须为" + TRADE_TYPES + "其中之一");
-
-    }
-
-    if ("JSAPI".equals(request.getTradeType()) && request.getOpenid() == null) {
-      throw new IllegalArgumentException("当 trade_type是'JSAPI'时未指定openid");
-    }
-
-    if ("NATIVE".equals(request.getTradeType())
-        && request.getProductId() == null) {
-      throw new IllegalArgumentException("当 trade_type是'NATIVE'时未指定product_id");
     }
   }
 
@@ -330,6 +349,52 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     String finalSign = this.createSign(payInfo, this.wxMpService.getWxMpConfigStorage().getPartnerKey());
     payInfo.put("paySign", finalSign);
     return payInfo;
+  }
+
+  @Override
+  public WxEntPayResult entPay(WxEntPayRequest request, File keyFile) throws WxErrorException {
+    checkNotNullParams(request);
+
+    XStream xstream = XStreamInitializer.getInstance();
+    xstream.processAnnotations(WxEntPayRequest.class);
+    xstream.processAnnotations(WxEntPayResult.class);
+
+    request.setMchAppid(this.wxMpService.getWxMpConfigStorage().getAppId());
+    request.setMchId(this.wxMpService.getWxMpConfigStorage().getPartnerId());
+    request.setNonceStr(System.currentTimeMillis() + "");
+
+    String sign = this.createSign(xmlBean2Map(request), this.wxMpService.getWxMpConfigStorage().getPartnerKey());
+    request.setSign(sign);
+
+    String url = PAY_BASE_URL + "/mmpaymkttransfers/promotion/transfers";
+
+    try (FileInputStream instream = new FileInputStream(keyFile)) {
+      String mchId = request.getMchId();
+      KeyStore keyStore = KeyStore.getInstance("PKCS12");
+      keyStore.load(instream, mchId.toCharArray());
+
+      SSLContext sslcontext = SSLContexts.custom().loadKeyMaterial(keyStore, mchId.toCharArray()).build();
+      SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslcontext, new String[] { "TLSv1" }, null,
+          new DefaultHostnameVerifier());
+
+      try (CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build()) {
+        HttpPost httpPost = new HttpPost(url);
+        httpPost.setEntity(new StringEntity(new String(xstream.toXML(request).getBytes("UTF-8"), "ISO-8859-1")));
+
+        try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
+          String responseContent = EntityUtils.toString(response.getEntity());
+          WxEntPayResult result = (WxEntPayResult) xstream.fromXML(responseContent);
+          if ("FAIL".equals(result.getResultCode())) {
+            throw new WxErrorException(
+                WxError.newBuilder().setErrorMsg(result.getErrCode() + ":" + result.getErrCodeDes()).build());
+          }
+
+          return result;
+        }
+      }
+    } catch (Exception e) {
+      throw new WxErrorException(WxError.newBuilder().setErrorMsg(e.getMessage()).build(), e);
+    }
   }
 
 }
