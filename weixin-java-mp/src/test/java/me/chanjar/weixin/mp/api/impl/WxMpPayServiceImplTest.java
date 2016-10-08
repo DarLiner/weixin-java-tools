@@ -44,7 +44,8 @@ public class WxMpPayServiceImplTest {
     request.setOutTradeNo("1111");
     request.setTotalFee(1222);
     request.setRefundFee(111);
-    WxMpPayRefundResult result = this.wxService.getPayService().refund(request);
+    File keyFile = new File("E:\\dlt.p12");
+    WxMpPayRefundResult result = this.wxService.getPayService().refund(request, keyFile);
     System.err.println(result);
   }
 
