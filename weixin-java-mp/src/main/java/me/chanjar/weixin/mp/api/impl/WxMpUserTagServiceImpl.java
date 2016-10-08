@@ -102,7 +102,7 @@ public class WxMpUserTagServiceImpl implements WxMpUserTagService {
   @Override
   public boolean batchTagging(Long tagId, String[] openids)
       throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging";
+    String url = API_URL_PREFIX + "/members/batchtagging";
 
     JsonObject json = new JsonObject();
     json.addProperty("tagid", tagId);
@@ -124,7 +124,7 @@ public class WxMpUserTagServiceImpl implements WxMpUserTagService {
   @Override
   public boolean batchUntagging(Long tagId, String[] openids)
       throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/tags/members/batchuntagging";
+    String url = API_URL_PREFIX + "/members/batchuntagging";
 
     JsonObject json = new JsonObject();
     json.addProperty("tagid", tagId);
@@ -145,7 +145,7 @@ public class WxMpUserTagServiceImpl implements WxMpUserTagService {
 
   @Override
   public List<Integer> userTagList(String openid) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/tags/getidlist";
+    String url = API_URL_PREFIX + "/getidlist";
 
     JsonObject json = new JsonObject();
     json.addProperty("openid", openid);
