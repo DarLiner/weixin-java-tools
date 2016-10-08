@@ -1,20 +1,14 @@
 package me.chanjar.weixin.mp.api.impl;
 
-import java.io.File;
-
-import org.testng.annotations.Guice;
-import org.testng.annotations.Test;
-
 import com.google.inject.Inject;
-
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.ApiTestModule;
 import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
-import me.chanjar.weixin.mp.bean.pay.WxEntPayRequest;
-import me.chanjar.weixin.mp.bean.pay.WxRedpackResult;
-import me.chanjar.weixin.mp.bean.pay.WxSendRedpackRequest;
-import me.chanjar.weixin.mp.bean.pay.WxUnifiedOrderRequest;
-import me.chanjar.weixin.mp.bean.pay.WxUnifiedOrderResult;
+import me.chanjar.weixin.mp.bean.pay.*;
+import org.testng.annotations.Guice;
+import org.testng.annotations.Test;
+
+import java.io.File;
 
 /**
  * 测试支付相关接口
@@ -44,8 +38,14 @@ public class WxMpPayServiceImplTest {
   }
 
   @Test
-  public void testRefundPay() throws Exception {
-
+  public void testRefund() throws Exception {
+    WxMpPayRefundRequest request = new WxMpPayRefundRequest();
+    request.setOutRefundNo("aaa");
+    request.setOutTradeNo("1111");
+    request.setTotalFee(1222);
+    request.setRefundFee(111);
+    WxMpPayRefundResult result = this.wxService.getPayService().refund(request);
+    System.err.println(result);
   }
 
   @Test
