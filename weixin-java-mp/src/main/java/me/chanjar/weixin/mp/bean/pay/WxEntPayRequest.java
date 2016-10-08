@@ -6,9 +6,16 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 /**
+ * <pre>
  * 企业付款请求对象
- * 注释中各行含义如下：
- * 字段名、 变量名、 是否必填、 示例值、 类型、 描述
+ * 注释中各行每个字段描述对应如下：
+ * <li>字段名
+ * <li>变量名
+ * <li>是否必填
+ * <li>类型
+ * <li>示例值
+ * <li>描述
+ * </pre>
  * Created by Binary Wang on 2016/10/02.
  * @author binarywang (https://github.com/binarywang)
  */
