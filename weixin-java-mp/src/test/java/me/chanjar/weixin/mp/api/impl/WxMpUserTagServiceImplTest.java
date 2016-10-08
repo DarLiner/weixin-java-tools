@@ -1,17 +1,15 @@
 package me.chanjar.weixin.mp.api.impl;
 
-import java.util.List;
-
-import org.testng.Assert;
-import org.testng.annotations.Guice;
-import org.testng.annotations.Test;
-
 import com.google.inject.Inject;
-
 import me.chanjar.weixin.mp.api.ApiTestModule;
 import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.bean.tag.WxTagListUser;
 import me.chanjar.weixin.mp.bean.tag.WxUserTag;
+import org.testng.Assert;
+import org.testng.annotations.Guice;
+import org.testng.annotations.Test;
+
+import java.util.List;
 
 /**
  *
@@ -62,6 +60,14 @@ public class WxMpUserTagServiceImplTest {
     WxTagListUser res = this.wxService.getUserTagService().tagListUser(this.tagId, null);
     System.out.println(res);
     Assert.assertNotNull(res);
+  }
+
+  @Test
+  public void testBatchTagging() throws Exception {
+    String[] openids = new String[]{((WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage()).getOpenid()};
+    boolean res = this.wxService.getUserTagService().batchTagging(this.tagId, openids);
+    System.out.println(res);
+    Assert.assertTrue(res);
   }
 
   @Test
