@@ -15,7 +15,7 @@ import java.util.List;
 import static org.junit.Assert.assertNotNull;
 
 /**
- * @author binarywang(https://github.com/binarywang)
+ * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  *         Created by Binary Wang on 2016-09-23.
  *
  */

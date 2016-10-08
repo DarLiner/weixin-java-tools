@@ -15,7 +15,7 @@ import me.chanjar.weixin.common.annotation.Required;
  * <li>描述
  * </pre>
  *
- * @author binarywang(https://github.com/binarywang)
+ * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  *         Created by Binary Wang on 2016-10-08.
  */
 @XStreamAlias("xml")

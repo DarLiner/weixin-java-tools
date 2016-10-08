@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * 门店基础信息
- * @author binarywang(https://github.com/binarywang)
+ * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  *         Created by Binary Wang on 2016-09-23.
  */
 public class WxMpStoreBaseInfo {

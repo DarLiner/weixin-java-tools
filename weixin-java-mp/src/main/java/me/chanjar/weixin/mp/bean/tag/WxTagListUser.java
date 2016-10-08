@@ -11,7 +11,7 @@ import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
 /**
  * 获取标签下粉丝列表的结果对象
- * @author binarywang(https://github.com/binarywang)
+ * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  *         Created by Binary Wang on 2016-09-19.
  */
 public class WxTagListUser {

@@ -6,7 +6,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * 统计接口的共用属性类
- * @author binarywang(https://github.com/binarywang)
+ * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  *         Created by Binary Wang on 2016/8/25.
  */
 public class WxDataCubeBaseResult {
@@ -29,5 +29,5 @@ public class WxDataCubeBaseResult {
   public void setRefDate(String refDate) {
     this.refDate = refDate;
   }
-  
+
 }

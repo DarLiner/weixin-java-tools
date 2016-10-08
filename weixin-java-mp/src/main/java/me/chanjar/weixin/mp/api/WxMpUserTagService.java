@@ -9,7 +9,7 @@ import me.chanjar.weixin.mp.bean.tag.WxUserTag;
 /**
  * 用户标签管理相关接口
  * Created by Binary Wang on 2016/9/2.
- * @author binarywang(https://github.com/binarywang)
+ * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  *
  */
 public interface WxMpUserTagService {
