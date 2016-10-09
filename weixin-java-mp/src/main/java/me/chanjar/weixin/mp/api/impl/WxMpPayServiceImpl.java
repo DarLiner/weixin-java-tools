@@ -120,7 +120,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     request.setSign(sign);
 
     String url = PAY_BASE_URL + "/secapi/pay/refund";
-    String responseContent = this.executeRequestWithKeyFile(url, xstream.toXML(request), keyFile, partnerId);
+    String responseContent = this.executeRequestWithKeyFile(url, keyFile, xstream.toXML(request), partnerId);
     WxMpPayRefundResult wxMpPayRefundResult = (WxMpPayRefundResult) xstream.fromXML(responseContent);
 
     if (!"SUCCESS".equalsIgnoreCase(wxMpPayRefundResult.getResultCode())
@@ -181,7 +181,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
       url = PAY_BASE_URL + "/mmpaymkttransfers/sendgroupredpack";
     }
 
-    String responseContent = this.executeRequestWithKeyFile(url, xstream.toXML(request), keyFile, mchId);
+    String responseContent = this.executeRequestWithKeyFile(url, keyFile, xstream.toXML(request), mchId);
     WxRedpackResult redpackResult = (WxRedpackResult) xstream
         .fromXML(responseContent);
     if ("FAIL".equals(redpackResult.getResultCode())) {
@@ -360,7 +360,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
 
     String url = PAY_BASE_URL + "/mmpaymkttransfers/promotion/transfers";
 
-    String responseContent = this.executeRequestWithKeyFile(xstream.toXML(request), url, keyFile, request.getMchId());
+    String responseContent = this.executeRequestWithKeyFile(url, keyFile, xstream.toXML(request), request.getMchId());
     WxEntPayResult result = (WxEntPayResult) xstream.fromXML(responseContent);
     if ("FAIL".equals(result.getResultCode())) {
       throw new WxErrorException(
@@ -369,7 +369,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     return result;
   }
 
-  private String executeRequestWithKeyFile( String requestStr, String url, File keyFile, String mchId) throws WxErrorException {
+  private String executeRequestWithKeyFile( String url, File keyFile, String requestStr, String mchId) throws WxErrorException {
     try (FileInputStream inputStream = new FileInputStream(keyFile)) {
       KeyStore keyStore = KeyStore.getInstance("PKCS12");
       keyStore.load(inputStream, mchId.toCharArray());
