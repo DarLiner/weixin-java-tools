@@ -447,7 +447,7 @@ public class WxMpServiceImpl implements WxMpService {
       }
       return null;
     } catch (IOException e) {
-      this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[EXECEPTION]: {}", uri, data, e.getMessage());
+      this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[EXCEPTION]: {}", uri, data, e.getMessage());
       throw new RuntimeException(e);
     }
   }
