@@ -62,7 +62,8 @@ public class WxMpPayServiceImplTest {
     request.setMchBillno("aaaa");
     request
         .setReOpenid(((WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage()).getOpenid());
-    WxRedpackResult redpackResult = this.wxService.getPayService().sendRedpack(request);
+    File keyFile = new File("E:\\dlt.p12");
+    WxRedpackResult redpackResult = this.wxService.getPayService().sendRedpack(request, keyFile);
     System.err.println(redpackResult);
   }
 

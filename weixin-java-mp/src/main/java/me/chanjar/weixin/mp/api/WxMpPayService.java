@@ -74,8 +74,9 @@ public interface WxMpPayService {
    * 发送普通红包 https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_4&index=3
    * 发送裂变红包 https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_5&index=4
    * </pre>
+   * @param keyFile  证书文件对象
    */
-  WxRedpackResult sendRedpack(WxSendRedpackRequest request) throws WxErrorException;
+  WxRedpackResult sendRedpack(WxSendRedpackRequest request, File keyFile) throws WxErrorException;
 
   /**
    * <pre>

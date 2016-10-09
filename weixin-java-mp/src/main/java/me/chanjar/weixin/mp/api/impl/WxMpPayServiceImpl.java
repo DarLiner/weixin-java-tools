@@ -160,14 +160,15 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   }
 
   @Override
-  public WxRedpackResult sendRedpack(WxSendRedpackRequest request)
+  public WxRedpackResult sendRedpack(WxSendRedpackRequest request, File keyFile)
       throws WxErrorException {
     XStream xstream = XStreamInitializer.getInstance();
     xstream.processAnnotations(WxSendRedpackRequest.class);
     xstream.processAnnotations(WxRedpackResult.class);
 
     request.setWxAppid(this.wxMpService.getWxMpConfigStorage().getAppId());
-    request.setMchId(this.wxMpService.getWxMpConfigStorage().getPartnerId());
+    String mchId = this.wxMpService.getWxMpConfigStorage().getPartnerId();
+    request.setMchId(mchId);
     request.setNonceStr(System.currentTimeMillis() + "");
 
     String sign = this.createSign(this.xmlBean2Map(request),
@@ -180,7 +181,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
       url = PAY_BASE_URL + "/mmpaymkttransfers/sendgroupredpack";
     }
 
-    String responseContent = this.wxMpService.post(url, xstream.toXML(request));
+    String responseContent = this.executeRequestWithKeyFile(url, xstream.toXML(request), keyFile, mchId);
     WxRedpackResult redpackResult = (WxRedpackResult) xstream
         .fromXML(responseContent);
     if ("FAIL".equals(redpackResult.getResultCode())) {
