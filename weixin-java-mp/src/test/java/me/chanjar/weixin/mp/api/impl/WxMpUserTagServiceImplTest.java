@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  *
- * @author binarywang(https://github.com/binarywang)
+ * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  *         Created by Binary Wang on 2016/9/2.
  */
 @Test
@@ -22,7 +22,7 @@ public class WxMpUserTagServiceImplTest {
   @Inject
   protected WxMpServiceImpl wxService;
 
-  private Integer tagId = 2;
+  private Long tagId = 2L;
 
   @Test
   public void testTagCreate() throws Exception {
@@ -60,6 +60,14 @@ public class WxMpUserTagServiceImplTest {
     WxTagListUser res = this.wxService.getUserTagService().tagListUser(this.tagId, null);
     System.out.println(res);
     Assert.assertNotNull(res);
+  }
+
+  @Test
+  public void testBatchTagging() throws Exception {
+    String[] openids = new String[]{((WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage()).getOpenid()};
+    boolean res = this.wxService.getUserTagService().batchTagging(this.tagId, openids);
+    System.out.println(res);
+    Assert.assertTrue(res);
   }
 
   @Test

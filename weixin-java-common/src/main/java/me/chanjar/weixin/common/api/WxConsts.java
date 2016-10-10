@@ -93,6 +93,8 @@ public class WxConsts {
   public static final String EVT_KF_CREATE_SESSION = "kf_create_session"; // 客服接入会话
   public static final String EVT_KF_CLOSE_SESSION = "kf_close_session"; // 客服关闭会话
   public static final String EVT_KF_SWITCH_SESSION = "kf_switch_session"; // 客服转接会话
+  public static final String EVT_POI_CHECK_NOTIFY = "poi_check_notify"; //门店审核事件推送
+
   ///////////////////////
   // 上传多媒体文件的类型
   ///////////////////////

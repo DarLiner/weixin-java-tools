@@ -1,14 +1,9 @@
 package me.chanjar.weixin.mp.api.impl;
 
-import java.lang.reflect.Field;
-import java.util.List;
-import java.util.Map.Entry;
-
-import org.joor.Reflect;
-
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
-
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 import me.chanjar.weixin.common.annotation.Required;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -17,6 +12,12 @@ import me.chanjar.weixin.mp.api.WxMpStoreService;
 import me.chanjar.weixin.mp.bean.store.WxMpStoreBaseInfo;
 import me.chanjar.weixin.mp.bean.store.WxMpStoreInfo;
 import me.chanjar.weixin.mp.bean.store.WxMpStoreListResult;
+import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
+import org.joor.Reflect;
+
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Map.Entry;
 
 /**
  *  Created by Binary Wang on 2016/9/26.
@@ -38,6 +39,32 @@ public class WxMpStoreServiceImpl implements WxMpStoreService {
 
     String url = API_BASE_URL + "/addpoi";
     String response = this.wxMpService.post(url, request.toJson());
+    WxError wxError = WxError.fromJson(response);
+    if (wxError.getErrorCode() != 0) {
+      throw new WxErrorException(wxError);
+    }
+  }
+
+  @Override
+  public WxMpStoreBaseInfo get(String poiId) throws WxErrorException {
+    String url = API_BASE_URL + "/getpoi";
+    JsonObject paramObject = new JsonObject();
+    paramObject.addProperty("poi_id",poiId);
+    String response = this.wxMpService.post(url, paramObject.toString());
+    WxError wxError = WxError.fromJson(response);
+    if (wxError.getErrorCode() != 0) {
+      throw new WxErrorException(wxError);
+    }
+    return WxMpStoreBaseInfo.fromJson(new JsonParser().parse(response).getAsJsonObject()
+        .get("business").getAsJsonObject().get("base_info").toString());
+  }
+
+  @Override
+  public void delete(String poiId) throws WxErrorException {
+    String url = API_BASE_URL + "/delpoi";
+    JsonObject paramObject = new JsonObject();
+    paramObject.addProperty("poi_id",poiId);
+    String response = this.wxMpService.post(url, paramObject.toString());
     WxError wxError = WxError.fromJson(response);
     if (wxError.getErrorCode() != 0) {
       throw new WxErrorException(wxError);
@@ -102,6 +129,30 @@ public class WxMpStoreServiceImpl implements WxMpStoreService {
     }
 
     return stores;
+  }
+
+  @Override
+  public void update(WxMpStoreBaseInfo request) throws WxErrorException {
+    String url = API_BASE_URL + "/updatepoi";
+    String response = this.wxMpService.post(url, request.toJson());
+    WxError wxError = WxError.fromJson(response);
+    if (wxError.getErrorCode() != 0) {
+      throw new WxErrorException(wxError);
+    }
+  }
+
+  @Override
+  public List<String> listCategories() throws WxErrorException {
+    String url = API_BASE_URL + "/getwxcategory";
+    String response = this.wxMpService.get(url, null);
+    WxError wxError = WxError.fromJson(response);
+    if (wxError.getErrorCode() != 0) {
+      throw new WxErrorException(wxError);
+    }
+
+    return WxMpGsonBuilder.create().fromJson(
+        new JsonParser().parse(response).getAsJsonObject().get("category_list"),
+        new TypeToken<List<String>>(){}.getType());
   }
 
 }

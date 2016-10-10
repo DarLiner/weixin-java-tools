@@ -54,8 +54,8 @@ public class WxMpXmlMessageTest {
                 + "</SendLocationInfo>"
                 + "</xml>";
     WxMpXmlMessage wxMessage = WxMpXmlMessage.fromXml(xml);
-    Assert.assertEquals(wxMessage.getToUserName(), "toUser");
-    Assert.assertEquals(wxMessage.getFromUserName(), "fromUser");
+    Assert.assertEquals(wxMessage.getToUser(), "toUser");
+    Assert.assertEquals(wxMessage.getFromUser(), "fromUser");
     Assert.assertEquals(wxMessage.getCreateTime(), new Long(1348831860l));
     Assert.assertEquals(wxMessage.getMsgType(), WxConsts.XML_MSG_TEXT);
     Assert.assertEquals(wxMessage.getContent(), "this is a test");
@@ -135,8 +135,8 @@ public class WxMpXmlMessageTest {
         + "</SendLocationInfo>"
         + "</xml>";
     WxMpXmlMessage wxMessage = WxMpXmlMessage.fromXml(xml);
-    Assert.assertEquals(wxMessage.getToUserName(), "toUser");
-    Assert.assertEquals(wxMessage.getFromUserName(), "fromUser");
+    Assert.assertEquals(wxMessage.getToUser(), "toUser");
+    Assert.assertEquals(wxMessage.getFromUser(), "fromUser");
     Assert.assertEquals(wxMessage.getCreateTime(), new Long(1348831860l));
     Assert.assertEquals(wxMessage.getMsgType(), WxConsts.XML_MSG_TEXT);
     Assert.assertEquals(wxMessage.getContent(), "this is a test");

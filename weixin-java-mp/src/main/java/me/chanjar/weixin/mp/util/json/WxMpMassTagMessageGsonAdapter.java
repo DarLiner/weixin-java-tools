@@ -8,27 +8,28 @@
  */
 package me.chanjar.weixin.mp.util.json;
 
+import java.lang.reflect.Type;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+
 import me.chanjar.weixin.common.api.WxConsts;
-import me.chanjar.weixin.mp.bean.WxMpMassGroupMessage;
+import me.chanjar.weixin.mp.bean.WxMpMassTagMessage;
 
-import java.lang.reflect.Type;
-
-public class WxMpMassGroupMessageGsonAdapter implements JsonSerializer<WxMpMassGroupMessage> {
+public class WxMpMassTagMessageGsonAdapter implements JsonSerializer<WxMpMassTagMessage> {
 
   @Override
-  public JsonElement serialize(WxMpMassGroupMessage message, Type typeOfSrc, JsonSerializationContext context) {
+  public JsonElement serialize(WxMpMassTagMessage message, Type typeOfSrc, JsonSerializationContext context) {
     JsonObject messageJson = new JsonObject();
     
     JsonObject filter = new JsonObject();
-    if(null == message.getGroupId()) {
+    if(null == message.getTagId()) {
       filter.addProperty("is_to_all", true);
     } else {
       filter.addProperty("is_to_all", false);
-      filter.addProperty("group_id", message.getGroupId());
+      filter.addProperty("tag_id", message.getTagId());
     }
     messageJson.add("filter", filter);
     

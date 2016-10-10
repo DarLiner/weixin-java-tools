@@ -11,7 +11,7 @@ import me.chanjar.weixin.common.annotation.Required;
  * <pre>
  * 统一下单请求参数对象
  * 参考文档：https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1
- * 每个字段描述对应如下：
+ * 注释中各行每个字段描述对应如下：
  * <li>字段名
  * <li>变量名
  * <li>是否必填

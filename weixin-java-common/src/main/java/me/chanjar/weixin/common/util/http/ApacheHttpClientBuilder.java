@@ -5,6 +5,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 
 /**
  * httpclient build interface
+ * @author kakotor
  */
 public interface ApacheHttpClientBuilder {
 

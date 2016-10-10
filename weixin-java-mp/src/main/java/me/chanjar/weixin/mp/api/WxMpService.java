@@ -4,7 +4,7 @@ import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.mp.bean.WxMpIndustry;
-import me.chanjar.weixin.mp.bean.WxMpMassGroupMessage;
+import me.chanjar.weixin.mp.bean.WxMpMassTagMessage;
 import me.chanjar.weixin.mp.bean.WxMpMassNews;
 import me.chanjar.weixin.mp.bean.WxMpMassOpenIdsMessage;
 import me.chanjar.weixin.mp.bean.WxMpMassPreviewMessage;
@@ -88,7 +88,7 @@ public interface WxMpService {
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=高级群发接口
    * </pre>
    *
-   * @see #massGroupMessageSend(me.chanjar.weixin.mp.bean.WxMpMassGroupMessage)
+   * @see #massGroupMessageSend(me.chanjar.weixin.mp.bean.WxMpMassTagMessage)
    * @see #massOpenIdsMessageSend(me.chanjar.weixin.mp.bean.WxMpMassOpenIdsMessage)
    */
   WxMpMassUploadResult massNewsUpload(WxMpMassNews news) throws WxErrorException;
@@ -99,7 +99,7 @@ public interface WxMpService {
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=高级群发接口
    * </pre>
    *
-   * @see #massGroupMessageSend(me.chanjar.weixin.mp.bean.WxMpMassGroupMessage)
+   * @see #massGroupMessageSend(me.chanjar.weixin.mp.bean.WxMpMassTagMessage)
    * @see #massOpenIdsMessageSend(me.chanjar.weixin.mp.bean.WxMpMassOpenIdsMessage)
    */
   WxMpMassUploadResult massVideoUpload(WxMpMassVideo video) throws WxErrorException;
@@ -112,7 +112,7 @@ public interface WxMpService {
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=高级群发接口
    * </pre>
    */
-  WxMpMassSendResult massGroupMessageSend(WxMpMassGroupMessage message) throws WxErrorException;
+  WxMpMassSendResult massGroupMessageSend(WxMpMassTagMessage message) throws WxErrorException;
 
   /**
    * <pre>
@@ -321,14 +321,6 @@ public interface WxMpService {
    * @return WxMpUserService
    */
   WxMpUserService getUserService();
-
-  /**
-   * 返回用户分组相关接口方法的实现类对象，以方便调用个其各种接口
-   *
-   * @return WxMpGroupService
-   */
-
-  WxMpGroupService getGroupService();
 
   /**
    * 返回用户标签相关接口方法的实现类对象，以方便调用个其各种接口
