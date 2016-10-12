@@ -26,7 +26,7 @@ public class WxTagListUser {
 
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
   }
 
   /**
@@ -74,7 +74,7 @@ public class WxTagListUser {
   public static class WxTagListUserData {
     @Override
     public String toString() {
-      return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+      return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
 
     /**

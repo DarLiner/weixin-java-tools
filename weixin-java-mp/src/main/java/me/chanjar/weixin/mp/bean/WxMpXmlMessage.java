@@ -667,7 +667,7 @@ public class WxMpXmlMessage implements Serializable {
   public static class ScanCodeInfo {
     @Override
     public String toString() {
-      return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+      return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
 
     @XStreamAlias("ScanType")
@@ -707,7 +707,7 @@ public class WxMpXmlMessage implements Serializable {
   public static class SendPicsInfo {
     @Override
     public String toString() {
-      return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+      return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
 
     @XStreamAlias("Count")
@@ -733,7 +733,7 @@ public class WxMpXmlMessage implements Serializable {
       @Override
       public String toString() {
         return ToStringBuilder.reflectionToString(this,
-            ToStringStyle.JSON_STYLE);
+            ToStringStyle.MULTI_LINE_STYLE);
       }
 
       @XStreamAlias("PicMd5Sum")
@@ -775,7 +775,7 @@ public class WxMpXmlMessage implements Serializable {
 
     @Override
     public String toString() {
-      return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+      return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
 
     public String getLocationX() {
@@ -821,6 +821,6 @@ public class WxMpXmlMessage implements Serializable {
 
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
   }
 }

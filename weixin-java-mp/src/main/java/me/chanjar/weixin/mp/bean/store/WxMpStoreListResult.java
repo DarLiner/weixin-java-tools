@@ -18,7 +18,7 @@ import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 public class WxMpStoreListResult {
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
   }
 
   public static WxMpStoreListResult fromJson(String json) {

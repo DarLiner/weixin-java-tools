@@ -27,7 +27,7 @@ public class WxMpKfSessionGetResult {
 
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
   }
   
   public static WxMpKfSessionGetResult fromJson(String json) {

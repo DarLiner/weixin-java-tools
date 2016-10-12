@@ -18,7 +18,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class WxMpPayResult implements Serializable {
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
   }
 
   private static final long serialVersionUID = -570934170727777190L;
