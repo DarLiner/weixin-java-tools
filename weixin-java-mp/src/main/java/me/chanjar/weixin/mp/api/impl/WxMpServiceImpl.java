@@ -69,6 +69,8 @@ public class WxMpServiceImpl implements WxMpService {
 
   private WxMpUserBlacklistService blackListService = new WxMpUserBlacklistServiceImpl(this);
 
+  private WxMpTemplateMsgService templateMsgService = new WxMpTemplateMsgServiceImpl(this);
+
   private CloseableHttpClient httpClient;
 
   private HttpHost httpProxy;
@@ -219,35 +221,6 @@ public class WxMpServiceImpl implements WxMpService {
     String responseContent = this.post(url, o.toString());
     JsonElement tmpJsonElement = JSON_PARSER.parse(responseContent);
     return tmpJsonElement.getAsJsonObject().get("short_url").getAsString();
-  }
-
-  @Override
-  public String templateSend(WxMpTemplateMessage templateMessage) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/message/template/send";
-    String responseContent = this.post(url, templateMessage.toJson());
-    final JsonObject jsonObject = JSON_PARSER.parse(responseContent).getAsJsonObject();
-    if (jsonObject.get("errcode").getAsInt() == 0){
-      return jsonObject.get("msgid").getAsString();
-    }
-
-    throw new WxErrorException(WxError.fromJson(responseContent));
-  }
-
-  @Override
-  public String setIndustry(WxMpIndustry wxMpIndustry) throws WxErrorException {
-    if (null == wxMpIndustry.getPrimaryIndustry() || null == wxMpIndustry.getPrimaryIndustry().getId()
-            || null == wxMpIndustry.getSecondIndustry() || null == wxMpIndustry.getSecondIndustry().getId()) {
-      throw new IllegalArgumentException("industry id is empty");
-    }
-    String url = "https://api.weixin.qq.com/cgi-bin/template/api_set_industry";
-    return this.post(url, wxMpIndustry.toJson());
-  }
-
-  @Override
-  public WxMpIndustry getIndustry() throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/template/get_industry";
-    String responseContent = this.get(url, null);
-    return WxMpIndustry.fromJson(responseContent);
   }
 
   @Override
@@ -560,6 +533,11 @@ public class WxMpServiceImpl implements WxMpService {
   @Override
   public WxMpStoreService getStoreService() {
     return this.storeService;
+  }
+
+  @Override
+  public WxMpTemplateMsgService getTemplateMsgService() {
+    return this.templateMsgService;
   }
 
 }
