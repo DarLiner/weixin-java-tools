@@ -1,8 +1,11 @@
 package me.chanjar.weixin.mp.api;
 
+import java.util.List;
+
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.mp.bean.WxMpIndustry;
-import me.chanjar.weixin.mp.bean.WxMpTemplateMessage;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplate;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateIndustry;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 
 /**
  * <pre>
@@ -24,7 +27,7 @@ public interface WxMpTemplateMsgService {
    *
    * @return 是否成功
    */
-  boolean setIndustry(WxMpIndustry wxMpIndustry) throws WxErrorException;
+  boolean setIndustry(WxMpTemplateIndustry wxMpIndustry) throws WxErrorException;
 
   /***
    * <pre>
@@ -34,7 +37,7 @@ public interface WxMpTemplateMsgService {
    *
    * @return wxMpIndustry
    */
-  WxMpIndustry getIndustry() throws WxErrorException;
+  WxMpTemplateIndustry getIndustry() throws WxErrorException;
 
   /**
    * <pre>
@@ -53,8 +56,20 @@ public interface WxMpTemplateMsgService {
    * 详情请见: http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1433751277&token=&lang=zh_CN
    * 接口地址格式：https://api.weixin.qq.com/cgi-bin/template/api_add_template?access_token=ACCESS_TOKEN
    * </pre>
-   *@param shortTemplateId 模板库中模板的编号，有“TM**”和“OPENTMTM**”等形式
+   * @param shortTemplateId 模板库中模板的编号，有“TM**”和“OPENTMTM**”等形式
    * @return templateId 模板Id
    */
   String addTemplate(String shortTemplateId) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 获取模板列表
+   * 获取已添加至帐号下所有模板列表，可在MP中查看模板列表信息，为方便第三方开发者，提供通过接口调用的方式来获取帐号下所有模板信息
+   * 详情请见: http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1433751277&token=&lang=zh_CN
+   * 接口地址格式：https://api.weixin.qq.com/cgi-bin/template/get_all_private_template?access_token=ACCESS_TOKEN
+   * </pre>
+   * 
+   * @return templateId 模板Id
+   */
+  List<WxMpTemplate> getAllPrivateTemplate() throws WxErrorException;
 }

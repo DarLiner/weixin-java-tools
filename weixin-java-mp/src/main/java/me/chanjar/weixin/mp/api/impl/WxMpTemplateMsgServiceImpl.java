@@ -1,5 +1,7 @@
 package me.chanjar.weixin.mp.api.impl;
 
+import java.util.List;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -7,8 +9,9 @@ import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.WxMpTemplateMsgService;
-import me.chanjar.weixin.mp.bean.WxMpIndustry;
-import me.chanjar.weixin.mp.bean.WxMpTemplateMessage;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplate;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateIndustry;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 
 /**
  * <pre>
@@ -38,7 +41,7 @@ public class WxMpTemplateMsgServiceImpl implements WxMpTemplateMsgService {
   }
 
   @Override
-  public boolean setIndustry(WxMpIndustry wxMpIndustry) throws WxErrorException {
+  public boolean setIndustry(WxMpTemplateIndustry wxMpIndustry) throws WxErrorException {
     if (null == wxMpIndustry.getPrimaryIndustry() || null == wxMpIndustry.getPrimaryIndustry().getId()
       || null == wxMpIndustry.getSecondIndustry() || null == wxMpIndustry.getSecondIndustry().getId()) {
       throw new IllegalArgumentException("行业Id不能为空，请核实");
@@ -50,10 +53,10 @@ public class WxMpTemplateMsgServiceImpl implements WxMpTemplateMsgService {
   }
 
   @Override
-  public WxMpIndustry getIndustry() throws WxErrorException {
+  public WxMpTemplateIndustry getIndustry() throws WxErrorException {
     String url = API_URL_PREFIX + "/get_industry";
     String responseContent = this.wxMpService.get(url, null);
-    return WxMpIndustry.fromJson(responseContent);
+    return WxMpTemplateIndustry.fromJson(responseContent);
   }
 
   @Override
@@ -68,6 +71,12 @@ public class WxMpTemplateMsgServiceImpl implements WxMpTemplateMsgService {
     }
 
     throw new WxErrorException(WxError.fromJson(responseContent));
+  }
+
+  @Override
+  public List<WxMpTemplate> getAllPrivateTemplate() throws WxErrorException {
+    String url = API_URL_PREFIX + "/get_all_private_template";
+    return WxMpTemplate.fromJson(this.wxMpService.get(url, null));
   }
 
 }

@@ -2,7 +2,7 @@ package me.chanjar.weixin.mp.util.json;
 
 import com.google.gson.*;
 import me.chanjar.weixin.common.util.json.GsonHelper;
-import me.chanjar.weixin.mp.bean.WxMpIndustry;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateIndustry;
 
 import java.lang.reflect.Type;
 
@@ -10,9 +10,9 @@ import java.lang.reflect.Type;
  * @author miller
  */
 public class WxMpIndustryGsonAdapter
-    implements JsonSerializer<WxMpIndustry>, JsonDeserializer<WxMpIndustry> {
+    implements JsonSerializer<WxMpTemplateIndustry>, JsonDeserializer<WxMpTemplateIndustry> {
   @Override
-  public JsonElement serialize(WxMpIndustry wxMpIndustry, Type type,
+  public JsonElement serialize(WxMpTemplateIndustry wxMpIndustry, Type type,
       JsonSerializationContext jsonSerializationContext) {
     JsonObject json = new JsonObject();
     json.addProperty("industry_id1", wxMpIndustry.getPrimaryIndustry().getId());
@@ -21,10 +21,10 @@ public class WxMpIndustryGsonAdapter
   }
 
   @Override
-  public WxMpIndustry deserialize(JsonElement jsonElement, Type type,
+  public WxMpTemplateIndustry deserialize(JsonElement jsonElement, Type type,
       JsonDeserializationContext jsonDeserializationContext)
       throws JsonParseException {
-    WxMpIndustry wxMpIndustry = new WxMpIndustry();
+    WxMpTemplateIndustry wxMpIndustry = new WxMpTemplateIndustry();
     JsonObject primaryIndustry = jsonElement.getAsJsonObject()
         .get("primary_industry").getAsJsonObject();
     wxMpIndustry.setPrimaryIndustry(convertFromJson(primaryIndustry));
@@ -34,8 +34,8 @@ public class WxMpIndustryGsonAdapter
     return wxMpIndustry;
   }
 
-  private static WxMpIndustry.Industry convertFromJson(JsonObject json) {
-    WxMpIndustry.Industry industry = new WxMpIndustry.Industry();
+  private static WxMpTemplateIndustry.Industry convertFromJson(JsonObject json) {
+    WxMpTemplateIndustry.Industry industry = new WxMpTemplateIndustry.Industry();
     industry.setFirstClass(GsonHelper.getString(json, "first_class"));
     industry.setSecondClass(GsonHelper.getString(json, "second_class"));
     return industry;

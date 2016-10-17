@@ -2,6 +2,7 @@ package me.chanjar.weixin.mp.api.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.testng.Assert;
 import org.testng.annotations.Guice;
@@ -12,9 +13,10 @@ import com.google.inject.Inject;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.ApiTestModule;
 import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
-import me.chanjar.weixin.mp.bean.WxMpIndustry;
-import me.chanjar.weixin.mp.bean.WxMpTemplateData;
-import me.chanjar.weixin.mp.bean.WxMpTemplateMessage;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplate;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateIndustry;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 
 /**
  * <pre>
@@ -45,15 +47,15 @@ public class WxMpTemplateMsgServiceImplTest {
 
   @Test
   public void testGetIndustry() throws Exception {
-    final WxMpIndustry industry = this.wxService.getTemplateMsgService().getIndustry();
+    final WxMpTemplateIndustry industry = this.wxService.getTemplateMsgService().getIndustry();
     Assert.assertNotNull(industry);
     System.out.println(industry);
   }
 
   @Test
   public void testSetIndustry() throws Exception {
-    WxMpIndustry industry = new WxMpIndustry(new WxMpIndustry.Industry("1"),
-        new WxMpIndustry.Industry("04"));
+    WxMpTemplateIndustry industry = new WxMpTemplateIndustry(new WxMpTemplateIndustry.Industry("1"),
+        new WxMpTemplateIndustry.Industry("04"));
     boolean result = this.wxService.getTemplateMsgService().setIndustry(industry);
     Assert.assertTrue(result);
   }
@@ -61,6 +63,13 @@ public class WxMpTemplateMsgServiceImplTest {
   @Test
   public void testAddTemplate() throws Exception {
     String result = this.wxService.getTemplateMsgService().addTemplate("TM00015");
+    Assert.assertNotNull(result);
+    System.err.println(result);
+  }
+
+  @Test
+  public void testGetAllPrivateTemplate() throws Exception {
+    List<WxMpTemplate> result = this.wxService.getTemplateMsgService().getAllPrivateTemplate();
     Assert.assertNotNull(result);
     System.err.println(result);
   }

@@ -1,4 +1,4 @@
-package me.chanjar.weixin.mp.bean;
+package me.chanjar.weixin.mp.bean.template;
 
 
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
@@ -10,15 +10,15 @@ import java.io.Serializable;
 /**
  * @author miller
  */
-public class WxMpIndustry implements Serializable {
+public class WxMpTemplateIndustry implements Serializable {
   private static final long serialVersionUID = -7700398224795914722L;
   private Industry primaryIndustry;
   private Industry secondIndustry;
 
-  public WxMpIndustry() {
+  public WxMpTemplateIndustry() {
   }
 
-  public WxMpIndustry(Industry primaryIndustry, Industry secondIndustry) {
+  public WxMpTemplateIndustry(Industry primaryIndustry, Industry secondIndustry) {
     this.primaryIndustry = primaryIndustry;
     this.secondIndustry = secondIndustry;
   }
@@ -81,8 +81,8 @@ public class WxMpIndustry implements Serializable {
     return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
   }
 
-  public static WxMpIndustry fromJson(String json) {
-    return WxMpGsonBuilder.create().fromJson(json, WxMpIndustry.class);
+  public static WxMpTemplateIndustry fromJson(String json) {
+    return WxMpGsonBuilder.create().fromJson(json, WxMpTemplateIndustry.class);
   }
 
   public String toJson() {
