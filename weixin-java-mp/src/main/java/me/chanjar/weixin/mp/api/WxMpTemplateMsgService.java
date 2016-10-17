@@ -46,4 +46,15 @@ public interface WxMpTemplateMsgService {
    */
   String sendTemplateMsg(WxMpTemplateMessage templateMessage) throws WxErrorException;
 
+  /**
+   * <pre>
+   * 获得模板ID
+   * 从行业模板库选择模板到帐号后台，获得模板ID的过程可在MP中完成
+   * 详情请见: http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1433751277&token=&lang=zh_CN
+   * 接口地址格式：https://api.weixin.qq.com/cgi-bin/template/api_add_template?access_token=ACCESS_TOKEN
+   * </pre>
+   *@param shortTemplateId 模板库中模板的编号，有“TM**”和“OPENTMTM**”等形式
+   * @return templateId 模板Id
+   */
+  String addTemplate(String shortTemplateId) throws WxErrorException;
 }

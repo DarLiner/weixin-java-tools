@@ -2,6 +2,7 @@ package me.chanjar.weixin.mp.api.impl;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -53,6 +54,20 @@ public class WxMpTemplateMsgServiceImpl implements WxMpTemplateMsgService {
     String url = API_URL_PREFIX + "/get_industry";
     String responseContent = this.wxMpService.get(url, null);
     return WxMpIndustry.fromJson(responseContent);
+  }
+
+  @Override
+  public String addTemplate(String shortTemplateId) throws WxErrorException {
+    String url = API_URL_PREFIX + "/api_add_template";
+    JsonObject jsonObject = new JsonObject();
+    jsonObject.addProperty("template_id_short", shortTemplateId);
+    String responseContent = this.wxMpService.post(url, jsonObject.toString());
+    final JsonObject result = JSON_PARSER.parse(responseContent).getAsJsonObject();
+    if (result.get("errcode").getAsInt() == 0) {
+      return result.get("template_id").getAsString();
+    }
+
+    throw new WxErrorException(WxError.fromJson(responseContent));
   }
 
 }

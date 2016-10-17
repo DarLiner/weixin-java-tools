@@ -1,18 +1,20 @@
 package me.chanjar.weixin.mp.api.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.testng.Assert;
+import org.testng.annotations.Guice;
+import org.testng.annotations.Test;
+
 import com.google.inject.Inject;
+
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.ApiTestModule;
 import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.bean.WxMpIndustry;
 import me.chanjar.weixin.mp.bean.WxMpTemplateData;
 import me.chanjar.weixin.mp.bean.WxMpTemplateMessage;
-import org.testng.Assert;
-import org.testng.annotations.Guice;
-import org.testng.annotations.Test;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * <pre>
@@ -54,6 +56,13 @@ public class WxMpTemplateMsgServiceImplTest {
         new WxMpIndustry.Industry("04"));
     boolean result = this.wxService.getTemplateMsgService().setIndustry(industry);
     Assert.assertTrue(result);
+  }
+
+  @Test
+  public void testAddTemplate() throws Exception {
+    String result = this.wxService.getTemplateMsgService().addTemplate("TM00015");
+    Assert.assertNotNull(result);
+    System.err.println(result);
   }
 
 }
