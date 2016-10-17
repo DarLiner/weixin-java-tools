@@ -5,7 +5,7 @@
 ### 注意：
 1. ***本项目Fork自chanjarster/weixin-java-tools，但由于原项目已停止维护，故单独维护和发布，且发布到maven上的groupId也会不同，详细信息见下文。***
 1. ***自2.0.0版本以来，公众号的接口调整比较大，主要是为了解决主接口类过于庞大不方便管理的问题，将接口实现代码按模块进行拆分。***
-1. 本SDK要求的最低JDK版本是7，为解决少量还在使用JDK6的用户，特意抽出独立的代码分支项目，请参考 https://github.com/binarywang/weixin-java-tools-for-jdk6 ，其他更早的JDK版本则需要自己改造实现；
+1. 本SDK要求的最低JDK版本是7，为满足少量还在使用JDK6的用户的需求，特意抽出独立的代码分支项目，请参考 https://github.com/binarywang/weixin-java-tools-for-jdk6 ，其他更早的JDK版本则需要自己改造实现；
 1. 最新更新：2016-09-30 发布2.2.0正式版！
 
 ===========
