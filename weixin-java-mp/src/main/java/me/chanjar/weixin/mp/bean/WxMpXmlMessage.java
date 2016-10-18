@@ -239,6 +239,54 @@ public class WxMpXmlMessage implements Serializable {
   @XStreamAlias("msg")
   private String msg;
 
+  ///////////////////////////////////////
+  // 微信认证事件推送
+  ///////////////////////////////////////
+  /**
+   * ExpiredTime
+   * 资质认证成功/名称认证成功: 有效期 (整形)，指的是时间戳，将于该时间戳认证过期
+   * 年审通知: 有效期 (整形)，指的是时间戳，将于该时间戳认证过期，需尽快年审
+   * 认证过期失效通知: 有效期 (整形)，指的是时间戳，表示已于该时间戳认证过期，需要重新发起微信认证
+   */
+  @XStreamAlias("ExpiredTime")
+  private Long expiredTime;
+  /**
+   * FailTime
+   * 失败发生时间 (整形)，时间戳
+   */
+  @XStreamAlias("FailTime")
+  private Long failTime;
+  /**
+   * FailReason
+   * 认证失败的原因
+   */
+  @XStreamAlias("FailReason")
+  private String failReason;
+
+  public Long getExpiredTime() {
+    return this.expiredTime;
+  }
+
+  public void setExpiredTime(Long expiredTime) {
+    this.expiredTime = expiredTime;
+  }
+
+  public Long getFailTime() {
+    return this.failTime;
+  }
+
+  public void setFailTime(Long failTime) {
+    this.failTime = failTime;
+  }
+
+  public String getFailReason() {
+    return this.failReason;
+  }
+
+  public void setFailReason(String failReason) {
+    this.failReason = failReason;
+  }
+
   public String getStoreUniqId() {
     return this.storeUniqId;
   }

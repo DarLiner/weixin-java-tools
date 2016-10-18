@@ -63,6 +63,7 @@ public class WxConsts {
    * 群发反馈消息代码所对应的文字描述
    */
   public static final Map<String, String> MASS_ST_2_DESC = new HashMap<>();
+
   ///////////////////////
   // 微信端推送过来的事件类型
   ///////////////////////
@@ -94,6 +95,31 @@ public class WxConsts {
   public static final String EVT_KF_CLOSE_SESSION = "kf_close_session"; // 客服关闭会话
   public static final String EVT_KF_SWITCH_SESSION = "kf_switch_session"; // 客服转接会话
   public static final String EVT_POI_CHECK_NOTIFY = "poi_check_notify"; //门店审核事件推送
+  //以下为微信认证事件
+  /**
+   * 资质认证成功
+   */
+  public static final String EVT_QUALIFICATION_VERIFY_SUCCESS = "qualification_verify_success";
+  /**
+   * 资质认证失败
+   */
+  public static final String EVT_QUALIFICATION_VERIFY_FAIL = "qualification_verify_fail";
+  /**
+   * 名称认证成功
+   */
+  public static final String EVT_NAMING_VERIFY_SUCCESS = "naming_verify_success";
+  /**
+   * 名称认证失败
+   */
+  public static final String EVT_NAMING_VERIFY_FAIL = "naming_verify_fail";
+  /**
+   * 年审通知
+   */
+  public static final String EVT_ANNUAL_RENEW = "annual_renew";
+  /**
+   * 认证过期失效通知
+   */
+  public static final String EVT_VERIFY_EXPIRED = "verify_expired";
 
   ///////////////////////
   // 上传多媒体文件的类型
