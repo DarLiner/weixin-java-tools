@@ -1,15 +1,6 @@
 package me.chanjar.weixin.mp.api.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
-import org.testng.Assert;
-import org.testng.annotations.Guice;
-import org.testng.annotations.Test;
-
 import com.google.inject.Inject;
-
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.ApiTestModule;
 import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
@@ -17,6 +8,13 @@ import me.chanjar.weixin.mp.bean.template.WxMpTemplate;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateIndustry;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
+import org.testng.Assert;
+import org.testng.annotations.Guice;
+import org.testng.annotations.Test;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 /**
  * <pre>
@@ -72,6 +70,13 @@ public class WxMpTemplateMsgServiceImplTest {
     List<WxMpTemplate> result = this.wxService.getTemplateMsgService().getAllPrivateTemplate();
     Assert.assertNotNull(result);
     System.err.println(result);
+  }
+
+  @Test
+  public void testDelPrivateTemplate() throws Exception {
+    String templateId = "RPcTe7-4BkU5A2J3imC6W0b4JbjEERcJg0whOMKJKIc";
+    boolean result = this.wxService.getTemplateMsgService().delPrivateTemplate(templateId);
+    Assert.assertTrue(result);
   }
 
 }

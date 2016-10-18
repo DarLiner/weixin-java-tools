@@ -1,10 +1,7 @@
 package me.chanjar.weixin.mp.api.impl;
 
-import java.util.List;
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -12,6 +9,8 @@ import me.chanjar.weixin.mp.api.WxMpTemplateMsgService;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplate;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateIndustry;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
+
+import java.util.List;
 
 /**
  * <pre>
@@ -77,6 +76,20 @@ public class WxMpTemplateMsgServiceImpl implements WxMpTemplateMsgService {
   public List<WxMpTemplate> getAllPrivateTemplate() throws WxErrorException {
     String url = API_URL_PREFIX + "/get_all_private_template";
     return WxMpTemplate.fromJson(this.wxMpService.get(url, null));
+  }
+
+  @Override
+  public boolean delPrivateTemplate(String templateId) throws WxErrorException {
+    String url = API_URL_PREFIX + "/del_private_template";
+    JsonObject jsonObject = new JsonObject();
+    jsonObject.addProperty("template_id", templateId);
+    String responseContent = this.wxMpService.post(url, jsonObject.toString());
+    WxError error = WxError.fromJson(responseContent);
+    if (error.getErrorCode() == 0) {
+      return true;
+    }
+
+    throw new WxErrorException(error);
   }
 
 }

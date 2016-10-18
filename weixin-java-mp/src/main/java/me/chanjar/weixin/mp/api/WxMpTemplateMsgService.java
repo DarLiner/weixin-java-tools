@@ -1,11 +1,11 @@
 package me.chanjar.weixin.mp.api;
 
-import java.util.List;
-
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplate;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateIndustry;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
+
+import java.util.List;
 
 /**
  * <pre>
@@ -68,8 +68,20 @@ public interface WxMpTemplateMsgService {
    * 详情请见: http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1433751277&token=&lang=zh_CN
    * 接口地址格式：https://api.weixin.qq.com/cgi-bin/template/get_all_private_template?access_token=ACCESS_TOKEN
    * </pre>
-   * 
+   *
    * @return templateId 模板Id
    */
   List<WxMpTemplate> getAllPrivateTemplate() throws WxErrorException;
+
+  /**
+   * <pre>
+   * 删除模板
+   * 删除模板可在MP中完成，为方便第三方开发者，提供通过接口调用的方式来删除某帐号下的模板
+   * 详情请见: http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1433751277&token=&lang=zh_CN
+   * 接口地址格式：https://api.weixin.qq.com/cgi-bin/template/del_private_template?access_token=ACCESS_TOKEN
+   * </pre>
+   *
+   * @param templateId 模板Id
+   */
+  boolean delPrivateTemplate(String templateId) throws WxErrorException;
 }
