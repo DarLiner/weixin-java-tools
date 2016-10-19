@@ -91,4 +91,13 @@ public class WxMpPayServiceImplTest {
     System.err.println(this.wxService.getPayService().entPay(request, keyFile));
   }
 
+  /**
+   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#queryEntPay(String, File)}.
+   * @throws WxErrorException
+   */
+  @Test
+  public final void testQueryEntPay() throws WxErrorException {
+    File keyFile = new File("E:\\dlt.p12");
+    System.err.println(this.wxService.getPayService().queryEntPay("11212121", keyFile));
+  }
 }
