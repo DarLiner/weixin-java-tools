@@ -39,6 +39,7 @@
     <module>weixin-java-common</module>
     <module>weixin-java-cp</module>
     <module>weixin-java-mp</module>
+    <module>weixin-java-osgi</module>
   </modules>
 
   <properties>
@@ -106,7 +107,7 @@
       <groupId>redis.clients</groupId>
       <artifactId>jedis</artifactId>
       <version>${jedis.version}</version>
-      <scope>provided</scope>
+      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
@@ -294,6 +295,5 @@
       </plugin>
     </plugins>
   </build>
-
 
 </project>
