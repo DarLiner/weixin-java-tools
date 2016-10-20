@@ -41,10 +41,6 @@ public class WxMpUser implements Serializable {
     return this.subscribe;
   }
 
-  public Boolean isSubscribe() {
-    return this.subscribe;
-  }
-
   public void setSubscribe(Boolean subscribe) {
     this.subscribe = subscribe;
   }
