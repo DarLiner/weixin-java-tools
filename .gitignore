@@ -26,3 +26,24 @@ test-config.xml
 /gradle/
 *.bat
 /gradlew
+
+# OSX
+# Icon must end with two \r
+Icon
+
+
+._*
+.DS_Store
+.AppleDouble
+.LSOverride
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
