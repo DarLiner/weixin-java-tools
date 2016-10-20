@@ -369,6 +369,31 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     return result;
   }
 
+  @Override
+  public WxEntPayQueryResult queryEntPay(String partnerTradeNo, File keyFile) throws WxErrorException {
+    XStream xstream = XStreamInitializer.getInstance();
+    xstream.processAnnotations(WxEntPayQueryRequest.class);
+    xstream.processAnnotations(WxEntPayQueryResult.class);
+
+    WxEntPayQueryRequest request = new WxEntPayQueryRequest();
+    request.setAppid(this.wxMpService.getWxMpConfigStorage().getAppId());
+    request.setMchId(this.wxMpService.getWxMpConfigStorage().getPartnerId());
+    request.setNonceStr(System.currentTimeMillis() + "");
+
+    String sign = this.createSign(xmlBean2Map(request), this.wxMpService.getWxMpConfigStorage().getPartnerKey());
+    request.setSign(sign);
+
+    String url = PAY_BASE_URL + "/mmpaymkttransfers/gettransferinfo";
+
+    String responseContent = this.executeRequestWithKeyFile(url, keyFile, xstream.toXML(request), request.getMchId());
+    WxEntPayQueryResult result = (WxEntPayQueryResult) xstream.fromXML(responseContent);
+    if ("FAIL".equals(result.getResultCode())) {
+      throw new WxErrorException(
+        WxError.newBuilder().setErrorMsg(result.getErrCode() + ":" + result.getErrCodeDes()).build());
+    }
+    return result;
+  }
+
   private String executeRequestWithKeyFile( String url, File keyFile, String requestStr, String mchId) throws WxErrorException {
     try (FileInputStream inputStream = new FileInputStream(keyFile)) {
       KeyStore keyStore = KeyStore.getInstance("PKCS12");
