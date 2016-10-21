@@ -30,6 +30,7 @@ public class WxMpStoreServiceImplTest {
    * @throws WxErrorException
    */
   public void testAdd() throws WxErrorException {
+    this.wxMpService.getStoreService().add(WxMpStoreBaseInfo.builder().build());
     this.wxMpService.getStoreService()
         .add(WxMpStoreBaseInfo.builder().businessName("haha").branchName("abc")
             .province("aaa").district("aaa").telephone("122").address("abc").categories(new String[] { "美食,江浙菜" })

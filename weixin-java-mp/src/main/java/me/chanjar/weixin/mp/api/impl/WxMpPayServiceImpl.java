@@ -1,12 +1,9 @@
 package me.chanjar.weixin.mp.api.impl;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import me.chanjar.weixin.common.annotation.Required;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.util.BeanUtils;
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
 import me.chanjar.weixin.mp.api.WxMpPayService;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -23,15 +20,12 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
-import org.joor.Reflect;
 
 import javax.net.ssl.SSLContext;
 import java.io.File;
 import java.io.FileInputStream;
-import java.lang.reflect.Field;
 import java.security.KeyStore;
 import java.util.*;
-import java.util.Map.Entry;
 
 /**
  * Created by Binary Wang on 2016/7/28.
@@ -116,7 +110,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     request.setMchId(partnerId);
     request.setNonceStr( System.currentTimeMillis() + "");
     request.setOpUserId(partnerId);
-    String sign = this.createSign(this.xmlBean2Map(request), this.wxMpService.getWxMpConfigStorage().getPartnerKey());
+    String sign = this.createSign(BeanUtils.xmlBean2Map(request), this.wxMpService.getWxMpConfigStorage().getPartnerKey());
     request.setSign(sign);
 
     String url = PAY_BASE_URL + "/secapi/pay/refund";
@@ -138,8 +132,8 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     return wxMpPayRefundResult;
   }
 
-  private void checkParameters(WxMpPayRefundRequest request) {
-    checkNotNullParams(request);
+  private void checkParameters(WxMpPayRefundRequest request) throws WxErrorException {
+    BeanUtils.checkRequiredFields(request);
 
     if (StringUtils.isNotBlank(request.getRefundAccount())) {
       if(!ArrayUtils.contains(REFUND_ACCOUNT, request.getRefundAccount())){
@@ -171,7 +165,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     request.setMchId(mchId);
     request.setNonceStr(System.currentTimeMillis() + "");
 
-    String sign = this.createSign(this.xmlBean2Map(request),
+    String sign = this.createSign(BeanUtils.xmlBean2Map(request),
         this.wxMpService.getWxMpConfigStorage().getPartnerKey());
     request.setSign(sign);
 
@@ -192,29 +186,6 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     }
 
     return redpackResult;
-  }
-
-  private Map<String, String> xmlBean2Map(Object bean) {
-    Map<String, String> result = Maps.newHashMap();
-    for (Entry<String, Reflect> entry : Reflect.on(bean).fields().entrySet()) {
-      Reflect reflect = entry.getValue();
-      if (reflect.get() == null) {
-        continue;
-      }
-
-      try {
-        Field field = bean.getClass().getDeclaredField(entry.getKey());
-        if (field.isAnnotationPresent(XStreamAlias.class)) {
-          result.put(field.getAnnotation(XStreamAlias.class).value(),
-              reflect.get().toString());
-        }
-      } catch (NoSuchFieldException | SecurityException e) {
-        e.printStackTrace();
-      }
-
-    }
-
-    return result;
   }
 
   /**
@@ -253,7 +224,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     request.setMchId(this.wxMpService.getWxMpConfigStorage().getPartnerId());
     request.setNonceStr(System.currentTimeMillis() + "");
 
-    String sign = this.createSign(this.xmlBean2Map(request),
+    String sign = this.createSign(BeanUtils.xmlBean2Map(request),
         this.wxMpService.getWxMpConfigStorage().getPartnerKey());
     request.setSign(sign);
 
@@ -271,8 +242,8 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     return result;
   }
 
-  private void checkParameters(WxUnifiedOrderRequest request) {
-    checkNotNullParams(request);
+  private void checkParameters(WxUnifiedOrderRequest request) throws WxErrorException {
+    BeanUtils.checkRequiredFields(request);
 
     if (! ArrayUtils.contains(TRADE_TYPES, request.getTradeType())) {
       throw new IllegalArgumentException("trade_type目前必须为" + Arrays.toString(TRADE_TYPES) + "其中之一");
@@ -284,27 +255,6 @@ public class WxMpPayServiceImpl implements WxMpPayService {
 
     if ("NATIVE".equals(request.getTradeType()) && request.getProductId() == null) {
       throw new IllegalArgumentException("当 trade_type是'NATIVE'时未指定product_id");
-    }
-  }
-
-  private void checkNotNullParams(Object request) {
-    List<String> nullFields = Lists.newArrayList();
-    for (Entry<String, Reflect> entry : Reflect.on(request).fields()
-        .entrySet()) {
-      Reflect reflect = entry.getValue();
-      try {
-        Field field = request.getClass().getDeclaredField(entry.getKey());
-        if (field.isAnnotationPresent(Required.class)
-            && reflect.get() == null) {
-          nullFields.add(entry.getKey());
-        }
-      } catch (NoSuchFieldException | SecurityException e) {
-        e.printStackTrace();
-      }
-    }
-
-    if (!nullFields.isEmpty()) {
-      throw new IllegalArgumentException("必填字段[" + nullFields + "]必须提供值");
     }
   }
 
@@ -345,7 +295,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
 
   @Override
   public WxEntPayResult entPay(WxEntPayRequest request, File keyFile) throws WxErrorException {
-    checkNotNullParams(request);
+    BeanUtils.checkRequiredFields(request);
 
     XStream xstream = XStreamInitializer.getInstance();
     xstream.processAnnotations(WxEntPayRequest.class);
@@ -355,7 +305,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     request.setMchId(this.wxMpService.getWxMpConfigStorage().getPartnerId());
     request.setNonceStr(System.currentTimeMillis() + "");
 
-    String sign = this.createSign(xmlBean2Map(request), this.wxMpService.getWxMpConfigStorage().getPartnerKey());
+    String sign = this.createSign(BeanUtils.xmlBean2Map(request), this.wxMpService.getWxMpConfigStorage().getPartnerKey());
     request.setSign(sign);
 
     String url = PAY_BASE_URL + "/mmpaymkttransfers/promotion/transfers";
@@ -380,7 +330,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     request.setMchId(this.wxMpService.getWxMpConfigStorage().getPartnerId());
     request.setNonceStr(System.currentTimeMillis() + "");
 
-    String sign = this.createSign(xmlBean2Map(request), this.wxMpService.getWxMpConfigStorage().getPartnerKey());
+    String sign = this.createSign(BeanUtils.xmlBean2Map(request), this.wxMpService.getWxMpConfigStorage().getPartnerKey());
     request.setSign(sign);
 
     String url = PAY_BASE_URL + "/mmpaymkttransfers/gettransferinfo";
