@@ -11,7 +11,7 @@
 ===========
 
 ## 开发交流方式及注意事项：
-1. QQ群：343954419（因群人数限制爆满，故开启付费加群方式，感谢理解） [![Join QQ Group](http://pub.idqqimg.com/wpa/images/group.png)](http://shang.qq.com/wpa/qunwpa?idkey=078f7a153d243853e24cf2b542e7a6ccbf2a592bc138080f84d11297f736ec46)
+1. QQ群：343954419（因群人数限制即将爆满，故开启付费加群方式并不定期清理不活跃人群，感谢理解） [![Join QQ Group](http://pub.idqqimg.com/wpa/images/group.png)](http://shang.qq.com/wpa/qunwpa?idkey=078f7a153d243853e24cf2b542e7a6ccbf2a592bc138080f84d11297f736ec46)
 1. 微信群： 因微信群已达到100人限制，故如有想加入微信群的，请入QQ群后联系管理员，提供微信号以便邀请加入；
 1. 新手提问前，请先阅读此文章：http://t.cn/RV93MRB
 1. 寻求帮助时需贴代码或大长串异常信息的，请利用http://paste.ubuntu.com
