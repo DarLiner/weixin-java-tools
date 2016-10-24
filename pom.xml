@@ -53,7 +53,7 @@
     <jedis.version>2.9.0</jedis.version>
     <gson.version>2.7</gson.version>
     <guava.version>19.0</guava.version>
-    <commons-lang3.version>3.4</commons-lang3.version>
+    <commons-lang3.version>3.5</commons-lang3.version>
     <commons-io.version>2.5</commons-io.version>
     <commons-codec.version>1.10</commons-codec.version>
     <jetty.version>9.3.0.M0</jetty.version>
