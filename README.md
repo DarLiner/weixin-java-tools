@@ -1,5 +1,5 @@
 # Weixin Java Tools 微信公众号/企业号开发Java SDK
-## [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badge/)     ![Maven Central](https://img.shields.io/maven-central/v/com.github.binarywang/weixin-java-parent.svg)  [![Build Status](https://travis-ci.org/wechat-group/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/wechat-group/weixin-java-tools)
+## ![Maven Central](https://img.shields.io/maven-central/v/com.github.binarywang/weixin-java-parent.svg)  [![Build Status](https://travis-ci.org/wechat-group/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/wechat-group/weixin-java-tools)  [![Join QQ Group](http://pub.idqqimg.com/wpa/images/group.png)](http://jq.qq.com/?_wv=1027&k=40lRskK)
 
 
 ### 注意：
@@ -11,12 +11,12 @@
 ===========
 
 ## 开发交流方式及注意事项：
-1. QQ群：343954419 [![Join QQ Group](http://pub.idqqimg.com/wpa/images/group.png)](http://shang.qq.com/wpa/qunwpa?idkey=078f7a153d243853e24cf2b542e7a6ccbf2a592bc138080f84d11297f736ec46)
+1. QQ群：343954419（因群人数限制即将爆满，故开启付费加群方式并不定期清理不活跃人群，感谢理解） [![Join QQ Group](http://pub.idqqimg.com/wpa/images/group.png)](http://jq.qq.com/?_wv=1027&k=40lRskK)
 1. 微信群： 因微信群已达到100人限制，故如有想加入微信群的，请入QQ群后联系管理员，提供微信号以便邀请加入；
 1. 新手提问前，请先阅读此文章：http://t.cn/RV93MRB
 1. 寻求帮助时需贴代码或大长串异常信息的，请利用http://paste.ubuntu.com
 1. 有功能需求或由于微信官方接口调整导致的代码问题，可以直接提出issue，便于讨论追踪问题；
-1. 详细开发文档请看 [Wiki](https://github.com/wechat-group/weixin-java-tools/wiki)。
+1. 详细开发文档请看 [Wiki](https://github.com/wechat-group/weixin-java-tools/wiki)，部分文档可能未能及时更新，如有发现，可以及时上报或者自行修改。
 
 ===========
 
