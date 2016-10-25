@@ -1,12 +1,12 @@
 package me.chanjar.weixin.mp.bean.custombuilder;
 
 import me.chanjar.weixin.common.api.WxConsts;
-import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
+import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage;
 
 /**
  * 视频消息builder
  * <pre>
- * 用法: WxMpCustomMessage m = WxMpCustomMessage.VOICE()
+ * 用法: WxMpKefuMessage m = WxMpKefuMessage.VOICE()
  *                              .mediaId(...)
  *                              .title(...)
  *                              .thumbMediaId(..)
@@ -48,8 +48,8 @@ public final class VideoBuilder extends BaseBuilder<VideoBuilder> {
   }
 
   @Override
-  public WxMpCustomMessage build() {
-    WxMpCustomMessage m = super.build();
+  public WxMpKefuMessage build() {
+    WxMpKefuMessage m = super.build();
     m.setMediaId(this.mediaId);
     m.setTitle(this.title);
     m.setDescription(this.description);

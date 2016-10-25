@@ -6,13 +6,13 @@ import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
 
 @XStreamAlias("xml")
-public class WxMpXmlOutTransferCustomerServiceMessage extends WxMpXmlOutMessage {
+public class WxMpXmlOutTransferKefuMessage extends WxMpXmlOutMessage {
   private static final long serialVersionUID = 1850903037285841322L;
-  
+
   @XStreamAlias("TransInfo")
   protected TransInfo transInfo;
 
-  public WxMpXmlOutTransferCustomerServiceMessage() {
+  public WxMpXmlOutTransferKefuMessage() {
     this.msgType = WxConsts.CUSTOM_MSG_TRANSFER_CUSTOMER_SERVICE;
   }
 

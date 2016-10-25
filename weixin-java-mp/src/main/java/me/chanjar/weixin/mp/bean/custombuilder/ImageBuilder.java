@@ -1,12 +1,12 @@
 package me.chanjar.weixin.mp.bean.custombuilder;
 
 import me.chanjar.weixin.common.api.WxConsts;
-import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
+import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage;
 
 /**
  * 获得消息builder
  * <pre>
- * 用法: WxMpCustomMessage m = WxMpCustomMessage.IMAGE().mediaId(...).toUser(...).build();
+ * 用法: WxMpKefuMessage m = WxMpKefuMessage.IMAGE().mediaId(...).toUser(...).build();
  * </pre>
  * @author chanjarster
  *
@@ -24,8 +24,8 @@ public final class ImageBuilder extends BaseBuilder<ImageBuilder> {
   }
 
   @Override
-  public WxMpCustomMessage build() {
-    WxMpCustomMessage m = super.build();
+  public WxMpKefuMessage build() {
+    WxMpKefuMessage m = super.build();
     m.setMediaId(this.mediaId);
     return m;
   }

@@ -1,24 +1,18 @@
-package me.chanjar.weixin.mp.bean;
+package me.chanjar.weixin.mp.bean.kefu;
+
+import me.chanjar.weixin.mp.bean.custombuilder.*;
+import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import me.chanjar.weixin.mp.bean.custombuilder.ImageBuilder;
-import me.chanjar.weixin.mp.bean.custombuilder.MusicBuilder;
-import me.chanjar.weixin.mp.bean.custombuilder.NewsBuilder;
-import me.chanjar.weixin.mp.bean.custombuilder.TextBuilder;
-import me.chanjar.weixin.mp.bean.custombuilder.VideoBuilder;
-import me.chanjar.weixin.mp.bean.custombuilder.VoiceBuilder;
-import me.chanjar.weixin.mp.bean.custombuilder.WxCardBuilder;
-import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
 /**
  * 客服消息
  * @author chanjarster
  *
  */
-public class WxMpCustomMessage implements Serializable {
+public class WxMpKefuMessage implements Serializable {
   private static final long serialVersionUID = -9196732086954365246L;
 
   private String toUser;

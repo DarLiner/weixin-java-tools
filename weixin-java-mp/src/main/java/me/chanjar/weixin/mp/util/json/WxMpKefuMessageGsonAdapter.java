@@ -10,20 +10,19 @@ package me.chanjar.weixin.mp.util.json;
 
 import com.google.gson.*;
 import me.chanjar.weixin.common.api.WxConsts;
-import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
+import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage;
+import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Type;
 
-import org.apache.commons.lang3.StringUtils;
-
-public class WxMpCustomMessageGsonAdapter implements JsonSerializer<WxMpCustomMessage> {
+public class WxMpKefuMessageGsonAdapter implements JsonSerializer<WxMpKefuMessage> {
 
   @Override
-  public JsonElement serialize(WxMpCustomMessage message, Type typeOfSrc, JsonSerializationContext context) {
+  public JsonElement serialize(WxMpKefuMessage message, Type typeOfSrc, JsonSerializationContext context) {
     JsonObject messageJson = new JsonObject();
     messageJson.addProperty("touser", message.getToUser());
     messageJson.addProperty("msgtype", message.getMsgType());
-    
+
     if (WxConsts.CUSTOM_MSG_TEXT.equals(message.getMsgType())) {
       JsonObject text = new JsonObject();
       text.addProperty("content", message.getContent());
@@ -60,11 +59,11 @@ public class WxMpCustomMessageGsonAdapter implements JsonSerializer<WxMpCustomMe
       music.addProperty("hqmusicurl", message.getHqMusicUrl());
       messageJson.add("music", music);
     }
-    
+
     if (WxConsts.CUSTOM_MSG_NEWS.equals(message.getMsgType())) {
       JsonObject newsJsonObject = new JsonObject();
       JsonArray articleJsonArray = new JsonArray();
-      for (WxMpCustomMessage.WxArticle article : message.getArticles()) {
+      for (WxMpKefuMessage.WxArticle article : message.getArticles()) {
         JsonObject articleJson = new JsonObject();
         articleJson.addProperty("title", article.getTitle());
         articleJson.addProperty("description", article.getDescription());
@@ -81,13 +80,13 @@ public class WxMpCustomMessageGsonAdapter implements JsonSerializer<WxMpCustomMe
       wxcard.addProperty("card_id", message.getCardId());
       messageJson.add("wxcard", wxcard);
     }
-    
+
     if (StringUtils.isNotBlank(message.getKfAccount())){
       JsonObject newsJsonObject = new JsonObject();
       newsJsonObject.addProperty("kf_account", message.getKfAccount());
-      messageJson.add("customservice", newsJsonObject);      
+      messageJson.add("customservice", newsJsonObject);
     }
-    
+
     return messageJson;
   }
 

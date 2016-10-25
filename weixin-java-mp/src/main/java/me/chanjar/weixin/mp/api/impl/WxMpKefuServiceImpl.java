@@ -3,6 +3,7 @@ package me.chanjar.weixin.mp.api.impl;
 import java.io.File;
 import java.util.Date;
 
+import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +15,6 @@ import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.MediaUploadRequestExecutor;
 import me.chanjar.weixin.mp.api.WxMpKefuService;
 import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
 import me.chanjar.weixin.mp.bean.kefu.request.WxMpKfAccountRequest;
 import me.chanjar.weixin.mp.bean.kefu.request.WxMpKfSessionRequest;
 import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfList;
@@ -41,7 +41,7 @@ public class WxMpKefuServiceImpl implements WxMpKefuService {
   }
 
   @Override
-  public boolean customMessageSend(WxMpCustomMessage message)
+  public boolean sendKefuMessage(WxMpKefuMessage message)
       throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/message/custom/send";
     String responseContent = this.wxMpService.post(url, message.toJson());

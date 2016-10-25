@@ -1,12 +1,12 @@
 package me.chanjar.weixin.mp.bean.custombuilder;
 
 import me.chanjar.weixin.common.api.WxConsts;
-import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
+import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage;
 
 /**
  * 卡券消息builder
  * <pre>
- * 用法: WxMpCustomMessage m = WxMpCustomMessage.WXCARD().cardId(...).toUser(...).build();
+ * 用法: WxMpKefuMessage m = WxMpKefuMessage.WXCARD().cardId(...).toUser(...).build();
  * </pre>
  * @author mgcnrx11
  *
@@ -24,8 +24,8 @@ public final class WxCardBuilder extends BaseBuilder<WxCardBuilder> {
   }
 
   @Override
-  public WxMpCustomMessage build() {
-    WxMpCustomMessage m = super.build();
+  public WxMpKefuMessage build() {
+    WxMpKefuMessage m = super.build();
     m.setCardId(this.cardId);
     return m;
   }

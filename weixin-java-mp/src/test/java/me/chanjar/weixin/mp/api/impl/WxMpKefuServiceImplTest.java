@@ -3,6 +3,7 @@ package me.chanjar.weixin.mp.api.impl;
 import java.io.File;
 import java.util.Date;
 
+import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage;
 import org.joda.time.DateTime;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -15,7 +16,6 @@ import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.ApiTestModule;
 import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
-import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
 import me.chanjar.weixin.mp.bean.kefu.request.WxMpKfAccountRequest;
 import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfInfo;
 import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfList;
@@ -40,26 +40,26 @@ public class WxMpKefuServiceImplTest {
   public void testSendCustomMessage() throws WxErrorException {
     WxXmlMpInMemoryConfigStorage configStorage = (WxXmlMpInMemoryConfigStorage) this.wxService
         .getWxMpConfigStorage();
-    WxMpCustomMessage message = new WxMpCustomMessage();
+    WxMpKefuMessage message = new WxMpKefuMessage();
     message.setMsgType(WxConsts.CUSTOM_MSG_TEXT);
     message.setToUser(configStorage.getOpenid());
     message.setContent(
         "欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>");
 
-    this.wxService.getKefuService().customMessageSend(message);
+    this.wxService.getKefuService().sendKefuMessage(message);
   }
 
   public void testSendCustomMessageWithKfAccount() throws WxErrorException {
     WxXmlMpInMemoryConfigStorage configStorage = (WxXmlMpInMemoryConfigStorage) this.wxService
         .getWxMpConfigStorage();
-    WxMpCustomMessage message = new WxMpCustomMessage();
+    WxMpKefuMessage message = new WxMpKefuMessage();
     message.setMsgType(WxConsts.CUSTOM_MSG_TEXT);
     message.setToUser(configStorage.getOpenid());
     message.setKfAccount(configStorage.getKfAccount());
     message.setContent(
         "欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>");
 
-    this.wxService.getKefuService().customMessageSend(message);
+    this.wxService.getKefuService().sendKefuMessage(message);
   }
 
   public void testKfList() throws WxErrorException {
