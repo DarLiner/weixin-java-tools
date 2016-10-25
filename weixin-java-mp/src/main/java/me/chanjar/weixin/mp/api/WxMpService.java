@@ -3,19 +3,8 @@ package me.chanjar.weixin.mp.api;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
-import me.chanjar.weixin.mp.bean.WxMpIndustry;
-import me.chanjar.weixin.mp.bean.WxMpMassGroupMessage;
-import me.chanjar.weixin.mp.bean.WxMpMassNews;
-import me.chanjar.weixin.mp.bean.WxMpMassOpenIdsMessage;
-import me.chanjar.weixin.mp.bean.WxMpMassPreviewMessage;
-import me.chanjar.weixin.mp.bean.WxMpMassVideo;
-import me.chanjar.weixin.mp.bean.WxMpSemanticQuery;
-import me.chanjar.weixin.mp.bean.WxMpTemplateMessage;
-import me.chanjar.weixin.mp.bean.result.WxMpMassSendResult;
-import me.chanjar.weixin.mp.bean.result.WxMpMassUploadResult;
-import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
-import me.chanjar.weixin.mp.bean.result.WxMpSemanticQueryResult;
-import me.chanjar.weixin.mp.bean.result.WxMpUser;
+import me.chanjar.weixin.mp.bean.*;
+import me.chanjar.weixin.mp.bean.result.*;
 
 /**
  * 微信API的Service
@@ -88,7 +77,7 @@ public interface WxMpService {
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=高级群发接口
    * </pre>
    *
-   * @see #massGroupMessageSend(me.chanjar.weixin.mp.bean.WxMpMassGroupMessage)
+   * @see #massGroupMessageSend(me.chanjar.weixin.mp.bean.WxMpMassTagMessage)
    * @see #massOpenIdsMessageSend(me.chanjar.weixin.mp.bean.WxMpMassOpenIdsMessage)
    */
   WxMpMassUploadResult massNewsUpload(WxMpMassNews news) throws WxErrorException;
@@ -99,7 +88,7 @@ public interface WxMpService {
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=高级群发接口
    * </pre>
    *
-   * @see #massGroupMessageSend(me.chanjar.weixin.mp.bean.WxMpMassGroupMessage)
+   * @see #massGroupMessageSend(me.chanjar.weixin.mp.bean.WxMpMassTagMessage)
    * @see #massOpenIdsMessageSend(me.chanjar.weixin.mp.bean.WxMpMassOpenIdsMessage)
    */
   WxMpMassUploadResult massVideoUpload(WxMpMassVideo video) throws WxErrorException;
@@ -112,7 +101,7 @@ public interface WxMpService {
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=高级群发接口
    * </pre>
    */
-  WxMpMassSendResult massGroupMessageSend(WxMpMassGroupMessage message) throws WxErrorException;
+  WxMpMassSendResult massGroupMessageSend(WxMpMassTagMessage message) throws WxErrorException;
 
   /**
    * <pre>
@@ -132,16 +121,6 @@ public interface WxMpService {
    *
    */
   String shortUrl(String long_url) throws WxErrorException;
-
-  /**
-   * <pre>
-   * 发送模板消息
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=模板消息接口
-   * </pre>
-   *
-   * @return msgid
-   */
-  String templateSend(WxMpTemplateMessage templateMessage) throws WxErrorException;
 
   /**
    * <pre>
@@ -267,27 +246,6 @@ public interface WxMpService {
   WxMpMassSendResult massMessagePreview(WxMpMassPreviewMessage wxMpMassPreviewMessage) throws Exception;
 
   /**
-   * <pre>
-   * 设置所属行业
-   * 官方文档中暂未告知响应内容
-   * 详情请见：http://mp.weixin.qq.com/wiki/5/6dde9eaa909f83354e0094dc3ad99e05.html#.E8.AE.BE.E7.BD.AE.E6.89.80.E5.B1.9E.E8.A1.8C.E4.B8.9A
-   * </pre>
-   *
-   * @return JsonObject
-   */
-  String setIndustry(WxMpIndustry wxMpIndustry) throws WxErrorException;
-
-  /***
-   * <pre>
-   * 获取设置的行业信息
-   * 详情请见：http://mp.weixin.qq.com/wiki/5/6dde9eaa909f83354e0094dc3ad99e05.html#.E8.AE.BE.E7.BD.AE.E6.89.80.E5.B1.9E.E8.A1.8C.E4.B8.9A
-   * </pre>
-   *
-   * @return wxMpIndustry
-   */
-  WxMpIndustry getIndustry() throws WxErrorException;
-
-  /**
    * 获取WxMpConfigStorage 对象
    *
    * @return WxMpConfigStorage
@@ -321,14 +279,6 @@ public interface WxMpService {
    * @return WxMpUserService
    */
   WxMpUserService getUserService();
-
-  /**
-   * 返回用户分组相关接口方法的实现类对象，以方便调用个其各种接口
-   *
-   * @return WxMpGroupService
-   */
-
-  WxMpGroupService getGroupService();
 
   /**
    * 返回用户标签相关接口方法的实现类对象，以方便调用个其各种接口
@@ -378,4 +328,11 @@ public interface WxMpService {
    * @return WxMpStoreService
    */
   WxMpStoreService getStoreService();
+
+  /**
+   * 返回模板消息相关接口方法的实现类对象，以方便调用其各种接口
+   *
+   * @return WxMpTemplateMsgService
+   */
+  WxMpTemplateMsgService getTemplateMsgService();
 }

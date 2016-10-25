@@ -20,11 +20,10 @@ import me.chanjar.weixin.mp.util.xml.XStreamTransformer;
 
 /**
  * <pre>
- * 微信推送过来的消息，也是同步回复给用户的消息，xml格式
- * 相关字段的解释看微信开发者文档：
- * http://mp.weixin.qq.com/wiki/index.php?title=接收普通消息
- * http://mp.weixin.qq.com/wiki/index.php?title=接收事件推送
- * http://mp.weixin.qq.com/wiki/index.php?title=接收语音识别结果
+ * 微信推送过来的消息，xml格式
+ * 部分未注释的字段的解释请查阅相关微信开发文档：
+ * <a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140453&token=&lang=zh_CN">接收普通消息</a>
+ * <a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140454&token=&lang=zh_CN">接收事件推送</a>
  * </pre>
  *
  * @author chanjarster
@@ -40,11 +39,11 @@ public class WxMpXmlMessage implements Serializable {
 
   @XStreamAlias("ToUserName")
   @XStreamConverter(value = XStreamCDataConverter.class)
-  private String toUserName;
+  private String toUser;
 
   @XStreamAlias("FromUserName")
   @XStreamConverter(value = XStreamCDataConverter.class)
-  private String fromUserName;
+  private String fromUser;
 
   @XStreamAlias("CreateTime")
   private Long createTime;
@@ -209,12 +208,123 @@ public class WxMpXmlMessage implements Serializable {
   @XStreamAlias("SendLocationInfo")
   private SendLocationInfo sendLocationInfo = new SendLocationInfo();
 
-  public String getToUserName() {
-    return this.toUserName;
+  ///////////////////////////////////////
+  // 门店审核事件推送
+  ///////////////////////////////////////
+  /**
+   * UniqId
+   * 商户自己内部ID，即字段中的sid
+   */
+  @XStreamAlias("UniqId")
+  private String storeUniqId;
+
+  /**
+   * PoiId
+   * 微信的门店ID，微信内门店唯一标示ID
+   */
+  @XStreamAlias("PoiId")
+  private String poiId;
+
+  /**
+   * Result
+   * 审核结果，成功succ 或失败fail
+   */
+  @XStreamAlias("Result")
+  private String result;
+
+  /**
+   * msg
+   * 成功的通知信息，或审核失败的驳回理由
+   */
+  @XStreamAlias("msg")
+  private String msg;
+
+  ///////////////////////////////////////
+  // 微信认证事件推送
+  ///////////////////////////////////////
+  /**
+   * ExpiredTime
+   * 资质认证成功/名称认证成功: 有效期 (整形)，指的是时间戳，将于该时间戳认证过期
+   * 年审通知: 有效期 (整形)，指的是时间戳，将于该时间戳认证过期，需尽快年审
+   * 认证过期失效通知: 有效期 (整形)，指的是时间戳，表示已于该时间戳认证过期，需要重新发起微信认证
+   */
+  @XStreamAlias("ExpiredTime")
+  private Long expiredTime;
+  /**
+   * FailTime
+   * 失败发生时间 (整形)，时间戳
+   */
+  @XStreamAlias("FailTime")
+  private Long failTime;
+  /**
+   * FailReason
+   * 认证失败的原因
+   */
+  @XStreamAlias("FailReason")
+  private String failReason;
+
+  public Long getExpiredTime() {
+    return this.expiredTime;
   }
 
-  public void setToUserName(String toUserName) {
-    this.toUserName = toUserName;
+  public void setExpiredTime(Long expiredTime) {
+    this.expiredTime = expiredTime;
+  }
+
+  public Long getFailTime() {
+    return this.failTime;
+  }
+
+  public void setFailTime(Long failTime) {
+    this.failTime = failTime;
+  }
+
+  public String getFailReason() {
+    return this.failReason;
+  }
+
+  public void setFailReason(String failReason) {
+    this.failReason = failReason;
+  }
+
+  public String getStoreUniqId() {
+    return this.storeUniqId;
+  }
+
+  public void setStoreUniqId(String storeUniqId) {
+    this.storeUniqId = storeUniqId;
+  }
+
+  public String getPoiId() {
+    return this.poiId;
+  }
+
+  public void setPoiId(String poiId) {
+    this.poiId = poiId;
+  }
+
+  public String getResult() {
+    return this.result;
+  }
+
+  public void setResult(String result) {
+    this.result = result;
+  }
+
+  public String getMsg() {
+    return this.msg;
+  }
+
+  public void setMsg(String msg) {
+    this.msg = msg;
+  }
+
+  public String getToUser() {
+    return this.toUser;
+  }
+
+  public void setToUser(String toUser) {
+    this.toUser = toUser;
   }
 
   public Long getCreateTime() {
@@ -419,12 +529,12 @@ public class WxMpXmlMessage implements Serializable {
     this.recognition = recognition;
   }
 
-  public String getFromUserName() {
-    return this.fromUserName;
+  public String getFromUser() {
+    return this.fromUser;
   }
 
-  public void setFromUserName(String fromUserName) {
-    this.fromUserName = fromUserName;
+  public void setFromUser(String fromUser) {
+    this.fromUser = fromUser;
   }
 
   public static WxMpXmlMessage fromXml(String xml) {
@@ -605,7 +715,7 @@ public class WxMpXmlMessage implements Serializable {
   public static class ScanCodeInfo {
     @Override
     public String toString() {
-      return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+      return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
 
     @XStreamAlias("ScanType")
@@ -645,7 +755,7 @@ public class WxMpXmlMessage implements Serializable {
   public static class SendPicsInfo {
     @Override
     public String toString() {
-      return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+      return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
 
     @XStreamAlias("Count")
@@ -671,7 +781,7 @@ public class WxMpXmlMessage implements Serializable {
       @Override
       public String toString() {
         return ToStringBuilder.reflectionToString(this,
-            ToStringStyle.JSON_STYLE);
+            ToStringStyle.MULTI_LINE_STYLE);
       }
 
       @XStreamAlias("PicMd5Sum")
@@ -713,7 +823,7 @@ public class WxMpXmlMessage implements Serializable {
 
     @Override
     public String toString() {
-      return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+      return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
 
     public String getLocationX() {
@@ -759,6 +869,6 @@ public class WxMpXmlMessage implements Serializable {
 
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
   }
 }

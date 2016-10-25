@@ -1,27 +1,29 @@
 package me.chanjar.weixin.mp.bean.store;
 
-import java.math.BigDecimal;
-import java.util.List;
-
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
-
 import me.chanjar.weixin.common.annotation.Required;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * 门店基础信息
- * @author binarywang(https://github.com/binarywang)
+ * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  *         Created by Binary Wang on 2016-09-23.
  */
 public class WxMpStoreBaseInfo {
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+  }
+
+  public static WxMpStoreBaseInfo fromJson(String json) {
+    return WxMpGsonBuilder.create().fromJson(json, WxMpStoreBaseInfo.class);
   }
 
   public String toJson() {

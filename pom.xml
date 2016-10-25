@@ -5,11 +5,11 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.binarywang</groupId>
   <artifactId>weixin-java-parent</artifactId>
-  <version>2.1.2</version>
+  <version>2.3.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>WeiXin Java Tools - Parent</name>
   <description>微信公众号、企业号上级POM</description>
-  <url>https://github.com/binarywang/weixin-java-tools</url>
+  <url>https://github.com/wechat-group/weixin-java-tools</url>
 
   <licenses>
     <license>
@@ -22,23 +22,31 @@
     <developer>
       <name>Daniel Qian</name>
       <email>chanjarster@gmail.com</email>
+      <url>https://github.com/chanjarster</url>
     </developer>
     <developer>
       <name>Binary Wang</name>
       <email>binarywang@gmail.com</email>
+      <url>https://github.com/binarywang</url>
+    </developer>
+    <developer>
+      <name>gaigeshen</name>
+      <email>gaigeshen@qq.com</email>
+      <url>https://github.com/gaigeshen</url>
     </developer>
   </developers>
 
   <scm>
-    <connection>scm:git:https://github.com/binarywang/weixin-java-tools.git</connection>
-    <developerConnection>scm:git:git@github.com:binarywang/weixin-java-tools.git</developerConnection>
-    <url>https://github.com/binarywang/weixin-java-tools</url>
+    <connection>scm:git:https://github.com/wechat-group/weixin-java-tools.git</connection>
+    <developerConnection>scm:git:git@github.com:wechat-group/weixin-java-tools.git</developerConnection>
+    <url>https://github.com/wechat-group/weixin-java-tools</url>
   </scm>
 
   <modules>
     <module>weixin-java-common</module>
     <module>weixin-java-cp</module>
     <module>weixin-java-mp</module>
+    <module>weixin-java-osgi</module>
   </modules>
 
   <properties>
@@ -52,8 +60,7 @@
     <jedis.version>2.9.0</jedis.version>
     <gson.version>2.7</gson.version>
     <guava.version>19.0</guava.version>
-    <joor.version>0.9.6</joor.version>
-    <commons-lang3.version>3.4</commons-lang3.version>
+    <commons-lang3.version>3.5</commons-lang3.version>
     <commons-io.version>2.5</commons-io.version>
     <commons-codec.version>1.10</commons-codec.version>
     <jetty.version>9.3.0.M0</jetty.version>
@@ -71,11 +78,6 @@
       <artifactId>logback-classic</artifactId>
       <version>${logback.version}</version>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>fluent-hc</artifactId>
-      <version>${httpclient.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
@@ -111,15 +113,11 @@
       <groupId>redis.clients</groupId>
       <artifactId>jedis</artifactId>
       <version>${jedis.version}</version>
-      <scope>provided</scope>
+      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.jooq</groupId>
-      <artifactId>joor</artifactId>
     </dependency>
   </dependencies>
 
@@ -165,11 +163,6 @@
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
         <version>${guava.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jooq</groupId>
-        <artifactId>joor</artifactId>
-        <version>${joor.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -299,6 +292,5 @@
       </plugin>
     </plugins>
   </build>
-
 
 </project>

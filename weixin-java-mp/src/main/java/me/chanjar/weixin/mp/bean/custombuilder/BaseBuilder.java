@@ -1,6 +1,6 @@
 package me.chanjar.weixin.mp.bean.custombuilder;
 
-import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
+import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage;
 
 public class BaseBuilder<T> {
   protected String msgType;
@@ -11,8 +11,8 @@ public class BaseBuilder<T> {
     return (T) this;
   }
 
-  public WxMpCustomMessage build() {
-    WxMpCustomMessage m = new WxMpCustomMessage();
+  public WxMpKefuMessage build() {
+    WxMpKefuMessage m = new WxMpKefuMessage();
     m.setMsgType(this.msgType);
     m.setToUser(this.toUser);
     return m;

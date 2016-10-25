@@ -171,7 +171,7 @@ public class WxMpMessageRouter {
       } else {
         res = rule.service(wxMessage, this.wxMpService, this.sessionManager, this.exceptionHandler);
         // 在同步操作结束，session访问结束
-        this.log.debug("End session access: async=false, sessionId={}", wxMessage.getFromUserName());
+        this.log.debug("End session access: async=false, sessionId={}", wxMessage.getFromUser());
         sessionEndAccess(wxMessage);
       }
     }
@@ -183,7 +183,7 @@ public class WxMpMessageRouter {
           for (Future<?> future : futures) {
             try {
               future.get();
-              WxMpMessageRouter.this.log.debug("End session access: async=true, sessionId={}", wxMessage.getFromUserName());
+              WxMpMessageRouter.this.log.debug("End session access: async=true, sessionId={}", wxMessage.getFromUser());
               // 异步操作结束，session访问结束
               sessionEndAccess(wxMessage);
             } catch (InterruptedException e) {
@@ -203,7 +203,7 @@ public class WxMpMessageRouter {
     StringBuffer messageId = new StringBuffer();
     if (wxMessage.getMsgId() == null) {
       messageId.append(wxMessage.getCreateTime())
-        .append("-").append(wxMessage.getFromUserName())
+        .append("-").append(wxMessage.getFromUser())
         .append("-").append(wxMessage.getEventKey() == null ? "" : wxMessage.getEventKey())
         .append("-").append(wxMessage.getEvent() == null ? "" : wxMessage.getEvent())
       ;
@@ -221,7 +221,7 @@ public class WxMpMessageRouter {
    */
   protected void sessionEndAccess(WxMpXmlMessage wxMessage) {
 
-    InternalSession session = ((InternalSessionManager)this.sessionManager).findSession(wxMessage.getFromUserName());
+    InternalSession session = ((InternalSessionManager)this.sessionManager).findSession(wxMessage.getFromUser());
     if (session != null) {
       session.endAccess();
     }

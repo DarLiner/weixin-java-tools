@@ -5,9 +5,6 @@
 		<classes>
       		<class name="me.chanjar.weixin.mp.api.WxMpBusyRetryTest" />
 			<class name="me.chanjar.weixin.mp.api.WxMpBaseAPITest" />
-			<class name="me.chanjar.weixin.mp.api.WxMpCustomMessageAPITest" />
-			<class name="me.chanjar.weixin.mp.api.impl.WxMpMenuAPITest" />
-			<class name="me.chanjar.weixin.mp.api.impl.WxMpGroupServiceImplTest" />
 			<class name="me.chanjar.weixin.mp.api.WxMpMassMessageAPITest" />
 			<class name="me.chanjar.weixin.mp.api.impl.WxMpUserServiceImplTest" />
 			<class name="me.chanjar.weixin.mp.api.impl.WxMpQrCodeServiceImplTest" />
@@ -20,7 +17,7 @@
 
 	<test name="Bean_Test">
 		<classes>
-			<class name="me.chanjar.weixin.mp.bean.WxMpCustomMessageTest" />
+			<class name="me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessageTest" />
 			<class name="me.chanjar.weixin.mp.bean.WxMpXmlMessageTest" />
 			<class name="me.chanjar.weixin.mp.bean.WxMpXmlOutImageMessageTest" />
 			<class name="me.chanjar.weixin.mp.bean.WxXmlOutMusicMessageTest" />

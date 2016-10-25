@@ -6,10 +6,10 @@ import org.testng.annotations.Test;
 /**
  * Created by ben on 2015/12/29.
  */
-public class WxMpXmlOutTransferCustomerServiceMessageTest {
+public class WxMpXmlOutTransferKefuMessageTest {
   @Test
   public void test() {
-    WxMpXmlOutTransferCustomerServiceMessage m = new WxMpXmlOutTransferCustomerServiceMessage();
+    WxMpXmlOutTransferKefuMessage m = new WxMpXmlOutTransferKefuMessage();
     m.setCreateTime(1399197672L);
     m.setFromUserName("fromuser");
     m.setToUserName("touser");
@@ -32,7 +32,7 @@ public class WxMpXmlOutTransferCustomerServiceMessageTest {
       "<KfAccount><![CDATA[test1@test]]></KfAccount>" +
       "</TransInfo>" +
       "</xml>";
-    WxMpXmlOutTransferCustomerServiceMessage.TransInfo transInfo = new WxMpXmlOutTransferCustomerServiceMessage.TransInfo();
+    WxMpXmlOutTransferKefuMessage.TransInfo transInfo = new WxMpXmlOutTransferKefuMessage.TransInfo();
     transInfo.setKfAccount("test1@test");
     m.setTransInfo(transInfo);
     System.out.println(m.toXml());
@@ -41,7 +41,7 @@ public class WxMpXmlOutTransferCustomerServiceMessageTest {
 
   @Test
   public void testBuild() {
-    WxMpXmlOutTransferCustomerServiceMessage m = WxMpXmlOutMessage.TRANSFER_CUSTOMER_SERVICE().fromUser("fromuser").toUser("touser").build();
+    WxMpXmlOutTransferKefuMessage m = WxMpXmlOutMessage.TRANSFER_CUSTOMER_SERVICE().fromUser("fromuser").toUser("touser").build();
     m.setCreateTime(1399197672L);
     String expected = "<xml>" +
       "<ToUserName><![CDATA[touser]]></ToUserName>" +

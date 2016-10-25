@@ -1,7 +1,3 @@
-/**
- * Copyright(c) 2011-2016 by UCredit Inc.
- * All Rights Reserved
- */
 package me.chanjar.weixin.mp.bean.store;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -12,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 public class WxMpStoreInfo {
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
   }
 
   @SerializedName("base_info")

@@ -1,7 +1,3 @@
-/**
- * Copyright(c) 2011-2016 by UCredit Inc.
- * All Rights Reserved
- */
 package me.chanjar.weixin.mp.api;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;

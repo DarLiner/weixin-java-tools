@@ -1,4 +1,4 @@
-package me.chanjar.weixin.mp.bean;
+package me.chanjar.weixin.mp.bean.template;
 
 import java.io.Serializable;
 

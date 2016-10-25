@@ -1,18 +1,20 @@
 package me.chanjar.weixin.cp.bean;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
-import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
-import me.chanjar.weixin.cp.api.WxCpConfigStorage;
-import me.chanjar.weixin.cp.util.crypto.WxCpCryptUtil;
-import me.chanjar.weixin.cp.util.xml.XStreamTransformer;
-import org.apache.commons.io.IOUtils;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.io.IOUtils;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
+
+import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
+import me.chanjar.weixin.cp.api.WxCpConfigStorage;
+import me.chanjar.weixin.cp.util.crypto.WxCpCryptUtil;
+import me.chanjar.weixin.cp.util.xml.XStreamTransformer;
 
 /**
  * <pre>
@@ -27,15 +29,11 @@ import java.util.List;
  */
 @XStreamAlias("xml")
 public class WxCpXmlMessage implements Serializable {
+  private static final long serialVersionUID = -1042994982179476410L;
 
   ///////////////////////
   // 以下都是微信推送过来的消息的xml的element所对应的属性
   ///////////////////////
-
-  /**
-   * 
-   */
-  private static final long serialVersionUID = -1042994982179476410L;
 
   @XStreamAlias("AgentID")
   private Integer agentId;

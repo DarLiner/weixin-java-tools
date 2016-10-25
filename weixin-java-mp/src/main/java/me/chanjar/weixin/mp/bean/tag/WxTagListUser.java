@@ -1,15 +1,17 @@
 package me.chanjar.weixin.mp.bean.tag;
 
-import com.google.gson.annotations.SerializedName;
-import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
+import java.util.List;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import java.util.List;
+import com.google.gson.annotations.SerializedName;
+
+import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
 /**
  * 获取标签下粉丝列表的结果对象
- * @author binarywang(https://github.com/binarywang)
+ * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  *         Created by Binary Wang on 2016-09-19.
  */
 public class WxTagListUser {
@@ -24,7 +26,7 @@ public class WxTagListUser {
 
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
   }
 
   /**
@@ -46,7 +48,7 @@ public class WxTagListUser {
   private String nextOpenid;
 
   public Integer getCount() {
-    return count;
+    return this.count;
   }
 
   public void setCount(Integer count) {
@@ -54,7 +56,7 @@ public class WxTagListUser {
   }
 
   public WxTagListUserData getData() {
-    return data;
+    return this.data;
   }
 
   public void setData(WxTagListUserData data) {
@@ -62,7 +64,7 @@ public class WxTagListUser {
   }
 
   public String getNextOpenid() {
-    return nextOpenid;
+    return this.nextOpenid;
   }
 
   public void setNextOpenid(String nextOpenid) {
@@ -72,7 +74,7 @@ public class WxTagListUser {
   public static class WxTagListUserData {
     @Override
     public String toString() {
-      return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+      return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
 
     /**
@@ -82,7 +84,7 @@ public class WxTagListUser {
     private List<String> openidList;
 
     public List<String> getOpenidList() {
-      return openidList;
+      return this.openidList;
     }
 
     public void setOpenidList(List<String> openidList) {

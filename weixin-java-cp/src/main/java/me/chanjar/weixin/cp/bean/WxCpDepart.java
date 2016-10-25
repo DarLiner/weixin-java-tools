@@ -1,8 +1,8 @@
 package me.chanjar.weixin.cp.bean;
 
-import me.chanjar.weixin.cp.util.json.WxCpGsonBuilder;
-
 import java.io.Serializable;
+
+import me.chanjar.weixin.cp.util.json.WxCpGsonBuilder;
 
 /**
  * 微信部门
@@ -11,9 +11,6 @@ import java.io.Serializable;
  */
 public class WxCpDepart implements Serializable {
 
-  /**
-   * 
-   */
   private static final long serialVersionUID = -5028321625140879571L;
   private Integer id;
   private String name;

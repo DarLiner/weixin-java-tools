@@ -1,19 +1,21 @@
 package me.chanjar.weixin.mp.api.impl;
 
-import com.google.inject.Inject;
-import me.chanjar.weixin.mp.api.ApiTestModule;
-import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
-import me.chanjar.weixin.mp.bean.tag.WxTagListUser;
-import me.chanjar.weixin.mp.bean.tag.WxUserTag;
+import java.util.List;
+
 import org.testng.Assert;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
 
-import java.util.List;
+import com.google.inject.Inject;
+
+import me.chanjar.weixin.mp.api.ApiTestModule;
+import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
+import me.chanjar.weixin.mp.bean.tag.WxTagListUser;
+import me.chanjar.weixin.mp.bean.tag.WxUserTag;
 
 /**
  *
- * @author binarywang(https://github.com/binarywang)
+ * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  *         Created by Binary Wang on 2016/9/2.
  */
 @Test
@@ -22,7 +24,7 @@ public class WxMpUserTagServiceImplTest {
   @Inject
   protected WxMpServiceImpl wxService;
 
-  private Integer tagId = 2;
+  private Long tagId = 2L;
 
   @Test
   public void testTagCreate() throws Exception {
@@ -63,6 +65,14 @@ public class WxMpUserTagServiceImplTest {
   }
 
   @Test
+  public void testBatchTagging() throws Exception {
+    String[] openids = new String[]{((WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage()).getOpenid()};
+    boolean res = this.wxService.getUserTagService().batchTagging(this.tagId, openids);
+    System.out.println(res);
+    Assert.assertTrue(res);
+  }
+
+  @Test
   public void testBatchUntagging() throws Exception {
     String[] openids = new String[]{((WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage()).getOpenid()};
     boolean res = this.wxService.getUserTagService().batchUntagging(this.tagId, openids);
@@ -72,7 +82,7 @@ public class WxMpUserTagServiceImplTest {
 
   @Test
   public void testUserTagList() throws Exception {
-    List<Integer> res = this.wxService.getUserTagService().userTagList(
+    List<Long> res = this.wxService.getUserTagService().userTagList(
         ((WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage()).getOpenid());
     System.out.println(res);
     Assert.assertNotNull(res);

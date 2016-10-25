@@ -1,26 +1,23 @@
 package me.chanjar.weixin.mp.bean;
 
-import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
-
 import java.io.Serializable;
 
+import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
+
 /**
- * 分组群发的消息
+ * 按标签群发的消息
  * 
  * @author chanjarster
  */
-public class WxMpMassGroupMessage implements Serializable {
+public class WxMpMassTagMessage implements Serializable {
   
-  /**
-   * 
-   */
   private static final long serialVersionUID = -6625914040986749286L;
-  private Long groupId;
+  private Long tagId;
   private String msgtype;
   private String content;
   private String mediaId;
 
-  public WxMpMassGroupMessage() {
+  public WxMpMassTagMessage() {
     super();
   }
   
@@ -64,16 +61,16 @@ public class WxMpMassGroupMessage implements Serializable {
     return WxMpGsonBuilder.INSTANCE.create().toJson(this);
   }
 
-  public Long getGroupId() {
-    return this.groupId;
+  public Long getTagId() {
+    return this.tagId;
   }
 
   /**
    * 如果不设置则就意味着发给所有用户
-   * @param groupId
+   * @param tagId
    */
-  public void setGroupId(Long groupId) {
-    this.groupId = groupId;
+  public void setTagId(Long tagId) {
+    this.tagId = tagId;
   }
 
 }

@@ -13,7 +13,7 @@ import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlOutMusicMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlOutNewsMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlOutTextMessage;
-import me.chanjar.weixin.mp.bean.WxMpXmlOutTransferCustomerServiceMessage;
+import me.chanjar.weixin.mp.bean.WxMpXmlOutTransferKefuMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlOutVideoMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlOutVoiceMessage;
 
@@ -62,7 +62,7 @@ public class XStreamTransformer {
     map.put(WxMpXmlOutImageMessage.class, config_WxMpXmlOutImageMessage());
     map.put(WxMpXmlOutVideoMessage.class, config_WxMpXmlOutVideoMessage());
     map.put(WxMpXmlOutVoiceMessage.class, config_WxMpXmlOutVoiceMessage());
-    map.put(WxMpXmlOutTransferCustomerServiceMessage.class, config_WxMpXmlOutTransferCustomerServiceMessage());
+    map.put(WxMpXmlOutTransferKefuMessage.class, config_WxMpXmlOutTransferCustomerServiceMessage());
 
     return map;
   }
@@ -127,8 +127,8 @@ public class XStreamTransformer {
   private static XStream config_WxMpXmlOutTransferCustomerServiceMessage() {
     XStream xstream = XStreamInitializer.getInstance();
     xstream.processAnnotations(WxMpXmlOutMessage.class);
-    xstream.processAnnotations(WxMpXmlOutTransferCustomerServiceMessage.class);
-    xstream.processAnnotations(WxMpXmlOutTransferCustomerServiceMessage.TransInfo.class);
+    xstream.processAnnotations(WxMpXmlOutTransferKefuMessage.class);
+    xstream.processAnnotations(WxMpXmlOutTransferKefuMessage.TransInfo.class);
     return xstream;
   }
 

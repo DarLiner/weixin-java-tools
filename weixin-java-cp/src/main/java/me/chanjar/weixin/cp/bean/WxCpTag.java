@@ -1,17 +1,14 @@
 package me.chanjar.weixin.cp.bean;
 
-import me.chanjar.weixin.cp.util.json.WxCpGsonBuilder;
-
 import java.io.Serializable;
+
+import me.chanjar.weixin.cp.util.json.WxCpGsonBuilder;
 
 /**
  * Created by Daniel Qian
  */
 public class WxCpTag implements Serializable {
 
-  /**
-   * 
-   */
   private static final long serialVersionUID = -7243320279646928402L;
 
   private String id;

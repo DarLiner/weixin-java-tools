@@ -1,10 +1,10 @@
 package me.chanjar.weixin.cp.bean;
 
-import me.chanjar.weixin.cp.util.json.WxCpGsonBuilder;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import me.chanjar.weixin.cp.util.json.WxCpGsonBuilder;
 
 /**
  * 微信用户信息
@@ -13,9 +13,6 @@ import java.util.List;
  */
 public class WxCpUser implements Serializable {
 
-  /**
-   * 
-   */
   private static final long serialVersionUID = -5696099236344075582L;
   private final List<Attr> extAttrs = new ArrayList<>();
   private String userId;

@@ -1,6 +1,8 @@
 package me.chanjar.weixin.common.util.http;
 
-import me.chanjar.weixin.common.util.StringUtils;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
 import org.apache.http.annotation.NotThreadSafe;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -21,11 +23,11 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.protocol.HttpContext;
 
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+import me.chanjar.weixin.common.util.StringUtils;
 
 /**
  * httpclient 连接管理器
+ * @author kakotor
  */
 @NotThreadSafe
 public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
@@ -58,9 +60,8 @@ public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
 
   private HttpClientBuilder httpClientBuilder;
 
-  private boolean prepared = false;
-
   private DefaultApacheHttpClientBuilder() {
+    prepare();
   }
 
   public static DefaultApacheHttpClientBuilder get() {
@@ -153,11 +154,6 @@ public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
 
   @Override
   public CloseableHttpClient build() {
-    if (!this.prepared) {
-      prepare();
-      this.prepared = true;
-    }
-
     return this.httpClientBuilder.build();
   }
 

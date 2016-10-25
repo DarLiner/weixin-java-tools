@@ -19,7 +19,7 @@ public class WxMenuButton {
   @Override
   public String toString() {
     return ToStringBuilder.reflectionToString(this, 
-        ToStringStyle.JSON_STYLE);
+        ToStringStyle.MULTI_LINE_STYLE);
   }
   
   public String getType() {

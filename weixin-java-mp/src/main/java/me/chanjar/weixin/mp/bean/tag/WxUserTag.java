@@ -12,14 +12,14 @@ import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
 /**
  * 用户标签对象
- * @author binarywang(https://github.com/binarywang)
+ * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  *         Created by Binary Wang on 2016/9/2.
  */
 public class WxUserTag {
   /**
    * id	标签id，由微信分配
    */
-  private Integer id;
+  private Long id;
 
   /**
    * name	标签名，UTF8编码
@@ -47,11 +47,11 @@ public class WxUserTag {
     this.count = count;
   }
 
-  public Integer getId() {
+  public Long getId() {
     return this.id;
   }
 
-  public void setId(Integer id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -73,6 +73,6 @@ public class WxUserTag {
 
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
   }
 }
