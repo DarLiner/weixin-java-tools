@@ -1,10 +1,6 @@
 package me.chanjar.weixin.mp.bean.pay;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-
 import me.chanjar.weixin.common.annotation.Required;
 
 /**
@@ -23,33 +19,7 @@ import me.chanjar.weixin.common.annotation.Required;
  * @author binarywang (https://github.com/binarywang)
  */
 @XStreamAlias("xml")
-public class WxUnifiedOrderRequest {
-
-  /**
-   * <pre>
-   * 公众账号ID
-   * appid
-   * 是
-   * String(32)
-   * wxd678efh567hg6787
-   * 微信分配的公众账号ID（企业号corpid即为此appId）
-   * </pre>
-   */
-  @XStreamAlias("appid")
-  private String appid;
-
-  /**
-   * <pre>
-   * 商户号
-   * mch_id
-   * 是
-   * String(32)
-   * 1230000109
-   * 微信支付分配的商户号
-   * </pre>
-   */
-  @XStreamAlias("mch_id")
-  private String mchId;
+public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
 
   /**
    * <pre>
@@ -63,32 +33,6 @@ public class WxUnifiedOrderRequest {
    */
   @XStreamAlias("device_info")
   private String deviceInfo;
-
-  /**
-   * <pre>
-   * 随机字符串
-   * nonce_str
-   * 是
-   * String(32)
-   * 5K8264ILTKCH16CQ2502SI8ZNMTM67VS
-   * 随机字符串，不长于32位。推荐随机数生成算法
-   * </pre>
-   */
-  @XStreamAlias("nonce_str")
-  private String nonceStr;
-
-  /**
-   * <pre>
-   * 签名
-   * sign
-   * 是
-   * String(32)
-   * C380BEC2BFD727A4B6845133519F3AD6
-   * 签名，详见签名生成算法
-   * </pre>
-   */
-  @XStreamAlias("sign")
-  private String sign;
 
   /**
    * <pre>
@@ -482,11 +426,6 @@ public class WxUnifiedOrderRequest {
     this.openid = openid;
   }
 
-  @Override
-  public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
-  }
-
   public static WxUnifiedOrderRequestBuilder builder() {
     return new WxUnifiedOrderRequestBuilder();
   }
@@ -613,7 +552,7 @@ public class WxUnifiedOrderRequest {
       return this;
     }
 
-    public WxUnifiedOrderRequestBuilder from(WxUnifiedOrderRequest origin) {
+    public WxUnifiedOrderRequestBuilder from(WxPayUnifiedOrderRequest origin) {
       this.appid(origin.appid);
       this.mchId(origin.mchId);
       this.deviceInfo(origin.deviceInfo);
@@ -637,8 +576,8 @@ public class WxUnifiedOrderRequest {
       return this;
     }
 
-    public WxUnifiedOrderRequest build() {
-      WxUnifiedOrderRequest m = new WxUnifiedOrderRequest();
+    public WxPayUnifiedOrderRequest build() {
+      WxPayUnifiedOrderRequest m = new WxPayUnifiedOrderRequest();
       m.appid = this.appid;
       m.mchId = this.mchId;
       m.deviceInfo = this.deviceInfo;

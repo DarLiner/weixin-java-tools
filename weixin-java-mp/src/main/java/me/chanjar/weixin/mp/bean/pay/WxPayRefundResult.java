@@ -1,8 +1,6 @@
 package me.chanjar.weixin.mp.bean.pay;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.io.Serializable;
 
@@ -15,38 +13,11 @@ import java.io.Serializable;
  *
  */
 @XStreamAlias("xml")
-public class WxMpPayRefundResult implements Serializable {
+public class WxPayRefundResult extends WxPayBaseResult implements Serializable{
   private static final long serialVersionUID = 1L;
-
-  @XStreamAlias("return_code")
-  private String returnCode;
-
-  @XStreamAlias("return_msg")
-  private String returnMsg;
-
-  @XStreamAlias("result_code")
-  private String resultCode;
-
-  @XStreamAlias("err_code")
-  private String errCode;
-
-  @XStreamAlias("err_code_des")
-  private String errCodeDes;
-
-  @XStreamAlias("appid")
-  private String appid;
-
-  @XStreamAlias("mch_id")
-  private String mchId;
 
   @XStreamAlias("device_info")
   private String deviceInfo;
-
-  @XStreamAlias("nonce_str")
-  private String nonceStr;
-
-  @XStreamAlias("sign")
-  private String sign;
 
   @XStreamAlias("transaction_id")
   private String transactionId;
@@ -103,68 +74,12 @@ public class WxMpPayRefundResult implements Serializable {
     this.returnMsg = returnMsg;
   }
 
-  public String getResultCode() {
-    return this.resultCode;
-  }
-
-  public void setResultCode(String resultCode) {
-    this.resultCode = resultCode;
-  }
-
-  public String getErrCode() {
-    return this.errCode;
-  }
-
-  public void setErrCode(String errCode) {
-    this.errCode = errCode;
-  }
-
-  public String getErrCodeDes() {
-    return this.errCodeDes;
-  }
-
-  public void setErrCodeDes(String errCodeDes) {
-    this.errCodeDes = errCodeDes;
-  }
-
-  public String getAppid() {
-    return this.appid;
-  }
-
-  public void setAppid(String appid) {
-    this.appid = appid;
-  }
-
-  public String getMchId() {
-    return this.mchId;
-  }
-
-  public void setMchId(String mchId) {
-    this.mchId = mchId;
-  }
-
   public String getDeviceInfo() {
     return this.deviceInfo;
   }
 
   public void setDeviceInfo(String deviceInfo) {
     this.deviceInfo = deviceInfo;
-  }
-
-  public String getNonceStr() {
-    return this.nonceStr;
-  }
-
-  public void setNonceStr(String nonceStr) {
-    this.nonceStr = nonceStr;
-  }
-
-  public String getSign() {
-    return this.sign;
-  }
-
-  public void setSign(String sign) {
-    this.sign = sign;
   }
 
   public String getTransactionId() {
@@ -269,11 +184,6 @@ public class WxMpPayRefundResult implements Serializable {
 
   public void setCouponRefundId(String couponRefundId) {
     this.couponRefundId = couponRefundId;
-  }
-
-  @Override
-  public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
   }
 
 }

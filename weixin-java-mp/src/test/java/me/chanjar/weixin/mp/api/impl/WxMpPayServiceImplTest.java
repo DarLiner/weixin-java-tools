@@ -28,24 +28,19 @@ public class WxMpPayServiceImplTest {
   }
 
   @Test
-  public void testGetJSSDKPayResult() throws Exception {
-
-  }
-
-  @Test
   public void testGetJSSDKCallbackData() throws Exception {
 
   }
 
   @Test
   public void testRefund() throws Exception {
-    WxMpPayRefundRequest request = new WxMpPayRefundRequest();
+    WxPayRefundRequest request = new WxPayRefundRequest();
     request.setOutRefundNo("aaa");
     request.setOutTradeNo("1111");
     request.setTotalFee(1222);
     request.setRefundFee(111);
     File keyFile = new File("E:\\dlt.p12");
-    WxMpPayRefundResult result = this.wxService.getPayService().refund(request, keyFile);
+    WxPayRefundResult result = this.wxService.getPayService().refund(request, keyFile);
     System.err.println(result);
   }
 
@@ -56,28 +51,39 @@ public class WxMpPayServiceImplTest {
 
   @Test
   public void testSendRedpack() throws Exception {
-    WxSendRedpackRequest request = new WxSendRedpackRequest();
+    WxPaySendRedpackRequest request = new WxPaySendRedpackRequest();
     request.setActName("abc");
     request.setClientIp("aaa");
     request.setMchBillno("aaaa");
     request
         .setReOpenid(((WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage()).getOpenid());
     File keyFile = new File("E:\\dlt.p12");
-    WxRedpackResult redpackResult = this.wxService.getPayService().sendRedpack(request, keyFile);
+    WxPaySendRedpackResult redpackResult = this.wxService.getPayService().sendRedpack(request, keyFile);
     System.err.println(redpackResult);
   }
 
   /**
-   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#unifiedOrder(me.chanjar.weixin.mp.bean.pay.WxUnifiedOrderRequest)}.
+   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#unifiedOrder(WxPayUnifiedOrderRequest)}.
    * @throws WxErrorException
    */
   @Test
   public void testUnifiedOrder() throws WxErrorException {
-    WxUnifiedOrderResult result = this.wxService.getPayService()
-        .unifiedOrder(WxUnifiedOrderRequest.builder().body("1111111")
+    WxPayUnifiedOrderResult result = this.wxService.getPayService()
+        .unifiedOrder(WxPayUnifiedOrderRequest.builder().body("1111111")
             .totalFee(1).spbillCreateIp("111111").notifyURL("111111")
             .tradeType("JSAPI").openid("122").outTradeNo("111111").build());
     System.err.println(result);
+  }
+
+  /**
+   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#queryOrder(String, String)} .
+   * @throws WxErrorException
+   */
+  @Test
+  public final void testQueryOrder() throws WxErrorException {
+    //System.err.println(this.wxService.getPayService().queryOrder(null, null));
+    System.err.println(this.wxService.getPayService().queryOrder("11212121", null));
+    System.err.println(this.wxService.getPayService().queryOrder(null, "11111"));
   }
 
   /**

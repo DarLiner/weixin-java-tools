@@ -46,64 +46,26 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   }
 
   @Override
-  public WxMpPayResult getJSSDKPayResult(String transactionId,
-      String outTradeNo) throws WxErrorException {
-    String nonce_str = System.currentTimeMillis() + "";
-
-    SortedMap<String, String> packageParams = new TreeMap<>();
-    packageParams.put("appid",
-        this.wxMpService.getWxMpConfigStorage().getAppId());
-    packageParams.put("mch_id",
-        this.wxMpService.getWxMpConfigStorage().getPartnerId());
-
-    if (transactionId != null && !"".equals(transactionId.trim())) {
-      packageParams.put("transaction_id", transactionId);
-    } else if (outTradeNo != null && !"".equals(outTradeNo.trim())) {
-      packageParams.put("out_trade_no", outTradeNo);
-    } else {
-      throw new IllegalArgumentException(
-          "Either 'transactionId' or 'outTradeNo' must be given.");
-    }
-
-    packageParams.put("nonce_str", nonce_str);
-    packageParams.put("sign", this.createSign(packageParams,
-        this.wxMpService.getWxMpConfigStorage().getPartnerKey()));
-
-    StringBuilder request = new StringBuilder("<xml>");
-    for (Map.Entry<String, String> para : packageParams.entrySet()) {
-      request.append(String.format("<%s>%s</%s>", para.getKey(),
-          para.getValue(), para.getKey()));
-    }
-    request.append("</xml>");
-
-    String url = PAY_BASE_URL + "/pay/orderquery";
-    String responseContent = this.wxMpService.post(url, request.toString());
-    XStream xstream = XStreamInitializer.getInstance();
-    xstream.alias("xml", WxMpPayResult.class);
-    return (WxMpPayResult) xstream.fromXML(responseContent);
-  }
-
-  @Override
-  public WxMpPayCallback getJSSDKCallbackData(String xmlData) {
+  public WxPayJsSDKCallback getJSSDKCallbackData(String xmlData) {
     try {
       XStream xstream = XStreamInitializer.getInstance();
-      xstream.alias("xml", WxMpPayCallback.class);
-      return (WxMpPayCallback) xstream.fromXML(xmlData);
+      xstream.alias("xml", WxPayJsSDKCallback.class);
+      return (WxPayJsSDKCallback) xstream.fromXML(xmlData);
     } catch (Exception e) {
       e.printStackTrace();
     }
 
-    return new WxMpPayCallback();
+    return new WxPayJsSDKCallback();
   }
 
   @Override
-  public WxMpPayRefundResult refund(WxMpPayRefundRequest request, File keyFile)
+  public WxPayRefundResult refund(WxPayRefundRequest request, File keyFile)
       throws WxErrorException {
     checkParameters(request);
 
     XStream xstream = XStreamInitializer.getInstance();
-    xstream.processAnnotations(WxMpPayRefundResult.class);
-    xstream.processAnnotations(WxMpPayRefundRequest.class);
+    xstream.processAnnotations(WxPayRefundResult.class);
+    xstream.processAnnotations(WxPayRefundRequest.class);
 
     request.setAppid(this.wxMpService.getWxMpConfigStorage().getAppId());
     String partnerId = this.wxMpService.getWxMpConfigStorage().getPartnerId();
@@ -115,7 +77,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
 
     String url = PAY_BASE_URL + "/secapi/pay/refund";
     String responseContent = this.executeRequestWithKeyFile(url, keyFile, xstream.toXML(request), partnerId);
-    WxMpPayRefundResult wxMpPayRefundResult = (WxMpPayRefundResult) xstream.fromXML(responseContent);
+    WxPayRefundResult wxMpPayRefundResult = (WxPayRefundResult) xstream.fromXML(responseContent);
 
     if (!"SUCCESS".equalsIgnoreCase(wxMpPayRefundResult.getResultCode())
         || !"SUCCESS".equalsIgnoreCase(wxMpPayRefundResult.getReturnCode())) {
@@ -132,7 +94,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     return wxMpPayRefundResult;
   }
 
-  private void checkParameters(WxMpPayRefundRequest request) throws WxErrorException {
+  private void checkParameters(WxPayRefundRequest request) throws WxErrorException {
     BeanUtils.checkRequiredFields(request);
 
     if (StringUtils.isNotBlank(request.getRefundAccount())) {
@@ -154,11 +116,11 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   }
 
   @Override
-  public WxRedpackResult sendRedpack(WxSendRedpackRequest request, File keyFile)
+  public WxPaySendRedpackResult sendRedpack(WxPaySendRedpackRequest request, File keyFile)
       throws WxErrorException {
     XStream xstream = XStreamInitializer.getInstance();
-    xstream.processAnnotations(WxSendRedpackRequest.class);
-    xstream.processAnnotations(WxRedpackResult.class);
+    xstream.processAnnotations(WxPaySendRedpackRequest.class);
+    xstream.processAnnotations(WxPaySendRedpackResult.class);
 
     request.setWxAppid(this.wxMpService.getWxMpConfigStorage().getAppId());
     String mchId = this.wxMpService.getWxMpConfigStorage().getPartnerId();
@@ -176,7 +138,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     }
 
     String responseContent = this.executeRequestWithKeyFile(url, keyFile, xstream.toXML(request), mchId);
-    WxRedpackResult redpackResult = (WxRedpackResult) xstream
+    WxPaySendRedpackResult redpackResult = (WxPaySendRedpackResult) xstream
         .fromXML(responseContent);
     if ("FAIL".equals(redpackResult.getResultCode())) {
       throw new WxErrorException(WxError.newBuilder()
@@ -212,13 +174,49 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   }
 
   @Override
-  public WxUnifiedOrderResult unifiedOrder(WxUnifiedOrderRequest request)
+  public WxPayOrderQueryResult queryOrder(String transactionId, String outTradeNo) throws WxErrorException {
+    if ((StringUtils.isBlank(transactionId) && StringUtils.isBlank(outTradeNo)) ||
+      (StringUtils.isNotBlank(transactionId) && StringUtils.isNotBlank(outTradeNo))) {
+      throw new IllegalArgumentException("transaction_id 和 out_trade_no 不能同时存在或同时为空，必须二选一");
+    }
+
+    XStream xstream = XStreamInitializer.getInstance();
+    xstream.processAnnotations(WxPayOrderQueryRequest.class);
+    xstream.processAnnotations(WxPayOrderQueryResult.class);
+
+    WxPayOrderQueryRequest request = new WxPayOrderQueryRequest();
+    request.setOutTradeNo(StringUtils.trimToNull(outTradeNo));
+    request.setTransactionId(StringUtils.trimToNull(transactionId));
+    request.setAppid(this.wxMpService.getWxMpConfigStorage().getAppId());
+    request.setMchId(this.wxMpService.getWxMpConfigStorage().getPartnerId());
+    request.setNonceStr(System.currentTimeMillis() + "");
+
+    String sign = this.createSign(BeanUtils.xmlBean2Map(request),
+      this.wxMpService.getWxMpConfigStorage().getPartnerKey());
+    request.setSign(sign);
+
+    String url = PAY_BASE_URL + "/pay/orderquery";
+
+    String responseContent = this.wxMpService.post(url, xstream.toXML(request));
+    WxPayOrderQueryResult result = (WxPayOrderQueryResult) xstream.fromXML(responseContent);
+    result.composeCoupons(responseContent);
+    if ("FAIL".equals(result.getResultCode())) {
+      throw new WxErrorException(WxError.newBuilder()
+        .setErrorMsg(result.getErrCode() + ":" + result.getErrCodeDes())
+        .build());
+    }
+
+    return result;
+  }
+
+  @Override
+  public WxPayUnifiedOrderResult unifiedOrder(WxPayUnifiedOrderRequest request)
       throws WxErrorException {
     checkParameters(request);
 
     XStream xstream = XStreamInitializer.getInstance();
-    xstream.processAnnotations(WxUnifiedOrderRequest.class);
-    xstream.processAnnotations(WxUnifiedOrderResult.class);
+    xstream.processAnnotations(WxPayUnifiedOrderRequest.class);
+    xstream.processAnnotations(WxPayUnifiedOrderResult.class);
 
     request.setAppid(this.wxMpService.getWxMpConfigStorage().getAppId());
     request.setMchId(this.wxMpService.getWxMpConfigStorage().getPartnerId());
@@ -231,7 +229,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     String url = PAY_BASE_URL + "/pay/unifiedorder";
 
     String responseContent = this.wxMpService.post(url, xstream.toXML(request));
-    WxUnifiedOrderResult result = (WxUnifiedOrderResult) xstream
+    WxPayUnifiedOrderResult result = (WxPayUnifiedOrderResult) xstream
         .fromXML(responseContent);
     if ("FAIL".equals(result.getResultCode())) {
       throw new WxErrorException(WxError.newBuilder()
@@ -242,7 +240,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     return result;
   }
 
-  private void checkParameters(WxUnifiedOrderRequest request) throws WxErrorException {
+  private void checkParameters(WxPayUnifiedOrderRequest request) throws WxErrorException {
     BeanUtils.checkRequiredFields(request);
 
     if (! ArrayUtils.contains(TRADE_TYPES, request.getTradeType())) {
@@ -259,8 +257,8 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   }
 
   @Override
-  public Map<String, String> getPayInfo(WxUnifiedOrderRequest request) throws WxErrorException {
-    WxUnifiedOrderResult unifiedOrderResult = this.unifiedOrder(request);
+  public Map<String, String> getPayInfo(WxPayUnifiedOrderRequest request) throws WxErrorException {
+    WxPayUnifiedOrderResult unifiedOrderResult = this.unifiedOrder(request);
 
     if (!"SUCCESS".equalsIgnoreCase(unifiedOrderResult.getReturnCode())
         || !"SUCCESS".equalsIgnoreCase(unifiedOrderResult.getResultCode())) {

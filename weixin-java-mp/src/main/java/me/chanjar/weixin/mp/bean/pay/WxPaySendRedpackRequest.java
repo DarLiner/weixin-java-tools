@@ -8,7 +8,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
  * @author binarywang (https://github.com/binarywang)
  */
 @XStreamAlias("xml")
-public class WxSendRedpackRequest {
+public class WxPaySendRedpackRequest {
   /**
   * mch_billno
   * 商户订单号（每个订单号必须唯一）  组成：mch_id+yyyymmdd+10位一天内不能重复的数字。  接口根据商户订单号支持重入，如出现超时可再调用。
@@ -18,7 +18,7 @@ public class WxSendRedpackRequest {
 
   /**
    * send_name
-   * 商户名称 
+   * 商户名称
    * 红包发送者名称
    */
   @XStreamAlias("send_name")
@@ -117,7 +117,7 @@ public class WxSendRedpackRequest {
    * 场景id
    * PRODUCT_1:商品促销
    * PRODUCT_2:抽奖
-   * PRODUCT_3:虚拟物品兑奖 
+   * PRODUCT_3:虚拟物品兑奖
    * PRODUCT_4:企业内部福利
    * PRODUCT_5:渠道分润
    * PRODUCT_6:保险回馈
@@ -135,7 +135,7 @@ public class WxSendRedpackRequest {
    * 活动信息
    * posttime:用户操作的时间戳
    * mobile:业务系统账号的手机号，国家代码-手机号。不需要+号
-   * deviceid :mac 地址或者设备唯一标识 
+   * deviceid :mac 地址或者设备唯一标识
    * clientversion :用户操作的客户端版本
    * 把值为非空的信息用key=value进行拼接，再进行urlencode
    * urlencode(posttime=xx&mobile=xx&deviceid=xx)
@@ -150,7 +150,7 @@ public class WxSendRedpackRequest {
    * consume_mch_id
    * 资金授权商户号
    * 资金授权商户号
-   * 服务商替特约商户发放时使用  
+   * 服务商替特约商户发放时使用
    * 非必填字段
    * </pre>
    */

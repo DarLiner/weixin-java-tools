@@ -19,7 +19,7 @@ import me.chanjar.weixin.common.annotation.Required;
  *         Created by Binary Wang on 2016-10-08.
  */
 @XStreamAlias("xml")
-public class WxMpPayRefundRequest {
+public class WxPayRefundRequest {
   /**
    * <pre>
    * 公众账号ID

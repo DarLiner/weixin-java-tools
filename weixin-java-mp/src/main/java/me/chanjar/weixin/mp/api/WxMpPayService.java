@@ -14,6 +14,23 @@ import java.util.Map;
 public interface WxMpPayService {
 
   /**
+   * <pre>
+   * 查询订单(详见https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_2)
+   * 该接口提供所有微信支付订单的查询，商户可以通过查询订单接口主动查询订单状态，完成下一步的业务逻辑。
+   * 需要调用查询接口的情况：
+   ◆ 当商户后台、网络、服务器等出现异常，商户系统最终未接收到支付通知；
+   ◆ 调用支付接口后，返回系统错误或未知交易状态情况；
+   ◆ 调用被扫支付API，返回USERPAYING的状态；
+   ◆ 调用关单或撤销接口API之前，需确认支付状态；
+   * 接口地址：https://api.mch.weixin.qq.com/pay/orderquery
+   * </pre>
+   * @param transactionId 微信支付分配的商户号
+   * @param outTradeNo 商户系统内部的订单号，当没提供transaction_id时需要传这个。
+   * @throws WxErrorException
+   */
+  WxPayOrderQueryResult queryOrder(String transactionId, String outTradeNo) throws WxErrorException;
+
+  /**
    * 统一下单(详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1)
    * 在发起微信支付前，需要调用统一下单接口，获取"预支付交易会话标识"
    * 接口地址：https://api.mch.weixin.qq.com/pay/unifiedorder
@@ -21,31 +38,21 @@ public interface WxMpPayService {
    * @param request 请求对象
    *
    */
-  WxUnifiedOrderResult unifiedOrder(WxUnifiedOrderRequest request)
-      throws WxErrorException;
+  WxPayUnifiedOrderResult unifiedOrder(WxPayUnifiedOrderRequest request) throws WxErrorException;
 
   /**
    * 该接口调用“统一下单”接口，并拼装发起支付请求需要的参数
    * 详见http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115&token=&lang=zh_CN
    * @param request 请求对象
    */
-  Map<String, String> getPayInfo(WxUnifiedOrderRequest request) throws WxErrorException;
-
-  /**
-   * 该接口提供所有微信支付订单的查询,当支付通知处理异常戒丢失的情冴,商户可以通过该接口查询订单支付状态。
-   * 详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_2
-   * @throws WxErrorException
-   *
-   */
-  WxMpPayResult getJSSDKPayResult(String transactionId, String outTradeNo)
-      throws WxErrorException;
+  Map<String, String> getPayInfo(WxPayUnifiedOrderRequest request) throws WxErrorException;
 
   /**
    * 读取支付结果通知
    * 详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_7
    *
    */
-  WxMpPayCallback getJSSDKCallbackData(String xmlData);
+  WxPayJsSDKCallback getJSSDKCallbackData(String xmlData);
 
   /**
    * <pre>
@@ -57,7 +64,7 @@ public interface WxMpPayService {
    * @param keyFile  证书文件对象
    * @return 退款操作结果
    */
-  WxMpPayRefundResult refund(WxMpPayRefundRequest request, File keyFile) throws WxErrorException;
+  WxPayRefundResult refund(WxPayRefundRequest request, File keyFile) throws WxErrorException;
 
   /**
    * <pre>
@@ -78,7 +85,7 @@ public interface WxMpPayService {
    * @param request 请求对象
    * @param keyFile  证书文件对象
    */
-  WxRedpackResult sendRedpack(WxSendRedpackRequest request, File keyFile) throws WxErrorException;
+  WxPaySendRedpackResult sendRedpack(WxPaySendRedpackRequest request, File keyFile) throws WxErrorException;
 
   /**
    * <pre>

@@ -4,16 +4,16 @@ import java.io.Serializable;
 
 /**
  * pre> 订单支付状态回调
- * 
+ *
  * 支付结果通知(详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_7)
  *
  * /pre>
  *
  * @author ukid
  */
-public class WxMpPayCallback implements Serializable {
+public class WxPayJsSDKCallback implements Serializable {
     /**
-   * 
+   *
    */
   private static final long serialVersionUID = -4143804055690843641L;
     private String return_code;
@@ -263,7 +263,7 @@ public class WxMpPayCallback implements Serializable {
 
     @Override
     public String toString() {
-        return "WxMpPayCallback [return_code=" + this.return_code + ", return_msg="
+        return "WxPayJsSDKCallback [return_code=" + this.return_code + ", return_msg="
                 + this.return_msg + ", appid=" + this.appid + ", mch_id=" + this.mch_id
                 + ", device_info=" + this.device_info + ", nonce_str=" + this.nonce_str
                 + ", sign=" + this.sign + ", result_code=" + this.result_code
