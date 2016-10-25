@@ -9,7 +9,7 @@
   <packaging>pom</packaging>
   <name>WeiXin Java Tools - Parent</name>
   <description>微信公众号、企业号上级POM</description>
-  <url>https://github.com/binarywang/weixin-java-tools</url>
+  <url>https://github.com/wechat-group/weixin-java-tools</url>
 
   <licenses>
     <license>
@@ -22,17 +22,24 @@
     <developer>
       <name>Daniel Qian</name>
       <email>chanjarster@gmail.com</email>
+      <url>https://github.com/chanjarster</url>
     </developer>
     <developer>
       <name>Binary Wang</name>
       <email>binarywang@gmail.com</email>
+      <url>https://github.com/binarywang</url>
+    </developer>
+    <developer>
+      <name>gaigeshen</name>
+      <email>gaigeshen@qq.com</email>
+      <url>https://github.com/gaigeshen</url>
     </developer>
   </developers>
 
   <scm>
-    <connection>scm:git:https://github.com/binarywang/weixin-java-tools.git</connection>
-    <developerConnection>scm:git:git@github.com:binarywang/weixin-java-tools.git</developerConnection>
-    <url>https://github.com/binarywang/weixin-java-tools</url>
+    <connection>scm:git:https://github.com/wechat-group/weixin-java-tools.git</connection>
+    <developerConnection>scm:git:git@github.com:wechat-group/weixin-java-tools.git</developerConnection>
+    <url>https://github.com/wechat-group/weixin-java-tools</url>
   </scm>
 
   <modules>
