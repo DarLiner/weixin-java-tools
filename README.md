@@ -11,7 +11,8 @@
 ===========
 
 ## 开发交流方式及注意事项：
-1. QQ群：343954419（因群人数限制即将爆满，故开启付费加群方式并不定期清理不活跃人群，感谢理解） [![Join QQ Group](http://pub.idqqimg.com/wpa/images/group.png)](http://jq.qq.com/?_wv=1027&k=40lRskK)
+1. ***QQ群入群须知：为保证入群成员质量，请申请入群前，先Star本项目，然后在申请入群时，输入您的Github帐号ID，以便管理员核对，ID即你的github主页地址https://github.com/XXXX 中最后的部分XXXX的内容，或者在github网页右上角点击头像后查看Signed in as后方内容。***
+1. QQ群：343954419 [![Join QQ Group](http://pub.idqqimg.com/wpa/images/group.png)](http://jq.qq.com/?_wv=1027&k=40lRskK)
 1. 微信群： 因微信群已达到100人限制，故如有想加入微信群的，请入QQ群后联系管理员，提供微信号以便邀请加入；
 1. 新手提问前，请先阅读此文章：http://t.cn/RV93MRB
 1. 寻求帮助时需贴代码或大长串异常信息的，请利用http://paste.ubuntu.com
