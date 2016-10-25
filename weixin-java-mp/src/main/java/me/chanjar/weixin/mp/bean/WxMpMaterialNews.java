@@ -1,17 +1,16 @@
 package me.chanjar.weixin.mp.bean;
 
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class WxMpMaterialNews implements Serializable {
-
-  /**
-   * 
-   */
   private static final long serialVersionUID = -3283203652013494976L;
+
   private List<WxMpMaterialNewsArticle> articles = new ArrayList<>();
 
   public List<WxMpMaterialNewsArticle> getArticles() {
@@ -81,7 +80,6 @@ public class WxMpMaterialNews implements Serializable {
 
     /**
      * 点击图文消息跳转链接
-     * @return
     */
     private String url;
 
@@ -159,14 +157,12 @@ public class WxMpMaterialNews implements Serializable {
 
     @Override
     public String toString() {
-      return "WxMpMassNewsArticle [" + "thumbMediaId=" + this.thumbMediaId + "thumbUrl=" + this.thumbUrl + ", author=" + this.author + ", title=" + this.title +
-          ", contentSourceUrl=" + this.contentSourceUrl + ", content=" + this.content + ", digest=" + this.digest +
-          ", showCoverPic=" + this.showCoverPic +", url=" + this.url + "]";
+      return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
   }
 
   @Override
   public String toString() {
-    return "WxMpMaterialNews [" + "articles=" + this.articles + "]";
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
   }
 }

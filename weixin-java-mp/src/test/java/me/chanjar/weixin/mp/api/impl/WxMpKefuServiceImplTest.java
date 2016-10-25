@@ -1,29 +1,21 @@
 package me.chanjar.weixin.mp.api.impl;
 
-import java.io.File;
-import java.util.Date;
-
+import com.google.inject.Inject;
+import me.chanjar.weixin.common.api.WxConsts;
+import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.mp.api.ApiTestModule;
+import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage;
+import me.chanjar.weixin.mp.bean.kefu.request.WxMpKfAccountRequest;
+import me.chanjar.weixin.mp.bean.kefu.result.*;
 import org.joda.time.DateTime;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
 
-import com.google.inject.Inject;
-
-import me.chanjar.weixin.common.api.WxConsts;
-import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.mp.api.ApiTestModule;
-import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
-import me.chanjar.weixin.mp.bean.kefu.request.WxMpKfAccountRequest;
-import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfInfo;
-import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfList;
-import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfMsgList;
-import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfOnlineList;
-import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfSessionGetResult;
-import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfSessionList;
-import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfSessionWaitCaseList;
+import java.io.File;
+import java.util.Date;
 
 /**
  * 测试客服相关接口
@@ -37,7 +29,18 @@ public class WxMpKefuServiceImplTest {
   @Inject
   protected WxMpServiceImpl wxService;
 
-  public void testSendCustomMessage() throws WxErrorException {
+  public void testSendKefuMpNewsMessage() throws WxErrorException {
+    WxXmlMpInMemoryConfigStorage configStorage = (WxXmlMpInMemoryConfigStorage) this.wxService
+      .getWxMpConfigStorage();
+    WxMpKefuMessage message = new WxMpKefuMessage();
+    message.setMsgType(WxConsts.CUSTOM_MSG_MPNEWS);
+    message.setToUser(configStorage.getOpenid());
+    message.setMpNewsMediaId("52R6dL2FxDpM9N1rCY3sYBqHwq-L7K_lz1sPI71idMg");
+
+    this.wxService.getKefuService().sendKefuMessage(message);
+  }
+
+  public void testSendKefuMessage() throws WxErrorException {
     WxXmlMpInMemoryConfigStorage configStorage = (WxXmlMpInMemoryConfigStorage) this.wxService
         .getWxMpConfigStorage();
     WxMpKefuMessage message = new WxMpKefuMessage();
@@ -49,7 +52,7 @@ public class WxMpKefuServiceImplTest {
     this.wxService.getKefuService().sendKefuMessage(message);
   }
 
-  public void testSendCustomMessageWithKfAccount() throws WxErrorException {
+  public void testSendKefuMessageWithKfAccount() throws WxErrorException {
     WxXmlMpInMemoryConfigStorage configStorage = (WxXmlMpInMemoryConfigStorage) this.wxService
         .getWxMpConfigStorage();
     WxMpKefuMessage message = new WxMpKefuMessage();

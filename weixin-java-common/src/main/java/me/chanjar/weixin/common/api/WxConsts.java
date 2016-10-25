@@ -23,14 +23,15 @@ public class WxConsts {
   ///////////////////////
   // 主动发送消息(即客服消息)的消息类型
   ///////////////////////
-  public static final String CUSTOM_MSG_TEXT = "text";
-  public static final String CUSTOM_MSG_IMAGE = "image";
-  public static final String CUSTOM_MSG_VOICE = "voice";
-  public static final String CUSTOM_MSG_VIDEO = "video";
-  public static final String CUSTOM_MSG_MUSIC = "music";
-  public static final String CUSTOM_MSG_NEWS = "news";
-  public static final String CUSTOM_MSG_FILE = "file";
-  public static final String CUSTOM_MSG_WXCARD = "wxcard";
+  public static final String CUSTOM_MSG_TEXT = "text";//文本消息
+  public static final String CUSTOM_MSG_IMAGE = "image";//图片消息
+  public static final String CUSTOM_MSG_VOICE = "voice";//语音消息
+  public static final String CUSTOM_MSG_VIDEO = "video";//视频消息
+  public static final String CUSTOM_MSG_MUSIC = "music";//音乐消息
+  public static final String CUSTOM_MSG_NEWS = "news";//图文消息（点击跳转到外链）
+  public static final String CUSTOM_MSG_MPNEWS = "mpnews";//图文消息（点击跳转到图文消息页面）
+  public static final String CUSTOM_MSG_FILE = "file";//发送文件（CP专用）
+  public static final String CUSTOM_MSG_WXCARD = "wxcard";//卡券消息
   public static final String CUSTOM_MSG_TRANSFER_CUSTOMER_SERVICE = "transfer_customer_service";
   public static final String CUSTOM_MSG_SAFE_NO = "0";
   public static final String CUSTOM_MSG_SAFE_YES = "1";
@@ -193,7 +194,7 @@ public class WxConsts {
    * 弹出授权页面，可通过openid拿到昵称、性别、所在地。并且，即使在未关注的情况下，只要用户授权，也能获取其信息
    */
   public static final String OAUTH2_SCOPE_USER_INFO = "snsapi_userinfo";
-  
+
   /**
    * 网页应用登录授权作用域 snsapi_login
    */
