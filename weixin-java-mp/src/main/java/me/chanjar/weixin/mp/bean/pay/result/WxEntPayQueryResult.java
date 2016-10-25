@@ -10,7 +10,6 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 @XStreamAlias("xml")
 public class WxEntPayQueryResult extends WxPayBaseResult {
 
-  //############以下字段在return_code 和result_code都为SUCCESS的时候有返回##############
   /**
    * 商户订单号
    */
@@ -64,22 +63,6 @@ public class WxEntPayQueryResult extends WxPayBaseResult {
    */
   @XStreamAlias("desc")
   private String desc;
-
-  public String getReturnCode() {
-    return this.returnCode;
-  }
-
-  public void setReturnCode(String returnCode) {
-    this.returnCode = returnCode;
-  }
-
-  public String getReturnMsg() {
-    return this.returnMsg;
-  }
-
-  public void setReturnMsg(String returnMsg) {
-    this.returnMsg = returnMsg;
-  }
 
   public String getPartnerTradeNo() {
     return this.partnerTradeNo;

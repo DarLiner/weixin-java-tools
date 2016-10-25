@@ -76,7 +76,7 @@ public class WxMpTemplate {
   private String example;
 
   public String getTemplateId() {
-    return templateId;
+    return this.templateId;
   }
 
   public void setTemplateId(String templateId) {
@@ -84,7 +84,7 @@ public class WxMpTemplate {
   }
 
   public String getTitle() {
-    return title;
+    return this.title;
   }
 
   public void setTitle(String title) {
@@ -92,7 +92,7 @@ public class WxMpTemplate {
   }
 
   public String getPrimaryIndustry() {
-    return primaryIndustry;
+    return this.primaryIndustry;
   }
 
   public void setPrimaryIndustry(String primaryIndustry) {
@@ -100,7 +100,7 @@ public class WxMpTemplate {
   }
 
   public String getDeputyIndustry() {
-    return deputyIndustry;
+    return this.deputyIndustry;
   }
 
   public void setDeputyIndustry(String deputyIndustry) {
@@ -108,7 +108,7 @@ public class WxMpTemplate {
   }
 
   public String getContent() {
-    return content;
+    return this.content;
   }
 
   public void setContent(String content) {
@@ -116,7 +116,7 @@ public class WxMpTemplate {
   }
 
   public String getExample() {
-    return example;
+    return this.example;
   }
 
   public void setExample(String example) {
