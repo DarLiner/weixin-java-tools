@@ -181,7 +181,7 @@ public class WxEntPayRequest {
   private String spbillCreateIp;
 
   public String getMchAppid() {
-    return mchAppid;
+    return this.mchAppid;
   }
 
   public void setMchAppid(String mchAppid) {
@@ -189,7 +189,7 @@ public class WxEntPayRequest {
   }
 
   public String getMchId() {
-    return mchId;
+    return this.mchId;
   }
 
   public void setMchId(String mchId) {
@@ -197,7 +197,7 @@ public class WxEntPayRequest {
   }
 
   public String getDeviceInfo() {
-    return deviceInfo;
+    return this.deviceInfo;
   }
 
   public void setDeviceInfo(String deviceInfo) {
@@ -205,7 +205,7 @@ public class WxEntPayRequest {
   }
 
   public String getNonceStr() {
-    return nonceStr;
+    return this.nonceStr;
   }
 
   public void setNonceStr(String nonceStr) {
@@ -213,7 +213,7 @@ public class WxEntPayRequest {
   }
 
   public String getSign() {
-    return sign;
+    return this.sign;
   }
 
   public void setSign(String sign) {
@@ -221,7 +221,7 @@ public class WxEntPayRequest {
   }
 
   public String getPartnerTradeNo() {
-    return partnerTradeNo;
+    return this.partnerTradeNo;
   }
 
   public void setPartnerTradeNo(String partnerTradeNo) {
@@ -229,7 +229,7 @@ public class WxEntPayRequest {
   }
 
   public String getOpenid() {
-    return openid;
+    return this.openid;
   }
 
   public void setOpenid(String openid) {
@@ -237,7 +237,7 @@ public class WxEntPayRequest {
   }
 
   public String getCheckName() {
-    return checkName;
+    return this.checkName;
   }
 
   public void setCheckName(String checkName) {
@@ -245,7 +245,7 @@ public class WxEntPayRequest {
   }
 
   public String getReUserName() {
-    return reUserName;
+    return this.reUserName;
   }
 
   public void setReUserName(String reUserName) {
@@ -253,7 +253,7 @@ public class WxEntPayRequest {
   }
 
   public Integer getAmount() {
-    return amount;
+    return this.amount;
   }
 
   public void setAmount(Integer amount) {
@@ -261,7 +261,7 @@ public class WxEntPayRequest {
   }
 
   public String getDescription() {
-    return description;
+    return this.description;
   }
 
   public void setDescription(String description) {
@@ -269,7 +269,7 @@ public class WxEntPayRequest {
   }
 
   public String getSpbillCreateIp() {
-    return spbillCreateIp;
+    return this.spbillCreateIp;
   }
 
   public void setSpbillCreateIp(String spbillCreateIp) {

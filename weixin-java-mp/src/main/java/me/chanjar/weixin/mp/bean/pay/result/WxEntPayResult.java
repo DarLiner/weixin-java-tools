@@ -42,7 +42,7 @@ public class WxEntPayResult extends WxPayBaseResult {
   private String paymentTime;
 
   public String getMchAppid() {
-    return mchAppid;
+    return this.mchAppid;
   }
 
   public void setMchAppid(String mchAppid) {
@@ -50,7 +50,7 @@ public class WxEntPayResult extends WxPayBaseResult {
   }
 
   public String getDeviceInfo() {
-    return deviceInfo;
+    return this.deviceInfo;
   }
 
   public void setDeviceInfo(String deviceInfo) {
@@ -58,7 +58,7 @@ public class WxEntPayResult extends WxPayBaseResult {
   }
 
   public String getPartnerTradeNo() {
-    return partnerTradeNo;
+    return this.partnerTradeNo;
   }
 
   public void setPartnerTradeNo(String partnerTradeNo) {
@@ -66,7 +66,7 @@ public class WxEntPayResult extends WxPayBaseResult {
   }
 
   public String getPaymentNo() {
-    return paymentNo;
+    return this.paymentNo;
   }
 
   public void setPaymentNo(String paymentNo) {
@@ -74,7 +74,7 @@ public class WxEntPayResult extends WxPayBaseResult {
   }
 
   public String getPaymentTime() {
-    return paymentTime;
+    return this.paymentTime;
   }
 
   public void setPaymentTime(String paymentTime) {

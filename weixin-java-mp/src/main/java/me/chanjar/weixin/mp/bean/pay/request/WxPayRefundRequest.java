@@ -1,6 +1,7 @@
 package me.chanjar.weixin.mp.bean.pay.request;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+
 import me.chanjar.weixin.common.annotation.Required;
 
 /**
@@ -196,7 +197,7 @@ public class WxPayRefundRequest {
   private String refundAccount;
 
   public String getAppid() {
-    return appid;
+    return this.appid;
   }
 
   public void setAppid(String appid) {
@@ -204,7 +205,7 @@ public class WxPayRefundRequest {
   }
 
   public String getMchId() {
-    return mchId;
+    return this.mchId;
   }
 
   public void setMchId(String mchId) {
@@ -212,7 +213,7 @@ public class WxPayRefundRequest {
   }
 
   public String getDeviceInfo() {
-    return deviceInfo;
+    return this.deviceInfo;
   }
 
   public void setDeviceInfo(String deviceInfo) {
@@ -220,7 +221,7 @@ public class WxPayRefundRequest {
   }
 
   public String getNonceStr() {
-    return nonceStr;
+    return this.nonceStr;
   }
 
   public void setNonceStr(String nonceStr) {
@@ -228,7 +229,7 @@ public class WxPayRefundRequest {
   }
 
   public String getSign() {
-    return sign;
+    return this.sign;
   }
 
   public void setSign(String sign) {
@@ -236,7 +237,7 @@ public class WxPayRefundRequest {
   }
 
   public String getTransactionId() {
-    return transactionId;
+    return this.transactionId;
   }
 
   public void setTransactionId(String transactionId) {
@@ -244,7 +245,7 @@ public class WxPayRefundRequest {
   }
 
   public String getOutTradeNo() {
-    return outTradeNo;
+    return this.outTradeNo;
   }
 
   public void setOutTradeNo(String outTradeNo) {
@@ -252,7 +253,7 @@ public class WxPayRefundRequest {
   }
 
   public String getOutRefundNo() {
-    return outRefundNo;
+    return this.outRefundNo;
   }
 
   public void setOutRefundNo(String outRefundNo) {
@@ -260,7 +261,7 @@ public class WxPayRefundRequest {
   }
 
   public Integer getTotalFee() {
-    return totalFee;
+    return this.totalFee;
   }
 
   public void setTotalFee(Integer totalFee) {
@@ -268,7 +269,7 @@ public class WxPayRefundRequest {
   }
 
   public Integer getRefundFee() {
-    return refundFee;
+    return this.refundFee;
   }
 
   public void setRefundFee(Integer refundFee) {
@@ -276,7 +277,7 @@ public class WxPayRefundRequest {
   }
 
   public String getRefundFeeType() {
-    return refundFeeType;
+    return this.refundFeeType;
   }
 
   public void setRefundFeeType(String refundFeeType) {
@@ -284,7 +285,7 @@ public class WxPayRefundRequest {
   }
 
   public String getOpUserId() {
-    return opUserId;
+    return this.opUserId;
   }
 
   public void setOpUserId(String opUserId) {
@@ -292,7 +293,7 @@ public class WxPayRefundRequest {
   }
 
   public String getRefundAccount() {
-    return refundAccount;
+    return this.refundAccount;
   }
 
   public void setRefundAccount(String refundAccount) {

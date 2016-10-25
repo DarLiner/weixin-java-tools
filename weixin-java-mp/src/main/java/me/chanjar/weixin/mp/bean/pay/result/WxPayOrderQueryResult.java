@@ -1,9 +1,9 @@
 package me.chanjar.weixin.mp.bean.pay.result;
 
+import java.util.List;
+
 import com.google.common.collect.Lists;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-
-import java.util.List;
 
 /**
  * <pre>
@@ -221,6 +221,31 @@ public class WxPayOrderQueryResult extends WxPayBaseResult {
       this.couponId = couponId;
       this.couponFee = couponFee;
     }
+
+    public String getCouponType() {
+      return this.couponType;
+    }
+
+    public void setCouponType(String couponType) {
+      this.couponType = couponType;
+    }
+
+    public String getCouponId() {
+      return this.couponId;
+    }
+
+    public void setCouponId(String couponId) {
+      this.couponId = couponId;
+    }
+
+    public Integer getCouponFee() {
+      return this.couponFee;
+    }
+
+    public void setCouponFee(Integer couponFee) {
+      this.couponFee = couponFee;
+    }
+
   }
 
   /**
@@ -284,7 +309,7 @@ public class WxPayOrderQueryResult extends WxPayBaseResult {
   private String tradeStateDesc;
 
   public String getDeviceInfo() {
-    return deviceInfo;
+    return this.deviceInfo;
   }
 
   public void setDeviceInfo(String deviceInfo) {
@@ -292,7 +317,7 @@ public class WxPayOrderQueryResult extends WxPayBaseResult {
   }
 
   public String getOpenid() {
-    return openid;
+    return this.openid;
   }
 
   public void setOpenid(String openid) {
@@ -300,7 +325,7 @@ public class WxPayOrderQueryResult extends WxPayBaseResult {
   }
 
   public String getIsSubscribe() {
-    return isSubscribe;
+    return this.isSubscribe;
   }
 
   public void setIsSubscribe(String isSubscribe) {
@@ -308,7 +333,7 @@ public class WxPayOrderQueryResult extends WxPayBaseResult {
   }
 
   public String getTradeType() {
-    return tradeType;
+    return this.tradeType;
   }
 
   public void setTradeType(String tradeType) {
@@ -316,7 +341,7 @@ public class WxPayOrderQueryResult extends WxPayBaseResult {
   }
 
   public String getTradeState() {
-    return tradeState;
+    return this.tradeState;
   }
 
   public void setTradeState(String tradeState) {
@@ -324,7 +349,7 @@ public class WxPayOrderQueryResult extends WxPayBaseResult {
   }
 
   public String getBankType() {
-    return bankType;
+    return this.bankType;
   }
 
   public void setBankType(String bankType) {
@@ -332,7 +357,7 @@ public class WxPayOrderQueryResult extends WxPayBaseResult {
   }
 
   public Integer getTotalFee() {
-    return totalFee;
+    return this.totalFee;
   }
 
   public void setTotalFee(Integer totalFee) {
@@ -340,7 +365,7 @@ public class WxPayOrderQueryResult extends WxPayBaseResult {
   }
 
   public Integer getSettlementTotalFee() {
-    return settlementTotalFee;
+    return this.settlementTotalFee;
   }
 
   public void setSettlementTotalFee(Integer settlementTotalFee) {
@@ -348,7 +373,7 @@ public class WxPayOrderQueryResult extends WxPayBaseResult {
   }
 
   public String getFeeType() {
-    return feeType;
+    return this.feeType;
   }
 
   public void setFeeType(String feeType) {
@@ -356,7 +381,7 @@ public class WxPayOrderQueryResult extends WxPayBaseResult {
   }
 
   public Integer getCashFee() {
-    return cashFee;
+    return this.cashFee;
   }
 
   public void setCashFee(Integer cashFee) {
@@ -364,7 +389,7 @@ public class WxPayOrderQueryResult extends WxPayBaseResult {
   }
 
   public String getCashFeeType() {
-    return cashFeeType;
+    return this.cashFeeType;
   }
 
   public void setCashFeeType(String cashFeeType) {
@@ -372,7 +397,7 @@ public class WxPayOrderQueryResult extends WxPayBaseResult {
   }
 
   public Integer getCouponFee() {
-    return couponFee;
+    return this.couponFee;
   }
 
   public void setCouponFee(Integer couponFee) {
@@ -380,7 +405,7 @@ public class WxPayOrderQueryResult extends WxPayBaseResult {
   }
 
   public Integer getCouponCount() {
-    return couponCount;
+    return this.couponCount;
   }
 
   public void setCouponCount(Integer couponCount) {
@@ -388,7 +413,7 @@ public class WxPayOrderQueryResult extends WxPayBaseResult {
   }
 
   public List<Coupon> getCoupons() {
-    return coupons;
+    return this.coupons;
   }
 
   public void setCoupons(List<Coupon> coupons) {
@@ -396,7 +421,7 @@ public class WxPayOrderQueryResult extends WxPayBaseResult {
   }
 
   public String getTransactionId() {
-    return transactionId;
+    return this.transactionId;
   }
 
   public void setTransactionId(String transactionId) {
@@ -404,7 +429,7 @@ public class WxPayOrderQueryResult extends WxPayBaseResult {
   }
 
   public String getOutTradeNo() {
-    return outTradeNo;
+    return this.outTradeNo;
   }
 
   public void setOutTradeNo(String outTradeNo) {
@@ -412,7 +437,7 @@ public class WxPayOrderQueryResult extends WxPayBaseResult {
   }
 
   public String getAttach() {
-    return attach;
+    return this.attach;
   }
 
   public void setAttach(String attach) {
@@ -420,7 +445,7 @@ public class WxPayOrderQueryResult extends WxPayBaseResult {
   }
 
   public String getTimeEnd() {
-    return timeEnd;
+    return this.timeEnd;
   }
 
   public void setTimeEnd(String timeEnd) {
@@ -428,7 +453,7 @@ public class WxPayOrderQueryResult extends WxPayBaseResult {
   }
 
   public String getTradeStateDesc() {
-    return tradeStateDesc;
+    return this.tradeStateDesc;
   }
 
   public void setTradeStateDesc(String tradeStateDesc) {

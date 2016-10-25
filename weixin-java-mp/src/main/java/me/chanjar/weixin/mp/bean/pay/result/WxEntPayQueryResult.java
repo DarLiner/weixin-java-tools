@@ -66,7 +66,7 @@ public class WxEntPayQueryResult extends WxPayBaseResult {
   private String desc;
 
   public String getReturnCode() {
-    return returnCode;
+    return this.returnCode;
   }
 
   public void setReturnCode(String returnCode) {
@@ -74,7 +74,7 @@ public class WxEntPayQueryResult extends WxPayBaseResult {
   }
 
   public String getReturnMsg() {
-    return returnMsg;
+    return this.returnMsg;
   }
 
   public void setReturnMsg(String returnMsg) {
@@ -82,7 +82,7 @@ public class WxEntPayQueryResult extends WxPayBaseResult {
   }
 
   public String getPartnerTradeNo() {
-    return partnerTradeNo;
+    return this.partnerTradeNo;
   }
 
   public void setPartnerTradeNo(String partnerTradeNo) {
@@ -90,7 +90,7 @@ public class WxEntPayQueryResult extends WxPayBaseResult {
   }
 
   public String getDetailId() {
-    return detailId;
+    return this.detailId;
   }
 
   public void setDetailId(String detailId) {
@@ -98,7 +98,7 @@ public class WxEntPayQueryResult extends WxPayBaseResult {
   }
 
   public String getStatus() {
-    return status;
+    return this.status;
   }
 
   public void setStatus(String status) {
@@ -106,7 +106,7 @@ public class WxEntPayQueryResult extends WxPayBaseResult {
   }
 
   public String getReason() {
-    return reason;
+    return this.reason;
   }
 
   public void setReason(String reason) {
@@ -114,7 +114,7 @@ public class WxEntPayQueryResult extends WxPayBaseResult {
   }
 
   public String getOpenid() {
-    return openid;
+    return this.openid;
   }
 
   public void setOpenid(String openid) {
@@ -122,7 +122,7 @@ public class WxEntPayQueryResult extends WxPayBaseResult {
   }
 
   public String getTransferName() {
-    return transferName;
+    return this.transferName;
   }
 
   public void setTransferName(String transferName) {
@@ -130,7 +130,7 @@ public class WxEntPayQueryResult extends WxPayBaseResult {
   }
 
   public Integer getPaymentAmount() {
-    return paymentAmount;
+    return this.paymentAmount;
   }
 
   public void setPaymentAmount(Integer paymentAmount) {
@@ -138,7 +138,7 @@ public class WxEntPayQueryResult extends WxPayBaseResult {
   }
 
   public String getTransferTime() {
-    return transferTime;
+    return this.transferTime;
   }
 
   public void setTransferTime(String transferTime) {
@@ -146,7 +146,7 @@ public class WxEntPayQueryResult extends WxPayBaseResult {
   }
 
   public String getDesc() {
-    return desc;
+    return this.desc;
   }
 
   public void setDesc(String desc) {

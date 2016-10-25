@@ -1,9 +1,11 @@
 package me.chanjar.weixin.mp.bean.pay.request;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import me.chanjar.weixin.common.annotation.Required;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+import me.chanjar.weixin.common.annotation.Required;
 
 /**
  * <pre>
@@ -31,6 +33,7 @@ public class WxEntPayQueryRequest extends WxPayBaseRequest {
    * 微信支付分配的商户号
    * </pre>
   */
+  @SuppressWarnings("hiding")
   @XStreamAlias("mchid")
   private String mchId;
 
@@ -48,40 +51,18 @@ public class WxEntPayQueryRequest extends WxPayBaseRequest {
   @XStreamAlias("partner_trade_no")
   private String partnerTradeNo;
 
-  public String getAppid() {
-    return appid;
-  }
-
-  public void setAppid(String appid) {
-    this.appid = appid;
-  }
-
+  @Override
   public String getMchId() {
-    return mchId;
+    return this.mchId;
   }
 
+  @Override
   public void setMchId(String mchId) {
     this.mchId = mchId;
   }
 
-  public String getNonceStr() {
-    return nonceStr;
-  }
-
-  public void setNonceStr(String nonceStr) {
-    this.nonceStr = nonceStr;
-  }
-
-  public String getSign() {
-    return sign;
-  }
-
-  public void setSign(String sign) {
-    this.sign = sign;
-  }
-
   public String getPartnerTradeNo() {
-    return partnerTradeNo;
+    return this.partnerTradeNo;
   }
 
   public void setPartnerTradeNo(String partnerTradeNo) {

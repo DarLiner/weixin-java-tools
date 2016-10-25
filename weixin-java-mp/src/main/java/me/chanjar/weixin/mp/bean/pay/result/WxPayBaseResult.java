@@ -1,8 +1,9 @@
 package me.chanjar.weixin.mp.bean.pay.result;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 /**
  * <pre>
@@ -72,7 +73,7 @@ public abstract class WxPayBaseResult {
   private String sign;
 
   public String getReturnCode() {
-    return returnCode;
+    return this.returnCode;
   }
 
   public void setReturnCode(String returnCode) {
@@ -80,7 +81,7 @@ public abstract class WxPayBaseResult {
   }
 
   public String getReturnMsg() {
-    return returnMsg;
+    return this.returnMsg;
   }
 
   public void setReturnMsg(String returnMsg) {
@@ -88,7 +89,7 @@ public abstract class WxPayBaseResult {
   }
 
   public String getResultCode() {
-    return resultCode;
+    return this.resultCode;
   }
 
   public void setResultCode(String resultCode) {
@@ -96,7 +97,7 @@ public abstract class WxPayBaseResult {
   }
 
   public String getErrCode() {
-    return errCode;
+    return this.errCode;
   }
 
   public void setErrCode(String errCode) {
@@ -104,7 +105,7 @@ public abstract class WxPayBaseResult {
   }
 
   public String getErrCodeDes() {
-    return errCodeDes;
+    return this.errCodeDes;
   }
 
   public void setErrCodeDes(String errCodeDes) {
@@ -112,7 +113,7 @@ public abstract class WxPayBaseResult {
   }
 
   public String getAppid() {
-    return appid;
+    return this.appid;
   }
 
   public void setAppid(String appid) {
@@ -120,7 +121,7 @@ public abstract class WxPayBaseResult {
   }
 
   public String getMchId() {
-    return mchId;
+    return this.mchId;
   }
 
   public void setMchId(String mchId) {
@@ -128,7 +129,7 @@ public abstract class WxPayBaseResult {
   }
 
   public String getNonceStr() {
-    return nonceStr;
+    return this.nonceStr;
   }
 
   public void setNonceStr(String nonceStr) {
@@ -136,7 +137,7 @@ public abstract class WxPayBaseResult {
   }
 
   public String getSign() {
-    return sign;
+    return this.sign;
   }
 
   public void setSign(String sign) {

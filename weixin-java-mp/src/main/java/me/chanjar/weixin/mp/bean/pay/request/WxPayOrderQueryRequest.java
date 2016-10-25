@@ -46,7 +46,7 @@ public class WxPayOrderQueryRequest extends WxPayBaseRequest {
   private String outTradeNo;
 
   public String getTransactionId() {
-    return transactionId;
+    return this.transactionId;
   }
 
   public void setTransactionId(String transactionId) {
@@ -54,7 +54,7 @@ public class WxPayOrderQueryRequest extends WxPayBaseRequest {
   }
 
   public String getOutTradeNo() {
-    return outTradeNo;
+    return this.outTradeNo;
   }
 
   public void setOutTradeNo(String outTradeNo) {

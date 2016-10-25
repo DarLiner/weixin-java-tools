@@ -1,8 +1,8 @@
 package me.chanjar.weixin.mp.bean.pay.result;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-
 import java.io.Serializable;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 /**
  * 向微信用户个人发现金红包返回结果
@@ -33,7 +33,7 @@ public class WxPaySendRedpackResult extends WxPayBaseResult implements Serializa
   private String sendListid;
 
   public String getMchBillno() {
-    return mchBillno;
+    return this.mchBillno;
   }
 
   public void setMchBillno(String mchBillno) {
@@ -41,7 +41,7 @@ public class WxPaySendRedpackResult extends WxPayBaseResult implements Serializa
   }
 
   public String getWxappid() {
-    return wxappid;
+    return this.wxappid;
   }
 
   public void setWxappid(String wxappid) {
@@ -49,7 +49,7 @@ public class WxPaySendRedpackResult extends WxPayBaseResult implements Serializa
   }
 
   public String getReOpenid() {
-    return reOpenid;
+    return this.reOpenid;
   }
 
   public void setReOpenid(String reOpenid) {
@@ -57,7 +57,7 @@ public class WxPaySendRedpackResult extends WxPayBaseResult implements Serializa
   }
 
   public int getTotalAmount() {
-    return totalAmount;
+    return this.totalAmount;
   }
 
   public void setTotalAmount(int totalAmount) {
@@ -65,7 +65,7 @@ public class WxPaySendRedpackResult extends WxPayBaseResult implements Serializa
   }
 
   public String getSendTime() {
-    return sendTime;
+    return this.sendTime;
   }
 
   public void setSendTime(String sendTime) {
@@ -73,7 +73,7 @@ public class WxPaySendRedpackResult extends WxPayBaseResult implements Serializa
   }
 
   public String getSendListid() {
-    return sendListid;
+    return this.sendListid;
   }
 
   public void setSendListid(String sendListid) {

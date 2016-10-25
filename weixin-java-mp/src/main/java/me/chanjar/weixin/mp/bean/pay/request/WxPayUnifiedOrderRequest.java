@@ -1,6 +1,7 @@
 package me.chanjar.weixin.mp.bean.pay.request;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+
 import me.chanjar.weixin.common.annotation.Required;
 
 /**
@@ -266,21 +267,6 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
   @XStreamAlias("openid")
   private String openid;
 
-  public String getAppid() {
-    return this.appid;
-  }
-
-  public void setAppid(String appid) {
-    this.appid = appid;
-  }
-
-  public String getMchId() {
-    return this.mchId;
-  }
-
-  public void setMchId(String mchId) {
-    this.mchId = mchId;
-  }
 
   public String getDeviceInfo() {
     return this.deviceInfo;
@@ -288,22 +274,6 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
 
   public void setDeviceInfo(String deviceInfo) {
     this.deviceInfo = deviceInfo;
-  }
-
-  public String getNonceStr() {
-    return this.nonceStr;
-  }
-
-  public void setNonceStr(String nonceStr) {
-    this.nonceStr = nonceStr;
-  }
-
-  public String getSign() {
-    return this.sign;
-  }
-
-  public void setSign(String sign) {
-    this.sign = sign;
   }
 
   public String getBody() {

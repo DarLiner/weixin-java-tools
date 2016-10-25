@@ -1,8 +1,9 @@
 package me.chanjar.weixin.mp.bean.pay.request;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 /**
  * <pre>
@@ -69,7 +70,7 @@ public abstract class WxPayBaseRequest {
   protected String sign;
 
   public String getAppid() {
-    return appid;
+    return this.appid;
   }
 
   public void setAppid(String appid) {
@@ -77,7 +78,7 @@ public abstract class WxPayBaseRequest {
   }
 
   public String getMchId() {
-    return mchId;
+    return this.mchId;
   }
 
   public void setMchId(String mchId) {
@@ -85,7 +86,7 @@ public abstract class WxPayBaseRequest {
   }
 
   public String getNonceStr() {
-    return nonceStr;
+    return this.nonceStr;
   }
 
   public void setNonceStr(String nonceStr) {
@@ -93,7 +94,7 @@ public abstract class WxPayBaseRequest {
   }
 
   public String getSign() {
-    return sign;
+    return this.sign;
   }
 
   public void setSign(String sign) {

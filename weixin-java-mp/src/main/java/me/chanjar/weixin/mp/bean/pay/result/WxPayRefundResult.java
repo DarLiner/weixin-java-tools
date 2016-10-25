@@ -1,8 +1,8 @@
 package me.chanjar.weixin.mp.bean.pay.result;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-
 import java.io.Serializable;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 /**
  * <pre>
@@ -57,22 +57,6 @@ public class WxPayRefundResult extends WxPayBaseResult implements Serializable{
 
   @XStreamAlias("coupon_refund_id")
   private String couponRefundId;
-
-  public String getReturnCode() {
-    return this.returnCode;
-  }
-
-  public void setReturnCode(String returnCode) {
-    this.returnCode = returnCode;
-  }
-
-  public String getReturnMsg() {
-    return this.returnMsg;
-  }
-
-  public void setReturnMsg(String returnMsg) {
-    this.returnMsg = returnMsg;
-  }
 
   public String getDeviceInfo() {
     return this.deviceInfo;
