@@ -1,26 +1,23 @@
-package me.chanjar.weixin.mp.bean;
-
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Before;
-import org.junit.Test;
+package me.chanjar.weixin.mp.bean.pay.result;
 
 import com.thoughtworks.xstream.XStream;
-
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
-import me.chanjar.weixin.mp.bean.pay.WxPaySendRedpackResult;
+import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
-public class WxRedpackResultTest {
+public class WxPaySendRedpackResultTest {
 
   private XStream xstream;
 
-  @Before
+  @BeforeTest
   public void setup() {
      this.xstream = XStreamInitializer.getInstance();
      this.xstream.processAnnotations(WxPaySendRedpackResult.class);
   }
 
-  @Test public void loadSuccessResult() {
+  @Test
+  public void loadSuccessResult() {
     final String successSample = "<xml>\n" +
         "<return_code><![CDATA[SUCCESS]]></return_code>\n" +
         "<return_msg><![CDATA[发放成功.]]></return_msg>\n" +
@@ -36,12 +33,13 @@ public class WxRedpackResultTest {
         "<send_time>20150520102602</send_time>\n" +
         "</xml>";
     WxPaySendRedpackResult wxMpRedpackResult = (WxPaySendRedpackResult) this.xstream.fromXML(successSample);
-    assertEquals("SUCCESS", wxMpRedpackResult.getReturnCode());
-    assertEquals("SUCCESS", wxMpRedpackResult.getResultCode());
-    assertEquals("20150520102602", wxMpRedpackResult.getSendTime());
+    Assert.assertEquals("SUCCESS", wxMpRedpackResult.getReturnCode());
+    Assert.assertEquals("SUCCESS", wxMpRedpackResult.getResultCode());
+    Assert.assertEquals("20150520102602", wxMpRedpackResult.getSendTime());
   }
 
-  @Test public void loadFailureResult() {
+  @Test
+  public void loadFailureResult() {
     final String failureSample = "<xml>\n" +
         "<return_code><![CDATA[FAIL]]></return_code>\n" +
         "<return_msg><![CDATA[系统繁忙,请稍后再试.]]></return_msg>\n" +
@@ -55,9 +53,9 @@ public class WxRedpackResultTest {
         "<total_amount>1</total_amount>\n" +
         "</xml>";
     WxPaySendRedpackResult wxMpRedpackResult = (WxPaySendRedpackResult) this.xstream.fromXML(failureSample);
-    assertEquals("FAIL", wxMpRedpackResult.getReturnCode());
-    assertEquals("FAIL", wxMpRedpackResult.getResultCode());
-    assertEquals("onqOjjmM1tad-3ROpncN-yUfa6uI", wxMpRedpackResult.getReOpenid());
-    assertEquals(1, wxMpRedpackResult.getTotalAmount());
+    Assert.assertEquals("FAIL", wxMpRedpackResult.getReturnCode());
+    Assert.assertEquals("FAIL", wxMpRedpackResult.getResultCode());
+    Assert.assertEquals("onqOjjmM1tad-3ROpncN-yUfa6uI", wxMpRedpackResult.getReOpenid());
+    Assert.assertEquals(1, wxMpRedpackResult.getTotalAmount());
   }
 }

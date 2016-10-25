@@ -1,4 +1,4 @@
-package me.chanjar.weixin.mp.bean.pay;
+package me.chanjar.weixin.mp.bean.pay.result;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 

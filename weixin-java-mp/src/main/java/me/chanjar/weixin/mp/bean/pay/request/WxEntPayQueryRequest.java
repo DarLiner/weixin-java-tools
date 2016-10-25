@@ -1,13 +1,13 @@
-package me.chanjar.weixin.mp.bean.pay;
+package me.chanjar.weixin.mp.bean.pay.request;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import me.chanjar.weixin.common.annotation.Required;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * <pre>
- * Created by Binary Wang on 2016-10-24.
- *  微信支付请求对象共用的参数存放类
+ * 企业付款请求对象
  * 注释中各行每个字段描述对应如下：
  * <li>字段名
  * <li>变量名
@@ -16,57 +16,37 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * <li>示例值
  * <li>描述
  * </pre>
- * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
+ * Created by Binary Wang on 2016/10/19.
+ * @author binarywang (https://github.com/binarywang)
  */
-public abstract class WxPayBaseRequest {
-  /**
-   * <pre>
-   * 公众账号ID
-   * appid
-   * 是
-   * String(32)
-   * wxd678efh567hg6787
-   * 微信分配的公众账号ID（企业号corpid即为此appId）
-   * </pre>
-   */
-  @XStreamAlias("appid")
-  protected String appid;
+@XStreamAlias("xml")
+public class WxEntPayQueryRequest extends WxPayBaseRequest {
   /**
    * <pre>
    * 商户号
    * mch_id
    * 是
+   * 10000098
    * String(32)
-   * 1230000109
    * 微信支付分配的商户号
    * </pre>
-   */
-  @XStreamAlias("mch_id")
-  protected String mchId;
+  */
+  @XStreamAlias("mchid")
+  private String mchId;
+
   /**
    * <pre>
-   * 随机字符串
-   * nonce_str
-   * 是
-   * String(32)
-   * 5K8264ILTKCH16CQ2502SI8ZNMTM67VS
-   * 随机字符串，不长于32位。推荐随机数生成算法
+  * 商户订单号
+  * partner_trade_no
+  * 是
+  * 10000098201411111234567890
+  * String
+  * 商户订单号
    * </pre>
-   */
-  @XStreamAlias("nonce_str")
-  protected String nonceStr;
-  /**
-   * <pre>
-   * 签名
-   * sign
-   * 是
-   * String(32)
-   * C380BEC2BFD727A4B6845133519F3AD6
-   * 签名，详见签名生成算法
-   * </pre>
-   */
-  @XStreamAlias("sign")
-  protected String sign;
+  */
+  @Required
+  @XStreamAlias("partner_trade_no")
+  private String partnerTradeNo;
 
   public String getAppid() {
     return appid;
@@ -100,8 +80,17 @@ public abstract class WxPayBaseRequest {
     this.sign = sign;
   }
 
+  public String getPartnerTradeNo() {
+    return partnerTradeNo;
+  }
+
+  public void setPartnerTradeNo(String partnerTradeNo) {
+    this.partnerTradeNo = partnerTradeNo;
+  }
+
   @Override
   public String toString() {
     return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
   }
+
 }

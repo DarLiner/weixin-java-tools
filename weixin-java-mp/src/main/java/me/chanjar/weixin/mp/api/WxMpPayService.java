@@ -1,7 +1,11 @@
 package me.chanjar.weixin.mp.api;
 
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.mp.bean.pay.*;
+import me.chanjar.weixin.mp.bean.pay.request.WxEntPayRequest;
+import me.chanjar.weixin.mp.bean.pay.request.WxPayRefundRequest;
+import me.chanjar.weixin.mp.bean.pay.request.WxPaySendRedpackRequest;
+import me.chanjar.weixin.mp.bean.pay.request.WxPayUnifiedOrderRequest;
+import me.chanjar.weixin.mp.bean.pay.result.*;
 
 import java.io.File;
 import java.util.Map;
@@ -46,13 +50,6 @@ public interface WxMpPayService {
    * @param request 请求对象
    */
   Map<String, String> getPayInfo(WxPayUnifiedOrderRequest request) throws WxErrorException;
-
-  /**
-   * 读取支付结果通知
-   * 详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_7
-   *
-   */
-  WxPayJsSDKCallback getJSSDKCallbackData(String xmlData);
 
   /**
    * <pre>

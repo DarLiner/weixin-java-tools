@@ -7,7 +7,8 @@ import me.chanjar.weixin.common.util.BeanUtils;
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
 import me.chanjar.weixin.mp.api.WxMpPayService;
 import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.bean.pay.*;
+import me.chanjar.weixin.mp.bean.pay.request.*;
+import me.chanjar.weixin.mp.bean.pay.result.*;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -43,19 +44,6 @@ public class WxMpPayServiceImpl implements WxMpPayService {
 
   public WxMpPayServiceImpl(WxMpService wxMpService) {
     this.wxMpService = wxMpService;
-  }
-
-  @Override
-  public WxPayJsSDKCallback getJSSDKCallbackData(String xmlData) {
-    try {
-      XStream xstream = XStreamInitializer.getInstance();
-      xstream.alias("xml", WxPayJsSDKCallback.class);
-      return (WxPayJsSDKCallback) xstream.fromXML(xmlData);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-
-    return new WxPayJsSDKCallback();
   }
 
   @Override

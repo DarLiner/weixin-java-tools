@@ -1,4 +1,4 @@
-package me.chanjar.weixin.mp.bean.pay;
+package me.chanjar.weixin.mp.bean.pay.result;
 
 import com.google.common.collect.Lists;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -436,7 +436,7 @@ public class WxPayOrderQueryResult extends WxPayBaseResult {
   }
 
   public void composeCoupons(String xmlString){
-    if(this.couponCount > 0 ){
+    if(this.couponCount != null && this.couponCount > 0 ){
       this.coupons = Lists.newArrayList();
       //TODO 暂时待实现
     }

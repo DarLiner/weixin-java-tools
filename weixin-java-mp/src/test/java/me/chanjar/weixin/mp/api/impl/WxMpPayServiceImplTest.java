@@ -4,7 +4,13 @@ import com.google.inject.Inject;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.ApiTestModule;
 import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
-import me.chanjar.weixin.mp.bean.pay.*;
+import me.chanjar.weixin.mp.bean.pay.request.WxEntPayRequest;
+import me.chanjar.weixin.mp.bean.pay.request.WxPayRefundRequest;
+import me.chanjar.weixin.mp.bean.pay.request.WxPaySendRedpackRequest;
+import me.chanjar.weixin.mp.bean.pay.request.WxPayUnifiedOrderRequest;
+import me.chanjar.weixin.mp.bean.pay.result.WxPayRefundResult;
+import me.chanjar.weixin.mp.bean.pay.result.WxPaySendRedpackResult;
+import me.chanjar.weixin.mp.bean.pay.result.WxPayUnifiedOrderResult;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
 
@@ -24,11 +30,6 @@ public class WxMpPayServiceImplTest {
 
   @Test
   public void testGetPayInfo() throws Exception {
-
-  }
-
-  @Test
-  public void testGetJSSDKCallbackData() throws Exception {
 
   }
 
