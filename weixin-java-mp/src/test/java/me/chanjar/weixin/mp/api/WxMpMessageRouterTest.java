@@ -3,8 +3,8 @@ package me.chanjar.weixin.mp.api;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.session.StandardSessionManager;
 import me.chanjar.weixin.common.session.WxSessionManager;
-import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
-import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -18,7 +18,7 @@ import java.util.Map;
  */
 @Test
 public class WxMpMessageRouterTest {
-  
+
   @Test(enabled = false)
   public void prepare(boolean async, StringBuffer sb, WxMpMessageRouter router) {
     router
@@ -50,7 +50,7 @@ public class WxMpMessageRouterTest {
       }).handler(new WxEchoMpMessageHandler(sb, "matcher")).end()
       .rule().async(async).handler(new WxEchoMpMessageHandler(sb, "ALL")).end();
   }
-  
+
   @Test(dataProvider="messages-1")
   public void testSync(WxMpXmlMessage message, String expected) {
     StringBuffer sb = new StringBuffer();
@@ -59,7 +59,7 @@ public class WxMpMessageRouterTest {
     router.route(message);
     Assert.assertEquals(sb.toString(), expected);
   }
-  
+
   @Test(dataProvider="messages-1")
   public void testAsync(WxMpXmlMessage message, String expected) throws InterruptedException {
     StringBuffer sb = new StringBuffer();
@@ -69,7 +69,7 @@ public class WxMpMessageRouterTest {
     Thread.sleep(500l);
     Assert.assertEquals(sb.toString(), expected);
   }
-  
+
   public void testConcurrency() throws InterruptedException {
     final WxMpMessageRouter router = new WxMpMessageRouter(null);
     router.rule().handler(new WxMpMessageHandler() {
@@ -79,7 +79,7 @@ public class WxMpMessageRouterTest {
         return null;
       }
     }).end();
-    
+
     final WxMpXmlMessage m = new WxMpXmlMessage();
     Runnable r = new Runnable() {
       @Override
@@ -94,26 +94,26 @@ public class WxMpMessageRouterTest {
     for (int i = 0; i < 10; i++) {
       new Thread(r).start();
     }
-    
+
     Thread.sleep(1000l * 2);
   }
   @DataProvider(name="messages-1")
   public Object[][] messages2() {
     WxMpXmlMessage message1 = new WxMpXmlMessage();
     message1.setMsgType(WxConsts.XML_MSG_TEXT);
-  
+
     WxMpXmlMessage message2 = new WxMpXmlMessage();
     message2.setEvent(WxConsts.EVT_CLICK);
-    
+
     WxMpXmlMessage message3 = new WxMpXmlMessage();
     message3.setEventKey("KEY_1");
-    
+
     WxMpXmlMessage message4 = new WxMpXmlMessage();
     message4.setContent("CONTENT_1");
-    
+
     WxMpXmlMessage message5 = new WxMpXmlMessage();
     message5.setContent("BLA");
-    
+
     WxMpXmlMessage message6 = new WxMpXmlMessage();
     message6.setContent("abcd");
 
@@ -123,18 +123,18 @@ public class WxMpMessageRouterTest {
     WxMpXmlMessage c2 = new WxMpXmlMessage();
     c2.setMsgType(WxConsts.XML_MSG_TEXT);
     c2.setEvent(WxConsts.EVT_CLICK);
-    
+
     WxMpXmlMessage c3 = new WxMpXmlMessage();
     c3.setMsgType(WxConsts.XML_MSG_TEXT);
     c3.setEvent(WxConsts.EVT_CLICK);
     c3.setEventKey("KEY_1");
-    
+
     WxMpXmlMessage c4 = new WxMpXmlMessage();
     c4.setMsgType(WxConsts.XML_MSG_TEXT);
     c4.setEvent(WxConsts.EVT_CLICK);
     c4.setEventKey("KEY_1");
     c4.setContent("CONTENT_1");
-    
+
     return new Object[][] {
         new Object[] { message1, WxConsts.XML_MSG_TEXT + "," },
         new Object[] { message2, WxConsts.EVT_CLICK + "," },
@@ -147,7 +147,7 @@ public class WxMpMessageRouterTest {
         new Object[] { c3, "COMBINE_3," },
         new Object[] { c4, "COMBINE_4," }
     };
-    
+
   }
 
   public static class WxEchoMpMessageHandler implements WxMpMessageHandler {

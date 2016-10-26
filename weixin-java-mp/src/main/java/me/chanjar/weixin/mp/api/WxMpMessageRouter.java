@@ -18,18 +18,18 @@ import me.chanjar.weixin.common.session.InternalSessionManager;
 import me.chanjar.weixin.common.session.StandardSessionManager;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.common.util.LogExceptionHandler;
-import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
-import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 
 /**
  * <pre>
  * 微信消息路由器，通过代码化的配置，把来自微信的消息交给handler处理
- * 
+ *
  * 说明：
  * 1. 配置路由规则时要按照从细到粗的原则，否则可能消息可能会被提前处理
  * 2. 默认情况下消息只会被处理一次，除非使用 {@link WxMpMessageRouterRule#next()}
  * 3. 规则的结束必须用{@link WxMpMessageRouterRule#end()}或者{@link WxMpMessageRouterRule#next()}，否则不会生效
- * 
+ *
  * 使用方法：
  * WxMpMessageRouter router = new WxMpMessageRouter();
  * router
@@ -41,10 +41,10 @@ import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
  *       // 另外一个匹配规则
  *   .end()
  * ;
- * 
+ *
  * // 将WxXmlMessage交给消息路由器
  * router.route(message);
- * 
+ *
  * </pre>
  * @author Daniel Qian
  *
