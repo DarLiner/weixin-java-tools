@@ -25,14 +25,17 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * httpclient 连接管理器
+ *
  * @author kakotor
  */
 @NotThreadSafe
 public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
   protected final Logger log = LoggerFactory.getLogger(DefaultApacheHttpClientBuilder.class);
+  private final AtomicBoolean prepared = new AtomicBoolean(false);
   private int connectionRequestTimeout = 3000;
   private int connectionTimeout = 5000;
   private int soTimeout = 5000;
@@ -49,21 +52,17 @@ public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
   };
   private SSLConnectionSocketFactory sslConnectionSocketFactory = SSLConnectionSocketFactory.getSocketFactory();
   private PlainConnectionSocketFactory plainConnectionSocketFactory = PlainConnectionSocketFactory.getSocketFactory();
-
   private String httpProxyHost;
   private int httpProxyPort;
   private String httpProxyUsername;
   private String httpProxyPassword;
-
   /**
    * 闲置连接监控线程
    */
   private IdleConnectionMonitorThread idleConnectionMonitorThread;
-
   private HttpClientBuilder httpClientBuilder;
 
   private DefaultApacheHttpClientBuilder() {
-    prepare();
   }
 
   public static DefaultApacheHttpClientBuilder get() {
@@ -106,6 +105,7 @@ public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
    * 设置为零时不超时,一直等待.
    * 设置为负数是使用系统默认设置(非上述的3000ms的默认值,而是httpclient的默认设置).
    * </p>
+   *
    * @param connectionRequestTimeout 获取链接的超时时间设置(单位毫秒),默认3000ms
    */
   public void setConnectionRequestTimeout(int connectionRequestTimeout) {
@@ -118,6 +118,7 @@ public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
    * 设置为零时不超时,一直等待.
    * 设置为负数是使用系统默认设置(非上述的5000ms的默认值,而是httpclient的默认设置).
    * </p>
+   *
    * @param connectionTimeout 建立链接的超时时间设置(单位毫秒),默认5000ms
    */
   public void setConnectionTimeout(int connectionTimeout) {
@@ -126,8 +127,9 @@ public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
 
   /**
    * 默认NIO的socket超时设置,默认5000ms.
-   * @see java.net.SocketOptions#SO_TIMEOUT
+   *
    * @param soTimeout 默认NIO的socket超时设置,默认5000ms.
+   * @see java.net.SocketOptions#SO_TIMEOUT
    */
   public void setSoTimeout(int soTimeout) {
     this.soTimeout = soTimeout;
@@ -138,6 +140,7 @@ public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
    * <p>
    * 超时的链接将在下一次空闲链接检查是被销毁
    * </p>
+   *
    * @param idleConnTimeout 空闲链接的超时时间,默认60000ms.
    */
   public void setIdleConnTimeout(int idleConnTimeout) {
@@ -146,6 +149,7 @@ public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
 
   /**
    * 检查空间链接的间隔周期,默认60000ms.
+   *
    * @param checkWaitTime 检查空间链接的间隔周期,默认60000ms.
    */
   public void setCheckWaitTime(int checkWaitTime) {
@@ -154,6 +158,7 @@ public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
 
   /**
    * 每路的最大链接数,默认10
+   *
    * @param maxConnPerHost 每路的最大链接数,默认10
    */
   public void setMaxConnPerHost(int maxConnPerHost) {
@@ -162,6 +167,7 @@ public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
 
   /**
    * 最大总连接数,默认50
+   *
    * @param maxTotalConn 最大总连接数,默认50
    */
   public void setMaxTotalConn(int maxTotalConn) {
@@ -170,6 +176,7 @@ public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
 
   /**
    * 自定义httpclient的User Agent
+   *
    * @param userAgent User Agent
    */
   public void setUserAgent(String userAgent) {
@@ -180,7 +187,10 @@ public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
     return this.idleConnectionMonitorThread;
   }
 
-  private void prepare() {
+  private synchronized void prepare() {
+    if(prepared.get()){
+      return;
+    }
     Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create()
       .register("http", this.plainConnectionSocketFactory)
       .register("https", this.sslConnectionSocketFactory)
@@ -227,11 +237,14 @@ public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
     if (StringUtils.isNotBlank(this.userAgent)) {
       this.httpClientBuilder.setUserAgent(this.userAgent);
     }
-
+    prepared.set(true);
   }
 
   @Override
   public CloseableHttpClient build() {
+    if(!prepared.get()){
+      prepare();
+    }
     return this.httpClientBuilder.build();
   }
 
