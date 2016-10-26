@@ -22,6 +22,7 @@ public interface WxMpKefuService {
    * <pre>
    * 发送客服消息
    * 详情请见: <a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140547&token=&lang=zh_CN">发送客服消息</a>
+   * 接口url格式：https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=ACCESS_TOKEN
    * </pre>
    */
   boolean sendKefuMessage(WxMpKefuMessage message) throws WxErrorException;

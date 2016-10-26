@@ -1,14 +1,13 @@
-package me.chanjar.weixin.mp.bean.result;
+package me.chanjar.weixin.mp.bean.material;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 public class WxMpMaterialFileBatchGetResult implements Serializable {
-
-  /**
-   * 
-   */
   private static final long serialVersionUID = -560388368297267884L;
   private int totalCount;
   private int itemCount;
@@ -40,7 +39,7 @@ public class WxMpMaterialFileBatchGetResult implements Serializable {
 
   @Override
   public String toString() {
-    return "WxMpMaterialFileBatchGetResult [" + "totalCount=" + this.totalCount + ", itemCount=" + this.itemCount + ", items=" + this.items + "]";
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
   }
 
   public static class WxMaterialFileBatchGetNewsItem {
@@ -83,7 +82,7 @@ public class WxMpMaterialFileBatchGetResult implements Serializable {
 
     @Override
     public String toString() {
-      return "WxMaterialFileBatchGetNewsItem [" + "mediaId=" + this.mediaId + ", updateTime=" + this.updateTime + ", name=" + this.name + ", url=" + this.url + "]";
+      return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
   }
 }

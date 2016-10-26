@@ -1,12 +1,11 @@
-package me.chanjar.weixin.mp.bean.result;
+package me.chanjar.weixin.mp.bean.material;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.io.Serializable;
 
 public class WxMpMaterialCountResult implements Serializable {
-
-  /**
-   * 
-   */
   private static final long serialVersionUID = -5568772662085874138L;
   private int voiceCount;
   private int videoCount;
@@ -47,8 +46,7 @@ public class WxMpMaterialCountResult implements Serializable {
 
   @Override
   public String toString() {
-    return "WxMpMaterialCountResult [" + "voiceCount=" + this.voiceCount + ", videoCount=" + this.videoCount
-        + ", imageCount=" + this.imageCount + ", newsCount=" + this.newsCount + "]";
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
   }
 }
 

@@ -1,4 +1,4 @@
-package me.chanjar.weixin.mp.bean;
+package me.chanjar.weixin.mp.bean.material;
 
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
@@ -7,7 +7,7 @@ import java.io.Serializable;
 public class WxMpMaterialArticleUpdate implements Serializable {
 
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = -7611963949517780270L;
   private String mediaId;

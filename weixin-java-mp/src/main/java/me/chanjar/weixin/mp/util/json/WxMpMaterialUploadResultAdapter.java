@@ -10,7 +10,7 @@ package me.chanjar.weixin.mp.util.json;
 
 import com.google.gson.*;
 import me.chanjar.weixin.common.util.json.GsonHelper;
-import me.chanjar.weixin.mp.bean.result.WxMpMaterialUploadResult;
+import me.chanjar.weixin.mp.bean.material.WxMpMaterialUploadResult;
 
 import java.lang.reflect.Type;
 

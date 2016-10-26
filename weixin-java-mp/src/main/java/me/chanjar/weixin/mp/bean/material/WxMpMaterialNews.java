@@ -1,4 +1,4 @@
-package me.chanjar.weixin.mp.bean;
+package me.chanjar.weixin.mp.bean.material;
 
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;

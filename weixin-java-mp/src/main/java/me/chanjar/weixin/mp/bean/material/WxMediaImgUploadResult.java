@@ -1,4 +1,4 @@
-package me.chanjar.weixin.mp.bean.result;
+package me.chanjar.weixin.mp.bean.material;
 
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 public class WxMediaImgUploadResult implements Serializable {
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = 1996392453428768829L;
   private String url;
