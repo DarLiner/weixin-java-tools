@@ -10,7 +10,6 @@ import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutImageMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 
-import java.io.IOException;
 import java.util.Map;
 
 public class DemoImageHandler implements WxMpMessageHandler {
@@ -30,9 +29,8 @@ public class DemoImageHandler implements WxMpMessageHandler {
       return m;
     } catch (WxErrorException e) {
       e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
     }
+    
     return null;
   }
 }
