@@ -7,6 +7,7 @@ import me.chanjar.weixin.common.util.BeanUtils;
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
 import me.chanjar.weixin.mp.api.WxMpPayService;
 import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.pay.WxPayJsSDKCallback;
 import me.chanjar.weixin.mp.bean.pay.request.*;
 import me.chanjar.weixin.mp.bean.pay.result.*;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -93,6 +94,18 @@ public class WxMpPayServiceImpl implements WxMpPayService {
 
     if (StringUtils.isBlank(request.getOutTradeNo()) && StringUtils.isBlank(request.getTransactionId())) {
       throw new IllegalArgumentException("transaction_id 和 out_trade_no 不能同时为空，必须提供一个");
+    }
+  }
+
+  @Override
+  public WxPayJsSDKCallback getJSSDKCallbackData(String xmlData) throws WxErrorException {
+    try {
+      XStream xstream = XStreamInitializer.getInstance();
+      xstream.alias("xml", WxPayJsSDKCallback.class);
+      return (WxPayJsSDKCallback) xstream.fromXML(xmlData);
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new WxErrorException(WxError.newBuilder().setErrorMsg("发生异常" + e.getMessage()).build());
     }
   }
 

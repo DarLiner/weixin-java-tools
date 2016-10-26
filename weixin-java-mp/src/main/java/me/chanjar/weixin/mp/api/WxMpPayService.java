@@ -1,6 +1,7 @@
 package me.chanjar.weixin.mp.api;
 
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.mp.bean.pay.WxPayJsSDKCallback;
 import me.chanjar.weixin.mp.bean.pay.request.WxEntPayRequest;
 import me.chanjar.weixin.mp.bean.pay.request.WxPayRefundRequest;
 import me.chanjar.weixin.mp.bean.pay.request.WxPaySendRedpackRequest;
@@ -62,6 +63,13 @@ public interface WxMpPayService {
    * @return 退款操作结果
    */
   WxPayRefundResult refund(WxPayRefundRequest request, File keyFile) throws WxErrorException;
+
+  /**
+   * 读取支付结果通知
+   * 详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_7
+   *
+   */
+  WxPayJsSDKCallback getJSSDKCallbackData(String xmlData) throws WxErrorException;
 
   /**
    * <pre>
