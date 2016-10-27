@@ -1,6 +1,6 @@
 package me.chanjar.weixin.common.util.http;
 
-import me.chanjar.weixin.common.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.annotation.NotThreadSafe;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;

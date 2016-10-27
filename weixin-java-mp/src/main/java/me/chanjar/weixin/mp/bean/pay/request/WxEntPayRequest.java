@@ -1,9 +1,7 @@
 package me.chanjar.weixin.mp.bean.pay.request;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import me.chanjar.weixin.common.util.ToStringUtils;
 
 /**
  * <pre>
@@ -278,7 +276,7 @@ public class WxEntPayRequest {
 
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    return ToStringUtils.toSimpleString(this);
   }
 
 }

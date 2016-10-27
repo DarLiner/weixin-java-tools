@@ -1,7 +1,6 @@
 package me.chanjar.weixin.mp.bean.material;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import me.chanjar.weixin.common.util.ToStringUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -39,7 +38,7 @@ public class WxMpMaterialFileBatchGetResult implements Serializable {
 
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    return ToStringUtils.toSimpleString(this);
   }
 
   public static class WxMaterialFileBatchGetNewsItem {
@@ -82,7 +81,7 @@ public class WxMpMaterialFileBatchGetResult implements Serializable {
 
     @Override
     public String toString() {
-      return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+      return ToStringUtils.toSimpleString(this);
     }
   }
 }

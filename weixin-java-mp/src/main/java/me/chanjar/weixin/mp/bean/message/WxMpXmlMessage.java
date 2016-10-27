@@ -2,13 +2,12 @@ package me.chanjar.weixin.mp.bean.message;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
+import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
 import me.chanjar.weixin.mp.util.crypto.WxMpCryptUtil;
 import me.chanjar.weixin.mp.util.xml.XStreamTransformer;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -724,7 +723,7 @@ public class WxMpXmlMessage implements Serializable {
   public static class ScanCodeInfo {
     @Override
     public String toString() {
-      return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+      return ToStringUtils.toSimpleString(this);
     }
 
     @XStreamAlias("ScanType")
@@ -764,7 +763,7 @@ public class WxMpXmlMessage implements Serializable {
   public static class SendPicsInfo {
     @Override
     public String toString() {
-      return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+      return ToStringUtils.toSimpleString(this);
     }
 
     @XStreamAlias("Count")
@@ -789,8 +788,7 @@ public class WxMpXmlMessage implements Serializable {
     public static class Item {
       @Override
       public String toString() {
-        return ToStringBuilder.reflectionToString(this,
-            ToStringStyle.MULTI_LINE_STYLE);
+        return ToStringUtils.toSimpleString(this);
       }
 
       @XStreamAlias("PicMd5Sum")
@@ -832,7 +830,7 @@ public class WxMpXmlMessage implements Serializable {
 
     @Override
     public String toString() {
-      return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+      return ToStringUtils.toSimpleString(this);
     }
 
     public String getLocationX() {
@@ -878,6 +876,6 @@ public class WxMpXmlMessage implements Serializable {
 
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    return ToStringUtils.toSimpleString(this);
   }
 }
