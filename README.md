@@ -11,12 +11,13 @@
 ===========
 
 ## 开发交流方式及注意事项：
-1. QQ群：343954419（因群人数限制即将爆满，故开启付费加群方式并不定期清理不活跃人群，感谢理解） [![Join QQ Group](http://pub.idqqimg.com/wpa/images/group.png)](http://jq.qq.com/?_wv=1027&k=40lRskK)
+1. QQ群：343954419 [![Join QQ Group](http://pub.idqqimg.com/wpa/images/group.png)](http://jq.qq.com/?_wv=1027&k=40lRskK)
 1. 微信群： 因微信群已达到100人限制，故如有想加入微信群的，请入QQ群后联系管理员，提供微信号以便邀请加入；
 1. 新手提问前，请先阅读此文章：http://t.cn/RV93MRB
 1. 寻求帮助时需贴代码或大长串异常信息的，请利用http://paste.ubuntu.com
 1. 有功能需求或由于微信官方接口调整导致的代码问题，可以直接提出issue，便于讨论追踪问题；
 1. 详细开发文档请看 [Wiki](https://github.com/wechat-group/weixin-java-tools/wiki)，部分文档可能未能及时更新，如有发现，可以及时上报或者自行修改。
+1. 微信公众号官方文档入口地址：http://mp.weixin.qq.com/wiki， （注意，从网上搜到的文档有的虽然地址前面跟这个一样，但明显左侧菜单不一致，是旧的文档，注意不要看错了文档）。
 
 ===========
 
@@ -68,8 +69,9 @@ compile 'com.github.binarywang:weixin-java-cp:2.2.0'
 * https://git.coding.net/binarywang/weixin-java-tools.git
 
 ===========
-## 目前可参考的Demo项目有两个（目前都是公众号的，风格不同，欢迎提供更多的demo供新手参考）:
+## 目前可参考的Demo项目有三个（目前都是公众号的，风格不同，欢迎提供更多的demo供新手参考）:
 1. https://github.com/wechat-group/weixin-mp-demo
+1. https://github.com/wechat-group/weixin-mp-demo-springboot
 1. https://github.com/wechat-group/weixin-java-tools-springmvc
 
 ===========
