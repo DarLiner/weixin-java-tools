@@ -54,6 +54,9 @@ public class WxMpXmlMessage implements Serializable {
   @XStreamConverter(value = XStreamCDataConverter.class)
   private String content;
 
+  @XStreamAlias("MenuId")
+  private Long menuId;
+
   @XStreamAlias("MsgId")
   private Long msgId;
 
@@ -683,6 +686,14 @@ public class WxMpXmlMessage implements Serializable {
   public void setSendLocationInfo(
       WxMpXmlMessage.SendLocationInfo sendLocationInfo) {
     this.sendLocationInfo = sendLocationInfo;
+  }
+
+  public Long getMenuId() {
+    return this.menuId;
+  }
+
+  public void setMenuId(Long menuId) {
+    this.menuId = menuId;
   }
 
   public String getKfAccount() {
