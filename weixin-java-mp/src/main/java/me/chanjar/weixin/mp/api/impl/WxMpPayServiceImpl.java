@@ -8,6 +8,7 @@ import me.chanjar.weixin.common.util.xml.XStreamInitializer;
 import me.chanjar.weixin.mp.api.WxMpPayService;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.pay.WxPayJsSDKCallback;
+import me.chanjar.weixin.mp.bean.pay.result.WxPayOrderCloseResult;
 import me.chanjar.weixin.mp.bean.pay.request.*;
 import me.chanjar.weixin.mp.bean.pay.result.*;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -201,6 +202,39 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     String responseContent = this.wxMpService.post(url, xstream.toXML(request));
     WxPayOrderQueryResult result = (WxPayOrderQueryResult) xstream.fromXML(responseContent);
     result.composeCoupons(responseContent);
+    if ("FAIL".equals(result.getResultCode())) {
+      throw new WxErrorException(WxError.newBuilder()
+        .setErrorMsg(result.getErrCode() + ":" + result.getErrCodeDes())
+        .build());
+    }
+
+    return result;
+  }
+
+  @Override
+  public WxPayOrderCloseResult closeOrder(String outTradeNo) throws WxErrorException {
+    if (StringUtils.isBlank(outTradeNo)) {
+      throw new IllegalArgumentException("out_trade_no 不能为空");
+    }
+
+    XStream xstream = XStreamInitializer.getInstance();
+    xstream.processAnnotations(WxPayOrderCloseRequest.class);
+    xstream.processAnnotations(WxPayOrderCloseResult.class);
+
+    WxPayOrderCloseRequest request = new WxPayOrderCloseRequest();
+    request.setOutTradeNo(StringUtils.trimToNull(outTradeNo));
+    request.setAppid(this.wxMpService.getWxMpConfigStorage().getAppId());
+    request.setMchId(this.wxMpService.getWxMpConfigStorage().getPartnerId());
+    request.setNonceStr(System.currentTimeMillis() + "");
+
+    String sign = this.createSign(BeanUtils.xmlBean2Map(request),
+      this.wxMpService.getWxMpConfigStorage().getPartnerKey());
+    request.setSign(sign);
+
+    String url = PAY_BASE_URL + "/pay/closeorder";
+
+    String responseContent = this.wxMpService.post(url, xstream.toXML(request));
+    WxPayOrderCloseResult result = (WxPayOrderCloseResult) xstream.fromXML(responseContent);
     if ("FAIL".equals(result.getResultCode())) {
       throw new WxErrorException(WxError.newBuilder()
         .setErrorMsg(result.getErrCode() + ":" + result.getErrCodeDes())

@@ -88,6 +88,15 @@ public class WxMpPayServiceImplTest {
   }
 
   /**
+   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#closeOrder(String)} .
+   * @throws WxErrorException
+   */
+  @Test
+  public final void testCloseOrder() throws WxErrorException {
+    System.err.println(this.wxService.getPayService().closeOrder("11212121"));
+  }
+
+  /**
    * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#entPay(WxEntPayRequest, File)}.
    * @throws WxErrorException
    */
