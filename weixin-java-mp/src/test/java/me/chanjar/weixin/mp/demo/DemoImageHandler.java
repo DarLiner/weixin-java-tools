@@ -30,7 +30,7 @@ public class DemoImageHandler implements WxMpMessageHandler {
     } catch (WxErrorException e) {
       e.printStackTrace();
     }
-    
+
     return null;
   }
 }
