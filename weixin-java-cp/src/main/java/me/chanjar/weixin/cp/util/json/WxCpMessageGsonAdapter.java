@@ -10,8 +10,8 @@ package me.chanjar.weixin.cp.util.json;
 
 import com.google.gson.*;
 import me.chanjar.weixin.common.api.WxConsts;
-import me.chanjar.weixin.common.util.StringUtils;
 import me.chanjar.weixin.cp.bean.WxCpMessage;
+import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Type;
 
