@@ -1,11 +1,11 @@
 package me.chanjar.weixin.mp.api;
 
-import java.util.List;
-
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.bean.WxMpUserQuery;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import me.chanjar.weixin.mp.bean.result.WxMpUserList;
+
+import java.util.List;
 
 /**
  * 用户管理相关操作接口
@@ -27,8 +27,20 @@ public interface WxMpUserService {
 
   /**
    * <pre>
+   * 获取用户基本信息（语言为默认的zh_CN 简体）
+   * 详情请见: http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140839&token=&lang=zh_CN
+   * http请求方式: GET https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN
+   * </pre>
+   *
+   * @param openid 用户openid
+   */
+  WxMpUser userInfo(String openid) throws WxErrorException;
+
+  /**
+   * <pre>
    * 获取用户基本信息
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=获取用户基本信息
+   * 详情请见: http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140839&token=&lang=zh_CN
+   * http请求方式: GET https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN
    * </pre>
    *
    * @param openid 用户openid
