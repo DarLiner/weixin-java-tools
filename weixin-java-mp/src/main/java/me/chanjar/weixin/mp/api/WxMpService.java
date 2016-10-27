@@ -115,6 +115,20 @@ public interface WxMpService {
 
   /**
    * <pre>
+   * 群发消息预览接口
+   * 开发者可通过该接口发送消息给指定用户，在手机端查看消息的样式和排版。为了满足第三方平台开发者的需求，在保留对openID预览能力的同时，增加了对指定微信号发送预览的能力，但该能力每日调用次数有限制（100次），请勿滥用。
+   * 接口调用请求说明
+   *  http请求方式: POST
+   *  https://api.weixin.qq.com/cgi-bin/message/mass/preview?access_token=ACCESS_TOKEN
+   * 详情请见：http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140549&token=&lang=zh_CN
+   * </pre>
+   *
+   * @return wxMpMassSendResult
+   */
+  WxMpMassSendResult massMessagePreview(WxMpMassPreviewMessage wxMpMassPreviewMessage) throws Exception;
+
+  /**
+   * <pre>
    * 长链接转短链接接口
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=长链接转短链接接口
    * </pre>
@@ -234,16 +248,6 @@ public interface WxMpService {
    * </pre>
    */
   void setMaxRetryTimes(int maxRetryTimes);
-
-  /**
-   * <pre>
-   * 预览接口
-   * 详情请见：http://mp.weixin.qq.com/wiki/15/40b6865b893947b764e2de8e4a1fb55f.html#.E9.A2.84.E8.A7.88.E6.8E.A5.E5.8F.A3.E3.80.90.E8.AE.A2.E9.98.85.E5.8F.B7.E4.B8.8E.E6.9C.8D.E5.8A.A1.E5.8F.B7.E8.AE.A4.E8.AF.81.E5.90.8E.E5.9D.87.E5.8F.AF.E7.94.A8.E3.80.91
-   * </pre>
-   *
-   * @return wxMpMassSendResult
-   */
-  WxMpMassSendResult massMessagePreview(WxMpMassPreviewMessage wxMpMassPreviewMessage) throws Exception;
 
   /**
    * 获取WxMpConfigStorage 对象
