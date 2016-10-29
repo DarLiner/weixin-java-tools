@@ -25,6 +25,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLContext;
 import java.io.File;
@@ -39,6 +41,8 @@ import java.util.*;
  * @author binarywang (https://github.com/binarywang)
  */
 public class WxMpPayServiceImpl implements WxMpPayService {
+
+  protected final Logger log = LoggerFactory.getLogger(this.getClass());
 
   private static final String PAY_BASE_URL = "https://api.mch.weixin.qq.com";
   private static final String[] TRADE_TYPES = new String[]{"JSAPI","NATIVE", "APP"};
@@ -269,7 +273,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     String responseContent = this.executeRequest(url, xstream.toXML(request));
     WxPayUnifiedOrderResult result = (WxPayUnifiedOrderResult) xstream
         .fromXML(responseContent);
-    if ("FAIL".equals(result.getResultCode())) {
+    if ("FAIL".equals(result.getResultCode()) || "FAIL".equals(result.getReturnCode())) {
       throw new WxErrorException(WxError.newBuilder()
           .setErrorMsg(result.getErrCode() + ":" + result.getErrCodeDes())
           .build());
@@ -390,9 +394,12 @@ public class WxMpPayServiceImpl implements WxMpPayService {
       httpPost.setEntity(new StringEntity(new String(requestStr.getBytes("UTF-8"), "ISO-8859-1")));
 
       try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
-        return EntityUtils.toString(response.getEntity(), Consts.UTF_8);
+        String result = EntityUtils.toString(response.getEntity(), Consts.UTF_8);
+        this.log.debug("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}",url, requestStr, result);
+        return result;
       }
     } catch (IOException e) {
+      this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[EXCEPTION]: {}", url, requestStr, e.getMessage());
       throw new WxErrorException(WxError.newBuilder().setErrorMsg(e.getMessage()).build(), e);
     }finally {
       httpPost.releaseConnection();
@@ -400,7 +407,6 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   }
 
   private String executeRequestWithKeyFile( String url, File keyFile, String requestStr, String mchId) throws WxErrorException {
-
     try (FileInputStream inputStream = new FileInputStream(keyFile)) {
       KeyStore keyStore = KeyStore.getInstance("PKCS12");
       keyStore.load(inputStream, mchId.toCharArray());
@@ -417,12 +423,15 @@ public class WxMpPayServiceImpl implements WxMpPayService {
       try (CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build()) {
         httpPost.setEntity(new StringEntity(new String(requestStr.getBytes("UTF-8"), "ISO-8859-1")));
         try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
-          return EntityUtils.toString(response.getEntity(), Consts.UTF_8);
+          String result = EntityUtils.toString(response.getEntity(), Consts.UTF_8);
+          this.log.debug("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}",url, requestStr, result);
+          return result;
         }
       }finally {
         httpPost.releaseConnection();
       }
     } catch (Exception e) {
+      this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[EXCEPTION]: {}", url, requestStr, e.getMessage());
       throw new WxErrorException(WxError.newBuilder().setErrorMsg(e.getMessage()).build(), e);
     }
   }

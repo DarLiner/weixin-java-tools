@@ -33,7 +33,7 @@ public class WxMpServiceImpl implements WxMpService {
 
   private static final JsonParser JSON_PARSER = new JsonParser();
 
-  protected final Logger log = LoggerFactory.getLogger(WxMpServiceImpl.class);
+  protected final Logger log = LoggerFactory.getLogger(this.getClass());
 
   /**
    * 全局的是否正在刷新access token的锁
