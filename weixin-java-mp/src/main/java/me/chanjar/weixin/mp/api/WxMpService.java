@@ -5,6 +5,7 @@ import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.mp.bean.*;
 import me.chanjar.weixin.mp.bean.result.*;
+import org.apache.http.HttpHost;
 
 /**
  * 微信API的Service
@@ -227,6 +228,11 @@ public interface WxMpService {
    * </pre>
    */
   <T, E> T execute(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException;
+
+  /**
+   * 获取代理对象
+   */
+  HttpHost getHttpProxy();
 
   /**
    * 注入 {@link WxMpConfigStorage} 的实现

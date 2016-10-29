@@ -425,6 +425,7 @@ public class WxMpServiceImpl implements WxMpService {
     }
   }
 
+  @Override
   public HttpHost getHttpProxy() {
     return this.httpProxy;
   }

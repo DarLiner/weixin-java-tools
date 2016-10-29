@@ -14,6 +14,8 @@ import me.chanjar.weixin.mp.bean.pay.result.*;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.Consts;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ssl.DefaultHostnameVerifier;
@@ -27,6 +29,7 @@ import org.apache.http.util.EntityUtils;
 import javax.net.ssl.SSLContext;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.security.KeyStore;
 import java.util.*;
 
@@ -199,7 +202,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
 
     String url = PAY_BASE_URL + "/pay/orderquery";
 
-    String responseContent = this.wxMpService.post(url, xstream.toXML(request));
+    String responseContent = this.executeRequest(url, xstream.toXML(request));
     WxPayOrderQueryResult result = (WxPayOrderQueryResult) xstream.fromXML(responseContent);
     result.composeCoupons(responseContent);
     if ("FAIL".equals(result.getResultCode())) {
@@ -233,7 +236,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
 
     String url = PAY_BASE_URL + "/pay/closeorder";
 
-    String responseContent = this.wxMpService.post(url, xstream.toXML(request));
+    String responseContent = this.executeRequest(url, xstream.toXML(request));
     WxPayOrderCloseResult result = (WxPayOrderCloseResult) xstream.fromXML(responseContent);
     if ("FAIL".equals(result.getResultCode())) {
       throw new WxErrorException(WxError.newBuilder()
@@ -263,7 +266,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
 
     String url = PAY_BASE_URL + "/pay/unifiedorder";
 
-    String responseContent = this.wxMpService.post(url, xstream.toXML(request));
+    String responseContent = this.executeRequest(url, xstream.toXML(request));
     WxPayUnifiedOrderResult result = (WxPayUnifiedOrderResult) xstream
         .fromXML(responseContent);
     if ("FAIL".equals(result.getResultCode())) {
@@ -377,7 +380,27 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     return result;
   }
 
+  private String executeRequest( String url, String requestStr) throws WxErrorException {
+    HttpPost httpPost = new HttpPost(url);
+    if (this.wxMpService.getHttpProxy() != null) {
+      httpPost.setConfig(RequestConfig.custom().setProxy(this.wxMpService.getHttpProxy()).build());
+    }
+
+    try (CloseableHttpClient httpclient = HttpClients.custom().build()) {
+      httpPost.setEntity(new StringEntity(new String(requestStr.getBytes("UTF-8"), "ISO-8859-1")));
+
+      try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
+        return EntityUtils.toString(response.getEntity(), Consts.UTF_8);
+      }
+    } catch (IOException e) {
+      throw new WxErrorException(WxError.newBuilder().setErrorMsg(e.getMessage()).build(), e);
+    }finally {
+      httpPost.releaseConnection();
+    }
+  }
+
   private String executeRequestWithKeyFile( String url, File keyFile, String requestStr, String mchId) throws WxErrorException {
+
     try (FileInputStream inputStream = new FileInputStream(keyFile)) {
       KeyStore keyStore = KeyStore.getInstance("PKCS12");
       keyStore.load(inputStream, mchId.toCharArray());
@@ -386,13 +409,18 @@ public class WxMpPayServiceImpl implements WxMpPayService {
       SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslcontext, new String[] { "TLSv1" }, null,
           new DefaultHostnameVerifier());
 
-      try (CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build()) {
-        HttpPost httpPost = new HttpPost(url);
-        httpPost.setEntity(new StringEntity(new String(requestStr.getBytes("UTF-8"), "ISO-8859-1")));
+      HttpPost httpPost = new HttpPost(url);
+      if (this.wxMpService.getHttpProxy() != null) {
+        httpPost.setConfig(RequestConfig.custom().setProxy(this.wxMpService.getHttpProxy()).build());
+      }
 
+      try (CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build()) {
+        httpPost.setEntity(new StringEntity(new String(requestStr.getBytes("UTF-8"), "ISO-8859-1")));
         try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
-          return EntityUtils.toString(response.getEntity());
+          return EntityUtils.toString(response.getEntity(), Consts.UTF_8);
         }
+      }finally {
+        httpPost.releaseConnection();
       }
     } catch (Exception e) {
       throw new WxErrorException(WxError.newBuilder().setErrorMsg(e.getMessage()).build(), e);
