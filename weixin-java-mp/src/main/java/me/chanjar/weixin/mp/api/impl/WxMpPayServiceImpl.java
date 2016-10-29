@@ -74,21 +74,20 @@ public class WxMpPayServiceImpl implements WxMpPayService {
 
     String url = PAY_BASE_URL + "/secapi/pay/refund";
     String responseContent = this.executeRequestWithKeyFile(url, keyFile, xstream.toXML(request), partnerId);
-    WxPayRefundResult wxMpPayRefundResult = (WxPayRefundResult) xstream.fromXML(responseContent);
+    WxPayRefundResult result = (WxPayRefundResult) xstream.fromXML(responseContent);
+    this.checkResult(result);
+    return result;
+  }
 
-    if (!"SUCCESS".equalsIgnoreCase(wxMpPayRefundResult.getResultCode())
-        || !"SUCCESS".equalsIgnoreCase(wxMpPayRefundResult.getReturnCode())) {
-      WxError error = new WxError();
-      error.setErrorCode(-1);
-      error.setErrorMsg("return_code:" + wxMpPayRefundResult.getReturnCode()
-          + ";return_msg:" + wxMpPayRefundResult.getReturnMsg()
-          + ";result_code:" + wxMpPayRefundResult.getResultCode() + ";err_code"
-          + wxMpPayRefundResult.getErrCode() + ";err_code_des"
-          + wxMpPayRefundResult.getErrCodeDes());
-      throw new WxErrorException(error);
+  private void checkResult(WxPayBaseResult result) throws WxErrorException {
+    if (!"SUCCESS".equalsIgnoreCase(result.getReturnCode())
+      || !"SUCCESS".equalsIgnoreCase(result.getResultCode())) {
+      throw new WxErrorException(WxError.newBuilder().setErrorCode(-1)
+        .setErrorMsg("返回代码:" + result.getReturnCode() + ", 返回信息: "
+          + result.getReturnMsg() + ", 结果代码: " + result.getResultCode() + ", 错误代码: "
+          + result.getErrCode() + ", 错误详情: " + result.getErrCodeDes())
+        .build());
     }
-
-    return wxMpPayRefundResult;
   }
 
   private void checkParameters(WxPayRefundRequest request) throws WxErrorException {
@@ -147,16 +146,10 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     }
 
     String responseContent = this.executeRequestWithKeyFile(url, keyFile, xstream.toXML(request), mchId);
-    WxPaySendRedpackResult redpackResult = (WxPaySendRedpackResult) xstream
+    WxPaySendRedpackResult result = (WxPaySendRedpackResult) xstream
         .fromXML(responseContent);
-    if ("FAIL".equals(redpackResult.getResultCode())) {
-      throw new WxErrorException(WxError.newBuilder()
-          .setErrorMsg(
-              redpackResult.getErrCode() + ":" + redpackResult.getErrCodeDes())
-          .build());
-    }
-
-    return redpackResult;
+    this.checkResult(result);
+    return result;
   }
 
   /**
@@ -209,12 +202,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     String responseContent = this.executeRequest(url, xstream.toXML(request));
     WxPayOrderQueryResult result = (WxPayOrderQueryResult) xstream.fromXML(responseContent);
     result.composeCoupons(responseContent);
-    if ("FAIL".equals(result.getResultCode())) {
-      throw new WxErrorException(WxError.newBuilder()
-        .setErrorMsg(result.getErrCode() + ":" + result.getErrCodeDes())
-        .build());
-    }
-
+    this.checkResult(result);
     return result;
   }
 
@@ -242,11 +230,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
 
     String responseContent = this.executeRequest(url, xstream.toXML(request));
     WxPayOrderCloseResult result = (WxPayOrderCloseResult) xstream.fromXML(responseContent);
-    if ("FAIL".equals(result.getResultCode())) {
-      throw new WxErrorException(WxError.newBuilder()
-        .setErrorMsg(result.getErrCode() + ":" + result.getErrCodeDes())
-        .build());
-    }
+    this.checkResult(result);
 
     return result;
   }
@@ -273,12 +257,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     String responseContent = this.executeRequest(url, xstream.toXML(request));
     WxPayUnifiedOrderResult result = (WxPayUnifiedOrderResult) xstream
         .fromXML(responseContent);
-    if ("FAIL".equals(result.getResultCode()) || "FAIL".equals(result.getReturnCode())) {
-      throw new WxErrorException(WxError.newBuilder()
-          .setErrorMsg(result.getErrCode() + ":" + result.getErrCodeDes())
-          .build());
-    }
-
+    this.checkResult(result);
     return result;
   }
 
@@ -301,16 +280,6 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   @Override
   public Map<String, String> getPayInfo(WxPayUnifiedOrderRequest request) throws WxErrorException {
     WxPayUnifiedOrderResult unifiedOrderResult = this.unifiedOrder(request);
-
-    if (!"SUCCESS".equalsIgnoreCase(unifiedOrderResult.getReturnCode())
-        || !"SUCCESS".equalsIgnoreCase(unifiedOrderResult.getResultCode())) {
-      throw new WxErrorException(WxError.newBuilder().setErrorCode(-1)
-          .setErrorMsg("return_code:" + unifiedOrderResult.getReturnCode() + ";return_msg:"
-          + unifiedOrderResult.getReturnMsg() + ";result_code:" + unifiedOrderResult.getResultCode() + ";err_code"
-              + unifiedOrderResult.getErrCode() + ";err_code_des" + unifiedOrderResult.getErrCodeDes())
-          .build());
-    }
-
     String prepayId = unifiedOrderResult.getPrepayId();
     if (StringUtils.isBlank(prepayId)) {
       throw new RuntimeException(String.format("Failed to get prepay id due to error code '%s'(%s).",
@@ -352,10 +321,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
 
     String responseContent = this.executeRequestWithKeyFile(url, keyFile, xstream.toXML(request), request.getMchId());
     WxEntPayResult result = (WxEntPayResult) xstream.fromXML(responseContent);
-    if ("FAIL".equals(result.getResultCode())) {
-      throw new WxErrorException(
-        WxError.newBuilder().setErrorMsg(result.getErrCode() + ":" + result.getErrCodeDes()).build());
-    }
+    this.checkResult(result);
     return result;
   }
 
@@ -377,10 +343,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
 
     String responseContent = this.executeRequestWithKeyFile(url, keyFile, xstream.toXML(request), request.getMchId());
     WxEntPayQueryResult result = (WxEntPayQueryResult) xstream.fromXML(responseContent);
-    if ("FAIL".equals(result.getResultCode())) {
-      throw new WxErrorException(
-        WxError.newBuilder().setErrorMsg(result.getErrCode() + ":" + result.getErrCodeDes()).build());
-    }
+    this.checkResult(result);
     return result;
   }
 
@@ -400,7 +363,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
       }
     } catch (IOException e) {
       this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[EXCEPTION]: {}", url, requestStr, e.getMessage());
-      throw new WxErrorException(WxError.newBuilder().setErrorMsg(e.getMessage()).build(), e);
+      throw new WxErrorException(WxError.newBuilder().setErrorCode(-1).setErrorMsg(e.getMessage()).build(), e);
     }finally {
       httpPost.releaseConnection();
     }
@@ -432,7 +395,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
       }
     } catch (Exception e) {
       this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[EXCEPTION]: {}", url, requestStr, e.getMessage());
-      throw new WxErrorException(WxError.newBuilder().setErrorMsg(e.getMessage()).build(), e);
+      throw new WxErrorException(WxError.newBuilder().setErrorCode(-1).setErrorMsg(e.getMessage()).build(), e);
     }
   }
 
