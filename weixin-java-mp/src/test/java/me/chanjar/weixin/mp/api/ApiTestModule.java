@@ -18,10 +18,10 @@ public class ApiTestModule implements Module {
         .getSystemResourceAsStream("test-config.xml")) {
       WxXmlMpInMemoryConfigStorage config = this
           .fromXml(WxXmlMpInMemoryConfigStorage.class, is1);
-      WxMpServiceImpl wxService = new WxMpServiceImpl();
+      WxMpService wxService = new WxMpServiceImpl();
       wxService.setWxMpConfigStorage(config);
 
-      binder.bind(WxMpServiceImpl.class).toInstance(wxService);
+      binder.bind(WxMpService.class).toInstance(wxService);
       binder.bind(WxMpConfigStorage.class).toInstance(config);
     } catch (IOException e) {
       e.printStackTrace();

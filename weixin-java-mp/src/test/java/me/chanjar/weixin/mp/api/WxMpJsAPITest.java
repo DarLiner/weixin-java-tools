@@ -8,11 +8,10 @@ import com.google.inject.Inject;
 
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.crypto.SHA1;
-import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 
 /**
  * 测试jsapi ticket接口
- * 
+ *
  * @author chanjarster
  */
 @Test(groups = "jsAPI", dependsOnGroups = "baseAPI")
@@ -20,7 +19,7 @@ import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 public class WxMpJsAPITest {
 
   @Inject
-  protected WxMpServiceImpl wxService;
+  protected WxMpService wxService;
 
 
   public void testJsapiTicket() throws WxErrorException {

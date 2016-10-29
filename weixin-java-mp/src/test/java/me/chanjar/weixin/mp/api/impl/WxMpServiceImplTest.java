@@ -3,6 +3,7 @@ package me.chanjar.weixin.mp.api.impl;
 import com.google.inject.Inject;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.api.ApiTestModule;
+import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
 import org.testng.Assert;
 import org.testng.annotations.Guice;
@@ -13,7 +14,7 @@ import org.testng.annotations.Test;
 public class WxMpServiceImplTest {
 
   @Inject
-  private WxMpServiceImpl wxService;
+  private WxMpService wxService;
 
   @Test
   public void testCheckSignature() {

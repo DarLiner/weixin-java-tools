@@ -3,6 +3,7 @@ package me.chanjar.weixin.mp.api.impl;
 import com.google.inject.Inject;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.ApiTestModule;
+import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.bean.pay.request.WxEntPayRequest;
 import me.chanjar.weixin.mp.bean.pay.request.WxPayRefundRequest;
@@ -26,7 +27,7 @@ import java.io.File;
 public class WxMpPayServiceImplTest {
 
   @Inject
-  protected WxMpServiceImpl wxService;
+  protected WxMpService wxService;
 
   @Test
   public void testGetPayInfo() throws Exception {
@@ -65,7 +66,6 @@ public class WxMpPayServiceImplTest {
 
   /**
    * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#unifiedOrder(WxPayUnifiedOrderRequest)}.
-   * @throws WxErrorException
    */
   @Test
   public void testUnifiedOrder() throws WxErrorException {
@@ -78,7 +78,6 @@ public class WxMpPayServiceImplTest {
 
   /**
    * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#queryOrder(String, String)} .
-   * @throws WxErrorException
    */
   @Test
   public final void testQueryOrder() throws WxErrorException {
@@ -89,7 +88,6 @@ public class WxMpPayServiceImplTest {
 
   /**
    * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#closeOrder(String)} .
-   * @throws WxErrorException
    */
   @Test
   public final void testCloseOrder() throws WxErrorException {
@@ -98,7 +96,6 @@ public class WxMpPayServiceImplTest {
 
   /**
    * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#entPay(WxEntPayRequest, File)}.
-   * @throws WxErrorException
    */
   @Test
   public final void testEntPay() throws WxErrorException {
@@ -109,7 +106,6 @@ public class WxMpPayServiceImplTest {
 
   /**
    * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#queryEntPay(String, File)}.
-   * @throws WxErrorException
    */
   @Test
   public final void testQueryEntPay() throws WxErrorException {

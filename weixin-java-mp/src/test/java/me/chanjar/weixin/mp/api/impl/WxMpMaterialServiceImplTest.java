@@ -6,6 +6,7 @@ import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.fs.FileUtils;
 import me.chanjar.weixin.mp.api.ApiTestModule;
+import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.material.WxMpMaterial;
 import me.chanjar.weixin.mp.bean.material.WxMpMaterialArticleUpdate;
 import me.chanjar.weixin.mp.bean.material.WxMpMaterialNews;
@@ -32,7 +33,7 @@ import static org.junit.Assert.*;
 @Guice(modules = ApiTestModule.class)
 public class WxMpMaterialServiceImplTest {
   @Inject
-  protected WxMpServiceImpl wxService;
+  protected WxMpService wxService;
 
   private Map<String, Map<String, Object>> mediaIds = new LinkedHashMap<>();
   // 缩略图的id，测试上传图文使用

@@ -3,6 +3,7 @@ package me.chanjar.weixin.mp.api.impl;
 import com.google.inject.Inject;
 import me.chanjar.weixin.common.bean.WxCardApiSignature;
 import me.chanjar.weixin.mp.api.ApiTestModule;
+import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpCardResult;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
@@ -19,7 +20,7 @@ import static org.testng.AssertJUnit.assertNotNull;
 public class WxMpCardServiceImplTest {
 
   @Inject
-  protected WxMpServiceImpl wxService;
+  protected WxMpService wxService;
   private String cardId = "123";
   private String code = "good";
   private String openid = "abc";
