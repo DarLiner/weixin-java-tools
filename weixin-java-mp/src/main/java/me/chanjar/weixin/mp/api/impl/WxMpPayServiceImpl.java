@@ -61,8 +61,8 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     checkParameters(request);
 
     XStream xstream = XStreamInitializer.getInstance();
-    xstream.processAnnotations(WxPayRefundResult.class);
     xstream.processAnnotations(WxPayRefundRequest.class);
+    xstream.processAnnotations(WxPayRefundResult.class);
 
     request.setAppid(this.wxMpService.getWxMpConfigStorage().getAppId());
     String partnerId = this.wxMpService.getWxMpConfigStorage().getPartnerId();
