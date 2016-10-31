@@ -1,15 +1,12 @@
 package me.chanjar.weixin.mp.bean.kefu.result;
 
-import java.util.List;
-
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.google.gson.annotations.SerializedName;
-
+import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
+
+import java.util.List;
 /**
- * 
+ *
  * @author Binary Wang
  *
  */
@@ -19,7 +16,7 @@ public class WxMpKfList {
 
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+    return ToStringUtils.toSimpleString(this);
   }
 
   public List<WxMpKfInfo> getKfList() {
@@ -28,8 +25,8 @@ public class WxMpKfList {
 
   public void setKfList(List<WxMpKfInfo> kfList) {
     this.kfList = kfList;
-  }  
-  
+  }
+
   public static WxMpKfList fromJson(String json) {
     return WxMpGsonBuilder.INSTANCE.create().fromJson(json, WxMpKfList.class);
   }

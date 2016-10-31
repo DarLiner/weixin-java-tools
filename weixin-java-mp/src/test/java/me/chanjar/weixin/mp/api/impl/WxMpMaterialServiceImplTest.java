@@ -6,10 +6,11 @@ import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.fs.FileUtils;
 import me.chanjar.weixin.mp.api.ApiTestModule;
-import me.chanjar.weixin.mp.bean.WxMpMaterial;
-import me.chanjar.weixin.mp.bean.WxMpMaterialArticleUpdate;
-import me.chanjar.weixin.mp.bean.WxMpMaterialNews;
-import me.chanjar.weixin.mp.bean.result.*;
+import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.material.WxMpMaterial;
+import me.chanjar.weixin.mp.bean.material.WxMpMaterialArticleUpdate;
+import me.chanjar.weixin.mp.bean.material.WxMpMaterialNews;
+import me.chanjar.weixin.mp.bean.material.*;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
@@ -32,7 +33,7 @@ import static org.junit.Assert.*;
 @Guice(modules = ApiTestModule.class)
 public class WxMpMaterialServiceImplTest {
   @Inject
-  protected WxMpServiceImpl wxService;
+  protected WxMpService wxService;
 
   private Map<String, Map<String, Object>> mediaIds = new LinkedHashMap<>();
   // 缩略图的id，测试上传图文使用
@@ -98,41 +99,40 @@ public class WxMpMaterialServiceImplTest {
 
   @Test(dependsOnMethods = {"testUploadMaterial"})
   public void testAddNews() throws WxErrorException {
-
     // 单图文消息
     WxMpMaterialNews wxMpMaterialNewsSingle = new WxMpMaterialNews();
-    WxMpMaterialNews.WxMpMaterialNewsArticle mpMaterialNewsArticleSingle = new WxMpMaterialNews.WxMpMaterialNewsArticle();
-    mpMaterialNewsArticleSingle.setAuthor("author");
-    mpMaterialNewsArticleSingle.setThumbMediaId(this.thumbMediaId);
-    mpMaterialNewsArticleSingle.setTitle("single title");
-    mpMaterialNewsArticleSingle.setContent("single content");
-    mpMaterialNewsArticleSingle.setContentSourceUrl("content url");
-    mpMaterialNewsArticleSingle.setShowCoverPic(true);
-    mpMaterialNewsArticleSingle.setDigest("single news");
-    wxMpMaterialNewsSingle.addArticle(mpMaterialNewsArticleSingle);
+    WxMpMaterialNews.WxMpMaterialNewsArticle article = new WxMpMaterialNews.WxMpMaterialNewsArticle();
+    article.setAuthor("author");
+    article.setThumbMediaId(this.thumbMediaId);
+    article.setTitle("single title");
+    article.setContent("single content");
+    article.setContentSourceUrl("content url");
+    article.setShowCoverPic(true);
+    article.setDigest("single news");
+    wxMpMaterialNewsSingle.addArticle(article);
 
     // 多图文消息
     WxMpMaterialNews wxMpMaterialNewsMultiple = new WxMpMaterialNews();
-    WxMpMaterialNews.WxMpMaterialNewsArticle wxMpMaterialNewsArticleMultiple1 = new WxMpMaterialNews.WxMpMaterialNewsArticle();
-    wxMpMaterialNewsArticleMultiple1.setAuthor("author1");
-    wxMpMaterialNewsArticleMultiple1.setThumbMediaId(this.thumbMediaId);
-    wxMpMaterialNewsArticleMultiple1.setTitle("multi title1");
-    wxMpMaterialNewsArticleMultiple1.setContent("content 1");
-    wxMpMaterialNewsArticleMultiple1.setContentSourceUrl("content url");
-    wxMpMaterialNewsArticleMultiple1.setShowCoverPic(true);
-    wxMpMaterialNewsArticleMultiple1.setDigest("");
+    WxMpMaterialNews.WxMpMaterialNewsArticle article1 = new WxMpMaterialNews.WxMpMaterialNewsArticle();
+    article1.setAuthor("author1");
+    article1.setThumbMediaId(this.thumbMediaId);
+    article1.setTitle("multi title1");
+    article1.setContent("content 1");
+    article1.setContentSourceUrl("content url");
+    article1.setShowCoverPic(true);
+    article1.setDigest("");
 
-    WxMpMaterialNews.WxMpMaterialNewsArticle wxMpMaterialNewsArticleMultiple2 = new WxMpMaterialNews.WxMpMaterialNewsArticle();
-    wxMpMaterialNewsArticleMultiple2.setAuthor("author2");
-    wxMpMaterialNewsArticleMultiple2.setThumbMediaId(this.thumbMediaId);
-    wxMpMaterialNewsArticleMultiple2.setTitle("multi title2");
-    wxMpMaterialNewsArticleMultiple2.setContent("content 2");
-    wxMpMaterialNewsArticleMultiple2.setContentSourceUrl("content url");
-    wxMpMaterialNewsArticleMultiple2.setShowCoverPic(true);
-    wxMpMaterialNewsArticleMultiple2.setDigest("");
+    WxMpMaterialNews.WxMpMaterialNewsArticle article2 = new WxMpMaterialNews.WxMpMaterialNewsArticle();
+    article2.setAuthor("author2");
+    article2.setThumbMediaId(this.thumbMediaId);
+    article2.setTitle("multi title2");
+    article2.setContent("content 2");
+    article2.setContentSourceUrl("content url");
+    article2.setShowCoverPic(true);
+    article2.setDigest("");
 
-    wxMpMaterialNewsMultiple.addArticle(wxMpMaterialNewsArticleMultiple1);
-    wxMpMaterialNewsMultiple.addArticle(wxMpMaterialNewsArticleMultiple2);
+    wxMpMaterialNewsMultiple.addArticle(article1);
+    wxMpMaterialNewsMultiple.addArticle(article2);
 
     WxMpMaterialUploadResult resSingle = this.wxService.getMaterialService().materialNewsUpload(wxMpMaterialNewsSingle);
     this.singleNewsMediaId = resSingle.getMediaId();
@@ -268,6 +268,7 @@ public class WxMpMaterialServiceImplTest {
 
   // 以下为media接口的测试
   private List<String> mediaIdsToDownload = new ArrayList<>();
+
   @Test(dataProvider="mediaFiles")
   public void testUploadMedia(String mediaType, String fileType, String fileName) throws WxErrorException, IOException {
     try(InputStream inputStream = ClassLoader.getSystemResourceAsStream(fileName)){

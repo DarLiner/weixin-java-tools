@@ -1,18 +1,17 @@
 package me.chanjar.weixin.mp.bean.datacube;
 
 import com.google.gson.annotations.SerializedName;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import me.chanjar.weixin.common.util.ToStringUtils;
 
 /**
  * 统计接口的共用属性类
- * @author binarywang(https://github.com/binarywang)
+ * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  *         Created by Binary Wang on 2016/8/25.
  */
 public class WxDataCubeBaseResult {
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+    return ToStringUtils.toSimpleString(this);
   }
 
   /**
@@ -29,5 +28,5 @@ public class WxDataCubeBaseResult {
   public void setRefDate(String refDate) {
     this.refDate = refDate;
   }
-  
+
 }

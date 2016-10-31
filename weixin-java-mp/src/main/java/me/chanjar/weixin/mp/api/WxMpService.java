@@ -3,19 +3,9 @@ package me.chanjar.weixin.mp.api;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
-import me.chanjar.weixin.mp.bean.WxMpIndustry;
-import me.chanjar.weixin.mp.bean.WxMpMassTagMessage;
-import me.chanjar.weixin.mp.bean.WxMpMassNews;
-import me.chanjar.weixin.mp.bean.WxMpMassOpenIdsMessage;
-import me.chanjar.weixin.mp.bean.WxMpMassPreviewMessage;
-import me.chanjar.weixin.mp.bean.WxMpMassVideo;
-import me.chanjar.weixin.mp.bean.WxMpSemanticQuery;
-import me.chanjar.weixin.mp.bean.WxMpTemplateMessage;
-import me.chanjar.weixin.mp.bean.result.WxMpMassSendResult;
-import me.chanjar.weixin.mp.bean.result.WxMpMassUploadResult;
-import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
-import me.chanjar.weixin.mp.bean.result.WxMpSemanticQueryResult;
-import me.chanjar.weixin.mp.bean.result.WxMpUser;
+import me.chanjar.weixin.mp.bean.*;
+import me.chanjar.weixin.mp.bean.result.*;
+import org.apache.http.HttpHost;
 
 /**
  * 微信API的Service
@@ -126,22 +116,26 @@ public interface WxMpService {
 
   /**
    * <pre>
+   * 群发消息预览接口
+   * 开发者可通过该接口发送消息给指定用户，在手机端查看消息的样式和排版。为了满足第三方平台开发者的需求，在保留对openID预览能力的同时，增加了对指定微信号发送预览的能力，但该能力每日调用次数有限制（100次），请勿滥用。
+   * 接口调用请求说明
+   *  http请求方式: POST
+   *  https://api.weixin.qq.com/cgi-bin/message/mass/preview?access_token=ACCESS_TOKEN
+   * 详情请见：http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140549&token=&lang=zh_CN
+   * </pre>
+   *
+   * @return wxMpMassSendResult
+   */
+  WxMpMassSendResult massMessagePreview(WxMpMassPreviewMessage wxMpMassPreviewMessage) throws Exception;
+
+  /**
+   * <pre>
    * 长链接转短链接接口
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=长链接转短链接接口
    * </pre>
    *
    */
   String shortUrl(String long_url) throws WxErrorException;
-
-  /**
-   * <pre>
-   * 发送模板消息
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=模板消息接口
-   * </pre>
-   *
-   * @return msgid
-   */
-  String templateSend(WxMpTemplateMessage templateMessage) throws WxErrorException;
 
   /**
    * <pre>
@@ -236,6 +230,11 @@ public interface WxMpService {
   <T, E> T execute(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException;
 
   /**
+   * 获取代理对象
+   */
+  HttpHost getHttpProxy();
+
+  /**
    * 注入 {@link WxMpConfigStorage} 的实现
    */
   void setWxMpConfigStorage(WxMpConfigStorage wxConfigProvider);
@@ -255,37 +254,6 @@ public interface WxMpService {
    * </pre>
    */
   void setMaxRetryTimes(int maxRetryTimes);
-
-  /**
-   * <pre>
-   * 预览接口
-   * 详情请见：http://mp.weixin.qq.com/wiki/15/40b6865b893947b764e2de8e4a1fb55f.html#.E9.A2.84.E8.A7.88.E6.8E.A5.E5.8F.A3.E3.80.90.E8.AE.A2.E9.98.85.E5.8F.B7.E4.B8.8E.E6.9C.8D.E5.8A.A1.E5.8F.B7.E8.AE.A4.E8.AF.81.E5.90.8E.E5.9D.87.E5.8F.AF.E7.94.A8.E3.80.91
-   * </pre>
-   *
-   * @return wxMpMassSendResult
-   */
-  WxMpMassSendResult massMessagePreview(WxMpMassPreviewMessage wxMpMassPreviewMessage) throws Exception;
-
-  /**
-   * <pre>
-   * 设置所属行业
-   * 官方文档中暂未告知响应内容
-   * 详情请见：http://mp.weixin.qq.com/wiki/5/6dde9eaa909f83354e0094dc3ad99e05.html#.E8.AE.BE.E7.BD.AE.E6.89.80.E5.B1.9E.E8.A1.8C.E4.B8.9A
-   * </pre>
-   *
-   * @return JsonObject
-   */
-  String setIndustry(WxMpIndustry wxMpIndustry) throws WxErrorException;
-
-  /***
-   * <pre>
-   * 获取设置的行业信息
-   * 详情请见：http://mp.weixin.qq.com/wiki/5/6dde9eaa909f83354e0094dc3ad99e05.html#.E8.AE.BE.E7.BD.AE.E6.89.80.E5.B1.9E.E8.A1.8C.E4.B8.9A
-   * </pre>
-   *
-   * @return wxMpIndustry
-   */
-  WxMpIndustry getIndustry() throws WxErrorException;
 
   /**
    * 获取WxMpConfigStorage 对象
@@ -370,4 +338,11 @@ public interface WxMpService {
    * @return WxMpStoreService
    */
   WxMpStoreService getStoreService();
+
+  /**
+   * 返回模板消息相关接口方法的实现类对象，以方便调用其各种接口
+   *
+   * @return WxMpTemplateMsgService
+   */
+  WxMpTemplateMsgService getTemplateMsgService();
 }

@@ -10,10 +10,10 @@ import me.chanjar.weixin.common.util.http.MediaUploadRequestExecutor;
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 import me.chanjar.weixin.mp.api.WxMpMaterialService;
 import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.bean.WxMpMaterial;
-import me.chanjar.weixin.mp.bean.WxMpMaterialArticleUpdate;
-import me.chanjar.weixin.mp.bean.WxMpMaterialNews;
-import me.chanjar.weixin.mp.bean.result.*;
+import me.chanjar.weixin.mp.bean.material.WxMpMaterial;
+import me.chanjar.weixin.mp.bean.material.WxMpMaterialArticleUpdate;
+import me.chanjar.weixin.mp.bean.material.WxMpMaterialNews;
+import me.chanjar.weixin.mp.bean.material.*;
 import me.chanjar.weixin.mp.util.http.*;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
@@ -37,8 +37,13 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService {
   }
 
   @Override
-  public WxMediaUploadResult mediaUpload(String mediaType, String fileType, InputStream inputStream) throws WxErrorException, IOException {
-    return this.mediaUpload(mediaType, FileUtils.createTmpFile(inputStream, UUID.randomUUID().toString(), fileType));
+  public WxMediaUploadResult mediaUpload(String mediaType, String fileType, InputStream inputStream) throws WxErrorException {
+    try {
+      return this.mediaUpload(mediaType, FileUtils.createTmpFile(inputStream, UUID.randomUUID().toString(), fileType));
+    } catch (IOException e) {
+      e.printStackTrace();
+      throw new WxErrorException(WxError.newBuilder().setErrorMsg(e.getMessage()).build());
+    }
   }
 
   @Override

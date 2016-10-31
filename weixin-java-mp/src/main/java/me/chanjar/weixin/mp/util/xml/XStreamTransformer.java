@@ -7,15 +7,15 @@ import java.util.Map;
 import com.thoughtworks.xstream.XStream;
 
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
-import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
-import me.chanjar.weixin.mp.bean.WxMpXmlOutImageMessage;
-import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
-import me.chanjar.weixin.mp.bean.WxMpXmlOutMusicMessage;
-import me.chanjar.weixin.mp.bean.WxMpXmlOutNewsMessage;
-import me.chanjar.weixin.mp.bean.WxMpXmlOutTextMessage;
-import me.chanjar.weixin.mp.bean.WxMpXmlOutTransferCustomerServiceMessage;
-import me.chanjar.weixin.mp.bean.WxMpXmlOutVideoMessage;
-import me.chanjar.weixin.mp.bean.WxMpXmlOutVoiceMessage;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlOutImageMessage;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMusicMessage;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlOutNewsMessage;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlOutTextMessage;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlOutTransferKefuMessage;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlOutVideoMessage;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlOutVoiceMessage;
 
 public class XStreamTransformer {
 
@@ -62,7 +62,7 @@ public class XStreamTransformer {
     map.put(WxMpXmlOutImageMessage.class, config_WxMpXmlOutImageMessage());
     map.put(WxMpXmlOutVideoMessage.class, config_WxMpXmlOutVideoMessage());
     map.put(WxMpXmlOutVoiceMessage.class, config_WxMpXmlOutVoiceMessage());
-    map.put(WxMpXmlOutTransferCustomerServiceMessage.class, config_WxMpXmlOutTransferCustomerServiceMessage());
+    map.put(WxMpXmlOutTransferKefuMessage.class, config_WxMpXmlOutTransferCustomerServiceMessage());
 
     return map;
   }
@@ -127,8 +127,8 @@ public class XStreamTransformer {
   private static XStream config_WxMpXmlOutTransferCustomerServiceMessage() {
     XStream xstream = XStreamInitializer.getInstance();
     xstream.processAnnotations(WxMpXmlOutMessage.class);
-    xstream.processAnnotations(WxMpXmlOutTransferCustomerServiceMessage.class);
-    xstream.processAnnotations(WxMpXmlOutTransferCustomerServiceMessage.TransInfo.class);
+    xstream.processAnnotations(WxMpXmlOutTransferKefuMessage.class);
+    xstream.processAnnotations(WxMpXmlOutTransferKefuMessage.TransInfo.class);
     return xstream;
   }
 

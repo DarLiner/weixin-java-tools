@@ -5,11 +5,11 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.binarywang</groupId>
   <artifactId>weixin-java-parent</artifactId>
-  <version>2.2.0</version>
+  <version>2.3.0</version>
   <packaging>pom</packaging>
   <name>WeiXin Java Tools - Parent</name>
   <description>微信公众号、企业号上级POM</description>
-  <url>https://github.com/binarywang/weixin-java-tools</url>
+  <url>https://github.com/wechat-group/weixin-java-tools</url>
 
   <licenses>
     <license>
@@ -22,23 +22,51 @@
     <developer>
       <name>Daniel Qian</name>
       <email>chanjarster@gmail.com</email>
+      <url>https://github.com/chanjarster</url>
     </developer>
     <developer>
       <name>Binary Wang</name>
       <email>binarywang@gmail.com</email>
+      <url>https://github.com/binarywang</url>
+    </developer>
+    <developer>
+      <name>gaigeshen</name>
+      <email>gaigeshen@qq.com</email>
+      <url>https://github.com/gaigeshen</url>
+    </developer>
+    <developer>
+      <name>Liu Mingbo</name>
+      <email>liumingbo2008@gmail.com</email>
+      <url>https://github.com/FirenzesEagle</url>
+    </developer>
+    <developer>
+      <name>kakotor</name>
+      <email>kakotor@gmail.com</email>
+      <url>https://github.com/kakotor</url>
+    </developer>
+    <developer>
+      <name>xiong</name>
+      <email>zhaoxiong.tan@gmail.com</email>
+      <url>https://github.com/ZhaoxiongTan</url>
+    </developer>
+    <developer>
+      <name>LiuJunGuang</name>
+      <email>aimilin@yeah.net</email>
+      <url>https://github.com/aimilin6688</url>
     </developer>
   </developers>
 
   <scm>
-    <connection>scm:git:https://github.com/binarywang/weixin-java-tools.git</connection>
-    <developerConnection>scm:git:git@github.com:binarywang/weixin-java-tools.git</developerConnection>
-    <url>https://github.com/binarywang/weixin-java-tools</url>
+    <connection>scm:git:https://github.com/wechat-group/weixin-java-tools.git</connection>
+    <developerConnection>scm:git:git@github.com:wechat-group/weixin-java-tools.git</developerConnection>
+    <url>https://github.com/wechat-group/weixin-java-tools</url>
   </scm>
 
   <modules>
     <module>weixin-java-common</module>
     <module>weixin-java-cp</module>
     <module>weixin-java-mp</module>
+    <module>weixin-java-osgi</module>
   </modules>
 
   <properties>
@@ -48,16 +76,13 @@
     <httpclient.version>4.5</httpclient.version>
     <slf4j.version>1.7.10</slf4j.version>
     <logback.version>1.1.2</logback.version>
-    <jodd-http.version>3.6.7</jodd-http.version>
     <jedis.version>2.9.0</jedis.version>
     <gson.version>2.7</gson.version>
     <guava.version>19.0</guava.version>
-    <joor.version>0.9.6</joor.version>
-    <commons-lang3.version>3.4</commons-lang3.version>
+    <commons-lang3.version>3.5</commons-lang3.version>
     <commons-io.version>2.5</commons-io.version>
     <commons-codec.version>1.10</commons-codec.version>
-    <jetty.version>9.3.0.M0</jetty.version>
-    <jetty-new.version>9.3.10.v20160621</jetty-new.version>
+    <jetty.version>9.3.0.RC0</jetty.version>
   </properties>
 
   <dependencies>
@@ -74,18 +99,8 @@
     </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>fluent-hc</artifactId>
-      <version>${httpclient.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpmime</artifactId>
       <version>${httpclient.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jodd</groupId>
-      <artifactId>jodd-http</artifactId>
-      <version>${jodd-http.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.code.gson</groupId>
@@ -111,15 +126,11 @@
       <groupId>redis.clients</groupId>
       <artifactId>jedis</artifactId>
       <version>${jedis.version}</version>
-      <scope>provided</scope>
+      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.jooq</groupId>
-      <artifactId>joor</artifactId>
     </dependency>
   </dependencies>
 
@@ -165,11 +176,6 @@
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
         <version>${guava.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jooq</groupId>
-        <artifactId>joor</artifactId>
-        <version>${joor.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -299,6 +305,5 @@
       </plugin>
     </plugins>
   </build>
-
 
 </project>

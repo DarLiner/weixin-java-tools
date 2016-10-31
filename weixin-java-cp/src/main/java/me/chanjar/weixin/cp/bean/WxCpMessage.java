@@ -1,11 +1,16 @@
 package me.chanjar.weixin.cp.bean;
 
-import me.chanjar.weixin.cp.bean.messagebuilder.*;
-import me.chanjar.weixin.cp.util.json.WxCpGsonBuilder;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import me.chanjar.weixin.cp.bean.messagebuilder.FileBuilder;
+import me.chanjar.weixin.cp.bean.messagebuilder.ImageBuilder;
+import me.chanjar.weixin.cp.bean.messagebuilder.NewsBuilder;
+import me.chanjar.weixin.cp.bean.messagebuilder.TextBuilder;
+import me.chanjar.weixin.cp.bean.messagebuilder.VideoBuilder;
+import me.chanjar.weixin.cp.bean.messagebuilder.VoiceBuilder;
+import me.chanjar.weixin.cp.util.json.WxCpGsonBuilder;
 
 /**
  * 消息
@@ -14,9 +19,6 @@ import java.util.List;
  */
 public class WxCpMessage implements Serializable {
 
-  /**
-   * 
-   */
   private static final long serialVersionUID = -2082278303476631708L;
   private String toUser;
   private String toParty;

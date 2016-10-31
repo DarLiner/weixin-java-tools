@@ -1,17 +1,14 @@
 package me.chanjar.weixin.mp.bean.result;
 
-import java.io.Serializable;
-import java.lang.reflect.Type;
-import java.util.List;
-
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-
+import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
+
+import java.io.Serializable;
+import java.lang.reflect.Type;
+import java.util.List;
 
 /**
  * 微信用户信息
@@ -38,10 +35,6 @@ public class WxMpUser implements Serializable {
   private Integer[] tagIds;
 
   public Boolean getSubscribe() {
-    return this.subscribe;
-  }
-
-  public Boolean isSubscribe() {
     return this.subscribe;
   }
 
@@ -179,7 +172,7 @@ public class WxMpUser implements Serializable {
 
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+    return ToStringUtils.toSimpleString(this);
   }
 
 }

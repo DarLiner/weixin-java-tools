@@ -1,18 +1,15 @@
 package me.chanjar.weixin.mp.bean.tag;
 
-import java.util.List;
-
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-
+import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
+
+import java.util.List;
 
 /**
  * 用户标签对象
- * @author binarywang(https://github.com/binarywang)
+ * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  *         Created by Binary Wang on 2016/9/2.
  */
 public class WxUserTag {
@@ -73,6 +70,6 @@ public class WxUserTag {
 
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+    return ToStringUtils.toSimpleString(this);
   }
 }

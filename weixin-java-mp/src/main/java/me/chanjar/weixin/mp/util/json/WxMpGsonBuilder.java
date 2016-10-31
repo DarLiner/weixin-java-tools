@@ -4,33 +4,33 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import me.chanjar.weixin.mp.bean.WxMpCard;
-import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
-import me.chanjar.weixin.mp.bean.WxMpIndustry;
+import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage;
 import me.chanjar.weixin.mp.bean.WxMpMassNews;
 import me.chanjar.weixin.mp.bean.WxMpMassOpenIdsMessage;
 import me.chanjar.weixin.mp.bean.WxMpMassPreviewMessage;
 import me.chanjar.weixin.mp.bean.WxMpMassTagMessage;
 import me.chanjar.weixin.mp.bean.WxMpMassVideo;
-import me.chanjar.weixin.mp.bean.WxMpMaterialArticleUpdate;
-import me.chanjar.weixin.mp.bean.WxMpMaterialNews;
-import me.chanjar.weixin.mp.bean.WxMpTemplateMessage;
+import me.chanjar.weixin.mp.bean.material.WxMpMaterialArticleUpdate;
+import me.chanjar.weixin.mp.bean.material.WxMpMaterialNews;
 import me.chanjar.weixin.mp.bean.datacube.WxDataCubeUserCumulate;
 import me.chanjar.weixin.mp.bean.datacube.WxDataCubeUserSummary;
-import me.chanjar.weixin.mp.bean.result.WxMediaImgUploadResult;
+import me.chanjar.weixin.mp.bean.material.WxMediaImgUploadResult;
 import me.chanjar.weixin.mp.bean.result.WxMpCardResult;
 import me.chanjar.weixin.mp.bean.result.WxMpMassSendResult;
 import me.chanjar.weixin.mp.bean.result.WxMpMassUploadResult;
-import me.chanjar.weixin.mp.bean.result.WxMpMaterialCountResult;
-import me.chanjar.weixin.mp.bean.result.WxMpMaterialFileBatchGetResult;
-import me.chanjar.weixin.mp.bean.result.WxMpMaterialNewsBatchGetResult;
-import me.chanjar.weixin.mp.bean.result.WxMpMaterialUploadResult;
-import me.chanjar.weixin.mp.bean.result.WxMpMaterialVideoInfoResult;
+import me.chanjar.weixin.mp.bean.material.WxMpMaterialCountResult;
+import me.chanjar.weixin.mp.bean.material.WxMpMaterialFileBatchGetResult;
+import me.chanjar.weixin.mp.bean.material.WxMpMaterialNewsBatchGetResult;
+import me.chanjar.weixin.mp.bean.material.WxMpMaterialUploadResult;
+import me.chanjar.weixin.mp.bean.material.WxMpMaterialVideoInfoResult;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
 import me.chanjar.weixin.mp.bean.result.WxMpSemanticQueryResult;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import me.chanjar.weixin.mp.bean.result.WxMpUserBlacklistGetResult;
 import me.chanjar.weixin.mp.bean.result.WxMpUserList;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateIndustry;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 
 public class WxMpGsonBuilder {
 
@@ -38,7 +38,7 @@ public class WxMpGsonBuilder {
 
   static {
     INSTANCE.disableHtmlEscaping();
-    INSTANCE.registerTypeAdapter(WxMpCustomMessage.class, new WxMpCustomMessageGsonAdapter());
+    INSTANCE.registerTypeAdapter(WxMpKefuMessage.class, new WxMpKefuMessageGsonAdapter());
     INSTANCE.registerTypeAdapter(WxMpMassNews.class, new WxMpMassNewsGsonAdapter());
     INSTANCE.registerTypeAdapter(WxMpMassTagMessage.class, new WxMpMassTagMessageGsonAdapter());
     INSTANCE.registerTypeAdapter(WxMpMassOpenIdsMessage.class, new WxMpMassOpenIdsMessageGsonAdapter());
@@ -68,7 +68,7 @@ public class WxMpGsonBuilder {
     INSTANCE.registerTypeAdapter(WxMpCard.class, new WxMpCardGsonAdapter());
     INSTANCE.registerTypeAdapter(WxMpMassPreviewMessage.class, new WxMpMassPreviewMessageGsonAdapter());
     INSTANCE.registerTypeAdapter(WxMediaImgUploadResult.class, new WxMediaImgUploadResultGsonAdapter());
-    INSTANCE.registerTypeAdapter(WxMpIndustry.class, new WxMpIndustryGsonAdapter());
+    INSTANCE.registerTypeAdapter(WxMpTemplateIndustry.class, new WxMpIndustryGsonAdapter());
     INSTANCE.registerTypeAdapter(WxMpUserBlacklistGetResult.class, new WxUserBlacklistGetResultGsonAdapter());
   }
 

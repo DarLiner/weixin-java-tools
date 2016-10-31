@@ -1,10 +1,9 @@
 package me.chanjar.weixin.common.bean.menu;
 
+import me.chanjar.weixin.common.util.ToStringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 public class WxMenuButton {
 
@@ -18,10 +17,9 @@ public class WxMenuButton {
 
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this, 
-        ToStringStyle.JSON_STYLE);
+    return ToStringUtils.toSimpleString(this);
   }
-  
+
   public String getType() {
     return this.type;
   }

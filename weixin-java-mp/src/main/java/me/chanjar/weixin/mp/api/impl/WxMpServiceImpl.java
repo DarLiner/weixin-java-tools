@@ -1,7 +1,21 @@
 package me.chanjar.weixin.mp.api.impl;
 
-import java.io.IOException;
-
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import me.chanjar.weixin.common.bean.WxAccessToken;
+import me.chanjar.weixin.common.bean.WxJsapiSignature;
+import me.chanjar.weixin.common.bean.result.WxError;
+import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.session.StandardSessionManager;
+import me.chanjar.weixin.common.session.WxSessionManager;
+import me.chanjar.weixin.common.util.RandomUtils;
+import me.chanjar.weixin.common.util.crypto.SHA1;
+import me.chanjar.weixin.common.util.http.*;
+import me.chanjar.weixin.mp.api.*;
+import me.chanjar.weixin.mp.bean.*;
+import me.chanjar.weixin.mp.bean.result.*;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -13,57 +27,13 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import me.chanjar.weixin.common.bean.WxAccessToken;
-import me.chanjar.weixin.common.bean.WxJsapiSignature;
-import me.chanjar.weixin.common.bean.result.WxError;
-import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.session.StandardSessionManager;
-import me.chanjar.weixin.common.session.WxSessionManager;
-import me.chanjar.weixin.common.util.RandomUtils;
-import me.chanjar.weixin.common.util.crypto.SHA1;
-import me.chanjar.weixin.common.util.http.ApacheHttpClientBuilder;
-import me.chanjar.weixin.common.util.http.DefaultApacheHttpClientBuilder;
-import me.chanjar.weixin.common.util.http.RequestExecutor;
-import me.chanjar.weixin.common.util.http.SimpleGetRequestExecutor;
-import me.chanjar.weixin.common.util.http.SimplePostRequestExecutor;
-import me.chanjar.weixin.common.util.http.URIUtil;
-import me.chanjar.weixin.mp.api.WxMpCardService;
-import me.chanjar.weixin.mp.api.WxMpConfigStorage;
-import me.chanjar.weixin.mp.api.WxMpDataCubeService;
-import me.chanjar.weixin.mp.api.WxMpKefuService;
-import me.chanjar.weixin.mp.api.WxMpMaterialService;
-import me.chanjar.weixin.mp.api.WxMpMenuService;
-import me.chanjar.weixin.mp.api.WxMpPayService;
-import me.chanjar.weixin.mp.api.WxMpQrcodeService;
-import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.api.WxMpStoreService;
-import me.chanjar.weixin.mp.api.WxMpUserBlacklistService;
-import me.chanjar.weixin.mp.api.WxMpUserService;
-import me.chanjar.weixin.mp.api.WxMpUserTagService;
-import me.chanjar.weixin.mp.bean.WxMpIndustry;
-import me.chanjar.weixin.mp.bean.WxMpMassNews;
-import me.chanjar.weixin.mp.bean.WxMpMassOpenIdsMessage;
-import me.chanjar.weixin.mp.bean.WxMpMassPreviewMessage;
-import me.chanjar.weixin.mp.bean.WxMpMassTagMessage;
-import me.chanjar.weixin.mp.bean.WxMpMassVideo;
-import me.chanjar.weixin.mp.bean.WxMpSemanticQuery;
-import me.chanjar.weixin.mp.bean.WxMpTemplateMessage;
-import me.chanjar.weixin.mp.bean.result.WxMpMassSendResult;
-import me.chanjar.weixin.mp.bean.result.WxMpMassUploadResult;
-import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
-import me.chanjar.weixin.mp.bean.result.WxMpSemanticQueryResult;
-import me.chanjar.weixin.mp.bean.result.WxMpUser;
+import java.io.IOException;
 
 public class WxMpServiceImpl implements WxMpService {
 
   private static final JsonParser JSON_PARSER = new JsonParser();
 
-  protected final Logger log = LoggerFactory.getLogger(WxMpServiceImpl.class);
+  protected final Logger log = LoggerFactory.getLogger(this.getClass());
 
   /**
    * 全局的是否正在刷新access token的锁
@@ -98,6 +68,8 @@ public class WxMpServiceImpl implements WxMpService {
   private WxMpDataCubeService dataCubeService = new WxMpDataCubeServiceImpl(this);
 
   private WxMpUserBlacklistService blackListService = new WxMpUserBlacklistServiceImpl(this);
+
+  private WxMpTemplateMsgService templateMsgService = new WxMpTemplateMsgServiceImpl(this);
 
   private CloseableHttpClient httpClient;
 
@@ -249,35 +221,6 @@ public class WxMpServiceImpl implements WxMpService {
     String responseContent = this.post(url, o.toString());
     JsonElement tmpJsonElement = JSON_PARSER.parse(responseContent);
     return tmpJsonElement.getAsJsonObject().get("short_url").getAsString();
-  }
-
-  @Override
-  public String templateSend(WxMpTemplateMessage templateMessage) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/message/template/send";
-    String responseContent = this.post(url, templateMessage.toJson());
-    final JsonObject jsonObject = JSON_PARSER.parse(responseContent).getAsJsonObject();
-    if (jsonObject.get("errcode").getAsInt() == 0){
-      return jsonObject.get("msgid").getAsString();
-    }
-
-    throw new WxErrorException(WxError.fromJson(responseContent));
-  }
-
-  @Override
-  public String setIndustry(WxMpIndustry wxMpIndustry) throws WxErrorException {
-    if (null == wxMpIndustry.getPrimaryIndustry() || null == wxMpIndustry.getPrimaryIndustry().getId()
-            || null == wxMpIndustry.getSecondIndustry() || null == wxMpIndustry.getSecondIndustry().getId()) {
-      throw new IllegalArgumentException("industry id is empty");
-    }
-    String url = "https://api.weixin.qq.com/cgi-bin/template/api_set_industry";
-    return this.post(url, wxMpIndustry.toJson());
-  }
-
-  @Override
-  public WxMpIndustry getIndustry() throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/template/get_industry";
-    String responseContent = this.get(url, null);
-    return WxMpIndustry.fromJson(responseContent);
   }
 
   @Override
@@ -477,10 +420,12 @@ public class WxMpServiceImpl implements WxMpService {
       }
       return null;
     } catch (IOException e) {
+      this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[EXCEPTION]: {}", uri, data, e.getMessage());
       throw new RuntimeException(e);
     }
   }
 
+  @Override
   public HttpHost getHttpProxy() {
     return this.httpProxy;
   }
@@ -589,6 +534,11 @@ public class WxMpServiceImpl implements WxMpService {
   @Override
   public WxMpStoreService getStoreService() {
     return this.storeService;
+  }
+
+  @Override
+  public WxMpTemplateMsgService getTemplateMsgService() {
+    return this.templateMsgService;
   }
 
 }

@@ -1,8 +1,7 @@
 package me.chanjar.weixin.mp.bean.result;
 
+import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.mp.bean.WxMpCard;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.io.Serializable;
 
@@ -15,7 +14,7 @@ import java.io.Serializable;
 public class WxMpCardResult implements Serializable {
 
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = -7950878428289035637L;
 
@@ -65,7 +64,7 @@ public class WxMpCardResult implements Serializable {
 
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+    return ToStringUtils.toSimpleString(this);
   }
 
   public String getUserCardStatus() {

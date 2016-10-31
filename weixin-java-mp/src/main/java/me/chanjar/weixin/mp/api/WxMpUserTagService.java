@@ -9,7 +9,7 @@ import me.chanjar.weixin.mp.bean.tag.WxUserTag;
 /**
  * 用户标签管理相关接口
  * Created by Binary Wang on 2016/9/2.
- * @author binarywang(https://github.com/binarywang)
+ * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  *
  */
 public interface WxMpUserTagService {
@@ -94,8 +94,8 @@ public interface WxMpUserTagService {
    * 详情请见：<a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140837&token=&lang=zh_CN">用户标签管理</a>
    * 接口url格式： https://api.weixin.qq.com/cgi-bin/tags/getidlist?access_token=ACCESS_TOKEN
    * </pre>
-   *
+   * @return 标签Id的列表 
    */
-  List<Integer> userTagList(String openid) throws WxErrorException;
+  List<Long> userTagList(String openid) throws WxErrorException;
 
 }

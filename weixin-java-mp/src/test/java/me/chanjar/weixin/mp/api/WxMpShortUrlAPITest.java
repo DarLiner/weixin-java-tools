@@ -2,14 +2,13 @@ package me.chanjar.weixin.mp.api;
 
 import com.google.inject.Inject;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 import org.testng.Assert;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
 
 /**
  * 测试短连接
- * 
+ *
  * @author chanjarster
  */
 @Test(groups = "shortURLAPI")
@@ -17,7 +16,7 @@ import org.testng.annotations.Test;
 public class WxMpShortUrlAPITest {
 
   @Inject
-  protected WxMpServiceImpl wxService;
+  protected WxMpService wxService;
 
   public void testShortUrl() throws WxErrorException {
     String shortUrl = this.wxService.shortUrl("www.baidu.com");

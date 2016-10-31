@@ -13,7 +13,6 @@ import com.google.inject.Inject;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 import me.chanjar.weixin.mp.bean.WxMpMassNews;
 import me.chanjar.weixin.mp.bean.WxMpMassOpenIdsMessage;
 import me.chanjar.weixin.mp.bean.WxMpMassTagMessage;
@@ -31,7 +30,7 @@ import me.chanjar.weixin.mp.bean.result.WxMpMassUploadResult;
 public class WxMpMassMessageAPITest {
 
   @Inject
-  protected WxMpServiceImpl wxService;
+  protected WxMpService wxService;
 
   @Test
   public void testTextMassOpenIdsMessageSend() throws WxErrorException {

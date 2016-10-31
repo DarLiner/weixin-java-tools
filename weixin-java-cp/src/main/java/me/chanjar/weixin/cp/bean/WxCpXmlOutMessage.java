@@ -8,8 +8,12 @@ import me.chanjar.weixin.cp.bean.outxmlbuilder.*;
 import me.chanjar.weixin.cp.util.crypto.WxCpCryptUtil;
 import me.chanjar.weixin.cp.util.xml.XStreamTransformer;
 
+import java.io.Serializable;
+
 @XStreamAlias("xml")
-public abstract class WxCpXmlOutMessage {
+public abstract class WxCpXmlOutMessage implements Serializable {
+
+  private static final long serialVersionUID = 1418629839964153110L;
 
   @XStreamAlias("ToUserName")
   @XStreamConverter(value = XStreamCDataConverter.class)

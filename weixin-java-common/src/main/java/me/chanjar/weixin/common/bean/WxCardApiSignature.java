@@ -1,7 +1,6 @@
 package me.chanjar.weixin.common.bean;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import me.chanjar.weixin.common.util.ToStringUtils;
 
 import java.io.Serializable;
 
@@ -35,7 +34,7 @@ public class WxCardApiSignature implements Serializable {
 
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+    return ToStringUtils.toSimpleString(this);
   }
 
   public String getAppId() {

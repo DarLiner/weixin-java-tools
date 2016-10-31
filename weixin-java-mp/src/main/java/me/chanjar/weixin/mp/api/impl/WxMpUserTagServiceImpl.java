@@ -1,9 +1,14 @@
 package me.chanjar.weixin.mp.api.impl;
 
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -11,13 +16,10 @@ import me.chanjar.weixin.mp.api.WxMpUserTagService;
 import me.chanjar.weixin.mp.bean.tag.WxTagListUser;
 import me.chanjar.weixin.mp.bean.tag.WxUserTag;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.List;
 
 /**
  *
- * @author binarywang(https://github.com/binarywang)
+ * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  *         Created by Binary Wang on 2016/9/2.
  */
 public class WxMpUserTagServiceImpl implements WxMpUserTagService {
@@ -102,7 +104,7 @@ public class WxMpUserTagServiceImpl implements WxMpUserTagService {
   @Override
   public boolean batchTagging(Long tagId, String[] openids)
       throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging";
+    String url = API_URL_PREFIX + "/members/batchtagging";
 
     JsonObject json = new JsonObject();
     json.addProperty("tagid", tagId);
@@ -124,7 +126,7 @@ public class WxMpUserTagServiceImpl implements WxMpUserTagService {
   @Override
   public boolean batchUntagging(Long tagId, String[] openids)
       throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/tags/members/batchuntagging";
+    String url = API_URL_PREFIX + "/members/batchuntagging";
 
     JsonObject json = new JsonObject();
     json.addProperty("tagid", tagId);
@@ -144,8 +146,8 @@ public class WxMpUserTagServiceImpl implements WxMpUserTagService {
   }
 
   @Override
-  public List<Integer> userTagList(String openid) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/tags/getidlist";
+  public List<Long> userTagList(String openid) throws WxErrorException {
+    String url = API_URL_PREFIX + "/getidlist";
 
     JsonObject json = new JsonObject();
     json.addProperty("openid", openid);
@@ -154,7 +156,7 @@ public class WxMpUserTagServiceImpl implements WxMpUserTagService {
 
     return WxMpGsonBuilder.create().fromJson(
         new JsonParser().parse(responseContent).getAsJsonObject().get("tagid_list"),
-        new TypeToken<List<Integer>>() {
+        new TypeToken<List<Long>>() {
     }.getType());
   }
 }

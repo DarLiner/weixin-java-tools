@@ -1,7 +1,6 @@
 package me.chanjar.weixin.common.bean.menu;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import me.chanjar.weixin.common.util.ToStringUtils;
 
 public class WxMenuRule {
   private String tagId;
@@ -70,6 +69,6 @@ public class WxMenuRule {
 
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+    return ToStringUtils.toSimpleString(this);
   }
 }

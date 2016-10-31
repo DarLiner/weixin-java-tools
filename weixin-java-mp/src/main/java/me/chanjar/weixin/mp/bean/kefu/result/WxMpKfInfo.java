@@ -1,12 +1,10 @@
 package me.chanjar.weixin.mp.bean.kefu.result;
 
-import java.io.Serializable;
-
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import me.chanjar.weixin.common.util.ToStringUtils;
+
+import java.io.Serializable;
 
 /**
  * 客服基本信息以及客服在线状态信息
@@ -127,7 +125,7 @@ public class WxMpKfInfo implements Serializable {
 
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+    return ToStringUtils.toSimpleString(this);
   }
 
   public String getWxAccount() {

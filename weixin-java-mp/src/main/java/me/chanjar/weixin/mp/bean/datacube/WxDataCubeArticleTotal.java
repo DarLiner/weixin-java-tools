@@ -10,7 +10,7 @@ import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
 /**
  * 图文分析数据接口返回结果对象
- * @author binarywang(https://github.com/binarywang)
+ * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  *         Created by Binary Wang on 2016/8/24.
  */
 public class WxDataCubeArticleTotal extends WxDataCubeBaseResult {

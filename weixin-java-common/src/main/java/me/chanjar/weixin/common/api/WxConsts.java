@@ -23,14 +23,15 @@ public class WxConsts {
   ///////////////////////
   // 主动发送消息(即客服消息)的消息类型
   ///////////////////////
-  public static final String CUSTOM_MSG_TEXT = "text";
-  public static final String CUSTOM_MSG_IMAGE = "image";
-  public static final String CUSTOM_MSG_VOICE = "voice";
-  public static final String CUSTOM_MSG_VIDEO = "video";
-  public static final String CUSTOM_MSG_MUSIC = "music";
-  public static final String CUSTOM_MSG_NEWS = "news";
-  public static final String CUSTOM_MSG_FILE = "file";
-  public static final String CUSTOM_MSG_WXCARD = "wxcard";
+  public static final String CUSTOM_MSG_TEXT = "text";//文本消息
+  public static final String CUSTOM_MSG_IMAGE = "image";//图片消息
+  public static final String CUSTOM_MSG_VOICE = "voice";//语音消息
+  public static final String CUSTOM_MSG_VIDEO = "video";//视频消息
+  public static final String CUSTOM_MSG_MUSIC = "music";//音乐消息
+  public static final String CUSTOM_MSG_NEWS = "news";//图文消息（点击跳转到外链）
+  public static final String CUSTOM_MSG_MPNEWS = "mpnews";//图文消息（点击跳转到图文消息页面）
+  public static final String CUSTOM_MSG_FILE = "file";//发送文件（CP专用）
+  public static final String CUSTOM_MSG_WXCARD = "wxcard";//卡券消息
   public static final String CUSTOM_MSG_TRANSFER_CUSTOMER_SERVICE = "transfer_customer_service";
   public static final String CUSTOM_MSG_SAFE_NO = "0";
   public static final String CUSTOM_MSG_SAFE_YES = "1";
@@ -63,6 +64,7 @@ public class WxConsts {
    * 群发反馈消息代码所对应的文字描述
    */
   public static final Map<String, String> MASS_ST_2_DESC = new HashMap<>();
+
   ///////////////////////
   // 微信端推送过来的事件类型
   ///////////////////////
@@ -94,6 +96,31 @@ public class WxConsts {
   public static final String EVT_KF_CLOSE_SESSION = "kf_close_session"; // 客服关闭会话
   public static final String EVT_KF_SWITCH_SESSION = "kf_switch_session"; // 客服转接会话
   public static final String EVT_POI_CHECK_NOTIFY = "poi_check_notify"; //门店审核事件推送
+  //以下为微信认证事件
+  /**
+   * 资质认证成功
+   */
+  public static final String EVT_QUALIFICATION_VERIFY_SUCCESS = "qualification_verify_success";
+  /**
+   * 资质认证失败
+   */
+  public static final String EVT_QUALIFICATION_VERIFY_FAIL = "qualification_verify_fail";
+  /**
+   * 名称认证成功
+   */
+  public static final String EVT_NAMING_VERIFY_SUCCESS = "naming_verify_success";
+  /**
+   * 名称认证失败
+   */
+  public static final String EVT_NAMING_VERIFY_FAIL = "naming_verify_fail";
+  /**
+   * 年审通知
+   */
+  public static final String EVT_ANNUAL_RENEW = "annual_renew";
+  /**
+   * 认证过期失效通知
+   */
+  public static final String EVT_VERIFY_EXPIRED = "verify_expired";
 
   ///////////////////////
   // 上传多媒体文件的类型
@@ -167,7 +194,7 @@ public class WxConsts {
    * 弹出授权页面，可通过openid拿到昵称、性别、所在地。并且，即使在未关注的情况下，只要用户授权，也能获取其信息
    */
   public static final String OAUTH2_SCOPE_USER_INFO = "snsapi_userinfo";
-  
+
   /**
    * 网页应用登录授权作用域 snsapi_login
    */

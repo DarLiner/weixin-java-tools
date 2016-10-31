@@ -1,15 +1,14 @@
 package me.chanjar.weixin.mp.api.impl;
 
-import java.util.List;
-
 import com.google.gson.JsonObject;
-
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.WxMpUserService;
 import me.chanjar.weixin.mp.bean.WxMpUserQuery;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import me.chanjar.weixin.mp.bean.result.WxMpUserList;
+
+import java.util.List;
 
 /**
  * Created by Binary Wang on 2016/7/21.
@@ -29,6 +28,11 @@ public class WxMpUserServiceImpl implements WxMpUserService {
     json.addProperty("openid", openid);
     json.addProperty("remark", remark);
     this.wxMpService.post(url, json.toString());
+  }
+
+  @Override
+  public WxMpUser userInfo(String openid) throws WxErrorException {
+    return this.userInfo(openid, null);
   }
 
   @Override

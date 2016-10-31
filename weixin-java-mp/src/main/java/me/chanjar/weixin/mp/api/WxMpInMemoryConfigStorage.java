@@ -1,13 +1,10 @@
 package me.chanjar.weixin.mp.api;
 
 import me.chanjar.weixin.common.bean.WxAccessToken;
+import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.common.util.http.ApacheHttpClientBuilder;
 
 import javax.net.ssl.SSLContext;
-
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import java.io.File;
 
 /**
@@ -43,7 +40,7 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
    * 临时文件目录
    */
   protected volatile File tmpDirFile;
-  
+
   protected volatile SSLContext sslContext;
 
   protected volatile ApacheHttpClientBuilder apacheHttpClientBuilder;
@@ -62,7 +59,7 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   public synchronized void updateAccessToken(WxAccessToken accessToken) {
     updateAccessToken(accessToken.getAccessToken(), accessToken.getExpiresIn());
   }
-  
+
   @Override
   public synchronized void updateAccessToken(String accessToken, int expiresInSeconds) {
     this.accessToken = accessToken;
@@ -229,7 +226,7 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
 
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this,ToStringStyle.JSON_STYLE);
+    return ToStringUtils.toSimpleString(this);
   }
 
   @Override
@@ -263,7 +260,7 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   public SSLContext getSSLContext() {
     return this.sslContext;
   }
-  
+
   public void setSSLContext(SSLContext context) {
     this.sslContext = context;
   }

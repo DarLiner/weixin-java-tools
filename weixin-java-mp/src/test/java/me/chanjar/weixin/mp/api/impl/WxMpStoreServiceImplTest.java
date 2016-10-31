@@ -3,6 +3,7 @@ package me.chanjar.weixin.mp.api.impl;
 import com.google.inject.Inject;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.ApiTestModule;
+import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.store.WxMpStoreBaseInfo;
 import me.chanjar.weixin.mp.bean.store.WxMpStoreInfo;
 import me.chanjar.weixin.mp.bean.store.WxMpStoreListResult;
@@ -15,7 +16,7 @@ import java.util.List;
 import static org.junit.Assert.assertNotNull;
 
 /**
- * @author binarywang(https://github.com/binarywang)
+ * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  *         Created by Binary Wang on 2016-09-23.
  *
  */
@@ -23,13 +24,14 @@ import static org.junit.Assert.assertNotNull;
 @Guice(modules = ApiTestModule.class)
 public class WxMpStoreServiceImplTest {
   @Inject
-  private WxMpServiceImpl wxMpService;
+  private WxMpService wxMpService;
 
   /**
    * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpStoreServiceImpl#add(me.chanjar.weixin.mp.bean.store.WxMpStoreBaseInfo)}.
    * @throws WxErrorException
    */
   public void testAdd() throws WxErrorException {
+    this.wxMpService.getStoreService().add(WxMpStoreBaseInfo.builder().build());
     this.wxMpService.getStoreService()
         .add(WxMpStoreBaseInfo.builder().businessName("haha").branchName("abc")
             .province("aaa").district("aaa").telephone("122").address("abc").categories(new String[] { "美食,江浙菜" })

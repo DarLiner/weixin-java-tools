@@ -2,7 +2,6 @@ package me.chanjar.weixin.mp.api;
 
 import com.google.inject.Inject;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 import org.testng.Assert;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
@@ -19,7 +18,7 @@ import java.util.Arrays;
 public class WxMpMiscAPITest {
 
   @Inject
-  protected WxMpServiceImpl wxService;
+  protected WxMpService wxService;
 
   @Test
   public void testGetCallbackIP() throws WxErrorException {
