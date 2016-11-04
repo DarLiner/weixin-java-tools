@@ -1,5 +1,8 @@
 # Weixin Java Tools 微信公众号/企业号开发Java SDK
-## ![Maven Central](https://img.shields.io/maven-central/v/com.github.binarywang/weixin-java-parent.svg)  [![Build Status](https://travis-ci.org/wechat-group/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/wechat-group/weixin-java-tools)  [![Join QQ Group](http://pub.idqqimg.com/wpa/images/group.png)](http://jq.qq.com/?_wv=1027&k=40lRskK)
+=====================================
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.binarywang/weixin-java-mp/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.binarywang/weixin-java-mp)
+[![Build Status](https://travis-ci.org/wechat-group/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/wechat-group/weixin-java-tools)  
+[![Join QQ Group](http://pub.idqqimg.com/wpa/images/group.png)](http://jq.qq.com/?_wv=1027&k=40lRskK)
 
 
 ### 注意：
