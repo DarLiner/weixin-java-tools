@@ -12,7 +12,7 @@ Weixin Java Tools 微信公众号/企业号开发Java SDK
 ===========
 
 ## 开发交流方式及注意事项：
-1. QQ群：343954419 [![Join QQ Group](http://pub.idqqimg.com/wpa/images/group.png)](http://jq.qq.com/?_wv=1027&k=40lRskK)
+1. QQ群：343954419 [![Join QQ Group](http://pub.idqqimg.com/wpa/images/group.png)](http://jq.qq.com/?_wv=1027&k=40lRskK) （由于群容量有限即将爆满，现开启付费入群模式，并不定期清理长时间不活跃人士）
 1. 微信群： 因微信群已达到100人限制，故如有想加入微信群的，请入QQ群后联系管理员，提供微信号以便邀请加入；
 1. 新手提问前，请先阅读此文章：http://t.cn/RV93MRB
 1. 寻求帮助时需贴代码或大长串异常信息的，请利用http://paste.ubuntu.com
@@ -81,7 +81,7 @@ compile 'com.github.binarywang:weixin-java-cp:2.3.0'
 1. 为了便于设置，本项目引入editorconfig插件，请使用eclipse的同学在贡献代码前安装相关插件，IntelliJ IDEA则自带支持，无需额外安装插件。
 1. 本项目可以采用两种方式接受代码贡献：
 
-  1. 第一种就是基于[Git Flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)开发流程，因此在发起Pull Request的时候请选择develop分支，详细步骤参考后文。
+  1. 第一种就是基于[Git Flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)开发流程，因此在发起Pull Request的时候请选择develop分支，详细步骤参考后文。
   1. 另外一种贡献代码的方式就是加入SDK Developers开发组，前提是对自己的代码足够自信就可以申请加入，加入之后可以随时直接提交代码，但要注意对所做的修改或新增的代码进行单元测试，保证提交代码没有明显问题，具体加入方式，请咨询QQ群管理员。
 
 ## PR方式贡献代码步骤
