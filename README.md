@@ -81,5 +81,29 @@ compile 'com.github.binarywang:weixin-java-cp:2.3.0'
 1. 为了便于设置，本项目引入editorconfig插件，请使用eclipse的同学在贡献代码前安装相关插件，IntelliJ IDEA则自带支持，无需额外安装插件。
 1. 本项目可以采用两种方式接受代码贡献：
 
-  1. 第一种就是基于[Git Flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)开发流程，因此在发起Pull Request的时候请选择develop分支。
-  1. 另外一种贡献代码的方式就是加入SDK Developers开发组，前提是对自己的代码足够自信就可以申请加入，加入之后可以随时直接提交代码，但要注意对所做的修改或新增的代码进行单元测试，保证提交代码没有明显问题，具体加入方式，请咨询管理员。
+  1. 第一种就是基于[Git Flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)开发流程，因此在发起Pull Request的时候请选择develop分支，详细步骤参考后文。
+  1. 另外一种贡献代码的方式就是加入SDK Developers开发组，前提是对自己的代码足够自信就可以申请加入，加入之后可以随时直接提交代码，但要注意对所做的修改或新增的代码进行单元测试，保证提交代码没有明显问题，具体加入方式，请咨询QQ群管理员。
+
+## PR方式贡献代码步骤
+* 在 GitHub 上 `fork` 到自己的仓库，如 `my_user/weixin-java-tools`，然后 `clone` 到本地，并设置用户信息。
+```
+$ git clone git@github.com:my_user/weixin-java-tools.git
+$ cd weixin-java-tools
+$ git config user.name "yourname"
+$ git config user.email "your email"
+```
+* 修改代码后提交，并推送到自己的仓库。
+```
+$ #do some change on the content
+$ git commit -am "Fix issue #1: change something"
+$ git push
+```
+* 在 GitHub 网站上提交 Pull Request。
+* 定期使用项目仓库内容更新自己仓库内容。
+```
+$ git remote add upstream https://github.com/wechat-group/weixin-java-tools
+$ git fetch upstream
+$ git checkout develop
+$ git rebase upstream/develop
+$ git push -f origin develop
+```
