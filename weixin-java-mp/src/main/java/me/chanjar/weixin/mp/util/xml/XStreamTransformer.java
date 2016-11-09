@@ -53,6 +53,10 @@ public class XStreamTransformer {
     CLASS_2_XSTREAM_INSTANCE.put(clz, xStream);
   }
 
+  /**
+   * 会自动注册该类及其子类
+   * @param clz 要注册的类
+   */
   public static void registerClass(Class<?> clz) {
     XStream xstream = XStreamInitializer.getInstance();
     xstream.processAnnotations(clz);
