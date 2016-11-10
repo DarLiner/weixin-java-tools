@@ -18,7 +18,8 @@ Weixin Java Tools 微信公众号/企业号开发Java SDK
 1. 寻求帮助时需贴代码或大长串异常信息的，请利用http://paste.ubuntu.com
 1. 有功能需求或由于微信官方接口调整导致的代码问题，可以直接提出issue，便于讨论追踪问题；
 1. 详细开发文档请看 [Wiki](https://github.com/wechat-group/weixin-java-tools/wiki)，部分文档可能未能及时更新，如有发现，可以及时上报或者自行修改。
-1. 微信公众号官方文档入口地址：http://mp.weixin.qq.com/wiki （注意，从网上搜到的文档有的虽然地址前面跟这个一样，但明显左侧菜单不一致，是旧的文档，注意不要看错了文档）。
+1. 微信公众号官方文档入口地址：http://mp.weixin.qq.com/wiki （注意，从网上搜到的文档有的虽然地址前面跟这个一样，但明显左侧菜单不一致，是旧的文档，注意不要看错文档）。
+1. 各个模块的Javadoc可以在线查看：[weixin-java-mp](https://binarywang.github.io/weixin-java-mp-javadoc/)、[weixin-java-common](https://binarywang.github.io/weixin-java-common-javadoc/)、[weixin-java-cp](https://binarywang.github.io/weixin-java-cp-javadoc/)
 
 ===========
 
@@ -81,7 +82,7 @@ compile 'com.github.binarywang:weixin-java-cp:2.3.0'
 1. 为了便于设置，本项目引入editorconfig插件，请使用eclipse的同学在贡献代码前安装相关插件，IntelliJ IDEA则自带支持，无需额外安装插件。
 1. 本项目可以采用两种方式接受代码贡献：
 
-  1. 第一种就是基于[Git Flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)开发流程，因此在发起Pull Request的时候请选择develop分支，详细步骤参考后文。
+  1. 第一种就是基于[Git Flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)开发流程，因此在发起Pull Request的时候请选择develop分支，详细步骤参考后文。
   1. 另外一种贡献代码的方式就是加入SDK Developers开发组，前提是对自己的代码足够自信就可以申请加入，加入之后可以随时直接提交代码，但要注意对所做的修改或新增的代码进行单元测试，保证提交代码没有明显问题，具体加入方式，请咨询QQ群管理员。
 
 ## PR方式贡献代码步骤
