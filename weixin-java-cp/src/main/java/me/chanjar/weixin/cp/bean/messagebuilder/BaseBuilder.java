@@ -5,13 +5,13 @@ import me.chanjar.weixin.cp.bean.WxCpMessage;
 
 public class BaseBuilder<T> {
   protected String msgType;
-  protected Integer agentId;
+  protected String agentId;
   protected String toUser;
   protected String toParty;
   protected String toTag;
   protected String safe;
 
-  public T agentId(Integer agentId) {
+  public T agentId(String agentId) {
     this.agentId = agentId;
     return (T) this;
   }
