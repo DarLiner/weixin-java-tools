@@ -1,11 +1,16 @@
 package me.chanjar.weixin.cp.bean;
 
-import me.chanjar.weixin.cp.bean.messagebuilder.*;
-import me.chanjar.weixin.cp.util.json.WxCpGsonBuilder;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import me.chanjar.weixin.cp.bean.messagebuilder.FileBuilder;
+import me.chanjar.weixin.cp.bean.messagebuilder.ImageBuilder;
+import me.chanjar.weixin.cp.bean.messagebuilder.NewsBuilder;
+import me.chanjar.weixin.cp.bean.messagebuilder.TextBuilder;
+import me.chanjar.weixin.cp.bean.messagebuilder.VideoBuilder;
+import me.chanjar.weixin.cp.bean.messagebuilder.VoiceBuilder;
+import me.chanjar.weixin.cp.util.json.WxCpGsonBuilder;
 
 /**
  * 消息
@@ -18,7 +23,7 @@ public class WxCpMessage implements Serializable {
   private String toUser;
   private String toParty;
   private String toTag;
-  private Integer agentId;
+  private String agentId;
   private String msgType;
   private String content;
   private String mediaId;
@@ -96,11 +101,11 @@ public class WxCpMessage implements Serializable {
     this.toTag = toTag;
   }
 
-  public Integer getAgentId() {
+  public String getAgentId() {
     return this.agentId;
   }
 
-  public void setAgentId(Integer agentId) {
+  public void setAgentId(String agentId) {
     this.agentId = agentId;
   }
 

@@ -19,7 +19,7 @@ public class WxCpInMemoryConfigStorage implements WxCpConfigStorage {
   protected volatile String token;
   protected volatile String accessToken;
   protected volatile String aesKey;
-  protected volatile Integer agentId;
+  protected volatile String agentId;
   protected volatile long expiresTime;
 
   protected volatile String oauth2redirectUri;
@@ -146,11 +146,11 @@ public class WxCpInMemoryConfigStorage implements WxCpConfigStorage {
   }
 
   @Override
-  public Integer getAgentId() {
+  public String getAgentId() {
     return this.agentId;
   }
 
-  public void setAgentId(Integer agentId) {
+  public void setAgentId(String agentId) {
     this.agentId = agentId;
   }
 
