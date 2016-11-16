@@ -160,7 +160,7 @@ public interface WxCpService {
    *
    * @param menu
    * @throws WxErrorException
-   * @see #menuCreate(String, me.chanjar.weixin.common.bean.menu.WxMenu)
+   * @see #menuCreate(Integer, WxMenu)
    */
   void menuCreate(WxMenu menu) throws WxErrorException;
 
@@ -177,7 +177,7 @@ public interface WxCpService {
    * @throws WxErrorException
    * @see #menuCreate(me.chanjar.weixin.common.bean.menu.WxMenu)
    */
-  void menuCreate(String agentId, WxMenu menu) throws WxErrorException;
+  void menuCreate(Integer agentId, WxMenu menu) throws WxErrorException;
 
   /**
    * <pre>
@@ -188,7 +188,7 @@ public interface WxCpService {
    * </pre>
    *
    * @throws WxErrorException
-   * @see #menuDelete(String)
+   * @see #menuDelete(Integer)
    */
   void menuDelete() throws WxErrorException;
 
@@ -204,7 +204,7 @@ public interface WxCpService {
    * @throws WxErrorException
    * @see #menuDelete()
    */
-  void menuDelete(String agentId) throws WxErrorException;
+  void menuDelete(Integer agentId) throws WxErrorException;
 
   /**
    * <pre>
@@ -215,7 +215,7 @@ public interface WxCpService {
    * </pre>
    *
    * @throws WxErrorException
-   * @see #menuGet(String)
+   * @see #menuGet(Integer)
    */
   WxMenu menuGet() throws WxErrorException;
 
@@ -231,7 +231,7 @@ public interface WxCpService {
    * @throws WxErrorException
    * @see #menuGet()
    */
-  WxMenu menuGet(String agentId) throws WxErrorException;
+  WxMenu menuGet(Integer agentId) throws WxErrorException;
 
   /**
    * <pre>
@@ -396,12 +396,12 @@ public interface WxCpService {
    *  <pre>
    * 构造oauth2授权的url连接
    * </pre>
-   * 
+   *
    * @param state
    * @return url
    */
   String oauth2buildAuthorizationUrl(String state);
-  
+
   /**
    * <pre>
    * 构造oauth2授权的url连接
@@ -425,7 +425,7 @@ public interface WxCpService {
    *
    * @param code
    * @return [userid, deviceid]
-   * @see #oauth2getUserInfo(String, String)
+   * @see #oauth2getUserInfo(Integer, String)
    */
   String[] oauth2getUserInfo(String code) throws WxErrorException;
 
@@ -443,7 +443,7 @@ public interface WxCpService {
    * @return [userid, deviceid]
    * @see #oauth2getUserInfo(String)
    */
-  String[] oauth2getUserInfo(String agentId, String code) throws WxErrorException;
+  String[] oauth2getUserInfo(Integer agentId, String code) throws WxErrorException;
 
 
   /**
