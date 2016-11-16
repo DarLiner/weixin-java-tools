@@ -191,7 +191,7 @@ public class WxCpServiceImpl implements WxCpService {
   }
 
   @Override
-  public void menuCreate(String agentId, WxMenu menu) throws WxErrorException {
+  public void menuCreate(Integer agentId, WxMenu menu) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/menu/create?agentid="
  + this.configStorage.getAgentId();
     post(url, menu.toJson());
@@ -203,7 +203,7 @@ public class WxCpServiceImpl implements WxCpService {
   }
 
   @Override
-  public void menuDelete(String agentId) throws WxErrorException {
+  public void menuDelete(Integer agentId) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/menu/delete?agentid=" + agentId;
     get(url, null);
   }
@@ -214,7 +214,7 @@ public class WxCpServiceImpl implements WxCpService {
   }
 
   @Override
-  public WxMenu menuGet(String agentId) throws WxErrorException {
+  public WxMenu menuGet(Integer agentId) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/menu/get?agentid=" + agentId;
     try {
       String resultContent = get(url, null);
@@ -487,7 +487,7 @@ this.configStorage.getOauth2redirectUri(),
   }
 
   @Override
-  public String[] oauth2getUserInfo(String agentId, String code) throws WxErrorException {
+  public String[] oauth2getUserInfo(Integer agentId, String code) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?"
             + "code=" + code
             + "&agentid=" + agentId;

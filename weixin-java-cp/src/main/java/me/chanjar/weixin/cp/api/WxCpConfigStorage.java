@@ -45,7 +45,7 @@ public interface WxCpConfigStorage {
 
   String getCorpSecret();
 
-  String getAgentId();
+  Integer getAgentId();
 
   String getToken();
 
