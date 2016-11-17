@@ -24,16 +24,16 @@ public interface WxMpConfigStorage {
 
   /**
    * 应该是线程安全的
-   * @param accessToken
+   * @param accessToken 要更新的WxAccessToken对象
    */
   void updateAccessToken(WxAccessToken accessToken);
 
   /**
    * 应该是线程安全的
-   * @param accessToken
-   * @param expiresIn
+   * @param accessToken 新的accessToken值
+   * @param expiresInSeconds 过期时间，以秒为单位
    */
-  void updateAccessToken(String accessToken, int expiresIn);
+  void updateAccessToken(String accessToken, int expiresInSeconds);
 
   String getJsapiTicket();
 
@@ -46,7 +46,8 @@ public interface WxMpConfigStorage {
 
   /**
    * 应该是线程安全的
-   * @param jsapiTicket
+   * @param jsapiTicket 新的jsapi ticket值
+   * @param expiresInSeconds 过期时间，以秒为单位
    */
   void updateJsapiTicket(String jsapiTicket, int expiresInSeconds);
 
@@ -61,7 +62,8 @@ public interface WxMpConfigStorage {
 
   /**
    * 应该是线程安全的
-   * @param cardApiTicket
+   * @param cardApiTicket 新的cardApi ticket值
+   * @param expiresInSeconds 过期时间，以秒为单位
    */
   void updateCardApiTicket(String cardApiTicket, int expiresInSeconds);
 
@@ -70,7 +72,7 @@ public interface WxMpConfigStorage {
   String getSecret();
 
   String getPartnerId();
-  
+
   String getPartnerKey();
 
   String getToken();
@@ -88,7 +90,7 @@ public interface WxMpConfigStorage {
   String getHttpProxyUsername();
 
   String getHttpProxyPassword();
-  
+
   File getTmpDirFile();
 
   SSLContext getSSLContext();
