@@ -72,10 +72,13 @@ compile 'com.github.binarywang:weixin-java-cp:2.3.0'
 * https://git.coding.net/binarywang/weixin-java-tools.git
 
 ===========
-## 目前可参考的Demo项目有三个（目前都是公众号的，风格不同，欢迎提供更多的demo供新手参考）:
-1. https://github.com/wechat-group/weixin-mp-demo
-1. https://github.com/wechat-group/weixin-mp-demo-springboot
+## 可参考的Demo项目
+#### 目前都是公众号的，风格不同，欢迎提供更多的demo供新手参考:
+1. https://github.com/wechat-group/weixin-mp-demo 
+1. https://github.com/wechat-group/weixin-mp-multi-demo (支持多公众号)
 1. https://github.com/wechat-group/weixin-java-tools-springmvc
+1. https://github.com/wechat-group/weixin-mp-demo-springboot
+
 
 ===========
 ## 关于代码贡献
