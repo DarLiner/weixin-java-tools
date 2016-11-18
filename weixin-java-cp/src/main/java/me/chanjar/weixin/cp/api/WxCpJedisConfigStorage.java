@@ -25,7 +25,7 @@ public class WxCpJedisConfigStorage implements WxCpConfigStorage {
 
 	private volatile String token;
 	private volatile String aesKey;
-	private volatile String agentId;
+	private volatile Integer agentId;
 
 	private volatile String oauth2redirectUri;
 
@@ -150,7 +150,7 @@ public class WxCpJedisConfigStorage implements WxCpConfigStorage {
 	}
 
 	@Override
-	public String getAgentId() {
+	public Integer getAgentId() {
 		return this.agentId;
 	}
 
@@ -230,7 +230,7 @@ public class WxCpJedisConfigStorage implements WxCpConfigStorage {
 		this.aesKey = aesKey;
 	}
 
-	public void setAgentId(String agentId) {
+	public void setAgentId(Integer agentId) {
 		this.agentId = agentId;
 	}
 
