@@ -100,4 +100,9 @@ public interface WxMpConfigStorage {
    * @return ApacheHttpClientBuilder
    */
   ApacheHttpClientBuilder getApacheHttpClientBuilder();
+
+  /**
+   * 是否自动刷新token
+   */
+  boolean autoRefreshToken();
 }
