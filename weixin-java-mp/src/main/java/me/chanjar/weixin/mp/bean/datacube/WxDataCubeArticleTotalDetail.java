@@ -14,7 +14,7 @@ public class WxDataCubeArticleTotalDetail {
    * 统计的日期，在getarticletotal接口中，ref_date指的是文章群发出日期， 而stat_date是数据统计日期
    */
   @SerializedName("stat_date")
-  private Integer statDate;
+  private String statDate;
 
   /**
    * target_user
@@ -191,11 +191,11 @@ public class WxDataCubeArticleTotalDetail {
   @SerializedName("feed_share_from_other_cnt")
   private Integer feedShareFromOtherCnt;
 
-  public Integer getStatDate() {
+  public String getStatDate() {
     return this.statDate;
   }
 
-  public void setStatDate(Integer statDate) {
+  public void setStatDate(String statDate) {
     this.statDate = statDate;
   }
 
