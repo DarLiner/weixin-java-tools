@@ -1,9 +1,8 @@
 package me.chanjar.weixin.mp.bean.template;
 
 
+import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.io.Serializable;
 
@@ -48,7 +47,7 @@ public class WxMpTemplateIndustry implements Serializable {
 
     @Override
     public String toString() {
-      return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+      return ToStringUtils.toSimpleString(this);
     }
 
     public String getId() {
@@ -78,7 +77,7 @@ public class WxMpTemplateIndustry implements Serializable {
 
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    return ToStringUtils.toSimpleString(this);
   }
 
   public static WxMpTemplateIndustry fromJson(String json) {

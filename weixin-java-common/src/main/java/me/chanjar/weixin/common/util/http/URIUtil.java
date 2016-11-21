@@ -1,6 +1,7 @@
 package me.chanjar.weixin.common.util.http;
 
-import me.chanjar.weixin.common.util.StringUtils;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 

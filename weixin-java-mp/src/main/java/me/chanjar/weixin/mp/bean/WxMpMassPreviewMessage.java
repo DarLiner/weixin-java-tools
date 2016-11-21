@@ -8,9 +8,6 @@ import java.io.Serializable;
  * @author miller
  */
 public class WxMpMassPreviewMessage implements Serializable {
-  /**
-   * 
-   */
   private static final long serialVersionUID = 9095211638358424020L;
   private String toWxUsername;
   private String msgType;

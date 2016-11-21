@@ -4,6 +4,7 @@ package me.chanjar.weixin.mp.api.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.chanjar.weixin.mp.api.WxMpService;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Guice;
@@ -29,7 +30,7 @@ import me.chanjar.weixin.mp.bean.result.WxMpUserList;
 public class WxMpUserServiceImplTest {
 
   @Inject
-  private WxMpServiceImpl wxService;
+  private WxMpService wxService;
 
   private WxXmlMpInMemoryConfigStorage configProvider;
 

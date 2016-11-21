@@ -1,14 +1,12 @@
 package me.chanjar.weixin.mp.bean.store;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.google.gson.annotations.SerializedName;
+import me.chanjar.weixin.common.util.ToStringUtils;
 
 public class WxMpStoreInfo {
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    return ToStringUtils.toSimpleString(this);
   }
 
   @SerializedName("base_info")

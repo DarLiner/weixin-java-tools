@@ -1,6 +1,8 @@
 package me.chanjar.weixin.mp.bean;
 
 
+import me.chanjar.weixin.common.util.ToStringUtils;
+
 /**
  * 微信卡券
  *
@@ -61,12 +63,6 @@ public class WxMpCard {
 
   @Override
   public String toString() {
-    return "WxMpCard{" +
-        "cardId='" + this.cardId + '\'' +
-        ", beginTime=" + this.beginTime +
-        ", endTime=" + this.endTime +
-        ", userCardStatus='" + this.userCardStatus + '\'' +
-        ", canConsume=" + this.canConsume +
-        '}';
+    return ToStringUtils.toSimpleString(this);
   }
 }

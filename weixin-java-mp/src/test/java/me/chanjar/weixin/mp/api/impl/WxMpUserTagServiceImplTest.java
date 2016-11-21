@@ -2,6 +2,7 @@ package me.chanjar.weixin.mp.api.impl;
 
 import java.util.List;
 
+import me.chanjar.weixin.mp.api.WxMpService;
 import org.testng.Assert;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
@@ -22,7 +23,7 @@ import me.chanjar.weixin.mp.bean.tag.WxUserTag;
 @Guice(modules = ApiTestModule.class)
 public class WxMpUserTagServiceImplTest {
   @Inject
-  protected WxMpServiceImpl wxService;
+  protected WxMpService wxService;
 
   private Long tagId = 2L;
 

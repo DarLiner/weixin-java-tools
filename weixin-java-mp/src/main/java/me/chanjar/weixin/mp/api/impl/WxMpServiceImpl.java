@@ -33,7 +33,7 @@ public class WxMpServiceImpl implements WxMpService {
 
   private static final JsonParser JSON_PARSER = new JsonParser();
 
-  protected final Logger log = LoggerFactory.getLogger(WxMpServiceImpl.class);
+  protected final Logger log = LoggerFactory.getLogger(this.getClass());
 
   /**
    * 全局的是否正在刷新access token的锁
@@ -101,6 +101,7 @@ public class WxMpServiceImpl implements WxMpService {
     if (forceRefresh) {
       this.configStorage.expireAccessToken();
     }
+
     if (this.configStorage.isAccessTokenExpired()) {
       synchronized (this.globalAccessTokenRefreshLock) {
         if (this.configStorage.isAccessTokenExpired()) {
@@ -411,8 +412,11 @@ public class WxMpServiceImpl implements WxMpService {
       if (error.getErrorCode() == 42001 || error.getErrorCode() == 40001) {
         // 强制设置wxMpConfigStorage它的access token过期了，这样在下一次请求里就会刷新access token
         this.configStorage.expireAccessToken();
-        return this.execute(executor, uri, data);
+        if(this.configStorage.autoRefreshToken()){
+          return this.execute(executor, uri, data);
+        }
       }
+
       if (error.getErrorCode() != 0) {
         this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}", uri, data,
             error);
@@ -425,6 +429,7 @@ public class WxMpServiceImpl implements WxMpService {
     }
   }
 
+  @Override
   public HttpHost getHttpProxy() {
     return this.httpProxy;
   }

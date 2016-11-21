@@ -1,5 +1,6 @@
 package me.chanjar.weixin.mp.bean;
 
+import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
 import java.io.Serializable;
@@ -14,7 +15,7 @@ import java.util.List;
 public class WxMpMassNews implements Serializable {
 
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = 565937155013581016L;
   private List<WxMpMassNewsArticle> articles = new ArrayList<>();
@@ -137,14 +138,12 @@ public class WxMpMassNews implements Serializable {
 
     @Override
     public String toString() {
-      return "WxMpMassNewsArticle [" + "thumbMediaId=" + this.thumbMediaId + ", author=" + this.author + ", title=" + this.title +
-          ", contentSourceUrl=" + this.contentSourceUrl + ", content=" + this.content + ", digest=" + this.digest +
-          ", showCoverPic=" + this.showCoverPic + "]";
+      return ToStringUtils.toSimpleString(this);
     }
   }
 
   @Override
   public String toString() {
-    return "WxMpMassNews [" + "articles=" + this.articles + "]";
+    return ToStringUtils.toSimpleString(this);
   }
 }

@@ -1,15 +1,12 @@
 package me.chanjar.weixin.mp.bean.template;
 
-import java.util.List;
-
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.google.gson.JsonParser;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
-
+import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
+
+import java.util.List;
 
 /**
  * <pre>
@@ -30,9 +27,9 @@ public class WxMpTemplate {
 
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    return ToStringUtils.toSimpleString(this);
   }
-  
+
   /**
    * template_id
    * 模板ID
@@ -76,7 +73,7 @@ public class WxMpTemplate {
   private String example;
 
   public String getTemplateId() {
-    return templateId;
+    return this.templateId;
   }
 
   public void setTemplateId(String templateId) {
@@ -84,7 +81,7 @@ public class WxMpTemplate {
   }
 
   public String getTitle() {
-    return title;
+    return this.title;
   }
 
   public void setTitle(String title) {
@@ -92,7 +89,7 @@ public class WxMpTemplate {
   }
 
   public String getPrimaryIndustry() {
-    return primaryIndustry;
+    return this.primaryIndustry;
   }
 
   public void setPrimaryIndustry(String primaryIndustry) {
@@ -100,7 +97,7 @@ public class WxMpTemplate {
   }
 
   public String getDeputyIndustry() {
-    return deputyIndustry;
+    return this.deputyIndustry;
   }
 
   public void setDeputyIndustry(String deputyIndustry) {
@@ -108,7 +105,7 @@ public class WxMpTemplate {
   }
 
   public String getContent() {
-    return content;
+    return this.content;
   }
 
   public void setContent(String content) {
@@ -116,7 +113,7 @@ public class WxMpTemplate {
   }
 
   public String getExample() {
-    return example;
+    return this.example;
   }
 
   public void setExample(String example) {

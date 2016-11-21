@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
+import me.chanjar.weixin.mp.api.WxMpService;
 import org.apache.commons.lang3.time.FastDateFormat;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -32,7 +33,7 @@ public class WxMpDataCubeServiceImplTest {
       .getInstance("yyyy-MM-dd");
 
   @Inject
-  protected WxMpServiceImpl wxService;
+  protected WxMpService wxService;
 
   @DataProvider
   public Object[][] oneDay() throws ParseException {

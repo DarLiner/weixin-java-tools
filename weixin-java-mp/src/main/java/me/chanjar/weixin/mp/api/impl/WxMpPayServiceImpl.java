@@ -1,19 +1,21 @@
 package me.chanjar.weixin.mp.api.impl;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import me.chanjar.weixin.common.annotation.Required;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.util.BeanUtils;
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
 import me.chanjar.weixin.mp.api.WxMpPayService;
 import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.bean.pay.*;
+import me.chanjar.weixin.mp.bean.pay.WxPayJsSDKCallback;
+import me.chanjar.weixin.mp.bean.pay.result.WxPayOrderCloseResult;
+import me.chanjar.weixin.mp.bean.pay.request.*;
+import me.chanjar.weixin.mp.bean.pay.result.*;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.Consts;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ssl.DefaultHostnameVerifier;
@@ -23,15 +25,15 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
-import org.joor.Reflect;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLContext;
 import java.io.File;
 import java.io.FileInputStream;
-import java.lang.reflect.Field;
+import java.io.IOException;
 import java.security.KeyStore;
 import java.util.*;
-import java.util.Map.Entry;
 
 /**
  * Created by Binary Wang on 2016/7/28.
@@ -39,6 +41,8 @@ import java.util.Map.Entry;
  * @author binarywang (https://github.com/binarywang)
  */
 public class WxMpPayServiceImpl implements WxMpPayService {
+
+  protected final Logger log = LoggerFactory.getLogger(this.getClass());
 
   private static final String PAY_BASE_URL = "https://api.mch.weixin.qq.com";
   private static final String[] TRADE_TYPES = new String[]{"JSAPI","NATIVE", "APP"};
@@ -52,94 +56,42 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   }
 
   @Override
-  public WxMpPayResult getJSSDKPayResult(String transactionId,
-      String outTradeNo) throws WxErrorException {
-    String nonce_str = System.currentTimeMillis() + "";
-
-    SortedMap<String, String> packageParams = new TreeMap<>();
-    packageParams.put("appid",
-        this.wxMpService.getWxMpConfigStorage().getAppId());
-    packageParams.put("mch_id",
-        this.wxMpService.getWxMpConfigStorage().getPartnerId());
-
-    if (transactionId != null && !"".equals(transactionId.trim())) {
-      packageParams.put("transaction_id", transactionId);
-    } else if (outTradeNo != null && !"".equals(outTradeNo.trim())) {
-      packageParams.put("out_trade_no", outTradeNo);
-    } else {
-      throw new IllegalArgumentException(
-          "Either 'transactionId' or 'outTradeNo' must be given.");
-    }
-
-    packageParams.put("nonce_str", nonce_str);
-    packageParams.put("sign", this.createSign(packageParams,
-        this.wxMpService.getWxMpConfigStorage().getPartnerKey()));
-
-    StringBuilder request = new StringBuilder("<xml>");
-    for (Map.Entry<String, String> para : packageParams.entrySet()) {
-      request.append(String.format("<%s>%s</%s>", para.getKey(),
-          para.getValue(), para.getKey()));
-    }
-    request.append("</xml>");
-
-    String url = PAY_BASE_URL + "/pay/orderquery";
-    String responseContent = this.wxMpService.post(url, request.toString());
-    XStream xstream = XStreamInitializer.getInstance();
-    xstream.alias("xml", WxMpPayResult.class);
-    return (WxMpPayResult) xstream.fromXML(responseContent);
-  }
-
-  @Override
-  public WxMpPayCallback getJSSDKCallbackData(String xmlData) {
-    try {
-      XStream xstream = XStreamInitializer.getInstance();
-      xstream.alias("xml", WxMpPayCallback.class);
-      return (WxMpPayCallback) xstream.fromXML(xmlData);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-
-    return new WxMpPayCallback();
-  }
-
-  @Override
-  public WxMpPayRefundResult refund(WxMpPayRefundRequest request, File keyFile)
+  public WxPayRefundResult refund(WxPayRefundRequest request, File keyFile)
       throws WxErrorException {
     checkParameters(request);
 
     XStream xstream = XStreamInitializer.getInstance();
-    xstream.processAnnotations(WxMpPayRefundResult.class);
-    xstream.processAnnotations(WxMpPayRefundRequest.class);
+    xstream.processAnnotations(WxPayRefundRequest.class);
+    xstream.processAnnotations(WxPayRefundResult.class);
 
     request.setAppid(this.wxMpService.getWxMpConfigStorage().getAppId());
     String partnerId = this.wxMpService.getWxMpConfigStorage().getPartnerId();
     request.setMchId(partnerId);
     request.setNonceStr( System.currentTimeMillis() + "");
     request.setOpUserId(partnerId);
-    String sign = this.createSign(this.xmlBean2Map(request), this.wxMpService.getWxMpConfigStorage().getPartnerKey());
+    String sign = this.createSign(BeanUtils.xmlBean2Map(request), this.wxMpService.getWxMpConfigStorage().getPartnerKey());
     request.setSign(sign);
 
     String url = PAY_BASE_URL + "/secapi/pay/refund";
     String responseContent = this.executeRequestWithKeyFile(url, keyFile, xstream.toXML(request), partnerId);
-    WxMpPayRefundResult wxMpPayRefundResult = (WxMpPayRefundResult) xstream.fromXML(responseContent);
-
-    if (!"SUCCESS".equalsIgnoreCase(wxMpPayRefundResult.getResultCode())
-        || !"SUCCESS".equalsIgnoreCase(wxMpPayRefundResult.getReturnCode())) {
-      WxError error = new WxError();
-      error.setErrorCode(-1);
-      error.setErrorMsg("return_code:" + wxMpPayRefundResult.getReturnCode()
-          + ";return_msg:" + wxMpPayRefundResult.getReturnMsg()
-          + ";result_code:" + wxMpPayRefundResult.getResultCode() + ";err_code"
-          + wxMpPayRefundResult.getErrCode() + ";err_code_des"
-          + wxMpPayRefundResult.getErrCodeDes());
-      throw new WxErrorException(error);
-    }
-
-    return wxMpPayRefundResult;
+    WxPayRefundResult result = (WxPayRefundResult) xstream.fromXML(responseContent);
+    this.checkResult(result);
+    return result;
   }
 
-  private void checkParameters(WxMpPayRefundRequest request) {
-    checkNotNullParams(request);
+  private void checkResult(WxPayBaseResult result) throws WxErrorException {
+    if (!"SUCCESS".equalsIgnoreCase(result.getReturnCode())
+      || !"SUCCESS".equalsIgnoreCase(result.getResultCode())) {
+      throw new WxErrorException(WxError.newBuilder().setErrorCode(-1)
+        .setErrorMsg("返回代码:" + result.getReturnCode() + ", 返回信息: "
+          + result.getReturnMsg() + ", 结果代码: " + result.getResultCode() + ", 错误代码: "
+          + result.getErrCode() + ", 错误详情: " + result.getErrCodeDes())
+        .build());
+    }
+  }
+
+  private void checkParameters(WxPayRefundRequest request) throws WxErrorException {
+    BeanUtils.checkRequiredFields(request);
 
     if (StringUtils.isNotBlank(request.getRefundAccount())) {
       if(!ArrayUtils.contains(REFUND_ACCOUNT, request.getRefundAccount())){
@@ -153,6 +105,18 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   }
 
   @Override
+  public WxPayJsSDKCallback getJSSDKCallbackData(String xmlData) throws WxErrorException {
+    try {
+      XStream xstream = XStreamInitializer.getInstance();
+      xstream.alias("xml", WxPayJsSDKCallback.class);
+      return (WxPayJsSDKCallback) xstream.fromXML(xmlData);
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new WxErrorException(WxError.newBuilder().setErrorMsg("发生异常" + e.getMessage()).build());
+    }
+  }
+
+  @Override
   public boolean checkJSSDKCallbackDataSignature(Map<String, String> kvm,
       String signature) {
     return signature.equals(this.createSign(kvm,
@@ -160,18 +124,18 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   }
 
   @Override
-  public WxRedpackResult sendRedpack(WxSendRedpackRequest request, File keyFile)
+  public WxPaySendRedpackResult sendRedpack(WxPaySendRedpackRequest request, File keyFile)
       throws WxErrorException {
     XStream xstream = XStreamInitializer.getInstance();
-    xstream.processAnnotations(WxSendRedpackRequest.class);
-    xstream.processAnnotations(WxRedpackResult.class);
+    xstream.processAnnotations(WxPaySendRedpackRequest.class);
+    xstream.processAnnotations(WxPaySendRedpackResult.class);
 
     request.setWxAppid(this.wxMpService.getWxMpConfigStorage().getAppId());
     String mchId = this.wxMpService.getWxMpConfigStorage().getPartnerId();
     request.setMchId(mchId);
     request.setNonceStr(System.currentTimeMillis() + "");
 
-    String sign = this.createSign(this.xmlBean2Map(request),
+    String sign = this.createSign(BeanUtils.xmlBean2Map(request),
         this.wxMpService.getWxMpConfigStorage().getPartnerKey());
     request.setSign(sign);
 
@@ -182,38 +146,9 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     }
 
     String responseContent = this.executeRequestWithKeyFile(url, keyFile, xstream.toXML(request), mchId);
-    WxRedpackResult redpackResult = (WxRedpackResult) xstream
+    WxPaySendRedpackResult result = (WxPaySendRedpackResult) xstream
         .fromXML(responseContent);
-    if ("FAIL".equals(redpackResult.getResultCode())) {
-      throw new WxErrorException(WxError.newBuilder()
-          .setErrorMsg(
-              redpackResult.getErrCode() + ":" + redpackResult.getErrCodeDes())
-          .build());
-    }
-
-    return redpackResult;
-  }
-
-  private Map<String, String> xmlBean2Map(Object bean) {
-    Map<String, String> result = Maps.newHashMap();
-    for (Entry<String, Reflect> entry : Reflect.on(bean).fields().entrySet()) {
-      Reflect reflect = entry.getValue();
-      if (reflect.get() == null) {
-        continue;
-      }
-
-      try {
-        Field field = bean.getClass().getDeclaredField(entry.getKey());
-        if (field.isAnnotationPresent(XStreamAlias.class)) {
-          result.put(field.getAnnotation(XStreamAlias.class).value(),
-              reflect.get().toString());
-        }
-      } catch (NoSuchFieldException | SecurityException e) {
-        e.printStackTrace();
-      }
-
-    }
-
+    this.checkResult(result);
     return result;
   }
 
@@ -241,38 +176,93 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   }
 
   @Override
-  public WxUnifiedOrderResult unifiedOrder(WxUnifiedOrderRequest request)
+  public WxPayOrderQueryResult queryOrder(String transactionId, String outTradeNo) throws WxErrorException {
+    if ((StringUtils.isBlank(transactionId) && StringUtils.isBlank(outTradeNo)) ||
+      (StringUtils.isNotBlank(transactionId) && StringUtils.isNotBlank(outTradeNo))) {
+      throw new IllegalArgumentException("transaction_id 和 out_trade_no 不能同时存在或同时为空，必须二选一");
+    }
+
+    XStream xstream = XStreamInitializer.getInstance();
+    xstream.processAnnotations(WxPayOrderQueryRequest.class);
+    xstream.processAnnotations(WxPayOrderQueryResult.class);
+
+    WxPayOrderQueryRequest request = new WxPayOrderQueryRequest();
+    request.setOutTradeNo(StringUtils.trimToNull(outTradeNo));
+    request.setTransactionId(StringUtils.trimToNull(transactionId));
+    request.setAppid(this.wxMpService.getWxMpConfigStorage().getAppId());
+    request.setMchId(this.wxMpService.getWxMpConfigStorage().getPartnerId());
+    request.setNonceStr(System.currentTimeMillis() + "");
+
+    String sign = this.createSign(BeanUtils.xmlBean2Map(request),
+      this.wxMpService.getWxMpConfigStorage().getPartnerKey());
+    request.setSign(sign);
+
+    String url = PAY_BASE_URL + "/pay/orderquery";
+
+    String responseContent = this.executeRequest(url, xstream.toXML(request));
+    WxPayOrderQueryResult result = (WxPayOrderQueryResult) xstream.fromXML(responseContent);
+    result.composeCoupons(responseContent);
+    this.checkResult(result);
+    return result;
+  }
+
+  @Override
+  public WxPayOrderCloseResult closeOrder(String outTradeNo) throws WxErrorException {
+    if (StringUtils.isBlank(outTradeNo)) {
+      throw new IllegalArgumentException("out_trade_no 不能为空");
+    }
+
+    XStream xstream = XStreamInitializer.getInstance();
+    xstream.processAnnotations(WxPayOrderCloseRequest.class);
+    xstream.processAnnotations(WxPayOrderCloseResult.class);
+
+    WxPayOrderCloseRequest request = new WxPayOrderCloseRequest();
+    request.setOutTradeNo(StringUtils.trimToNull(outTradeNo));
+    request.setAppid(this.wxMpService.getWxMpConfigStorage().getAppId());
+    request.setMchId(this.wxMpService.getWxMpConfigStorage().getPartnerId());
+    request.setNonceStr(System.currentTimeMillis() + "");
+
+    String sign = this.createSign(BeanUtils.xmlBean2Map(request),
+      this.wxMpService.getWxMpConfigStorage().getPartnerKey());
+    request.setSign(sign);
+
+    String url = PAY_BASE_URL + "/pay/closeorder";
+
+    String responseContent = this.executeRequest(url, xstream.toXML(request));
+    WxPayOrderCloseResult result = (WxPayOrderCloseResult) xstream.fromXML(responseContent);
+    this.checkResult(result);
+
+    return result;
+  }
+
+  @Override
+  public WxPayUnifiedOrderResult unifiedOrder(WxPayUnifiedOrderRequest request)
       throws WxErrorException {
     checkParameters(request);
 
     XStream xstream = XStreamInitializer.getInstance();
-    xstream.processAnnotations(WxUnifiedOrderRequest.class);
-    xstream.processAnnotations(WxUnifiedOrderResult.class);
+    xstream.processAnnotations(WxPayUnifiedOrderRequest.class);
+    xstream.processAnnotations(WxPayUnifiedOrderResult.class);
 
     request.setAppid(this.wxMpService.getWxMpConfigStorage().getAppId());
     request.setMchId(this.wxMpService.getWxMpConfigStorage().getPartnerId());
     request.setNonceStr(System.currentTimeMillis() + "");
 
-    String sign = this.createSign(this.xmlBean2Map(request),
+    String sign = this.createSign(BeanUtils.xmlBean2Map(request),
         this.wxMpService.getWxMpConfigStorage().getPartnerKey());
     request.setSign(sign);
 
     String url = PAY_BASE_URL + "/pay/unifiedorder";
 
-    String responseContent = this.wxMpService.post(url, xstream.toXML(request));
-    WxUnifiedOrderResult result = (WxUnifiedOrderResult) xstream
+    String responseContent = this.executeRequest(url, xstream.toXML(request));
+    WxPayUnifiedOrderResult result = (WxPayUnifiedOrderResult) xstream
         .fromXML(responseContent);
-    if ("FAIL".equals(result.getResultCode())) {
-      throw new WxErrorException(WxError.newBuilder()
-          .setErrorMsg(result.getErrCode() + ":" + result.getErrCodeDes())
-          .build());
-    }
-
+    this.checkResult(result);
     return result;
   }
 
-  private void checkParameters(WxUnifiedOrderRequest request) {
-    checkNotNullParams(request);
+  private void checkParameters(WxPayUnifiedOrderRequest request) throws WxErrorException {
+    BeanUtils.checkRequiredFields(request);
 
     if (! ArrayUtils.contains(TRADE_TYPES, request.getTradeType())) {
       throw new IllegalArgumentException("trade_type目前必须为" + Arrays.toString(TRADE_TYPES) + "其中之一");
@@ -287,40 +277,9 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     }
   }
 
-  private void checkNotNullParams(Object request) {
-    List<String> nullFields = Lists.newArrayList();
-    for (Entry<String, Reflect> entry : Reflect.on(request).fields()
-        .entrySet()) {
-      Reflect reflect = entry.getValue();
-      try {
-        Field field = request.getClass().getDeclaredField(entry.getKey());
-        if (field.isAnnotationPresent(Required.class)
-            && reflect.get() == null) {
-          nullFields.add(entry.getKey());
-        }
-      } catch (NoSuchFieldException | SecurityException e) {
-        e.printStackTrace();
-      }
-    }
-
-    if (!nullFields.isEmpty()) {
-      throw new IllegalArgumentException("必填字段[" + nullFields + "]必须提供值");
-    }
-  }
-
   @Override
-  public Map<String, String> getPayInfo(WxUnifiedOrderRequest request) throws WxErrorException {
-    WxUnifiedOrderResult unifiedOrderResult = this.unifiedOrder(request);
-
-    if (!"SUCCESS".equalsIgnoreCase(unifiedOrderResult.getReturnCode())
-        || !"SUCCESS".equalsIgnoreCase(unifiedOrderResult.getResultCode())) {
-      throw new WxErrorException(WxError.newBuilder().setErrorCode(-1)
-          .setErrorMsg("return_code:" + unifiedOrderResult.getReturnCode() + ";return_msg:"
-          + unifiedOrderResult.getReturnMsg() + ";result_code:" + unifiedOrderResult.getResultCode() + ";err_code"
-              + unifiedOrderResult.getErrCode() + ";err_code_des" + unifiedOrderResult.getErrCodeDes())
-          .build());
-    }
-
+  public Map<String, String> getPayInfo(WxPayUnifiedOrderRequest request) throws WxErrorException {
+    WxPayUnifiedOrderResult unifiedOrderResult = this.unifiedOrder(request);
     String prepayId = unifiedOrderResult.getPrepayId();
     if (StringUtils.isBlank(prepayId)) {
       throw new RuntimeException(String.format("Failed to get prepay id due to error code '%s'(%s).",
@@ -345,7 +304,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
 
   @Override
   public WxEntPayResult entPay(WxEntPayRequest request, File keyFile) throws WxErrorException {
-    checkNotNullParams(request);
+    BeanUtils.checkRequiredFields(request);
 
     XStream xstream = XStreamInitializer.getInstance();
     xstream.processAnnotations(WxEntPayRequest.class);
@@ -355,17 +314,14 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     request.setMchId(this.wxMpService.getWxMpConfigStorage().getPartnerId());
     request.setNonceStr(System.currentTimeMillis() + "");
 
-    String sign = this.createSign(xmlBean2Map(request), this.wxMpService.getWxMpConfigStorage().getPartnerKey());
+    String sign = this.createSign(BeanUtils.xmlBean2Map(request), this.wxMpService.getWxMpConfigStorage().getPartnerKey());
     request.setSign(sign);
 
     String url = PAY_BASE_URL + "/mmpaymkttransfers/promotion/transfers";
 
     String responseContent = this.executeRequestWithKeyFile(url, keyFile, xstream.toXML(request), request.getMchId());
     WxEntPayResult result = (WxEntPayResult) xstream.fromXML(responseContent);
-    if ("FAIL".equals(result.getResultCode())) {
-      throw new WxErrorException(
-        WxError.newBuilder().setErrorMsg(result.getErrCode() + ":" + result.getErrCodeDes()).build());
-    }
+    this.checkResult(result);
     return result;
   }
 
@@ -380,18 +336,37 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     request.setMchId(this.wxMpService.getWxMpConfigStorage().getPartnerId());
     request.setNonceStr(System.currentTimeMillis() + "");
 
-    String sign = this.createSign(xmlBean2Map(request), this.wxMpService.getWxMpConfigStorage().getPartnerKey());
+    String sign = this.createSign(BeanUtils.xmlBean2Map(request), this.wxMpService.getWxMpConfigStorage().getPartnerKey());
     request.setSign(sign);
 
     String url = PAY_BASE_URL + "/mmpaymkttransfers/gettransferinfo";
 
     String responseContent = this.executeRequestWithKeyFile(url, keyFile, xstream.toXML(request), request.getMchId());
     WxEntPayQueryResult result = (WxEntPayQueryResult) xstream.fromXML(responseContent);
-    if ("FAIL".equals(result.getResultCode())) {
-      throw new WxErrorException(
-        WxError.newBuilder().setErrorMsg(result.getErrCode() + ":" + result.getErrCodeDes()).build());
-    }
+    this.checkResult(result);
     return result;
+  }
+
+  private String executeRequest( String url, String requestStr) throws WxErrorException {
+    HttpPost httpPost = new HttpPost(url);
+    if (this.wxMpService.getHttpProxy() != null) {
+      httpPost.setConfig(RequestConfig.custom().setProxy(this.wxMpService.getHttpProxy()).build());
+    }
+
+    try (CloseableHttpClient httpclient = HttpClients.custom().build()) {
+      httpPost.setEntity(new StringEntity(new String(requestStr.getBytes("UTF-8"), "ISO-8859-1")));
+
+      try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
+        String result = EntityUtils.toString(response.getEntity(), Consts.UTF_8);
+        this.log.debug("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}",url, requestStr, result);
+        return result;
+      }
+    } catch (IOException e) {
+      this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[EXCEPTION]: {}", url, requestStr, e.getMessage());
+      throw new WxErrorException(WxError.newBuilder().setErrorCode(-1).setErrorMsg(e.getMessage()).build(), e);
+    }finally {
+      httpPost.releaseConnection();
+    }
   }
 
   private String executeRequestWithKeyFile( String url, File keyFile, String requestStr, String mchId) throws WxErrorException {
@@ -403,16 +378,24 @@ public class WxMpPayServiceImpl implements WxMpPayService {
       SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslcontext, new String[] { "TLSv1" }, null,
           new DefaultHostnameVerifier());
 
-      try (CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build()) {
-        HttpPost httpPost = new HttpPost(url);
-        httpPost.setEntity(new StringEntity(new String(requestStr.getBytes("UTF-8"), "ISO-8859-1")));
+      HttpPost httpPost = new HttpPost(url);
+      if (this.wxMpService.getHttpProxy() != null) {
+        httpPost.setConfig(RequestConfig.custom().setProxy(this.wxMpService.getHttpProxy()).build());
+      }
 
+      try (CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build()) {
+        httpPost.setEntity(new StringEntity(new String(requestStr.getBytes("UTF-8"), "ISO-8859-1")));
         try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
-          return EntityUtils.toString(response.getEntity());
+          String result = EntityUtils.toString(response.getEntity(), Consts.UTF_8);
+          this.log.debug("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}",url, requestStr, result);
+          return result;
         }
+      }finally {
+        httpPost.releaseConnection();
       }
     } catch (Exception e) {
-      throw new WxErrorException(WxError.newBuilder().setErrorMsg(e.getMessage()).build(), e);
+      this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[EXCEPTION]: {}", url, requestStr, e.getMessage());
+      throw new WxErrorException(WxError.newBuilder().setErrorCode(-1).setErrorMsg(e.getMessage()).build(), e);
     }
   }
 

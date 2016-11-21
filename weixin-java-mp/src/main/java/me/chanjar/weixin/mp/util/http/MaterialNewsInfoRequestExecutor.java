@@ -5,7 +5,7 @@ import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.common.util.http.Utf8ResponseHandler;
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
-import me.chanjar.weixin.mp.bean.WxMpMaterialNews;
+import me.chanjar.weixin.mp.bean.material.WxMpMaterialNews;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;

@@ -202,24 +202,24 @@ public class WxCpMessageRouterRule {
 
   protected boolean test(WxCpXmlMessage wxMessage) {
     return
-            (this.fromUser == null || this.fromUser.equals(wxMessage.getFromUserName()))
-                    &&
-                    (this.agentId == null || this.agentId.equals(wxMessage.getAgentId()))
-                    &&
-                    (this.msgType == null || this.msgType.equals(wxMessage.getMsgType()))
-                    &&
-                    (this.event == null || this.event.equals(wxMessage.getEvent()))
-                    &&
-                    (this.eventKey == null || this.eventKey.equals(wxMessage.getEventKey()))
-                    &&
-                    (this.content == null || this.content
-                            .equals(wxMessage.getContent() == null ? null : wxMessage.getContent().trim()))
-                    &&
-                    (this.rContent == null || Pattern
-                            .matches(this.rContent, wxMessage.getContent() == null ? "" : wxMessage.getContent().trim()))
-                    &&
-                    (this.matcher == null || this.matcher.match(wxMessage))
-            ;
+      (this.fromUser == null || this.fromUser.equals(wxMessage.getFromUserName()))
+        &&
+        (this.agentId == null || this.agentId.equals(wxMessage.getAgentId()))
+        &&
+        (this.msgType == null || this.msgType.equals(wxMessage.getMsgType()))
+        &&
+        (this.event == null || this.event.equals(wxMessage.getEvent()))
+        &&
+        (this.eventKey == null || this.eventKey.equals(wxMessage.getEventKey()))
+        &&
+        (this.content == null || this.content
+          .equals(wxMessage.getContent() == null ? null : wxMessage.getContent().trim()))
+        &&
+        (this.rContent == null || Pattern
+          .matches(this.rContent, wxMessage.getContent() == null ? "" : wxMessage.getContent().trim()))
+        &&
+        (this.matcher == null || this.matcher.match(wxMessage))
+      ;
   }
 
   /**

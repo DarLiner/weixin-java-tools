@@ -10,9 +10,9 @@ import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.mp.api.WxMpMessageHandler;
 import me.chanjar.weixin.mp.api.WxMpMessageMatcher;
 import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
-import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
-import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
+import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 
 public class DemoGuessNumberHandler implements WxMpMessageHandler, WxMpMessageMatcher {
 
@@ -52,19 +52,19 @@ public class DemoGuessNumberHandler implements WxMpMessageHandler, WxMpMessageMa
   protected void letsGo(WxMpXmlMessage wxMessage, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
     WxSession session = sessionManager.getSession(wxMessage.getFromUser());
     if (session.getAttribute("guessing") == null) {
-      WxMpCustomMessage m = WxMpCustomMessage
+      WxMpKefuMessage m = WxMpKefuMessage
           .TEXT()
           .toUser(wxMessage.getFromUser())
           .content("请猜一个100以内的数字")
           .build();
-      wxMpService.getKefuService().customMessageSend(m);
+      wxMpService.getKefuService().sendKefuMessage(m);
     } else {
-      WxMpCustomMessage m = WxMpCustomMessage
+      WxMpKefuMessage m = WxMpKefuMessage
           .TEXT()
           .toUser(wxMessage.getFromUser())
           .content("放弃了吗？那请重新猜一个100以内的数字")
           .build();
-      wxMpService.getKefuService().customMessageSend(m);
+      wxMpService.getKefuService().sendKefuMessage(m);
     }
 
     session.setAttribute("guessing", Boolean.TRUE);
@@ -87,28 +87,28 @@ public class DemoGuessNumberHandler implements WxMpMessageHandler, WxMpMessageMa
     int answer = (Integer) session.getAttribute("number");
     int guessNumber = Integer.valueOf(wxMessage.getContent());
     if (guessNumber < answer) {
-      WxMpCustomMessage m = WxMpCustomMessage
+      WxMpKefuMessage m = WxMpKefuMessage
           .TEXT()
           .toUser(wxMessage.getFromUser())
           .content("小了")
           .build();
-      wxMpService.getKefuService().customMessageSend(m);
+      wxMpService.getKefuService().sendKefuMessage(m);
 
     } else if (guessNumber > answer) {
-      WxMpCustomMessage m = WxMpCustomMessage
+      WxMpKefuMessage m = WxMpKefuMessage
           .TEXT()
           .toUser(wxMessage.getFromUser())
           .content("大了")
           .build();
-      wxMpService.getKefuService().customMessageSend(m);
+      wxMpService.getKefuService().sendKefuMessage(m);
     } else {
-      WxMpCustomMessage m = WxMpCustomMessage
+      WxMpKefuMessage m = WxMpKefuMessage
           .TEXT()
           .toUser(wxMessage.getFromUser())
           .content("Bingo!")
           .build();
       session.removeAttribute("guessing");
-      wxMpService.getKefuService().customMessageSend(m);
+      wxMpService.getKefuService().sendKefuMessage(m);
     }
 
   }

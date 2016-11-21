@@ -3,11 +3,13 @@ package me.chanjar.weixin.mp.api.impl;
 import com.google.inject.Inject;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.ApiTestModule;
+import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplate;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateIndustry;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
@@ -25,9 +27,9 @@ import java.util.List;
 @Guice(modules = ApiTestModule.class)
 public class WxMpTemplateMsgServiceImplTest {
   @Inject
-  protected WxMpServiceImpl wxService;
+  protected WxMpService wxService;
 
-  @Test(invocationCount = 10, threadPoolSize = 10)
+  @Test(invocationCount = 5, threadPoolSize = 3)
   public void testSendTemplateMsg() throws WxErrorException {
     SimpleDateFormat dateFormat = new SimpleDateFormat(
       "yyyy-MM-dd HH:mm:ss.SSS");
@@ -38,6 +40,8 @@ public class WxMpTemplateMsgServiceImplTest {
       .templateId(configStorage.getTemplateId()).build();
     templateMessage.addWxMpTemplateData(
       new WxMpTemplateData("first", dateFormat.format(new Date())));
+    templateMessage.addWxMpTemplateData(
+      new WxMpTemplateData("remark", RandomStringUtils.randomAlphanumeric(100), "#FF00FF"));
     String msgId = this.wxService.getTemplateMsgService().sendTemplateMsg(templateMessage);
     Assert.assertNotNull(msgId);
     System.out.println(msgId);

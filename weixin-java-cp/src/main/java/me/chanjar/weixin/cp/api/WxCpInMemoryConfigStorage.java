@@ -1,12 +1,10 @@
 package me.chanjar.weixin.cp.api;
 
-import java.io.File;
-
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import me.chanjar.weixin.common.bean.WxAccessToken;
+import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.common.util.http.ApacheHttpClientBuilder;
+
+import java.io.File;
 
 /**
  * 基于内存的微信配置provider，在实际生产环境中应该将这些配置持久化
@@ -21,7 +19,7 @@ public class WxCpInMemoryConfigStorage implements WxCpConfigStorage {
   protected volatile String token;
   protected volatile String accessToken;
   protected volatile String aesKey;
-  protected volatile String agentId;
+  protected volatile Integer agentId;
   protected volatile long expiresTime;
 
   protected volatile String oauth2redirectUri;
@@ -148,11 +146,11 @@ public class WxCpInMemoryConfigStorage implements WxCpConfigStorage {
   }
 
   @Override
-  public String getAgentId() {
+  public Integer getAgentId() {
     return this.agentId;
   }
 
-  public void setAgentId(String agentId) {
+  public void setAgentId(Integer agentId) {
     this.agentId = agentId;
   }
 
@@ -203,7 +201,7 @@ public class WxCpInMemoryConfigStorage implements WxCpConfigStorage {
 
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    return ToStringUtils.toSimpleString(this);
   }
 
   @Override

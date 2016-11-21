@@ -1,18 +1,17 @@
 package me.chanjar.weixin.cp.demo;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import me.chanjar.weixin.common.util.StringUtils;
 import me.chanjar.weixin.cp.api.WxCpConfigStorage;
 import me.chanjar.weixin.cp.api.WxCpMessageRouter;
 import me.chanjar.weixin.cp.api.WxCpService;
 import me.chanjar.weixin.cp.bean.WxCpXmlMessage;
 import me.chanjar.weixin.cp.bean.WxCpXmlOutMessage;
 import me.chanjar.weixin.cp.util.crypto.WxCpCryptUtil;
+import org.apache.commons.lang3.StringUtils;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @author Daniel Qian
