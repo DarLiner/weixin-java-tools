@@ -6,6 +6,8 @@ import me.chanjar.weixin.common.util.http.ApacheHttpClientBuilder;
 
 import javax.net.ssl.SSLContext;
 import java.io.File;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 基于内存的微信配置provider，在实际生产环境中应该将这些配置持久化
@@ -36,6 +38,10 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   protected volatile String cardApiTicket;
   protected volatile long cardApiTicketExpiresTime;
 
+  protected Lock accessTokenLock = new ReentrantLock();
+  protected Lock jsapiTicketLock = new ReentrantLock();
+  protected Lock cardApiTicketLock = new ReentrantLock();
+
   /**
    * 临时文件目录
    */
@@ -48,6 +54,11 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   @Override
   public String getAccessToken() {
     return this.accessToken;
+  }
+
+  @Override
+  public Lock getAccessTokenLock() {
+    return this.accessTokenLock;
   }
 
   @Override
@@ -74,6 +85,11 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   @Override
   public String getJsapiTicket() {
     return this.jsapiTicket;
+  }
+
+  @Override
+  public Lock getJsapiTicketLock() {
+    return this.jsapiTicketLock;
   }
 
   public void setJsapiTicket(String jsapiTicket) {
@@ -111,6 +127,11 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   @Override
   public String getCardApiTicket() {
     return this.cardApiTicket;
+  }
+
+  @Override
+  public Lock getCardApiTicketLock() {
+    return this.cardApiTicketLock;
   }
 
   @Override
