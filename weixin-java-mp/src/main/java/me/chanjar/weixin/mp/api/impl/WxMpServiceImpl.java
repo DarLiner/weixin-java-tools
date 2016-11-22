@@ -368,9 +368,7 @@ public class WxMpServiceImpl implements WxMpService {
         return result;
       } catch (WxErrorException e) {
         WxError error = e.getError();
-        /**
-         * -1 系统繁忙, 1000ms后重试
-         */
+        // -1 系统繁忙, 1000ms后重试
         if (error.getErrorCode() == -1) {
           int sleepMillis = this.retrySleepMillis * (1 << retryTimes);
           try {
