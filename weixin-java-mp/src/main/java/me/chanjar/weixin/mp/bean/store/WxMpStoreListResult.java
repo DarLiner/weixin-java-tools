@@ -1,13 +1,10 @@
 package me.chanjar.weixin.mp.bean.store;
 
-import java.util.List;
-
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.google.gson.annotations.SerializedName;
-
+import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
+
+import java.util.List;
 
 /**
  * 门店列表结果类
@@ -18,7 +15,7 @@ import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 public class WxMpStoreListResult {
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    return ToStringUtils.toSimpleString(this);
   }
 
   public static WxMpStoreListResult fromJson(String json) {

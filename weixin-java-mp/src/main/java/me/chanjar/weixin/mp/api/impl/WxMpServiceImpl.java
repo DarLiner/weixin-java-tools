@@ -28,22 +28,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.concurrent.locks.Lock;
 
 public class WxMpServiceImpl implements WxMpService {
 
   private static final JsonParser JSON_PARSER = new JsonParser();
 
-  protected final Logger log = LoggerFactory.getLogger(WxMpServiceImpl.class);
-
-  /**
-   * 全局的是否正在刷新access token的锁
-   */
-  private final Object globalAccessTokenRefreshLock = new Object();
-
-  /**
-   * 全局的是否正在刷新jsapi_ticket的锁
-   */
-  private final Object globalJsapiTicketRefreshLock = new Object();
+  protected final Logger log = LoggerFactory.getLogger(this.getClass());
 
   private WxMpConfigStorage configStorage;
 
@@ -98,38 +89,42 @@ public class WxMpServiceImpl implements WxMpService {
 
   @Override
   public String getAccessToken(boolean forceRefresh) throws WxErrorException {
-    if (forceRefresh) {
-      this.configStorage.expireAccessToken();
-    }
-    if (this.configStorage.isAccessTokenExpired()) {
-      synchronized (this.globalAccessTokenRefreshLock) {
-        if (this.configStorage.isAccessTokenExpired()) {
-          String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential" +
-              "&appid=" + this.configStorage.getAppId() + "&secret="
-              + this.configStorage.getSecret();
-          try {
-            HttpGet httpGet = new HttpGet(url);
-            if (this.httpProxy != null) {
-              RequestConfig config = RequestConfig.custom().setProxy(this.httpProxy).build();
-              httpGet.setConfig(config);
-            }
-            try (CloseableHttpResponse response = getHttpclient().execute(httpGet)) {
-              String resultContent = new BasicResponseHandler().handleResponse(response);
-              WxError error = WxError.fromJson(resultContent);
-              if (error.getErrorCode() != 0) {
-                throw new WxErrorException(error);
-              }
-              WxAccessToken accessToken = WxAccessToken.fromJson(resultContent);
-              this.configStorage.updateAccessToken(accessToken.getAccessToken(),
-                  accessToken.getExpiresIn());
-            }finally {
-              httpGet.releaseConnection();
-            }
-          } catch (IOException e) {
-            throw new RuntimeException(e);
+    Lock lock = configStorage.getAccessTokenLock();
+    try {
+      lock.lock();
+
+      if (forceRefresh) {
+        this.configStorage.expireAccessToken();
+      }
+
+      if (this.configStorage.isAccessTokenExpired()) {
+        String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential" +
+            "&appid=" + this.configStorage.getAppId() + "&secret="
+            + this.configStorage.getSecret();
+        try {
+          HttpGet httpGet = new HttpGet(url);
+          if (this.httpProxy != null) {
+            RequestConfig config = RequestConfig.custom().setProxy(this.httpProxy).build();
+            httpGet.setConfig(config);
           }
+          try (CloseableHttpResponse response = getHttpclient().execute(httpGet)) {
+            String resultContent = new BasicResponseHandler().handleResponse(response);
+            WxError error = WxError.fromJson(resultContent);
+            if (error.getErrorCode() != 0) {
+              throw new WxErrorException(error);
+            }
+            WxAccessToken accessToken = WxAccessToken.fromJson(resultContent);
+            this.configStorage.updateAccessToken(accessToken.getAccessToken(),
+                accessToken.getExpiresIn());
+          }finally {
+            httpGet.releaseConnection();
+          }
+        } catch (IOException e) {
+          throw new RuntimeException(e);
         }
       }
+    } finally {
+      lock.unlock();
     }
     return this.configStorage.getAccessToken();
   }
@@ -141,22 +136,25 @@ public class WxMpServiceImpl implements WxMpService {
 
   @Override
   public String getJsapiTicket(boolean forceRefresh) throws WxErrorException {
-    if (forceRefresh) {
-      this.configStorage.expireJsapiTicket();
-    }
+    Lock lock = configStorage.getJsapiTicketLock();
+    try {
+      lock.lock();
 
-    if (this.configStorage.isJsapiTicketExpired()) {
-      synchronized (this.globalJsapiTicketRefreshLock) {
-        if (this.configStorage.isJsapiTicketExpired()) {
-          String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi";
-          String responseContent = execute(new SimpleGetRequestExecutor(), url, null);
-          JsonElement tmpJsonElement = JSON_PARSER.parse(responseContent);
-          JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
-          String jsapiTicket = tmpJsonObject.get("ticket").getAsString();
-          int expiresInSeconds = tmpJsonObject.get("expires_in").getAsInt();
-          this.configStorage.updateJsapiTicket(jsapiTicket, expiresInSeconds);
-        }
+      if (forceRefresh) {
+        this.configStorage.expireJsapiTicket();
       }
+
+      if (this.configStorage.isJsapiTicketExpired()) {
+        String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi";
+        String responseContent = execute(new SimpleGetRequestExecutor(), url, null);
+        JsonElement tmpJsonElement = JSON_PARSER.parse(responseContent);
+        JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
+        String jsapiTicket = tmpJsonObject.get("ticket").getAsString();
+        int expiresInSeconds = tmpJsonObject.get("expires_in").getAsInt();
+        this.configStorage.updateJsapiTicket(jsapiTicket, expiresInSeconds);
+      }
+    } finally {
+      lock.unlock();
     }
     return this.configStorage.getJsapiTicket();
   }
@@ -370,9 +368,7 @@ public class WxMpServiceImpl implements WxMpService {
         return result;
       } catch (WxErrorException e) {
         WxError error = e.getError();
-        /**
-         * -1 系统繁忙, 1000ms后重试
-         */
+        // -1 系统繁忙, 1000ms后重试
         if (error.getErrorCode() == -1) {
           int sleepMillis = this.retrySleepMillis * (1 << retryTimes);
           try {
@@ -411,8 +407,11 @@ public class WxMpServiceImpl implements WxMpService {
       if (error.getErrorCode() == 42001 || error.getErrorCode() == 40001) {
         // 强制设置wxMpConfigStorage它的access token过期了，这样在下一次请求里就会刷新access token
         this.configStorage.expireAccessToken();
-        return this.execute(executor, uri, data);
+        if(this.configStorage.autoRefreshToken()){
+          return this.execute(executor, uri, data);
+        }
       }
+
       if (error.getErrorCode() != 0) {
         this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}", uri, data,
             error);
@@ -425,6 +424,7 @@ public class WxMpServiceImpl implements WxMpService {
     }
   }
 
+  @Override
   public HttpHost getHttpProxy() {
     return this.httpProxy;
   }

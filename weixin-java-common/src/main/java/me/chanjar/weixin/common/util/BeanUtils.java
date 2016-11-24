@@ -8,6 +8,8 @@ import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +30,9 @@ public class BeanUtils {
   public static void checkRequiredFields(Object bean) throws WxErrorException {
     List<String> nullFields = Lists.newArrayList();
 
-    for (Field field : bean.getClass().getDeclaredFields()) {
+    List<Field> fields = new ArrayList<>( Arrays.asList(bean.getClass().getDeclaredFields()));
+    fields.addAll(Arrays.asList(bean.getClass().getSuperclass().getDeclaredFields()));
+    for (Field field : fields) {
       try {
         boolean isAccessible = field.isAccessible();
         field.setAccessible(true);
@@ -55,7 +59,9 @@ public class BeanUtils {
    */
   public static Map<String, String> xmlBean2Map(Object bean) {
     Map<String, String> result = Maps.newHashMap();
-    for (Field field : bean.getClass().getDeclaredFields()) {
+    List<Field> fields = new ArrayList<>( Arrays.asList(bean.getClass().getDeclaredFields()));
+    fields.addAll(Arrays.asList(bean.getClass().getSuperclass().getDeclaredFields()));
+    for (Field field : fields) {
       try {
         boolean isAccessible = field.isAccessible();
         field.setAccessible(true);

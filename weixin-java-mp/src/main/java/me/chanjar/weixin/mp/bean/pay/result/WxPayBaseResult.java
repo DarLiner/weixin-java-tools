@@ -1,9 +1,7 @@
 package me.chanjar.weixin.mp.bean.pay.result;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import me.chanjar.weixin.common.util.ToStringUtils;
 
 /**
  * <pre>
@@ -15,7 +13,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 public abstract class WxPayBaseResult {
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    return ToStringUtils.toSimpleString(this);
   }
 
   /**

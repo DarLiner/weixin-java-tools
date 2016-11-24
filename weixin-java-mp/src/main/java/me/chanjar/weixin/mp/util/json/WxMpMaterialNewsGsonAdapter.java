@@ -9,7 +9,7 @@
 package me.chanjar.weixin.mp.util.json;
 
 import com.google.gson.*;
-import me.chanjar.weixin.mp.bean.WxMpMaterialNews;
+import me.chanjar.weixin.mp.bean.material.WxMpMaterialNews;
 
 import java.lang.reflect.Type;
 

@@ -1,5 +1,7 @@
 package me.chanjar.weixin.mp.bean.pay;
 
+import me.chanjar.weixin.common.util.ToStringUtils;
+
 import java.io.Serializable;
 
 /**
@@ -259,21 +261,7 @@ public class WxPayJsSDKCallback implements Serializable {
 
   @Override
   public String toString() {
-    return "WxPayJsSDKCallback [return_code=" + this.return_code + ", return_msg="
-      + this.return_msg + ", appid=" + this.appid + ", mch_id=" + this.mch_id
-      + ", device_info=" + this.device_info + ", nonce_str=" + this.nonce_str
-      + ", sign=" + this.sign + ", result_code=" + this.result_code
-      + ", err_code=" + this.err_code + ", err_code_des=" + this.err_code_des
-      + ", openid=" + this.openid + ", is_subscribe=" + this.is_subscribe
-      + ", trade_type=" + this.trade_type + ", bank_type=" + this.bank_type
-      + ", total_fee=" + this.total_fee + ", fee_type=" + this.fee_type
-      + ", cash_fee=" + this.cash_fee + ", cash_fee_type=" + this.cash_fee_type
-      + ", coupon_fee=" + this.coupon_fee + ", coupon_count="
-      + this.coupon_count + ", coupon_batch_id_$n=" + this.coupon_batch_id_$n
-      + ", coupon_id_$n=" + this.coupon_id_$n + ", coupon_fee_$n="
-      + this.coupon_fee_$n + ", transaction_id=" + this.transaction_id
-      + ", out_trade_no=" + this.out_trade_no + ", attach=" + this.attach
-      + ", time_end=" + this.time_end + "]";
+    return ToStringUtils.toSimpleString(this);
   }
 
 }

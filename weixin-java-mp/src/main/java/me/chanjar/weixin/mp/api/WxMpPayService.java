@@ -1,6 +1,8 @@
 package me.chanjar.weixin.mp.api;
 
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.mp.bean.pay.WxPayJsSDKCallback;
+import me.chanjar.weixin.mp.bean.pay.result.WxPayOrderCloseResult;
 import me.chanjar.weixin.mp.bean.pay.request.WxEntPayRequest;
 import me.chanjar.weixin.mp.bean.pay.request.WxPayRefundRequest;
 import me.chanjar.weixin.mp.bean.pay.request.WxPaySendRedpackRequest;
@@ -35,6 +37,22 @@ public interface WxMpPayService {
   WxPayOrderQueryResult queryOrder(String transactionId, String outTradeNo) throws WxErrorException;
 
   /**
+   * <pre>
+   * 关闭订单
+   * 应用场景
+   * 以下情况需要调用关单接口：
+   * 1. 商户订单支付失败需要生成新单号重新发起支付，要对原订单号调用关单，避免重复支付；
+   * 2. 系统下单后，用户支付超时，系统退出不再受理，避免用户继续，请调用关单接口。
+   * 注意：订单生成后不能马上调用关单接口，最短调用时间间隔为5分钟。
+   * 接口地址：https://api.mch.weixin.qq.com/pay/closeorder
+   * 是否需要证书：   不需要。
+   * </pre>
+   * @param outTradeNo 商户系统内部的订单号，当没提供transaction_id时需要传这个。
+   * @throws WxErrorException
+   */
+  WxPayOrderCloseResult closeOrder(String outTradeNo) throws WxErrorException;
+
+  /**
    * 统一下单(详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1)
    * 在发起微信支付前，需要调用统一下单接口，获取"预支付交易会话标识"
    * 接口地址：https://api.mch.weixin.qq.com/pay/unifiedorder
@@ -62,6 +80,13 @@ public interface WxMpPayService {
    * @return 退款操作结果
    */
   WxPayRefundResult refund(WxPayRefundRequest request, File keyFile) throws WxErrorException;
+
+  /**
+   * 读取支付结果通知
+   * 详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_7
+   *
+   */
+  WxPayJsSDKCallback getJSSDKCallbackData(String xmlData) throws WxErrorException;
 
   /**
    * <pre>

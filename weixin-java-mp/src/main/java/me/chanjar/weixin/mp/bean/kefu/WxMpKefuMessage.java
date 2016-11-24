@@ -4,14 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.chanjar.weixin.mp.bean.custombuilder.ImageBuilder;
-import me.chanjar.weixin.mp.bean.custombuilder.MpNewsBuilder;
-import me.chanjar.weixin.mp.bean.custombuilder.MusicBuilder;
-import me.chanjar.weixin.mp.bean.custombuilder.NewsBuilder;
-import me.chanjar.weixin.mp.bean.custombuilder.TextBuilder;
-import me.chanjar.weixin.mp.bean.custombuilder.VideoBuilder;
-import me.chanjar.weixin.mp.bean.custombuilder.VoiceBuilder;
-import me.chanjar.weixin.mp.bean.custombuilder.WxCardBuilder;
+import me.chanjar.weixin.mp.builder.kefu.ImageBuilder;
+import me.chanjar.weixin.mp.builder.kefu.MpNewsBuilder;
+import me.chanjar.weixin.mp.builder.kefu.MusicBuilder;
+import me.chanjar.weixin.mp.builder.kefu.NewsBuilder;
+import me.chanjar.weixin.mp.builder.kefu.TextBuilder;
+import me.chanjar.weixin.mp.builder.kefu.VideoBuilder;
+import me.chanjar.weixin.mp.builder.kefu.VoiceBuilder;
+import me.chanjar.weixin.mp.builder.kefu.WxCardBuilder;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
 /**

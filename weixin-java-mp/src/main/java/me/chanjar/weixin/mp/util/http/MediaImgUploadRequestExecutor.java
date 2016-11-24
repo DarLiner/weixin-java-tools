@@ -4,7 +4,7 @@ import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.common.util.http.Utf8ResponseHandler;
-import me.chanjar.weixin.mp.bean.result.WxMediaImgUploadResult;
+import me.chanjar.weixin.mp.bean.material.WxMediaImgUploadResult;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;

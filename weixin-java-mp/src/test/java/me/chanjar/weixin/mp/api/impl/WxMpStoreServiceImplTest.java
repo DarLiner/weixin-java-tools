@@ -3,6 +3,7 @@ package me.chanjar.weixin.mp.api.impl;
 import com.google.inject.Inject;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.ApiTestModule;
+import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.store.WxMpStoreBaseInfo;
 import me.chanjar.weixin.mp.bean.store.WxMpStoreInfo;
 import me.chanjar.weixin.mp.bean.store.WxMpStoreListResult;
@@ -23,7 +24,7 @@ import static org.junit.Assert.assertNotNull;
 @Guice(modules = ApiTestModule.class)
 public class WxMpStoreServiceImplTest {
   @Inject
-  private WxMpServiceImpl wxMpService;
+  private WxMpService wxMpService;
 
   /**
    * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpStoreServiceImpl#add(me.chanjar.weixin.mp.bean.store.WxMpStoreBaseInfo)}.

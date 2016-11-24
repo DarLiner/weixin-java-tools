@@ -28,9 +28,6 @@ public class WxMpTemplateMessageGsonAdapter implements JsonSerializer<WxMpTempla
     if (message.getUrl() != null) {
       messageJson.addProperty("url", message.getUrl());
     }
-    if (message.getTopColor() != null) {
-      messageJson.addProperty("topcolor", message.getTopColor());
-    }
 
     JsonObject data = new JsonObject();
     messageJson.add("data", data);
