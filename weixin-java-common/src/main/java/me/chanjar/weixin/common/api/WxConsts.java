@@ -18,7 +18,12 @@ public class WxConsts {
   public static final String XML_MSG_LOCATION = "location";
   public static final String XML_MSG_LINK = "link";
   public static final String XML_MSG_EVENT = "event";
+  public static final String XML_MSG_DEVICE_TEXT = "device_text";
+  public static final String XML_MSG_DEVICE_EVENT = "device_event";
+  public static final String XML_MSG_DEVICE_STATUS = "device_status";
+  public static final String XML_MSG_HARDWARE = "hardware";
   public static final String XML_TRANSFER_CUSTOMER_SERVICE = "transfer_customer_service";
+
 
   ///////////////////////
   // 主动发送消息(即客服消息)的消息类型

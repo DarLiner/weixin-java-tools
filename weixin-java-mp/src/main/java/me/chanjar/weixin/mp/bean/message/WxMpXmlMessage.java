@@ -263,6 +263,81 @@ public class WxMpXmlMessage implements Serializable {
   @XStreamAlias("FailReason")
   private String failReason;
 
+
+  ///////////////////////////////////////
+  // 微信硬件平台相关事件推送
+  ///////////////////////////////////////
+  /**
+   * 设备类型，目前为"公众账号原始ID"
+   */
+  @XStreamAlias("DeviceType")
+  @XStreamConverter(value = XStreamCDataConverter.class)
+  private String deviceType;
+
+  /**
+   * 设备ID，第三方提供
+   */
+  @XStreamAlias("DeviceId")
+  @XStreamConverter(value = XStreamCDataConverter.class)
+  private String deviceId;
+
+
+  @XStreamAlias("HardWare")
+  private HardWare hardWare = new HardWare();
+
+  /**
+   * 请求类型：0：退订设备状态；1：心跳；（心跳的处理方式跟订阅一样）2：订阅设备状态
+   */
+  @XStreamAlias("OpType")
+  private Integer opType;
+
+  /**
+   * 设备状态：0：未连接；1：已连接
+   */
+  @XStreamAlias("DeviceStatus")
+  private Integer deviceStatus;
+
+  public Integer getOpType() {
+    return opType;
+  }
+
+  public void setOpType(Integer opType) {
+    this.opType = opType;
+  }
+
+  public Integer getDeviceStatus() {
+
+    return deviceStatus;
+  }
+
+  public void setDeviceStatus(Integer deviceStatus) {
+    this.deviceStatus = deviceStatus;
+  }
+
+  public HardWare getHardWare() {
+    return hardWare;
+  }
+
+  public void setHardWare(HardWare hardWare) {
+    this.hardWare = hardWare;
+  }
+
+  public String getDeviceType() {
+    return deviceType;
+  }
+
+  public void setDeviceType(String deviceType) {
+    this.deviceType = deviceType;
+  }
+
+  public String getDeviceId() {
+    return deviceId;
+  }
+
+  public void setDeviceId(String deviceId) {
+    this.deviceId = deviceId;
+  }
+
   public Long getExpiredTime() {
     return this.expiredTime;
   }
@@ -346,7 +421,6 @@ public class WxMpXmlMessage implements Serializable {
    * {@link me.chanjar.weixin.common.api.WxConsts#XML_MSG_LINK}
    * {@link me.chanjar.weixin.common.api.WxConsts#XML_MSG_EVENT}
    * </pre>
-   *
    */
   public String getMsgType() {
     return this.msgType;
@@ -555,8 +629,8 @@ public class WxMpXmlMessage implements Serializable {
    * @param msgSignature
    */
   public static WxMpXmlMessage fromEncryptedXml(String encryptedXml,
-      WxMpConfigStorage wxMpConfigStorage, String timestamp, String nonce,
-      String msgSignature) {
+                                                WxMpConfigStorage wxMpConfigStorage, String timestamp, String nonce,
+                                                String msgSignature) {
     WxMpCryptUtil cryptUtil = new WxMpCryptUtil(wxMpConfigStorage);
     String plainText = cryptUtil.decrypt(msgSignature, timestamp, nonce,
         encryptedXml);
@@ -564,8 +638,8 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public static WxMpXmlMessage fromEncryptedXml(InputStream is,
-      WxMpConfigStorage wxMpConfigStorage, String timestamp, String nonce,
-      String msgSignature) {
+                                                WxMpConfigStorage wxMpConfigStorage, String timestamp, String nonce,
+                                                String msgSignature) {
     try {
       return fromEncryptedXml(IOUtils.toString(is, "UTF-8"), wxMpConfigStorage,
           timestamp, nonce, msgSignature);
@@ -717,6 +791,44 @@ public class WxMpXmlMessage implements Serializable {
 
   public void setFromKfAccount(String fromKfAccount) {
     this.fromKfAccount = fromKfAccount;
+  }
+
+  @XStreamAlias("HardWare")
+  public static class HardWare {
+    @Override
+    public String toString() {
+      return ToStringUtils.toSimpleString(this);
+    }
+
+    /**
+     * 消息展示，目前支持myrank(排行榜)
+     */
+    @XStreamAlias("MessageView")
+    @XStreamConverter(value = XStreamCDataConverter.class)
+    private String messageView;
+
+    /**
+     * 消息点击动作，目前支持ranklist(点击跳转排行榜)
+     */
+    @XStreamAlias("MessageAction")
+    @XStreamConverter(value = XStreamCDataConverter.class)
+    private String messageAction;
+
+    public String getMessageView() {
+      return messageView;
+    }
+
+    public void setMessageView(String messageView) {
+      this.messageView = messageView;
+    }
+
+    public String getMessageAction() {
+      return messageAction;
+    }
+
+    public void setMessageAction(String messageAction) {
+      this.messageAction = messageAction;
+    }
   }
 
   @XStreamAlias("ScanCodeInfo")
