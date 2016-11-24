@@ -9,6 +9,7 @@ import me.chanjar.weixin.mp.bean.pay.request.WxEntPayRequest;
 import me.chanjar.weixin.mp.bean.pay.request.WxPayRefundRequest;
 import me.chanjar.weixin.mp.bean.pay.request.WxPaySendRedpackRequest;
 import me.chanjar.weixin.mp.bean.pay.request.WxPayUnifiedOrderRequest;
+import me.chanjar.weixin.mp.bean.pay.result.WxPayRefundQueryResult;
 import me.chanjar.weixin.mp.bean.pay.result.WxPayRefundResult;
 import me.chanjar.weixin.mp.bean.pay.result.WxPaySendRedpackResult;
 import me.chanjar.weixin.mp.bean.pay.result.WxPayUnifiedOrderResult;
@@ -20,6 +21,7 @@ import java.io.File;
 /**
  * 测试支付相关接口
  * Created by Binary Wang on 2016/7/28.
+ *
  * @author binarywang (https://github.com/binarywang)
  */
 @Test
@@ -47,6 +49,20 @@ public class WxMpPayServiceImplTest {
   }
 
   @Test
+  public void testRefundQuery() throws Exception {
+    WxPayRefundQueryResult result = this.wxService.getPayService().refundQuery("1", "", "", "");
+    result = this.wxService.getPayService().refundQuery("", "2", "", "");
+    System.err.println(result);
+    result = this.wxService.getPayService().refundQuery("", "", "3", "");
+    System.err.println(result);
+    result = this.wxService.getPayService().refundQuery("", "", "", "4");
+    System.err.println(result);
+    //测试四个参数都填的情况，应该报异常的
+    result = this.wxService.getPayService().refundQuery("1", "2", "3", "4");
+    System.err.println(result);
+  }
+
+  @Test
   public void testCheckJSSDKCallbackDataSignature() throws Exception {
 
   }
@@ -58,7 +74,7 @@ public class WxMpPayServiceImplTest {
     request.setClientIp("aaa");
     request.setMchBillno("aaaa");
     request
-        .setReOpenid(((WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage()).getOpenid());
+      .setReOpenid(((WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage()).getOpenid());
     File keyFile = new File("E:\\dlt.p12");
     WxPaySendRedpackResult redpackResult = this.wxService.getPayService().sendRedpack(request, keyFile);
     System.err.println(redpackResult);
@@ -70,9 +86,9 @@ public class WxMpPayServiceImplTest {
   @Test
   public void testUnifiedOrder() throws WxErrorException {
     WxPayUnifiedOrderResult result = this.wxService.getPayService()
-        .unifiedOrder(WxPayUnifiedOrderRequest.builder().body("1111111")
-            .totalFee(1).spbillCreateIp("111111").notifyURL("111111")
-            .tradeType("JSAPI").openid("122").outTradeNo("111111").build());
+      .unifiedOrder(WxPayUnifiedOrderRequest.builder().body("1111111")
+        .totalFee(1).spbillCreateIp("111111").notifyURL("111111")
+        .tradeType("JSAPI").openid("122").outTradeNo("111111").build());
     System.err.println(result);
   }
 
