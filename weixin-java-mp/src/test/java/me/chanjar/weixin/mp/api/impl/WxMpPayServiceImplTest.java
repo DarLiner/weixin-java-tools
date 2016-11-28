@@ -9,10 +9,7 @@ import me.chanjar.weixin.mp.bean.pay.request.WxEntPayRequest;
 import me.chanjar.weixin.mp.bean.pay.request.WxPayRefundRequest;
 import me.chanjar.weixin.mp.bean.pay.request.WxPaySendRedpackRequest;
 import me.chanjar.weixin.mp.bean.pay.request.WxPayUnifiedOrderRequest;
-import me.chanjar.weixin.mp.bean.pay.result.WxPayRefundQueryResult;
-import me.chanjar.weixin.mp.bean.pay.result.WxPayRefundResult;
-import me.chanjar.weixin.mp.bean.pay.result.WxPaySendRedpackResult;
-import me.chanjar.weixin.mp.bean.pay.result.WxPayUnifiedOrderResult;
+import me.chanjar.weixin.mp.bean.pay.result.*;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
 
@@ -36,6 +33,9 @@ public class WxMpPayServiceImplTest {
 
   }
 
+  /**
+   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#refund(WxPayRefundRequest, File)} .
+   */
   @Test
   public void testRefund() throws Exception {
     WxPayRefundRequest request = new WxPayRefundRequest();
@@ -48,6 +48,10 @@ public class WxMpPayServiceImplTest {
     System.err.println(result);
   }
 
+
+  /**
+   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#refundQuery(String, String, String, String)} .
+   */
   @Test
   public void testRefundQuery() throws Exception {
     WxPayRefundQueryResult result = this.wxService.getPayService().refundQuery("1", "", "", "");
@@ -67,16 +71,29 @@ public class WxMpPayServiceImplTest {
 
   }
 
+  /**
+   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#sendRedpack(WxPaySendRedpackRequest, File)} .
+   */
   @Test
   public void testSendRedpack() throws Exception {
     WxPaySendRedpackRequest request = new WxPaySendRedpackRequest();
     request.setActName("abc");
     request.setClientIp("aaa");
-    request.setMchBillno("aaaa");
+    request.setMchBillNo("aaaa");
     request
       .setReOpenid(((WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage()).getOpenid());
     File keyFile = new File("E:\\dlt.p12");
     WxPaySendRedpackResult redpackResult = this.wxService.getPayService().sendRedpack(request, keyFile);
+    System.err.println(redpackResult);
+  }
+
+  /**
+   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#queryRedpack(String, File)}.
+   */
+  @Test
+  public void testQueryRedpack() throws Exception {
+    File keyFile = new File("E:\\dlt.p12");
+    WxPayRedpackQueryResult redpackResult = this.wxService.getPayService().queryRedpack("aaaa", keyFile);
     System.err.println(redpackResult);
   }
 

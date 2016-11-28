@@ -183,6 +183,32 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     return result;
   }
 
+  @Override
+  public WxPayRedpackQueryResult queryRedpack(String mchBillNo, File keyFile) throws WxErrorException {
+    XStream xstream = XStreamInitializer.getInstance();
+    xstream.processAnnotations(WxPayRedpackQueryRequest.class);
+    xstream.processAnnotations(WxPayRedpackQueryResult.class);
+
+    WxPayRedpackQueryRequest request = new WxPayRedpackQueryRequest();
+    request.setMchBillNo(mchBillNo);
+    request.setBillType("MCHT");
+
+    request.setAppid(this.wxMpService.getWxMpConfigStorage().getAppId());
+    String mchId = this.wxMpService.getWxMpConfigStorage().getPartnerId();
+    request.setMchId(mchId);
+    request.setNonceStr(System.currentTimeMillis() + "");
+
+    String sign = this.createSign(BeanUtils.xmlBean2Map(request),
+      this.wxMpService.getWxMpConfigStorage().getPartnerKey());
+    request.setSign(sign);
+
+    String url = PAY_BASE_URL + "/mmpaymkttransfers/gethbinfo";
+    String responseContent = this.executeRequestWithKeyFile(url, keyFile, xstream.toXML(request), mchId);
+    WxPayRedpackQueryResult result = (WxPayRedpackQueryResult) xstream.fromXML(responseContent);
+    this.checkResult(result);
+    return result;
+  }
+
   /**
    * 微信公众号支付签名算法(详见:https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=4_3)
    *

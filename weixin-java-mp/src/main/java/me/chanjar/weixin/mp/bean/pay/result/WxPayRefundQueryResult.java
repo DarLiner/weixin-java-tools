@@ -183,6 +183,13 @@ public class WxPayRefundQueryResult extends WxPayBaseResult {
     this.refundRecords = refundRecords;
   }
 
+  public void composeRefundRecords(String xmlString) {
+    if (this.refundCount != null && this.refundCount > 0) {
+      this.refundRecords = Lists.newArrayList();
+      //TODO 暂时待实现
+    }
+  }
+
   public static class RefundRecord {
     /**
      * <pre>
@@ -476,13 +483,6 @@ public class WxPayRefundQueryResult extends WxPayBaseResult {
       }
     }
 
-  }
-
-  public void composeRefundRecords(String xmlString){
-    if(this.refundCount != null && this.refundCount > 0 ){
-      this.refundRecords = Lists.newArrayList();
-      //TODO 暂时待实现
-    }
   }
 }
 
