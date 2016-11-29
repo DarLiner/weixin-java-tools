@@ -59,7 +59,7 @@ public interface WxMpPayService {
    * 在发起微信支付前，需要调用统一下单接口，获取"预支付交易会话标识"
    * 接口地址：https://api.mch.weixin.qq.com/pay/unifiedorder
    *
-   * @param request 请求对象
+   * @param request 请求对象，注意一些参数如appid、mchid等不用设置，方法内会自动从配置对象中获取到（前提是对应配置中已经设置）
    * @throws WxErrorException
    */
   WxPayUnifiedOrderResult unifiedOrder(WxPayUnifiedOrderRequest request) throws WxErrorException;
@@ -68,7 +68,8 @@ public interface WxMpPayService {
    * 该接口调用“统一下单”接口，并拼装发起支付请求需要的参数
    * 详见http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115&token=&lang=zh_CN
    *
-   * @param request 请求对象
+   * @param request 请求对象，注意一些参数如appid、mchid等不用设置，方法内会自动从配置对象中获取到（前提是对应配置中已经设置）
+   * @throws WxErrorException
    */
   Map<String, String> getPayInfo(WxPayUnifiedOrderRequest request) throws WxErrorException;
 
