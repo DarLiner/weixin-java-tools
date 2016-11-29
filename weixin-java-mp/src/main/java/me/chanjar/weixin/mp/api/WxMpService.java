@@ -14,8 +14,8 @@ public interface WxMpService {
 
   /**
    * <pre>
-   * 验证推送过来的消息的正确性
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=验证消息真实性
+   * 验证消息的确来自微信服务器
+   * 详情请见: http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421135319&token=&lang=zh_CN
    * </pre>
    */
   boolean checkSignature(String timestamp, String nonce, String signature);
@@ -36,7 +36,7 @@ public interface WxMpService {
    *
    * 程序员在非必要情况下尽量不要主动调用此方法
    *
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=获取access_token
+   * 详情请见: http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140183&token=&lang=zh_CN
    * </pre>
    *
    * @param forceRefresh 强制刷新
@@ -55,7 +55,7 @@ public interface WxMpService {
    * 获得jsapi_ticket
    * 获得时会检查jsapiToken是否过期，如果过期了，那么就刷新一下，否则就什么都不干
    *
-   * 详情请见：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E9.99.84.E5.BD.951-JS-SDK.E4.BD.BF.E7.94.A8.E6.9D.83.E9.99.90.E7.AD.BE.E5.90.8D.E7.AE.97.E6.B3.95
+   * 详情请见：http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115&token=&lang=zh_CN
    * </pre>
    *
    * @param forceRefresh 强制刷新
@@ -66,7 +66,7 @@ public interface WxMpService {
    * <pre>
    * 创建调用jsapi时所需要的签名
    *
-   * 详情请见：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E9.99.84.E5.BD.951-JS-SDK.E4.BD.BF.E7.94.A8.E6.9D.83.E9.99.90.E7.AD.BE.E5.90.8D.E7.AE.97.E6.B3.95
+   * 详情请见：http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115&token=&lang=zh_CN
    * </pre>
    */
   WxJsapiSignature createJsapiSignature(String url) throws WxErrorException;
@@ -75,7 +75,7 @@ public interface WxMpService {
    * <pre>
    * 上传群发用的图文消息，上传后才能群发图文消息
    *
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=高级群发接口
+   * 详情请见: http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140549&token=&lang=zh_CN
    * </pre>
    *
    * @see #massGroupMessageSend(me.chanjar.weixin.mp.bean.WxMpMassTagMessage)
@@ -86,7 +86,7 @@ public interface WxMpService {
   /**
    * <pre>
    * 上传群发用的视频，上传后才能群发视频消息
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=高级群发接口
+   * 详情请见: http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140549&token=&lang=zh_CN
    * </pre>
    *
    * @see #massGroupMessageSend(me.chanjar.weixin.mp.bean.WxMpMassTagMessage)
@@ -99,7 +99,7 @@ public interface WxMpService {
    * 分组群发消息
    * 如果发送图文消息，必须先使用 {@link #massNewsUpload(me.chanjar.weixin.mp.bean.WxMpMassNews)} 获得media_id，然后再发送
    * 如果发送视频消息，必须先使用 {@link #massVideoUpload(me.chanjar.weixin.mp.bean.WxMpMassVideo)} 获得media_id，然后再发送
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=高级群发接口
+   * 详情请见: http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140549&token=&lang=zh_CN
    * </pre>
    */
   WxMpMassSendResult massGroupMessageSend(WxMpMassTagMessage message) throws WxErrorException;
@@ -109,7 +109,7 @@ public interface WxMpService {
    * 按openId列表群发消息
    * 如果发送图文消息，必须先使用 {@link #massNewsUpload(me.chanjar.weixin.mp.bean.WxMpMassNews)} 获得media_id，然后再发送
    * 如果发送视频消息，必须先使用 {@link #massVideoUpload(me.chanjar.weixin.mp.bean.WxMpMassVideo)} 获得media_id，然后再发送
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=高级群发接口
+   * 详情请见: http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140549&token=&lang=zh_CN
    * </pre>
    */
   WxMpMassSendResult massOpenIdsMessageSend(WxMpMassOpenIdsMessage message) throws WxErrorException;
