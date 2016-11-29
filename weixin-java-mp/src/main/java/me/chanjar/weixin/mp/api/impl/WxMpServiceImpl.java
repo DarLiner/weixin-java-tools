@@ -89,7 +89,7 @@ public class WxMpServiceImpl implements WxMpService {
 
   @Override
   public String getAccessToken(boolean forceRefresh) throws WxErrorException {
-    Lock lock = configStorage.getAccessTokenLock();
+    Lock lock = this.configStorage.getAccessTokenLock();
     try {
       lock.lock();
 
@@ -136,7 +136,7 @@ public class WxMpServiceImpl implements WxMpService {
 
   @Override
   public String getJsapiTicket(boolean forceRefresh) throws WxErrorException {
-    Lock lock = configStorage.getJsapiTicketLock();
+    Lock lock = this.configStorage.getJsapiTicketLock();
     try {
       lock.lock();
 

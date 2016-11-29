@@ -219,7 +219,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   private String createSign(Map<String, String> packageParams, String signKey) {
     SortedMap<String, String> sortedMap = new TreeMap<>(packageParams);
 
-    StringBuffer toSign = new StringBuffer();
+    StringBuilder toSign = new StringBuilder();
     for (String key : sortedMap.keySet()) {
       String value = packageParams.get(key);
       if (null != value && !"".equals(value) && !"sign".equals(key)

@@ -263,84 +263,84 @@ public interface WxMpService {
   WxMpConfigStorage getWxMpConfigStorage();
 
   /**
-   * 返回客服接口方法实现类，以方便调用个其各种接口
+   * 返回客服接口方法实现类，以方便调用其各个接口
    *
    * @return WxMpKefuService
    */
   WxMpKefuService getKefuService();
 
   /**
-   * 返回素材相关接口方法的实现类对象，以方便调用个其各种接口
+   * 返回素材相关接口方法的实现类对象，以方便调用其各个接口
    *
    * @return WxMpMaterialService
    */
   WxMpMaterialService getMaterialService();
 
   /**
-   * 返回菜单相关接口方法的实现类对象，以方便调用个其各种接口
+   * 返回菜单相关接口方法的实现类对象，以方便调用其各个接口
    *
    * @return WxMpMenuService
    */
   WxMpMenuService getMenuService();
 
   /**
-   * 返回用户相关接口方法的实现类对象，以方便调用个其各种接口
+   * 返回用户相关接口方法的实现类对象，以方便调用其各个接口
    *
    * @return WxMpUserService
    */
   WxMpUserService getUserService();
 
   /**
-   * 返回用户标签相关接口方法的实现类对象，以方便调用个其各种接口
+   * 返回用户标签相关接口方法的实现类对象，以方便调用其各个接口
    *
    * @return WxMpUserTagService
    */
   WxMpUserTagService getUserTagService();
 
   /**
-   * 返回二维码相关接口方法的实现类对象，以方便调用个其各种接口
+   * 返回二维码相关接口方法的实现类对象，以方便调用其各个接口
    *
    * @return WxMpQrcodeService
    */
   WxMpQrcodeService getQrcodeService();
 
   /**
-   * 返回卡券相关接口方法的实现类对象，以方便调用个其各种接口
+   * 返回卡券相关接口方法的实现类对象，以方便调用其各个接口
    *
    * @return WxMpCardService
    */
   WxMpCardService getCardService();
 
   /**
-   * 返回微信支付相关接口方法的实现类对象，以方便调用个其各种接口
+   * 返回微信支付相关接口方法的实现类对象，以方便调用其各个接口
    *
    * @return WxMpPayService
    */
   WxMpPayService getPayService();
 
   /**
-   * 返回数据分析统计相关接口方法的实现类对象，以方便调用个其各种接口
+   * 返回数据分析统计相关接口方法的实现类对象，以方便调用其各个接口
    *
    * @return WxMpDataCubeService
    */
   WxMpDataCubeService getDataCubeService();
 
   /**
-   * 返回用户黑名单管理相关接口方法的实现类对象，以方便调用其各种接口
+   * 返回用户黑名单管理相关接口方法的实现类对象，以方便调用其各个接口
    *
    * @return WxMpUserBlacklistService
    */
   WxMpUserBlacklistService getBlackListService();
 
   /**
-   * 返回门店管理相关接口方法的实现类对象，以方便调用其各种接口
+   * 返回门店管理相关接口方法的实现类对象，以方便调用其各个接口
    *
    * @return WxMpStoreService
    */
   WxMpStoreService getStoreService();
 
   /**
-   * 返回模板消息相关接口方法的实现类对象，以方便调用其各种接口
+   * 返回模板消息相关接口方法的实现类对象，以方便调用其各个接口
    *
    * @return WxMpTemplateMsgService
    */
