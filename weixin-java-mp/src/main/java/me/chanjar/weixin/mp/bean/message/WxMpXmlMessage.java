@@ -277,7 +277,7 @@ public class WxMpXmlMessage implements Serializable {
   /**
    * 设备ID，第三方提供
    */
-  @XStreamAlias("DeviceId")
+  @XStreamAlias("DeviceID")
   @XStreamConverter(value = XStreamCDataConverter.class)
   private String deviceId;
 
