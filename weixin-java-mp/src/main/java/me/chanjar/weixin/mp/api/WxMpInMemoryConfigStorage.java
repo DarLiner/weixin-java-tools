@@ -6,6 +6,8 @@ import me.chanjar.weixin.common.util.http.ApacheHttpClientBuilder;
 
 import javax.net.ssl.SSLContext;
 import java.io.File;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 基于内存的微信配置provider，在实际生产环境中应该将这些配置持久化
@@ -36,6 +38,10 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   protected volatile String cardApiTicket;
   protected volatile long cardApiTicketExpiresTime;
 
+  protected Lock accessTokenLock = new ReentrantLock();
+  protected Lock jsapiTicketLock = new ReentrantLock();
+  protected Lock cardApiTicketLock = new ReentrantLock();
+
   /**
    * 临时文件目录
    */
@@ -51,6 +57,11 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   }
 
   @Override
+  public Lock getAccessTokenLock() {
+    return this.accessTokenLock;
+  }
+
+  @Override
   public boolean isAccessTokenExpired() {
     return System.currentTimeMillis() > this.expiresTime;
   }
@@ -63,7 +74,7 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   @Override
   public synchronized void updateAccessToken(String accessToken, int expiresInSeconds) {
     this.accessToken = accessToken;
-    this.expiresTime = System.currentTimeMillis() + (expiresInSeconds - 200) * 1000l;
+    this.expiresTime = System.currentTimeMillis() + (expiresInSeconds - 200) * 1000L;
   }
 
   @Override
@@ -74,6 +85,11 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   @Override
   public String getJsapiTicket() {
     return this.jsapiTicket;
+  }
+
+  @Override
+  public Lock getJsapiTicketLock() {
+    return this.jsapiTicketLock;
   }
 
   public void setJsapiTicket(String jsapiTicket) {
@@ -97,7 +113,7 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   public synchronized void updateJsapiTicket(String jsapiTicket, int expiresInSeconds) {
     this.jsapiTicket = jsapiTicket;
     // 预留200秒的时间
-    this.jsapiTicketExpiresTime = System.currentTimeMillis() + (expiresInSeconds - 200) * 1000l;
+    this.jsapiTicketExpiresTime = System.currentTimeMillis() + (expiresInSeconds - 200) * 1000L;
   }
 
   @Override
@@ -114,6 +130,11 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   }
 
   @Override
+  public Lock getCardApiTicketLock() {
+    return this.cardApiTicketLock;
+  }
+
+  @Override
   public boolean isCardApiTicketExpired() {
     return System.currentTimeMillis() > this.cardApiTicketExpiresTime;
   }
@@ -122,7 +143,7 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   public synchronized void updateCardApiTicket(String cardApiTicket, int expiresInSeconds) {
     this.cardApiTicket = cardApiTicket;
     // 预留200秒的时间
-    this.cardApiTicketExpiresTime = System.currentTimeMillis() + (expiresInSeconds - 200) * 1000l;
+    this.cardApiTicketExpiresTime = System.currentTimeMillis() + (expiresInSeconds - 200) * 1000L;
   }
 
   @Override
@@ -268,6 +289,11 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   @Override
   public ApacheHttpClientBuilder getApacheHttpClientBuilder() {
     return this.apacheHttpClientBuilder;
+  }
+
+  @Override
+  public boolean autoRefreshToken() {
+    return true;
   }
 
   public void setApacheHttpClientBuilder(ApacheHttpClientBuilder apacheHttpClientBuilder) {

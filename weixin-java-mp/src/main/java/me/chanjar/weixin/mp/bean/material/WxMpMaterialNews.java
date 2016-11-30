@@ -31,7 +31,7 @@ public class WxMpMaterialNews implements Serializable {
   /**
    * <pre>
    * 群发图文消息article
-   * 1. thumbMediaId  (必填) 图文消息缩略图的media_id，可以在基础支持-上传多媒体文件接口中获得
+   * 1. thumbMediaId  (必填) 图文消息的封面图片素材id（必须是永久mediaID）
    * 2. author          图文消息的作者
    * 3. title           (必填) 图文消息的标题
    * 4. contentSourceUrl 在图文消息页面点击“阅读原文”后的页面链接

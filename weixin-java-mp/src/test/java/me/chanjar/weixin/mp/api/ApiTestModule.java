@@ -1,14 +1,14 @@
 package me.chanjar.weixin.mp.api;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.thoughtworks.xstream.XStream;
-
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
 import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class ApiTestModule implements Module {
 
@@ -18,6 +18,7 @@ public class ApiTestModule implements Module {
         .getSystemResourceAsStream("test-config.xml")) {
       WxXmlMpInMemoryConfigStorage config = this
           .fromXml(WxXmlMpInMemoryConfigStorage.class, is1);
+      config.setAccessTokenLock(new ReentrantLock());
       WxMpService wxService = new WxMpServiceImpl();
       wxService.setWxMpConfigStorage(config);
 

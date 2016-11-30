@@ -1,18 +1,20 @@
 package me.chanjar.weixin.mp.bean.template;
 
+import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
-
+/**
+ * 参考 http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1433751277&token=&lang=zh_CN 发送模板消息接口部分
+ */
 public class WxMpTemplateMessage implements Serializable {
   private static final long serialVersionUID = 5063374783759519418L;
 
   private String toUser;
   private String templateId;
   private String url;
-  private String topColor;
   private List<WxMpTemplateData> data = new ArrayList<>();
 
   public String getToUser() {
@@ -39,14 +41,6 @@ public class WxMpTemplateMessage implements Serializable {
     this.url = url;
   }
 
-  public String getTopColor() {
-    return this.topColor;
-  }
-
-  public void setTopColor(String topColor) {
-    this.topColor = topColor;
-  }
-
   public List<WxMpTemplateData> getData() {
     return this.data;
   }
@@ -71,7 +65,6 @@ public class WxMpTemplateMessage implements Serializable {
     private String toUser;
     private String templateId;
     private String url;
-    private String topColor;
     private List<WxMpTemplateData> data = new ArrayList<>();
 
     public WxMpTemplateMessageBuilder toUser(String toUser) {
@@ -89,11 +82,6 @@ public class WxMpTemplateMessage implements Serializable {
       return this;
     }
 
-    public WxMpTemplateMessageBuilder topColor(String topColor) {
-      this.topColor = topColor;
-      return this;
-    }
-
     public WxMpTemplateMessageBuilder data(List<WxMpTemplateData> data) {
       this.data = data;
       return this;
@@ -103,7 +91,6 @@ public class WxMpTemplateMessage implements Serializable {
       this.toUser(origin.toUser);
       this.templateId(origin.templateId);
       this.url(origin.url);
-      this.topColor(origin.topColor);
       this.data(origin.data);
       return this;
     }
@@ -113,7 +100,6 @@ public class WxMpTemplateMessage implements Serializable {
       m.toUser = this.toUser;
       m.templateId = this.templateId;
       m.url = this.url;
-      m.topColor = this.topColor;
       m.data = this.data;
       return m;
     }

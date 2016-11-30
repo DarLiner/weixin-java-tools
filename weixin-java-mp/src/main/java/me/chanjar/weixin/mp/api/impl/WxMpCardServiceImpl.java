@@ -1,6 +1,7 @@
 package me.chanjar.weixin.mp.api.impl;
 
 import java.util.Arrays;
+import java.util.concurrent.locks.Lock;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,11 +29,6 @@ import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 public class WxMpCardServiceImpl implements WxMpCardService {
 
   private final Logger log = LoggerFactory.getLogger(WxMpCardServiceImpl.class);
-
-  /**
-   * 全局的是否正在刷新卡券api_ticket的锁
-   */
-  private final Object globalCardApiTicketRefreshLock = new Object();
 
   private WxMpService wxMpService;
 
@@ -66,21 +62,25 @@ public class WxMpCardServiceImpl implements WxMpCardService {
    */
   @Override
   public String getCardApiTicket(boolean forceRefresh) throws WxErrorException {
-    if (forceRefresh) {
-      this.wxMpService.getWxMpConfigStorage().expireCardApiTicket();
-    }
-    if (this.wxMpService.getWxMpConfigStorage().isCardApiTicketExpired()) {
-      synchronized (this.globalCardApiTicketRefreshLock) {
-        if (this.wxMpService.getWxMpConfigStorage().isCardApiTicketExpired()) {
-          String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=wx_card";
-          String responseContent = this.wxMpService.execute(new SimpleGetRequestExecutor(), url, null);
-          JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
-          JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
-          String cardApiTicket = tmpJsonObject.get("ticket").getAsString();
-          int expiresInSeconds = tmpJsonObject.get("expires_in").getAsInt();
-          this.wxMpService.getWxMpConfigStorage().updateCardApiTicket(cardApiTicket, expiresInSeconds);
-        }
+    Lock lock = wxMpService.getWxMpConfigStorage().getCardApiTicketLock();
+    try {
+      lock.lock();
+
+      if (forceRefresh) {
+        this.wxMpService.getWxMpConfigStorage().expireCardApiTicket();
       }
+
+      if (this.wxMpService.getWxMpConfigStorage().isCardApiTicketExpired()) {
+        String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=wx_card";
+        String responseContent = this.wxMpService.execute(new SimpleGetRequestExecutor(), url, null);
+        JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
+        JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
+        String cardApiTicket = tmpJsonObject.get("ticket").getAsString();
+        int expiresInSeconds = tmpJsonObject.get("expires_in").getAsInt();
+        this.wxMpService.getWxMpConfigStorage().updateCardApiTicket(cardApiTicket, expiresInSeconds);
+      }
+    } finally {
+      lock.unlock();
     }
     return this.wxMpService.getWxMpConfigStorage().getCardApiTicket();
   }

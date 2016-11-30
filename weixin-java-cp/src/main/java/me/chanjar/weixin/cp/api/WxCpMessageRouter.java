@@ -163,12 +163,12 @@ public class WxCpMessageRouter {
       // 返回最后一个非异步的rule的执行结果
       if (rule.isAsync()) {
         futures.add(
-                this.executorService.submit(new Runnable() {
-                  @Override
-                  public void run() {
-                    rule.service(wxMessage, WxCpMessageRouter.this.wxCpService, WxCpMessageRouter.this.sessionManager, WxCpMessageRouter.this.exceptionHandler);
-                  }
-                })
+          this.executorService.submit(new Runnable() {
+            @Override
+            public void run() {
+              rule.service(wxMessage, WxCpMessageRouter.this.wxCpService, WxCpMessageRouter.this.sessionManager, WxCpMessageRouter.this.exceptionHandler);
+            }
+          })
         );
       } else {
         res = rule.service(wxMessage, this.wxCpService, this.sessionManager, this.exceptionHandler);
@@ -205,10 +205,10 @@ public class WxCpMessageRouter {
     String messageId = "";
     if (wxMessage.getMsgId() == null) {
       messageId = String.valueOf(wxMessage.getCreateTime())
-              + "-" + String.valueOf(wxMessage.getAgentId() == null ? "" : wxMessage.getAgentId())
-              + "-" + wxMessage.getFromUserName()
-              + "-" + String.valueOf(wxMessage.getEventKey() == null ? "" : wxMessage.getEventKey())
-              + "-" + String.valueOf(wxMessage.getEvent() == null ? "" : wxMessage.getEvent())
+        + "-" + String.valueOf(wxMessage.getAgentId() == null ? "" : wxMessage.getAgentId())
+        + "-" + wxMessage.getFromUserName()
+        + "-" + String.valueOf(wxMessage.getEventKey() == null ? "" : wxMessage.getEventKey())
+        + "-" + String.valueOf(wxMessage.getEvent() == null ? "" : wxMessage.getEvent())
       ;
     } else {
       messageId = String.valueOf(wxMessage.getMsgId());

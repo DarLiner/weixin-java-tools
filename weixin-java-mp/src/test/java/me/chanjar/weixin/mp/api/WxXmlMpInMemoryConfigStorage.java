@@ -1,8 +1,9 @@
 package me.chanjar.weixin.mp.api;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
+import java.util.concurrent.locks.Lock;
 
 @XStreamAlias("xml")
 public class WxXmlMpInMemoryConfigStorage
@@ -50,4 +51,7 @@ public class WxXmlMpInMemoryConfigStorage
     this.templateId = templateId;
   }
 
+  public void setAccessTokenLock(Lock lock){
+    super.accessTokenLock = lock;
+  }
 }

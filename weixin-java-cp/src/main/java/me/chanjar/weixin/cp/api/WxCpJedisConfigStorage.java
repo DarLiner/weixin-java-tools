@@ -1,11 +1,11 @@
 package me.chanjar.weixin.cp.api;
 
-import java.io.File;
-
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.util.http.ApacheHttpClientBuilder;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+
+import java.io.File;
 
 /**
  * Jedis client implementor for wechat config storage
@@ -14,254 +14,246 @@ import redis.clients.jedis.JedisPool;
  */
 public class WxCpJedisConfigStorage implements WxCpConfigStorage {
 
-	/* Redis keys here */
-	private static final String ACCESS_TOKEN_KEY = "WX_CP_ACCESS_TOKEN";
-	private static final String ACCESS_TOKEN_EXPIRES_TIME_KEY = "WX_CP_ACCESS_TOKEN_EXPIRES_TIME";
-	private static final String JS_API_TICKET_KEY = "WX_CP_JS_API_TICKET";
-	private static final String JS_API_TICKET_EXPIRES_TIME_KEY = "WX_CP_JS_API_TICKET_EXPIRES_TIME";
+  /* Redis keys here */
+  private static final String ACCESS_TOKEN_KEY = "WX_CP_ACCESS_TOKEN";
+  private static final String ACCESS_TOKEN_EXPIRES_TIME_KEY = "WX_CP_ACCESS_TOKEN_EXPIRES_TIME";
+  private static final String JS_API_TICKET_KEY = "WX_CP_JS_API_TICKET";
+  private static final String JS_API_TICKET_EXPIRES_TIME_KEY = "WX_CP_JS_API_TICKET_EXPIRES_TIME";
+  /* Redis clients pool */
+  private final JedisPool jedisPool;
+  private volatile String corpId;
+  private volatile String corpSecret;
+  private volatile String token;
+  private volatile String aesKey;
+  private volatile Integer agentId;
+  private volatile String oauth2redirectUri;
+  private volatile String httpProxyHost;
+  private volatile int httpProxyPort;
+  private volatile String httpProxyUsername;
+  private volatile String httpProxyPassword;
+  private volatile File tmpDirFile;
+  private volatile ApacheHttpClientBuilder apacheHttpClientBuilder;
 
-	private volatile String corpId;
-	private volatile String corpSecret;
+  public WxCpJedisConfigStorage(String host, int port) {
+    this.jedisPool = new JedisPool(host, port);
+  }
 
-	private volatile String token;
-	private volatile String aesKey;
-	private volatile String agentId;
+  /**
+   * This method will be destroy jedis pool
+   */
+  public void destroy() {
+    this.jedisPool.destroy();
+  }
 
-	private volatile String oauth2redirectUri;
+  @Override
+  public String getAccessToken() {
+    try (Jedis jedis = this.jedisPool.getResource()) {
+      return jedis.get(ACCESS_TOKEN_KEY);
+    }
+  }
 
-	private volatile String httpProxyHost;
-	private volatile int httpProxyPort;
-	private volatile String httpProxyUsername;
-	private volatile String httpProxyPassword;
+  @Override
+  public boolean isAccessTokenExpired() {
+    try (Jedis jedis = this.jedisPool.getResource()) {
+      String expiresTimeStr = jedis.get(ACCESS_TOKEN_EXPIRES_TIME_KEY);
 
-	private volatile File tmpDirFile;
+      if (expiresTimeStr != null) {
+        Long expiresTime = Long.parseLong(expiresTimeStr);
+        return System.currentTimeMillis() > expiresTime;
+      }
 
-	private volatile ApacheHttpClientBuilder apacheHttpClientBuilder;
+      return true;
 
-	/* Redis clients pool */
-	private final JedisPool jedisPool;
+    }
+  }
 
-	public WxCpJedisConfigStorage(String host, int port) {
-		this.jedisPool = new JedisPool(host, port);
-	}
+  @Override
+  public void expireAccessToken() {
+    try (Jedis jedis = this.jedisPool.getResource()) {
+      jedis.set(ACCESS_TOKEN_EXPIRES_TIME_KEY, "0");
+    }
+  }
 
-	/**
-	 *
-	 * This method will be destroy jedis pool
-	 */
-	public void destroy() {
-		this.jedisPool.destroy();
-	}
+  @Override
+  public synchronized void updateAccessToken(WxAccessToken accessToken) {
+    this.updateAccessToken(accessToken.getAccessToken(), accessToken.getExpiresIn());
+  }
 
-	@Override
-	public String getAccessToken() {
-		try (Jedis jedis = this.jedisPool.getResource()) {
-			return jedis.get(ACCESS_TOKEN_KEY);
-		}
-	}
+  @Override
+  public synchronized void updateAccessToken(String accessToken, int expiresInSeconds) {
+    try (Jedis jedis = this.jedisPool.getResource()) {
+      jedis.set(ACCESS_TOKEN_KEY, accessToken);
 
-	@Override
-	public boolean isAccessTokenExpired() {
-		try (Jedis jedis = this.jedisPool.getResource()) {
-			String expiresTimeStr = jedis.get(ACCESS_TOKEN_EXPIRES_TIME_KEY);
+      jedis.set(ACCESS_TOKEN_EXPIRES_TIME_KEY,
+        (System.currentTimeMillis() + (expiresInSeconds - 200) * 1000L) + "");
+    }
+  }
 
-			if (expiresTimeStr != null) {
-				Long expiresTime = Long.parseLong(expiresTimeStr);
-				return System.currentTimeMillis() > expiresTime;
-			}
+  @Override
+  public String getJsapiTicket() {
+    try (Jedis jedis = this.jedisPool.getResource()) {
+      return jedis.get(JS_API_TICKET_KEY);
+    }
+  }
 
-			return true;
+  @Override
+  public boolean isJsapiTicketExpired() {
 
-		}
-	}
+    try (Jedis jedis = this.jedisPool.getResource()) {
+      String expiresTimeStr = jedis.get(JS_API_TICKET_EXPIRES_TIME_KEY);
 
-	@Override
-	public void expireAccessToken() {
-		try (Jedis jedis = this.jedisPool.getResource()) {
-		  jedis.set(ACCESS_TOKEN_EXPIRES_TIME_KEY, "0");
-		}
-	}
+      if (expiresTimeStr != null) {
+        Long expiresTime = Long.parseLong(expiresTimeStr);
+        return System.currentTimeMillis() > expiresTime;
+      }
 
-	@Override
-	public synchronized void updateAccessToken(WxAccessToken accessToken) {
-		this.updateAccessToken(accessToken.getAccessToken(), accessToken.getExpiresIn());
-	}
+      return true;
 
-	@Override
-	public synchronized void updateAccessToken(String accessToken, int expiresInSeconds) {
-		try (Jedis jedis = this.jedisPool.getResource()) {
-			jedis.set(ACCESS_TOKEN_KEY, accessToken);
+    }
+  }
 
-			jedis.set(ACCESS_TOKEN_EXPIRES_TIME_KEY,
-					(System.currentTimeMillis() + (expiresInSeconds - 200) * 1000L) + "");
-		}
-	}
+  @Override
+  public void expireJsapiTicket() {
+    try (Jedis jedis = this.jedisPool.getResource()) {
+      jedis.set(JS_API_TICKET_EXPIRES_TIME_KEY, "0");
+    }
+  }
 
-	@Override
-	public String getJsapiTicket() {
-		try (Jedis jedis = this.jedisPool.getResource()) {
-		  return jedis.get(JS_API_TICKET_KEY);
-		}
-	}
+  @Override
+  public synchronized void updateJsapiTicket(String jsapiTicket, int expiresInSeconds) {
 
-	@Override
-	public boolean isJsapiTicketExpired() {
+    try (Jedis jedis = this.jedisPool.getResource()) {
+      jedis.set(JS_API_TICKET_KEY, jsapiTicket);
 
-		try (Jedis jedis = this.jedisPool.getResource()) {
-			String expiresTimeStr = jedis.get(JS_API_TICKET_EXPIRES_TIME_KEY);
+      jedis.set(JS_API_TICKET_EXPIRES_TIME_KEY,
+        (System.currentTimeMillis() + (expiresInSeconds - 200) * 1000L + ""));
+    }
 
-			if (expiresTimeStr != null) {
-				Long expiresTime = Long.parseLong(expiresTimeStr);
-				return System.currentTimeMillis() > expiresTime;
-			}
+  }
 
-			return true;
+  @Override
+  public String getCorpId() {
+    return this.corpId;
+  }
 
-		}
-	}
+  public void setCorpId(String corpId) {
+    this.corpId = corpId;
+  }
 
-	@Override
-	public void expireJsapiTicket() {
-		try (Jedis jedis = this.jedisPool.getResource()) {
-			jedis.set(JS_API_TICKET_EXPIRES_TIME_KEY, "0");
-		}
-	}
+  @Override
+  public String getCorpSecret() {
+    return this.corpSecret;
+  }
 
-	@Override
-	public synchronized void updateJsapiTicket(String jsapiTicket, int expiresInSeconds) {
+  public void setCorpSecret(String corpSecret) {
+    this.corpSecret = corpSecret;
+  }
 
-		try (Jedis jedis = this.jedisPool.getResource()) {
-			jedis.set(JS_API_TICKET_KEY, jsapiTicket);
+  @Override
+  public Integer getAgentId() {
+    return this.agentId;
+  }
 
-			jedis.set(JS_API_TICKET_EXPIRES_TIME_KEY,
-					(System.currentTimeMillis() + (expiresInSeconds - 200) * 1000L + ""));
-		}
+  public void setAgentId(Integer agentId) {
+    this.agentId = agentId;
+  }
 
-	}
+  @Override
+  public String getToken() {
+    return this.token;
+  }
 
-	@Override
-	public String getCorpId() {
-		return this.corpId;
-	}
+  public void setToken(String token) {
+    this.token = token;
+  }
 
-	@Override
-	public String getCorpSecret() {
-		return this.corpSecret;
-	}
+  @Override
+  public String getAesKey() {
+    return this.aesKey;
+  }
 
-	@Override
-	public String getAgentId() {
-		return this.agentId;
-	}
+  public void setAesKey(String aesKey) {
+    this.aesKey = aesKey;
+  }
 
-	@Override
-	public String getToken() {
-		return this.token;
-	}
+  @Override
+  public long getExpiresTime() {
+    try (Jedis jedis = this.jedisPool.getResource()) {
+      String expiresTimeStr = jedis.get(ACCESS_TOKEN_EXPIRES_TIME_KEY);
 
-	@Override
-	public String getAesKey() {
-		return this.aesKey;
-	}
+      if (expiresTimeStr != null) {
+        Long expiresTime = Long.parseLong(expiresTimeStr);
+        return expiresTime;
+      }
 
-	@Override
-	public long getExpiresTime() {
-		try (Jedis jedis = this.jedisPool.getResource()) {
-			String expiresTimeStr = jedis.get(ACCESS_TOKEN_EXPIRES_TIME_KEY);
+      return 0L;
 
-			if (expiresTimeStr != null) {
-				Long expiresTime = Long.parseLong(expiresTimeStr);
-				return expiresTime;
-			}
+    }
+  }
 
-			return 0L;
+  @Override
+  public String getOauth2redirectUri() {
+    return this.oauth2redirectUri;
+  }
 
-		}
-	}
+  public void setOauth2redirectUri(String oauth2redirectUri) {
+    this.oauth2redirectUri = oauth2redirectUri;
+  }
 
-	@Override
-	public String getOauth2redirectUri() {
-		return this.oauth2redirectUri;
-	}
+  @Override
+  public String getHttpProxyHost() {
+    return this.httpProxyHost;
+  }
 
-	@Override
-	public String getHttpProxyHost() {
-		return this.httpProxyHost;
-	}
+  public void setHttpProxyHost(String httpProxyHost) {
+    this.httpProxyHost = httpProxyHost;
+  }
 
-	@Override
-	public int getHttpProxyPort() {
-		return this.httpProxyPort;
-	}
+  @Override
+  public int getHttpProxyPort() {
+    return this.httpProxyPort;
+  }
 
-	@Override
-	public String getHttpProxyUsername() {
-		return this.httpProxyUsername;
-	}
+  public void setHttpProxyPort(int httpProxyPort) {
+    this.httpProxyPort = httpProxyPort;
+  }
 
-	@Override
-	public String getHttpProxyPassword() {
-		return this.httpProxyPassword;
-	}
+  @Override
+  public String getHttpProxyUsername() {
+    return this.httpProxyUsername;
+  }
 
-	@Override
-	public File getTmpDirFile() {
-		return this.tmpDirFile;
-	}
+  // ============================ Setters below
 
-	@Override
-	public ApacheHttpClientBuilder getApacheHttpClientBuilder() {
-		return this.apacheHttpClientBuilder;
-	}
+  public void setHttpProxyUsername(String httpProxyUsername) {
+    this.httpProxyUsername = httpProxyUsername;
+  }
 
-	public void setCorpId(String corpId) {
-		this.corpId = corpId;
-	}
+  @Override
+  public String getHttpProxyPassword() {
+    return this.httpProxyPassword;
+  }
 
-	public void setCorpSecret(String corpSecret) {
-		this.corpSecret = corpSecret;
-	}
+  public void setHttpProxyPassword(String httpProxyPassword) {
+    this.httpProxyPassword = httpProxyPassword;
+  }
 
-	public void setToken(String token) {
-		this.token = token;
-	}
+  @Override
+  public File getTmpDirFile() {
+    return this.tmpDirFile;
+  }
 
-	public void setAesKey(String aesKey) {
-		this.aesKey = aesKey;
-	}
+  public void setTmpDirFile(File tmpDirFile) {
+    this.tmpDirFile = tmpDirFile;
+  }
 
-	public void setAgentId(String agentId) {
-		this.agentId = agentId;
-	}
+  @Override
+  public ApacheHttpClientBuilder getApacheHttpClientBuilder() {
+    return this.apacheHttpClientBuilder;
+  }
 
-	// ============================ Setters below
-
-	public void setOauth2redirectUri(String oauth2redirectUri) {
-		this.oauth2redirectUri = oauth2redirectUri;
-	}
-
-	public void setHttpProxyHost(String httpProxyHost) {
-		this.httpProxyHost = httpProxyHost;
-	}
-
-	public void setHttpProxyPort(int httpProxyPort) {
-		this.httpProxyPort = httpProxyPort;
-	}
-
-	public void setHttpProxyUsername(String httpProxyUsername) {
-		this.httpProxyUsername = httpProxyUsername;
-	}
-
-	public void setHttpProxyPassword(String httpProxyPassword) {
-		this.httpProxyPassword = httpProxyPassword;
-	}
-
-	public void setTmpDirFile(File tmpDirFile) {
-		this.tmpDirFile = tmpDirFile;
-	}
-
-	public void setApacheHttpClientBuilder(ApacheHttpClientBuilder apacheHttpClientBuilder) {
-		this.apacheHttpClientBuilder = apacheHttpClientBuilder;
-	}
+  public void setApacheHttpClientBuilder(ApacheHttpClientBuilder apacheHttpClientBuilder) {
+    this.apacheHttpClientBuilder = apacheHttpClientBuilder;
+  }
 
 }

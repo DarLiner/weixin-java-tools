@@ -9,6 +9,7 @@ import me.chanjar.weixin.mp.bean.template.WxMpTemplate;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateIndustry;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
@@ -28,7 +29,7 @@ public class WxMpTemplateMsgServiceImplTest {
   @Inject
   protected WxMpService wxService;
 
-  @Test(invocationCount = 10, threadPoolSize = 10)
+  @Test(invocationCount = 5, threadPoolSize = 3)
   public void testSendTemplateMsg() throws WxErrorException {
     SimpleDateFormat dateFormat = new SimpleDateFormat(
       "yyyy-MM-dd HH:mm:ss.SSS");
@@ -38,7 +39,10 @@ public class WxMpTemplateMsgServiceImplTest {
       .toUser(configStorage.getOpenid())
       .templateId(configStorage.getTemplateId()).build();
     templateMessage.addWxMpTemplateData(
-      new WxMpTemplateData("first", dateFormat.format(new Date())));
+      new WxMpTemplateData("first", dateFormat.format(new Date()),"#FF00FF"));
+    templateMessage.addWxMpTemplateData(
+      new WxMpTemplateData("remark", RandomStringUtils.randomAlphanumeric(100), "#FF00FF"));
+    templateMessage.setUrl(" ");
     String msgId = this.wxService.getTemplateMsgService().sendTemplateMsg(templateMessage);
     Assert.assertNotNull(msgId);
     System.out.println(msgId);

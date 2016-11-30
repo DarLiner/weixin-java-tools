@@ -1,9 +1,9 @@
 package me.chanjar.weixin.mp.bean.pay.result;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+import java.util.List;
 
 /**
  * <pre>

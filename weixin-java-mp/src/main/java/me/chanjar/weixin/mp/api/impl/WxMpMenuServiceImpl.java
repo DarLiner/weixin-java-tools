@@ -1,12 +1,13 @@
 package me.chanjar.weixin.mp.api.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import me.chanjar.weixin.common.bean.menu.WxMenu;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpMenuService;
 import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.menu.WxMpGetSelfMenuInfoResult;
+import me.chanjar.weixin.mp.bean.menu.WxMpSelfMenuInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by Binary Wang on 2016/7/21.
@@ -14,7 +15,7 @@ import me.chanjar.weixin.mp.api.WxMpService;
 public class WxMpMenuServiceImpl implements WxMpMenuService {
   private static final String API_URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/menu";
   private static Logger log = LoggerFactory
-      .getLogger(WxMpMenuServiceImpl.class);
+    .getLogger(WxMpMenuServiceImpl.class);
 
   private WxMpService wxMpService;
 
@@ -74,10 +75,17 @@ public class WxMpMenuServiceImpl implements WxMpMenuService {
     } catch (WxErrorException e) {
       // 46003 不存在的菜单数据     46002 不存在的菜单版本
       if (e.getError().getErrorCode() == 46003
-          || e.getError().getErrorCode() == 46002) {
+        || e.getError().getErrorCode() == 46002) {
         return null;
       }
       throw e;
     }
+  }
+
+  @Override
+  public WxMpGetSelfMenuInfoResult getSelfMenuInfo() throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info";
+    String resultContent = this.wxMpService.get(url, null);
+    return WxMpGetSelfMenuInfoResult.fromJson(resultContent);
   }
 }
