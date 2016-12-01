@@ -12,6 +12,7 @@ Weixin Java Tools 微信公众号/企业号开发Java SDK
 ===========
 
 ## 开发交流方式及注意事项：
+1. ***QQ群入群须知：为保证入群成员质量，请申请入群前，先Star本项目，然后在申请入群时，输入您的Github帐号ID，以便管理员核对，ID即你的github主页地址https://github.com/XXXX 中最后的部分XXXX的内容，或者在github网页右上角点击头像后查看Signed in as后方内容。***
 1. QQ群：343954419（推荐点击按钮入群： [![Join QQ Group](http://pub.idqqimg.com/wpa/images/group.png)](http://shang.qq.com/wpa/qunwpa?idkey=731dc3e7ea31ebe25376cc1a791445468612c63fd0e9e05399b088ec81fd9e15) 或 [![Join QQ Group](http://pub.idqqimg.com/wpa/images/group.png)](http://jq.qq.com/?_wv=1027&k=40lRskK)，如果无反应，可以自行搜索群号进行添加 ）
 1. 由于群容量有限即将爆满，现开启付费入群模式，并不定期清理长时间不活跃人士；
 1. 微信群： 因微信群已达到100人限制，故如有想加入微信群的，请入QQ群后联系管理员，提供微信号以便邀请加入；
