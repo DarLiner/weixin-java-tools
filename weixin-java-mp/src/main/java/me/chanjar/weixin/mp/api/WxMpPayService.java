@@ -81,7 +81,7 @@ public interface WxMpPayService {
    * </pre>
    *
    * @param request 请求对象
-   * @param keyFile 证书文件对象
+   * @param keyFile 证书文件对象（即apiclient_cert.p12 商户证书文件，详细参考https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3）
    * @return 退款操作结果
    */
   WxPayRefundResult refund(WxPayRefundRequest request, File keyFile) throws WxErrorException;
@@ -128,7 +128,7 @@ public interface WxMpPayService {
    * </pre>
    *
    * @param request 请求对象
-   * @param keyFile 证书文件对象
+   * @param keyFile 证书文件对象（即apiclient_cert.p12 商户证书文件，详细参考https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3）
    */
   WxPaySendRedpackResult sendRedpack(WxPaySendRedpackRequest request, File keyFile) throws WxErrorException;
 
@@ -141,7 +141,7 @@ public interface WxMpPayService {
    *   请求方式	POST
    * </pre>
    * @param mchBillNo 商户发放红包的商户订单号，比如10000098201411111234567890
-   * @param keyFile 证书文件对象
+   * @param keyFile 证书文件对象（即apiclient_cert.p12 商户证书文件，详细参考https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3）
    */
   WxPayRedpackQueryResult queryRedpack(String mchBillNo, File keyFile) throws WxErrorException;
 
@@ -156,7 +156,7 @@ public interface WxMpPayService {
    * </pre>
    *
    * @param request 请求对象
-   * @param keyFile 证书文件对象
+   * @param keyFile 证书文件对象（即apiclient_cert.p12 商户证书文件，详细参考https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3）
    */
   WxEntPayResult entPay(WxEntPayRequest request, File keyFile) throws WxErrorException;
 
@@ -169,7 +169,7 @@ public interface WxMpPayService {
    * </pre>
    *
    * @param partnerTradeNo 商户订单号
-   * @param keyFile        证书文件对象
+   * @param keyFile        证书文件对象（即apiclient_cert.p12 商户证书文件，详细参考https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3）
    */
   WxEntPayQueryResult queryEntPay(String partnerTradeNo, File keyFile) throws WxErrorException;
 
