@@ -14,7 +14,7 @@ public class WxPaySendRedpackRequest {
   * 商户订单号（每个订单号必须唯一）  组成：mch_id+yyyymmdd+10位一天内不能重复的数字。  接口根据商户订单号支持重入，如出现超时可再调用。
   */
   @XStreamAlias("mch_billno")
-  private String mchBillno;
+  private String mchBillNo;
 
   /**
    * send_name
@@ -157,12 +157,12 @@ public class WxPaySendRedpackRequest {
   @XStreamAlias("consume_mch_id")
   private String consumeMchId;
 
-  public String getMchBillno() {
-    return this.mchBillno;
+  public String getMchBillNo() {
+    return mchBillNo;
   }
 
-  public void setMchBillno(String mchBillno) {
-    this.mchBillno = mchBillno;
+  public void setMchBillNo(String mchBillNo) {
+    this.mchBillNo = mchBillNo;
   }
 
   public String getSendName() {

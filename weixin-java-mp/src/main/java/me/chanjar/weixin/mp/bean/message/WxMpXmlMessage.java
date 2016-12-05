@@ -297,6 +297,43 @@ public class WxMpXmlMessage implements Serializable {
   @XStreamAlias("DeviceStatus")
   private Integer deviceStatus;
 
+  public static WxMpXmlMessage fromXml(String xml) {
+    return XStreamTransformer.fromXml(WxMpXmlMessage.class, xml);
+  }
+
+  public static WxMpXmlMessage fromXml(InputStream is) {
+    return XStreamTransformer.fromXml(WxMpXmlMessage.class, is);
+  }
+
+  /**
+   * 从加密字符串转换
+   *
+   * @param encryptedXml
+   * @param wxMpConfigStorage
+   * @param timestamp
+   * @param nonce
+   * @param msgSignature
+   */
+  public static WxMpXmlMessage fromEncryptedXml(String encryptedXml,
+                                                WxMpConfigStorage wxMpConfigStorage, String timestamp, String nonce,
+                                                String msgSignature) {
+    WxMpCryptUtil cryptUtil = new WxMpCryptUtil(wxMpConfigStorage);
+    String plainText = cryptUtil.decrypt(msgSignature, timestamp, nonce,
+      encryptedXml);
+    return fromXml(plainText);
+  }
+
+  public static WxMpXmlMessage fromEncryptedXml(InputStream is,
+                                                WxMpConfigStorage wxMpConfigStorage, String timestamp, String nonce,
+                                                String msgSignature) {
+    try {
+      return fromEncryptedXml(IOUtils.toString(is, "UTF-8"), wxMpConfigStorage,
+        timestamp, nonce, msgSignature);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   public Integer getOpType() {
     return opType;
   }
@@ -611,43 +648,6 @@ public class WxMpXmlMessage implements Serializable {
     this.fromUser = fromUser;
   }
 
-  public static WxMpXmlMessage fromXml(String xml) {
-    return XStreamTransformer.fromXml(WxMpXmlMessage.class, xml);
-  }
-
-  public static WxMpXmlMessage fromXml(InputStream is) {
-    return XStreamTransformer.fromXml(WxMpXmlMessage.class, is);
-  }
-
-  /**
-   * 从加密字符串转换
-   *
-   * @param encryptedXml
-   * @param wxMpConfigStorage
-   * @param timestamp
-   * @param nonce
-   * @param msgSignature
-   */
-  public static WxMpXmlMessage fromEncryptedXml(String encryptedXml,
-                                                WxMpConfigStorage wxMpConfigStorage, String timestamp, String nonce,
-                                                String msgSignature) {
-    WxMpCryptUtil cryptUtil = new WxMpCryptUtil(wxMpConfigStorage);
-    String plainText = cryptUtil.decrypt(msgSignature, timestamp, nonce,
-        encryptedXml);
-    return fromXml(plainText);
-  }
-
-  public static WxMpXmlMessage fromEncryptedXml(InputStream is,
-                                                WxMpConfigStorage wxMpConfigStorage, String timestamp, String nonce,
-                                                String msgSignature) {
-    try {
-      return fromEncryptedXml(IOUtils.toString(is, "UTF-8"), wxMpConfigStorage,
-          timestamp, nonce, msgSignature);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
   public String getStatus() {
     return this.status;
   }
@@ -757,7 +757,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public void setSendLocationInfo(
-      WxMpXmlMessage.SendLocationInfo sendLocationInfo) {
+    WxMpXmlMessage.SendLocationInfo sendLocationInfo) {
     this.sendLocationInfo = sendLocationInfo;
   }
 
@@ -793,26 +793,30 @@ public class WxMpXmlMessage implements Serializable {
     this.fromKfAccount = fromKfAccount;
   }
 
+  @Override
+  public String toString() {
+    return ToStringUtils.toSimpleString(this);
+  }
+
   @XStreamAlias("HardWare")
   public static class HardWare {
-    @Override
-    public String toString() {
-      return ToStringUtils.toSimpleString(this);
-    }
-
     /**
      * 消息展示，目前支持myrank(排行榜)
      */
     @XStreamAlias("MessageView")
     @XStreamConverter(value = XStreamCDataConverter.class)
     private String messageView;
-
     /**
      * 消息点击动作，目前支持ranklist(点击跳转排行榜)
      */
     @XStreamAlias("MessageAction")
     @XStreamConverter(value = XStreamCDataConverter.class)
     private String messageAction;
+
+    @Override
+    public String toString() {
+      return ToStringUtils.toSimpleString(this);
+    }
 
     public String getMessageView() {
       return messageView;
@@ -833,18 +837,17 @@ public class WxMpXmlMessage implements Serializable {
 
   @XStreamAlias("ScanCodeInfo")
   public static class ScanCodeInfo {
+    @XStreamAlias("ScanType")
+    @XStreamConverter(value = XStreamCDataConverter.class)
+    private String scanType;
+    @XStreamAlias("ScanResult")
+    @XStreamConverter(value = XStreamCDataConverter.class)
+    private String scanResult;
+
     @Override
     public String toString() {
       return ToStringUtils.toSimpleString(this);
     }
-
-    @XStreamAlias("ScanType")
-    @XStreamConverter(value = XStreamCDataConverter.class)
-    private String scanType;
-
-    @XStreamAlias("ScanResult")
-    @XStreamConverter(value = XStreamCDataConverter.class)
-    private String scanResult;
 
     /**
      * 扫描类型，一般是qrcode
@@ -873,16 +876,15 @@ public class WxMpXmlMessage implements Serializable {
 
   @XStreamAlias("SendPicsInfo")
   public static class SendPicsInfo {
+    @XStreamAlias("PicList")
+    protected final List<Item> picList = new ArrayList<>();
+    @XStreamAlias("Count")
+    private Long count;
+
     @Override
     public String toString() {
       return ToStringUtils.toSimpleString(this);
     }
-
-    @XStreamAlias("Count")
-    private Long count;
-
-    @XStreamAlias("PicList")
-    protected final List<Item> picList = new ArrayList<>();
 
     public Long getCount() {
       return this.count;
@@ -898,14 +900,14 @@ public class WxMpXmlMessage implements Serializable {
 
     @XStreamAlias("item")
     public static class Item {
+      @XStreamAlias("PicMd5Sum")
+      @XStreamConverter(value = XStreamCDataConverter.class)
+      private String picMd5Sum;
+
       @Override
       public String toString() {
         return ToStringUtils.toSimpleString(this);
       }
-
-      @XStreamAlias("PicMd5Sum")
-      @XStreamConverter(value = XStreamCDataConverter.class)
-      private String picMd5Sum;
 
       public String getPicMd5Sum() {
         return this.picMd5Sum;
@@ -984,10 +986,5 @@ public class WxMpXmlMessage implements Serializable {
     public void setPoiname(String poiname) {
       this.poiname = poiname;
     }
-  }
-
-  @Override
-  public String toString() {
-    return ToStringUtils.toSimpleString(this);
   }
 }
