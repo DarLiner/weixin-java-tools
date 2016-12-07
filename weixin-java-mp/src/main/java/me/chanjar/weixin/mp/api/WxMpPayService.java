@@ -2,7 +2,6 @@ package me.chanjar.weixin.mp.api;
 
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.bean.pay.WxPayJsSDKCallback;
-import me.chanjar.weixin.mp.bean.pay.result.WxPayOrderCloseResult;
 import me.chanjar.weixin.mp.bean.pay.request.WxEntPayRequest;
 import me.chanjar.weixin.mp.bean.pay.request.WxPayRefundRequest;
 import me.chanjar.weixin.mp.bean.pay.request.WxPaySendRedpackRequest;
@@ -13,8 +12,9 @@ import java.io.File;
 import java.util.Map;
 
 /**
- *  微信支付相关接口
- *  Created by Binary Wang on 2016/7/28.
+ * 微信支付相关接口
+ * Created by Binary Wang on 2016/7/28.
+ *
  * @author binarywang (https://github.com/binarywang)
  */
 public interface WxMpPayService {
@@ -24,14 +24,15 @@ public interface WxMpPayService {
    * 查询订单(详见https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_2)
    * 该接口提供所有微信支付订单的查询，商户可以通过查询订单接口主动查询订单状态，完成下一步的业务逻辑。
    * 需要调用查询接口的情况：
-   ◆ 当商户后台、网络、服务器等出现异常，商户系统最终未接收到支付通知；
-   ◆ 调用支付接口后，返回系统错误或未知交易状态情况；
-   ◆ 调用被扫支付API，返回USERPAYING的状态；
-   ◆ 调用关单或撤销接口API之前，需确认支付状态；
+   * ◆ 当商户后台、网络、服务器等出现异常，商户系统最终未接收到支付通知；
+   * ◆ 调用支付接口后，返回系统错误或未知交易状态情况；
+   * ◆ 调用被扫支付API，返回USERPAYING的状态；
+   * ◆ 调用关单或撤销接口API之前，需确认支付状态；
    * 接口地址：https://api.mch.weixin.qq.com/pay/orderquery
    * </pre>
+   *
    * @param transactionId 微信支付分配的商户号
-   * @param outTradeNo 商户系统内部的订单号，当没提供transaction_id时需要传这个。
+   * @param outTradeNo    商户系统内部的订单号，当没提供transaction_id时需要传这个。
    * @throws WxErrorException
    */
   WxPayOrderQueryResult queryOrder(String transactionId, String outTradeNo) throws WxErrorException;
@@ -47,6 +48,7 @@ public interface WxMpPayService {
    * 接口地址：https://api.mch.weixin.qq.com/pay/closeorder
    * 是否需要证书：   不需要。
    * </pre>
+   *
    * @param outTradeNo 商户系统内部的订单号，当没提供transaction_id时需要传这个。
    * @throws WxErrorException
    */
@@ -56,16 +58,18 @@ public interface WxMpPayService {
    * 统一下单(详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1)
    * 在发起微信支付前，需要调用统一下单接口，获取"预支付交易会话标识"
    * 接口地址：https://api.mch.weixin.qq.com/pay/unifiedorder
-   * @throws WxErrorException
-   * @param request 请求对象
    *
+   * @param request 请求对象，注意一些参数如appid、mchid等不用设置，方法内会自动从配置对象中获取到（前提是对应配置中已经设置）
+   * @throws WxErrorException
    */
   WxPayUnifiedOrderResult unifiedOrder(WxPayUnifiedOrderRequest request) throws WxErrorException;
 
   /**
    * 该接口调用“统一下单”接口，并拼装发起支付请求需要的参数
    * 详见http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115&token=&lang=zh_CN
-   * @param request 请求对象
+   *
+   * @param request 请求对象，注意一些参数如appid、mchid等不用设置，方法内会自动从配置对象中获取到（前提是对应配置中已经设置）
+   * @throws WxErrorException
    */
   Map<String, String> getPayInfo(WxPayUnifiedOrderRequest request) throws WxErrorException;
 
@@ -75,16 +79,33 @@ public interface WxMpPayService {
    * 详见 https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_4
    * 接口链接：https://api.mch.weixin.qq.com/secapi/pay/refund
    * </pre>
+   *
    * @param request 请求对象
-   * @param keyFile  证书文件对象
+   * @param keyFile 证书文件对象（即apiclient_cert.p12 商户证书文件，详细参考https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3）
    * @return 退款操作结果
    */
   WxPayRefundResult refund(WxPayRefundRequest request, File keyFile) throws WxErrorException;
 
   /**
+   * <pre>
+   * 微信支付-查询退款
+   * 应用场景：
+   *  提交退款申请后，通过调用该接口查询退款状态。退款有一定延时，用零钱支付的退款20分钟内到账，银行卡支付的退款3个工作日后重新查询退款状态。
+   * 详见 https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_5
+   * 接口链接：https://api.mch.weixin.qq.com/pay/refundquery
+   * </pre>
+   *  以下四个参数四选一
+   * @param transactionId 微信订单号
+   * @param outTradeNo    商户订单号
+   * @param outRefundNo   商户退款单号
+   * @param refundId      微信退款单号
+   * @return 退款信息
+   */
+  WxPayRefundQueryResult refundQuery(String transactionId, String outTradeNo, String outRefundNo, String refundId) throws WxErrorException;
+
+  /**
    * 读取支付结果通知
    * 详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_7
-   *
    */
   WxPayJsSDKCallback getJSSDKCallbackData(String xmlData) throws WxErrorException;
 
@@ -93,7 +114,6 @@ public interface WxMpPayService {
    * 计算Map键值对是否和签名相符,
    * 按照字段名的 ASCII 码从小到大排序(字典序)后,使用 URL 键值对的 格式(即 key1=value1&key2=value2...)拼接成字符串
    * </pre>
-   *
    */
   boolean checkJSSDKCallbackDataSignature(Map<String, String> kvm, String signature);
 
@@ -102,12 +122,28 @@ public interface WxMpPayService {
    * <pre>
    * 文档详见:
    * 发送普通红包 https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_4&index=3
+   *  接口地址：https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack
    * 发送裂变红包 https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_5&index=4
+   *  接口地址：https://api.mch.weixin.qq.com/mmpaymkttransfers/sendgroupredpack
    * </pre>
+   *
    * @param request 请求对象
-   * @param keyFile  证书文件对象
+   * @param keyFile 证书文件对象（即apiclient_cert.p12 商户证书文件，详细参考https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3）
    */
   WxPaySendRedpackResult sendRedpack(WxPaySendRedpackRequest request, File keyFile) throws WxErrorException;
+
+  /**
+   * <pre>
+   *   查询红包记录
+   *   用于商户对已发放的红包进行查询红包的具体信息，可支持普通红包和裂变包。
+   *   请求Url	https://api.mch.weixin.qq.com/mmpaymkttransfers/gethbinfo
+   *   是否需要证书	是（证书及使用说明详见商户证书）
+   *   请求方式	POST
+   * </pre>
+   * @param mchBillNo 商户发放红包的商户订单号，比如10000098201411111234567890
+   * @param keyFile 证书文件对象（即apiclient_cert.p12 商户证书文件，详细参考https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3）
+   */
+  WxPayRedpackQueryResult queryRedpack(String mchBillNo, File keyFile) throws WxErrorException;
 
   /**
    * <pre>
@@ -118,8 +154,9 @@ public interface WxMpPayService {
    * 文档详见:https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=14_2
    * 接口链接：https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers
    * </pre>
+   *
    * @param request 请求对象
-   * @param keyFile  证书文件对象
+   * @param keyFile 证书文件对象（即apiclient_cert.p12 商户证书文件，详细参考https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3）
    */
   WxEntPayResult entPay(WxEntPayRequest request, File keyFile) throws WxErrorException;
 
@@ -130,8 +167,9 @@ public interface WxMpPayService {
    * 文档详见:https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=14_3
    * 接口链接：https://api.mch.weixin.qq.com/mmpaymkttransfers/gettransferinfo
    * </pre>
+   *
    * @param partnerTradeNo 商户订单号
-   * @param keyFile  证书文件对象
+   * @param keyFile        证书文件对象（即apiclient_cert.p12 商户证书文件，详细参考https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3）
    */
   WxEntPayQueryResult queryEntPay(String partnerTradeNo, File keyFile) throws WxErrorException;
 

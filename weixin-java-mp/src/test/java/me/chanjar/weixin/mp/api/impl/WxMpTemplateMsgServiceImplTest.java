@@ -39,9 +39,10 @@ public class WxMpTemplateMsgServiceImplTest {
       .toUser(configStorage.getOpenid())
       .templateId(configStorage.getTemplateId()).build();
     templateMessage.addWxMpTemplateData(
-      new WxMpTemplateData("first", dateFormat.format(new Date())));
+      new WxMpTemplateData("first", dateFormat.format(new Date()),"#FF00FF"));
     templateMessage.addWxMpTemplateData(
       new WxMpTemplateData("remark", RandomStringUtils.randomAlphanumeric(100), "#FF00FF"));
+    templateMessage.setUrl(" ");
     String msgId = this.wxService.getTemplateMsgService().sendTemplateMsg(templateMessage);
     Assert.assertNotNull(msgId);
     System.out.println(msgId);

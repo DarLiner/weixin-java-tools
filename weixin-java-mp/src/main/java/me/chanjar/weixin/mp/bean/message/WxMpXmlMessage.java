@@ -263,6 +263,118 @@ public class WxMpXmlMessage implements Serializable {
   @XStreamAlias("FailReason")
   private String failReason;
 
+
+  ///////////////////////////////////////
+  // 微信硬件平台相关事件推送
+  ///////////////////////////////////////
+  /**
+   * 设备类型，目前为"公众账号原始ID"
+   */
+  @XStreamAlias("DeviceType")
+  @XStreamConverter(value = XStreamCDataConverter.class)
+  private String deviceType;
+
+  /**
+   * 设备ID，第三方提供
+   */
+  @XStreamAlias("DeviceID")
+  @XStreamConverter(value = XStreamCDataConverter.class)
+  private String deviceId;
+
+
+  @XStreamAlias("HardWare")
+  private HardWare hardWare = new HardWare();
+
+  /**
+   * 请求类型：0：退订设备状态；1：心跳；（心跳的处理方式跟订阅一样）2：订阅设备状态
+   */
+  @XStreamAlias("OpType")
+  private Integer opType;
+
+  /**
+   * 设备状态：0：未连接；1：已连接
+   */
+  @XStreamAlias("DeviceStatus")
+  private Integer deviceStatus;
+
+  public static WxMpXmlMessage fromXml(String xml) {
+    return XStreamTransformer.fromXml(WxMpXmlMessage.class, xml);
+  }
+
+  public static WxMpXmlMessage fromXml(InputStream is) {
+    return XStreamTransformer.fromXml(WxMpXmlMessage.class, is);
+  }
+
+  /**
+   * 从加密字符串转换
+   *
+   * @param encryptedXml
+   * @param wxMpConfigStorage
+   * @param timestamp
+   * @param nonce
+   * @param msgSignature
+   */
+  public static WxMpXmlMessage fromEncryptedXml(String encryptedXml,
+                                                WxMpConfigStorage wxMpConfigStorage, String timestamp, String nonce,
+                                                String msgSignature) {
+    WxMpCryptUtil cryptUtil = new WxMpCryptUtil(wxMpConfigStorage);
+    String plainText = cryptUtil.decrypt(msgSignature, timestamp, nonce,
+      encryptedXml);
+    return fromXml(plainText);
+  }
+
+  public static WxMpXmlMessage fromEncryptedXml(InputStream is,
+                                                WxMpConfigStorage wxMpConfigStorage, String timestamp, String nonce,
+                                                String msgSignature) {
+    try {
+      return fromEncryptedXml(IOUtils.toString(is, "UTF-8"), wxMpConfigStorage,
+        timestamp, nonce, msgSignature);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public Integer getOpType() {
+    return opType;
+  }
+
+  public void setOpType(Integer opType) {
+    this.opType = opType;
+  }
+
+  public Integer getDeviceStatus() {
+
+    return deviceStatus;
+  }
+
+  public void setDeviceStatus(Integer deviceStatus) {
+    this.deviceStatus = deviceStatus;
+  }
+
+  public HardWare getHardWare() {
+    return hardWare;
+  }
+
+  public void setHardWare(HardWare hardWare) {
+    this.hardWare = hardWare;
+  }
+
+  public String getDeviceType() {
+    return deviceType;
+  }
+
+  public void setDeviceType(String deviceType) {
+    this.deviceType = deviceType;
+  }
+
+  public String getDeviceId() {
+    return deviceId;
+  }
+
+  public void setDeviceId(String deviceId) {
+    this.deviceId = deviceId;
+  }
+
   public Long getExpiredTime() {
     return this.expiredTime;
   }
@@ -346,7 +458,6 @@ public class WxMpXmlMessage implements Serializable {
    * {@link me.chanjar.weixin.common.api.WxConsts#XML_MSG_LINK}
    * {@link me.chanjar.weixin.common.api.WxConsts#XML_MSG_EVENT}
    * </pre>
-   *
    */
   public String getMsgType() {
     return this.msgType;
@@ -537,43 +648,6 @@ public class WxMpXmlMessage implements Serializable {
     this.fromUser = fromUser;
   }
 
-  public static WxMpXmlMessage fromXml(String xml) {
-    return XStreamTransformer.fromXml(WxMpXmlMessage.class, xml);
-  }
-
-  public static WxMpXmlMessage fromXml(InputStream is) {
-    return XStreamTransformer.fromXml(WxMpXmlMessage.class, is);
-  }
-
-  /**
-   * 从加密字符串转换
-   *
-   * @param encryptedXml
-   * @param wxMpConfigStorage
-   * @param timestamp
-   * @param nonce
-   * @param msgSignature
-   */
-  public static WxMpXmlMessage fromEncryptedXml(String encryptedXml,
-      WxMpConfigStorage wxMpConfigStorage, String timestamp, String nonce,
-      String msgSignature) {
-    WxMpCryptUtil cryptUtil = new WxMpCryptUtil(wxMpConfigStorage);
-    String plainText = cryptUtil.decrypt(msgSignature, timestamp, nonce,
-        encryptedXml);
-    return fromXml(plainText);
-  }
-
-  public static WxMpXmlMessage fromEncryptedXml(InputStream is,
-      WxMpConfigStorage wxMpConfigStorage, String timestamp, String nonce,
-      String msgSignature) {
-    try {
-      return fromEncryptedXml(IOUtils.toString(is, "UTF-8"), wxMpConfigStorage,
-          timestamp, nonce, msgSignature);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
   public String getStatus() {
     return this.status;
   }
@@ -683,7 +757,7 @@ public class WxMpXmlMessage implements Serializable {
   }
 
   public void setSendLocationInfo(
-      WxMpXmlMessage.SendLocationInfo sendLocationInfo) {
+    WxMpXmlMessage.SendLocationInfo sendLocationInfo) {
     this.sendLocationInfo = sendLocationInfo;
   }
 
@@ -719,20 +793,61 @@ public class WxMpXmlMessage implements Serializable {
     this.fromKfAccount = fromKfAccount;
   }
 
-  @XStreamAlias("ScanCodeInfo")
-  public static class ScanCodeInfo {
+  @Override
+  public String toString() {
+    return ToStringUtils.toSimpleString(this);
+  }
+
+  @XStreamAlias("HardWare")
+  public static class HardWare {
+    /**
+     * 消息展示，目前支持myrank(排行榜)
+     */
+    @XStreamAlias("MessageView")
+    @XStreamConverter(value = XStreamCDataConverter.class)
+    private String messageView;
+    /**
+     * 消息点击动作，目前支持ranklist(点击跳转排行榜)
+     */
+    @XStreamAlias("MessageAction")
+    @XStreamConverter(value = XStreamCDataConverter.class)
+    private String messageAction;
+
     @Override
     public String toString() {
       return ToStringUtils.toSimpleString(this);
     }
 
+    public String getMessageView() {
+      return messageView;
+    }
+
+    public void setMessageView(String messageView) {
+      this.messageView = messageView;
+    }
+
+    public String getMessageAction() {
+      return messageAction;
+    }
+
+    public void setMessageAction(String messageAction) {
+      this.messageAction = messageAction;
+    }
+  }
+
+  @XStreamAlias("ScanCodeInfo")
+  public static class ScanCodeInfo {
     @XStreamAlias("ScanType")
     @XStreamConverter(value = XStreamCDataConverter.class)
     private String scanType;
-
     @XStreamAlias("ScanResult")
     @XStreamConverter(value = XStreamCDataConverter.class)
     private String scanResult;
+
+    @Override
+    public String toString() {
+      return ToStringUtils.toSimpleString(this);
+    }
 
     /**
      * 扫描类型，一般是qrcode
@@ -761,16 +876,15 @@ public class WxMpXmlMessage implements Serializable {
 
   @XStreamAlias("SendPicsInfo")
   public static class SendPicsInfo {
+    @XStreamAlias("PicList")
+    protected final List<Item> picList = new ArrayList<>();
+    @XStreamAlias("Count")
+    private Long count;
+
     @Override
     public String toString() {
       return ToStringUtils.toSimpleString(this);
     }
-
-    @XStreamAlias("Count")
-    private Long count;
-
-    @XStreamAlias("PicList")
-    protected final List<Item> picList = new ArrayList<>();
 
     public Long getCount() {
       return this.count;
@@ -786,14 +900,14 @@ public class WxMpXmlMessage implements Serializable {
 
     @XStreamAlias("item")
     public static class Item {
+      @XStreamAlias("PicMd5Sum")
+      @XStreamConverter(value = XStreamCDataConverter.class)
+      private String picMd5Sum;
+
       @Override
       public String toString() {
         return ToStringUtils.toSimpleString(this);
       }
-
-      @XStreamAlias("PicMd5Sum")
-      @XStreamConverter(value = XStreamCDataConverter.class)
-      private String picMd5Sum;
 
       public String getPicMd5Sum() {
         return this.picMd5Sum;
@@ -872,10 +986,5 @@ public class WxMpXmlMessage implements Serializable {
     public void setPoiname(String poiname) {
       this.poiname = poiname;
     }
-  }
-
-  @Override
-  public String toString() {
-    return ToStringUtils.toSimpleString(this);
   }
 }

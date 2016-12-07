@@ -1,18 +1,17 @@
 package me.chanjar.weixin.mp.api.impl;
 
-import me.chanjar.weixin.mp.api.WxMpService;
-import org.testng.Assert;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Guice;
-import org.testng.annotations.Test;
-
 import com.google.inject.Inject;
-
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.menu.WxMenu;
 import me.chanjar.weixin.common.bean.menu.WxMenuButton;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.ApiTestModule;
+import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.menu.WxMpGetSelfMenuInfoResult;
+import org.testng.Assert;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Guice;
+import org.testng.annotations.Test;
 
 /**
  * 测试菜单
@@ -28,9 +27,20 @@ public class WxMpMenuServiceImplTest {
   protected WxMpService wxService;
 
   @Test(dataProvider = "menu")
-  public void testCreateMenu(WxMenu wxMenu) throws WxErrorException {
+  public void testMenuCreate(WxMenu wxMenu) throws WxErrorException {
     System.out.println(wxMenu.toJson());
     this.wxService.getMenuService().menuCreate(wxMenu);
+  }
+
+  @Test
+  public void testMenuTryMatch() throws Exception {
+    //TODO
+  }
+
+  @Test
+  public void testGetSelfMenuInfo() throws Exception {
+    WxMpGetSelfMenuInfoResult selfMenuInfo = this.wxService.getMenuService().getSelfMenuInfo();
+    System.out.println(selfMenuInfo);
   }
 
   @Test
@@ -77,15 +87,15 @@ public class WxMpMenuServiceImplTest {
     this.wxService.getMenuService().menuCreate(menu);
   }
 
-  @Test(dependsOnMethods = { "testCreateMenu"})
-  public void testGetMenu() throws WxErrorException {
+  @Test(dependsOnMethods = { "testMenuCreate"})
+  public void testMenuGet() throws WxErrorException {
     WxMenu wxMenu = this.wxService.getMenuService().menuGet();
     Assert.assertNotNull(wxMenu);
     System.out.println(wxMenu.toJson());
   }
 
-  @Test(dependsOnMethods = { "testGetMenu"})
-  public void testDeleteMenu() throws WxErrorException {
+  @Test(dependsOnMethods = { "testMenuGet"})
+  public void testMenuDelete() throws WxErrorException {
     this.wxService.getMenuService().menuDelete();
   }
 
