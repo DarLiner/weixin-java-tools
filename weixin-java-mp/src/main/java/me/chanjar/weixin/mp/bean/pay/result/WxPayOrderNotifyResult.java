@@ -388,7 +388,7 @@ public class WxPayOrderNotifyResult  extends WxPayBaseResult implements Serializ
 	@Override
 	public Map<String,String> toMap(){
 		Map<String,String> resultMap = 	BeanUtils.xmlBean2Map(this);
-		if(this.getCouponCount() > 0){
+		if(this.getCouponCount() != null && this.getCouponCount() > 0){
 			for (int i = 0; i < this.getCouponCount(); i++) {
 				WxPayOrderNotifyCoupon coupon =	couponList.get(i);
 				resultMap.putAll(coupon.toMap(i));

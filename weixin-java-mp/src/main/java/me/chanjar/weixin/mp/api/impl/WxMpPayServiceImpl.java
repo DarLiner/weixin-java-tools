@@ -73,11 +73,17 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     "REFUND_SOURCE_UNSETTLED_FUNDS"};
   protected final Logger log = LoggerFactory.getLogger(this.getClass());
   private WxMpService wxMpService;
-  private WxMpConfigStorage config;
+  private WxMpConfigStorage config = null;
 
   public WxMpPayServiceImpl(WxMpService wxMpService) {
     this.wxMpService = wxMpService;
-    this.config = wxMpService.getWxMpConfigStorage();
+  }
+  
+  private WxMpConfigStorage getConfig(){
+    if(config == null){
+      this.config = wxMpService.getWxMpConfigStorage();
+    }
+    return this.config;
   }
 
   @Override
@@ -89,8 +95,8 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     xstream.processAnnotations(WxPayRefundRequest.class);
     xstream.processAnnotations(WxPayRefundResult.class);
 
-    request.setAppid(this.config.getAppId());
-    String partnerId = this.config.getPartnerId();
+    request.setAppid(getConfig().getAppId());
+    String partnerId = getConfig().getPartnerId();
     request.setMchId(partnerId);
     request.setNonceStr(System.currentTimeMillis() + "");
     request.setOpUserId(partnerId);
@@ -120,8 +126,8 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     request.setOutRefundNo(StringUtils.trimToNull(outRefundNo));
     request.setRefundId(StringUtils.trimToNull(refundId));
 
-    request.setAppid(this.config.getAppId());
-    request.setMchId(this.config.getPartnerId());
+    request.setAppid(getConfig().getAppId());
+    request.setMchId(getConfig().getPartnerId());
     request.setNonceStr(System.currentTimeMillis() + "");
     request.setSign(this.createSign(request));
 
@@ -138,17 +144,20 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   private void checkResult(WxPayBaseResult result) throws WxErrorException {
   	//校验返回结果签名
   	if(!checkSign(result.toMap())){
+  	  log.debug("校验结果签名失败，参数：{}",result.toMap());
   		throw new WxErrorException(WxError.newBuilder().setErrorCode(-1).setErrorMsg("参数格式校验错误！").build());
   	}
   	
   	//校验结果是否成功
     if (!"SUCCESS".equalsIgnoreCase(result.getReturnCode())
       || !"SUCCESS".equalsIgnoreCase(result.getResultCode())) {
-      throw new WxErrorException(WxError.newBuilder().setErrorCode(-1)
-        .setErrorMsg("返回代码: " + result.getReturnCode() + ", 返回信息: "
-          + result.getReturnMsg() + ", 结果代码: " + result.getResultCode() + ", 错误代码: "
-          + result.getErrCode() + ", 错误详情: " + result.getErrCodeDes())
-        .build());
+      WxError error = WxError.newBuilder().setErrorCode(-1)
+      .setErrorMsg("返回代码: " + result.getReturnCode() + ", 返回信息: "
+        + result.getReturnMsg() + ", 结果代码: " + result.getResultCode() + ", 错误代码: "
+        + result.getErrCode() + ", 错误详情: " + result.getErrCodeDes())
+      .build();
+      log.debug("结果校验失败，参数：{},详细：{}",result.toMap(),error);
+      throw new WxErrorException(error);
     }
   }
 
@@ -157,7 +166,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
 
     if (StringUtils.isNotBlank(request.getRefundAccount())) {
       if (!ArrayUtils.contains(REFUND_ACCOUNT, request.getRefundAccount())) {
-        throw new IllegalArgumentException("refund_account目前必须为" + Arrays.toString(REFUND_ACCOUNT) + "其中之一");
+        throw new IllegalArgumentException("refund_account目前必须为" + Arrays.toString(REFUND_ACCOUNT) + "其中之一,实际值："+ request.getRefundAccount());
       }
     }
 
@@ -169,10 +178,12 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   @Override
   public WxPayOrderNotifyResult getOrderNotifyResult(String xmlData) throws WxErrorException {
     try {
+      log.trace("微信支付回调参数详细：{}", xmlData);
       XStream xstream = XStreamInitializer.getInstance();
-      xstream.autodetectAnnotations(true);
+      xstream.processAnnotations(WxPayOrderNotifyResult.class);
   		xstream.registerConverter(new WxPayOrderNotifyResultConverter(xstream.getMapper(),xstream.getReflectionProvider()));
   		WxPayOrderNotifyResult result = (WxPayOrderNotifyResult) xstream.fromXML(xmlData);
+  		log.debug("微信支付回调结果对象：{}",result);
   		this.checkResult(result);
   		return result;
     }catch (WxErrorException e) {
@@ -192,8 +203,8 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     xstream.processAnnotations(WxPaySendRedpackRequest.class);
     xstream.processAnnotations(WxPaySendRedpackResult.class);
 
-    request.setWxAppid(this.config.getAppId());
-    String mchId = this.config.getPartnerId();
+    request.setWxAppid(getConfig().getAppId());
+    String mchId = getConfig().getPartnerId();
     request.setMchId(mchId);
     request.setNonceStr(System.currentTimeMillis() + "");
     request.setSign(this.createSign(request));
@@ -220,8 +231,8 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     request.setMchBillNo(mchBillNo);
     request.setBillType("MCHT");
 
-    request.setAppid(this.config.getAppId());
-    String mchId = this.config.getPartnerId();
+    request.setAppid(getConfig().getAppId());
+    String mchId = getConfig().getPartnerId();
     request.setMchId(mchId);
     request.setNonceStr(System.currentTimeMillis() + "");
 
@@ -237,7 +248,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   
   @Override
   public String createSign(Object xmlBean) {
-  	return createSign(BeanUtils.xmlBean2Map(xmlBean),this.config.getPartnerKey());
+  	return createSign(BeanUtils.xmlBean2Map(xmlBean),getConfig().getPartnerKey());
   }
   
   @Override
@@ -247,7 +258,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   
   @Override
   public String createSign(Map<String, String> params) {
-  	return createSign(params,this.config.getPartnerKey());
+  	return createSign(params,getConfig().getPartnerKey());
   }
 
   @Override
@@ -268,7 +279,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   
   @Override
   public boolean checkSign(Object xmlBean) {
-    return checkSign(BeanUtils.xmlBean2Map(xmlBean) , this.config.getPartnerKey());
+    return checkSign(BeanUtils.xmlBean2Map(xmlBean) , getConfig().getPartnerKey());
   }
   
   @Override
@@ -278,7 +289,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   
   @Override
   public boolean checkSign(Map<String, String> params) {
-    return checkSign(params , this.config.getPartnerKey());
+    return checkSign(params , getConfig().getPartnerKey());
   }
   
   @Override
@@ -302,8 +313,8 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     WxPayOrderQueryRequest request = new WxPayOrderQueryRequest();
     request.setOutTradeNo(StringUtils.trimToNull(outTradeNo));
     request.setTransactionId(StringUtils.trimToNull(transactionId));
-    request.setAppid(this.config.getAppId());
-    request.setMchId(this.config.getPartnerId());
+    request.setAppid(getConfig().getAppId());
+    request.setMchId(getConfig().getPartnerId());
     request.setNonceStr(System.currentTimeMillis() + "");
     request.setSign(this.createSign(request));
 
@@ -328,8 +339,8 @@ public class WxMpPayServiceImpl implements WxMpPayService {
 
     WxPayOrderCloseRequest request = new WxPayOrderCloseRequest();
     request.setOutTradeNo(StringUtils.trimToNull(outTradeNo));
-    request.setAppid(this.config.getAppId());
-    request.setMchId(this.config.getPartnerId());
+    request.setAppid(getConfig().getAppId());
+    request.setMchId(getConfig().getPartnerId());
     request.setNonceStr(System.currentTimeMillis() + "");
     request.setSign(this.createSign(request));
 
@@ -345,37 +356,27 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   @Override
   public WxPayUnifiedOrderResult unifiedOrder(WxPayUnifiedOrderRequest request)
     throws WxErrorException {
-    checkParameters(request);
 
     XStream xstream = XStreamInitializer.getInstance();
     xstream.processAnnotations(WxPayUnifiedOrderRequest.class);
     xstream.processAnnotations(WxPayUnifiedOrderResult.class);
 
-    WxMpConfigStorage config =  this.config;
+    request.setAppid(getConfig().getAppId());
+    request.setMchId(getConfig().getPartnerId());
+    request.setNotifyURL(getConfig().getNotifyURL());
+    request.setTradeType(getConfig().getTradeType());
+    request.setNonceStr(System.currentTimeMillis() + "");
     
-    //如果没有设置，则使用配置中默认值
-    if(StringUtils.isBlank(request.getAppid())){
-    	request.setAppid(config.getAppId());
-    }
-    if(StringUtils.isBlank(request.getMchId())){
-    	 request.setMchId(config.getPartnerId());
-    }
-    if(StringUtils.isBlank(request.getNotifyURL())){
-    	request.setNotifyURL(config.getNotifyURL());
-    }
-    if(StringUtils.isBlank(request.getTradeType())){
-      request.setTradeType(config.getTradeType());
-    }
-    if(StringUtils.isBlank(request.getNonceStr())){
-    	 request.setNonceStr(System.currentTimeMillis() + "");
-    }
+    checkParameters(request);//校验参数
+    
     request.setSign(this.createSign(request));
-
     String url = PAY_BASE_URL + "/pay/unifiedorder";
+    String xmlParam =  xstream.toXML(request);
+    log.debug("微信统一下单接口，URL:{},参数：{}",url, xmlParam);
 
-    String responseContent = this.executeRequest(url, xstream.toXML(request));
-    WxPayUnifiedOrderResult result = (WxPayUnifiedOrderResult) xstream
-      .fromXML(responseContent);
+    String responseContent = this.executeRequest(url, xmlParam);
+    log.debug("微信统一下单接口，URL:{},结果：{}",url, responseContent);
+    WxPayUnifiedOrderResult result = (WxPayUnifiedOrderResult) xstream.fromXML(responseContent);
     this.checkResult(result);
     return result;
   }
@@ -384,7 +385,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     BeanUtils.checkRequiredFields(request);
 
     if (!ArrayUtils.contains(TRADE_TYPES, request.getTradeType())) {
-      throw new IllegalArgumentException("trade_type目前必须为" + Arrays.toString(TRADE_TYPES) + "其中之一");
+      throw new IllegalArgumentException("trade_type目前必须为" + Arrays.toString(TRADE_TYPES) + "其中之一,实际值："+request.getTradeType());
     }
 
     if ("JSAPI".equals(request.getTradeType()) && request.getOpenid() == null) {
@@ -406,7 +407,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     }
 
     Map<String, String> payInfo = new HashMap<>();
-    payInfo.put("appId", this.config.getAppId());
+    payInfo.put("appId", getConfig().getAppId());
     // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
     payInfo.put("timeStamp", String.valueOf(System.currentTimeMillis() / 1000));
     payInfo.put("nonceStr", System.currentTimeMillis() + "");
@@ -427,8 +428,8 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     xstream.processAnnotations(WxEntPayRequest.class);
     xstream.processAnnotations(WxEntPayResult.class);
 
-    request.setMchAppid(this.config.getAppId());
-    request.setMchId(this.config.getPartnerId());
+    request.setMchAppid(getConfig().getAppId());
+    request.setMchId(getConfig().getPartnerId());
     request.setNonceStr(System.currentTimeMillis() + "");
     request.setSign(this.createSign(request));
 
@@ -447,8 +448,8 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     xstream.processAnnotations(WxEntPayQueryResult.class);
 
     WxEntPayQueryRequest request = new WxEntPayQueryRequest();
-    request.setAppid(this.config.getAppId());
-    request.setMchId(this.config.getPartnerId());
+    request.setAppid(getConfig().getAppId());
+    request.setMchId(getConfig().getPartnerId());
     request.setNonceStr(System.currentTimeMillis() + "");
     request.setSign(this.createSign(request));
 
