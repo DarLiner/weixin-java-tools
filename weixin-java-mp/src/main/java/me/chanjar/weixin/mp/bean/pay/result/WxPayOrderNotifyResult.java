@@ -397,16 +397,6 @@ public class WxPayOrderNotifyResult  extends WxPayBaseResult implements Serializ
 		return resultMap;
 	}
 	
-	
-	/**
-	 * 将单位分转换成单位圆
-	 * @param fee
-	 * @return
-	 */
-	public static String feeToYuan(Integer fee) {
-		return new BigDecimal(Double.valueOf(fee) / 100).setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString();
-	}
-	
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this,ToStringStyle.MULTI_LINE_STYLE);
