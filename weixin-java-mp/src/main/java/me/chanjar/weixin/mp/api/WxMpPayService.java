@@ -1,7 +1,6 @@
 package me.chanjar.weixin.mp.api;
 
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.mp.bean.pay.WxPayJsSDKCallback;
 import me.chanjar.weixin.mp.bean.pay.request.WxEntPayRequest;
 import me.chanjar.weixin.mp.bean.pay.request.WxPayRefundRequest;
 import me.chanjar.weixin.mp.bean.pay.request.WxPaySendRedpackRequest;
@@ -107,15 +106,82 @@ public interface WxMpPayService {
    * 读取支付结果通知
    * 详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_7
    */
-  WxPayJsSDKCallback getJSSDKCallbackData(String xmlData) throws WxErrorException;
-
+  WxPayOrderNotifyResult getOrderNotifyResult(String xmlData) throws WxErrorException;
+  
   /**
-   * <pre>
-   * 计算Map键值对是否和签名相符,
-   * 按照字段名的 ASCII 码从小到大排序(字典序)后,使用 URL 键值对的 格式(即 key1=value1&key2=value2...)拼接成字符串
-   * </pre>
+   * 微信公众号支付签名算法(详见:https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=4_3)
+   *
+   * @param xmlbean Bean需要标记有XML注解，默认使用配置中的PartnerKey进行签名
+   * @since 2.5.0
+   * @return 签名字符串
+   * @see #createSign(Map, String)
    */
-  boolean checkJSSDKCallbackDataSignature(Map<String, String> kvm, String signature);
+  String createSign(Object xmlbean);
+  
+  /**
+   * 微信公众号支付签名算法(详见:https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=4_3)
+   * @param xmlbean  Bean需要标记有XML注解
+   * @param signKey 签名Key
+   * @return 签名字符串
+   * @see #createSign(Map, String)
+   */
+  String createSign(Object xmlbean, String signKey);
+  
+  /**
+   * 微信公众号支付签名算法(详见:https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=4_3)
+   * @param prams 参数信息，默认使用配置中的PartnerKey进行签名
+   * @param signKey 签名Key
+   * @return 签名字符串
+   * @see #createSign(Map, String)
+   */
+  String createSign(Map<String, String> prams);
+  
+  
+  /**
+   * 微信公众号支付签名算法(详见:https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=4_3)
+   * @param prams  参数信息
+   * @param signKey 签名Key
+   * @return 签名字符串
+   */
+  String createSign(Map<String, String> prams, String signKey);
+
+  
+  
+  /**
+   * 校验签名是否正确，默认使用配置中的PartnerKey进行签名
+   * @param xmlbean Bean需要标记有XML注解
+   * @return true - 签名校验成功，false - 签名校验失败
+   * @see #checkSign(Map, String)
+   */
+  boolean checkSign(Object xmlbean);
+  
+  /**
+   * 校验签名是否正确
+   * @param xmlbean Bean需要标记有XML注解
+   * @param signKey  校验的签名Key
+   * @return true - 签名校验成功，false - 签名校验失败
+   * @see #checkSign(Map, String)
+   */
+  boolean checkSign(Object xmlbean, String signKey);
+ 
+  /**
+   * 校验签名是否正确，默认使用配置中的PartnerKey进行签名
+   * @param prams 需要校验的参数Map
+   * @return true - 签名校验成功，false - 签名校验失败
+   * @see #checkSign(Map, String)
+   */
+  boolean checkSign(Map<String, String> prams);
+  
+  /**
+   * 校验签名是否正确
+   * @param prams 需要校验的参数Map
+   * @param signKey  校验的签名Key
+   * @return true - 签名校验成功，false - 签名校验失败
+   * @see #checkSign(Map, String)
+   */
+  boolean checkSign(Map<String, String> prams, String signKey);
+  
+  
 
   /**
    * 发送微信红包给个人用户

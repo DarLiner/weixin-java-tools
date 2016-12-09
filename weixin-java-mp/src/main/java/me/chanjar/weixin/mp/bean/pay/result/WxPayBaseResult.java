@@ -1,6 +1,10 @@
 package me.chanjar.weixin.mp.bean.pay.result;
 
+import java.util.Map;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+import me.chanjar.weixin.common.util.BeanUtils;
 import me.chanjar.weixin.common.util.ToStringUtils;
 
 /**
@@ -140,5 +144,9 @@ public abstract class WxPayBaseResult {
 
   public void setSign(String sign) {
     this.sign = sign;
+  }
+  
+  public Map<String,String> toMap(){
+  	return BeanUtils.xmlBean2Map(this);
   }
 }
