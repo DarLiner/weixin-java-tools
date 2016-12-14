@@ -73,13 +73,17 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     "REFUND_SOURCE_UNSETTLED_FUNDS"};
   protected final Logger log = LoggerFactory.getLogger(this.getClass());
   private WxMpService wxMpService;
+  private WxMpConfigStorage config = null;
 
   public WxMpPayServiceImpl(WxMpService wxMpService) {
     this.wxMpService = wxMpService;
   }
   
   private WxMpConfigStorage getConfig(){
-      return  wxMpService.getWxMpConfigStorage();
+    if(config == null){
+      this.config = wxMpService.getWxMpConfigStorage();
+    }
+    return this.config;
   }
 
   @Override
