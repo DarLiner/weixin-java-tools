@@ -12,7 +12,7 @@ public class StandardSession implements WxSession, InternalSession {
    * The string manager for this package.
    */
   protected static final StringManager sm =
-          StringManager.getManager(Constants.Package);
+    StringManager.getManager(Constants.Package);
   /**
    * Type array.
    */
@@ -73,7 +73,7 @@ public class StandardSession implements WxSession, InternalSession {
 
     if (!isValidInternal())
       throw new IllegalStateException
-              (sm.getString("sessionImpl.getAttribute.ise"));
+        (sm.getString("sessionImpl.getAttribute.ise"));
 
     if (name == null) return null;
 
@@ -84,7 +84,7 @@ public class StandardSession implements WxSession, InternalSession {
   public Enumeration<String> getAttributeNames() {
     if (!isValidInternal())
       throw new IllegalStateException
-              (sm.getString("sessionImpl.getAttributeNames.ise"));
+        (sm.getString("sessionImpl.getAttributeNames.ise"));
 
     Set<String> names = new HashSet<>();
     names.addAll(this.attributes.keySet());
@@ -96,7 +96,7 @@ public class StandardSession implements WxSession, InternalSession {
     // Name cannot be null
     if (name == null)
       throw new IllegalArgumentException
-              (sm.getString("sessionImpl.setAttribute.namenull"));
+        (sm.getString("sessionImpl.setAttribute.namenull"));
 
     // Null value is the same as removeAttribute()
     if (value == null) {
@@ -107,7 +107,7 @@ public class StandardSession implements WxSession, InternalSession {
     // Validate our current state
     if (!isValidInternal())
       throw new IllegalStateException(sm.getString(
-              "sessionImpl.setAttribute.ise", getIdInternal()));
+        "sessionImpl.setAttribute.ise", getIdInternal()));
 
     this.attributes.put(name, value);
 
@@ -122,7 +122,7 @@ public class StandardSession implements WxSession, InternalSession {
   public void invalidate() {
     if (!isValidInternal())
       throw new IllegalStateException
-              (sm.getString("sessionImpl.invalidate.ise"));
+        (sm.getString("sessionImpl.invalidate.ise"));
 
     // Cause this session to expire
     expire();
@@ -305,7 +305,7 @@ public class StandardSession implements WxSession, InternalSession {
     if (this.isValid != session.isValid) return false;
     if (this.maxInactiveInterval != session.maxInactiveInterval) return false;
     if (this.thisAccessedTime != session.thisAccessedTime) return false;
-    if (!this.accessCount.equals(session.accessCount)) return false;
+    if (this.accessCount.get() != session.accessCount.get()) return false;
     if (!this.attributes.equals(session.attributes)) return false;
     if (!this.facade.equals(session.facade)) return false;
     if (!this.id.equals(session.id)) return false;
