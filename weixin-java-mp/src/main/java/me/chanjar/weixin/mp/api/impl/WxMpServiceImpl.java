@@ -369,12 +369,18 @@ public class WxMpServiceImpl implements WxMpService {
         this.log.debug("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}",uri, data, result);
         return result;
       } catch (WxErrorException e) {
+        if (retryTimes + 1 > this.maxRetryTimes) {
+          this.log.warn("重试达到最大次数【{}】", maxRetryTimes);
+          //最后一次重试失败后，直接抛出异常，不再等待
+          throw new RuntimeException("微信服务端异常，超出重试次数");
+        }
+
         WxError error = e.getError();
         // -1 系统繁忙, 1000ms后重试
         if (error.getErrorCode() == -1) {
           int sleepMillis = this.retrySleepMillis * (1 << retryTimes);
           try {
-            this.log.debug("微信系统繁忙，{}ms 后重试(第{}次)", sleepMillis, retryTimes + 1);
+            this.log.warn("微信系统繁忙，{} ms 后重试(第{}次)", sleepMillis, retryTimes + 1);
             Thread.sleep(sleepMillis);
           } catch (InterruptedException e1) {
             throw new RuntimeException(e1);
@@ -383,8 +389,9 @@ public class WxMpServiceImpl implements WxMpService {
           throw e;
         }
       }
-    } while (++retryTimes < this.maxRetryTimes);
+    } while (retryTimes++ < this.maxRetryTimes);
 
+    this.log.warn("重试达到最大次数【{}】", this.maxRetryTimes);
     throw new RuntimeException("微信服务端异常，超出重试次数");
   }
 

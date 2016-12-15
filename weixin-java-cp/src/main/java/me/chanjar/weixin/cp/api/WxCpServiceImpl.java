@@ -540,6 +540,12 @@ public class WxCpServiceImpl implements WxCpService {
       try {
         return executeInternal(executor, uri, data);
       } catch (WxErrorException e) {
+        if (retryTimes + 1 > this.maxRetryTimes) {
+          this.log.warn("重试达到最大次数【{}】", this.maxRetryTimes);
+          //最后一次重试失败后，直接抛出异常，不再等待
+          throw new RuntimeException("微信服务端异常，超出重试次数");
+        }
+
         WxError error = e.getError();
         /*
          * -1 系统繁忙, 1000ms后重试
@@ -547,8 +553,7 @@ public class WxCpServiceImpl implements WxCpService {
         if (error.getErrorCode() == -1) {
           int sleepMillis = this.retrySleepMillis * (1 << retryTimes);
           try {
-            this.log.debug("微信系统繁忙，{}ms 后重试(第{}次)", sleepMillis,
-              retryTimes + 1);
+            this.log.debug("微信系统繁忙，{} ms 后重试(第{}次)", sleepMillis, retryTimes + 1);
             Thread.sleep(sleepMillis);
           } catch (InterruptedException e1) {
             throw new RuntimeException(e1);
@@ -557,8 +562,9 @@ public class WxCpServiceImpl implements WxCpService {
           throw e;
         }
       }
-    } while (++retryTimes < this.maxRetryTimes);
+    } while (retryTimes++ < this.maxRetryTimes);
 
+    this.log.warn("重试达到最大次数【{}】", this.maxRetryTimes);
     throw new RuntimeException("微信服务端异常，超出重试次数");
   }
 
