@@ -1,6 +1,7 @@
 package me.chanjar.weixin.mp.bean.device;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -9,7 +10,7 @@ import java.util.List;
 public class WxDeviceAuthorize extends AbstractDeviceBean {
   private String deivce_num;
   private String op_type;
-  private List<WxDevice> device_list;
+  private List<WxDevice> device_list = new LinkedList<>();
 
   public String getDeivce_num() {
     return deivce_num;
