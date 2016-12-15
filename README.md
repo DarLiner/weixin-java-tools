@@ -1,7 +1,7 @@
 Weixin Java Tools 微信公众号/企业号开发Java SDK
 =====================================
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.binarywang/weixin-java-parent/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.binarywang/weixin-java-parent)
-[![Build Status](https://travis-ci.org/wechat-group/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/wechat-group/weixin-java-tools)
+[![Build Status](https://travis-ci.org/Wechat-Group/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/Wechat-Group/weixin-java-tools)
 
 ### 注意：
 1. ***本项目Fork自chanjarster/weixin-java-tools，但由于原项目已停止维护，故单独维护和发布，且发布到maven上的groupId也会不同，详细信息见下文。***
@@ -13,7 +13,7 @@ Weixin Java Tools 微信公众号/企业号开发Java SDK
 
 ## 开发交流方式及注意事项：
 1. QQ群：343954419（推荐点击按钮入群： [![Join QQ Group](http://pub.idqqimg.com/wpa/images/group.png)](http://shang.qq.com/wpa/qunwpa?idkey=731dc3e7ea31ebe25376cc1a791445468612c63fd0e9e05399b088ec81fd9e15) 或 [![Join QQ Group](http://pub.idqqimg.com/wpa/images/group.png)](http://jq.qq.com/?_wv=1027&k=40lRskK)，如果无反应，可以自行搜索群号进行添加 ）
-1. 由于群容量有限即将爆满，现开启付费入群模式，并不定期清理长时间不活跃人士；
+1. 由于群容量有限，即将爆满，故开启付费入群模式以保证只有真实交流需求的人进入，并为保证群的活跃度，将不定期清理长时间不活跃的同学；
 1. 微信群： 因微信群已达到100人限制，故如有想加入微信群的，请入QQ群后联系管理员，提供微信号以便邀请加入；
 1. 新手提问前，请先阅读此文章：http://t.cn/RV93MRB
 1. 寻求帮助时需贴代码或大长串异常信息的，请利用http://paste.ubuntu.com
@@ -25,12 +25,12 @@ Weixin Java Tools 微信公众号/企业号开发Java SDK
 ===========
 
 ## 版本说明
-1. 本项目定为每月发布一次正式版，版本号格式为X.X.0（如2.1.0，2.2.0等），月初或月底发布新版本，遇到重大问题需修复会及时提交新版本，欢迎大家随时提交Pull Request；
+1. 本项目定为每两个月发布一次正式版，版本号格式为X.X.0（如2.1.0，2.2.0等），月底发布新版本，遇到重大问题需修复会及时提交新版本，欢迎大家随时提交Pull Request；
 1. BUG修复和新特性一般会先发布成小版本作为临时版本（如2.0.1，2.0.2等，即尾号不为0，以区别于正式版）；
 1. 目前最新版本号为 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.binarywang/weixin-java-parent/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.binarywang/weixin-java-parent) ，也可以通过访问链接 [【公众号】](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.github.binarywang%22%20AND%20a%3A%22weixin-java-mp%22) 、[【企业号】](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.github.binarywang%22%20AND%20a%3A%22weixin-java-cp%22)
 分别查看所有最新的版本。 
 
-## Maven & Gradle
+## Maven & Gradle 最新正式版本
 
 * 公众号（订阅号、服务号）：
 
