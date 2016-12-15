@@ -538,7 +538,9 @@ public class WxCpServiceImpl implements WxCpService {
     int retryTimes = 0;
     do {
       try {
-        return executeInternal(executor, uri, data);
+        T result = this.executeInternal(executor, uri, data);
+        this.log.debug("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}",uri, data, result);
+        return result;
       } catch (WxErrorException e) {
         if (retryTimes + 1 > this.maxRetryTimes) {
           this.log.warn("重试达到最大次数【{}】", this.maxRetryTimes);
@@ -578,8 +580,7 @@ public class WxCpServiceImpl implements WxCpService {
     uriWithAccessToken += uri.indexOf('?') == -1 ? "?access_token=" + accessToken : "&access_token=" + accessToken;
 
     try {
-      return executor.execute(getHttpclient(), this.httpProxy,
-        uriWithAccessToken, data);
+      return executor.execute(getHttpclient(), this.httpProxy, uriWithAccessToken, data);
     } catch (WxErrorException e) {
       WxError error = e.getError();
       /*
@@ -592,11 +593,14 @@ public class WxCpServiceImpl implements WxCpService {
         this.configStorage.expireAccessToken();
         return execute(executor, uri, data);
       }
+
       if (error.getErrorCode() != 0) {
+        this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}", uri, data, error);
         throw new WxErrorException(error);
       }
       return null;
     } catch (IOException e) {
+      this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[EXCEPTION]: {}", uri, data, e.getMessage());
       throw new RuntimeException(e);
     }
   }
