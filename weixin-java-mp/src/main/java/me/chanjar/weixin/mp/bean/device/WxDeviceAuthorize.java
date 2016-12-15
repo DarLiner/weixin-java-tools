@@ -1,11 +1,12 @@
 package me.chanjar.weixin.mp.bean.device;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by keungtung on 10/12/2016.
  */
-public class WxDeviceAuthorize extends  AbstractDeviceBean{
+public class WxDeviceAuthorize extends AbstractDeviceBean {
   private String deivce_num;
   private String op_type;
   private List<WxDevice> device_list;
@@ -32,5 +33,9 @@ public class WxDeviceAuthorize extends  AbstractDeviceBean{
 
   public void setDevice_list(List<WxDevice> device_list) {
     this.device_list = device_list;
+  }
+
+  public void addDevice(WxDevice... devices) {
+    this.device_list.addAll(Arrays.asList(devices));
   }
 }
