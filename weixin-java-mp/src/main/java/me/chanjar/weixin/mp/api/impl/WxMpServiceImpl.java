@@ -62,6 +62,8 @@ public class WxMpServiceImpl implements WxMpService {
 
   private WxMpTemplateMsgService templateMsgService = new WxMpTemplateMsgServiceImpl(this);
 
+  private WxMpDeviceService deviceService = new WxMpDeviceServiceImpl(this);
+
   private CloseableHttpClient httpClient;
 
   private HttpHost httpProxy;
@@ -540,4 +542,8 @@ public class WxMpServiceImpl implements WxMpService {
     return this.templateMsgService;
   }
 
+  @Override
+  public WxMpDeviceService getDeviceService() {
+    return this.deviceService;
+  }
 }

@@ -345,4 +345,11 @@ public interface WxMpService {
    * @return WxMpTemplateMsgService
    */
   WxMpTemplateMsgService getTemplateMsgService();
+
+  /**
+   * 返回硬件平台相关接口方法的实现类对象，以方便调用其各个接口
+   *
+   * @return WxMpDeviceService
+   */
+  WxMpDeviceService getDeviceService();
 }
