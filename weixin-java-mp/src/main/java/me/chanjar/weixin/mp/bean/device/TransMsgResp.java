@@ -1,5 +1,6 @@
 package me.chanjar.weixin.mp.bean.device;
 
+import com.google.gson.annotations.SerializedName;
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 
 /**
@@ -7,7 +8,8 @@ import me.chanjar.weixin.common.util.json.WxGsonBuilder;
  */
 public class TransMsgResp extends AbstractDeviceBean{
   private Integer ret;
-  private String ret_info;
+  @SerializedName("ret_info")
+  private String retInfo;
   private Integer errcode;
   private String errmsg;
 
@@ -23,12 +25,12 @@ public class TransMsgResp extends AbstractDeviceBean{
     this.ret = ret;
   }
 
-  public String getRet_info() {
-    return ret_info;
+  public String getRetInfo() {
+    return retInfo;
   }
 
-  public void setRet_info(String ret_info) {
-    this.ret_info = ret_info;
+  public void setRetInfo(String retInfo) {
+    this.retInfo = retInfo;
   }
 
   public Integer getErrcode() {

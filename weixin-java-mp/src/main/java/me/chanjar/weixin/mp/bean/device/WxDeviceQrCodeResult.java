@@ -1,49 +1,54 @@
 package me.chanjar.weixin.mp.bean.device;
 
+import com.google.gson.annotations.SerializedName;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
 /**
  * Created by keungtung on 10/12/2016.
  */
 public class WxDeviceQrCodeResult extends AbstractDeviceBean{
-  private String deviceid;
-  private String qrticket;
-  private String devcielicence;
-  private RespMsg resp_msg;
+  @SerializedName("deviceid")
+  private String deviceId;
+  @SerializedName("qrticket")
+  private String qrTicket;
+  @SerializedName("devicelicence")
+  private String deviceLicence;
+  @SerializedName("resp_msg")
+  private RespMsg respMsg;
 
   public static WxDeviceQrCodeResult fromJson(String json) {
     return WxMpGsonBuilder.INSTANCE.create().fromJson(json, WxDeviceQrCodeResult.class);
   }
 
-  public String getDevcielicence() {
-    return devcielicence;
+  public String getDeviceLicence() {
+    return deviceLicence;
   }
 
-  public void setDevcielicence(String devcielicence) {
-    this.devcielicence = devcielicence;
+  public void setDeviceLicence(String deviceLicence) {
+    this.deviceLicence = deviceLicence;
   }
 
-  public RespMsg getResp_msg() {
-    return resp_msg;
+  public RespMsg getRespMsg() {
+    return respMsg;
   }
 
-  public void setResp_msg(RespMsg resp_msg) {
-    this.resp_msg = resp_msg;
+  public void setRespMsg(RespMsg respMsg) {
+    this.respMsg = respMsg;
   }
 
-  public String getDeviceid() {
-    return deviceid;
+  public String getDeviceId() {
+    return deviceId;
   }
 
-  public void setDeviceid(String deviceid) {
-    this.deviceid = deviceid;
+  public void setDeviceId(String deviceId) {
+    this.deviceId = deviceId;
   }
 
-  public String getQrticket() {
-    return qrticket;
+  public String getQrTicket() {
+    return qrTicket;
   }
 
-  public void setQrticket(String qrticket) {
-    this.qrticket = qrticket;
+  public void setQrTicket(String qrTicket) {
+    this.qrTicket = qrTicket;
   }
 }

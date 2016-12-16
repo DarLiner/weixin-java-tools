@@ -1,10 +1,13 @@
 package me.chanjar.weixin.mp.bean.device;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by keungtung on 10/12/2016.
  */
 public class BaseResp extends AbstractDeviceBean{
-  private BaseInfo base_info;
+  @SerializedName("base_info")
+  private BaseInfo baseInfo;
   private Integer errcode;
   private String errmsg;
 
@@ -16,12 +19,12 @@ public class BaseResp extends AbstractDeviceBean{
     this.errcode = errcode;
   }
 
-  public BaseInfo getBase_info() {
-    return base_info;
+  public BaseInfo getBaseInfo() {
+    return baseInfo;
   }
 
-  public void setBase_info(BaseInfo base_info) {
-    this.base_info = base_info;
+  public void setBaseInfo(BaseInfo baseInfo) {
+    this.baseInfo = baseInfo;
   }
 
   public String getErrmsg() {
