@@ -8,15 +8,17 @@ import com.google.gson.annotations.SerializedName;
 public class BaseResp extends AbstractDeviceBean{
   @SerializedName("base_info")
   private BaseInfo baseInfo;
-  private Integer errcode;
-  private String errmsg;
+  @SerializedName("errcode")
+  private Integer errCode;
+  @SerializedName("errmsg")
+  private String errMsg;
 
-  public Integer getErrcode() {
-    return errcode;
+  public Integer getErrCode() {
+    return errCode;
   }
 
-  public void setErrcode(Integer errcode) {
-    this.errcode = errcode;
+  public void setErrCode(Integer errCode) {
+    this.errCode = errCode;
   }
 
   public BaseInfo getBaseInfo() {
@@ -27,12 +29,12 @@ public class BaseResp extends AbstractDeviceBean{
     this.baseInfo = baseInfo;
   }
 
-  public String getErrmsg() {
-    return errmsg;
+  public String getErrMsg() {
+    return errMsg;
   }
 
-  public void setErrmsg(String errmsg) {
-    this.errmsg = errmsg;
+  public void setErrMsg(String errMsg) {
+    this.errMsg = errMsg;
   }
 
   private class BaseInfo {

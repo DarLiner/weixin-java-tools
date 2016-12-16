@@ -9,7 +9,8 @@ public class WxDeviceBind extends AbstractDeviceBean{
   private String ticket;
   @SerializedName("device_id")
   private String deviceId;
-  private String openid;
+  @SerializedName("openid")
+  private String openId;
 
   public String getTicket() {
     return ticket;
@@ -27,11 +28,11 @@ public class WxDeviceBind extends AbstractDeviceBean{
     this.deviceId = deviceId;
   }
 
-  public String getOpenid() {
-    return openid;
+  public String getOpenId() {
+    return openId;
   }
 
-  public void setOpenid(String openid) {
-    this.openid = openid;
+  public void setOpenId(String openId) {
+    this.openId = openId;
   }
 }

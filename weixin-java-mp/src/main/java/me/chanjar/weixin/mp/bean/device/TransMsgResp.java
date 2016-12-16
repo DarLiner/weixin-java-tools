@@ -10,8 +10,10 @@ public class TransMsgResp extends AbstractDeviceBean{
   private Integer ret;
   @SerializedName("ret_info")
   private String retInfo;
-  private Integer errcode;
-  private String errmsg;
+  @SerializedName("errcode")
+  private Integer errCode;
+  @SerializedName("errmsg")
+  private String errMsg;
 
   public static TransMsgResp fromJson(String json) {
     return WxGsonBuilder.create().fromJson(json, TransMsgResp.class);
@@ -33,19 +35,19 @@ public class TransMsgResp extends AbstractDeviceBean{
     this.retInfo = retInfo;
   }
 
-  public Integer getErrcode() {
-    return errcode;
+  public Integer getErrCode() {
+    return errCode;
   }
 
-  public void setErrcode(Integer errcode) {
-    this.errcode = errcode;
+  public void setErrCode(Integer errCode) {
+    this.errCode = errCode;
   }
 
-  public String getErrmsg() {
-    return errmsg;
+  public String getErrMsg() {
+    return errMsg;
   }
 
-  public void setErrmsg(String errmsg) {
-    this.errmsg = errmsg;
+  public void setErrMsg(String errMsg) {
+    this.errMsg = errMsg;
   }
 }
