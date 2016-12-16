@@ -7,7 +7,7 @@ addons:
       secure: "834110c7191f97ecb226970c46dcaff8e681da5a"
 
 jdk:
-  - oraclejdk7
+  - oraclejdk8
 #script: "mvn clean package -Dmaven.test.skip=true"
 
 branches:
