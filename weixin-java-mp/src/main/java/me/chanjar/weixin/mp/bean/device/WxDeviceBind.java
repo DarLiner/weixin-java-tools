@@ -1,12 +1,16 @@
 package me.chanjar.weixin.mp.bean.device;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by keungtung on 10/12/2016.
  */
 public class WxDeviceBind extends AbstractDeviceBean{
   private String ticket;
-  private String device_id;
-  private String openid;
+  @SerializedName("device_id")
+  private String deviceId;
+  @SerializedName("openid")
+  private String openId;
 
   public String getTicket() {
     return ticket;
@@ -16,19 +20,19 @@ public class WxDeviceBind extends AbstractDeviceBean{
     this.ticket = ticket;
   }
 
-  public String getDevice_id() {
-    return device_id;
+  public String getDeviceId() {
+    return deviceId;
   }
 
-  public void setDevice_id(String device_id) {
-    this.device_id = device_id;
+  public void setDeviceId(String deviceId) {
+    this.deviceId = deviceId;
   }
 
-  public String getOpenid() {
-    return openid;
+  public String getOpenId() {
+    return openId;
   }
 
-  public void setOpenid(String openid) {
-    this.openid = openid;
+  public void setOpenId(String openId) {
+    this.openId = openId;
   }
 }

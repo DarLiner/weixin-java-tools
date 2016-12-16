@@ -1,35 +1,40 @@
 package me.chanjar.weixin.mp.bean.device;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by keungtung on 10/12/2016.
  */
 public class BaseResp extends AbstractDeviceBean{
-  private BaseInfo base_info;
-  private Integer errcode;
-  private String errmsg;
+  @SerializedName("base_info")
+  private BaseInfo baseInfo;
+  @SerializedName("errcode")
+  private Integer errCode;
+  @SerializedName("errmsg")
+  private String errMsg;
 
-  public Integer getErrcode() {
-    return errcode;
+  public Integer getErrCode() {
+    return errCode;
   }
 
-  public void setErrcode(Integer errcode) {
-    this.errcode = errcode;
+  public void setErrCode(Integer errCode) {
+    this.errCode = errCode;
   }
 
-  public BaseInfo getBase_info() {
-    return base_info;
+  public BaseInfo getBaseInfo() {
+    return baseInfo;
   }
 
-  public void setBase_info(BaseInfo base_info) {
-    this.base_info = base_info;
+  public void setBaseInfo(BaseInfo baseInfo) {
+    this.baseInfo = baseInfo;
   }
 
-  public String getErrmsg() {
-    return errmsg;
+  public String getErrMsg() {
+    return errMsg;
   }
 
-  public void setErrmsg(String errmsg) {
-    this.errmsg = errmsg;
+  public void setErrMsg(String errMsg) {
+    this.errMsg = errMsg;
   }
 
   private class BaseInfo {

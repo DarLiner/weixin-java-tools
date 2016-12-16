@@ -1,13 +1,17 @@
 package me.chanjar.weixin.mp.bean.device;
 
+import com.google.gson.annotations.SerializedName;
 import me.chanjar.weixin.common.util.ToStringUtils;
 
 /**
  * Created by keungtung on 10/12/2016.
  */
 public class WxDeviceMsg extends AbstractDeviceBean{
+  @SerializedName("device_type")
   private String deviceType;
+  @SerializedName("device_id")
   private String deviceId;
+  @SerializedName("open_id")
   private String openId;
   private String content;
 

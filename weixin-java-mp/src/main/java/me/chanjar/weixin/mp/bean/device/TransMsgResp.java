@@ -1,5 +1,6 @@
 package me.chanjar.weixin.mp.bean.device;
 
+import com.google.gson.annotations.SerializedName;
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 
 /**
@@ -7,9 +8,12 @@ import me.chanjar.weixin.common.util.json.WxGsonBuilder;
  */
 public class TransMsgResp extends AbstractDeviceBean{
   private Integer ret;
-  private String ret_info;
-  private Integer errcode;
-  private String errmsg;
+  @SerializedName("ret_info")
+  private String retInfo;
+  @SerializedName("errcode")
+  private Integer errCode;
+  @SerializedName("errmsg")
+  private String errMsg;
 
   public static TransMsgResp fromJson(String json) {
     return WxGsonBuilder.create().fromJson(json, TransMsgResp.class);
@@ -23,27 +27,27 @@ public class TransMsgResp extends AbstractDeviceBean{
     this.ret = ret;
   }
 
-  public String getRet_info() {
-    return ret_info;
+  public String getRetInfo() {
+    return retInfo;
   }
 
-  public void setRet_info(String ret_info) {
-    this.ret_info = ret_info;
+  public void setRetInfo(String retInfo) {
+    this.retInfo = retInfo;
   }
 
-  public Integer getErrcode() {
-    return errcode;
+  public Integer getErrCode() {
+    return errCode;
   }
 
-  public void setErrcode(Integer errcode) {
-    this.errcode = errcode;
+  public void setErrCode(Integer errCode) {
+    this.errCode = errCode;
   }
 
-  public String getErrmsg() {
-    return errmsg;
+  public String getErrMsg() {
+    return errMsg;
   }
 
-  public void setErrmsg(String errmsg) {
-    this.errmsg = errmsg;
+  public void setErrMsg(String errMsg) {
+    this.errMsg = errMsg;
   }
 }
