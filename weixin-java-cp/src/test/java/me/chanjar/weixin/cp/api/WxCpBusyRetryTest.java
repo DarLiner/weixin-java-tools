@@ -1,16 +1,15 @@
 package me.chanjar.weixin.cp.api;
 
+import me.chanjar.weixin.common.bean.result.WxError;
+import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.util.http.RequestExecutor;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-
-import me.chanjar.weixin.common.bean.result.WxError;
-import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.util.http.RequestExecutor;
 
 @Test
 public class WxCpBusyRetryTest {
@@ -23,6 +22,7 @@ public class WxCpBusyRetryTest {
       protected synchronized <T, E> T executeInternal(
           RequestExecutor<T, E> executor, String uri, E data)
           throws WxErrorException {
+        this.log.info("Executed");
         WxError error = new WxError();
         error.setErrorCode(-1);
         throw new WxErrorException(error);
