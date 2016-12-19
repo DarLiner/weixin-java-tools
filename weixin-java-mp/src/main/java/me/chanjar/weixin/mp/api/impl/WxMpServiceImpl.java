@@ -422,8 +422,7 @@ public class WxMpServiceImpl implements WxMpService {
       }
 
       if (error.getErrorCode() != 0) {
-        this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}", uri, data,
-            error);
+        this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}", uri, data, error);
         throw new WxErrorException(error);
       }
       return null;
