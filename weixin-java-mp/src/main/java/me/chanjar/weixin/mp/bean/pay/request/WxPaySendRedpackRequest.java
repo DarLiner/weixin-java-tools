@@ -8,7 +8,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
  * @author binarywang (https://github.com/binarywang)
  */
 @XStreamAlias("xml")
-public class WxPaySendRedpackRequest {
+public class WxPaySendRedpackRequest extends WxPayBaseRequest{
   /**
   * mch_billno
   * 商户订单号（每个订单号必须唯一）  组成：mch_id+yyyymmdd+10位一天内不能重复的数字。  接口根据商户订单号支持重入，如出现超时可再调用。
@@ -89,27 +89,6 @@ public class WxPaySendRedpackRequest {
    */
   @XStreamAlias("wxappid")
   private String wxAppid;
-
-  /**
-   * mch_id
-   * 微信支付分配的商户号
-   */
-  @XStreamAlias("mch_id")
-  private String mchId;
-
-  /**
-   * nonce_str
-   * 随机字符串，不长于32位
-   */
-  @XStreamAlias("nonce_str")
-  private String nonceStr;
-
-  /**
-   * sign
-   * 详见<a href="https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=4_3">签名生成算法</a>
-   */
-  @XStreamAlias("sign")
-  private String sign;
 
   /**
    * <pre>
@@ -237,36 +216,14 @@ public class WxPaySendRedpackRequest {
     this.remark = remark;
   }
 
-  public String getWxAppid() {
+  @Override
+  public String getAppid() {
     return this.wxAppid;
   }
 
-  public void setWxAppid(String wxAppid) {
-    this.wxAppid = wxAppid;
-  }
-
-  public String getMchId() {
-    return this.mchId;
-  }
-
-  public void setMchId(String mchId) {
-    this.mchId = mchId;
-  }
-
-  public String getNonceStr() {
-    return this.nonceStr;
-  }
-
-  public void setNonceStr(String nonceStr) {
-    this.nonceStr = nonceStr;
-  }
-
-  public String getSign() {
-    return this.sign;
-  }
-
-  public void setSign(String sign) {
-    this.sign = sign;
+  @Override
+  public void setAppid(String appid) {
+    this.wxAppid = appid;
   }
 
   public String getSceneId() {

@@ -44,8 +44,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
 
   private static final String PAY_BASE_URL = "https://api.mch.weixin.qq.com";
   private static final String[] TRADE_TYPES = new String[]{"JSAPI", "NATIVE", "APP"};
-  private static final String[] REFUND_ACCOUNT = new String[]{"REFUND_SOURCE_RECHARGE_FUNDS",
-    "REFUND_SOURCE_UNSETTLED_FUNDS"};
+  private static final String[] REFUND_ACCOUNT = new String[]{"REFUND_SOURCE_RECHARGE_FUNDS","REFUND_SOURCE_UNSETTLED_FUNDS"};
   private final Logger log = LoggerFactory.getLogger(this.getClass());
   private WxMpService wxMpService;
 
@@ -58,23 +57,20 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   }
 
   @Override
-  public WxPayRefundResult refund(WxPayRefundRequest request, File keyFile)
-    throws WxErrorException {
-    checkParameters(request);
-
+  public WxPayRefundResult refund(WxPayRefundRequest request, File keyFile) throws WxErrorException {
     XStream xstream = XStreamInitializer.getInstance();
     xstream.processAnnotations(WxPayRefundRequest.class);
     xstream.processAnnotations(WxPayRefundResult.class);
-
-    request.setAppid(getConfig().getAppId());
-    String partnerId = getConfig().getPartnerId();
-    request.setMchId(partnerId);
-    request.setNonceStr(System.currentTimeMillis() + "");
-    request.setOpUserId(partnerId);
+    
+    initRequest(request);
+    if(StringUtils.isBlank(request.getOpUserId())){
+      request.setOpUserId(getConfig().getPartnerId());
+    }
+    checkParameters(request);
     request.setSign(this.createSign(request));
 
     String url = PAY_BASE_URL + "/secapi/pay/refund";
-    String responseContent = this.executeRequestWithKeyFile(url, keyFile, xstream.toXML(request), partnerId);
+    String responseContent = this.executeRequestWithKeyFile(url, keyFile, xstream.toXML(request), request.getMchId());
     WxPayRefundResult result = (WxPayRefundResult) xstream.fromXML(responseContent);
     this.checkResult(result);
     return result;
@@ -92,18 +88,14 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     xstream.processAnnotations(WxPayRefundQueryResult.class);
 
     WxPayRefundQueryRequest request = new WxPayRefundQueryRequest();
+    initRequest(request);
     request.setOutTradeNo(StringUtils.trimToNull(outTradeNo));
     request.setTransactionId(StringUtils.trimToNull(transactionId));
     request.setOutRefundNo(StringUtils.trimToNull(outRefundNo));
     request.setRefundId(StringUtils.trimToNull(refundId));
-
-    request.setAppid(getConfig().getAppId());
-    request.setMchId(getConfig().getPartnerId());
-    request.setNonceStr(System.currentTimeMillis() + "");
     request.setSign(this.createSign(request));
 
     String url = PAY_BASE_URL + "/pay/refundquery";
-
     String responseContent = this.executeRequest(url, xstream.toXML(request));
     WxPayRefundQueryResult result = (WxPayRefundQueryResult) xstream.fromXML(responseContent);
     result.composeRefundRecords(responseContent);
@@ -127,7 +119,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
           + result.getReturnMsg() + ", 结果代码: " + result.getResultCode() + ", 错误代码: "
           + result.getErrCode() + ", 错误详情: " + result.getErrCodeDes())
         .build();
-      log.debug("结果校验失败，参数：{},详细：{}", result.toMap(), error);
+      log.error("结果业务代码异常，参数：{},详细：{}", result.toMap(), error);
       throw new WxErrorException(error);
     }
   }
@@ -174,10 +166,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     xstream.processAnnotations(WxPaySendRedpackRequest.class);
     xstream.processAnnotations(WxPaySendRedpackResult.class);
 
-    request.setWxAppid(getConfig().getAppId());
-    String mchId = getConfig().getPartnerId();
-    request.setMchId(mchId);
-    request.setNonceStr(System.currentTimeMillis() + "");
+    initRequest(request);
     request.setSign(this.createSign(request));
 
     String url = PAY_BASE_URL + "/mmpaymkttransfers/sendredpack";
@@ -185,8 +174,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
       //裂变红包
       url = PAY_BASE_URL + "/mmpaymkttransfers/sendgroupredpack";
     }
-
-    String responseContent = this.executeRequestWithKeyFile(url, keyFile, xstream.toXML(request), mchId);
+    String responseContent = this.executeRequestWithKeyFile(url, keyFile, xstream.toXML(request), request.getMchId());
     WxPaySendRedpackResult result = (WxPaySendRedpackResult) xstream.fromXML(responseContent);
     this.checkResult(result);
     return result;
@@ -201,74 +189,15 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     WxPayRedpackQueryRequest request = new WxPayRedpackQueryRequest();
     request.setMchBillNo(mchBillNo);
     request.setBillType("MCHT");
-
-    request.setAppid(getConfig().getAppId());
-    String mchId = getConfig().getPartnerId();
-    request.setMchId(mchId);
-    request.setNonceStr(System.currentTimeMillis() + "");
-
-    String sign = this.createSign(request);
-    request.setSign(sign);
+    initRequest(request);
+    request.setSign(this.createSign(request));
 
     String url = PAY_BASE_URL + "/mmpaymkttransfers/gethbinfo";
-    String responseContent = this.executeRequestWithKeyFile(url, keyFile, xstream.toXML(request), mchId);
+    String responseContent = this.executeRequestWithKeyFile(url, keyFile, xstream.toXML(request), request.getMchId());
     WxPayRedpackQueryResult result = (WxPayRedpackQueryResult) xstream.fromXML(responseContent);
     this.checkResult(result);
     return result;
   }
-
-  @Override
-  public String createSign(Object xmlBean) {
-    return createSign(BeanUtils.xmlBean2Map(xmlBean), getConfig().getPartnerKey());
-  }
-
-  @Override
-  public String createSign(Object xmlBean, String signKey) {
-    return createSign(BeanUtils.xmlBean2Map(xmlBean), signKey);
-  }
-
-  @Override
-  public String createSign(Map<String, String> params) {
-    return createSign(params, getConfig().getPartnerKey());
-  }
-
-  @Override
-  public String createSign(Map<String, String> params, String signKey) {
-    SortedMap<String, String> sortedMap = new TreeMap<>(params);
-
-    StringBuilder toSign = new StringBuilder();
-    for (String key : sortedMap.keySet()) {
-      String value = params.get(key);
-      if (StringUtils.isNotEmpty(value) && !"sign".equals(key) && !"key".equals(key)) {
-        toSign.append(key + "=" + value + "&");
-      }
-    }
-
-    toSign.append("key=" + signKey);
-    return DigestUtils.md5Hex(toSign.toString()).toUpperCase();
-  }
-
-  @Override
-  public boolean checkSign(Object xmlBean) {
-    return checkSign(BeanUtils.xmlBean2Map(xmlBean), getConfig().getPartnerKey());
-  }
-
-  @Override
-  public boolean checkSign(Object xmlBean, String signKey) {
-    return checkSign(BeanUtils.xmlBean2Map(xmlBean), signKey);
-  }
-
-  @Override
-  public boolean checkSign(Map<String, String> params) {
-    return checkSign(params, getConfig().getPartnerKey());
-  }
-
-  @Override
-  public boolean checkSign(Map<String, String> params, String signKey) {
-    String sign = this.createSign(params, signKey);
-    return sign.equals(params.get("sign"));
-  }
-
 
   @Override
   public WxPayOrderQueryResult queryOrder(String transactionId, String outTradeNo) throws WxErrorException {
@@ -284,13 +213,10 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     WxPayOrderQueryRequest request = new WxPayOrderQueryRequest();
     request.setOutTradeNo(StringUtils.trimToNull(outTradeNo));
     request.setTransactionId(StringUtils.trimToNull(transactionId));
-    request.setAppid(getConfig().getAppId());
-    request.setMchId(getConfig().getPartnerId());
-    request.setNonceStr(System.currentTimeMillis() + "");
+    initRequest(request);
     request.setSign(this.createSign(request));
 
     String url = PAY_BASE_URL + "/pay/orderquery";
-
     String responseContent = this.executeRequest(url, xstream.toXML(request));
     WxPayOrderQueryResult result = (WxPayOrderQueryResult) xstream.fromXML(responseContent);
     result.composeCoupons(responseContent);
@@ -310,13 +236,10 @@ public class WxMpPayServiceImpl implements WxMpPayService {
 
     WxPayOrderCloseRequest request = new WxPayOrderCloseRequest();
     request.setOutTradeNo(StringUtils.trimToNull(outTradeNo));
-    request.setAppid(getConfig().getAppId());
-    request.setMchId(getConfig().getPartnerId());
-    request.setNonceStr(System.currentTimeMillis() + "");
+    initRequest(request);
     request.setSign(this.createSign(request));
 
     String url = PAY_BASE_URL + "/pay/closeorder";
-
     String responseContent = this.executeRequest(url, xstream.toXML(request));
     WxPayOrderCloseResult result = (WxPayOrderCloseResult) xstream.fromXML(responseContent);
     this.checkResult(result);
@@ -331,16 +254,17 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     XStream xstream = XStreamInitializer.getInstance();
     xstream.processAnnotations(WxPayUnifiedOrderRequest.class);
     xstream.processAnnotations(WxPayUnifiedOrderResult.class);
-
-    request.setAppid(getConfig().getAppId());
-    request.setMchId(getConfig().getPartnerId());
-    request.setNotifyURL(getConfig().getNotifyURL());
-    request.setTradeType(getConfig().getTradeType());
-    request.setNonceStr(System.currentTimeMillis() + "");
-
+   
+    initRequest(request);
+    if(StringUtils.isBlank(request.getNotifyURL())){
+      request.setNotifyURL(getConfig().getNotifyURL());
+    }
+    if(StringUtils.isBlank(request.getTradeType())){
+      request.setTradeType(getConfig().getTradeType());
+    }
     checkParameters(request);//校验参数
-
     request.setSign(this.createSign(request));
+    
     String url = PAY_BASE_URL + "/pay/unifiedorder";
     String xmlParam = xstream.toXML(request);
     log.debug("微信统一下单接口，URL:{},参数：{}", url, xmlParam);
@@ -350,6 +274,18 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     WxPayUnifiedOrderResult result = (WxPayUnifiedOrderResult) xstream.fromXML(responseContent);
     this.checkResult(result);
     return result;
+  }
+  
+  private void initRequest(WxPayBaseRequest request){
+    if(StringUtils.isBlank(request.getAppid())){
+      request.setAppid(getConfig().getAppId());
+    }
+    if(StringUtils.isBlank(request.getMchId())){
+      request.setMchId(getConfig().getPartnerId());
+    }
+    if(StringUtils.isBlank(request.getNonceStr())){
+      request.setNonceStr(String.valueOf(System.currentTimeMillis()));
+    }
   }
 
   private void checkParameters(WxPayUnifiedOrderRequest request) throws WxErrorException {
@@ -381,7 +317,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     payInfo.put("appId", getConfig().getAppId());
     // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
     payInfo.put("timeStamp", String.valueOf(System.currentTimeMillis() / 1000));
-    payInfo.put("nonceStr", System.currentTimeMillis() + "");
+    payInfo.put("nonceStr", String.valueOf(System.currentTimeMillis()));
     payInfo.put("package", "prepay_id=" + prepayId);
     payInfo.put("signType", "MD5");
     if ("NATIVE".equals(request.getTradeType())) {
@@ -393,15 +329,12 @@ public class WxMpPayServiceImpl implements WxMpPayService {
 
   @Override
   public WxEntPayResult entPay(WxEntPayRequest request, File keyFile) throws WxErrorException {
-    BeanUtils.checkRequiredFields(request);
-
     XStream xstream = XStreamInitializer.getInstance();
     xstream.processAnnotations(WxEntPayRequest.class);
     xstream.processAnnotations(WxEntPayResult.class);
-
-    request.setMchAppid(getConfig().getAppId());
-    request.setMchId(getConfig().getPartnerId());
-    request.setNonceStr(System.currentTimeMillis() + "");
+    
+    initRequest(request);
+    BeanUtils.checkRequiredFields(request);
     request.setSign(this.createSign(request));
 
     String url = PAY_BASE_URL + "/mmpaymkttransfers/promotion/transfers";
@@ -419,13 +352,10 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     xstream.processAnnotations(WxEntPayQueryResult.class);
 
     WxEntPayQueryRequest request = new WxEntPayQueryRequest();
-    request.setAppid(getConfig().getAppId());
-    request.setMchId(getConfig().getPartnerId());
-    request.setNonceStr(System.currentTimeMillis() + "");
+    initRequest(request);
     request.setSign(this.createSign(request));
 
     String url = PAY_BASE_URL + "/mmpaymkttransfers/gettransferinfo";
-
     String responseContent = this.executeRequestWithKeyFile(url, keyFile, xstream.toXML(request), request.getMchId());
     WxEntPayQueryResult result = (WxEntPayQueryResult) xstream.fromXML(responseContent);
     this.checkResult(result);
@@ -482,5 +412,57 @@ public class WxMpPayServiceImpl implements WxMpPayService {
       this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[EXCEPTION]: {}", url, requestStr, e.getMessage());
       throw new WxErrorException(WxError.newBuilder().setErrorCode(-1).setErrorMsg(e.getMessage()).build(), e);
     }
+  }
+  
+  @Override
+  public String createSign(Object xmlBean) {
+    return createSign(BeanUtils.xmlBean2Map(xmlBean), getConfig().getPartnerKey());
+  }
+
+  @Override
+  public String createSign(Object xmlBean, String signKey) {
+    return createSign(BeanUtils.xmlBean2Map(xmlBean), signKey);
+  }
+
+  @Override
+  public String createSign(Map<String, String> params) {
+    return createSign(params, getConfig().getPartnerKey());
+  }
+
+  @Override
+  public String createSign(Map<String, String> params, String signKey) {
+    SortedMap<String, String> sortedMap = new TreeMap<>(params);
+
+    StringBuilder toSign = new StringBuilder();
+    for (String key : sortedMap.keySet()) {
+      String value = params.get(key);
+      if (StringUtils.isNotEmpty(value) && !"sign".equals(key) && !"key".equals(key)) {
+        toSign.append(key + "=" + value + "&");
+      }
+    }
+
+    toSign.append("key=" + signKey);
+    return DigestUtils.md5Hex(toSign.toString()).toUpperCase();
+  }
+
+  @Override
+  public boolean checkSign(Object xmlBean) {
+    return checkSign(BeanUtils.xmlBean2Map(xmlBean), getConfig().getPartnerKey());
+  }
+
+  @Override
+  public boolean checkSign(Object xmlBean, String signKey) {
+    return checkSign(BeanUtils.xmlBean2Map(xmlBean), signKey);
+  }
+
+  @Override
+  public boolean checkSign(Map<String, String> params) {
+    return checkSign(params, getConfig().getPartnerKey());
+  }
+
+  @Override
+  public boolean checkSign(Map<String, String> params, String signKey) {
+    String sign = this.createSign(params, signKey);
+    return sign.equals(params.get("sign"));
   }
 }

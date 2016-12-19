@@ -18,7 +18,7 @@ import me.chanjar.weixin.common.util.ToStringUtils;
  * @author binarywang (https://github.com/binarywang)
  */
 @XStreamAlias("xml")
-public class WxEntPayRequest {
+public class WxEntPayRequest extends WxPayBaseRequest{
   /**
    * <pre>
   * 公众账号appid
@@ -57,32 +57,6 @@ public class WxEntPayRequest {
   */
   @XStreamAlias("device_info")
   private String deviceInfo;
-
-  /**
-   * <pre>
-  * 随机字符串
-  * nonce_str
-  *是
-  *5K8264ILTKCH16CQ2502SI8ZNMTM67VS
-  *String(32)
-  *随机字符串，不长于32位
-   * </pre>
-  */
-  @XStreamAlias("nonce_str")
-  private String nonceStr;
-
-  /**
-   * <pre>
-  * 签名
-  * sign
-  * 是
-  * C380BEC2BFD727A4B6845133519F3AD6
-  * String(32)
-  *签名，详见签名算法
-   * </pre>
-  */
-  @XStreamAlias("sign")
-  private String sign;
 
   /**
    * <pre>
@@ -178,18 +152,23 @@ public class WxEntPayRequest {
   @XStreamAlias("spbill_create_ip")
   private String spbillCreateIp;
 
-  public String getMchAppid() {
+
+  @Override
+  public String getAppid() {
     return this.mchAppid;
   }
 
-  public void setMchAppid(String mchAppid) {
-    this.mchAppid = mchAppid;
+  @Override
+  public void setAppid(String appid) {
+    this.mchAppid = appid;
   }
 
+  @Override
   public String getMchId() {
     return this.mchId;
   }
 
+  @Override
   public void setMchId(String mchId) {
     this.mchId = mchId;
   }
@@ -200,22 +179,6 @@ public class WxEntPayRequest {
 
   public void setDeviceInfo(String deviceInfo) {
     this.deviceInfo = deviceInfo;
-  }
-
-  public String getNonceStr() {
-    return this.nonceStr;
-  }
-
-  public void setNonceStr(String nonceStr) {
-    this.nonceStr = nonceStr;
-  }
-
-  public String getSign() {
-    return this.sign;
-  }
-
-  public void setSign(String sign) {
-    this.sign = sign;
   }
 
   public String getPartnerTradeNo() {
