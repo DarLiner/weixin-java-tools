@@ -18,10 +18,10 @@ public interface WxMpQrcodeService {
    * 详情请见: <a href="http://mp.weixin.qq.com/wiki/18/167e7d94df85d8389df6c94a7a8f78ba.html">生成带参数的二维码</a>
    * </pre>
    *
-   * @param scene_id       参数。
-   * @param expire_seconds 过期秒数，默认60秒，最小60秒，最大1800秒
+   * @param sceneId       参数。
+   * @param expireSeconds 过期秒数，默认60秒，最小60秒，最大1800秒
    */
-  WxMpQrCodeTicket qrCodeCreateTmpTicket(int scene_id, Integer expire_seconds) throws WxErrorException;
+  WxMpQrCodeTicket qrCodeCreateTmpTicket(int sceneId, Integer expireSeconds) throws WxErrorException;
 
   /**
    * <pre>
@@ -29,9 +29,9 @@ public interface WxMpQrcodeService {
    * 详情请见: <a href="http://mp.weixin.qq.com/wiki/18/167e7d94df85d8389df6c94a7a8f78ba.html">生成带参数的二维码</a>
    * </pre>
    *
-   * @param scene_id 参数。永久二维码时最大值为100000（目前参数只支持1--100000）
+   * @param sceneId 参数。永久二维码时最大值为100000（目前参数只支持1--100000）
    */
-  WxMpQrCodeTicket qrCodeCreateLastTicket(int scene_id) throws WxErrorException;
+  WxMpQrCodeTicket qrCodeCreateLastTicket(int sceneId) throws WxErrorException;
 
   /**
    * <pre>
@@ -39,9 +39,9 @@ public interface WxMpQrcodeService {
    * 详情请见: <a href="http://mp.weixin.qq.com/wiki/18/167e7d94df85d8389df6c94a7a8f78ba.html">生成带参数的二维码</a>
    * </pre>
    *
-   * @param scene_str 参数。字符串类型长度现在为1到64
+   * @param sceneStr 参数。字符串类型长度现在为1到64
    */
-  WxMpQrCodeTicket qrCodeCreateLastTicket(String scene_str) throws WxErrorException;
+  WxMpQrCodeTicket qrCodeCreateLastTicket(String sceneStr) throws WxErrorException;
 
   /**
    * <pre>
