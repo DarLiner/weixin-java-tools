@@ -90,21 +90,21 @@ compile 'com.github.binarywang:weixin-java-cp:2.4.0'
 
 ## PR方式贡献代码步骤
 * 在 GitHub 上 `fork` 到自己的仓库，如 `my_user/weixin-java-tools`，然后 `clone` 到本地，并设置用户信息。
-```
-$ git clone git@github.com:my_user/weixin-java-tools.git
-$ cd weixin-java-tools
-$ git config user.name "yourname"
-$ git config user.email "your email"
+```bash
+ $ git clone git@github.com:my_user/weixin-java-tools.git
+ $ cd weixin-java-tools
+ $ git config user.name "yourname"
+ $ git config user.email "your email"
 ```
 * 修改代码后提交，并推送到自己的仓库。
-```
+```bash
 $ #do some change on the content
 $ git commit -am "Fix issue #1: change something"
 $ git push
 ```
 * 在 GitHub 网站上提交 Pull Request。
 * 定期使用项目仓库内容更新自己仓库内容。
-```
+```bash
 $ git remote add upstream https://github.com/wechat-group/weixin-java-tools
 $ git fetch upstream
 $ git checkout develop
