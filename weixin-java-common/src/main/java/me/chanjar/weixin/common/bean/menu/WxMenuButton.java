@@ -2,10 +2,12 @@ package me.chanjar.weixin.common.bean.menu;
 
 import me.chanjar.weixin.common.util.ToStringUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WxMenuButton {
+public class WxMenuButton implements Serializable {
+  private static final long serialVersionUID = -1070939403109776555L;
 
   private String type;
   private String name;
