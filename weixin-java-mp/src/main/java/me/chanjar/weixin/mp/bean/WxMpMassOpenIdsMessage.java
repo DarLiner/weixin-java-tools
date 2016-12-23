@@ -1,28 +1,29 @@
 package me.chanjar.weixin.mp.bean;
 
+import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
-
 /**
  * openid列表群发的消息
- * 
+ *
  * @author chanjarster
  */
 public class WxMpMassOpenIdsMessage implements Serializable {
   private static final long serialVersionUID = -8022910911104788999L;
-  
+
   private List<String> toUsers = new ArrayList<>();
   private String msgType;
   private String content;
   private String mediaId;
+  private boolean sendIgnoreReprint = false;
 
   public WxMpMassOpenIdsMessage() {
     super();
   }
-  
+
   public String getMsgType() {
     return this.msgType;
   }
@@ -86,4 +87,15 @@ public class WxMpMassOpenIdsMessage implements Serializable {
     this.toUsers = toUsers;
   }
 
+  public boolean isSendIgnoreReprint() {
+    return sendIgnoreReprint;
+  }
+
+  /**
+   *
+   * @param sendIgnoreReprint 文章被判定为转载时，是否继续进行群发操作。
+   */
+  public void setSendIgnoreReprint(boolean sendIgnoreReprint) {
+    this.sendIgnoreReprint = sendIgnoreReprint;
+  }
 }
