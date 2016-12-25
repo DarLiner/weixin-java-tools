@@ -197,8 +197,24 @@ public interface WxMpPayService {
    * @param request 请求对象
    * @param keyFile 证书文件对象（即apiclient_cert.p12 商户证书文件，详细参考https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3）
    */
+  @Deprecated
   WxPaySendRedpackResult sendRedpack(WxPaySendRedpackRequest request, File keyFile) throws WxErrorException;
 
+  /**
+   * 发送微信红包给个人用户
+   * <pre>
+   * 文档详见:
+   * 发送普通红包 https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_4&index=3
+   *  接口地址：https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack
+   * 发送裂变红包 https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_5&index=4
+   *  接口地址：https://api.mch.weixin.qq.com/mmpaymkttransfers/sendgroupredpack
+   * </pre>
+   *
+   * @param request 请求对象
+   * @param keyFile 证书文件对象（即apiclient_cert.p12 商户证书文件，详细参考https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3）
+   */
+  WxPaySendRedpackResult sendRedpack(WxPaySendRedpackRequest request) throws WxErrorException;
+ 
   /**
    * <pre>
    *   查询红包记录
@@ -211,7 +227,22 @@ public interface WxMpPayService {
    * @param mchBillNo 商户发放红包的商户订单号，比如10000098201411111234567890
    * @param keyFile   证书文件对象（即apiclient_cert.p12 商户证书文件，详细参考https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3）
    */
+  @Deprecated
   WxPayRedpackQueryResult queryRedpack(String mchBillNo, File keyFile) throws WxErrorException;
+  
+  /**
+   * <pre>
+   *   查询红包记录
+   *   用于商户对已发放的红包进行查询红包的具体信息，可支持普通红包和裂变包。
+   *   请求Url	https://api.mch.weixin.qq.com/mmpaymkttransfers/gethbinfo
+   *   是否需要证书	是（证书及使用说明详见商户证书）
+   *   请求方式	POST
+   * </pre>
+   *
+   * @param mchBillNo 商户发放红包的商户订单号，比如10000098201411111234567890
+   * @param keyFile   证书文件对象（即apiclient_cert.p12 商户证书文件，详细参考https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3）
+   */
+  WxPayRedpackQueryResult queryRedpack(String mchBillNo) throws WxErrorException;
 
   /**
    * <pre>
