@@ -89,7 +89,6 @@ public interface WxMpConfigStorage {
   /**
    * 微信支付异步回掉地址，通知url必须为直接可访问的url，不能携带参数。
    *
-   * @return
    * @since 2.5.0
    */
   String getNotifyURL();
@@ -100,7 +99,6 @@ public interface WxMpConfigStorage {
    * JSAPI--公众号支付、NATIVE--原生扫码支付、APP--app支付
    * </pre>
    *
-   * @return
    * @since 2.5.0
    */
   String getTradeType();
