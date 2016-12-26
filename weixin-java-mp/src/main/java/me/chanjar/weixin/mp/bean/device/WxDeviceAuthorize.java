@@ -14,6 +14,8 @@ public class WxDeviceAuthorize extends AbstractDeviceBean {
   private String deviceNum;
   @SerializedName("op_type")
   private String opType;
+  @SerializedName("product_id")
+  private String productId;
   @SerializedName("device_list")
   private List<WxDevice> deviceList = new LinkedList<>();
 
@@ -31,6 +33,14 @@ public class WxDeviceAuthorize extends AbstractDeviceBean {
 
   public void setOpType(String opType) {
     this.opType = opType;
+  }
+
+  public String getProductId() {
+    return productId;
+  }
+
+  public void setProductId(String productId) {
+    this.productId = productId;
   }
 
   public List<WxDevice> getDeviceList() {
