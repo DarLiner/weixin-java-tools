@@ -34,7 +34,7 @@ public class WxMpPayServiceImplTest {
   }
 
   /**
-   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#refund(WxPayRefundRequest, File)} .
+   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#refund(WxPayRefundRequest)} .
    */
   @Test
   public void testRefund() throws Exception {
@@ -43,8 +43,7 @@ public class WxMpPayServiceImplTest {
     request.setOutTradeNo("1111");
     request.setTotalFee(1222);
     request.setRefundFee(111);
-    File keyFile = new File("E:\\dlt.p12");
-    WxPayRefundResult result = this.wxService.getPayService().refund(request, keyFile);
+    WxPayRefundResult result = this.wxService.getPayService().refund(request);
     System.err.println(result);
   }
 
@@ -72,7 +71,7 @@ public class WxMpPayServiceImplTest {
   }
 
   /**
-   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#sendRedpack(WxPaySendRedpackRequest, File)} .
+   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#sendRedpack(WxPaySendRedpackRequest)} .
    */
   @Test
   public void testSendRedpack() throws Exception {
@@ -82,18 +81,17 @@ public class WxMpPayServiceImplTest {
     request.setMchBillNo("aaaa");
     request
       .setReOpenid(((WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage()).getOpenid());
-    File keyFile = new File("E:\\dlt.p12");
-    WxPaySendRedpackResult redpackResult = this.wxService.getPayService().sendRedpack(request, keyFile);
+    WxPaySendRedpackResult redpackResult = this.wxService.getPayService().sendRedpack(request);
     System.err.println(redpackResult);
   }
 
   /**
-   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#queryRedpack(String, File)}.
+   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#queryRedpack(String)}.
    */
   @Test
   public void testQueryRedpack() throws Exception {
     File keyFile = new File("E:\\dlt.p12");
-    WxPayRedpackQueryResult redpackResult = this.wxService.getPayService().queryRedpack("aaaa", keyFile);
+    WxPayRedpackQueryResult redpackResult = this.wxService.getPayService().queryRedpack("aaaa");
     System.err.println(redpackResult);
   }
 
@@ -128,21 +126,19 @@ public class WxMpPayServiceImplTest {
   }
 
   /**
-   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#entPay(WxEntPayRequest, File)}.
+   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#entPay(WxEntPayRequest)}.
    */
   @Test
   public final void testEntPay() throws WxErrorException {
-    File keyFile = new File("E:\\dlt.p12");
     WxEntPayRequest request = new WxEntPayRequest();
-    System.err.println(this.wxService.getPayService().entPay(request, keyFile));
+    System.err.println(this.wxService.getPayService().entPay(request));
   }
 
   /**
-   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#queryEntPay(String, File)}.
+   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#queryEntPay(String)}.
    */
   @Test
   public final void testQueryEntPay() throws WxErrorException {
-    File keyFile = new File("E:\\dlt.p12");
-    System.err.println(this.wxService.getPayService().queryEntPay("11212121", keyFile));
+    System.err.println(this.wxService.getPayService().queryEntPay("11212121"));
   }
 }

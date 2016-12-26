@@ -1,23 +1,21 @@
 package me.chanjar.weixin.mp.api;
 
+import me.chanjar.weixin.common.bean.WxAccessToken;
+import me.chanjar.weixin.common.util.ToStringUtils;
+import me.chanjar.weixin.common.util.http.ApacheHttpClientBuilder;
+import org.apache.http.ssl.SSLContexts;
+
+import javax.net.ssl.SSLContext;
 import java.io.File;
 import java.io.FileInputStream;
 import java.security.KeyStore;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import javax.net.ssl.SSLContext;
-
-import org.apache.http.ssl.SSLContexts;
-
-import me.chanjar.weixin.common.bean.WxAccessToken;
-import me.chanjar.weixin.common.util.ToStringUtils;
-import me.chanjar.weixin.common.util.http.ApacheHttpClientBuilder;
-
 /**
  * 基于内存的微信配置provider，在实际生产环境中应该将这些配置持久化
- * @author chanjarster
  *
+ * @author chanjarster
  */
 public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
 
@@ -63,6 +61,10 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
     return this.accessToken;
   }
 
+  public void setAccessToken(String accessToken) {
+    this.accessToken = accessToken;
+  }
+
   @Override
   public Lock getAccessTokenLock() {
     return this.accessTokenLock;
@@ -94,13 +96,13 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
     return this.jsapiTicket;
   }
 
+  public void setJsapiTicket(String jsapiTicket) {
+    this.jsapiTicket = jsapiTicket;
+  }
+
   @Override
   public Lock getJsapiTicketLock() {
     return this.jsapiTicketLock;
-  }
-
-  public void setJsapiTicket(String jsapiTicket) {
-    this.jsapiTicket = jsapiTicket;
   }
 
   public long getJsapiTicketExpiresTime() {
@@ -163,9 +165,17 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
     return this.appId;
   }
 
+  public void setAppId(String appId) {
+    this.appId = appId;
+  }
+
   @Override
   public String getSecret() {
     return this.secret;
+  }
+
+  public void setSecret(String secret) {
+    this.secret = secret;
   }
 
   @Override
@@ -173,21 +183,17 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
     return this.token;
   }
 
+  public void setToken(String token) {
+    this.token = token;
+  }
+
   @Override
   public long getExpiresTime() {
     return this.expiresTime;
   }
 
-  public void setAppId(String appId) {
-    this.appId = appId;
-  }
-
-  public void setSecret(String secret) {
-    this.secret = secret;
-  }
-
-  public void setToken(String token) {
-    this.token = token;
+  public void setExpiresTime(long expiresTime) {
+    this.expiresTime = expiresTime;
   }
 
   @Override
@@ -197,14 +203,6 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
 
   public void setAesKey(String aesKey) {
     this.aesKey = aesKey;
-  }
-
-  public void setAccessToken(String accessToken) {
-    this.accessToken = accessToken;
-  }
-
-  public void setExpiresTime(long expiresTime) {
-    this.expiresTime = expiresTime;
   }
 
   @Override
@@ -259,40 +257,40 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
 
   @Override
   public String getPartnerId() {
-      return this.partnerId;
+    return this.partnerId;
   }
 
   public void setPartnerId(String partnerId) {
-      this.partnerId = partnerId;
+    this.partnerId = partnerId;
   }
 
   @Override
   public String getPartnerKey() {
-      return this.partnerKey;
+    return this.partnerKey;
   }
 
   public void setPartnerKey(String partnerKey) {
-      this.partnerKey = partnerKey;
+    this.partnerKey = partnerKey;
   }
-  
- 
-	public String getNotifyURL() {
-		return notifyURL;
-	}
 
-	public void setNotifyURL(String notifyURL) {
-		this.notifyURL = notifyURL;
-	}
 
-	public String getTradeType() {
-		return tradeType;
-	}
+  public String getNotifyURL() {
+    return notifyURL;
+  }
 
-	public void setTradeType(String tradeType) {
-		this.tradeType = tradeType;
-	}
+  public void setNotifyURL(String notifyURL) {
+    this.notifyURL = notifyURL;
+  }
 
-	@Override
+  public String getTradeType() {
+    return tradeType;
+  }
+
+  public void setTradeType(String tradeType) {
+    this.tradeType = tradeType;
+  }
+
+  @Override
   public File getTmpDirFile() {
     return this.tmpDirFile;
   }
@@ -302,47 +300,43 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   }
 
   @Override
-  public SSLContext getSSLContext() {
+  public SSLContext getSslContext() {
     return this.sslContext;
   }
-  
+
   @Override
-  public SSLContext getSslContext() {
-  	return this.sslContext;
+  public void setSslContext(SSLContext context) {
+    this.sslContext = context;
   }
 
-	@Override
-	public void setSslContextFilePath(String filePath) throws Exception {
-		if (null == partnerId) {
-			throw new Exception("请先将partnerId进行赋值");
-		}
-			File file = new File(filePath);
-			if (!file.exists()) {
-				throw new RuntimeException(file.getPath() + "：文件不存在！在设置SSLContext的时候");
-			}
-			FileInputStream inputStream = new FileInputStream(file);
-			KeyStore keystore = KeyStore.getInstance("PKCS12");
-			char[] partnerId2charArray = partnerId.toCharArray();
-			keystore.load(inputStream, partnerId2charArray);
-			this.sslContext = SSLContexts.custom().loadKeyMaterial(keystore, partnerId2charArray).build();
-	}
-	
-	@Override
-	public void setSslContext(SSLContext context) {
-		this.sslContext = context;
-	}
-  
+  @Override
+  public void setSslContextFilePath(String filePath) throws Exception {
+    if (null == partnerId) {
+      throw new Exception("请先将partnerId进行赋值");
+    }
+
+    File file = new File(filePath);
+    if (!file.exists()) {
+      throw new RuntimeException(file.getPath() + "：文件不存在！在设置SSLContext的时候");
+    }
+    FileInputStream inputStream = new FileInputStream(file);
+    KeyStore keystore = KeyStore.getInstance("PKCS12");
+    char[] partnerId2charArray = partnerId.toCharArray();
+    keystore.load(inputStream, partnerId2charArray);
+    this.sslContext = SSLContexts.custom().loadKeyMaterial(keystore, partnerId2charArray).build();
+  }
+
   @Override
   public ApacheHttpClientBuilder getApacheHttpClientBuilder() {
     return this.apacheHttpClientBuilder;
   }
 
+  public void setApacheHttpClientBuilder(ApacheHttpClientBuilder apacheHttpClientBuilder) {
+    this.apacheHttpClientBuilder = apacheHttpClientBuilder;
+  }
+
   @Override
   public boolean autoRefreshToken() {
     return true;
-  }
-
-  public void setApacheHttpClientBuilder(ApacheHttpClientBuilder apacheHttpClientBuilder) {
-    this.apacheHttpClientBuilder = apacheHttpClientBuilder;
   }
 }

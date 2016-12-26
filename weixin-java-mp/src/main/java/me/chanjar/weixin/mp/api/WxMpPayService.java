@@ -7,7 +7,6 @@ import me.chanjar.weixin.mp.bean.pay.request.WxPaySendRedpackRequest;
 import me.chanjar.weixin.mp.bean.pay.request.WxPayUnifiedOrderRequest;
 import me.chanjar.weixin.mp.bean.pay.result.*;
 
-import java.io.File;
 import java.util.Map;
 
 /**
@@ -76,10 +75,9 @@ public interface WxMpPayService {
    * </pre>
    *
    * @param request 请求对象
-   * @param keyFile 证书文件对象（即apiclient_cert.p12 商户证书文件，详细参考https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3）
    * @return 退款操作结果
    */
-  WxPayRefundResult refund(WxPayRefundRequest request, File keyFile) throws WxErrorException;
+  WxPayRefundResult refund(WxPayRefundRequest request) throws WxErrorException;
 
   /**
    * <pre>
@@ -128,7 +126,7 @@ public interface WxMpPayService {
   /**
    * 微信公众号支付签名算法(详见:https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=4_3)
    *
-   * @param prams   参数信息，默认使用配置中的PartnerKey进行签名
+   * @param prams 参数信息，默认使用配置中的PartnerKey进行签名
    * @return 签名字符串
    * @see #createSign(Map, String)
    */
@@ -176,7 +174,7 @@ public interface WxMpPayService {
   /**
    * 校验签名是否正确
    *
-   * @param params   需要校验的参数Map
+   * @param params  需要校验的参数Map
    * @param signKey 校验的签名Key
    * @return true - 签名校验成功，false - 签名校验失败
    * @see #checkSign(Map, String)
@@ -195,26 +193,9 @@ public interface WxMpPayService {
    * </pre>
    *
    * @param request 请求对象
-   * @param keyFile 证书文件对象（即apiclient_cert.p12 商户证书文件，详细参考https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3）
-   */
-  @Deprecated
-  WxPaySendRedpackResult sendRedpack(WxPaySendRedpackRequest request, File keyFile) throws WxErrorException;
-
-  /**
-   * 发送微信红包给个人用户
-   * <pre>
-   * 文档详见:
-   * 发送普通红包 https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_4&index=3
-   *  接口地址：https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack
-   * 发送裂变红包 https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_5&index=4
-   *  接口地址：https://api.mch.weixin.qq.com/mmpaymkttransfers/sendgroupredpack
-   * </pre>
-   *
-   * @param request 请求对象
-   * @param keyFile 证书文件对象（即apiclient_cert.p12 商户证书文件，详细参考https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3）
    */
   WxPaySendRedpackResult sendRedpack(WxPaySendRedpackRequest request) throws WxErrorException;
- 
+
   /**
    * <pre>
    *   查询红包记录
@@ -225,22 +206,6 @@ public interface WxMpPayService {
    * </pre>
    *
    * @param mchBillNo 商户发放红包的商户订单号，比如10000098201411111234567890
-   * @param keyFile   证书文件对象（即apiclient_cert.p12 商户证书文件，详细参考https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3）
-   */
-  @Deprecated
-  WxPayRedpackQueryResult queryRedpack(String mchBillNo, File keyFile) throws WxErrorException;
-  
-  /**
-   * <pre>
-   *   查询红包记录
-   *   用于商户对已发放的红包进行查询红包的具体信息，可支持普通红包和裂变包。
-   *   请求Url	https://api.mch.weixin.qq.com/mmpaymkttransfers/gethbinfo
-   *   是否需要证书	是（证书及使用说明详见商户证书）
-   *   请求方式	POST
-   * </pre>
-   *
-   * @param mchBillNo 商户发放红包的商户订单号，比如10000098201411111234567890
-   * @param keyFile   证书文件对象（即apiclient_cert.p12 商户证书文件，详细参考https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3）
    */
   WxPayRedpackQueryResult queryRedpack(String mchBillNo) throws WxErrorException;
 
@@ -255,9 +220,8 @@ public interface WxMpPayService {
    * </pre>
    *
    * @param request 请求对象
-   * @param keyFile 证书文件对象（即apiclient_cert.p12 商户证书文件，详细参考https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3）
    */
-  WxEntPayResult entPay(WxEntPayRequest request, File keyFile) throws WxErrorException;
+  WxEntPayResult entPay(WxEntPayRequest request) throws WxErrorException;
 
   /**
    * <pre>
@@ -268,8 +232,7 @@ public interface WxMpPayService {
    * </pre>
    *
    * @param partnerTradeNo 商户订单号
-   * @param keyFile        证书文件对象（即apiclient_cert.p12 商户证书文件，详细参考https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3）
    */
-  WxEntPayQueryResult queryEntPay(String partnerTradeNo, File keyFile) throws WxErrorException;
+  WxEntPayQueryResult queryEntPay(String partnerTradeNo) throws WxErrorException;
 
 }
