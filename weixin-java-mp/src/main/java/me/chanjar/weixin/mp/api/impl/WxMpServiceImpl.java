@@ -20,8 +20,8 @@ import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.conn.ssl.DefaultHostnameVerifier;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+//import org.apache.http.conn.ssl.DefaultHostnameVerifier;
+//import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.slf4j.Logger;
@@ -33,7 +33,7 @@ import java.util.concurrent.locks.Lock;
 public class WxMpServiceImpl implements WxMpService {
 
   private static final JsonParser JSON_PARSER = new JsonParser();
-
+  
   protected final Logger log = LoggerFactory.getLogger(this.getClass());
 
   private WxMpConfigStorage configStorage;
@@ -459,12 +459,12 @@ public class WxMpServiceImpl implements WxMpService {
         .httpProxyUsername(this.configStorage.getHttpProxyUsername())
         .httpProxyPassword(this.configStorage.getHttpProxyPassword());
 
-    if (this.configStorage.getSSLContext() != null) {
-      SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
-          this.configStorage.getSSLContext(), new String[] { "TLSv1" }, null,
-          new DefaultHostnameVerifier());
-      apacheHttpClientBuilder.sslConnectionSocketFactory(sslsf);
-    }
+		// if (this.configStorage.getSSLContext() != null) {
+		// SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
+		// this.configStorage.getSSLContext(), new String[] { "TLSv1" }, null,
+		// new DefaultHostnameVerifier());
+		// apacheHttpClientBuilder.sslConnectionSocketFactory(sslsf);
+		// }
 
     if (this.configStorage.getHttpProxyHost() != null && this.configStorage.getHttpProxyPort() > 0) {
       this.httpProxy = new HttpHost(this.configStorage.getHttpProxyHost(), this.configStorage.getHttpProxyPort());

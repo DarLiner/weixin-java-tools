@@ -160,6 +160,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
 
 
   @Override
+  @Deprecated
   public WxPaySendRedpackResult sendRedpack(WxPaySendRedpackRequest request, File keyFile)
     throws WxErrorException {
     XStream xstream = XStreamInitializer.getInstance();
@@ -179,8 +180,30 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     this.checkResult(result);
     return result;
   }
+  
+  @Override
+  public WxPaySendRedpackResult sendRedpack(WxPaySendRedpackRequest request)
+  		throws WxErrorException {
+  	XStream xstream = XStreamInitializer.getInstance();
+  	xstream.processAnnotations(WxPaySendRedpackRequest.class);
+  	xstream.processAnnotations(WxPaySendRedpackResult.class);
+  	
+  	initRequest(request);
+  	request.setSign(this.createSign(request));
+  	
+  	String url = PAY_BASE_URL + "/mmpaymkttransfers/sendredpack";
+  	if (request.getAmtType() != null) {
+  		//裂变红包
+  		url = PAY_BASE_URL + "/mmpaymkttransfers/sendgroupredpack";
+  	}
+  	String responseContent = this.executeRequestWithKeyFile(url, xstream.toXML(request));
+  	WxPaySendRedpackResult result = (WxPaySendRedpackResult) xstream.fromXML(responseContent);
+  	this.checkResult(result);
+  	return result;
+  }
 
   @Override
+  @Deprecated
   public WxPayRedpackQueryResult queryRedpack(String mchBillNo, File keyFile) throws WxErrorException {
     XStream xstream = XStreamInitializer.getInstance();
     xstream.processAnnotations(WxPayRedpackQueryRequest.class);
@@ -197,6 +220,25 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     WxPayRedpackQueryResult result = (WxPayRedpackQueryResult) xstream.fromXML(responseContent);
     this.checkResult(result);
     return result;
+  }
+  
+  @Override
+  public WxPayRedpackQueryResult queryRedpack(String mchBillNo) throws WxErrorException {
+  	XStream xstream = XStreamInitializer.getInstance();
+  	xstream.processAnnotations(WxPayRedpackQueryRequest.class);
+  	xstream.processAnnotations(WxPayRedpackQueryResult.class);
+  	
+  	WxPayRedpackQueryRequest request = new WxPayRedpackQueryRequest();
+  	request.setMchBillNo(mchBillNo);
+  	request.setBillType("MCHT");
+  	initRequest(request);
+  	request.setSign(this.createSign(request));
+  	
+  	String url = PAY_BASE_URL + "/mmpaymkttransfers/gethbinfo";
+  	String responseContent = this.executeRequestWithKeyFile(url, xstream.toXML(request));
+  	WxPayRedpackQueryResult result = (WxPayRedpackQueryResult) xstream.fromXML(responseContent);
+  	this.checkResult(result);
+  	return result;
   }
 
   @Override
@@ -383,7 +425,8 @@ public class WxMpPayServiceImpl implements WxMpPayService {
       httpPost.releaseConnection();
     }
   }
-
+  
+  @Deprecated
   private String executeRequestWithKeyFile(String url, File keyFile, String requestStr, String mchId) throws WxErrorException {
     try (FileInputStream inputStream = new FileInputStream(keyFile)) {
       KeyStore keyStore = KeyStore.getInstance("PKCS12");
@@ -412,6 +455,37 @@ public class WxMpPayServiceImpl implements WxMpPayService {
       this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[EXCEPTION]: {}", url, requestStr, e.getMessage());
       throw new WxErrorException(WxError.newBuilder().setErrorCode(-1).setErrorMsg(e.getMessage()).build(), e);
     }
+  }
+  
+  private String executeRequestWithKeyFile(String url, String requestStr) throws WxErrorException {
+  	try {
+  		
+  		SSLContext sslcontext = getConfig().getSSLContext();
+  		if(null==sslcontext){
+  			throw new Exception("请将配置类（WxMpInMemoryConfigStorage）中的SSLContext初始化");
+  		}
+  		SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslcontext, new String[]{"TLSv1"}, null,
+  				new DefaultHostnameVerifier());
+  		
+  		HttpPost httpPost = new HttpPost(url);
+  		if (this.wxMpService.getHttpProxy() != null) {
+  			httpPost.setConfig(RequestConfig.custom().setProxy(this.wxMpService.getHttpProxy()).build());
+  		}
+  		
+  		try (CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build()) {
+  			httpPost.setEntity(new StringEntity(new String(requestStr.getBytes("UTF-8"), "ISO-8859-1")));
+  			try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
+  				String result = EntityUtils.toString(response.getEntity(), Consts.UTF_8);
+  				this.log.debug("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}", url, requestStr, result);
+  				return result;
+  			}
+  		} finally {
+  			httpPost.releaseConnection();
+  		}
+  	} catch (Exception e) {
+  		this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[EXCEPTION]: {}", url, requestStr, e.getMessage());
+  		throw new WxErrorException(WxError.newBuilder().setErrorCode(-1).setErrorMsg(e.getMessage()).build(), e);
+  	}
   }
   
   @Override

@@ -1,13 +1,18 @@
 package me.chanjar.weixin.mp.api;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.security.KeyStore;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+import javax.net.ssl.SSLContext;
+
+import org.apache.http.ssl.SSLContexts;
+
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.common.util.http.ApacheHttpClientBuilder;
-
-import javax.net.ssl.SSLContext;
-import java.io.File;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 基于内存的微信配置provider，在实际生产环境中应该将这些配置持久化
@@ -300,11 +305,33 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   public SSLContext getSSLContext() {
     return this.sslContext;
   }
-
-  public void setSSLContext(SSLContext context) {
-    this.sslContext = context;
+  
+  @Override
+  public SSLContext getSslContext() {
+  	return this.sslContext;
   }
 
+	@Override
+	public void setSslContextFilePath(String filePath) throws Exception {
+		if (null == partnerId) {
+			throw new Exception("请先将partnerId进行赋值");
+		}
+			File file = new File(filePath);
+			if (!file.exists()) {
+				throw new RuntimeException(file.getPath() + "：文件不存在！在设置SSLContext的时候");
+			}
+			FileInputStream inputStream = new FileInputStream(file);
+			KeyStore keystore = KeyStore.getInstance("PKCS12");
+			char[] partnerId2charArray = partnerId.toCharArray();
+			keystore.load(inputStream, partnerId2charArray);
+			this.sslContext = SSLContexts.custom().loadKeyMaterial(keystore, partnerId2charArray).build();
+	}
+	
+	@Override
+	public void setSslContext(SSLContext context) {
+		this.sslContext = context;
+	}
+  
   @Override
   public ApacheHttpClientBuilder getApacheHttpClientBuilder() {
     return this.apacheHttpClientBuilder;

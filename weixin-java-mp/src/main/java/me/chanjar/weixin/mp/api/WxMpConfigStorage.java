@@ -118,7 +118,20 @@ public interface WxMpConfigStorage {
 
   File getTmpDirFile();
 
+  @Deprecated
   SSLContext getSSLContext();
+  
+  SSLContext getSslContext();
+  
+  void setSslContext(SSLContext sslContext);
+  
+	/**
+	 * 在此之前，必须将partnerId进行赋值
+	 * 
+	 * @param filePath
+	 *          apiclient_cert.p12的文件的绝对路径
+	 */
+	void setSslContextFilePath(String filePath) throws Exception;
 
   /**
    * http client builder
