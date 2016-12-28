@@ -6,7 +6,6 @@ Weixin Java Tools 微信公众号/企业号开发Java SDK
 ### 注意：
 1. ***本项目Fork自chanjarster/weixin-java-tools，但由于原项目已停止维护，故单独维护和发布，且发布到maven上的groupId也会不同，详细信息见下文。***
 1. ***自2.0.0版本以来，公众号的接口调整比较大，主要是为了解决主接口类过于庞大不方便管理的问题，将接口实现代码按模块进行拆分。***
-1. 本SDK要求的最低JDK版本是7，为满足少量还在使用JDK6的用户的需求，特意抽出独立的代码分支项目，请参考 https://github.com/binarywang/weixin-java-tools-for-jdk6 ，其他更早的JDK版本则需要自己改造实现；
 1. 最新更新：2016-11-30 发布2.4.0正式版！
 
 ===========
@@ -21,6 +20,7 @@ Weixin Java Tools 微信公众号/企业号开发Java SDK
 1. 详细开发文档请看 [Wiki](https://github.com/wechat-group/weixin-java-tools/wiki)，部分文档可能未能及时更新，如有发现，可以及时上报或者自行修改。
 1. 微信公众号官方文档入口地址：http://mp.weixin.qq.com/wiki （注意，从网上搜到的文档有的虽然地址前面跟这个一样，但明显左侧菜单不一致，是旧的文档，注意不要看错文档）。
 1. 各个模块的Javadoc可以在线查看：[weixin-java-mp](https://binarywang.github.io/weixin-java-mp-javadoc/)、[weixin-java-common](https://binarywang.github.io/weixin-java-common-javadoc/)、[weixin-java-cp](https://binarywang.github.io/weixin-java-cp-javadoc/)
+1. 本SDK要求的最低JDK版本是7，为满足少量还在使用JDK6的用户的需求，特意抽出独立的代码分支项目，请参考 https://github.com/binarywang/weixin-java-tools-for-jdk6 ，其他更早的JDK版本则需要自己改造实现。
 
 ===========
 
@@ -74,16 +74,15 @@ compile 'com.github.binarywang:weixin-java-cp:2.4.0'
 ===========
 ## 可参考的Demo项目
 #### 目前都是公众号的，风格不同，欢迎提供更多的demo供新手参考:
-1. https://github.com/wechat-group/weixin-mp-demo 
-1. https://github.com/wechat-group/weixin-mp-multi-demo (支持多公众号)
+1. https://github.com/wechat-group/weixin-java-mp-demo 
+1. https://github.com/wechat-group/weixin-java-mp-multi-demo (支持多公众号)
 1. https://github.com/wechat-group/weixin-java-tools-springmvc
-1. https://github.com/wechat-group/weixin-mp-demo-springboot
+1. https://github.com/wechat-group/weixin-java-mp-demo-springboot
 
 
 ===========
 ## 关于代码贡献
-1. 非常欢迎和感谢对本项目发起Pull Request的同学，本项目代码风格为使用2个空格代表一个Tab，因此在提交代码时请注意一下，否则很容易在IDE格式化代码后与原代码产生大量diff，这样会给其他人阅读代码带来极大的困扰。
-1. 为了便于设置，本项目引入editorconfig插件，请使用eclipse的同学在贡献代码前安装相关插件，IntelliJ IDEA则自带支持，无需额外安装插件。
+1. 非常欢迎和感谢对本项目发起Pull Request的同学，本项目代码风格为使用2个空格代表一个Tab，因此在提交代码时请注意一下，否则很容易在IDE格式化代码后与原代码产生大量diff，这样会给其他人阅读代码带来极大的困扰。为了便于设置，本项目引入editorconfig插件，请使用eclipse的同学在贡献代码前安装相关插件，IntelliJ IDEA新版本自带支持，如果没有可自行安装插件。
 1. 本项目可以采用两种方式接受代码贡献：
   * 第一种就是基于[Git Flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)开发流程，因此在发起Pull Request的时候请选择develop分支，详细步骤参考后文。
   * 另外一种贡献代码的方式就是加入SDK Developers开发组，前提是对自己的代码足够自信就可以申请加入，加入之后可以随时直接提交代码，但要注意对所做的修改或新增的代码进行单元测试，保证提交代码没有明显问题，具体加入方式，请咨询QQ群管理员[![点击这里给我发消息](http://wpa.qq.com/pa?p=2:1211415707:51)](http://wpa.qq.com/msgrd?v=3&uin=1211415707&site=qq&menu=yes)。
