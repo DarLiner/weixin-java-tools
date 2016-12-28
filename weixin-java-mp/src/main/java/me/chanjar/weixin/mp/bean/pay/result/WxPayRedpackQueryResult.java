@@ -15,6 +15,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
  * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  * </pre>
  */
+@XStreamAlias("xml")
 public class WxPayRedpackQueryResult extends WxPayBaseResult {
 
   /**
