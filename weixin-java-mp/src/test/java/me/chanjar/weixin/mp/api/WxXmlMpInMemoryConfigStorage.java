@@ -14,6 +14,16 @@ public class WxXmlMpInMemoryConfigStorage
   private String qrconnectRedirectUrl;
   private String templateId;
 
+  public String getKeyPath() {
+    return keyPath;
+  }
+
+  public void setKeyPath(String keyPath) {
+    this.keyPath = keyPath;
+  }
+
+  private String keyPath;
+
   public String getOpenid() {
     return this.openid;
   }
