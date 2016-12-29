@@ -13,8 +13,6 @@ import me.chanjar.weixin.mp.bean.pay.result.*;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
 
-import java.io.File;
-
 /**
  * 测试支付相关接口
  * Created by Binary Wang on 2016/7/28.
@@ -90,7 +88,6 @@ public class WxMpPayServiceImplTest {
    */
   @Test
   public void testQueryRedpack() throws Exception {
-    File keyFile = new File("E:\\dlt.p12");
     WxPayRedpackQueryResult redpackResult = this.wxService.getPayService().queryRedpack("aaaa");
     System.err.println(redpackResult);
   }

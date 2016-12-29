@@ -1,10 +1,12 @@
 package me.chanjar.weixin.mp.bean.pay.result;
 
+import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import me.chanjar.weixin.common.util.BeanUtils;
+import me.chanjar.weixin.common.util.ToStringUtils;
+import me.chanjar.weixin.common.util.xml.XStreamInitializer;
 import me.chanjar.weixin.mp.bean.pay.WxPayOrderNotifyCoupon;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import me.chanjar.weixin.mp.bean.pay.WxPayOrderNotifyResultConverter;
 
 import java.io.Serializable;
 import java.util.List;
@@ -376,6 +378,15 @@ public class WxPayOrderNotifyResult  extends WxPayBaseResult implements Serializ
 
 	@Override
 	public String toString() {
-		return ToStringBuilder.reflectionToString(this,ToStringStyle.MULTI_LINE_STYLE);
+		return ToStringUtils.toSimpleString(this);
 	}
+
+  public static  WxPayOrderNotifyResult fromXML(String xmlString) {
+    XStream xstream = XStreamInitializer.getInstance();
+    xstream.processAnnotations(WxPayOrderNotifyResult.class);
+    xstream.registerConverter(new WxPayOrderNotifyResultConverter(xstream.getMapper(), xstream.getReflectionProvider()));
+    WxPayOrderNotifyResult result = (WxPayOrderNotifyResult) xstream.fromXML(xmlString);
+    result.setXmlString(xmlString);
+    return result;
+  }
 }

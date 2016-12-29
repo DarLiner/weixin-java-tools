@@ -1,7 +1,6 @@
 package me.chanjar.weixin.mp.bean.pay.request;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-
 import me.chanjar.weixin.common.annotation.Required;
 
 /**
@@ -144,8 +143,6 @@ public class WxPayRefundRequest extends WxPayBaseRequest {
   @XStreamAlias("refund_account")
   private String refundAccount;
 
-
-
   public String getDeviceInfo() {
     return this.deviceInfo;
   }
@@ -217,4 +214,5 @@ public class WxPayRefundRequest extends WxPayBaseRequest {
   public void setRefundAccount(String refundAccount) {
     this.refundAccount = refundAccount;
   }
+
 }

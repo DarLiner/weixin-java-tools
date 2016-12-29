@@ -310,20 +310,25 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   }
 
   @Override
-  public void setSslContextFilePath(String filePath) throws Exception {
+  public void setSslContextFilePath(String filePath) {
     if (null == partnerId) {
-      throw new Exception("请先将partnerId进行赋值");
+      throw new IllegalArgumentException("请设置partnerId的值");
     }
 
     File file = new File(filePath);
     if (!file.exists()) {
-      throw new RuntimeException(file.getPath() + "：文件不存在！在设置SSLContext的时候");
+      throw new RuntimeException("证书文件：【" + file.getPath() + "】不存在！");
     }
-    FileInputStream inputStream = new FileInputStream(file);
-    KeyStore keystore = KeyStore.getInstance("PKCS12");
-    char[] partnerId2charArray = partnerId.toCharArray();
-    keystore.load(inputStream, partnerId2charArray);
-    this.sslContext = SSLContexts.custom().loadKeyMaterial(keystore, partnerId2charArray).build();
+
+    try {
+      FileInputStream inputStream = new FileInputStream(file);
+      KeyStore keystore = KeyStore.getInstance("PKCS12");
+      char[] partnerId2charArray = partnerId.toCharArray();
+      keystore.load(inputStream, partnerId2charArray);
+      this.sslContext = SSLContexts.custom().loadKeyMaterial(keystore, partnerId2charArray).build();
+    } catch (Exception e) {
+      throw new RuntimeException("证书文件有问题，请核实！", e);
+    }
   }
 
   @Override

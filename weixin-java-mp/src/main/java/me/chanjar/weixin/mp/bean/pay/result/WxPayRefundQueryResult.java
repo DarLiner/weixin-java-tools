@@ -2,6 +2,7 @@ package me.chanjar.weixin.mp.bean.pay.result;
 
 import com.google.common.collect.Lists;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import io.restassured.path.xml.XmlPath;
 
 import java.util.List;
 
@@ -186,7 +187,38 @@ public class WxPayRefundQueryResult extends WxPayBaseResult {
   public void composeRefundRecords(String xmlString) {
     if (this.refundCount != null && this.refundCount > 0) {
       this.refundRecords = Lists.newArrayList();
-      //TODO 暂时待实现
+      XmlPath xmlPath = new XmlPath(xmlString);
+
+      for (int i = 0; i < this.refundCount; i++) {
+        RefundRecord refundRecord = new RefundRecord();
+        this.refundRecords.add(refundRecord);
+
+        refundRecord.setOutRefundNo(this.getXmlValueIfExists(xmlPath, "xml.out_refund_no_" + i, String.class));
+        refundRecord.setRefundId(this.getXmlValueIfExists(xmlPath, "xml.refund_id_" + i, String.class));
+        refundRecord.setRefundChannel(this.getXmlValueIfExists(xmlPath, "xml.refund_channel_" + i, String.class));
+        refundRecord.setRefundFee(this.getXmlValueIfExists(xmlPath, "xml.refund_fee_" + i, Integer.class));
+        refundRecord.setSettlementRefundFee(this.getXmlValueIfExists(xmlPath, "xml.settlement_refund_fee_" + i, Integer.class));
+        refundRecord.setCouponType(this.getXmlValueIfExists(xmlPath, "xml.coupon_type_" + i, String.class));
+        refundRecord.setCouponRefundFee(this.getXmlValueIfExists(xmlPath, "xml.coupon_refund_fee_" + i, Integer.class));
+        refundRecord.setCouponRefundCount(this.getXmlValueIfExists(xmlPath, "xml.coupon_refund_count_" + i, Integer.class));
+        refundRecord.setRefundStatus(this.getXmlValueIfExists(xmlPath, "xml.refund_status_" + i, String.class));
+        refundRecord.setRefundRecvAccout(this.getXmlValueIfExists(xmlPath, "xml.refund_recv_accout_" + i, String.class));
+
+        if (refundRecord.getCouponRefundCount() == null || refundRecord.getCouponRefundCount() == 0) {
+          continue;
+        }
+
+        List<RefundRecord.RefundCoupon> coupons = Lists.newArrayList();
+        for (int j = 0; j < refundRecord.getCouponRefundCount(); j++) {
+          coupons.add(
+            new RefundRecord.RefundCoupon(
+              this.getXmlValueIfExists(xmlPath, "xml.coupon_refund_id_" + i + "_" + j, String.class),
+              this.getXmlValueIfExists(xmlPath, "xml.coupon_refund_fee_" + i + "_" + j, Integer.class)
+            )
+          );
+        }
+      }
+
     }
   }
 
@@ -241,7 +273,7 @@ public class WxPayRefundQueryResult extends WxPayBaseResult {
      * </pre>
      */
     @XStreamAlias("refund_fee")
-    private String refundFee;
+    private Integer refundFee;
 
     /**
      * <pre>
@@ -254,7 +286,7 @@ public class WxPayRefundQueryResult extends WxPayBaseResult {
      * </pre>
      */
     @XStreamAlias("settlement_refund_fee")
-    private String settlementRefundFee;
+    private Integer settlementRefundFee;
 
     /**
      * <pre>
@@ -293,7 +325,7 @@ public class WxPayRefundQueryResult extends WxPayBaseResult {
      * </pre>
      */
     @XStreamAlias("coupon_refund_fee")
-    private String couponRefundFee;
+    private Integer couponRefundFee;
 
     /**
      * <pre>
@@ -306,7 +338,7 @@ public class WxPayRefundQueryResult extends WxPayBaseResult {
      * </pre>
      */
     @XStreamAlias("coupon_refund_count")
-    private String couponRefundCount;
+    private Integer couponRefundCount;
 
     private List<RefundCoupon> refundCoupons;
 
@@ -364,19 +396,19 @@ public class WxPayRefundQueryResult extends WxPayBaseResult {
       this.refundChannel = refundChannel;
     }
 
-    public String getRefundFee() {
+    public Integer getRefundFee() {
       return refundFee;
     }
 
-    public void setRefundFee(String refundFee) {
+    public void setRefundFee(Integer refundFee) {
       this.refundFee = refundFee;
     }
 
-    public String getSettlementRefundFee() {
+    public Integer getSettlementRefundFee() {
       return settlementRefundFee;
     }
 
-    public void setSettlementRefundFee(String settlementRefundFee) {
+    public void setSettlementRefundFee(Integer settlementRefundFee) {
       this.settlementRefundFee = settlementRefundFee;
     }
 
@@ -396,19 +428,19 @@ public class WxPayRefundQueryResult extends WxPayBaseResult {
       this.couponType = couponType;
     }
 
-    public String getCouponRefundFee() {
+    public Integer getCouponRefundFee() {
       return couponRefundFee;
     }
 
-    public void setCouponRefundFee(String couponRefundFee) {
+    public void setCouponRefundFee(Integer couponRefundFee) {
       this.couponRefundFee = couponRefundFee;
     }
 
-    public String getCouponRefundCount() {
+    public Integer getCouponRefundCount() {
       return couponRefundCount;
     }
 
-    public void setCouponRefundCount(String couponRefundCount) {
+    public void setCouponRefundCount(Integer couponRefundCount) {
       this.couponRefundCount = couponRefundCount;
     }
 
@@ -446,6 +478,8 @@ public class WxPayRefundQueryResult extends WxPayBaseResult {
        * 100
        * 退款代金券批次ID ,$n为下标，$m为下标，从0开始编号
        * </pre>
+       *
+       * @deprecated 貌似是被去掉了，但不知是何时！
        */
       @XStreamAlias("coupon_refund_batch_id")
       private String couponRefundBatchId;
@@ -474,9 +508,15 @@ public class WxPayRefundQueryResult extends WxPayBaseResult {
        * </pre>
        */
       @XStreamAlias("coupon_refund_fee")
-      private String couponRefundFee;
+      private Integer couponRefundFee;
 
-      public RefundCoupon(String couponRefundBatchId, String couponRefundId, String couponRefundFee) {
+      public RefundCoupon(String couponRefundId, Integer couponRefundFee) {
+        this.couponRefundId = couponRefundId;
+        this.couponRefundFee = couponRefundFee;
+      }
+
+      @Deprecated
+      public RefundCoupon(String couponRefundBatchId, String couponRefundId, Integer couponRefundFee) {
         this.couponRefundBatchId = couponRefundBatchId;
         this.couponRefundId = couponRefundId;
         this.couponRefundFee = couponRefundFee;
@@ -484,5 +524,6 @@ public class WxPayRefundQueryResult extends WxPayBaseResult {
     }
 
   }
+
 }
 
