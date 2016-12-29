@@ -15,10 +15,11 @@ public class ApiTestModule implements Module {
   @Override
   public void configure(Binder binder) {
     try (InputStream is1 = ClassLoader
-        .getSystemResourceAsStream("test-config.xml")) {
+      .getSystemResourceAsStream("test-config.xml")) {
       WxXmlMpInMemoryConfigStorage config = this
-          .fromXml(WxXmlMpInMemoryConfigStorage.class, is1);
+        .fromXml(WxXmlMpInMemoryConfigStorage.class, is1);
       config.setAccessTokenLock(new ReentrantLock());
+      config.setSslContextFilePath(config.getKeyPath());
       WxMpService wxService = new WxMpServiceImpl();
       wxService.setWxMpConfigStorage(config);
 
