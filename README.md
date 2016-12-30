@@ -21,6 +21,7 @@ Weixin Java Tools 微信公众号/企业号开发Java SDK
 1. 微信公众号官方文档入口地址：http://mp.weixin.qq.com/wiki （注意，从网上搜到的文档有的虽然地址前面跟这个一样，但明显左侧菜单不一致，是旧的文档，注意不要看错文档）。
 1. 各个模块的Javadoc可以在线查看：[weixin-java-mp](https://binarywang.github.io/weixin-java-mp-javadoc/)、[weixin-java-common](https://binarywang.github.io/weixin-java-common-javadoc/)、[weixin-java-cp](https://binarywang.github.io/weixin-java-cp-javadoc/)
 1. 本SDK要求的最低JDK版本是7，为满足少量还在使用JDK6的用户的需求，特意抽出独立的代码分支项目，请参考 https://github.com/binarywang/weixin-java-tools-for-jdk6 ，其他更早的JDK版本则需要自己改造实现。
+1. 如果想贡献代码，请阅读[贡献代码指南](CONTRIBUTION.md)。
 
 ===========
 
