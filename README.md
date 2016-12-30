@@ -5,7 +5,7 @@ Weixin Java Tools 微信公众号/企业号开发Java SDK
 
 ### 注意事项：
 1. 声明： ***本项目Fork自chanjarster/weixin-java-tools，但由于原项目已停止维护，故单独维护和发布，且发布到maven上的groupId也会不同，详细信息见下文。***
-1. 最新更新：2016-11-30 发布2.4.0正式版！
+1. 最新更新：**2016-11-30 发布[【2.4.0正式版】](https://github.com/Wechat-Group/weixin-java-tools/releases)**！
 1. 自2.0.0版本以来，公众号的接口调整比较大，主要是为了解决主接口类过于庞大不方便管理的问题，将接口实现代码按模块进行拆分。
 1. 详细开发文档请看 [Wiki](https://github.com/wechat-group/weixin-java-tools/wiki)，部分文档可能未能及时更新，如有发现，可以及时上报或者自行修改。
 1. 微信公众号官方文档入口地址：http://mp.weixin.qq.com/wiki （注意，从网上搜到的文档有的虽然地址前面跟这个一样，但明显左侧菜单不一致，是旧的文档，注意不要看错文档）。
