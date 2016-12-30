@@ -491,7 +491,7 @@ public class WxCpServiceImpl implements WxCpService {
     String responseText = get(url, null);
     JsonElement je = new JsonParser().parse(responseText);
     JsonObject jo = je.getAsJsonObject();
-    return new String[]{GsonHelper.getString(jo, "UserId"), GsonHelper.getString(jo, "DeviceId")};
+    return new String[]{GsonHelper.getString(jo, "UserId"), GsonHelper.getString(jo, "DeviceId"), GsonHelper.getString(jo, "OpenId")};
   }
 
   @Override
