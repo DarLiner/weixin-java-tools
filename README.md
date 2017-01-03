@@ -1,4 +1,4 @@
-Weixin Java Tools 微信公众号/企业号开发Java SDK
+Weixin Java Tools —— 微信公众号&企业号开发 Java SDK
 =====================================
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.binarywang/weixin-java-parent/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.binarywang/weixin-java-parent)
 [![Build Status](https://travis-ci.org/Wechat-Group/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/Wechat-Group/weixin-java-tools)
@@ -32,12 +32,11 @@ Weixin Java Tools 微信公众号/企业号开发Java SDK
 分别查看所有最新的版本。 
 
 ===========
-
-#### 本项目主要存放在github上，地址为 : https://github.com/wechat-group/weixin-java-tools
-但同时会在其他几个网站同步更新，地址分别是:
-* https://bitbucket.org/binarywang/weixin-java-tools
-* http://git.oschina.net/binary/weixin-java-tools
-* https://git.coding.net/binarywang/weixin-java-tools.git
+#### 本项目在几个著名的代码托管网站同步更新，地址分别是:
+* 码云：http://git.oschina.net/binary/weixin-java-tools
+* GitHub: https://github.com/wechat-group/weixin-java-tools
+* Bitbucket：https://bitbucket.org/binarywang/weixin-java-tools
+* Coding: https://git.coding.net/binarywang/weixin-java-tools.git
 
 ===========
 ## 可参考的Demo项目
