@@ -33,9 +33,8 @@ Weixin Java Tools 微信公众号/企业号开发Java SDK
 
 ===========
 
-#### 本项目主要存放在github上，地址为 :
-* https://github.com/wechat-group/weixin-java-tools
-* ===========但同时会在其他几个网站同步更新，地址分别是:
+#### 本项目主要存放在github上，地址为 : https://github.com/wechat-group/weixin-java-tools
+但同时会在其他几个网站同步更新，地址分别是:
 * https://bitbucket.org/binarywang/weixin-java-tools
 * http://git.oschina.net/binary/weixin-java-tools
 * https://git.coding.net/binarywang/weixin-java-tools.git
@@ -43,10 +42,10 @@ Weixin Java Tools 微信公众号/企业号开发Java SDK
 ===========
 ## 可参考的Demo项目
 #### 目前都是公众号的，风格不同，欢迎提供更多的demo供新手参考:
-1. https://github.com/wechat-group/weixin-java-mp-demo 
-1. https://github.com/wechat-group/weixin-java-mp-multi-demo (支持多公众号)
-1. https://github.com/wechat-group/weixin-java-tools-springmvc
-1. https://github.com/wechat-group/weixin-java-mp-demo-springboot
+* https://github.com/wechat-group/weixin-java-mp-demo 
+* https://github.com/wechat-group/weixin-java-mp-multi-demo (支持多公众号)
+* https://github.com/wechat-group/weixin-java-tools-springmvc
+* https://github.com/wechat-group/weixin-java-mp-demo-springboot
 
 ## Maven & Gradle 最新正式版本
 
