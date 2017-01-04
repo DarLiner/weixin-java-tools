@@ -4,9 +4,10 @@ import com.google.common.collect.Maps;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import io.restassured.internal.path.xml.NodeChildrenImpl;
+import io.restassured.internal.path.xml.NodeImpl;
 import io.restassured.path.xml.XmlPath;
 import io.restassured.path.xml.element.Node;
-import io.restassured.path.xml.element.NodeChildren;
+import io.restassured.path.xml.exception.XmlPathException;
 import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
 import org.slf4j.Logger;
@@ -186,12 +187,23 @@ public abstract class WxPayBaseResult {
   public Map<String, String> toMap() {
     Map<String, String> result = Maps.newHashMap();
     XmlPath xmlPath = new XmlPath(this.xmlString);
-    NodeChildren nodeChildren = xmlPath.getNodeChildren("xml");
-    Iterator<Node> iterator = nodeChildren.nodeIterator();
+    NodeImpl rootNode = null;
+    try {
+      rootNode = xmlPath.get("xml");
+    } catch (XmlPathException e) {
+      throw new RuntimeException("xml数据有问题，请核实！");
+    }
+
+    if (rootNode == null) {
+      throw new RuntimeException("xml数据有问题，请核实！");
+    }
+
+    Iterator<Node> iterator = rootNode.children().nodeIterator();
     while (iterator.hasNext()) {
       Node node = iterator.next();
       result.put(node.name(), node.value());
     }
+
     return result;
   }
 
