@@ -1,4 +1,4 @@
-Weixin Java Tools 微信公众号/企业号开发Java SDK
+Weixin Java Tools —— 微信公众号&企业号开发 Java SDK
 =====================================
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.binarywang/weixin-java-parent/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.binarywang/weixin-java-parent)
 [![Build Status](https://travis-ci.org/Wechat-Group/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/Wechat-Group/weixin-java-tools)
@@ -10,7 +10,7 @@ Weixin Java Tools 微信公众号/企业号开发Java SDK
 1. 自2.0.0版本以来，公众号的接口调整比较大，主要是为了解决主接口类过于庞大不方便管理的问题，将接口实现代码按模块进行拆分。
 1. SDK详细开发文档请查阅 [【Wiki】](https://github.com/wechat-group/weixin-java-tools/wiki)，部分文档可能未能及时更新，如有发现，可以及时上报或者自行修改。
 1. 各个模块的Javadoc可以在线查看（有可能是最新的测试版本的，请注意观察版本号）：[weixin-java-mp](https://binarywang.github.io/weixin-java-mp-javadoc/)、[weixin-java-common](https://binarywang.github.io/weixin-java-common-javadoc/)、[weixin-java-cp](https://binarywang.github.io/weixin-java-cp-javadoc/)
-1. 本SDK要求的最低JDK版本是7，为满足少量还在使用JDK6的用户的需求，特意抽出独立的代码分支项目，请参考[【此项目】]( https://github.com/binarywang/weixin-java-tools-for-jdk6) ，其他更早的JDK版本则需要自己改造实现。
+1. 本SDK要求的最低JDK版本是7，还在使用JDK6的用户请参考[【此项目】]( https://github.com/binarywang/weixin-java-tools-for-jdk6) ，而其他更早的JDK版本则需要自己改造实现。
 1. 如有新功能需求，发现BUG，或者由于微信官方接口调整导致的代码问题，可以直接在[【Issues】](https://github.com/Wechat-Group/weixin-java-tools/issues)页提出issue，便于讨论追踪问题；
 1. 如果想贡献代码，请阅读[【代码贡献指南】](CONTRIBUTION.md)。
 
@@ -32,21 +32,19 @@ Weixin Java Tools 微信公众号/企业号开发Java SDK
 分别查看所有最新的版本。 
 
 ===========
-
-#### 本项目主要存放在github上，地址为 :
-* https://github.com/wechat-group/weixin-java-tools
-* ===========但同时会在其他几个网站同步更新，地址分别是:
-* https://bitbucket.org/binarywang/weixin-java-tools
-* http://git.oschina.net/binary/weixin-java-tools
-* https://git.coding.net/binarywang/weixin-java-tools.git
+#### 本项目在几个著名的代码托管网站同步更新，地址分别是:
+* 码云：http://git.oschina.net/binary/weixin-java-tools
+* GitHub: https://github.com/wechat-group/weixin-java-tools
+* Bitbucket：https://bitbucket.org/binarywang/weixin-java-tools
+* Coding: https://git.coding.net/binarywang/weixin-java-tools.git
 
 ===========
 ## 可参考的Demo项目
 #### 目前都是公众号的，风格不同，欢迎提供更多的demo供新手参考:
-1. https://github.com/wechat-group/weixin-java-mp-demo 
-1. https://github.com/wechat-group/weixin-java-mp-multi-demo (支持多公众号)
-1. https://github.com/wechat-group/weixin-java-tools-springmvc
-1. https://github.com/wechat-group/weixin-java-mp-demo-springboot
+* https://github.com/wechat-group/weixin-java-mp-demo 
+* https://github.com/wechat-group/weixin-java-mp-multi-demo (支持多公众号)
+* https://github.com/wechat-group/weixin-java-tools-springmvc
+* https://github.com/wechat-group/weixin-java-mp-demo-springboot
 
 ## Maven & Gradle 最新正式版本
 

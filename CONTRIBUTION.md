@@ -1,4 +1,4 @@
-# 关于代码贡献
+# 代码贡献指南
 1. 非常欢迎和感谢对本项目发起Pull Request的同学，本项目代码风格为使用2个空格代表一个Tab，因此在提交代码时请注意一下，否则很容易在IDE格式化代码后与原代码产生大量diff，这样会给其他人阅读代码带来极大的困扰。为了便于设置，本项目引入editorconfig插件，请使用eclipse的同学在贡献代码前安装相关插件，IntelliJ IDEA新版本自带支持，如果没有可自行安装插件。
 1. 本项目可以采用两种方式接受代码贡献：
   * 第一种就是基于[Git Flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)开发流程，因此在发起Pull Request的时候请选择develop分支，详细步骤参考后文。
@@ -9,10 +9,10 @@
 * 在 GitHub 上 `fork` 到自己的仓库，如 `my_user/weixin-java-tools`，然后 `clone` 到本地，并设置用户信息。
 
 ```bash
- $ git clone git@github.com:my_user/weixin-java-tools.git
- $ cd weixin-java-tools
- $ git config user.name "yourname"
- $ git config user.email "your email"
+$ git clone git@github.com:my_user/weixin-java-tools.git
+$ cd weixin-java-tools
+$ git config user.name "yourname"
+$ git config user.email "your email"
 ```
 * 修改代码后提交，并推送到自己的仓库。
 
