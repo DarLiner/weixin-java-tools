@@ -83,7 +83,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     String url = PAY_BASE_URL + "/pay/refundquery";
     String responseContent = this.executeRequest(url, request.toXML());
     WxPayRefundQueryResult result = WxPayRefundQueryResult.fromXML(responseContent, WxPayRefundQueryResult.class);
-    result.composeRefundRecords(responseContent);
+    result.composeRefundRecords();
     this.checkResult(result);
     return result;
   }
@@ -189,7 +189,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     String url = PAY_BASE_URL + "/pay/orderquery";
     String responseContent = this.executeRequest(url, request.toXML());
     WxPayOrderQueryResult result = WxPayOrderQueryResult.fromXML(responseContent, WxPayOrderQueryResult.class);
-    result.composeCoupons(responseContent);
+    result.composeCoupons();
     this.checkResult(result);
     return result;
   }

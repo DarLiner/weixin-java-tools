@@ -52,11 +52,11 @@ public class WxPayRedpackQueryResult extends WxPayBaseResult {
    * RECEIVED
    * string(16)
    * SENDING:发放中，
-     * SENT:已发放待领取，
-     * FAILED：发放失败，
-     * RECEIVED:已领取，
-     * RFUND_ING:退款中，
-     * REFUND:已退款
+   * SENT:已发放待领取，
+   * FAILED：发放失败，
+   * RECEIVED:已领取，
+   * RFUND_ING:退款中，
+   * REFUND:已退款
    * </pre>
    */
   @XStreamAlias("status")

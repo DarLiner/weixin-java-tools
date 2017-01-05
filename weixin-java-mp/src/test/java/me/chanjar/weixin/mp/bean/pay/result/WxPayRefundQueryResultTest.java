@@ -33,9 +33,8 @@ public class WxPayRefundQueryResultTest {
       "   <transaction_id><![CDATA[1008450740201411110005820873]]></transaction_id>\n" +
       "</xml>";
 
-    WxPayRefundQueryResult result = new WxPayRefundQueryResult();
-    result.setRefundCount(1);
-    result.composeRefundRecords(xmlString);
+    WxPayRefundQueryResult result = WxPayRefundQueryResult.fromXML(xmlString, WxPayRefundQueryResult.class);
+    result.composeRefundRecords();
 
     Assert.assertNotNull(result.getRefundRecords());
     Assert.assertEquals(result.getRefundRecords().size(), 1);

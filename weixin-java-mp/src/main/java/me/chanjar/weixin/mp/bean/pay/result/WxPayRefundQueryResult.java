@@ -184,10 +184,13 @@ public class WxPayRefundQueryResult extends WxPayBaseResult {
     this.refundRecords = refundRecords;
   }
 
-  public void composeRefundRecords(String xmlString) {
+  /**
+   * 组装生成退款记录属性的内容
+    */
+  public void composeRefundRecords() {
     if (this.refundCount != null && this.refundCount > 0) {
       this.refundRecords = Lists.newArrayList();
-      XmlPath xmlPath = new XmlPath(xmlString);
+      XmlPath xmlPath = new XmlPath(this.getXmlString());
 
       for (int i = 0; i < this.refundCount; i++) {
         RefundRecord refundRecord = new RefundRecord();
