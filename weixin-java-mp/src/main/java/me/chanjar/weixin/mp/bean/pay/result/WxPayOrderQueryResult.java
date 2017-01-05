@@ -397,9 +397,9 @@ public class WxPayOrderQueryResult extends WxPayBaseResult {
       this.coupons = Lists.newArrayList();
       XmlPath xmlPath = new XmlPath(this.getXmlString());
       for (int i = 0; i < this.couponCount; i++){
-        this.coupons.add(new Coupon(this.getXmlValueIfExists(xmlPath, "xml.coupon_type_" + i, String.class),
-          this.getXmlValueIfExists(xmlPath, "xml.coupon_id_" + i, String.class),
-          this.getXmlValueIfExists(xmlPath, "xml.coupon_fee_" + i, Integer.class)));
+        this.coupons.add(new Coupon(this.getXmlValue(xmlPath, "xml.coupon_type_" + i, String.class),
+          this.getXmlValue(xmlPath, "xml.coupon_id_" + i, String.class),
+          this.getXmlValue(xmlPath, "xml.coupon_fee_" + i, Integer.class)));
       }
     }
   }

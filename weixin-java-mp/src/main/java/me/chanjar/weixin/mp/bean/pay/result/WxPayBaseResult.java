@@ -207,7 +207,7 @@ public abstract class WxPayBaseResult {
     return result;
   }
 
-  private String getXmlValueIfExists(XmlPath xmlPath, String path) {
+  private String getXmlValue(XmlPath xmlPath, String path) {
     if (xmlPath.get(path) instanceof NodeChildrenImpl) {
       if (((NodeChildrenImpl) xmlPath.get(path)).size() == 0) {
         return null;
@@ -217,8 +217,8 @@ public abstract class WxPayBaseResult {
     return xmlPath.getString(path);
   }
 
-  protected <T> T getXmlValueIfExists(XmlPath xmlPath, String path, Class<T> clz) {
-    String value = this.getXmlValueIfExists(xmlPath, path);
+  protected <T> T getXmlValue(XmlPath xmlPath, String path, Class<T> clz) {
+    String value = this.getXmlValue(xmlPath, path);
     if (value == null) {
       return null;
     }
