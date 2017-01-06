@@ -7,6 +7,7 @@ import me.chanjar.weixin.mp.bean.pay.request.WxPaySendRedpackRequest;
 import me.chanjar.weixin.mp.bean.pay.request.WxPayUnifiedOrderRequest;
 import me.chanjar.weixin.mp.bean.pay.result.*;
 
+import java.io.File;
 import java.util.Map;
 
 /**
@@ -235,4 +236,32 @@ public interface WxMpPayService {
    */
   WxEntPayQueryResult queryEntPay(String partnerTradeNo) throws WxErrorException;
 
+  /**
+   * <pre>
+   * 扫码支付模式一生成二维码的方法
+   * 二维码中的内容为链接，形式为：
+   * weixin://wxpay/bizpayurl?sign=XXXXX&appid=XXXXX&mch_id=XXXXX&product_id=XXXXXX&time_stamp=XXXXXX&nonce_str=XXXXX
+   * 其中XXXXX为商户需要填写的内容，商户将该链接生成二维码，如需要打印发布二维码，需要采用此格式。商户可调用第三方库生成二维码图片。
+   * 文档详见: https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_4
+   * </pre>
+   * @param productId 产品Id
+   * @param sideLength 要生成的二维码的边长，如果为空，则取默认值400
+   * @param logoFile 商户logo图片的文件对象，可以为空
+   * @return 生成的二维码的字节数组
+   */
+  byte[] createScanPayQrcodeMode1(String productId, File logoFile, Integer sideLength);
+
+  /**
+   * <pre>
+   * 扫码支付模式二生成二维码的方法
+   * 对应链接格式：weixin：//wxpay/bizpayurl?sr=XXXXX。请商户调用第三方库将code_url生成二维码图片。
+   * 该模式链接较短，生成的二维码打印到结账小票上的识别率较高。
+   * 文档详见: https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_5
+   * </pre>
+   * @param codeUrl 微信返回的交易会话的二维码链接
+   * @param logoFile 商户logo图片的文件对象，可以为空
+   * @param sideLength 要生成的二维码的边长，如果为空，则取默认值400
+   * @return 生成的二维码的字节数组
+   */
+  byte[] createScanPayQrcodeMode2(String codeUrl, File logoFile, Integer sideLength);
 }

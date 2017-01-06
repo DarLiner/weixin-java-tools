@@ -1,5 +1,7 @@
 package me.chanjar.weixin.mp.api.impl;
 
+import com.github.binarywang.utils.qrcode.QrcodeUtils;
+import com.google.common.collect.Maps;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.BeanUtils;
@@ -25,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLContext;
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -314,6 +317,41 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     WxEntPayQueryResult result = WxEntPayQueryResult.fromXML(responseContent, WxEntPayQueryResult.class);
     this.checkResult(result);
     return result;
+  }
+
+  @Override
+  public byte[] createScanPayQrcodeMode1(String productId, File logoFile, Integer sideLength) {
+    //weixin://wxpay/bizpayurl?sign=XXXXX&appid=XXXXX&mch_id=XXXXX&product_id=XXXXXX&time_stamp=XXXXXX&nonce_str=XXXXX
+    StringBuilder codeUrl = new StringBuilder("weixin://wxpay/bizpayurl?");
+    Map<String, String> params = Maps.newHashMap();
+    params.put("appid", this.getConfig().getAppId());
+    params.put("mch_id", this.getConfig().getPartnerId());
+    params.put("product_id", productId);
+    params.put("time_stamp", String.valueOf(System.currentTimeMillis()));
+    params.put("nonce_str", String.valueOf(System.currentTimeMillis()));
+
+    String sign = this.createSign(params);
+    params.put("sign", sign);
+
+    for (String key : params.keySet()) {
+      codeUrl.append(key + "=" + params.get(key) + "&");
+    }
+
+    String content = codeUrl.toString().substring(0, codeUrl.length() - 1);
+    if (sideLength == null || sideLength < 1) {
+      return QrcodeUtils.createQrcode(content, logoFile);
+    }
+
+    return QrcodeUtils.createQrcode(content, sideLength, logoFile);
+  }
+
+  @Override
+  public byte[] createScanPayQrcodeMode2(String codeUrl, File logoFile, Integer sideLength) {
+    if (sideLength == null || sideLength < 1) {
+      return QrcodeUtils.createQrcode(codeUrl, logoFile);
+    }
+
+    return QrcodeUtils.createQrcode(codeUrl, sideLength, logoFile);
   }
 
   private String executeRequest(String url, String requestStr) throws WxErrorException {

@@ -1,5 +1,6 @@
 package me.chanjar.weixin.mp.api.impl;
 
+import com.github.binarywang.utils.qrcode.QrcodeUtils;
 import com.google.inject.Inject;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.ApiTestModule;
@@ -10,8 +11,12 @@ import me.chanjar.weixin.mp.bean.pay.request.WxPayRefundRequest;
 import me.chanjar.weixin.mp.bean.pay.request.WxPaySendRedpackRequest;
 import me.chanjar.weixin.mp.bean.pay.request.WxPayUnifiedOrderRequest;
 import me.chanjar.weixin.mp.bean.pay.result.*;
+import org.testng.Assert;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**
  * 测试支付相关接口
@@ -22,7 +27,6 @@ import org.testng.annotations.Test;
 @Test
 @Guice(modules = ApiTestModule.class)
 public class WxMpPayServiceImplTest {
-
   @Inject
   protected WxMpService wxService;
 
@@ -32,9 +36,17 @@ public class WxMpPayServiceImplTest {
   }
 
   /**
-   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#refund(WxPayRefundRequest)} .
+   * 需要证书的接口需要先执行该方法
    */
   @Test
+  public void setSSLKey(){
+    WxXmlMpInMemoryConfigStorage config = (WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage();
+    config.setSslContextFilePath(config.getKeyPath());
+  }
+  /**
+   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#refund(WxPayRefundRequest)} .
+   */
+  @Test(dependsOnMethods = {"setSSLKey"})
   public void testRefund() throws Exception {
     WxPayRefundRequest request = new WxPayRefundRequest();
     request.setOutRefundNo("aaa");
@@ -44,7 +56,6 @@ public class WxMpPayServiceImplTest {
     WxPayRefundResult result = this.wxService.getPayService().refund(request);
     System.err.println(result);
   }
-
 
   /**
    * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#refundQuery(String, String, String, String)} .
@@ -63,15 +74,10 @@ public class WxMpPayServiceImplTest {
     System.err.println(result);
   }
 
-  @Test
-  public void testCheckJSSDKCallbackDataSignature() throws Exception {
-
-  }
-
   /**
    * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#sendRedpack(WxPaySendRedpackRequest)} .
    */
-  @Test
+  @Test(dependsOnMethods = {"setSSLKey"})
   public void testSendRedpack() throws Exception {
     WxPaySendRedpackRequest request = new WxPaySendRedpackRequest();
     request.setActName("abc");
@@ -86,7 +92,7 @@ public class WxMpPayServiceImplTest {
   /**
    * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#queryRedpack(String)}.
    */
-  @Test
+  @Test(dependsOnMethods = {"setSSLKey"})
   public void testQueryRedpack() throws Exception {
     WxPayRedpackQueryResult redpackResult = this.wxService.getPayService().queryRedpack("aaaa");
     System.err.println(redpackResult);
@@ -125,7 +131,7 @@ public class WxMpPayServiceImplTest {
   /**
    * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#entPay(WxEntPayRequest)}.
    */
-  @Test
+  @Test(dependsOnMethods = {"setSSLKey"})
   public final void testEntPay() throws WxErrorException {
     WxEntPayRequest request = new WxEntPayRequest();
     System.err.println(this.wxService.getPayService().entPay(request));
@@ -134,8 +140,33 @@ public class WxMpPayServiceImplTest {
   /**
    * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#queryEntPay(String)}.
    */
-  @Test
+  @Test(dependsOnMethods = {"setSSLKey"})
   public final void testQueryEntPay() throws WxErrorException {
     System.err.println(this.wxService.getPayService().queryEntPay("11212121"));
   }
+
+  @Test
+  public void testCreateScanPayQrcodeMode1() throws Exception {
+    String productId = "abc";
+    byte[] bytes = this.wxService.getPayService().createScanPayQrcodeMode1(productId, null, null);
+    Path qrcodeFilePath = Files.createTempFile("qrcode_", ".jpg");
+    Files.write(qrcodeFilePath, bytes);
+    String qrcodeContent = QrcodeUtils.decodeQrcode(qrcodeFilePath.toFile());
+    System.out.println(qrcodeContent);
+
+    Assert.assertTrue(qrcodeContent.startsWith("weixin://wxpay/bizpayurl?"));
+    Assert.assertTrue(qrcodeContent.contains("product_id=" + productId));
+  }
+
+  @Test
+  public void testCreateScanPayQrcodeMode2() throws Exception {
+    String qrcodeContent = "abc";
+    byte[] bytes = this.wxService.getPayService().createScanPayQrcodeMode2(qrcodeContent, null, null);
+    Path qrcodeFilePath = Files.createTempFile("qrcode_", ".jpg");
+    Files.write(qrcodeFilePath, bytes);
+
+    Assert.assertEquals(QrcodeUtils.decodeQrcode(qrcodeFilePath.toFile()), qrcodeContent);
+  }
+
+
 }

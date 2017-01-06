@@ -19,7 +19,6 @@ public class ApiTestModule implements Module {
       WxXmlMpInMemoryConfigStorage config = this
         .fromXml(WxXmlMpInMemoryConfigStorage.class, is1);
       config.setAccessTokenLock(new ReentrantLock());
-      config.setSslContextFilePath(config.getKeyPath());
       WxMpService wxService = new WxMpServiceImpl();
       wxService.setWxMpConfigStorage(config);
 
