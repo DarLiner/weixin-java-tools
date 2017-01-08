@@ -1,10 +1,7 @@
 package me.chanjar.weixin.mp.api;
 
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.mp.bean.pay.request.WxEntPayRequest;
-import me.chanjar.weixin.mp.bean.pay.request.WxPayRefundRequest;
-import me.chanjar.weixin.mp.bean.pay.request.WxPaySendRedpackRequest;
-import me.chanjar.weixin.mp.bean.pay.request.WxPayUnifiedOrderRequest;
+import me.chanjar.weixin.mp.bean.pay.request.*;
 import me.chanjar.weixin.mp.bean.pay.result.*;
 
 import java.io.File;
@@ -182,7 +179,6 @@ public interface WxMpPayService {
    */
   boolean checkSign(Map<String, String> params, String signKey);
 
-
   /**
    * 发送微信红包给个人用户
    * <pre>
@@ -264,4 +260,17 @@ public interface WxMpPayService {
    * @return 生成的二维码的字节数组
    */
   byte[] createScanPayQrcodeMode2(String codeUrl, File logoFile, Integer sideLength);
+
+  /**
+   * <pre>
+   * 交易保障
+   * 应用场景：
+   *  商户在调用微信支付提供的相关接口时，会得到微信支付返回的相关信息以及获得整个接口的响应时间。
+   *  为提高整体的服务水平，协助商户一起提高服务质量，微信支付提供了相关接口调用耗时和返回信息的主动上报接口，
+   *  微信支付可以根据商户侧上报的数据进一步优化网络部署，完善服务监控，和商户更好的协作为用户提供更好的业务体验。
+   * 接口地址： https://api.mch.weixin.qq.com/payitil/report
+   * 是否需要证书：不需要
+   * </pre>
+   */
+  void report(WxPayReportRequest request) throws WxErrorException;
 }

@@ -6,10 +6,7 @@ import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.ApiTestModule;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
-import me.chanjar.weixin.mp.bean.pay.request.WxEntPayRequest;
-import me.chanjar.weixin.mp.bean.pay.request.WxPayRefundRequest;
-import me.chanjar.weixin.mp.bean.pay.request.WxPaySendRedpackRequest;
-import me.chanjar.weixin.mp.bean.pay.request.WxPayUnifiedOrderRequest;
+import me.chanjar.weixin.mp.bean.pay.request.*;
 import me.chanjar.weixin.mp.bean.pay.result.*;
 import org.testng.Assert;
 import org.testng.annotations.Guice;
@@ -33,6 +30,18 @@ public class WxMpPayServiceImplTest {
   @Test
   public void testGetPayInfo() throws Exception {
 
+  }
+
+  @Test
+  public void testReport() throws Exception {
+    WxPayReportRequest request = new WxPayReportRequest();
+    request.setInterfaceUrl("hahahah");
+    request.setSignType("HMAC-SHA256");//貌似接口未校验此字段
+    request.setExecuteTime(1000);
+    request.setReturnCode("aaa");
+    request.setResultCode("aaa");
+    request.setUserIp("8.8.8");
+    this.wxService.getPayService().report(request);
   }
 
   /**

@@ -95,7 +95,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   private void checkResult(WxPayBaseResult result) throws WxErrorException {
     //校验返回结果签名
     Map<String, String> map = result.toMap();
-    if (!this.checkSign(map)) {
+    if (result.getSign() != null &&!this.checkSign(map)) {
       log.debug("校验结果签名失败，参数：{}", map);
       throw new WxErrorException(WxError.newBuilder().setErrorCode(-1).setErrorMsg("参数格式校验错误！").build());
     }
@@ -352,6 +352,17 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     }
 
     return QrcodeUtils.createQrcode(codeUrl, sideLength, logoFile);
+  }
+
+  public void report(WxPayReportRequest request) throws WxErrorException {
+    BeanUtils.checkRequiredFields(request);
+    this.initRequest(request);
+    request.setSign(this.createSign(request));
+
+    String url = PAY_BASE_URL + "/payitil/report";
+    String responseContent = this.wxMpService.post(url, request.toXML());
+    WxPayBaseResult result = WxPayBaseResult.fromXML(responseContent, WxPayBaseResult.class);
+    this.checkResult(result);
   }
 
   private String executeRequest(String url, String requestStr) throws WxErrorException {
