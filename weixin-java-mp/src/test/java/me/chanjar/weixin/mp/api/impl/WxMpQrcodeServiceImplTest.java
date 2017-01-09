@@ -19,7 +19,7 @@ import java.io.File;
  */
 @Test(groups = "qrCodeAPI")
 @Guice(modules = ApiTestModule.class)
-public class WxMpQrcodeServiceImplTest1 {
+public class WxMpQrcodeServiceImplTest {
   @Inject
   protected WxMpService wxService;
 
