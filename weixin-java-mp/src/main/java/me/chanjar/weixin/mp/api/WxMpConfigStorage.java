@@ -144,4 +144,8 @@ public interface WxMpConfigStorage {
    */
   boolean autoRefreshToken();
 
+  /**
+   * 微信支付是否使用仿真测试环境
+   */
+  boolean useSandboxForWxPay();
 }

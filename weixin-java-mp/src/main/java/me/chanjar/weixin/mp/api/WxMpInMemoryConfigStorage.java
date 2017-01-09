@@ -344,4 +344,9 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   public boolean autoRefreshToken() {
     return true;
   }
+
+  @Override
+  public boolean useSandboxForWxPay() {
+    return false;
+  }
 }

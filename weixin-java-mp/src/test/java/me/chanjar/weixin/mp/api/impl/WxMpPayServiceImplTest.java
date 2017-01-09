@@ -8,12 +8,13 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.bean.pay.request.*;
 import me.chanjar.weixin.mp.bean.pay.result.*;
-import org.testng.Assert;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+
+import static org.testng.Assert.*;
 
 /**
  * 测试支付相关接口
@@ -52,6 +53,7 @@ public class WxMpPayServiceImplTest {
     WxXmlMpInMemoryConfigStorage config = (WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage();
     config.setSslContextFilePath(config.getKeyPath());
   }
+
   /**
    * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#refund(WxPayRefundRequest)} .
    */
@@ -163,8 +165,8 @@ public class WxMpPayServiceImplTest {
     String qrcodeContent = QrcodeUtils.decodeQrcode(qrcodeFilePath.toFile());
     System.out.println(qrcodeContent);
 
-    Assert.assertTrue(qrcodeContent.startsWith("weixin://wxpay/bizpayurl?"));
-    Assert.assertTrue(qrcodeContent.contains("product_id=" + productId));
+    assertTrue(qrcodeContent.startsWith("weixin://wxpay/bizpayurl?"));
+    assertTrue(qrcodeContent.contains("product_id=" + productId));
   }
 
   @Test
@@ -174,7 +176,7 @@ public class WxMpPayServiceImplTest {
     Path qrcodeFilePath = Files.createTempFile("qrcode_", ".jpg");
     Files.write(qrcodeFilePath, bytes);
 
-    Assert.assertEquals(QrcodeUtils.decodeQrcode(qrcodeFilePath.toFile()), qrcodeContent);
+    assertEquals(QrcodeUtils.decodeQrcode(qrcodeFilePath.toFile()), qrcodeContent);
   }
 
 

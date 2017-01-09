@@ -64,4 +64,9 @@ public class WxXmlMpInMemoryConfigStorage
   public void setAccessTokenLock(Lock lock){
     super.accessTokenLock = lock;
   }
+
+  @Override
+  public boolean useSandboxForWxPay() {
+    return true;
+  }
 }

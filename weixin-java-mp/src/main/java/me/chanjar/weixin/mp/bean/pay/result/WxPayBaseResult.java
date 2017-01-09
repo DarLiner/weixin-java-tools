@@ -24,8 +24,7 @@ import java.util.Map;
  * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  * </pre>
  */
-@XStreamAlias("xml")
-public class WxPayBaseResult {
+public abstract class WxPayBaseResult {
   /**
    * 返回状态码
    */
