@@ -445,7 +445,9 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   public String createSign(Map<String, String> params, String signKey) {
     if(this.getConfig().useSandboxForWxPay()){
       //使用仿真测试环境
-      return  "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456";
+      //TODO 目前测试发现，以下两行代码都会出问题，所以暂不建议使用这个仿真测试环境
+      signKey = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456";
+      //return "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456";
     }
 
     SortedMap<String, String> sortedMap = new TreeMap<>(params);

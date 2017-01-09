@@ -73,7 +73,10 @@ public class WxMpPayServiceImplTest {
    */
   @Test
   public void testRefundQuery() throws Exception {
-    WxPayRefundQueryResult result = this.wxService.getPayService().refundQuery("1", "", "", "");
+    WxPayRefundQueryResult result;
+
+    result = this.wxService.getPayService().refundQuery("1", "", "", "");
+    System.err.println(result);
     result = this.wxService.getPayService().refundQuery("", "2", "", "");
     System.err.println(result);
     result = this.wxService.getPayService().refundQuery("", "", "3", "");
