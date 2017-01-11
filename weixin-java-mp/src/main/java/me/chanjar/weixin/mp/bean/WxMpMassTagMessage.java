@@ -16,6 +16,7 @@ public class WxMpMassTagMessage implements Serializable {
   private String msgType;
   private String content;
   private String mediaId;
+  private boolean isSendAll = false;
   private boolean sendIgnoreReprint = false;
 
   public WxMpMassTagMessage() {
@@ -88,4 +89,18 @@ public class WxMpMassTagMessage implements Serializable {
     this.sendIgnoreReprint = sendIgnoreReprint;
   }
 
+  /**
+   * 是否群发给所有用户
+   */
+  public boolean isSendAll() {
+    return isSendAll;
+  }
+
+  public void setSendAll(boolean sendAll) {
+    if(sendAll){
+      this.tagId = null;
+    }
+
+    isSendAll = sendAll;
+  }
 }

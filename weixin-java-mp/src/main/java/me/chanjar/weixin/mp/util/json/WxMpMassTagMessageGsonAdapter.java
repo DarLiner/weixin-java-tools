@@ -24,7 +24,7 @@ public class WxMpMassTagMessageGsonAdapter implements JsonSerializer<WxMpMassTag
     JsonObject messageJson = new JsonObject();
 
     JsonObject filter = new JsonObject();
-    if (null == message.getTagId()) {
+    if (message.isSendAll() || null == message.getTagId()) {
       filter.addProperty("is_to_all", true);
     } else {
       filter.addProperty("is_to_all", false);
