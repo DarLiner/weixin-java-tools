@@ -8,9 +8,9 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.bean.pay.request.*;
 import me.chanjar.weixin.mp.bean.pay.result.*;
-import org.testng.annotations.Guice;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -25,12 +25,21 @@ import static org.testng.Assert.*;
 @Test
 @Guice(modules = ApiTestModule.class)
 public class WxMpPayServiceImplTest {
+
   @Inject
   protected WxMpService wxService;
 
   @Test
   public void testGetPayInfo() throws Exception {
 
+  }
+
+  @Test
+  public void testDownloadBill() throws Exception {
+    File file = this.wxService.getPayService().downloadBill("20170101","ALL","GZIP","1111111");
+    assertNotNull(file);
+    //必填字段为空时，抛出异常
+    this.wxService.getPayService().downloadBill("","","",null);
   }
 
   @Test

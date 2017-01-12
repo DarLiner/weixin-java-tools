@@ -240,9 +240,10 @@ public interface WxMpPayService {
    * 其中XXXXX为商户需要填写的内容，商户将该链接生成二维码，如需要打印发布二维码，需要采用此格式。商户可调用第三方库生成二维码图片。
    * 文档详见: https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_4
    * </pre>
-   * @param productId 产品Id
+   *
+   * @param productId  产品Id
    * @param sideLength 要生成的二维码的边长，如果为空，则取默认值400
-   * @param logoFile 商户logo图片的文件对象，可以为空
+   * @param logoFile   商户logo图片的文件对象，可以为空
    * @return 生成的二维码的字节数组
    */
   byte[] createScanPayQrcodeMode1(String productId, File logoFile, Integer sideLength);
@@ -254,8 +255,9 @@ public interface WxMpPayService {
    * 该模式链接较短，生成的二维码打印到结账小票上的识别率较高。
    * 文档详见: https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_5
    * </pre>
-   * @param codeUrl 微信返回的交易会话的二维码链接
-   * @param logoFile 商户logo图片的文件对象，可以为空
+   *
+   * @param codeUrl    微信返回的交易会话的二维码链接
+   * @param logoFile   商户logo图片的文件对象，可以为空
    * @param sideLength 要生成的二维码的边长，如果为空，则取默认值400
    * @return 生成的二维码的字节数组
    */
@@ -273,4 +275,25 @@ public interface WxMpPayService {
    * </pre>
    */
   void report(WxPayReportRequest request) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 下载对账单
+   * 商户可以通过该接口下载历史交易清单。比如掉单、系统错误等导致商户侧和微信侧数据不一致，通过对账单核对后可校正支付状态。
+   * 注意：
+   * 1、微信侧未成功下单的交易不会出现在对账单中。支付成功后撤销的交易会出现在对账单中，跟原支付单订单号一致，bill_type为REVOKED；
+   * 2、微信在次日9点启动生成前一天的对账单，建议商户10点后再获取；
+   * 3、对账单中涉及金额的字段单位为“元”。
+   * 4、对账单接口只能下载三个月以内的账单。
+   * 接口链接：https://api.mch.weixin.qq.com/pay/downloadbill
+   * 详情请见: <a href="https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_6">下载对账单</a>
+   * </pre>
+   *
+   * @param billDate   对账单日期 bill_date	下载对账单的日期，格式：20140603
+   * @param billType   账单类型	bill_type	ALL，返回当日所有订单信息，默认值，SUCCESS，返回当日成功支付的订单，REFUND，返回当日退款订单
+   * @param tarType    压缩账单	tar_type	非必传参数，固定值：GZIP，返回格式为.gzip的压缩包账单。不传则默认为数据流形式。
+   * @param deviceInfo 设备号	device_info	非必传参数，终端设备号
+   * @return 保存到本地的临时文件
+   */
+  File downloadBill(String billDate, String billType, String tarType, String deviceInfo) throws WxErrorException;
 }

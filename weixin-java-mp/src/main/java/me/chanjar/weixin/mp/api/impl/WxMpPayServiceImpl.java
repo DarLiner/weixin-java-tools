@@ -41,6 +41,7 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   private static final String PAY_BASE_URL = "https://api.mch.weixin.qq.com";
   private static final String[] TRADE_TYPES = new String[]{"JSAPI", "NATIVE", "APP"};
   private static final String[] REFUND_ACCOUNT = new String[]{"REFUND_SOURCE_RECHARGE_FUNDS", "REFUND_SOURCE_UNSETTLED_FUNDS"};
+  private static final String[] BILL_TYPE = new String[]{"ALL","REFUND","SUCCESS"};;
   private final Logger log = LoggerFactory.getLogger(this.getClass());
   private WxMpService wxMpService;
 
@@ -119,6 +120,19 @@ public class WxMpPayServiceImpl implements WxMpPayService {
       log.error("结果业务代码异常，参数：{},详细：{}", map, error);
       throw new WxErrorException(error);
     }
+  }
+
+  private void checkParameters(WxPayDownloadBillRequest request) throws WxErrorException {
+    BeanUtils.checkRequiredFields(request);
+
+    if (StringUtils.isNotBlank(request.getTarType()) && !"GZIP".equals(request.getTarType())) {
+      throw new IllegalArgumentException("tar_type值如果存在，只能为GZIP");
+    }
+
+    if ( !ArrayUtils.contains(BILL_TYPE, request.getBillType())) {
+        throw new IllegalArgumentException("bill_tpye目前必须为" + Arrays.toString(BILL_TYPE) + "其中之一,实际值：" + request.getBillType());
+    }
+
   }
 
   private void checkParameters(WxPayRefundRequest request) throws WxErrorException {
@@ -371,6 +385,26 @@ public class WxMpPayServiceImpl implements WxMpPayService {
     String responseContent = this.wxMpService.post(url, request.toXML());
     WxPayCommonResult result = WxPayBaseResult.fromXML(responseContent, WxPayCommonResult.class);
     this.checkResult(result);
+  }
+
+  @Override
+  public File downloadBill(String billDate, String billType, String tarType, String deviceInfo) throws WxErrorException {
+    WxPayDownloadBillRequest request = new WxPayDownloadBillRequest();
+    this.initRequest(request);
+    request.setBillType(billType);
+    request.setBillDate(billDate);
+    request.setTarType(tarType);
+    request.setDeviceInfo(deviceInfo);
+    this.checkParameters(request);
+    request.setSign(this.createSign(request));
+
+    String url = this.getPayBaseUrl() + "/pay/downloadbill";
+    //TODO 返回的内容可能是文件流，也有可能是xml，需要区分对待
+    String responseContent = this.wxMpService.post(url, request.toXML());
+
+    WxPayCommonResult result = WxPayBaseResult.fromXML(responseContent, WxPayCommonResult.class);
+    this.checkResult(result);
+    return null;
   }
 
   private String executeRequest(String url, String requestStr) throws WxErrorException {
