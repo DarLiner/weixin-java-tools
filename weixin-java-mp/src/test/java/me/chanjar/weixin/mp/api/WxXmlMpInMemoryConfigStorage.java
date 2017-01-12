@@ -67,6 +67,8 @@ public class WxXmlMpInMemoryConfigStorage
 
   @Override
   public boolean useSandboxForWxPay() {
-    return true;
+    return false;
+    //沙箱环境不成熟，有问题无法使用，暂时屏蔽掉
+    // return true;
   }
 }
