@@ -1,5 +1,6 @@
 package me.chanjar.weixin.mp.api.impl;
 
+import com.google.gson.JsonObject;
 import me.chanjar.weixin.common.bean.menu.WxMenu;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpMenuService;
@@ -68,8 +69,10 @@ public class WxMpMenuServiceImpl implements WxMpMenuService {
   @Override
   public WxMenu menuTryMatch(String userid) throws WxErrorException {
     String url = API_URL_PREFIX + "/trymatch";
+    JsonObject jsonObject = new JsonObject();
+    jsonObject.addProperty("user_id",userid);
     try {
-      String resultContent = this.wxMpService.get(url, "user_id=" + userid);
+      String resultContent = this.wxMpService.post(url, jsonObject.toString());
       return WxMenu.fromJson(resultContent);
     } catch (WxErrorException e) {
       // 46003 不存在的菜单数据     46002 不存在的菜单版本

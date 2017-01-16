@@ -34,7 +34,8 @@ public class WxMpMenuServiceImplTest {
 
   @Test
   public void testMenuTryMatch() throws Exception {
-    //TODO
+    WxMenu menu = this.wxService.getMenuService().menuTryMatch("...");
+    System.out.println(menu);
   }
 
   @Test
