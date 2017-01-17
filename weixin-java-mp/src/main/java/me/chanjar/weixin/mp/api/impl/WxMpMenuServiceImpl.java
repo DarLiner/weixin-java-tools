@@ -1,6 +1,7 @@
 package me.chanjar.weixin.mp.api.impl;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import me.chanjar.weixin.common.bean.menu.WxMenu;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpMenuService;
@@ -24,7 +25,7 @@ public class WxMpMenuServiceImpl implements WxMpMenuService {
   }
 
   @Override
-  public void menuCreate(WxMenu menu) throws WxErrorException {
+  public String menuCreate(WxMenu menu) throws WxErrorException {
     String menuJson = menu.toJson();
     String url = API_URL_PREFIX + "/create";
     if (menu.getMatchRule() != null) {
@@ -35,6 +36,29 @@ public class WxMpMenuServiceImpl implements WxMpMenuService {
 
     String result = this.wxMpService.post(url, menuJson);
     log.debug("创建菜单：{},结果：{}", menuJson, result);
+
+    if (menu.getMatchRule() != null) {
+      return new JsonParser().parse(result).getAsJsonObject().get("menuid").getAsString();
+    }
+
+    return null;
+  }
+
+  @Override
+  public String menuCreate(String json) throws WxErrorException {
+    JsonParser jsonParser = new JsonParser();
+    JsonObject jsonObject = jsonParser.parse(json).getAsJsonObject();
+    String url = API_URL_PREFIX + "/create";
+    if (jsonObject.get("matchrule") != null) {
+      url = API_URL_PREFIX + "/addconditional";
+    }
+
+    String result = this.wxMpService.post(url, json);
+    if (jsonObject.get("matchrule") != null) {
+      return jsonParser.parse(result).getAsJsonObject().get("menuid").getAsString();
+    }
+
+    return null;
   }
 
   @Override
@@ -50,7 +74,7 @@ public class WxMpMenuServiceImpl implements WxMpMenuService {
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("menuid", menuId);
     String result = this.wxMpService.post(url, jsonObject.toString());
-    log.debug("根据MeunId({})删除菜单结果：{}", menuId, result);
+    log.debug("根据MeunId({})删除个性化菜单结果：{}", menuId, result);
   }
 
   @Override
@@ -77,7 +101,7 @@ public class WxMpMenuServiceImpl implements WxMpMenuService {
       String resultContent = this.wxMpService.post(url, jsonObject.toString());
       return WxMenu.fromJson(resultContent);
     } catch (WxErrorException e) {
-      // 46003 不存在的菜单数据     46002 不存在的菜单版本
+      // 46003 不存在的菜单数据；46002 不存在的菜单版本
       if (e.getError().getErrorCode() == 46003
         || e.getError().getErrorCode() == 46002) {
         return null;

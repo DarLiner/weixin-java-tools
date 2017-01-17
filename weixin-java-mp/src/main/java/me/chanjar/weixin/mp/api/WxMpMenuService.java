@@ -14,12 +14,24 @@ public interface WxMpMenuService {
   /**
    * <pre>
    * 自定义菜单创建接口
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单创建接口
+   * 详情请见：https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141013&token=&lang=zh_CN
    * 如果要创建个性化菜单，请设置matchrule属性
-   * 详情请见:http://mp.weixin.qq.com/wiki/0/c48ccd12b69ae023159b4bfaa7c39c20.html
+   * 详情请见：https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1455782296&token=&lang=zh_CN
    * </pre>
+   * @return 如果是个性化菜单，则返回menuid，否则返回null
    */
-  void menuCreate(WxMenu menu) throws WxErrorException;
+  String menuCreate(WxMenu menu) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 自定义菜单创建接口
+   * 详情请见： https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141013&token=&lang=zh_CN
+   * 如果要创建个性化菜单，请设置matchrule属性
+   * 详情请见：https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1455782296&token=&lang=zh_CN
+   * </pre>
+   * @return 如果是个性化菜单，则返回menuid，否则返回null
+   */
+  String menuCreate(String json) throws WxErrorException;
 
   /**
    * <pre>
