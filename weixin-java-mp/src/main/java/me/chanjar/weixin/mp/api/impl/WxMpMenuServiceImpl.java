@@ -7,6 +7,7 @@ import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpMenuService;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.menu.WxMpGetSelfMenuInfoResult;
+import me.chanjar.weixin.mp.bean.menu.WxMpMenu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,11 +79,11 @@ public class WxMpMenuServiceImpl implements WxMpMenuService {
   }
 
   @Override
-  public WxMenu menuGet() throws WxErrorException {
+  public WxMpMenu menuGet() throws WxErrorException {
     String url = API_URL_PREFIX + "/get";
     try {
       String resultContent = this.wxMpService.get(url, null);
-      return WxMenu.fromJson(resultContent);
+      return WxMpMenu.fromJson(resultContent);
     } catch (WxErrorException e) {
       // 46003 不存在的菜单数据
       if (e.getError().getErrorCode() == 46003) {

@@ -8,6 +8,7 @@ import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.ApiTestModule;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.menu.WxMpGetSelfMenuInfoResult;
+import me.chanjar.weixin.mp.bean.menu.WxMpMenu;
 import org.testng.*;
 import org.testng.annotations.*;
 
@@ -137,7 +138,7 @@ public class WxMpMenuServiceImplTest {
 
   @Test(dependsOnMethods = {"testMenuCreate"})
   public void testMenuGet() throws WxErrorException {
-    WxMenu wxMenu = this.wxService.getMenuService().menuGet();
+    WxMpMenu wxMenu = this.wxService.getMenuService().menuGet();
     Assert.assertNotNull(wxMenu);
     System.out.println(wxMenu.toJson());
   }

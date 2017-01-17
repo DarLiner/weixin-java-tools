@@ -3,6 +3,7 @@ package me.chanjar.weixin.mp.api;
 import me.chanjar.weixin.common.bean.menu.WxMenu;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.bean.menu.WxMpGetSelfMenuInfoResult;
+import me.chanjar.weixin.mp.bean.menu.WxMpMenu;
 
 /**
  * 菜单相关操作接口
@@ -54,10 +55,10 @@ public interface WxMpMenuService {
   /**
    * <pre>
    * 自定义菜单查询接口
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单查询接口
+   * 详情请见： https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141014&token=&lang=zh_CN
    * </pre>
    */
-  WxMenu menuGet() throws WxErrorException;
+  WxMpMenu menuGet() throws WxErrorException;
 
   /**
    * <pre>
