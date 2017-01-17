@@ -3,7 +3,6 @@ package me.chanjar.weixin.mp.api.impl;
 import com.google.gson.JsonObject;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.util.http.SimplePostRequestExecutor;
 import me.chanjar.weixin.mp.api.WxMpQrcodeService;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
@@ -52,7 +51,7 @@ public class WxMpQrcodeServiceImpl implements WxMpQrcodeService {
     scene.addProperty("scene_id", sceneId);
     actionInfo.add("scene", scene);
     json.add("action_info", actionInfo);
-    String responseContent = this.wxMpService.execute(new SimplePostRequestExecutor(), url, json.toString());
+    String responseContent = this.wxMpService.post(url, json.toString());
     return WxMpQrCodeTicket.fromJson(responseContent);
   }
 
@@ -70,7 +69,7 @@ public class WxMpQrcodeServiceImpl implements WxMpQrcodeService {
     scene.addProperty("scene_id", sceneId);
     actionInfo.add("scene", scene);
     json.add("action_info", actionInfo);
-    String responseContent = this.wxMpService.execute(new SimplePostRequestExecutor(), url, json.toString());
+    String responseContent = this.wxMpService.post(url, json.toString());
     return WxMpQrCodeTicket.fromJson(responseContent);
   }
 
@@ -84,7 +83,7 @@ public class WxMpQrcodeServiceImpl implements WxMpQrcodeService {
     scene.addProperty("scene_str", sceneStr);
     actionInfo.add("scene", scene);
     json.add("action_info", actionInfo);
-    String responseContent = this.wxMpService.execute(new SimplePostRequestExecutor(), url, json.toString());
+    String responseContent = this.wxMpService.post(url, json.toString());
     return WxMpQrCodeTicket.fromJson(responseContent);
   }
 
