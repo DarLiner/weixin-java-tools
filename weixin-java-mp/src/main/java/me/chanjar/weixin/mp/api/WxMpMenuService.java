@@ -24,7 +24,7 @@ public interface WxMpMenuService {
   /**
    * <pre>
    * 自定义菜单删除接口
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单删除接口
+   * 详情请见: https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141015&token=&lang=zh_CN
    * </pre>
    */
   void menuDelete() throws WxErrorException;
@@ -32,12 +32,12 @@ public interface WxMpMenuService {
   /**
    * <pre>
    * 删除个性化菜单接口
-   * 详情请见: http://mp.weixin.qq.com/wiki/0/c48ccd12b69ae023159b4bfaa7c39c20.html
+   * 详情请见: https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1455782296&token=&lang=zh_CN
    * </pre>
    *
-   * @param menuid
+   * @param menuId 个性化菜单的menuid
    */
-  void menuDelete(String menuid) throws WxErrorException;
+  void menuDelete(String menuId) throws WxErrorException;
 
   /**
    * <pre>

@@ -45,10 +45,12 @@ public class WxMpMenuServiceImpl implements WxMpMenuService {
   }
 
   @Override
-  public void menuDelete(String menuid) throws WxErrorException {
+  public void menuDelete(String menuId) throws WxErrorException {
     String url = API_URL_PREFIX + "/delconditional";
-    String result = this.wxMpService.get(url, "menuid=" + menuid);
-    log.debug("根据MeunId({})删除菜单结果：{}", menuid, result);
+    JsonObject jsonObject = new JsonObject();
+    jsonObject.addProperty("menuid", menuId);
+    String result = this.wxMpService.post(url, jsonObject.toString());
+    log.debug("根据MeunId({})删除菜单结果：{}", menuId, result);
   }
 
   @Override
@@ -70,7 +72,7 @@ public class WxMpMenuServiceImpl implements WxMpMenuService {
   public WxMenu menuTryMatch(String userid) throws WxErrorException {
     String url = API_URL_PREFIX + "/trymatch";
     JsonObject jsonObject = new JsonObject();
-    jsonObject.addProperty("user_id",userid);
+    jsonObject.addProperty("user_id", userid);
     try {
       String resultContent = this.wxMpService.post(url, jsonObject.toString());
       return WxMenu.fromJson(resultContent);

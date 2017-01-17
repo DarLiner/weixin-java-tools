@@ -100,6 +100,12 @@ public class WxMpMenuServiceImplTest {
     this.wxService.getMenuService().menuDelete();
   }
 
+  @Test
+  public void testDeleteConditionalMenu() throws WxErrorException {
+    String menuId = "123";
+    this.wxService.getMenuService().menuDelete(menuId);
+  }
+
   @DataProvider(name="menu")
   public Object[][] getMenu() {
     WxMenu menu = new WxMenu();
