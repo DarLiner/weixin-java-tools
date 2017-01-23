@@ -3,8 +3,8 @@ package me.chanjar.weixin.mp.api.impl;
 import com.github.binarywang.utils.qrcode.QrcodeUtils;
 import com.google.inject.Inject;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.mp.api.test.ApiTestModule;
 import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.api.test.ApiTestModule;
 import me.chanjar.weixin.mp.api.test.TestConfigStorage;
 import me.chanjar.weixin.mp.bean.pay.request.*;
 import me.chanjar.weixin.mp.bean.pay.result.*;
@@ -36,10 +36,10 @@ public class WxMpPayServiceImplTest {
 
   @Test
   public void testDownloadBill() throws Exception {
-    File file = this.wxService.getPayService().downloadBill("20170101","ALL","GZIP","1111111");
+    File file = this.wxService.getPayService().downloadBill("20170101", "ALL", "GZIP", "1111111");
     assertNotNull(file);
     //必填字段为空时，抛出异常
-    this.wxService.getPayService().downloadBill("","","",null);
+    this.wxService.getPayService().downloadBill("", "", "", null);
   }
 
   @Test
@@ -58,7 +58,7 @@ public class WxMpPayServiceImplTest {
    * 需要证书的接口需要先执行该方法
    */
   @Test
-  public void setSSLKey(){
+  public void setSSLKey() {
     TestConfigStorage config = (TestConfigStorage) this.wxService.getWxMpConfigStorage();
     config.setSslContextFilePath(config.getKeyPath());
   }

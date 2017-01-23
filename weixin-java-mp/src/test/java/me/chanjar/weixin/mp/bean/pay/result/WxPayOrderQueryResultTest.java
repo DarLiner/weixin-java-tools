@@ -1,7 +1,7 @@
 package me.chanjar.weixin.mp.bean.pay.result;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.testng.*;
+import org.testng.annotations.*;
 
 /**
  * <pre>
