@@ -1,5 +1,6 @@
 package me.chanjar.weixin.mp.api;
 
+import me.chanjar.weixin.mp.api.test.ApiTestModule;
 import org.testng.Assert;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;

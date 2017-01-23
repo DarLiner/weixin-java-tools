@@ -13,8 +13,8 @@ import org.testng.annotations.Test;
 import com.google.inject.Inject;
 
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.mp.api.ApiTestModule;
-import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
+import me.chanjar.weixin.mp.api.test.ApiTestModule;
+import me.chanjar.weixin.mp.api.test.TestConfigStorage;
 import me.chanjar.weixin.mp.bean.WxMpUserQuery;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import me.chanjar.weixin.mp.bean.result.WxMpUserList;
@@ -32,11 +32,11 @@ public class WxMpUserServiceImplTest {
   @Inject
   private WxMpService wxService;
 
-  private WxXmlMpInMemoryConfigStorage configProvider;
+  private TestConfigStorage configProvider;
 
   @BeforeTest
   public void setup() {
-    this.configProvider = (WxXmlMpInMemoryConfigStorage) this.wxService
+    this.configProvider = (TestConfigStorage) this.wxService
         .getWxMpConfigStorage();
   }
 

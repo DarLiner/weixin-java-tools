@@ -1,18 +1,19 @@
-package me.chanjar.weixin.mp.api;
+package me.chanjar.weixin.mp.api.test;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.concurrent.locks.Lock;
 
 @XStreamAlias("xml")
-public class WxXmlMpInMemoryConfigStorage
-    extends WxMpInMemoryConfigStorage {
+public class TestConfigStorage extends WxMpInMemoryConfigStorage {
 
   private String openid;
   private String kfAccount;
   private String qrconnectRedirectUrl;
   private String templateId;
+  private String keyPath;
 
   public String getKeyPath() {
     return keyPath;
@@ -21,8 +22,6 @@ public class WxXmlMpInMemoryConfigStorage
   public void setKeyPath(String keyPath) {
     this.keyPath = keyPath;
   }
-
-  private String keyPath;
 
   public String getOpenid() {
     return this.openid;
@@ -61,7 +60,7 @@ public class WxXmlMpInMemoryConfigStorage
     this.templateId = templateId;
   }
 
-  public void setAccessTokenLock(Lock lock){
+  public void setAccessTokenLock(Lock lock) {
     super.accessTokenLock = lock;
   }
 

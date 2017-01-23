@@ -2,9 +2,9 @@ package me.chanjar.weixin.mp.api.impl;
 
 import com.google.inject.Inject;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.mp.api.ApiTestModule;
+import me.chanjar.weixin.mp.api.test.ApiTestModule;
 import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
+import me.chanjar.weixin.mp.api.test.TestConfigStorage;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplate;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateIndustry;
@@ -33,7 +33,7 @@ public class WxMpTemplateMsgServiceImplTest {
   public void testSendTemplateMsg() throws WxErrorException {
     SimpleDateFormat dateFormat = new SimpleDateFormat(
       "yyyy-MM-dd HH:mm:ss.SSS");
-    WxXmlMpInMemoryConfigStorage configStorage = (WxXmlMpInMemoryConfigStorage) this.wxService
+    TestConfigStorage configStorage = (TestConfigStorage) this.wxService
       .getWxMpConfigStorage();
     WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()
       .toUser(configStorage.getOpenid())

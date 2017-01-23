@@ -3,9 +3,9 @@ package me.chanjar.weixin.mp.api.impl;
 import com.github.binarywang.utils.qrcode.QrcodeUtils;
 import com.google.inject.Inject;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.mp.api.ApiTestModule;
+import me.chanjar.weixin.mp.api.test.ApiTestModule;
 import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
+import me.chanjar.weixin.mp.api.test.TestConfigStorage;
 import me.chanjar.weixin.mp.bean.pay.request.*;
 import me.chanjar.weixin.mp.bean.pay.result.*;
 import org.testng.annotations.*;
@@ -59,7 +59,7 @@ public class WxMpPayServiceImplTest {
    */
   @Test
   public void setSSLKey(){
-    WxXmlMpInMemoryConfigStorage config = (WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage();
+    TestConfigStorage config = (TestConfigStorage) this.wxService.getWxMpConfigStorage();
     config.setSslContextFilePath(config.getKeyPath());
   }
 
@@ -107,7 +107,7 @@ public class WxMpPayServiceImplTest {
     request.setClientIp("aaa");
     request.setMchBillNo("aaaa");
     request
-      .setReOpenid(((WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage()).getOpenid());
+      .setReOpenid(((TestConfigStorage) this.wxService.getWxMpConfigStorage()).getOpenid());
     WxPaySendRedpackResult redpackResult = this.wxService.getPayService().sendRedpack(request);
     System.err.println(redpackResult);
   }

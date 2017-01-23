@@ -3,9 +3,9 @@ package me.chanjar.weixin.mp.api.impl;
 import com.google.inject.Inject;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.mp.api.ApiTestModule;
+import me.chanjar.weixin.mp.api.test.ApiTestModule;
 import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
+import me.chanjar.weixin.mp.api.test.TestConfigStorage;
 import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage;
 import me.chanjar.weixin.mp.bean.kefu.request.WxMpKfAccountRequest;
 import me.chanjar.weixin.mp.bean.kefu.result.*;
@@ -31,7 +31,7 @@ public class WxMpKefuServiceImplTest {
   protected WxMpService wxService;
 
   public void testSendKefuMpNewsMessage() throws WxErrorException {
-    WxXmlMpInMemoryConfigStorage configStorage = (WxXmlMpInMemoryConfigStorage) this.wxService
+    TestConfigStorage configStorage = (TestConfigStorage) this.wxService
       .getWxMpConfigStorage();
     WxMpKefuMessage message = new WxMpKefuMessage();
     message.setMsgType(WxConsts.CUSTOM_MSG_MPNEWS);
@@ -42,7 +42,7 @@ public class WxMpKefuServiceImplTest {
   }
 
   public void testSendKefuMessage() throws WxErrorException {
-    WxXmlMpInMemoryConfigStorage configStorage = (WxXmlMpInMemoryConfigStorage) this.wxService
+    TestConfigStorage configStorage = (TestConfigStorage) this.wxService
         .getWxMpConfigStorage();
     WxMpKefuMessage message = new WxMpKefuMessage();
     message.setMsgType(WxConsts.CUSTOM_MSG_TEXT);
@@ -54,7 +54,7 @@ public class WxMpKefuServiceImplTest {
   }
 
   public void testSendKefuMessageWithKfAccount() throws WxErrorException {
-    WxXmlMpInMemoryConfigStorage configStorage = (WxXmlMpInMemoryConfigStorage) this.wxService
+    TestConfigStorage configStorage = (TestConfigStorage) this.wxService
         .getWxMpConfigStorage();
     WxMpKefuMessage message = new WxMpKefuMessage();
     message.setMsgType(WxConsts.CUSTOM_MSG_TEXT);
@@ -85,7 +85,7 @@ public class WxMpKefuServiceImplTest {
 
   @DataProvider
   public Object[][] getKfAccount() {
-    WxXmlMpInMemoryConfigStorage configStorage = (WxXmlMpInMemoryConfigStorage) this.wxService
+    TestConfigStorage configStorage = (TestConfigStorage) this.wxService
         .getWxMpConfigStorage();
     return new Object[][] { { configStorage.getKfAccount() } };
   }
@@ -131,7 +131,7 @@ public class WxMpKefuServiceImplTest {
 
   @DataProvider
   public Object[][] getKfAccountAndOpenid() {
-    WxXmlMpInMemoryConfigStorage configStorage = (WxXmlMpInMemoryConfigStorage) this.wxService
+    TestConfigStorage configStorage = (TestConfigStorage) this.wxService
         .getWxMpConfigStorage();
     return new Object[][] {
         { configStorage.getKfAccount(), configStorage.getOpenid() } };

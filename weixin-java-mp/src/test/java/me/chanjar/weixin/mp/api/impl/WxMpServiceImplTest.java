@@ -2,9 +2,9 @@ package me.chanjar.weixin.mp.api.impl;
 
 import com.google.inject.Inject;
 import me.chanjar.weixin.common.api.WxConsts;
-import me.chanjar.weixin.mp.api.ApiTestModule;
+import me.chanjar.weixin.mp.api.test.ApiTestModule;
 import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
+import me.chanjar.weixin.mp.api.test.TestConfigStorage;
 import org.testng.Assert;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
@@ -103,7 +103,7 @@ public class WxMpServiceImplTest {
 
   @Test
   public void testBuildQrConnectUrl() {
-    String qrconnectRedirectUrl = ((WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage()).getQrconnectRedirectUrl();
+    String qrconnectRedirectUrl = ((TestConfigStorage) this.wxService.getWxMpConfigStorage()).getQrconnectRedirectUrl();
     String qrConnectUrl = this.wxService.buildQrConnectUrl(qrconnectRedirectUrl,
         WxConsts.QRCONNECT_SCOPE_SNSAPI_LOGIN, null);
     Assert.assertNotNull(qrConnectUrl);
