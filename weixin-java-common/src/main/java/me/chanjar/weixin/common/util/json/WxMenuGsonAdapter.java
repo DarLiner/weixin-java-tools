@@ -70,13 +70,15 @@ public class WxMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserializ
 
   private WxMenuRule convertToRule(JsonObject json) {
     WxMenuRule menuRule = new WxMenuRule();
-    menuRule.setTagId(GsonHelper.getString(json,"tag_id"));
-    menuRule.setSex(GsonHelper.getString(json,"sex"));
-    menuRule.setCountry(GsonHelper.getString(json,"country"));
-    menuRule.setProvince(GsonHelper.getString(json,"province"));
-    menuRule.setCity(GsonHelper.getString(json,"city"));
-    menuRule.setClientPlatformType(GsonHelper.getString(json,"client_platform_type"));
-    menuRule.setLanguage(GsonHelper.getString(json,"language"));
+    //变态的微信接口，这里居然反人类的使用和序列化时不一样的名字
+    //menuRule.setTagId(GsonHelper.getString(json,"tag_id"));
+    menuRule.setTagId(GsonHelper.getString(json, "group_id"));
+    menuRule.setSex(GsonHelper.getString(json, "sex"));
+    menuRule.setCountry(GsonHelper.getString(json, "country"));
+    menuRule.setProvince(GsonHelper.getString(json, "province"));
+    menuRule.setCity(GsonHelper.getString(json, "city"));
+    menuRule.setClientPlatformType(GsonHelper.getString(json, "client_platform_type"));
+    menuRule.setLanguage(GsonHelper.getString(json, "language"));
     return menuRule;
   }
 
