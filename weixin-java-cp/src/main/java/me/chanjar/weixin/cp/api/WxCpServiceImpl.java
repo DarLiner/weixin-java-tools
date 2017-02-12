@@ -166,12 +166,12 @@ public class WxCpServiceImpl implements WxCpService {
     );
     WxJsapiSignature jsapiSignature = new WxJsapiSignature();
     jsapiSignature.setTimestamp(timestamp);
-    jsapiSignature.setNoncestr(noncestr);
+    jsapiSignature.setNonceStr(noncestr);
     jsapiSignature.setUrl(url);
     jsapiSignature.setSignature(signature);
 
     // Fixed bug
-    jsapiSignature.setAppid(this.configStorage.getCorpId());
+    jsapiSignature.setAppId(this.configStorage.getCorpId());
 
     return jsapiSignature;
   }
@@ -491,7 +491,7 @@ public class WxCpServiceImpl implements WxCpService {
     String responseText = get(url, null);
     JsonElement je = new JsonParser().parse(responseText);
     JsonObject jo = je.getAsJsonObject();
-    return new String[]{GsonHelper.getString(jo, "UserId"), GsonHelper.getString(jo, "DeviceId")};
+    return new String[]{GsonHelper.getString(jo, "UserId"), GsonHelper.getString(jo, "DeviceId"), GsonHelper.getString(jo, "OpenId")};
   }
 
   @Override
@@ -538,8 +538,16 @@ public class WxCpServiceImpl implements WxCpService {
     int retryTimes = 0;
     do {
       try {
-        return executeInternal(executor, uri, data);
+        T result = this.executeInternal(executor, uri, data);
+        this.log.debug("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}",uri, data, result);
+        return result;
       } catch (WxErrorException e) {
+        if (retryTimes + 1 > this.maxRetryTimes) {
+          this.log.warn("重试达到最大次数【{}】", this.maxRetryTimes);
+          //最后一次重试失败后，直接抛出异常，不再等待
+          throw new RuntimeException("微信服务端异常，超出重试次数");
+        }
+
         WxError error = e.getError();
         /*
          * -1 系统繁忙, 1000ms后重试
@@ -547,8 +555,7 @@ public class WxCpServiceImpl implements WxCpService {
         if (error.getErrorCode() == -1) {
           int sleepMillis = this.retrySleepMillis * (1 << retryTimes);
           try {
-            this.log.debug("微信系统繁忙，{}ms 后重试(第{}次)", sleepMillis,
-              retryTimes + 1);
+            this.log.debug("微信系统繁忙，{} ms 后重试(第{}次)", sleepMillis, retryTimes + 1);
             Thread.sleep(sleepMillis);
           } catch (InterruptedException e1) {
             throw new RuntimeException(e1);
@@ -557,8 +564,9 @@ public class WxCpServiceImpl implements WxCpService {
           throw e;
         }
       }
-    } while (++retryTimes < this.maxRetryTimes);
+    } while (retryTimes++ < this.maxRetryTimes);
 
+    this.log.warn("重试达到最大次数【{}】", this.maxRetryTimes);
     throw new RuntimeException("微信服务端异常，超出重试次数");
   }
 
@@ -572,8 +580,7 @@ public class WxCpServiceImpl implements WxCpService {
     uriWithAccessToken += uri.indexOf('?') == -1 ? "?access_token=" + accessToken : "&access_token=" + accessToken;
 
     try {
-      return executor.execute(getHttpclient(), this.httpProxy,
-        uriWithAccessToken, data);
+      return executor.execute(getHttpclient(), this.httpProxy, uriWithAccessToken, data);
     } catch (WxErrorException e) {
       WxError error = e.getError();
       /*
@@ -586,11 +593,14 @@ public class WxCpServiceImpl implements WxCpService {
         this.configStorage.expireAccessToken();
         return execute(executor, uri, data);
       }
+
       if (error.getErrorCode() != 0) {
+        this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}", uri, data, error);
         throw new WxErrorException(error);
       }
       return null;
     } catch (IOException e) {
+      this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[EXCEPTION]: {}", uri, data, e.getMessage());
       throw new RuntimeException(e);
     }
   }

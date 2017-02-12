@@ -2,6 +2,7 @@ package me.chanjar.weixin.mp.bean.pay.result;
 
 import com.google.common.collect.Lists;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import io.restassured.path.xml.XmlPath;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ import java.util.List;
  * <li>示例值
  * <li>描述
  * </pre>
+ *
  * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  */
 @XStreamAlias("xml")
@@ -179,75 +181,6 @@ public class WxPayOrderQueryResult extends WxPayBaseResult {
   private Integer couponCount;
 
   private List<Coupon> coupons;
-
-  public static class Coupon {
-    /**
-     * <pre>代金券类型
-     * coupon_type_$n
-     * 否
-     * String
-     * CASH
-     * <li>CASH--充值代金券
-     * <li>NO_CASH---非充值代金券
-     *	订单使用代金券时有返回（取值：CASH、NO_CASH）。$n为下标,从0开始编号，举例：coupon_type_$0
-     * </pre>
-     */
-    private String couponType;
-
-    /**
-     * <pre>代金券ID
-     * coupon_id_$n
-     * 否
-     * String(20)
-     * 10000
-     * 代金券ID, $n为下标，从0开始编号
-     * </pre>
-     */
-    private String couponId;
-
-    /**
-     * <pre>单个代金券支付金额
-     * coupon_fee_$n
-     * 否
-     * Int
-     * 100
-     * 单个代金券支付金额, $n为下标，从0开始编号
-     * </pre>
-     */
-    private Integer couponFee;
-
-    public Coupon(String couponType, String couponId, Integer couponFee) {
-      this.couponType = couponType;
-      this.couponId = couponId;
-      this.couponFee = couponFee;
-    }
-
-    public String getCouponType() {
-      return this.couponType;
-    }
-
-    public void setCouponType(String couponType) {
-      this.couponType = couponType;
-    }
-
-    public String getCouponId() {
-      return this.couponId;
-    }
-
-    public void setCouponId(String couponId) {
-      this.couponId = couponId;
-    }
-
-    public Integer getCouponFee() {
-      return this.couponFee;
-    }
-
-    public void setCouponFee(Integer couponFee) {
-      this.couponFee = couponFee;
-    }
-
-  }
-
   /**
    * <pre>微信支付订单号
    * transaction_id
@@ -259,7 +192,6 @@ public class WxPayOrderQueryResult extends WxPayBaseResult {
    */
   @XStreamAlias("transaction_id")
   private String transactionId;
-
   /**
    * <pre>商户订单号
    * out_trade_no
@@ -271,7 +203,6 @@ public class WxPayOrderQueryResult extends WxPayBaseResult {
    */
   @XStreamAlias("out_trade_no")
   private String outTradeNo;
-
   /**
    * <pre>附加数据
    * attach
@@ -283,7 +214,6 @@ public class WxPayOrderQueryResult extends WxPayBaseResult {
    */
   @XStreamAlias("attach")
   private String attach;
-
   /**
    * <pre>支付完成时间
    * time_end
@@ -295,7 +225,6 @@ public class WxPayOrderQueryResult extends WxPayBaseResult {
    */
   @XStreamAlias("time_end")
   private String timeEnd;
-
   /**
    * <pre>交易状态描述
    * trade_state_desc
@@ -460,10 +389,86 @@ public class WxPayOrderQueryResult extends WxPayBaseResult {
     this.tradeStateDesc = tradeStateDesc;
   }
 
-  public void composeCoupons(String xmlString){
-    if(this.couponCount != null && this.couponCount > 0 ){
+  /**
+   * 通过xml组装coupons属性内容
+   */
+  public void composeCoupons() {
+    if (this.couponCount != null && this.couponCount > 0) {
       this.coupons = Lists.newArrayList();
-      //TODO 暂时待实现
+      XmlPath xmlPath = new XmlPath(this.getXmlString());
+      for (int i = 0; i < this.couponCount; i++){
+        this.coupons.add(new Coupon(this.getXmlValue(xmlPath, "xml.coupon_type_" + i, String.class),
+          this.getXmlValue(xmlPath, "xml.coupon_id_" + i, String.class),
+          this.getXmlValue(xmlPath, "xml.coupon_fee_" + i, Integer.class)));
+      }
     }
+  }
+
+  public static class Coupon {
+    /**
+     * <pre>代金券类型
+     * coupon_type_$n
+     * 否
+     * String
+     * CASH
+     * <li>CASH--充值代金券
+     * <li>NO_CASH---非充值代金券
+     * 	订单使用代金券时有返回（取值：CASH、NO_CASH）。$n为下标,从0开始编号，举例：coupon_type_$0
+     * </pre>
+     */
+    private String couponType;
+
+    /**
+     * <pre>代金券ID
+     * coupon_id_$n
+     * 否
+     * String(20)
+     * 10000
+     * 代金券ID, $n为下标，从0开始编号
+     * </pre>
+     */
+    private String couponId;
+
+    /**
+     * <pre>单个代金券支付金额
+     * coupon_fee_$n
+     * 否
+     * Int
+     * 100
+     * 单个代金券支付金额, $n为下标，从0开始编号
+     * </pre>
+     */
+    private Integer couponFee;
+
+    public Coupon(String couponType, String couponId, Integer couponFee) {
+      this.couponType = couponType;
+      this.couponId = couponId;
+      this.couponFee = couponFee;
+    }
+
+    public String getCouponType() {
+      return this.couponType;
+    }
+
+    public void setCouponType(String couponType) {
+      this.couponType = couponType;
+    }
+
+    public String getCouponId() {
+      return this.couponId;
+    }
+
+    public void setCouponId(String couponId) {
+      this.couponId = couponId;
+    }
+
+    public Integer getCouponFee() {
+      return this.couponFee;
+    }
+
+    public void setCouponFee(Integer couponFee) {
+      this.couponFee = couponFee;
+    }
+
   }
 }

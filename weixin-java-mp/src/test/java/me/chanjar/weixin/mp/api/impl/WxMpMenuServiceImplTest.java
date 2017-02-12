@@ -5,26 +5,26 @@ import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.menu.WxMenu;
 import me.chanjar.weixin.common.bean.menu.WxMenuButton;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.mp.api.ApiTestModule;
 import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.api.test.ApiTestModule;
 import me.chanjar.weixin.mp.bean.menu.WxMpGetSelfMenuInfoResult;
-import org.testng.Assert;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Guice;
-import org.testng.annotations.Test;
+import me.chanjar.weixin.mp.bean.menu.WxMpMenu;
+import org.testng.*;
+import org.testng.annotations.*;
 
 /**
  * 测试菜单
+ *
  * @author chanjarster
  * @author Binary Wang
- *
  */
-@Test(groups="menuAPI")
+@Test(groups = "menuAPI")
 @Guice(modules = ApiTestModule.class)
 public class WxMpMenuServiceImplTest {
 
   @Inject
   protected WxMpService wxService;
+  private String menuId = null;
 
   @Test(dataProvider = "menu")
   public void testMenuCreate(WxMenu wxMenu) throws WxErrorException {
@@ -34,7 +34,8 @@ public class WxMpMenuServiceImplTest {
 
   @Test
   public void testMenuTryMatch() throws Exception {
-    //TODO
+    WxMenu menu = this.wxService.getMenuService().menuTryMatch("...");
+    System.out.println(menu);
   }
 
   @Test
@@ -44,62 +45,110 @@ public class WxMpMenuServiceImplTest {
   }
 
   @Test
+  public void testCreateConditionalMenu() throws WxErrorException {
+    String json = "{\n" +
+      " 	\"button\":[\n" +
+      " 	{	\n" +
+      "    	\"type\":\"click\",\n" +
+      "    	\"name\":\"今日歌曲\",\n" +
+      "     	\"key\":\"V1001_TODAY_MUSIC\" \n" +
+      "	},\n" +
+      "	{ \n" +
+      "		\"name\":\"菜单\",\n" +
+      "		\"sub_button\":[\n" +
+      "		{	\n" +
+      "			\"type\":\"view\",\n" +
+      "			\"name\":\"搜索\",\n" +
+      "			\"url\":\"http://www.soso.com/\"\n" +
+      "		},\n" +
+      "		{\n" +
+      "			\"type\":\"view\",\n" +
+      "			\"name\":\"视频\",\n" +
+      "			\"url\":\"http://v.qq.com/\"\n" +
+      "		},\n" +
+      "		{\n" +
+      "			\"type\":\"click\",\n" +
+      "			\"name\":\"赞一下我们\",\n" +
+      "			\"key\":\"V1001_GOOD\"\n" +
+      "		}]\n" +
+      " }],\n" +
+      "\"matchrule\":{\n" +
+      "  \"tag_id\":\"2\",\n" +
+      "  \"sex\":\"1\",\n" +
+      "  \"country\":\"中国\",\n" +
+      "  \"province\":\"广东\",\n" +
+      "  \"city\":\"广州\",\n" +
+      "  \"client_platform_type\":\"2\",\n" +
+      "  \"language\":\"zh_CN\"\n" +
+      "  }\n" +
+      "}";
+
+    this.menuId = this.wxService.getMenuService().menuCreate(json);
+    System.out.println(this.menuId);
+  }
+
+  @Test(dependsOnMethods = {"testCreateConditionalMenu"})
+  public void testDeleteConditionalMenu() throws WxErrorException {
+    this.wxService.getMenuService().menuDelete(menuId);
+  }
+
+  @Test
   public void testCreateMenu2() throws WxErrorException {
     String a = "{\n"
-        + "  \"menu\": {\n"
-        + "    \"button\": [\n"
-        + "      {\n"
-        + "        \"type\": \"click\",\n"
-        + "        \"name\": \"今日歌曲\",\n"
-        + "        \"key\": \"V1001_TODAY_MUSIC\"\n"
-        + "      },\n"
-        + "      {\n"
-        + "        \"type\": \"click\",\n"
-        + "        \"name\": \"歌手简介\",\n"
-        + "        \"key\": \"V1001_TODAY_SINGER\"\n"
-        + "      },\n"
-        + "      {\n"
-        + "        \"name\": \"菜单\",\n"
-        + "        \"sub_button\": [\n"
-        + "          {\n"
-        + "            \"type\": \"view\",\n"
-        + "            \"name\": \"搜索\",\n"
-        + "            \"url\": \"http://www.soso.com/\"\n"
-        + "          },\n"
-        + "          {\n"
-        + "            \"type\": \"view\",\n"
-        + "            \"name\": \"视频\",\n"
-        + "            \"url\": \"http://v.qq.com/\"\n"
-        + "          },\n"
-        + "          {\n"
-        + "            \"type\": \"click\",\n"
-        + "            \"name\": \"赞一下我们\",\n"
-        + "            \"key\": \"V1001_GOOD\"\n"
-        + "          }\n"
-        + "        ]\n"
-        + "      }\n"
-        + "    ]\n"
-        + "  }\n"
-        + "}";
+      + "  \"menu\": {\n"
+      + "    \"button\": [\n"
+      + "      {\n"
+      + "        \"type\": \"click\",\n"
+      + "        \"name\": \"今日歌曲\",\n"
+      + "        \"key\": \"V1001_TODAY_MUSIC\"\n"
+      + "      },\n"
+      + "      {\n"
+      + "        \"type\": \"click\",\n"
+      + "        \"name\": \"歌手简介\",\n"
+      + "        \"key\": \"V1001_TODAY_SINGER\"\n"
+      + "      },\n"
+      + "      {\n"
+      + "        \"name\": \"菜单\",\n"
+      + "        \"sub_button\": [\n"
+      + "          {\n"
+      + "            \"type\": \"view\",\n"
+      + "            \"name\": \"搜索\",\n"
+      + "            \"url\": \"http://www.soso.com/\"\n"
+      + "          },\n"
+      + "          {\n"
+      + "            \"type\": \"view\",\n"
+      + "            \"name\": \"视频\",\n"
+      + "            \"url\": \"http://v.qq.com/\"\n"
+      + "          },\n"
+      + "          {\n"
+      + "            \"type\": \"click\",\n"
+      + "            \"name\": \"赞一下我们\",\n"
+      + "            \"key\": \"V1001_GOOD\"\n"
+      + "          }\n"
+      + "        ]\n"
+      + "      }\n"
+      + "    ]\n"
+      + "  }\n"
+      + "}";
 
     WxMenu menu = WxMenu.fromJson(a);
     System.out.println(menu.toJson());
     this.wxService.getMenuService().menuCreate(menu);
   }
 
-  @Test(dependsOnMethods = { "testMenuCreate"})
+  @Test(dependsOnMethods = {"testMenuCreate"})
   public void testMenuGet() throws WxErrorException {
-    WxMenu wxMenu = this.wxService.getMenuService().menuGet();
+    WxMpMenu wxMenu = this.wxService.getMenuService().menuGet();
     Assert.assertNotNull(wxMenu);
     System.out.println(wxMenu.toJson());
   }
 
-  @Test(dependsOnMethods = { "testMenuGet"})
+  @Test(dependsOnMethods = {"testMenuGet"})
   public void testMenuDelete() throws WxErrorException {
     this.wxService.getMenuService().menuDelete();
   }
 
-  @DataProvider(name="menu")
+  @DataProvider(name = "menu")
   public Object[][] getMenu() {
     WxMenu menu = new WxMenu();
     WxMenuButton button1 = new WxMenuButton();
@@ -138,10 +187,10 @@ public class WxMpMenuServiceImplTest {
     button3.getSubButtons().add(button32);
     button3.getSubButtons().add(button33);
 
-    return new Object[][] {
-        new Object[] {
-            menu
-        }
+    return new Object[][]{
+      new Object[]{
+        menu
+      }
     };
 
   }

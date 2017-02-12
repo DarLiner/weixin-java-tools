@@ -48,3 +48,5 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+/.sonar/
+sonar-project.properties

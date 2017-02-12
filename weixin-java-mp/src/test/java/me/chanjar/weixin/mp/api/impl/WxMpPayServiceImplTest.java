@@ -1,19 +1,20 @@
 package me.chanjar.weixin.mp.api.impl;
 
+import com.github.binarywang.utils.qrcode.QrcodeUtils;
 import com.google.inject.Inject;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.mp.api.ApiTestModule;
 import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.api.WxXmlMpInMemoryConfigStorage;
-import me.chanjar.weixin.mp.bean.pay.request.WxEntPayRequest;
-import me.chanjar.weixin.mp.bean.pay.request.WxPayRefundRequest;
-import me.chanjar.weixin.mp.bean.pay.request.WxPaySendRedpackRequest;
-import me.chanjar.weixin.mp.bean.pay.request.WxPayUnifiedOrderRequest;
+import me.chanjar.weixin.mp.api.test.ApiTestModule;
+import me.chanjar.weixin.mp.api.test.TestConfigStorage;
+import me.chanjar.weixin.mp.bean.pay.request.*;
 import me.chanjar.weixin.mp.bean.pay.result.*;
-import org.testng.annotations.Guice;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import static org.testng.Assert.*;
 
 /**
  * 测试支付相关接口
@@ -33,28 +34,58 @@ public class WxMpPayServiceImplTest {
 
   }
 
+  @Test
+  public void testDownloadBill() throws Exception {
+    File file = this.wxService.getPayService().downloadBill("20170101", "ALL", "GZIP", "1111111");
+    assertNotNull(file);
+    //必填字段为空时，抛出异常
+    this.wxService.getPayService().downloadBill("", "", "", null);
+  }
+
+  @Test
+  public void testReport() throws Exception {
+    WxPayReportRequest request = new WxPayReportRequest();
+    request.setInterfaceUrl("hahahah");
+    request.setSignType("HMAC-SHA256");//貌似接口未校验此字段
+    request.setExecuteTime(1000);
+    request.setReturnCode("aaa");
+    request.setResultCode("aaa");
+    request.setUserIp("8.8.8");
+    this.wxService.getPayService().report(request);
+  }
+
   /**
-   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#refund(WxPayRefundRequest, File)} .
+   * 需要证书的接口需要先执行该方法
    */
   @Test
+  public void setSSLKey() {
+    TestConfigStorage config = (TestConfigStorage) this.wxService.getWxMpConfigStorage();
+    config.setSslContextFilePath(config.getKeyPath());
+  }
+
+  /**
+   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#refund(WxPayRefundRequest)} .
+   */
+  @Test(dependsOnMethods = {"setSSLKey"})
   public void testRefund() throws Exception {
     WxPayRefundRequest request = new WxPayRefundRequest();
     request.setOutRefundNo("aaa");
     request.setOutTradeNo("1111");
     request.setTotalFee(1222);
     request.setRefundFee(111);
-    File keyFile = new File("E:\\dlt.p12");
-    WxPayRefundResult result = this.wxService.getPayService().refund(request, keyFile);
+    WxPayRefundResult result = this.wxService.getPayService().refund(request);
     System.err.println(result);
   }
-
 
   /**
    * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#refundQuery(String, String, String, String)} .
    */
   @Test
   public void testRefundQuery() throws Exception {
-    WxPayRefundQueryResult result = this.wxService.getPayService().refundQuery("1", "", "", "");
+    WxPayRefundQueryResult result;
+
+    result = this.wxService.getPayService().refundQuery("1", "", "", "");
+    System.err.println(result);
     result = this.wxService.getPayService().refundQuery("", "2", "", "");
     System.err.println(result);
     result = this.wxService.getPayService().refundQuery("", "", "3", "");
@@ -66,34 +97,27 @@ public class WxMpPayServiceImplTest {
     System.err.println(result);
   }
 
-  @Test
-  public void testCheckJSSDKCallbackDataSignature() throws Exception {
-
-  }
-
   /**
-   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#sendRedpack(WxPaySendRedpackRequest, File)} .
+   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#sendRedpack(WxPaySendRedpackRequest)} .
    */
-  @Test
+  @Test(dependsOnMethods = {"setSSLKey"})
   public void testSendRedpack() throws Exception {
     WxPaySendRedpackRequest request = new WxPaySendRedpackRequest();
     request.setActName("abc");
     request.setClientIp("aaa");
     request.setMchBillNo("aaaa");
     request
-      .setReOpenid(((WxXmlMpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage()).getOpenid());
-    File keyFile = new File("E:\\dlt.p12");
-    WxPaySendRedpackResult redpackResult = this.wxService.getPayService().sendRedpack(request, keyFile);
+      .setReOpenid(((TestConfigStorage) this.wxService.getWxMpConfigStorage()).getOpenid());
+    WxPaySendRedpackResult redpackResult = this.wxService.getPayService().sendRedpack(request);
     System.err.println(redpackResult);
   }
 
   /**
-   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#queryRedpack(String, File)}.
+   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#queryRedpack(String)}.
    */
-  @Test
+  @Test(dependsOnMethods = {"setSSLKey"})
   public void testQueryRedpack() throws Exception {
-    File keyFile = new File("E:\\dlt.p12");
-    WxPayRedpackQueryResult redpackResult = this.wxService.getPayService().queryRedpack("aaaa", keyFile);
+    WxPayRedpackQueryResult redpackResult = this.wxService.getPayService().queryRedpack("aaaa");
     System.err.println(redpackResult);
   }
 
@@ -128,21 +152,44 @@ public class WxMpPayServiceImplTest {
   }
 
   /**
-   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#entPay(WxEntPayRequest, File)}.
+   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#entPay(WxEntPayRequest)}.
    */
-  @Test
+  @Test(dependsOnMethods = {"setSSLKey"})
   public final void testEntPay() throws WxErrorException {
-    File keyFile = new File("E:\\dlt.p12");
     WxEntPayRequest request = new WxEntPayRequest();
-    System.err.println(this.wxService.getPayService().entPay(request, keyFile));
+    System.err.println(this.wxService.getPayService().entPay(request));
   }
 
   /**
-   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#queryEntPay(String, File)}.
+   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpPayServiceImpl#queryEntPay(String)}.
    */
-  @Test
+  @Test(dependsOnMethods = {"setSSLKey"})
   public final void testQueryEntPay() throws WxErrorException {
-    File keyFile = new File("E:\\dlt.p12");
-    System.err.println(this.wxService.getPayService().queryEntPay("11212121", keyFile));
+    System.err.println(this.wxService.getPayService().queryEntPay("11212121"));
   }
+
+  @Test
+  public void testCreateScanPayQrcodeMode1() throws Exception {
+    String productId = "abc";
+    byte[] bytes = this.wxService.getPayService().createScanPayQrcodeMode1(productId, null, null);
+    Path qrcodeFilePath = Files.createTempFile("qrcode_", ".jpg");
+    Files.write(qrcodeFilePath, bytes);
+    String qrcodeContent = QrcodeUtils.decodeQrcode(qrcodeFilePath.toFile());
+    System.out.println(qrcodeContent);
+
+    assertTrue(qrcodeContent.startsWith("weixin://wxpay/bizpayurl?"));
+    assertTrue(qrcodeContent.contains("product_id=" + productId));
+  }
+
+  @Test
+  public void testCreateScanPayQrcodeMode2() throws Exception {
+    String qrcodeContent = "abc";
+    byte[] bytes = this.wxService.getPayService().createScanPayQrcodeMode2(qrcodeContent, null, null);
+    Path qrcodeFilePath = Files.createTempFile("qrcode_", ".jpg");
+    Files.write(qrcodeFilePath, bytes);
+
+    assertEquals(QrcodeUtils.decodeQrcode(qrcodeFilePath.toFile()), qrcodeContent);
+  }
+
+
 }

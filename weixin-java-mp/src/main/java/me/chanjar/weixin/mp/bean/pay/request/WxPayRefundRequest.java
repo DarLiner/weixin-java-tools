@@ -1,7 +1,6 @@
 package me.chanjar.weixin.mp.bean.pay.request;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-
 import me.chanjar.weixin.common.annotation.Required;
 
 /**
@@ -20,33 +19,7 @@ import me.chanjar.weixin.common.annotation.Required;
  *         Created by Binary Wang on 2016-10-08.
  */
 @XStreamAlias("xml")
-public class WxPayRefundRequest {
-  /**
-   * <pre>
-   * 公众账号ID
-   * appid
-   * 是
-   * String(32)
-   * wx8888888888888888
-   * 微信分配的公众账号ID（企业号corpid即为此appId）
-   * </pre>
-   */
-  @XStreamAlias("appid")
-  private String appid;
-
-  /**
-   * <pre>
-   * 商户号
-   * mch_id
-   * 是
-   * String(32)
-   * 1900000109
-   * 微信支付分配的商户号
-   * </pre>
-   */
-  @XStreamAlias("mch_id")
-  private String mchId;
-
+public class WxPayRefundRequest extends WxPayBaseRequest {
   /**
    * <pre>
    * 设备号
@@ -59,32 +32,6 @@ public class WxPayRefundRequest {
    */
   @XStreamAlias("device_info")
   private String deviceInfo;
-
-  /**
-   * <pre>
-   * 随机字符串
-   * nonce_str
-   * 是
-   * String(32)
-   * 5K8264ILTKCH16CQ2502SI8ZNMTM67VS
-   * 随机字符串，不长于32位。推荐随机数生成算法
-   * </pre>
-   */
-  @XStreamAlias("nonce_str")
-  private String nonceStr;
-
-  /**
-   * <pre>
-   * 签名
-   * sign
-   * 是
-   * String(32)
-   * C380BEC2BFD727A4B6845133519F3AD6
-   * 签名，详见签名生成算法
-   * </pre>
-   */
-  @XStreamAlias("sign")
-  private String sign;
 
   /**
    * <pre>
@@ -196,44 +143,12 @@ public class WxPayRefundRequest {
   @XStreamAlias("refund_account")
   private String refundAccount;
 
-  public String getAppid() {
-    return this.appid;
-  }
-
-  public void setAppid(String appid) {
-    this.appid = appid;
-  }
-
-  public String getMchId() {
-    return this.mchId;
-  }
-
-  public void setMchId(String mchId) {
-    this.mchId = mchId;
-  }
-
   public String getDeviceInfo() {
     return this.deviceInfo;
   }
 
   public void setDeviceInfo(String deviceInfo) {
     this.deviceInfo = deviceInfo;
-  }
-
-  public String getNonceStr() {
-    return this.nonceStr;
-  }
-
-  public void setNonceStr(String nonceStr) {
-    this.nonceStr = nonceStr;
-  }
-
-  public String getSign() {
-    return this.sign;
-  }
-
-  public void setSign(String sign) {
-    this.sign = sign;
   }
 
   public String getTransactionId() {
@@ -299,4 +214,5 @@ public class WxPayRefundRequest {
   public void setRefundAccount(String refundAccount) {
     this.refundAccount = refundAccount;
   }
+
 }
