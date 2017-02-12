@@ -5,7 +5,7 @@ Weixin Java Tools —— 微信公众号&企业号开发 Java SDK
 
 ### 注意事项：
 1. 声明： ***本项目Fork自chanjarster/weixin-java-tools，但由于原项目已停止维护，故单独维护和发布，且发布到maven上的groupId也会不同，详细信息见下文。***
-1. 最新更新：**2016-11-30 发布[【2.4.0正式版】](https://github.com/Wechat-Group/weixin-java-tools/releases)**！
+1. 最新更新：**2017-2-12 发布[【2.5.0正式版】](https://github.com/Wechat-Group/weixin-java-tools/releases)**！
 1. 开源中国网站的本项目首页链接地址：https://www.oschina.net/p/weixin-java-tools-new
 1. 自2.0.0版本以来，公众号的接口调整比较大，主要是为了解决主接口类过于庞大不方便管理的问题，将接口实现代码按模块进行拆分。
 1. SDK详细开发文档请查阅 [【Wiki】](https://github.com/wechat-group/weixin-java-tools/wiki)，部分文档可能未能及时更新，如有发现，可以及时上报或者自行修改。
@@ -55,12 +55,12 @@ maven：
 <dependency>
   <groupId>com.github.binarywang</groupId>
   <artifactId>weixin-java-mp</artifactId>
-  <version>2.4.0</version>
+  <version>2.5.0</version>
 </dependency>
 ```
 gradle：
 ```groovy
-compile 'com.github.binarywang:weixin-java-mp:2.4.0'
+compile 'com.github.binarywang:weixin-java-mp:2.5.0'
 ```
 
 * 企业号：
@@ -70,11 +70,11 @@ maven：
 <dependency>
   <groupId>com.github.binarywang</groupId>
   <artifactId>weixin-java-cp</artifactId>
-  <version>2.4.0</version>
+  <version>2.5.0</version>
 </dependency>
 ```
 gradle：
 ```groovy
-compile 'com.github.binarywang:weixin-java-cp:2.4.0'
+compile 'com.github.binarywang:weixin-java-cp:2.5.0'
 ```
 
