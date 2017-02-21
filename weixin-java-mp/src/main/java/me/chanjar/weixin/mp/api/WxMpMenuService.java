@@ -3,6 +3,7 @@ package me.chanjar.weixin.mp.api;
 import me.chanjar.weixin.common.bean.menu.WxMenu;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.bean.menu.WxMpGetSelfMenuInfoResult;
+import me.chanjar.weixin.mp.bean.menu.WxMpMenu;
 
 /**
  * 菜单相关操作接口
@@ -14,17 +15,29 @@ public interface WxMpMenuService {
   /**
    * <pre>
    * 自定义菜单创建接口
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单创建接口
+   * 详情请见：https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141013&token=&lang=zh_CN
    * 如果要创建个性化菜单，请设置matchrule属性
-   * 详情请见:http://mp.weixin.qq.com/wiki/0/c48ccd12b69ae023159b4bfaa7c39c20.html
+   * 详情请见：https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1455782296&token=&lang=zh_CN
    * </pre>
+   * @return 如果是个性化菜单，则返回menuid，否则返回null
    */
-  void menuCreate(WxMenu menu) throws WxErrorException;
+  String menuCreate(WxMenu menu) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 自定义菜单创建接口
+   * 详情请见： https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141013&token=&lang=zh_CN
+   * 如果要创建个性化菜单，请设置matchrule属性
+   * 详情请见：https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1455782296&token=&lang=zh_CN
+   * </pre>
+   * @return 如果是个性化菜单，则返回menuid，否则返回null
+   */
+  String menuCreate(String json) throws WxErrorException;
 
   /**
    * <pre>
    * 自定义菜单删除接口
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单删除接口
+   * 详情请见: https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141015&token=&lang=zh_CN
    * </pre>
    */
   void menuDelete() throws WxErrorException;
@@ -32,20 +45,20 @@ public interface WxMpMenuService {
   /**
    * <pre>
    * 删除个性化菜单接口
-   * 详情请见: http://mp.weixin.qq.com/wiki/0/c48ccd12b69ae023159b4bfaa7c39c20.html
+   * 详情请见: https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1455782296&token=&lang=zh_CN
    * </pre>
    *
-   * @param menuid
+   * @param menuId 个性化菜单的menuid
    */
-  void menuDelete(String menuid) throws WxErrorException;
+  void menuDelete(String menuId) throws WxErrorException;
 
   /**
    * <pre>
    * 自定义菜单查询接口
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单查询接口
+   * 详情请见： https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141014&token=&lang=zh_CN
    * </pre>
    */
-  WxMenu menuGet() throws WxErrorException;
+  WxMpMenu menuGet() throws WxErrorException;
 
   /**
    * <pre>

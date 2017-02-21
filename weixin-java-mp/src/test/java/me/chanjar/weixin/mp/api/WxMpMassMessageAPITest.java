@@ -4,16 +4,16 @@ import com.google.inject.Inject;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.mp.api.test.ApiTestModule;
+import me.chanjar.weixin.mp.api.test.TestConfigStorage;
 import me.chanjar.weixin.mp.bean.WxMpMassNews;
 import me.chanjar.weixin.mp.bean.WxMpMassOpenIdsMessage;
 import me.chanjar.weixin.mp.bean.WxMpMassTagMessage;
 import me.chanjar.weixin.mp.bean.WxMpMassVideo;
 import me.chanjar.weixin.mp.bean.result.WxMpMassSendResult;
 import me.chanjar.weixin.mp.bean.result.WxMpMassUploadResult;
-import org.testng.Assert;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Guice;
-import org.testng.annotations.Test;
+import org.testng.*;
+import org.testng.annotations.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,7 +33,7 @@ public class WxMpMassMessageAPITest {
   @Test
   public void testTextMassOpenIdsMessageSend() throws WxErrorException {
     // 发送群发消息
-    WxXmlMpInMemoryConfigStorage configProvider = (WxXmlMpInMemoryConfigStorage) this.wxService
+    TestConfigStorage configProvider = (TestConfigStorage) this.wxService
       .getWxMpConfigStorage();
     WxMpMassOpenIdsMessage massMessage = new WxMpMassOpenIdsMessage();
     massMessage.setMsgType(WxConsts.MASS_MSG_TEXT);
@@ -47,10 +47,9 @@ public class WxMpMassMessageAPITest {
   }
 
   @Test(dataProvider = "massMessages")
-  public void testMediaMassOpenIdsMessageSend(String massMsgType,
-                                              String mediaId) throws WxErrorException {
+  public void testMediaMassOpenIdsMessageSend(String massMsgType, String mediaId) throws WxErrorException {
     // 发送群发消息
-    WxXmlMpInMemoryConfigStorage configProvider = (WxXmlMpInMemoryConfigStorage) this.wxService
+    TestConfigStorage configProvider = (TestConfigStorage) this.wxService
       .getWxMpConfigStorage();
     WxMpMassOpenIdsMessage massMessage = new WxMpMassOpenIdsMessage();
     massMessage.setMsgType(massMsgType);
@@ -83,8 +82,7 @@ public class WxMpMassMessageAPITest {
     WxMpMassTagMessage massMessage = new WxMpMassTagMessage();
     massMessage.setMsgType(massMsgType);
     massMessage.setMediaId(mediaId);
-    massMessage
-      .setTagId(this.wxService.getUserTagService().tagGet().get(0).getId());
+    massMessage.setTagId(this.wxService.getUserTagService().tagGet().get(0).getId());
 
     WxMpMassSendResult massResult = this.wxService
       .massGroupMessageSend(massMessage);
@@ -118,7 +116,7 @@ public class WxMpMassMessageAPITest {
       messages[0] = new Object[]{WxConsts.MASS_MSG_VIDEO, uploadResult.getMediaId()};
     }
 
-    /**
+    /*
      * 图片素材
      */
     try (InputStream inputStream = ClassLoader
@@ -130,7 +128,7 @@ public class WxMpMassMessageAPITest {
       messages[1] = new Object[]{WxConsts.MASS_MSG_IMAGE, uploadMediaRes.getMediaId()};
     }
 
-    /**
+    /*
      * 语音素材
      */
     try (InputStream inputStream = ClassLoader
@@ -142,7 +140,7 @@ public class WxMpMassMessageAPITest {
       messages[2] = new Object[]{WxConsts.MASS_MSG_VOICE, uploadMediaRes.getMediaId()};
     }
 
-    /**
+    /*
      * 图文素材
      */
     try (InputStream inputStream = ClassLoader
