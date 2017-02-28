@@ -1,4 +1,4 @@
-Weixin Java Tools —— 微信支付、公众号&企业号开发 Java SDK
+WeixinJavaTools 微信支付、公众号&企业号开发Java SDK
 =====================================
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.binarywang/weixin-java-parent/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.binarywang/weixin-java-parent)
 [![Build Status](https://travis-ci.org/Wechat-Group/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/Wechat-Group/weixin-java-tools)
