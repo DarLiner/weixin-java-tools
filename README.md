@@ -1,4 +1,4 @@
-WeixinJavaTools 微信支付、公众号&企业号开发Java SDK
+微信支付、公众号&企业号开发Java SDK
 =====================================
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.binarywang/weixin-java-parent/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.binarywang/weixin-java-parent)
 [![Build Status](https://travis-ci.org/Wechat-Group/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/Wechat-Group/weixin-java-tools)
@@ -40,12 +40,13 @@ WeixinJavaTools 微信支付、公众号&企业号开发Java SDK
 
 ===========
 ## 可参考的Demo项目
-#### 目前都是公众号的，风格不同，欢迎提供更多的demo供新手参考:
-* https://github.com/wechat-group/weixin-java-mp-demo 
+#### 欢迎提供更多的Demo供新手参考:
+* https://github.com/wechat-group/weixin-java-mp-demo （公众号Demo，使用spring mvc实现）
 * https://github.com/wechat-group/weixin-java-mp-multi-demo (支持多公众号)
-* https://github.com/wechat-group/weixin-java-tools-springmvc
-* https://github.com/wechat-group/weixin-java-mp-demo-springboot
-
+* https://github.com/wechat-group/weixin-java-tools-springmvc （公众号Demo，内含部分微信支付代码）
+* https://github.com/wechat-group/weixin-java-mp-demo-springboot （公众号Demo，使用Srping Boot实现）
+* https://github.com/wechat-group/weixin-java-cp-demo （企业号demo，筹备中）
+* https://github.com/wechat-group/weixin-java-pay-demo （微信支付demo，完善中） 
 ## Maven & Gradle 最新正式版本
 
 * 公众号（订阅号、服务号及微信支付）：
