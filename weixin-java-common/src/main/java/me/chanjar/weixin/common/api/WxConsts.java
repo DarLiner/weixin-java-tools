@@ -136,13 +136,6 @@ public class WxConsts {
   public static final String MEDIA_VIDEO = "video";
   public static final String MEDIA_THUMB = "thumb";
   public static final String MEDIA_FILE = "file";
-  ///////////////////////
-  // 文件类型
-  ///////////////////////
-  public static final String FILE_JPG = "jpeg";
-  public static final String FILE_MP3 = "mp3";
-  public static final String FILE_AMR = "amr";
-  public static final String FILE_MP4 = "mp4";
   /**
    * 点击推事件
    */
