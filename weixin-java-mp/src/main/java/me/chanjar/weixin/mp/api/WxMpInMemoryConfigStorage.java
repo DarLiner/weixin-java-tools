@@ -247,6 +247,34 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
     this.apacheHttpClientBuilder = apacheHttpClientBuilder;
   }
 
+  public void setAccessToken(String accessToken) {
+    this.accessToken = accessToken;
+  }
+
+  public void setJsapiTicket(String jsapiTicket) {
+    this.jsapiTicket = jsapiTicket;
+  }
+
+  public long getJsapiTicketExpiresTime() {
+    return this.jsapiTicketExpiresTime;
+  }
+
+  public void setJsapiTicketExpiresTime(long jsapiTicketExpiresTime) {
+    this.jsapiTicketExpiresTime = jsapiTicketExpiresTime;
+  }
+
+  public void setCardApiTicket(String cardApiTicket) {
+    this.cardApiTicket = cardApiTicket;
+  }
+
+  public long getCardApiTicketExpiresTime() {
+    return this.cardApiTicketExpiresTime;
+  }
+
+  public void setCardApiTicketExpiresTime(long cardApiTicketExpiresTime) {
+    this.cardApiTicketExpiresTime = cardApiTicketExpiresTime;
+  }
+
   @Override
   public boolean autoRefreshToken() {
     return true;
