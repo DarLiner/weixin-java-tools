@@ -28,9 +28,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 
-//import org.apache.http.conn.ssl.DefaultHostnameVerifier;
-//import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-
 public class WxMpServiceImpl implements WxMpService {
 
   private static final JsonParser JSON_PARSER = new JsonParser();

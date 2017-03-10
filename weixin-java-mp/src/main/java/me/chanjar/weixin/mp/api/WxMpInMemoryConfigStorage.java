@@ -51,10 +51,6 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
     return this.accessToken;
   }
 
-  public void setAccessToken(String accessToken) {
-    this.accessToken = accessToken;
-  }
-
   @Override
   public Lock getAccessTokenLock() {
     return this.accessTokenLock;
@@ -86,21 +82,9 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
     return this.jsapiTicket;
   }
 
-  public void setJsapiTicket(String jsapiTicket) {
-    this.jsapiTicket = jsapiTicket;
-  }
-
   @Override
   public Lock getJsapiTicketLock() {
     return this.jsapiTicketLock;
-  }
-
-  public long getJsapiTicketExpiresTime() {
-    return this.jsapiTicketExpiresTime;
-  }
-
-  public void setJsapiTicketExpiresTime(long jsapiTicketExpiresTime) {
-    this.jsapiTicketExpiresTime = jsapiTicketExpiresTime;
   }
 
   @Override
