@@ -420,26 +420,19 @@ public class WxMpServiceImpl implements WxMpService {
   }
 
   private void initHttpClient() {
-    ApacheHttpClientBuilder apacheHttpClientBuilder = this.wxMpConfigStorage
-      .getApacheHttpClientBuilder();
+    WxMpConfigStorage configStorage = this.getWxMpConfigStorage();
+    ApacheHttpClientBuilder apacheHttpClientBuilder = configStorage.getApacheHttpClientBuilder();
     if (null == apacheHttpClientBuilder) {
       apacheHttpClientBuilder = DefaultApacheHttpClientBuilder.get();
     }
 
-    apacheHttpClientBuilder.httpProxyHost(this.getWxMpConfigStorage().getHttpProxyHost())
-      .httpProxyPort(this.getWxMpConfigStorage().getHttpProxyPort())
-      .httpProxyUsername(this.getWxMpConfigStorage().getHttpProxyUsername())
-      .httpProxyPassword(this.getWxMpConfigStorage().getHttpProxyPassword());
+    apacheHttpClientBuilder.httpProxyHost(configStorage.getHttpProxyHost())
+      .httpProxyPort(configStorage.getHttpProxyPort())
+      .httpProxyUsername(configStorage.getHttpProxyUsername())
+      .httpProxyPassword(configStorage.getHttpProxyPassword());
 
-    // if (this.getWxMpConfigStorage().getSSLContext() != null) {
-    // SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
-    // this.getWxMpConfigStorage().getSSLContext(), new String[] { "TLSv1" }, null,
-    // new DefaultHostnameVerifier());
-    // apacheHttpClientBuilder.sslConnectionSocketFactory(sslsf);
-    // }
-
-    if (this.getWxMpConfigStorage().getHttpProxyHost() != null && this.getWxMpConfigStorage().getHttpProxyPort() > 0) {
-      this.httpProxy = new HttpHost(this.getWxMpConfigStorage().getHttpProxyHost(), this.getWxMpConfigStorage().getHttpProxyPort());
+    if (configStorage.getHttpProxyHost() != null && configStorage.getHttpProxyPort() > 0) {
+      this.httpProxy = new HttpHost(configStorage.getHttpProxyHost(), configStorage.getHttpProxyPort());
     }
 
     this.httpClient = apacheHttpClientBuilder.build();
