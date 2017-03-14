@@ -382,37 +382,44 @@ public class WxPayServiceImpl implements WxPayService {
 
   @Override
   public byte[] createScanPayQrcodeMode1(String productId, File logoFile, Integer sideLength) {
-    //weixin://wxpay/bizpayurl?sign=XXXXX&appid=XXXXX&mch_id=XXXXX&product_id=XXXXXX&time_stamp=XXXXXX&nonce_str=XXXXX
+    String content = createScanPayQrcodeMode1(productId);
+    return createQrcode(content, logoFile, sideLength);
+  }
+  
+  @Override
+  public String createScanPayQrcodeMode1(String productId){
+	//weixin://wxpay/bizpayurl?sign=XXXXX&appid=XXXXX&mch_id=XXXXX&product_id=XXXXXX&time_stamp=XXXXXX&nonce_str=XXXXX
     StringBuilder codeUrl = new StringBuilder("weixin://wxpay/bizpayurl?");
     Map<String, String> params = Maps.newHashMap();
     params.put("appid", this.getConfig().getAppId());
     params.put("mch_id", this.getConfig().getMchId());
     params.put("product_id", productId);
-    params.put("time_stamp", String.valueOf(System.currentTimeMillis()));
+    params.put("time_stamp", String.valueOf(System.currentTimeMillis() / 1000));//这里需要秒，10位数字
     params.put("nonce_str", String.valueOf(System.currentTimeMillis()));
 
     String sign = this.createSign(params);
     params.put("sign", sign);
 
+    
     for (String key : params.keySet()) {
       codeUrl.append(key + "=" + params.get(key) + "&");
     }
 
     String content = codeUrl.toString().substring(0, codeUrl.length() - 1);
-    if (sideLength == null || sideLength < 1) {
-      return QrcodeUtils.createQrcode(content, logoFile);
-    }
-
-    return QrcodeUtils.createQrcode(content, sideLength, logoFile);
+    log.debug("扫码支付模式一生成二维码的URL:{}",content);
+    return  content;
   }
 
   @Override
   public byte[] createScanPayQrcodeMode2(String codeUrl, File logoFile, Integer sideLength) {
-    if (sideLength == null || sideLength < 1) {
-      return QrcodeUtils.createQrcode(codeUrl, logoFile);
+    return createQrcode(codeUrl, logoFile, sideLength);
+  }
+  
+  private byte[] createQrcode(String content, File logoFile, Integer sideLength) {
+	if (sideLength == null || sideLength < 1) {
+      return QrcodeUtils.createQrcode(content, logoFile);
     }
-
-    return QrcodeUtils.createQrcode(codeUrl, sideLength, logoFile);
+    return QrcodeUtils.createQrcode(content, sideLength, logoFile);
   }
 
   public void report(WxPayReportRequest request) throws WxErrorException {
