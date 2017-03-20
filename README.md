@@ -5,6 +5,7 @@
 
 ### 注意事项：
 1. 声明： ***本项目Fork自chanjarster/weixin-java-tools，但由于原项目已停止维护，故单独维护和发布，且发布到maven上的groupId也会不同，详细信息见下文。***
+1. **新手请注意，本项目仅是一个开发工具包（即SDK），未提供Web实现，建议使用maven或gradle引用本项目即可使用本SDK提供的各种功能，详情可参考下文中提到的Demo项目或本项目中的部分单元测试代码；如果没有贡献代码的意愿，不建议下载项目的源码自行编译，因为如果想看源码使用maven也是可以下载源码的**；
 1. 最新更新：**2017-2-12 发布[【2.5.0正式版】](https://github.com/Wechat-Group/weixin-java-tools/releases)**！
 1. 开源中国网站的本项目介绍的首页链接地址：https://www.oschina.net/p/weixin-java-tools-new
 1. 自2.0.0版本以来，公众号的接口调整比较大，主要是为了解决主接口类过于庞大不方便管理的问题，将接口实现代码按模块进行拆分。
