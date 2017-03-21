@@ -385,7 +385,7 @@ public class WxPayServiceImpl implements WxPayService {
     String content = createScanPayQrcodeMode1(productId);
     return createQrcode(content, logoFile, sideLength);
   }
-  
+
   @Override
   public String createScanPayQrcodeMode1(String productId){
 	//weixin://wxpay/bizpayurl?sign=XXXXX&appid=XXXXX&mch_id=XXXXX&product_id=XXXXXX&time_stamp=XXXXXX&nonce_str=XXXXX
@@ -400,7 +400,7 @@ public class WxPayServiceImpl implements WxPayService {
     String sign = this.createSign(params);
     params.put("sign", sign);
 
-    
+
     for (String key : params.keySet()) {
       codeUrl.append(key + "=" + params.get(key) + "&");
     }
@@ -414,7 +414,7 @@ public class WxPayServiceImpl implements WxPayService {
   public byte[] createScanPayQrcodeMode2(String codeUrl, File logoFile, Integer sideLength) {
     return createQrcode(codeUrl, logoFile, sideLength);
   }
-  
+
   private byte[] createQrcode(String content, File logoFile, Integer sideLength) {
 	if (sideLength == null || sideLength < 1) {
       return QrcodeUtils.createQrcode(content, logoFile);
@@ -491,7 +491,7 @@ public class WxPayServiceImpl implements WxPayService {
       HttpPost httpPost = new HttpPost(url);
 
       try (CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build()) {
-        httpPost.setEntity(new StringEntity(new String(requestStr.getBytes("UTF-8"), "ISO-8859-1")));
+        httpPost.setEntity(new StringEntity(new String(requestStr.getBytes(CharEncoding.UTF_8), CharEncoding.ISO_8859_1)));
         try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
           String result = EntityUtils.toString(response.getEntity(), Consts.UTF_8);
           this.log.debug("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}", url, requestStr, result);
