@@ -2,7 +2,6 @@ package com.github.binarywang.wxpay.bean.result;
 
 import com.google.common.collect.Lists;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import io.restassured.path.xml.XmlPath;
 
 import java.util.List;
 
@@ -190,22 +189,21 @@ public class WxPayRefundQueryResult extends WxPayBaseResult {
   public void composeRefundRecords() {
     if (this.refundCount != null && this.refundCount > 0) {
       this.refundRecords = Lists.newArrayList();
-      XmlPath xmlPath = new XmlPath(this.getXmlString());
 
       for (int i = 0; i < this.refundCount; i++) {
         RefundRecord refundRecord = new RefundRecord();
         this.refundRecords.add(refundRecord);
 
-        refundRecord.setOutRefundNo(this.getXmlValue(xmlPath, "xml.out_refund_no_" + i, String.class));
-        refundRecord.setRefundId(this.getXmlValue(xmlPath, "xml.refund_id_" + i, String.class));
-        refundRecord.setRefundChannel(this.getXmlValue(xmlPath, "xml.refund_channel_" + i, String.class));
-        refundRecord.setRefundFee(this.getXmlValue(xmlPath, "xml.refund_fee_" + i, Integer.class));
-        refundRecord.setSettlementRefundFee(this.getXmlValue(xmlPath, "xml.settlement_refund_fee_" + i, Integer.class));
-        refundRecord.setCouponType(this.getXmlValue(xmlPath, "xml.coupon_type_" + i, String.class));
-        refundRecord.setCouponRefundFee(this.getXmlValue(xmlPath, "xml.coupon_refund_fee_" + i, Integer.class));
-        refundRecord.setCouponRefundCount(this.getXmlValue(xmlPath, "xml.coupon_refund_count_" + i, Integer.class));
-        refundRecord.setRefundStatus(this.getXmlValue(xmlPath, "xml.refund_status_" + i, String.class));
-        refundRecord.setRefundRecvAccout(this.getXmlValue(xmlPath, "xml.refund_recv_accout_" + i, String.class));
+        refundRecord.setOutRefundNo(this.getXmlValue("xml/out_refund_no_" + i));
+        refundRecord.setRefundId(this.getXmlValue("xml/refund_id_" + i));
+        refundRecord.setRefundChannel(this.getXmlValue("xml/refund_channel_" + i));
+        refundRecord.setRefundFee(this.getXmlValueAsInt("xml/refund_fee_" + i));
+        refundRecord.setSettlementRefundFee(this.getXmlValueAsInt("xml/settlement_refund_fee_" + i));
+        refundRecord.setCouponType(this.getXmlValue("xml/coupon_type_" + i));
+        refundRecord.setCouponRefundFee(this.getXmlValueAsInt("xml/coupon_refund_fee_" + i));
+        refundRecord.setCouponRefundCount(this.getXmlValueAsInt("xml/coupon_refund_count_" + i));
+        refundRecord.setRefundStatus(this.getXmlValue("xml/refund_status_" + i));
+        refundRecord.setRefundRecvAccout(this.getXmlValue("xml/refund_recv_accout_" + i));
 
         if (refundRecord.getCouponRefundCount() == null || refundRecord.getCouponRefundCount() == 0) {
           continue;
@@ -215,8 +213,8 @@ public class WxPayRefundQueryResult extends WxPayBaseResult {
         for (int j = 0; j < refundRecord.getCouponRefundCount(); j++) {
           coupons.add(
             new RefundRecord.RefundCoupon(
-              this.getXmlValue(xmlPath, "xml.coupon_refund_id_" + i + "_" + j, String.class),
-              this.getXmlValue(xmlPath, "xml.coupon_refund_fee_" + i + "_" + j, Integer.class)
+              this.getXmlValue("xml/coupon_refund_id_" + i + "_" + j),
+              this.getXmlValueAsInt("xml/coupon_refund_fee_" + i + "_" + j)
             )
           );
         }

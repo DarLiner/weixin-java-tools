@@ -1,20 +1,26 @@
 package com.github.binarywang.wxpay.bean.result;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.Maps;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import io.restassured.internal.path.xml.NodeChildrenImpl;
-import io.restassured.internal.path.xml.NodeImpl;
-import io.restassured.path.xml.XmlPath;
-import io.restassured.path.xml.element.Node;
-import io.restassured.path.xml.exception.XmlPathException;
 import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -81,6 +87,11 @@ public abstract class WxPayBaseResult {
    */
   @XStreamAlias("sign")
   private String sign;
+
+  /**
+   * xml的Document对象，用于解析xml文本
+   */
+  private Document xmlDoc;
 
   /**
    * 将单位分转换成单位圆
@@ -211,51 +222,74 @@ public abstract class WxPayBaseResult {
    * 将bean通过保存的xml字符串转换成map
    */
   public Map<String, String> toMap() {
+    if (StringUtils.isBlank(this.xmlString)) {
+      throw new RuntimeException("xml数据有问题，请核实！");
+    }
+
     Map<String, String> result = Maps.newHashMap();
-    XmlPath xmlPath = new XmlPath(this.xmlString);
-    NodeImpl rootNode = null;
+    Document doc = this.getXmlDoc();
+
     try {
-      rootNode = xmlPath.get("xml");
-    } catch (XmlPathException e) {
-      throw new RuntimeException("xml数据有问题，请核实！");
-    }
-
-    if (rootNode == null) {
-      throw new RuntimeException("xml数据有问题，请核实！");
-    }
-
-    Iterator<Node> iterator = rootNode.children().nodeIterator();
-    while (iterator.hasNext()) {
-      Node node = iterator.next();
-      result.put(node.name(), node.value());
+      NodeList list = (NodeList) XPathFactory.newInstance().newXPath()
+        .compile("/xml/*")
+        .evaluate(doc, XPathConstants.NODESET);
+      int len = list.getLength();
+      for (int i = 0; i < len; i++) {
+        result.put(list.item(i).getNodeName(), list.item(i).getTextContent());
+      }
+    } catch (XPathExpressionException e) {
+      throw new RuntimeException("非法的xml文本内容：" + xmlString);
     }
 
     return result;
   }
 
-  private String getXmlValue(XmlPath xmlPath, String path) {
-    if (xmlPath.get(path) instanceof NodeChildrenImpl) {
-      if (((NodeChildrenImpl) xmlPath.get(path)).size() == 0) {
-        return null;
-      }
+  /**
+   * 将xml字符串转换成Document对象，以便读取其元素值
+   */
+  protected Document getXmlDoc() {
+    if (this.xmlDoc != null) {
+      return this.xmlDoc;
     }
 
-    return xmlPath.getString(path);
+    try {
+      this.xmlDoc = DocumentBuilderFactory
+        .newInstance()
+        .newDocumentBuilder()
+        .parse(new ByteArrayInputStream(this.xmlString.getBytes("UTF-8")));
+      return xmlDoc;
+    } catch (SAXException | IOException | ParserConfigurationException e) {
+      throw new RuntimeException("非法的xml文本内容：" + this.xmlString);
+    }
+
   }
 
-  protected <T> T getXmlValue(XmlPath xmlPath, String path, Class<T> clz) {
-    String value = this.getXmlValue(xmlPath, path);
-    if (value == null) {
+  /**
+   * 获取xml中元素的值
+   */
+  protected String getXmlValue(String... path) {
+    Document doc = this.getXmlDoc();
+    String expression = String.format("/%s//text()", Joiner.on("/").join(path));
+    try {
+      return (String) XPathFactory
+        .newInstance()
+        .newXPath()
+        .compile(expression)
+        .evaluate(doc, XPathConstants.STRING);
+    } catch (XPathExpressionException e) {
+      throw new RuntimeException("未找到相应路径的文本：" + expression);
+    }
+  }
+
+  /**
+   * 获取xml中元素的值，作为int值返回
+   */
+  protected Integer getXmlValueAsInt(String... path) {
+    String result = this.getXmlValue(path);
+    if (StringUtils.isBlank(result)) {
       return null;
     }
 
-    switch (clz.getSimpleName()) {
-      case "String":
-        return (T) value;
-      case "Integer":
-        return (T) Integer.valueOf(value);
-    }
-
-    throw new UnsupportedOperationException("暂时不支持此种类型的数据");
+    return Integer.valueOf(result);
   }
 }

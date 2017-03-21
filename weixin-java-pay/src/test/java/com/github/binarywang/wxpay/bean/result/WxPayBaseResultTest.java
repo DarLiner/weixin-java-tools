@@ -1,6 +1,5 @@
 package com.github.binarywang.wxpay.bean.result;
 
-import com.github.binarywang.wxpay.bean.result.WxPayOrderQueryResult;
 import org.testng.*;
 import org.testng.annotations.*;
 
@@ -13,6 +12,15 @@ import java.util.Map;
  * </pre>
  */
 public class WxPayBaseResultTest {
+
+  @Test
+  public void testGetXmlValue() throws Exception {
+  }
+
+  @Test
+  public void testXml2Doc() throws Exception {
+  }
+
   @Test
   public void testToMap() throws Exception {
     WxPayOrderQueryResult result = new WxPayOrderQueryResult();
@@ -40,11 +48,17 @@ public class WxPayBaseResultTest {
     Map<String, String> map = result.toMap();
     System.out.println(map);
 
-    Assert.assertEquals("SUCCESS", map.get("return_code"));
-    Assert.assertEquals("订单额外描述", map.get("attach"));
+    Assert.assertEquals(map.get("return_code"), "SUCCESS");
+    Assert.assertEquals(map.get("attach"), "订单额外描述");
 
-    result.setXmlString("");
-    System.out.println(result.toMap());
+  }
+
+  @Test(expectedExceptions = {RuntimeException.class})
+  public void testToMap_with_empty_xmlString() {
+    WxPayOrderQueryResult result = new WxPayOrderQueryResult();
+    result.setXmlString(" ");
+    Map<String, String> map = result.toMap();
+    System.out.println(map);
   }
 
 }

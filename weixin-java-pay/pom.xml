@@ -27,11 +27,6 @@
       <!-- 由于较新的3.8版本需要jdk8，故而此处采用较低版本 -->
     </dependency>
     <dependency>
-      <groupId>io.rest-assured</groupId>
-      <artifactId>xml-path</artifactId>
-      <version>3.0.1</version>
-    </dependency>
-    <dependency>
       <groupId>com.github.binarywang</groupId>
       <artifactId>qrcode-utils</artifactId>
       <version>1.0</version>

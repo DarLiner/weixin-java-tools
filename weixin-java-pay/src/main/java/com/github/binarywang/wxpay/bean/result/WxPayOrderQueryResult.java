@@ -2,7 +2,6 @@ package com.github.binarywang.wxpay.bean.result;
 
 import com.google.common.collect.Lists;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import io.restassured.path.xml.XmlPath;
 
 import java.util.List;
 
@@ -395,11 +394,10 @@ public class WxPayOrderQueryResult extends WxPayBaseResult {
   public void composeCoupons() {
     if (this.couponCount != null && this.couponCount > 0) {
       this.coupons = Lists.newArrayList();
-      XmlPath xmlPath = new XmlPath(this.getXmlString());
       for (int i = 0; i < this.couponCount; i++) {
-        this.coupons.add(new Coupon(this.getXmlValue(xmlPath, "xml.coupon_type_" + i, String.class),
-          this.getXmlValue(xmlPath, "xml.coupon_id_" + i, String.class),
-          this.getXmlValue(xmlPath, "xml.coupon_fee_" + i, Integer.class)));
+        this.coupons.add(new Coupon(this.getXmlValue("xml/coupon_type_" + i),
+          this.getXmlValue("xml/coupon_id_" + i),
+          this.getXmlValueAsInt("xml/coupon_fee_" + i)));
       }
     }
   }
