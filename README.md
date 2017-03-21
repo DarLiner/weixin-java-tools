@@ -1,5 +1,5 @@
 微信支付、公众号&企业号开发Java SDK
-=====================================
+---------------------------------
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.binarywang/weixin-java-parent/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.binarywang/weixin-java-parent)
 [![Build Status](https://travis-ci.org/Wechat-Group/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/Wechat-Group/weixin-java-tools)
 
@@ -16,8 +16,7 @@
 1. 如果想贡献代码，请阅读[【代码贡献指南】](CONTRIBUTION.md)；
 1. 捐助渠道已开通，如有意向请前往托管于码云的项目首页（具体地址见下文）的页面评论区上方，可以找到“捐助”按钮，非常感谢各位捐助的同学！
 
-===========
-
+---------------------------------
 ## SDK使用交流方式说明：
 1. QQ群： [![加入QQ群](https://img.shields.io/badge/QQ群-343954419-blue.svg)](http://shang.qq.com/wpa/qunwpa?idkey=731dc3e7ea31ebe25376cc1a791445468612c63fd0e9e05399b088ec81fd9e15) 或 [![加入QQ群](https://img.shields.io/badge/QQ群-343954419-blue.svg)](http://jq.qq.com/?_wv=1027&k=40lRskK)，推荐点击按钮入群，当然如果无法成功操作，请自行搜索群号343954419进行添加 ）
 1. 由于群容量有限，即将爆满，故开启付费入群模式以保证只有真实交流需求的人进入，并为保证群的活跃度，将不定期清理长时间不活跃的同学；
@@ -25,22 +24,21 @@
 1. 新手提问前，请先阅读此文章：http://t.cn/RV93MRB
 1. 寻求帮助时需贴代码或大长串异常信息的，请利用http://paste.ubuntu.com
 
-===========
-
+---------------------------------
 ## 版本说明
 1. 本项目定为大约每两个月发布一次正式版，版本号格式为X.X.0（如2.1.0，2.2.0等），遇到重大问题需修复会及时提交新版本，欢迎大家随时提交Pull Request；
 1. BUG修复和新特性一般会先发布成小版本作为临时测试版本（如2.4.5.BETA，2.4.6.BETA等，即尾号不为0，并添加BETA字样，以区别于正式版）；
 1. 目前最新版本号为 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.binarywang/weixin-java-parent/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.binarywang/weixin-java-parent) ，也可以通过访问链接 [【公众号】](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.github.binarywang%22%20AND%20a%3A%22weixin-java-mp%22) 、[【企业号】](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.github.binarywang%22%20AND%20a%3A%22weixin-java-cp%22)
 分别查看所有最新的版本。 
 
-===========
+---------------------------------
 #### 本项目在几个著名的代码托管网站同步更新，地址分别是:
 * 码云：http://git.oschina.net/binary/weixin-java-tools
 * GitHub: https://github.com/wechat-group/weixin-java-tools
 * Bitbucket：https://bitbucket.org/binarywang/weixin-java-tools
 * Coding: https://git.coding.net/binarywang/weixin-java-tools.git
 
-===========
+---------------------------------
 ## 可参考的Demo项目
 #### 欢迎提供更多的Demo供新手参考:
 * https://github.com/wechat-group/weixin-java-mp-demo （公众号Demo，使用Spring MVC实现）
@@ -49,6 +47,8 @@
 * https://github.com/wechat-group/weixin-java-mp-demo-springboot （公众号Demo，使用Spring Boot实现）
 * https://github.com/wechat-group/weixin-java-cp-demo （企业号demo，筹备中）
 * https://github.com/wechat-group/weixin-java-pay-demo （微信支付demo，完善中） 
+
+---------------------------------
 ## Maven & Gradle 最新正式版本
 
 * 公众号（订阅号、服务号及微信支付）：
