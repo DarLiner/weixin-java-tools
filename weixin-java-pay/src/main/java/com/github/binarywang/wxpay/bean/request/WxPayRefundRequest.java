@@ -143,6 +143,9 @@ public class WxPayRefundRequest extends WxPayBaseRequest {
   @XStreamAlias("refund_account")
   private String refundAccount;
 
+  public WxPayRefundRequest() {
+  }
+
   private WxPayRefundRequest(Builder builder) {
     setDeviceInfo(builder.deviceInfo);
     setAppid(builder.appid);
