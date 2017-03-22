@@ -23,19 +23,6 @@ import me.chanjar.weixin.common.util.ToStringUtils;
 public class WxEntPayQueryRequest extends WxPayBaseRequest {
   /**
    * <pre>
-   * 商户号
-   * mch_id
-   * 是
-   * 10000098
-   * String(32)
-   * 微信支付分配的商户号
-   * </pre>
-   */
-  @XStreamAlias("mchid")
-  private String mchId;
-
-  /**
-   * <pre>
    * 商户订单号
    * partner_trade_no
    * 是
@@ -47,16 +34,6 @@ public class WxEntPayQueryRequest extends WxPayBaseRequest {
   @Required
   @XStreamAlias("partner_trade_no")
   private String partnerTradeNo;
-
-  @Override
-  public String getMchId() {
-    return this.mchId;
-  }
-
-  @Override
-  public void setMchId(String mchId) {
-    this.mchId = mchId;
-  }
 
   public String getPartnerTradeNo() {
     return this.partnerTradeNo;
