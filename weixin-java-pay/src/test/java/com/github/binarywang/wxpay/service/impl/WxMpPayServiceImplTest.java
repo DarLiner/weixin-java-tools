@@ -60,7 +60,7 @@ public class WxMpPayServiceImplTest {
   /**
    * Test method for {@link WxPayService#refund(WxPayRefundRequest)} .
    */
-  @Test//(dependsOnMethods = {"setSSLKey"})
+  @Test
   public void testRefund() throws Exception {
     WxPayRefundResult result = this.wxService.refund(
       WxPayRefundRequest.newBuilder()
@@ -99,7 +99,7 @@ public class WxMpPayServiceImplTest {
   /**
    * Test method for {@link WxPayService#sendRedpack(WxPaySendRedpackRequest)} .
    */
-  @Test//(dependsOnMethods = {"setSSLKey"})
+  @Test
   public void testSendRedpack() throws Exception {
     WxPaySendRedpackRequest request = new WxPaySendRedpackRequest();
     request.setActName("abc");
@@ -113,7 +113,7 @@ public class WxMpPayServiceImplTest {
   /**
    * Test method for {@link WxPayService#queryRedpack(java.lang.String)}.
    */
-  @Test//(dependsOnMethods = {"setSSLKey"})
+  @Test
   public void testQueryRedpack() throws Exception {
     WxPayRedpackQueryResult redpackResult = this.wxService.queryRedpack("aaaa");
     this.logger.info(redpackResult.toString());
@@ -157,7 +157,7 @@ public class WxMpPayServiceImplTest {
   /**
    * Test method for {@link WxPayService#entPay(WxEntPayRequest)}.
    */
-  @Test//(dependsOnMethods = {"setSSLKey"})
+  @Test
   public void testEntPay() throws WxErrorException {
     WxEntPayRequest request = new WxEntPayRequest();
     this.logger.info(this.wxService.entPay(request).toString());
@@ -166,7 +166,7 @@ public class WxMpPayServiceImplTest {
   /**
    * Test method for {@link WxPayService#queryEntPay(java.lang.String)}.
    */
-  @Test//(dependsOnMethods = {"setSSLKey"})
+  @Test
   public void testQueryEntPay() throws WxErrorException {
     this.logger.info(this.wxService.queryEntPay("11212121").toString());
   }
