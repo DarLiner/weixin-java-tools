@@ -370,6 +370,7 @@ public class WxPayServiceImpl implements WxPayService {
   @Override
   public WxEntPayQueryResult queryEntPay(String partnerTradeNo) throws WxErrorException {
     WxEntPayQueryRequest request = new WxEntPayQueryRequest();
+    request.setPartnerTradeNo(partnerTradeNo);
     this.initRequest(request);
     request.setSign(this.createSign(request));
 
