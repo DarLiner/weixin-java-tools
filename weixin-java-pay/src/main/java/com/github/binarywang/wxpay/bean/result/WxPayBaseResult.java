@@ -41,7 +41,9 @@ public abstract class WxPayBaseResult {
    */
   @XStreamAlias("return_msg")
   protected String returnMsg;
-  private String xmlString;
+
+  //当return_code为SUCCESS的时候，还会包括以下字段：
+
   /**
    * 业务结果
    */
@@ -70,7 +72,7 @@ public abstract class WxPayBaseResult {
   /**
    * 服务商模式下的子公众账号ID
    */
-  @XStreamAlias("appid")
+  @XStreamAlias("sub_appid")
   private String subAppId;
   /**
    * 服务商模式下的子商户号
@@ -87,6 +89,12 @@ public abstract class WxPayBaseResult {
    */
   @XStreamAlias("sign")
   private String sign;
+
+  //以下为辅助属性
+  /**
+   * xml字符串
+   */
+  private String xmlString;
 
   /**
    * xml的Document对象，用于解析xml文本

@@ -195,4 +195,19 @@ public class WxPayServiceImplTest {
     assertEquals(QrcodeUtils.decodeQrcode(qrcodeFilePath.toFile()), qrcodeContent);
   }
 
+  @Test
+  public void testGetOrderNotifyResult() throws Exception {
+  }
+
+  @Test
+  public void testMicropay() throws Exception {
+    WxPayMicropayResult result = this.payService.micropay(WxPayMicropayRequest.newBuilder()
+      .body("body")
+      .outTradeNo("aaaaa")
+      .totalFee(123)
+      .spbillCreateIp("127.0.0.1")
+      .authCode("aaa")
+      .build());
+    this.logger.info(result.toString());
+  }
 }

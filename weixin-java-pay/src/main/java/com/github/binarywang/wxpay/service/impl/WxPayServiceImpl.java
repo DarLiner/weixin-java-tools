@@ -122,19 +122,19 @@ public class WxPayServiceImpl implements WxPayService {
       || !"SUCCESS".equalsIgnoreCase(result.getResultCode())) {
       StringBuilder errorMsg = new StringBuilder();
       if (result.getReturnCode() != null) {
-        errorMsg.append("返回代码：" + result.getReturnCode());
+        errorMsg.append("返回代码：").append(result.getReturnCode());
       }
       if (result.getReturnMsg() != null) {
-        errorMsg.append("，返回信息：" + result.getReturnMsg());
+        errorMsg.append("，返回信息：").append(result.getReturnMsg());
       }
       if (result.getResultCode() != null) {
-        errorMsg.append("，结果代码：" + result.getResultCode());
+        errorMsg.append("，结果代码：").append(result.getResultCode());
       }
       if (result.getErrCode() != null) {
-        errorMsg.append("，错误代码：" + result.getErrCode());
+        errorMsg.append("，错误代码：").append(result.getErrCode());
       }
       if (result.getErrCodeDes() != null) {
-        errorMsg.append("，错误详情：" + result.getErrCodeDes());
+        errorMsg.append("，错误详情：").append(result.getErrCodeDes());
       }
 
       WxError error = WxError.newBuilder()
@@ -389,7 +389,7 @@ public class WxPayServiceImpl implements WxPayService {
 
   @Override
   public String createScanPayQrcodeMode1(String productId){
-	//weixin://wxpay/bizpayurl?sign=XXXXX&appid=XXXXX&mch_id=XXXXX&product_id=XXXXXX&time_stamp=XXXXXX&nonce_str=XXXXX
+	  //weixin://wxpay/bizpayurl?sign=XXXXX&appid=XXXXX&mch_id=XXXXX&product_id=XXXXXX&time_stamp=XXXXXX&nonce_str=XXXXX
     StringBuilder codeUrl = new StringBuilder("weixin://wxpay/bizpayurl?");
     Map<String, String> params = Maps.newHashMap();
     params.put("appid", this.getConfig().getAppId());
@@ -453,6 +453,19 @@ public class WxPayServiceImpl implements WxPayService {
     this.checkResult(result);
     //TODO 待实现，暂时无测试帐号，无法调试
     return null;
+  }
+
+  @Override
+  public WxPayMicropayResult micropay(WxPayMicropayRequest request) throws WxErrorException {
+    this.initRequest(request);
+    BeanUtils.checkRequiredFields(request);
+    request.setSign(this.createSign(request));
+
+    String url = this.getPayBaseUrl() + "/pay/micropay";
+    String responseContent = this.post(url, request.toXML());
+    WxPayMicropayResult result = WxPayBaseResult.fromXML(responseContent, WxPayMicropayResult.class);
+    this.checkResult(result);
+    return result;
   }
 
   private String post(String url, String xmlParam) {
