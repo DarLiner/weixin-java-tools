@@ -15,6 +15,7 @@ import org.testng.annotations.*;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Map;
 
 import static org.testng.Assert.*;
 
@@ -26,23 +27,24 @@ import static org.testng.Assert.*;
  */
 @Test
 @Guice(modules = ApiTestModule.class)
-public class WxMpPayServiceImplTest {
+public class WxPayServiceImplTest {
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
   @Inject
-  protected WxPayService wxService;
+  protected WxPayService payService;
 
   @Test
   public void testGetPayInfo() throws Exception {
-
+    Map<String, String> payInfo = this.payService.getPayInfo(WxPayUnifiedOrderRequest.builder().body("abc").build());
+    this.logger.info(payInfo.toString());
   }
 
   @Test
   public void testDownloadBill() throws Exception {
-    File file = this.wxService.downloadBill("20170101", "ALL", "GZIP", "1111111");
+    File file = this.payService.downloadBill("20170101", "ALL", "GZIP", "1111111");
     assertNotNull(file);
     //必填字段为空时，抛出异常
-    this.wxService.downloadBill("", "", "", null);
+    this.payService.downloadBill("", "", "", null);
   }
 
   @Test
@@ -54,7 +56,7 @@ public class WxMpPayServiceImplTest {
     request.setReturnCode("aaa");
     request.setResultCode("aaa");
     request.setUserIp("8.8.8");
-    this.wxService.report(request);
+    this.payService.report(request);
   }
 
   /**
@@ -62,7 +64,7 @@ public class WxMpPayServiceImplTest {
    */
   @Test
   public void testRefund() throws Exception {
-    WxPayRefundResult result = this.wxService.refund(
+    WxPayRefundResult result = this.payService.refund(
       WxPayRefundRequest.newBuilder()
         .outRefundNo("aaa")
         .outTradeNo("1111")
@@ -79,20 +81,20 @@ public class WxMpPayServiceImplTest {
   public void testRefundQuery() throws Exception {
     WxPayRefundQueryResult result;
 
-    result = this.wxService.refundQuery("1", "", "", "");
+    result = this.payService.refundQuery("1", "", "", "");
     this.logger.info(result.toString());
 
-    result = this.wxService.refundQuery("", "2", "", "");
+    result = this.payService.refundQuery("", "2", "", "");
     this.logger.info(result.toString());
 
-    result = this.wxService.refundQuery("", "", "3", "");
+    result = this.payService.refundQuery("", "", "3", "");
     this.logger.info(result.toString());
 
-    result = this.wxService.refundQuery("", "", "", "4");
+    result = this.payService.refundQuery("", "", "", "4");
     this.logger.info(result.toString());
 
     //测试四个参数都填的情况，应该报异常的
-    result = this.wxService.refundQuery("1", "2", "3", "4");
+    result = this.payService.refundQuery("1", "2", "3", "4");
     this.logger.info(result.toString());
   }
 
@@ -105,8 +107,8 @@ public class WxMpPayServiceImplTest {
     request.setActName("abc");
     request.setClientIp("aaa");
     request.setMchBillNo("aaaa");
-    request.setReOpenid(((XmlWxPayConfig) this.wxService.getConfig()).getOpenid());
-    WxPaySendRedpackResult redpackResult = this.wxService.sendRedpack(request);
+    request.setReOpenid(((XmlWxPayConfig) this.payService.getConfig()).getOpenid());
+    WxPaySendRedpackResult redpackResult = this.payService.sendRedpack(request);
     this.logger.info(redpackResult.toString());
   }
 
@@ -115,7 +117,7 @@ public class WxMpPayServiceImplTest {
    */
   @Test
   public void testQueryRedpack() throws Exception {
-    WxPayRedpackQueryResult redpackResult = this.wxService.queryRedpack("aaaa");
+    WxPayRedpackQueryResult redpackResult = this.payService.queryRedpack("aaaa");
     this.logger.info(redpackResult.toString());
   }
 
@@ -124,14 +126,14 @@ public class WxMpPayServiceImplTest {
    */
   @Test
   public void testUnifiedOrder() throws WxErrorException {
-    WxPayUnifiedOrderResult result = this.wxService
+    WxPayUnifiedOrderResult result = this.payService
       .unifiedOrder(WxPayUnifiedOrderRequest.builder()
         .body("我去")
         .totalFee(1)
         .spbillCreateIp("111111")
         .notifyURL("111111")
         .tradeType("JSAPI")
-        .openid(((XmlWxPayConfig) this.wxService.getConfig()).getOpenid())
+        .openid(((XmlWxPayConfig) this.payService.getConfig()).getOpenid())
         .outTradeNo("111111")
         .build());
     this.logger.info(result.toString());
@@ -142,8 +144,8 @@ public class WxMpPayServiceImplTest {
    */
   @Test
   public void testQueryOrder() throws WxErrorException {
-    this.logger.info(this.wxService.queryOrder("11212121", null).toString());
-    this.logger.info(this.wxService.queryOrder(null, "11111").toString());
+    this.logger.info(this.payService.queryOrder("11212121", null).toString());
+    this.logger.info(this.payService.queryOrder(null, "11111").toString());
   }
 
   /**
@@ -151,7 +153,7 @@ public class WxMpPayServiceImplTest {
    */
   @Test
   public void testCloseOrder() throws WxErrorException {
-    this.logger.info(this.wxService.closeOrder("11212121").toString());
+    this.logger.info(this.payService.closeOrder("11212121").toString());
   }
 
   /**
@@ -160,7 +162,7 @@ public class WxMpPayServiceImplTest {
   @Test
   public void testEntPay() throws WxErrorException {
     WxEntPayRequest request = new WxEntPayRequest();
-    this.logger.info(this.wxService.entPay(request).toString());
+    this.logger.info(this.payService.entPay(request).toString());
   }
 
   /**
@@ -168,13 +170,13 @@ public class WxMpPayServiceImplTest {
    */
   @Test
   public void testQueryEntPay() throws WxErrorException {
-    this.logger.info(this.wxService.queryEntPay("11212121").toString());
+    this.logger.info(this.payService.queryEntPay("11212121").toString());
   }
 
   @Test
   public void testCreateScanPayQrcodeMode1() throws Exception {
     String productId = "abc";
-    byte[] bytes = this.wxService.createScanPayQrcodeMode1(productId, null, null);
+    byte[] bytes = this.payService.createScanPayQrcodeMode1(productId, null, null);
     Path qrcodeFilePath = Files.createTempFile("qrcode_", ".jpg");
     Files.write(qrcodeFilePath, bytes);
     String qrcodeContent = QrcodeUtils.decodeQrcode(qrcodeFilePath.toFile());
@@ -187,7 +189,7 @@ public class WxMpPayServiceImplTest {
   @Test
   public void testCreateScanPayQrcodeMode2() throws Exception {
     String qrcodeContent = "abc";
-    byte[] bytes = this.wxService.createScanPayQrcodeMode2(qrcodeContent, null, null);
+    byte[] bytes = this.payService.createScanPayQrcodeMode2(qrcodeContent, null, null);
     Path qrcodeFilePath = Files.createTempFile("qrcode_", ".jpg");
     Files.write(qrcodeFilePath, bytes);
     assertEquals(QrcodeUtils.decodeQrcode(qrcodeFilePath.toFile()), qrcodeContent);
