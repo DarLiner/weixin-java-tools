@@ -35,7 +35,15 @@ public class WxPayServiceImplTest {
 
   @Test
   public void testGetPayInfo() throws Exception {
-    Map<String, String> payInfo = this.payService.getPayInfo(WxPayUnifiedOrderRequest.builder().body("abc").build());
+    Map<String, String> payInfo = this.payService.getPayInfo(WxPayUnifiedOrderRequest.builder()
+      .body("我去")
+      .totalFee(1)
+      .spbillCreateIp("111111")
+      .notifyURL("111111")
+      .tradeType("JSAPI")
+      .outTradeNo("111111")
+      .openid(((XmlWxPayConfig) this.payService.getConfig()).getOpenid())
+      .build());
     this.logger.info(payInfo.toString());
   }
 
@@ -226,7 +234,6 @@ public class WxPayServiceImplTest {
       .build());
     assertNotNull(result);
     this.logger.info(result.toString());
-
   }
 
 }
