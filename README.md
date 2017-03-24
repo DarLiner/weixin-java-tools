@@ -51,7 +51,22 @@
 ---------------------------------
 ## Maven & Gradle 最新正式版本
 
-* 公众号（订阅号、服务号及微信支付）：
+* 微信支付（暂时为测试版本）：
+
+maven：
+```xml
+<dependency>
+  <groupId>com.github.binarywang</groupId>
+  <artifactId>weixin-java-pay</artifactId>
+  <version>2.5.4.BETA</version>
+</dependency>
+```
+gradle：
+```groovy
+compile 'com.github.binarywang:weixin-java-pay:2.5.4.BETA'
+```
+
+* 公众号（订阅号及服务号）：
 
 maven：
 ```xml
