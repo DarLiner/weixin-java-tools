@@ -261,6 +261,11 @@ public class WxPayMicropayRequest extends WxPayBaseRequest {
     this.authCode = authCode;
   }
 
+  @Override
+  protected void checkConstraints() {
+    //do nothing
+  }
+
   public static final class Builder {
     private String signType;
     private String body;

@@ -155,6 +155,11 @@ public class WxEntPayRequest extends WxPayBaseRequest {
 
 
   @Override
+  protected void checkConstraints() {
+
+  }
+
+  @Override
   public String getAppid() {
     return this.mchAppid;
   }

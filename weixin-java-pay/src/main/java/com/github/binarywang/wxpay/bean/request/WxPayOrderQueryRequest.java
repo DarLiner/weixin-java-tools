@@ -1,6 +1,7 @@
 package com.github.binarywang.wxpay.bean.request;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * <pre>
@@ -60,5 +61,13 @@ public class WxPayOrderQueryRequest extends WxPayBaseRequest {
 
   public void setOutTradeNo(String outTradeNo) {
     this.outTradeNo = outTradeNo;
+  }
+
+  @Override
+  protected void checkConstraints() {
+    if ((StringUtils.isBlank(transactionId) && StringUtils.isBlank(outTradeNo)) ||
+      (StringUtils.isNotBlank(transactionId) && StringUtils.isNotBlank(outTradeNo))) {
+      throw new IllegalArgumentException("transaction_id 和 out_trade_no 不能同时存在或同时为空，必须二选一");
+    }
   }
 }

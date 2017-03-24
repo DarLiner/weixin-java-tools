@@ -1,7 +1,13 @@
 package com.github.binarywang.wxpay.bean.request;
 
+import com.github.binarywang.wxpay.config.WxPayConfig;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import me.chanjar.weixin.common.annotation.Required;
+import me.chanjar.weixin.common.exception.WxErrorException;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Arrays;
 
 /**
  * <pre>
@@ -13,13 +19,25 @@ import me.chanjar.weixin.common.annotation.Required;
  * <li>类型
  * <li>示例值
  * <li>描述
+ * Created by Binary Wang on 2016-10-08.
  * </pre>
  *
  * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
- *         Created by Binary Wang on 2016-10-08.
  */
 @XStreamAlias("xml")
 public class WxPayRefundRequest extends WxPayBaseRequest {
+  private static final String[] REFUND_ACCOUNT = new String[]{"REFUND_SOURCE_RECHARGE_FUNDS",
+    "REFUND_SOURCE_UNSETTLED_FUNDS"};
+
+  @Override
+  public void checkAndSign(WxPayConfig config) throws WxErrorException {
+    if (StringUtils.isBlank(this.getOpUserId())) {
+      this.setOpUserId(config.getMchId());
+    }
+
+    super.checkAndSign(config);
+  }
+
   /**
    * <pre>
    * 设备号
@@ -238,6 +256,20 @@ public class WxPayRefundRequest extends WxPayBaseRequest {
 
   public void setRefundAccount(String refundAccount) {
     this.refundAccount = refundAccount;
+  }
+
+  @Override
+  protected void checkConstraints() {
+    if (StringUtils.isNotBlank(this.getRefundAccount())) {
+      if (!ArrayUtils.contains(REFUND_ACCOUNT, this.getRefundAccount())) {
+        throw new IllegalArgumentException(String.format("refund_account目前必须为%s其中之一,实际值：%s",
+          Arrays.toString(REFUND_ACCOUNT), this.getRefundAccount()));
+      }
+    }
+
+    if (StringUtils.isBlank(this.getOutTradeNo()) && StringUtils.isBlank(this.getTransactionId())) {
+      throw new IllegalArgumentException("transaction_id 和 out_trade_no 不能同时为空，必须提供一个");
+    }
   }
 
   public static final class Builder {

@@ -1,9 +1,14 @@
 package com.github.binarywang.wxpay.bean.request;
 
+import com.github.binarywang.wxpay.config.WxPayConfig;
+import com.github.binarywang.wxpay.util.SignUtils;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.util.BeanUtils;
 import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
+import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 
@@ -23,6 +28,22 @@ import java.math.BigDecimal;
  * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  */
 public abstract class WxPayBaseRequest {
+  /**
+   * 检查请求参数内容，包括必填参数以及特殊约束
+   */
+  protected void checkFields() throws WxErrorException {
+    //check required fields
+    BeanUtils.checkRequiredFields(this);
+
+    //check other parameters
+    this.checkConstraints();
+  }
+
+  /**
+   * 检查约束情况
+   */
+  protected abstract void checkConstraints();
+
   /**
    * <pre>
    * 公众账号ID
@@ -180,4 +201,41 @@ public abstract class WxPayBaseRequest {
     xstream.processAnnotations(this.getClass());
     return xstream.toXML(this);
   }
+
+  /**
+   * <pre>
+   * 检查参数，并设置签名
+   * 1、检查参数（注意：子类实现需要检查参数的而外功能时，请在调用父类的方法前进行相应判断）
+   * 2、补充系统参数，如果未传入则从配置里读取
+   * 3、生成签名，并设置进去
+   * </pre>
+   * @param config 支付配置对象，用于读取相应系统配置信息
+   */
+  public void checkAndSign(WxPayConfig config) throws WxErrorException {
+    this.checkFields();
+
+    if (StringUtils.isBlank(getAppid())) {
+      this.setAppid(config.getAppId());
+    }
+
+    if (StringUtils.isBlank(getMchId())) {
+      this.setMchId(config.getMchId());
+    }
+
+    if (StringUtils.isBlank(getSubAppId())) {
+      this.setSubAppId(config.getSubAppId());
+    }
+
+    if (StringUtils.isBlank(getSubMchId())) {
+      this. setSubMchId(config.getSubMchId());
+    }
+
+    if (StringUtils.isBlank(getNonceStr())) {
+      this.setNonceStr(String.valueOf(System.currentTimeMillis()));
+    }
+
+    //设置签名字段的值
+    this.setSign(SignUtils.createSign(this, config.getMchKey()));
+  }
+
 }

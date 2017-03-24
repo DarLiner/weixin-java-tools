@@ -33,4 +33,8 @@ public class WxPayOrderCloseRequest extends WxPayBaseRequest {
     this.outTradeNo = outTradeNo;
   }
 
+  @Override
+  protected void checkConstraints() {
+
+  }
 }

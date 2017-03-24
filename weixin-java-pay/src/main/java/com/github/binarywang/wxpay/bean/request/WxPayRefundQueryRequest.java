@@ -1,6 +1,7 @@
 package com.github.binarywang.wxpay.bean.request;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * <pre>
@@ -131,5 +132,16 @@ public class WxPayRefundQueryRequest extends WxPayBaseRequest {
 
   public void setRefundId(String refundId) {
     this.refundId = refundId;
+  }
+
+  @Override
+  protected void checkConstraints() {
+    if ((StringUtils.isBlank(transactionId) && StringUtils.isBlank(outTradeNo)
+      && StringUtils.isBlank(outRefundNo) && StringUtils.isBlank(refundId)) ||
+      (StringUtils.isNotBlank(transactionId) && StringUtils.isNotBlank(outTradeNo)
+        && StringUtils.isNotBlank(outRefundNo) && StringUtils.isNotBlank(refundId))) {
+      throw new IllegalArgumentException("transaction_id，out_trade_no，out_refund_no，refund_id 必须四选一");
+    }
+
   }
 }

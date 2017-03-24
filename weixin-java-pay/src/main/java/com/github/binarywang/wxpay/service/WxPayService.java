@@ -117,84 +117,6 @@ public interface WxPayService {
   WxPayOrderNotifyResult getOrderNotifyResult(String xmlData) throws WxErrorException;
 
   /**
-   * 微信公众号支付签名算法(详见:https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=4_3)
-   *
-   * @param xmlbean Bean需要标记有XML注解，默认使用配置中的PartnerKey进行签名
-   * @return 签名字符串
-   * @see #createSign(Map, String)
-   * @since 2.5.0
-   */
-  String createSign(Object xmlbean);
-
-  /**
-   * 微信公众号支付签名算法(详见:https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=4_3)
-   *
-   * @param xmlbean Bean需要标记有XML注解
-   * @param signKey 签名Key
-   * @return 签名字符串
-   * @see #createSign(Map, String)
-   */
-  String createSign(Object xmlbean, String signKey);
-
-  /**
-   * 微信公众号支付签名算法(详见:https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=4_3)
-   *
-   * @param prams 参数信息，默认使用配置中的PartnerKey进行签名
-   * @return 签名字符串
-   * @see #createSign(Map, String)
-   */
-  String createSign(Map<String, String> prams);
-
-
-  /**
-   * 微信公众号支付签名算法(详见:https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=4_3)
-   *
-   * @param prams   参数信息
-   * @param signKey 签名Key
-   * @return 签名字符串
-   */
-  String createSign(Map<String, String> prams, String signKey);
-
-
-  /**
-   * 校验签名是否正确，默认使用配置中的PartnerKey进行签名
-   *
-   * @param xmlbean Bean需要标记有XML注解
-   * @return true - 签名校验成功，false - 签名校验失败
-   * @see #checkSign(Map, String)
-   */
-  boolean checkSign(Object xmlbean);
-
-  /**
-   * 校验签名是否正确
-   *
-   * @param xmlbean Bean需要标记有XML注解
-   * @param signKey 校验的签名Key
-   * @return true - 签名校验成功，false - 签名校验失败
-   * @see #checkSign(Map, String)
-   */
-  boolean checkSign(Object xmlbean, String signKey);
-
-  /**
-   * 校验签名是否正确，默认使用配置中的PartnerKey进行签名
-   *
-   * @param prams 需要校验的参数Map
-   * @return true - 签名校验成功，false - 签名校验失败
-   * @see #checkSign(Map, String)
-   */
-  boolean checkSign(Map<String, String> prams);
-
-  /**
-   * 校验签名是否正确
-   *
-   * @param params  需要校验的参数Map
-   * @param signKey 校验的签名Key
-   * @return true - 签名校验成功，false - 签名校验失败
-   * @see #checkSign(Map, String)
-   */
-  boolean checkSign(Map<String, String> params, String signKey);
-
-  /**
    * 发送微信红包给个人用户
    * <pre>
    * 文档详见:
@@ -271,6 +193,7 @@ public interface WxPayService {
    * 其中XXXXX为商户需要填写的内容，商户将该链接生成二维码，如需要打印发布二维码，需要采用此格式。商户可调用第三方库生成二维码图片。
    * 文档详见: https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_4
    * </pre>
+   *
    * @param productId 产品Id
    * @return 生成的二维码URL连接
    */
@@ -328,6 +251,7 @@ public interface WxPayService {
   /**
    * <pre>
    * 提交刷卡支付
+   * 文档地址：https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=9_10&index=1
    * 应用场景：
    * 收银员使用扫码设备读取微信用户刷卡授权码以后，二维码或条码信息传送至商户收银台，由商户收银台或者商户后台调用该接口发起支付。
    * 提醒1：提交支付请求后微信会同步返回支付结果。当返回结果为“系统错误”时，商户系统等待5秒后调用【查询订单API】，查询支付实际交易结果；当返回结果为“USERPAYING”时，商户系统可设置间隔时间(建议10秒)重新查询支付结果，直到支付成功或超时(建议30秒)；
@@ -337,4 +261,18 @@ public interface WxPayService {
    * </pre>
    */
   WxPayMicropayResult micropay(WxPayMicropayRequest request) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 撤销订单API
+   * 文档地址：https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=9_11&index=3
+   * 应用场景：
+   *  支付交易返回失败或支付系统超时，调用该接口撤销交易。如果此订单用户支付失败，微信支付系统会将此订单关闭；如果用户支付成功，微信支付系统会将此订单资金退还给用户。
+   *  注意：7天以内的交易单可调用撤销，其他正常支付的单如需实现相同功能请调用申请退款API。提交支付交易后调用【查询订单API】，没有明确的支付结果再调用【撤销订单API】。
+   *  调用支付接口后请勿立即调用撤销订单API，建议支付后至少15s后再调用撤销订单接口。
+   *  接口链接 ：https://api.mch.weixin.qq.com/secapi/pay/reverse
+   *  是否需要证书：请求需要双向证书。
+   *</pre>
+   */
+  WxPayOrderReverseResult reverseOrder(WxPayOrderReverseRequest request) throws WxErrorException;
 }

@@ -54,4 +54,9 @@ public class WxPayRedpackQueryRequest extends WxPayBaseRequest {
   public void setMchBillNo(String mchBillNo) {
     this.mchBillNo = mchBillNo;
   }
+
+  @Override
+  protected void checkConstraints() {
+
+  }
 }

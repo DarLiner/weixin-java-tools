@@ -2,6 +2,10 @@ package com.github.binarywang.wxpay.bean.request;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import me.chanjar.weixin.common.annotation.Required;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Arrays;
 
 /**
  * <pre>
@@ -12,6 +16,8 @@ import me.chanjar.weixin.common.annotation.Required;
  */
 @XStreamAlias("xml")
 public class WxPayDownloadBillRequest extends WxPayBaseRequest {
+  private static final String[] BILL_TYPE = new String[]{"ALL", "REFUND", "SUCCESS"};
+
   /**
    * <pre>
    * 设备号
@@ -119,5 +125,17 @@ public class WxPayDownloadBillRequest extends WxPayBaseRequest {
 
   public void setTarType(String tarType) {
     this.tarType = tarType;
+  }
+
+  @Override
+  protected void checkConstraints() {
+    if (StringUtils.isNotBlank(this.getTarType()) && !"GZIP".equals(this.getTarType())) {
+      throw new IllegalArgumentException("tar_type值如果存在，只能为GZIP");
+    }
+
+    if (!ArrayUtils.contains(BILL_TYPE, this.getBillType())) {
+      throw new IllegalArgumentException(String.format("bill_tpye目前必须为%s其中之一,实际值：%s",
+        Arrays.toString(BILL_TYPE), this.getBillType()));
+    }
   }
 }

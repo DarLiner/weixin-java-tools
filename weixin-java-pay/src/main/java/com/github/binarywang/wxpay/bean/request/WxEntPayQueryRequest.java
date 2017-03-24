@@ -44,6 +44,11 @@ public class WxEntPayQueryRequest extends WxPayBaseRequest {
   }
 
   @Override
+  protected void checkConstraints() {
+    //do nothing
+  }
+
+  @Override
   public String toString() {
     return ToStringUtils.toSimpleString(this);
   }

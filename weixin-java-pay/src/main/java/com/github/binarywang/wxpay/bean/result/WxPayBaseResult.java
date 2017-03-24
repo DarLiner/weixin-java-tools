@@ -1,9 +1,13 @@
 package com.github.binarywang.wxpay.bean.result;
 
+import com.github.binarywang.wxpay.service.impl.WxPayServiceImpl;
+import com.github.binarywang.wxpay.util.SignUtils;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Maps;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import me.chanjar.weixin.common.bean.result.WxError;
+import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
 import org.apache.commons.lang3.StringUtils;
@@ -299,5 +303,45 @@ public abstract class WxPayBaseResult {
     }
 
     return Integer.valueOf(result);
+  }
+
+  /**
+   * 校验返回结果签名
+   */
+  public void checkResult(WxPayServiceImpl wxPayService) throws WxErrorException {
+    //校验返回结果签名
+    Map<String, String> map = toMap();
+    if (getSign() != null && !SignUtils.checkSign(map, wxPayService.getConfig().getMchKey())) {
+      this.getLogger().debug("校验结果签名失败，参数：{}", map);
+      throw new WxErrorException(WxError.newBuilder().setErrorCode(-1).setErrorMsg("参数格式校验错误！").build());
+    }
+
+    //校验结果是否成功
+    if (!"SUCCESS".equalsIgnoreCase(getReturnCode())
+      || !"SUCCESS".equalsIgnoreCase(getResultCode())) {
+      StringBuilder errorMsg = new StringBuilder();
+      if (getReturnCode() != null) {
+        errorMsg.append("返回代码：").append(getReturnCode());
+      }
+      if (getReturnMsg() != null) {
+        errorMsg.append("，返回信息：").append(getReturnMsg());
+      }
+      if (getResultCode() != null) {
+        errorMsg.append("，结果代码：").append(getResultCode());
+      }
+      if (getErrCode() != null) {
+        errorMsg.append("，错误代码：").append(getErrCode());
+      }
+      if (getErrCodeDes() != null) {
+        errorMsg.append("，错误详情：").append(getErrCodeDes());
+      }
+
+      WxError error = WxError.newBuilder()
+        .setErrorCode(-1)
+        .setErrorMsg(errorMsg.toString())
+        .build();
+      this.getLogger().error("\n结果业务代码异常，返回結果：{},\n{}", map, error);
+      throw new WxErrorException(error);
+    }
   }
 }

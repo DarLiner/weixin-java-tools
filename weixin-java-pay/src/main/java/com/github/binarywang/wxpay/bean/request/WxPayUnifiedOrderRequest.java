@@ -1,7 +1,13 @@
 package com.github.binarywang.wxpay.bean.request;
 
+import com.github.binarywang.wxpay.config.WxPayConfig;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import me.chanjar.weixin.common.annotation.Required;
+import me.chanjar.weixin.common.exception.WxErrorException;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Arrays;
 
 /**
  * <pre>
@@ -21,6 +27,7 @@ import me.chanjar.weixin.common.annotation.Required;
  */
 @XStreamAlias("xml")
 public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
+  private static final String[] TRADE_TYPES = new String[]{"JSAPI", "NATIVE", "APP"};
 
   /**
    * <pre>
@@ -407,6 +414,35 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
 
   public void setOpenid(String openid) {
     this.openid = openid;
+  }
+
+  @Override
+  protected void checkConstraints() {
+    if (!ArrayUtils.contains(TRADE_TYPES, this.getTradeType())) {
+      throw new IllegalArgumentException(String.format("trade_type目前必须为%s其中之一,实际值：%s",
+        Arrays.toString(TRADE_TYPES), this.getTradeType()));
+    }
+
+    if ("JSAPI".equals(this.getTradeType()) && this.getOpenid() == null) {
+      throw new IllegalArgumentException("当 trade_type是'JSAPI'时未指定openid");
+    }
+
+    if ("NATIVE".equals(this.getTradeType()) && this.getProductId() == null) {
+      throw new IllegalArgumentException("当 trade_type是'NATIVE'时未指定product_id");
+    }
+  }
+
+  @Override
+  public void checkAndSign(WxPayConfig config) throws WxErrorException {
+    if (StringUtils.isBlank(this.getNotifyURL())) {
+      this.setNotifyURL(config.getNotifyUrl());
+    }
+
+    if (StringUtils.isBlank(this.getTradeType())) {
+      this.setTradeType(config.getTradeType());
+    }
+
+    super.checkAndSign(config);
   }
 
   public static class WxUnifiedOrderRequestBuilder {

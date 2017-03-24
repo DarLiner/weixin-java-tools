@@ -270,4 +270,9 @@ public class WxPayReportRequest extends WxPayBaseRequest {
   public void setTime(String time) {
     this.time = time;
   }
+
+  @Override
+  protected void checkConstraints() {
+    //do nothing
+  }
 }
