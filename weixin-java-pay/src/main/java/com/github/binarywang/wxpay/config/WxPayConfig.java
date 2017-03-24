@@ -135,7 +135,7 @@ public class WxPayConfig {
 
   public SSLContext initSSLContext() {
     if (null == mchId) {
-      throw new IllegalArgumentException("请確保mchId已設置");
+      throw new IllegalArgumentException("请确保商户号mch_id已设置");
     }
 
     File file = new File(this.keyPath);

@@ -210,4 +210,23 @@ public class WxPayServiceImplTest {
       .build());
     this.logger.info(result.toString());
   }
+
+  @Test
+  public void testGetConfig() throws Exception {
+  }
+
+  @Test
+  public void testSetConfig() throws Exception {
+  }
+
+  @Test
+  public void testReverseOrder() throws Exception {
+    WxPayOrderReverseResult result = this.payService.reverseOrder(WxPayOrderReverseRequest.newBuilder()
+      .outTradeNo("1111")
+      .build());
+    assertNotNull(result);
+    this.logger.info(result.toString());
+
+  }
+
 }
