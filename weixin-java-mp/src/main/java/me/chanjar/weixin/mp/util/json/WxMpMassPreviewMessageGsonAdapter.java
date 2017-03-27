@@ -17,6 +17,7 @@ public class WxMpMassPreviewMessageGsonAdapter implements JsonSerializer<WxMpMas
   public JsonElement serialize(WxMpMassPreviewMessage wxMpMassPreviewMessage, Type type, JsonSerializationContext jsonSerializationContext) {
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("towxname", wxMpMassPreviewMessage.getToWxUsername());
+    jsonObject.addProperty("touser", wxMpMassPreviewMessage.getToWxUserOpenid());
     if (WxConsts.MASS_MSG_NEWS.equals(wxMpMassPreviewMessage.getMsgType())) {
       JsonObject news = new JsonObject();
       news.addProperty("media_id", wxMpMassPreviewMessage.getMediaId());
