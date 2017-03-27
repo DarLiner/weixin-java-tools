@@ -281,6 +281,8 @@ public interface WxPayService {
   /**
    * <pre>
    *  转换短链接
+   *  文档地址：
+   *     https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=9_9&index=8
    *  应用场景：
    *     该接口主要用于扫码原生支付模式一中的二维码链接转成短链接(weixin://wxpay/s/XXXXXX)，减小二维码数据量，提升扫描速度和精确度。
    *  接口地址：https://api.mch.weixin.qq.com/tools/shorturl
@@ -293,13 +295,33 @@ public interface WxPayService {
   /**
    * <pre>
    *  转换短链接
-   *  应用场景：
-   *     该接口主要用于扫码原生支付模式一中的二维码链接转成短链接(weixin://wxpay/s/XXXXXX)，减小二维码数据量，提升扫描速度和精确度。
-   *  接口地址：https://api.mch.weixin.qq.com/tools/shorturl
-   *  是否需要证书：否
    * </pre>
+   * @see WxPayService#shorturl(WxPayShorturlRequest)
    * @param longUrl 需要被压缩的网址
    */
   String shorturl(String longUrl) throws WxErrorException;
 
+  /**
+   * <pre>
+   * 授权码查询OPENID接口
+   *    通过授权码查询公众号Openid，调用查询后，该授权码只能由此商户号发起扣款，直至授权码更新。
+   * 文档地址：
+   *    https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=9_13&index=9
+   * 接口链接:
+   *    https://api.mch.weixin.qq.com/tools/authcodetoopenid
+   * </pre>
+   * @param request 请求对象
+   * @return openid
+   */
+  String authcode2Openid(WxPayAuthcode2OpenidRequest request) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 授权码查询OPENID接口
+   * </pre>
+   * @see WxPayService#authcode2Openid(WxPayAuthcode2OpenidRequest)
+   * @param authCode 授权码
+   * @return openid
+   */
+  String authcode2Openid(String authCode) throws WxErrorException;
 }

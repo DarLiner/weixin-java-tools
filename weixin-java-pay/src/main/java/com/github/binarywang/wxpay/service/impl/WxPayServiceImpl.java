@@ -344,6 +344,22 @@ public class WxPayServiceImpl implements WxPayService {
     return this.shorturl(new WxPayShorturlRequest(longUrl));
   }
 
+  @Override
+  public String authcode2Openid(WxPayAuthcode2OpenidRequest request) throws WxErrorException {
+    request.checkAndSign(this.getConfig());
+
+    String url = this.getPayBaseUrl() + "/tools/authcodetoopenid";
+    String responseContent = this.post(url, request.toXML());
+    WxPayAuthcode2OpenidResult result = WxPayBaseResult.fromXML(responseContent, WxPayAuthcode2OpenidResult.class);
+    result.checkResult(this);
+    return result.getOpenid();
+  }
+
+  @Override
+  public String authcode2Openid(String authCode) throws WxErrorException {
+    return this.authcode2Openid(new WxPayAuthcode2OpenidRequest(authCode));
+  }
+
   private String post(String url, String xmlParam) {
     String requestString = xmlParam;
     try {

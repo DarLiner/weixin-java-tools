@@ -28,7 +28,6 @@ import static org.testng.Assert.*;
 @Test
 @Guice(modules = ApiTestModule.class)
 public class WxPayServiceImplTest {
-
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
   @Inject
@@ -245,10 +244,24 @@ public class WxPayServiceImplTest {
 
     String result = this.payService.shorturl(new WxPayShorturlRequest(longUrl));
     assertNotNull(result);
-    this.logger.info(result.toString());
+    this.logger.info(result);
 
     result = this.payService.shorturl(longUrl);
     assertNotNull(result);
-    this.logger.info(result.toString());
+    this.logger.info(result);
   }
+
+  @Test
+  public void testAuthcode2Openid() throws Exception {
+    String authCode = "11111";
+
+    String result = this.payService.authcode2Openid(new WxPayAuthcode2OpenidRequest(authCode));
+    assertNotNull(result);
+    this.logger.info(result);
+
+    result = this.payService.authcode2Openid(authCode);
+    assertNotNull(result);
+    this.logger.info(result);
+  }
+
 }
