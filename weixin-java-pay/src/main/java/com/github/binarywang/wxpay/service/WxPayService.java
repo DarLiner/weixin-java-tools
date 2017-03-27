@@ -267,12 +267,39 @@ public interface WxPayService {
    * 撤销订单API
    * 文档地址：https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=9_11&index=3
    * 应用场景：
-   *  支付交易返回失败或支付系统超时，调用该接口撤销交易。如果此订单用户支付失败，微信支付系统会将此订单关闭；如果用户支付成功，微信支付系统会将此订单资金退还给用户。
-   *  注意：7天以内的交易单可调用撤销，其他正常支付的单如需实现相同功能请调用申请退款API。提交支付交易后调用【查询订单API】，没有明确的支付结果再调用【撤销订单API】。
+   *  支付交易返回失败或支付系统超时，调用该接口撤销交易。如果此订单用户支付失败，微信支付系统会将此订单关闭；
+   *  如果用户支付成功，微信支付系统会将此订单资金退还给用户。
+   *  注意：7天以内的交易单可调用撤销，其他正常支付的单如需实现相同功能请调用申请退款API。
+   *  提交支付交易后调用【查询订单API】，没有明确的支付结果再调用【撤销订单API】。
    *  调用支付接口后请勿立即调用撤销订单API，建议支付后至少15s后再调用撤销订单接口。
    *  接口链接 ：https://api.mch.weixin.qq.com/secapi/pay/reverse
    *  是否需要证书：请求需要双向证书。
-   *</pre>
+   * </pre>
    */
   WxPayOrderReverseResult reverseOrder(WxPayOrderReverseRequest request) throws WxErrorException;
+
+  /**
+   * <pre>
+   *  转换短链接
+   *  应用场景：
+   *     该接口主要用于扫码原生支付模式一中的二维码链接转成短链接(weixin://wxpay/s/XXXXXX)，减小二维码数据量，提升扫描速度和精确度。
+   *  接口地址：https://api.mch.weixin.qq.com/tools/shorturl
+   *  是否需要证书：否
+   * </pre>
+   * @param request 请求对象
+   */
+  String shorturl(WxPayShorturlRequest request) throws WxErrorException;
+
+  /**
+   * <pre>
+   *  转换短链接
+   *  应用场景：
+   *     该接口主要用于扫码原生支付模式一中的二维码链接转成短链接(weixin://wxpay/s/XXXXXX)，减小二维码数据量，提升扫描速度和精确度。
+   *  接口地址：https://api.mch.weixin.qq.com/tools/shorturl
+   *  是否需要证书：否
+   * </pre>
+   * @param longUrl 需要被压缩的网址
+   */
+  String shorturl(String longUrl) throws WxErrorException;
+
 }

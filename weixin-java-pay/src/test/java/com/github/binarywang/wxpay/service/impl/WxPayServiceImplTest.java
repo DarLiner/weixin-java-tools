@@ -28,10 +28,11 @@ import static org.testng.Assert.*;
 @Test
 @Guice(modules = ApiTestModule.class)
 public class WxPayServiceImplTest {
+
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
   @Inject
-  protected WxPayService payService;
+  private WxPayService payService;
 
   @Test
   public void testGetPayInfo() throws Exception {
@@ -221,10 +222,12 @@ public class WxPayServiceImplTest {
 
   @Test
   public void testGetConfig() throws Exception {
+    // no need to test
   }
 
   @Test
   public void testSetConfig() throws Exception {
+    // no need to test
   }
 
   @Test
@@ -236,4 +239,16 @@ public class WxPayServiceImplTest {
     this.logger.info(result.toString());
   }
 
+  @Test
+  public void testShorturl() throws Exception {
+    String longUrl = "weixin://wxpay/bizpayurl?sign=XXXXX&appid=XXXXX&mch_id=XXXXX&product_id=XXXXXX&time_stamp=XXXXXX&nonce_str=XXXXX";
+
+    String result = this.payService.shorturl(new WxPayShorturlRequest(longUrl));
+    assertNotNull(result);
+    this.logger.info(result.toString());
+
+    result = this.payService.shorturl(longUrl);
+    assertNotNull(result);
+    this.logger.info(result.toString());
+  }
 }

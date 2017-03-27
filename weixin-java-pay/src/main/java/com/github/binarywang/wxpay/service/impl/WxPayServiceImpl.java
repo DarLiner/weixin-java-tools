@@ -328,6 +328,22 @@ public class WxPayServiceImpl implements WxPayService {
     return result;
   }
 
+  @Override
+  public String shorturl(WxPayShorturlRequest request) throws WxErrorException {
+    request.checkAndSign(this.getConfig());
+
+    String url = this.getPayBaseUrl() + "/tools/shorturl";
+    String responseContent = this.post(url, request.toXML());
+    WxPayShorturlResult result = WxPayBaseResult.fromXML(responseContent, WxPayShorturlResult.class);
+    result.checkResult(this);
+    return result.getShortUrl();
+  }
+
+  @Override
+  public String shorturl(String longUrl) throws WxErrorException {
+    return this.shorturl(new WxPayShorturlRequest(longUrl));
+  }
+
   private String post(String url, String xmlParam) {
     String requestString = xmlParam;
     try {
