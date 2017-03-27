@@ -1,7 +1,8 @@
 package me.chanjar.weixin.cp.bean;
 
 import me.chanjar.weixin.common.api.WxConsts;
-import me.chanjar.weixin.cp.bean.WxCpMessage.WxArticle;
+import me.chanjar.weixin.cp.bean.article.NewArticle;
+import me.chanjar.weixin.cp.bean.article.MpnewsArticle;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -68,14 +69,14 @@ public class WxCpMessageTest {
     reply.setToUser("OPENID");
     reply.setMsgType(WxConsts.CUSTOM_MSG_NEWS);
 
-    WxArticle article1 = new WxArticle();
+    NewArticle article1 = new NewArticle();
     article1.setUrl("URL");
     article1.setPicUrl("PIC_URL");
     article1.setDescription("Is Really A Happy Day");
     article1.setTitle("Happy Day");
     reply.getArticles().add(article1);
 
-    WxArticle article2 = new WxArticle();
+    NewArticle article2 = new NewArticle();
     article2.setUrl("URL");
     article2.setPicUrl("PIC_URL");
     article2.setDescription("Is Really A Happy Day");
@@ -87,13 +88,13 @@ public class WxCpMessageTest {
   }
 
   public void testNewsBuild() {
-    WxArticle article1 = new WxArticle();
+    NewArticle article1 = new NewArticle();
     article1.setUrl("URL");
     article1.setPicUrl("PIC_URL");
     article1.setDescription("Is Really A Happy Day");
     article1.setTitle("Happy Day");
 
-    WxArticle article2 = new WxArticle();
+    NewArticle article2 = new NewArticle();
     article2.setUrl("URL");
     article2.setPicUrl("PIC_URL");
     article2.setDescription("Is Really A Happy Day");
@@ -102,6 +103,41 @@ public class WxCpMessageTest {
     WxCpMessage reply = WxCpMessage.NEWS().toUser("OPENID").addArticle(article1).addArticle(article2).build();
 
     Assert.assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"news\",\"news\":{\"articles\":[{\"title\":\"Happy Day\",\"description\":\"Is Really A Happy Day\",\"url\":\"URL\",\"picurl\":\"PIC_URL\"},{\"title\":\"Happy Day\",\"description\":\"Is Really A Happy Day\",\"url\":\"URL\",\"picurl\":\"PIC_URL\"}]}}");
+  }
+
+  public void testMpnewsBuild_with_articles() {
+    MpnewsArticle article1 = MpnewsArticle.newBuilder()
+      .title("Happy Day")
+      .author("aaaaaa")
+      .content("hahaha")
+      .contentSourceUrl("nice url")
+      .digest("digest")
+      .showCoverPic("heihei")
+      .thumbMediaId("thumb")
+      .build();
+
+    MpnewsArticle article2 = MpnewsArticle.newBuilder()
+      .title("Happy Day")
+      .author("aaaaaa")
+      .content("hahaha")
+      .contentSourceUrl("nice url")
+      .digest("digest")
+      .showCoverPic("heihei")
+      .thumbMediaId("thumb")
+      .build();
+
+    WxCpMessage reply = WxCpMessage.MPNEWS().toUser("OPENID").addArticle(article1).addArticle(article2).build();
+
+    Assert.assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"mpnews\"," +
+      "\"mpnews\":{\"articles\":[{\"title\":\"Happy Day\",\"thumb_media_id\":\"thumb\",\"author\":\"aaaaaa\",\"content_source_url\":\"nice url\",\"content\":\"hahaha\",\"digest\":\"digest\",\"show_cover_pic\":\"heihei\"}," +
+      "{\"title\":\"Happy Day\",\"thumb_media_id\":\"thumb\",\"author\":\"aaaaaa\",\"content_source_url\":\"nice url\",\"content\":\"hahaha\",\"digest\":\"digest\",\"show_cover_pic\":\"heihei\"}]}}");
+  }
+
+  public void testMpnewsBuild_with_media_id() {
+    WxCpMessage reply = WxCpMessage.MPNEWS().toUser("OPENID").mediaId("mmm").build();
+
+    Assert.assertEquals(reply.toJson(),
+      "{\"touser\":\"OPENID\",\"msgtype\":\"mpnews\",\"mpnews\":{\"media_id\":\"mmm\"}}");
   }
 
 }
