@@ -136,19 +136,23 @@ public class WxConsts {
   public static final String MEDIA_VIDEO = "video";
   public static final String MEDIA_THUMB = "thumb";
   public static final String MEDIA_FILE = "file";
-  /**
-   * 点击推事件
-   */
-  public static final String BUTTON_CLICK = "click";
 
 
   ///////////////////////
   // 自定义菜单的按钮类型
   ///////////////////////
   /**
+   * 点击推事件
+   */
+  public static final String BUTTON_CLICK = "click";
+  /**
    * 跳转URL
    */
   public static final String BUTTON_VIEW = "view";
+  /**
+   * 跳转到小程序
+   */
+  public static final String BUTTON_MINIPROGRAM = "miniprogram";
   /**
    * 扫码推事件
    */
@@ -181,6 +185,7 @@ public class WxConsts {
    * 跳转图文消息URL
    */
   public static final String BUTTON_VIEW_LIMITED = "view_limited";
+  
   /**
    * 不弹出授权页面，直接跳转，只能获取用户openid
    */
