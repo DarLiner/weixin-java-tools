@@ -58,7 +58,7 @@ maven：
 <dependency>
   <groupId>com.github.binarywang</groupId>
   <artifactId>weixin-java-pay</artifactId>
-  <version>2.5.4.BETA</version>
+  <version>2.5.5.BETA</version>
 </dependency>
 ```
 gradle：
