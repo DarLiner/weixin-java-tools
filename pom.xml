@@ -116,6 +116,11 @@
       <version>${slf4j.version}</version>
     </dependency>
     <dependency>
+      <groupId>com.thoughtworks.xstream</groupId>
+      <artifactId>xstream</artifactId>
+      <version>1.4.9</version>
+    </dependency>
+    <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
       <version>${logback.version}</version>
@@ -154,6 +159,7 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
+      <version>${guava.version}</version>
     </dependency>
   </dependencies>
 
@@ -188,11 +194,6 @@
         <artifactId>jetty-servlet</artifactId>
         <version>${jetty.version}</version>
         <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>com.google.guava</groupId>
-        <artifactId>guava</artifactId>
-        <version>${guava.version}</version>
       </dependency>
       <dependency>
         <groupId>redis.clients</groupId>
