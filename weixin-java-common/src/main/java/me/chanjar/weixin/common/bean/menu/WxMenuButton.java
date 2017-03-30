@@ -57,7 +57,7 @@ public class WxMenuButton implements Serializable {
    * </pre>
    */
   @SerializedName("appid")
-  private String appiId;
+  private String appId;
 
   /**
    * <pre>
@@ -124,12 +124,12 @@ public class WxMenuButton implements Serializable {
     this.mediaId = mediaId;
   }
 
-  public String getAppiId() {
-    return appiId;
+  public String getAppId() {
+    return appId;
   }
 
-  public void setAppiId(String appiId) {
-    this.appiId = appiId;
+  public void setAppId(String appId) {
+    this.appId = appId;
   }
 
   public String getPagePath() {
