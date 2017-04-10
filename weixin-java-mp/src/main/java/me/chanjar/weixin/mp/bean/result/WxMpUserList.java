@@ -12,14 +12,14 @@ import java.util.List;
  */
 public class WxMpUserList {
 
-  protected int total = -1;
+  protected long total = -1;
   protected int count = -1;
   protected List<String> openids = new ArrayList<>();
   protected String nextOpenid;
-  public int getTotal() {
+  public long getTotal() {
     return this.total;
   }
-  public void setTotal(int total) {
+  public void setTotal(long total) {
     this.total = total;
   }
   public int getCount() {

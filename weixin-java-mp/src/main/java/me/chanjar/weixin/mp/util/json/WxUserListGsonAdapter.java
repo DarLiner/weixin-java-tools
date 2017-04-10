@@ -20,7 +20,7 @@ public class WxUserListGsonAdapter implements JsonDeserializer<WxMpUserList> {
   public WxMpUserList deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
     JsonObject o = json.getAsJsonObject();
     WxMpUserList wxMpUserList = new WxMpUserList();
-    wxMpUserList.setTotal(GsonHelper.getInteger(o, "total"));
+    wxMpUserList.setTotal(GsonHelper.getLong(o, "total"));
     wxMpUserList.setCount(GsonHelper.getInteger(o, "count"));
     wxMpUserList.setNextOpenid(GsonHelper.getString(o, "next_openid"));
     if (o.get("data") != null && !o.get("data").isJsonNull() && !o.get("data").getAsJsonObject().get("openid").isJsonNull()) {
