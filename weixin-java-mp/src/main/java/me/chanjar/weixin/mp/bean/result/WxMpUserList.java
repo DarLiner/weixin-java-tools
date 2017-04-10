@@ -14,8 +14,8 @@ public class WxMpUserList {
 
   protected int total = -1;
   protected int count = -1;
-  protected List<String> openIds = new ArrayList<>();
-  protected String nextOpenId;
+  protected List<String> openids = new ArrayList<>();
+  protected String nextOpenid;
   public int getTotal() {
     return this.total;
   }
@@ -28,19 +28,19 @@ public class WxMpUserList {
   public void setCount(int count) {
     this.count = count;
   }
-  public List<String> getOpenIds() {
-    return this.openIds;
+  public List<String> getOpenids() {
+    return this.openids;
   }
-  public void setOpenIds(List<String> openIds) {
-    this.openIds = openIds;
+  public void setOpenids(List<String> openids) {
+    this.openids = openids;
   }
-  public String getNextOpenId() {
-    return this.nextOpenId;
+  public String getNextOpenid() {
+    return this.nextOpenid;
   }
-  public void setNextOpenId(String nextOpenId) {
-    this.nextOpenId = nextOpenId;
+  public void setNextOpenid(String nextOpenid) {
+    this.nextOpenid = nextOpenid;
   }
-  
+
   public static WxMpUserList fromJson(String json) {
     return WxMpGsonBuilder.INSTANCE.create().fromJson(json, WxMpUserList.class);
   }
