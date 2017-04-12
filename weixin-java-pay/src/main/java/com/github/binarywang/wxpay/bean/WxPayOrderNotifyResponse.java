@@ -2,7 +2,10 @@ package com.github.binarywang.wxpay.bean;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
+import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
 
 @XStreamAlias("xml")
@@ -13,7 +16,9 @@ public class WxPayOrderNotifyResponse {
   private transient static final String SUCCESS = "SUCCESS";
 
   @XStreamAlias("return_code")
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String returnCode;
+  @XStreamConverter(value = XStreamCDataConverter.class)
   @XStreamAlias("return_msg")
   private String returnMsg;
 
