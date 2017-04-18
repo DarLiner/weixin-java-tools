@@ -9,27 +9,19 @@ import com.github.binarywang.wxpay.util.SignUtils;
 import com.google.common.collect.Maps;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
+import jodd.http.net.SSLSocketHttpConnectionProvider;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import org.apache.commons.lang3.CharEncoding;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.Consts;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.ssl.DefaultHostnameVerifier;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.net.ssl.SSLContext;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
+import javax.net.ssl.SSLContext;
 
 /**
  * Created by Binary Wang on 2016/7/28.
@@ -384,6 +376,7 @@ public class WxPayServiceImpl implements WxPayService {
 
   /**
    * 由于暂时未找到使用jodd-http实现证书配置的办法，故而暂时使用httpclient
+   * ecoolper(20170418)，修改为jodd-http方式
    */
   private String postWithKey(String url, String requestStr) throws WxErrorException {
     try {
@@ -392,21 +385,12 @@ public class WxPayServiceImpl implements WxPayService {
         sslContext = this.getConfig().initSSLContext();
       }
 
-      SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext,
-        new String[]{"TLSv1"}, null, new DefaultHostnameVerifier());
-
-      HttpPost httpPost = new HttpPost(url);
-
-      try (CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build()) {
-        httpPost.setEntity(new StringEntity(new String(requestStr.getBytes(CharEncoding.UTF_8), CharEncoding.ISO_8859_1)));
-        try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
-          String result = EntityUtils.toString(response.getEntity(), Consts.UTF_8);
-          this.log.debug("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}", url, requestStr, result);
-          return result;
-        }
-      } finally {
-        httpPost.releaseConnection();
-      }
+      HttpRequest request =HttpRequest.post(url).withConnectionProvider(new SSLSocketHttpConnectionProvider(sslContext));
+      request.bodyText(requestStr);
+      HttpResponse response =request.send();
+      String result = response.bodyText();
+      this.log.debug("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}", url, requestStr, result);
+      return result;
     } catch (Exception e) {
       this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[EXCEPTION]: {}", url, requestStr, e.getMessage());
       throw new WxErrorException(WxError.newBuilder().setErrorCode(-1).setErrorMsg(e.getMessage()).build(), e);
