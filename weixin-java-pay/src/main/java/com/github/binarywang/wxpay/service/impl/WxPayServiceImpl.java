@@ -375,7 +375,6 @@ public class WxPayServiceImpl implements WxPayService {
   }
 
   /**
-   * 由于暂时未找到使用jodd-http实现证书配置的办法，故而暂时使用httpclient
    * ecoolper(20170418)，修改为jodd-http方式
    */
   private String postWithKey(String url, String requestStr) throws WxErrorException {
@@ -385,9 +384,9 @@ public class WxPayServiceImpl implements WxPayService {
         sslContext = this.getConfig().initSSLContext();
       }
 
-      HttpRequest request =HttpRequest.post(url).withConnectionProvider(new SSLSocketHttpConnectionProvider(sslContext));
+      HttpRequest request = HttpRequest.post(url).withConnectionProvider(new SSLSocketHttpConnectionProvider(sslContext));
       request.bodyText(requestStr);
-      HttpResponse response =request.send();
+      HttpResponse response = request.send();
       String result = response.bodyText();
       this.log.debug("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}", url, requestStr, result);
       return result;
