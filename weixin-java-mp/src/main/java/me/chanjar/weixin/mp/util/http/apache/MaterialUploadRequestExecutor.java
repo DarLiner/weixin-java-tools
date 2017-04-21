@@ -1,9 +1,9 @@
-package me.chanjar.weixin.mp.util.http;
+package me.chanjar.weixin.mp.util.http.apache;
 
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
-import me.chanjar.weixin.common.util.http.Utf8ResponseHandler;
+import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 import me.chanjar.weixin.mp.bean.material.WxMpMaterial;
 import me.chanjar.weixin.mp.bean.material.WxMpMaterialUploadResult;
@@ -16,10 +16,12 @@ import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Map;
 
-public class MaterialUploadRequestExecutor implements RequestExecutor<WxMpMaterialUploadResult, WxMpMaterial> {
+public class MaterialUploadRequestExecutor implements RequestExecutor<WxMpMaterialUploadResult,CloseableHttpClient, HttpHost, WxMpMaterial> {
 
   @Override
   public WxMpMaterialUploadResult execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, WxMpMaterial material) throws WxErrorException, IOException {

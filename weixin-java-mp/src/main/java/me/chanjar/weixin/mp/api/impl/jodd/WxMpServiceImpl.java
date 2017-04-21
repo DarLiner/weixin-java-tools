@@ -1,9 +1,11 @@
-package me.chanjar.weixin.mp.api.impl;
+package me.chanjar.weixin.mp.api.impl.jodd;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import jodd.http.*;
+import jodd.http.net.SocketHttpConnectionProvider;
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.bean.result.WxError;
@@ -12,23 +14,21 @@ import me.chanjar.weixin.common.session.StandardSessionManager;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.common.util.RandomUtils;
 import me.chanjar.weixin.common.util.crypto.SHA1;
-import me.chanjar.weixin.common.util.http.*;
+import me.chanjar.weixin.common.util.http.RequestExecutor;
+import me.chanjar.weixin.common.util.http.URIUtil;
+import me.chanjar.weixin.common.util.http.jodd.SimpleGetRequestExecutor;
+import me.chanjar.weixin.common.util.http.jodd.SimplePostRequestExecutor;
 import me.chanjar.weixin.mp.api.*;
+import me.chanjar.weixin.mp.api.impl.*;
 import me.chanjar.weixin.mp.bean.*;
 import me.chanjar.weixin.mp.bean.result.*;
-import org.apache.http.HttpHost;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 
-public class WxMpServiceImpl implements WxMpService {
+public class WxMpServiceImpl implements WxMpService<HttpConnectionProvider, ProxyInfo> {
 
   private static final JsonParser JSON_PARSER = new JsonParser();
 
@@ -47,10 +47,21 @@ public class WxMpServiceImpl implements WxMpService {
   private WxMpUserBlacklistService blackListService = new WxMpUserBlacklistServiceImpl(this);
   private WxMpTemplateMsgService templateMsgService = new WxMpTemplateMsgServiceImpl(this);
   private WxMpDeviceService deviceService = new WxMpDeviceServiceImpl(this);
-  private CloseableHttpClient httpClient;
-  private HttpHost httpProxy;
+
+  private HttpConnectionProvider httpClient;
+  private ProxyInfo httpProxy;
   private int retrySleepMillis = 1000;
   private int maxRetryTimes = 5;
+
+  private void initHttpClient() {
+    WxMpConfigStorage configStorage = this.getWxMpConfigStorage();
+
+    if (configStorage.getHttpProxyHost() != null && configStorage.getHttpProxyPort() > 0) {
+      httpProxy = new ProxyInfo(ProxyInfo.ProxyType.HTTP, configStorage.getHttpProxyHost(), configStorage.getHttpProxyPort(), configStorage.getHttpProxyUsername(), configStorage.getHttpProxyPassword());
+    }
+
+    httpClient = JoddHttp.httpConnectionProvider;
+  }
 
   @Override
   public boolean checkSignature(String timestamp, String nonce, String signature) {
@@ -81,27 +92,22 @@ public class WxMpServiceImpl implements WxMpService {
         String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential" +
           "&appid=" + this.getWxMpConfigStorage().getAppId() + "&secret="
           + this.getWxMpConfigStorage().getSecret();
-        try {
-          HttpGet httpGet = new HttpGet(url);
-          if (this.httpProxy != null) {
-            RequestConfig config = RequestConfig.custom().setProxy(this.httpProxy).build();
-            httpGet.setConfig(config);
-          }
-          try (CloseableHttpResponse response = getHttpclient().execute(httpGet)) {
-            String resultContent = new BasicResponseHandler().handleResponse(response);
-            WxError error = WxError.fromJson(resultContent);
-            if (error.getErrorCode() != 0) {
-              throw new WxErrorException(error);
-            }
-            WxAccessToken accessToken = WxAccessToken.fromJson(resultContent);
-            this.getWxMpConfigStorage().updateAccessToken(accessToken.getAccessToken(),
-              accessToken.getExpiresIn());
-          } finally {
-            httpGet.releaseConnection();
-          }
-        } catch (IOException e) {
-          throw new RuntimeException(e);
+
+        HttpRequest request = HttpRequest.get(url);
+        if (this.httpProxy != null) {
+          SocketHttpConnectionProvider provider = new SocketHttpConnectionProvider();
+          provider.useProxy(httpProxy);
+          request.withConnectionProvider(provider);
         }
+        HttpResponse response = request.send();
+        String resultContent = response.bodyText();
+        WxError error = WxError.fromJson(resultContent);
+        if (error.getErrorCode() != 0) {
+          throw new WxErrorException(error);
+        }
+        WxAccessToken accessToken = WxAccessToken.fromJson(resultContent);
+        this.getWxMpConfigStorage().updateAccessToken(accessToken.getAccessToken(),
+          accessToken.getExpiresIn());
       }
     } finally {
       lock.unlock();
@@ -242,8 +248,8 @@ public class WxMpServiceImpl implements WxMpService {
 
   private WxMpOAuth2AccessToken getOAuth2AccessToken(StringBuilder url) throws WxErrorException {
     try {
-      RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
-      String responseText = executor.execute(this.getHttpclient(), this.httpProxy, url.toString(), null);
+      RequestExecutor<String, HttpConnectionProvider, ProxyInfo, String> executor = new SimpleGetRequestExecutor();
+      String responseText = executor.execute(getHttpclient(), getHttpProxy(), url.toString(), null);
       return WxMpOAuth2AccessToken.fromJson(responseText);
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -286,8 +292,8 @@ public class WxMpServiceImpl implements WxMpService {
     }
 
     try {
-      RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
-      String responseText = executor.execute(getHttpclient(), this.httpProxy, url.toString(), null);
+      RequestExecutor<String, HttpConnectionProvider, ProxyInfo, String> executor = new SimpleGetRequestExecutor();
+      String responseText = executor.execute(getHttpclient(), getHttpProxy(), url.toString(), null);
       return WxMpUser.fromJson(responseText);
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -302,8 +308,8 @@ public class WxMpServiceImpl implements WxMpService {
     url.append("&openid=").append(oAuth2AccessToken.getOpenId());
 
     try {
-      RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
-      executor.execute(getHttpclient(), this.httpProxy, url.toString(), null);
+      RequestExecutor<String, HttpConnectionProvider, ProxyInfo, String> executor = new SimpleGetRequestExecutor();
+      executor.execute(getHttpclient(), getHttpProxy(), url.toString(), null);
     } catch (IOException e) {
       throw new RuntimeException(e);
     } catch (WxErrorException e) {
@@ -335,11 +341,15 @@ public class WxMpServiceImpl implements WxMpService {
     return execute(new SimplePostRequestExecutor(), url, postData);
   }
 
+  @Override
+  public HttpConnectionProvider getHttpclient() {
+    return this.httpClient;
+  }
+
   /**
    * 向微信端发送请求，在这里执行的策略是当发生access_token过期时才去刷新，然后重新执行请求，而不是全局定时请求
    */
-  @Override
-  public <T, E> T execute(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
+  public <T, E> T execute(RequestExecutor<T, HttpConnectionProvider, ProxyInfo, E> executor, String uri, E data) throws WxErrorException {
     int retryTimes = 0;
     do {
       try {
@@ -373,7 +383,8 @@ public class WxMpServiceImpl implements WxMpService {
     throw new RuntimeException("微信服务端异常，超出重试次数");
   }
 
-  protected synchronized <T, E> T executeInternal(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
+  @Override
+  public synchronized <T, E> T executeInternal(RequestExecutor<T, HttpConnectionProvider, ProxyInfo, E> executor, String uri, E data) throws WxErrorException {
     if (uri.indexOf("access_token=") != -1) {
       throw new IllegalArgumentException("uri参数中不允许有access_token: " + uri);
     }
@@ -383,7 +394,7 @@ public class WxMpServiceImpl implements WxMpService {
     uriWithAccessToken += uri.indexOf('?') == -1 ? "?access_token=" + accessToken : "&access_token=" + accessToken;
 
     try {
-      return executor.execute(getHttpclient(), this.httpProxy, uriWithAccessToken, data);
+      return executor.execute(getHttpclient(), getHttpProxy(), uriWithAccessToken, data);
     } catch (WxErrorException e) {
       WxError error = e.getError();
       /*
@@ -411,32 +422,10 @@ public class WxMpServiceImpl implements WxMpService {
   }
 
   @Override
-  public HttpHost getHttpProxy() {
+  public ProxyInfo getHttpProxy() {
     return this.httpProxy;
   }
 
-  public CloseableHttpClient getHttpclient() {
-    return this.httpClient;
-  }
-
-  private void initHttpClient() {
-    WxMpConfigStorage configStorage = this.getWxMpConfigStorage();
-    ApacheHttpClientBuilder apacheHttpClientBuilder = configStorage.getApacheHttpClientBuilder();
-    if (null == apacheHttpClientBuilder) {
-      apacheHttpClientBuilder = DefaultApacheHttpClientBuilder.get();
-    }
-
-    apacheHttpClientBuilder.httpProxyHost(configStorage.getHttpProxyHost())
-      .httpProxyPort(configStorage.getHttpProxyPort())
-      .httpProxyUsername(configStorage.getHttpProxyUsername())
-      .httpProxyPassword(configStorage.getHttpProxyPassword());
-
-    if (configStorage.getHttpProxyHost() != null && configStorage.getHttpProxyPort() > 0) {
-      this.httpProxy = new HttpHost(configStorage.getHttpProxyHost(), configStorage.getHttpProxyPort());
-    }
-
-    this.httpClient = apacheHttpClientBuilder.build();
-  }
 
   @Override
   public WxMpConfigStorage getWxMpConfigStorage() {

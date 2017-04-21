@@ -1,9 +1,9 @@
-package me.chanjar.weixin.mp.util.http;
+package me.chanjar.weixin.mp.util.http.apache;
 
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
-import me.chanjar.weixin.common.util.http.Utf8ResponseHandler;
+import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 import me.chanjar.weixin.mp.bean.material.WxMpMaterialNews;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MaterialNewsInfoRequestExecutor implements RequestExecutor<WxMpMaterialNews, String> {
+public class MaterialNewsInfoRequestExecutor implements RequestExecutor<WxMpMaterialNews,CloseableHttpClient, HttpHost, String> {
 
   public MaterialNewsInfoRequestExecutor() {
     super();

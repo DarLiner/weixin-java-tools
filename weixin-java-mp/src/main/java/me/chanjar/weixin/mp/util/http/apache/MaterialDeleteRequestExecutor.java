@@ -1,9 +1,9 @@
-package me.chanjar.weixin.mp.util.http;
+package me.chanjar.weixin.mp.util.http.apache;
 
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
-import me.chanjar.weixin.common.util.http.Utf8ResponseHandler;
+import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MaterialDeleteRequestExecutor implements RequestExecutor<Boolean, String> {
+public class MaterialDeleteRequestExecutor implements RequestExecutor<Boolean,CloseableHttpClient, HttpHost, String> {
 
 
   public MaterialDeleteRequestExecutor() {

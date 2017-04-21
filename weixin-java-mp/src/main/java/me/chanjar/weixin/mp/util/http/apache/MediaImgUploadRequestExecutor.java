@@ -1,9 +1,9 @@
-package me.chanjar.weixin.mp.util.http;
+package me.chanjar.weixin.mp.util.http.apache;
 
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
-import me.chanjar.weixin.common.util.http.Utf8ResponseHandler;
+import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
 import me.chanjar.weixin.mp.bean.material.WxMediaImgUploadResult;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
@@ -21,7 +21,7 @@ import java.io.IOException;
 /**
  * @author miller
  */
-public class MediaImgUploadRequestExecutor implements RequestExecutor<WxMediaImgUploadResult, File> {
+public class MediaImgUploadRequestExecutor implements RequestExecutor<WxMediaImgUploadResult, CloseableHttpClient, HttpHost, File> {
   @Override
   public WxMediaImgUploadResult execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, File data) throws WxErrorException, IOException {
     if (data == null) {

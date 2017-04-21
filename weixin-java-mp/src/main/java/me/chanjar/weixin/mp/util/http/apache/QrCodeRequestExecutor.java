@@ -1,11 +1,11 @@
-package me.chanjar.weixin.mp.util.http;
+package me.chanjar.weixin.mp.util.http.apache;
 
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.fs.FileUtils;
-import me.chanjar.weixin.common.util.http.InputStreamResponseHandler;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
-import me.chanjar.weixin.common.util.http.Utf8ResponseHandler;
+import me.chanjar.weixin.common.util.http.apache.InputStreamResponseHandler;
+import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
 import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
 import org.apache.http.Header;
 import org.apache.http.HttpHost;
@@ -26,20 +26,20 @@ import java.util.UUID;
  * @author chanjarster
  *
  */
-public class QrCodeRequestExecutor implements RequestExecutor<File, WxMpQrCodeTicket> {
+public class QrCodeRequestExecutor implements RequestExecutor<File, CloseableHttpClient, HttpHost, WxMpQrCodeTicket> {
 
   @Override
-  public File execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, 
+  public File execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri,
       WxMpQrCodeTicket ticket) throws WxErrorException, IOException {
     if (ticket != null) {
       if (uri.indexOf('?') == -1) {
         uri += '?';
       }
-      uri += uri.endsWith("?") 
-          ? "ticket=" + URLEncoder.encode(ticket.getTicket(), "UTF-8") 
+      uri += uri.endsWith("?")
+          ? "ticket=" + URLEncoder.encode(ticket.getTicket(), "UTF-8")
           : "&ticket=" + URLEncoder.encode(ticket.getTicket(), "UTF-8");
     }
-    
+
     HttpGet httpGet = new HttpGet(uri);
     if (httpProxy != null) {
       RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();

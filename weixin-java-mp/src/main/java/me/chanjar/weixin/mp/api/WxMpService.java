@@ -3,14 +3,14 @@ package me.chanjar.weixin.mp.api;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
+import me.chanjar.weixin.common.util.http.apache.MediaUploadRequestExecutor;
 import me.chanjar.weixin.mp.bean.*;
 import me.chanjar.weixin.mp.bean.result.*;
-import org.apache.http.HttpHost;
 
 /**
  * 微信API的Service
  */
-public interface WxMpService {
+public interface WxMpService<H, P> {
 
   /**
    * <pre>
@@ -224,15 +224,18 @@ public interface WxMpService {
    * <pre>
    * Service没有实现某个API的时候，可以用这个，
    * 比{@link #get}和{@link #post}方法更灵活，可以自己构造RequestExecutor用来处理不同的参数和不同的返回类型。
-   * 可以参考，{@link me.chanjar.weixin.common.util.http.MediaUploadRequestExecutor}的实现方法
+   * 可以参考，{@link MediaUploadRequestExecutor}的实现方法
    * </pre>
    */
-  <T, E> T execute(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException;
+  <T, E> T execute(RequestExecutor<T, H, P, E> executor, String uri, E data) throws WxErrorException;
 
-  /**
-   * 获取代理对象
-   */
-  HttpHost getHttpProxy();
+  <T, E> T executeInternal(RequestExecutor<T, H, P, E> executor, String uri, E data) throws WxErrorException;
+
+
+    /**
+     * 获取代理对象
+     */
+  //HttpHost getHttpProxy();
 
   /**
    * 注入 {@link WxMpConfigStorage} 的实现
@@ -345,4 +348,17 @@ public interface WxMpService {
    * @return WxMpDeviceService
    */
   WxMpDeviceService getDeviceService();
+
+  /**
+   *
+   * @return
+   */
+  H getHttpclient();
+
+  /**
+   *
+   * @return
+   */
+  P getHttpProxy();
+
 }

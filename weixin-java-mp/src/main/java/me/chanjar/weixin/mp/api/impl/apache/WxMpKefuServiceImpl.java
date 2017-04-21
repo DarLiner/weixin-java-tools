@@ -1,28 +1,23 @@
-package me.chanjar.weixin.mp.api.impl;
-
-import java.io.File;
-import java.util.Date;
-
-import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package me.chanjar.weixin.mp.api.impl.apache;
 
 import com.google.gson.JsonObject;
-
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.util.http.MediaUploadRequestExecutor;
+import me.chanjar.weixin.common.util.http.apache.MediaUploadRequestExecutor;
 import me.chanjar.weixin.mp.api.WxMpKefuService;
 import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage;
 import me.chanjar.weixin.mp.bean.kefu.request.WxMpKfAccountRequest;
 import me.chanjar.weixin.mp.bean.kefu.request.WxMpKfSessionRequest;
-import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfList;
-import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfMsgList;
-import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfOnlineList;
-import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfSessionGetResult;
-import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfSessionList;
-import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfSessionWaitCaseList;
+import me.chanjar.weixin.mp.bean.kefu.result.*;
+import org.apache.http.HttpHost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.util.Date;
 
 /**
  *
@@ -34,7 +29,7 @@ public class WxMpKefuServiceImpl implements WxMpKefuService {
       .getLogger(WxMpKefuServiceImpl.class);
   private static final String API_URL_PREFIX = "https://api.weixin.qq.com/customservice";
   private static final String API_URL_PREFIX_WITH_CGI_BIN = "https://api.weixin.qq.com/cgi-bin/customservice";
-  private WxMpService wxMpService;
+  private WxMpService<CloseableHttpClient, HttpHost> wxMpService;
 
   public WxMpKefuServiceImpl(WxMpService wxMpService) {
     this.wxMpService = wxMpService;
