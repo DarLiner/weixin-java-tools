@@ -1,4 +1,4 @@
-package me.chanjar.weixin.cp.api;
+package me.chanjar.weixin.cp.api.impl.apache;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
@@ -14,8 +14,12 @@ import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.common.util.RandomUtils;
 import me.chanjar.weixin.common.util.crypto.SHA1;
 import me.chanjar.weixin.common.util.fs.FileUtils;
-import me.chanjar.weixin.common.util.http.*;
+import me.chanjar.weixin.common.util.http.RequestExecutor;
+import me.chanjar.weixin.common.util.http.URIUtil;
+import me.chanjar.weixin.common.util.http.apache.*;
 import me.chanjar.weixin.common.util.json.GsonHelper;
+import me.chanjar.weixin.cp.api.WxCpConfigStorage;
+import me.chanjar.weixin.cp.api.WxCpService;
 import me.chanjar.weixin.cp.bean.WxCpDepart;
 import me.chanjar.weixin.cp.bean.WxCpMessage;
 import me.chanjar.weixin.cp.bean.WxCpTag;
@@ -37,7 +41,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.UUID;
 
-public class WxCpServiceImpl implements WxCpService {
+public class WxCpServiceImpl implements WxCpService<CloseableHttpClient, HttpHost> {
 
   protected final Logger log = LoggerFactory.getLogger(WxCpServiceImpl.class);
 
@@ -534,7 +538,7 @@ public class WxCpServiceImpl implements WxCpService {
    * 向微信端发送请求，在这里执行的策略是当发生access_token过期时才去刷新，然后重新执行请求，而不是全局定时请求
    */
   @Override
-  public <T, E> T execute(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
+  public <T, E> T execute(RequestExecutor<T,CloseableHttpClient, HttpHost, E> executor, String uri, E data) throws WxErrorException {
     int retryTimes = 0;
     do {
       try {
@@ -570,7 +574,7 @@ public class WxCpServiceImpl implements WxCpService {
     throw new RuntimeException("微信服务端异常，超出重试次数");
   }
 
-  protected synchronized <T, E> T executeInternal(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
+  public synchronized <T, E> T executeInternal(RequestExecutor<T,CloseableHttpClient, HttpHost, E> executor, String uri, E data) throws WxErrorException {
     if (uri.contains("access_token=")) {
       throw new IllegalArgumentException("uri参数中不允许有access_token: " + uri);
     }

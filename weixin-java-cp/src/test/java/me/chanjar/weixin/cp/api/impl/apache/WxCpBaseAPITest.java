@@ -1,7 +1,9 @@
-package me.chanjar.weixin.cp.api;
+package me.chanjar.weixin.cp.api.impl.apache;
 
 import com.google.inject.Inject;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.cp.api.ApiTestModule;
+import me.chanjar.weixin.cp.api.WxCpConfigStorage;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.Assert;
 import org.testng.annotations.Guice;
