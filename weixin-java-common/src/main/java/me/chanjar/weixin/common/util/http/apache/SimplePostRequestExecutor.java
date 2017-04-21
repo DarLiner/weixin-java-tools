@@ -1,7 +1,8 @@
-package me.chanjar.weixin.common.util.http;
+package me.chanjar.weixin.common.util.http.apache;
 
-import java.io.IOException;
-
+import me.chanjar.weixin.common.bean.result.WxError;
+import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.util.http.RequestExecutor;
 import org.apache.http.Consts;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
@@ -10,15 +11,14 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 
-import me.chanjar.weixin.common.bean.result.WxError;
-import me.chanjar.weixin.common.exception.WxErrorException;
+import java.io.IOException;
 
 /**
  * 简单的POST请求执行器，请求的参数是String, 返回的结果也是String
  *
  * @author Daniel Qian
  */
-public class SimplePostRequestExecutor implements RequestExecutor<String, String> {
+public class SimplePostRequestExecutor implements RequestExecutor<String, CloseableHttpClient, HttpHost, String> {
 
   @Override
   public String execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String postEntity) throws WxErrorException, IOException {

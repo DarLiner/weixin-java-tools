@@ -1,8 +1,9 @@
-package me.chanjar.weixin.common.util.http;
+package me.chanjar.weixin.common.util.http.apache;
 
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.fs.FileUtils;
+import me.chanjar.weixin.common.util.http.RequestExecutor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpHost;
@@ -23,7 +24,7 @@ import java.util.regex.Pattern;
  * 视频文件不支持下载
  * @author Daniel Qian
  */
-public class MediaDownloadRequestExecutor implements RequestExecutor<File, String> {
+public class MediaDownloadRequestExecutor implements RequestExecutor<File, CloseableHttpClient, HttpHost,String> {
 
   private File tmpDirFile;
 

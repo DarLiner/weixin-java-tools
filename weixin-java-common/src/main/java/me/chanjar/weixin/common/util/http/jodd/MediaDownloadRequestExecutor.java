@@ -1,11 +1,13 @@
 package me.chanjar.weixin.common.util.http.jodd;
 
+import jodd.http.HttpConnectionProvider;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
 import jodd.http.ProxyInfo;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.fs.FileUtils;
+import me.chanjar.weixin.common.util.http.RequestExecutor;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.ByteArrayInputStream;
@@ -21,7 +23,7 @@ import java.util.regex.Pattern;
  *
  * @author Daniel Qian
  */
-public class MediaDownloadRequestExecutor implements RequestExecutor<File, String> {
+public class MediaDownloadRequestExecutor implements RequestExecutor<File, HttpConnectionProvider, ProxyInfo, String> {
 
   private File tmpDirFile;
 
@@ -33,7 +35,7 @@ public class MediaDownloadRequestExecutor implements RequestExecutor<File, Strin
   }
 
   @Override
-  public File execute(ProxyInfo httpProxy, String uri, String queryParam) throws WxErrorException, IOException {
+  public File execute(HttpConnectionProvider provider, ProxyInfo httpProxy, String uri, String queryParam) throws WxErrorException, IOException {
     if (queryParam != null) {
       if (uri.indexOf('?') == -1) {
         uri += '?';
@@ -41,8 +43,12 @@ public class MediaDownloadRequestExecutor implements RequestExecutor<File, Strin
       uri += uri.endsWith("?") ? queryParam : '&' + queryParam;
     }
 
-    HttpRequest httpRequest = HttpRequest.post(uri);
-    HttpResponse response = httpRequest.send();
+    HttpRequest request = HttpRequest.post(uri);
+    if (httpProxy != null) {
+      provider.useProxy(httpProxy);
+    }
+    request.withConnectionProvider(provider);
+    HttpResponse response = request.send();
     String contentType = response.header("Content-Type");
     if (contentType != null && contentType.startsWith("application/json")) {
       // application/json; encoding=utf-8 下载媒体文件出错

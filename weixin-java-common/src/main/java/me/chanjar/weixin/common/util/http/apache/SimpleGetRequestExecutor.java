@@ -1,7 +1,8 @@
-package me.chanjar.weixin.common.util.http;
+package me.chanjar.weixin.common.util.http.apache;
 
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.util.http.RequestExecutor;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -15,7 +16,7 @@ import java.io.IOException;
  *
  * @author Daniel Qian
  */
-public class SimpleGetRequestExecutor implements RequestExecutor<String, String> {
+public class SimpleGetRequestExecutor implements RequestExecutor<String, CloseableHttpClient, HttpHost, String> {
 
   @Override
   public String execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String queryParam) throws WxErrorException, IOException {

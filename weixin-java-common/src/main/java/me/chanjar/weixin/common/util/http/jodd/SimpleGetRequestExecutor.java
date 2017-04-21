@@ -1,11 +1,12 @@
 package me.chanjar.weixin.common.util.http.jodd;
 
+import jodd.http.HttpConnectionProvider;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
 import jodd.http.ProxyInfo;
-import jodd.http.net.SocketHttpConnectionProvider;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.util.http.RequestExecutor;
 
 import java.io.IOException;
 
@@ -14,10 +15,10 @@ import java.io.IOException;
  *
  * @author Daniel Qian
  */
-public class SimpleGetRequestExecutor implements RequestExecutor<String, String> {
+public class SimpleGetRequestExecutor implements RequestExecutor<String, HttpConnectionProvider, ProxyInfo, String> {
 
   @Override
-  public String execute(ProxyInfo httpProxy, String uri, String queryParam) throws WxErrorException, IOException {
+  public String execute(HttpConnectionProvider provider, ProxyInfo httpProxy, String uri, String queryParam) throws WxErrorException, IOException {
     if (queryParam != null) {
       if (uri.indexOf('?') == -1) {
         uri += '?';
@@ -27,10 +28,9 @@ public class SimpleGetRequestExecutor implements RequestExecutor<String, String>
 
     HttpRequest request = HttpRequest.get(uri);
     if (httpProxy != null) {
-      SocketHttpConnectionProvider provider = new SocketHttpConnectionProvider();
       provider.useProxy(httpProxy);
-      request.withConnectionProvider(provider);
     }
+    request.withConnectionProvider(provider);
     HttpResponse response = request.send();
     String responseContent = response.bodyText();
     WxError error = WxError.fromJson(responseContent);
