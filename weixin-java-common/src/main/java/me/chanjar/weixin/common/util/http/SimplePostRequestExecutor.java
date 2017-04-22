@@ -42,6 +42,16 @@ public class SimplePostRequestExecutor implements RequestExecutor<String, String
     }
   }
 
+  /**
+   * apache-http实现方式
+   * @param httpclient
+   * @param httpProxy
+   * @param uri
+   * @param postEntity
+   * @return
+   * @throws WxErrorException
+   * @throws IOException
+   */
   private String executeApache(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String postEntity) throws WxErrorException, IOException {
     HttpPost httpPost = new HttpPost(uri);
     if (httpProxy != null) {
@@ -78,6 +88,16 @@ public class SimplePostRequestExecutor implements RequestExecutor<String, String
   }
 
 
+  /**
+   * jodd-http实现方式
+   * @param provider
+   * @param proxyInfo
+   * @param uri
+   * @param postEntity
+   * @return
+   * @throws WxErrorException
+   * @throws IOException
+   */
   private String executeJodd(HttpConnectionProvider provider, ProxyInfo proxyInfo, String uri, String postEntity) throws WxErrorException, IOException {
     HttpRequest request = HttpRequest.post(uri);
     if (proxyInfo != null) {

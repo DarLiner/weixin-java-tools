@@ -47,6 +47,16 @@ public class MediaUploadRequestExecutor implements RequestExecutor<WxMediaUpload
 
   }
 
+  /**
+   * apache-http实现方式
+   * @param httpclient
+   * @param httpProxy
+   * @param uri
+   * @param file
+   * @return
+   * @throws WxErrorException
+   * @throws IOException
+   */
   private WxMediaUploadResult executeApache(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, File file) throws WxErrorException, IOException {
     HttpPost httpPost = new HttpPost(uri);
     if (httpProxy != null) {
@@ -75,6 +85,16 @@ public class MediaUploadRequestExecutor implements RequestExecutor<WxMediaUpload
   }
 
 
+  /**
+   * jodd-http实现方式
+   * @param provider
+   * @param proxyInfo
+   * @param uri
+   * @param file
+   * @return
+   * @throws WxErrorException
+   * @throws IOException
+   */
   private WxMediaUploadResult executeJodd(HttpConnectionProvider provider, ProxyInfo proxyInfo, String uri, File file) throws WxErrorException, IOException {
     HttpRequest request = HttpRequest.post(uri);
     if (proxyInfo != null) {

@@ -85,6 +85,16 @@ public class MediaDownloadRequestExecutor implements RequestExecutor<File, Strin
   }
 
 
+  /**
+   * apache-http实现方式
+   * @param httpclient
+   * @param httpProxy
+   * @param uri
+   * @param queryParam
+   * @return
+   * @throws WxErrorException
+   * @throws IOException
+   */
   private File executeApache(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String queryParam) throws WxErrorException, IOException {
     if (queryParam != null) {
       if (uri.indexOf('?') == -1) {
@@ -127,6 +137,16 @@ public class MediaDownloadRequestExecutor implements RequestExecutor<File, Strin
   }
 
 
+  /**
+   * jodd-http实现方式
+   * @param provider
+   * @param proxyInfo
+   * @param uri
+   * @param queryParam
+   * @return
+   * @throws WxErrorException
+   * @throws IOException
+   */
   private File executeJodd(HttpConnectionProvider provider, ProxyInfo proxyInfo, String uri, String queryParam) throws WxErrorException, IOException {
     if (queryParam != null) {
       if (uri.indexOf('?') == -1) {
@@ -135,7 +155,7 @@ public class MediaDownloadRequestExecutor implements RequestExecutor<File, Strin
       uri += uri.endsWith("?") ? queryParam : '&' + queryParam;
     }
 
-    HttpRequest request = HttpRequest.post(uri);
+    HttpRequest request = HttpRequest.get(uri);
     if (proxyInfo != null) {
       provider.useProxy(proxyInfo);
     }

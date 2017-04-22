@@ -6,13 +6,13 @@ package me.chanjar.weixin.common.util.http;
 public interface RequestHttp {
 
   /**
-   * httpClient
+   * 返回httpClient
    * @return
    */
   Object getRequestHttpClient();
 
   /**
-   * httpProxy
+   * 返回httpProxy
    * @return
    */
   Object getRequestHttpProxy();

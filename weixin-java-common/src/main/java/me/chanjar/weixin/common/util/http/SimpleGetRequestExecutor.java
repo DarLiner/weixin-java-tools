@@ -40,6 +40,16 @@ public class SimpleGetRequestExecutor implements RequestExecutor<String, String>
   }
 
 
+  /**
+   * apache-http实现方式
+   * @param httpclient
+   * @param httpProxy
+   * @param uri
+   * @param queryParam
+   * @return
+   * @throws WxErrorException
+   * @throws IOException
+   */
   private String executeApache(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String queryParam) throws WxErrorException, IOException {
     if (queryParam != null) {
       if (uri.indexOf('?') == -1) {
@@ -66,6 +76,16 @@ public class SimpleGetRequestExecutor implements RequestExecutor<String, String>
   }
 
 
+  /**
+   * jodd-http实现方式
+   * @param provider
+   * @param proxyInfo
+   * @param uri
+   * @param queryParam
+   * @return
+   * @throws WxErrorException
+   * @throws IOException
+   */
   private String executeJodd(HttpConnectionProvider provider, ProxyInfo proxyInfo, String uri, String queryParam) throws WxErrorException, IOException {
     if (queryParam != null) {
       if (uri.indexOf('?') == -1) {
