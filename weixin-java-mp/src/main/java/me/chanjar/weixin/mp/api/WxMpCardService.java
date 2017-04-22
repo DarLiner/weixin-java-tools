@@ -14,7 +14,7 @@ public interface WxMpCardService<H, P> {
    * 得到WxMpService
    * @return
    */
-  WxMpService<H, P> getWxMpService();
+  WxMpService getWxMpService();
 
   /**
    * 获得卡券api_ticket，不强制刷新卡券api_ticket

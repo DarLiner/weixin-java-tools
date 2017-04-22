@@ -1,18 +1,16 @@
-package me.chanjar.weixin.mp.api.impl.apache;
+package me.chanjar.weixin.mp.api.impl;
 
 import com.google.gson.JsonObject;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.util.http.apache.MediaUploadRequestExecutor;
+import me.chanjar.weixin.common.util.http.MediaUploadRequestExecutor;
 import me.chanjar.weixin.mp.api.WxMpKefuService;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage;
 import me.chanjar.weixin.mp.bean.kefu.request.WxMpKfAccountRequest;
 import me.chanjar.weixin.mp.bean.kefu.request.WxMpKfSessionRequest;
 import me.chanjar.weixin.mp.bean.kefu.result.*;
-import org.apache.http.HttpHost;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +27,7 @@ public class WxMpKefuServiceImpl implements WxMpKefuService {
       .getLogger(WxMpKefuServiceImpl.class);
   private static final String API_URL_PREFIX = "https://api.weixin.qq.com/customservice";
   private static final String API_URL_PREFIX_WITH_CGI_BIN = "https://api.weixin.qq.com/cgi-bin/customservice";
-  private WxMpService<CloseableHttpClient, HttpHost> wxMpService;
+  private WxMpService wxMpService;
 
   public WxMpKefuServiceImpl(WxMpService wxMpService) {
     this.wxMpService = wxMpService;

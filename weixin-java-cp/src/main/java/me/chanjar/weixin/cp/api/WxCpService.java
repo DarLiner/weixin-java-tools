@@ -6,6 +6,7 @@ import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.session.WxSession;
 import me.chanjar.weixin.common.session.WxSessionManager;
+import me.chanjar.weixin.common.util.http.MediaUploadRequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.cp.bean.WxCpDepart;
 import me.chanjar.weixin.cp.bean.WxCpMessage;
@@ -20,7 +21,7 @@ import java.util.List;
 /**
  * 微信API的Service
  */
-public interface WxCpService<H, P> {
+public interface WxCpService {
 
   /**
    * <pre>
@@ -469,7 +470,7 @@ public interface WxCpService<H, P> {
    * <pre>
    * Service没有实现某个API的时候，可以用这个，
    * 比{@link #get}和{@link #post}方法更灵活，可以自己构造RequestExecutor用来处理不同的参数和不同的返回类型。
-   * 可以参考，{@link me.chanjar.weixin.common.util.http.jodd.MediaUploadRequestExecutor}的实现方法
+   * 可以参考，{@link MediaUploadRequestExecutor}的实现方法
    * </pre>
    *
    * @param executor 执行器
@@ -478,9 +479,7 @@ public interface WxCpService<H, P> {
    * @param <T>      请求值类型
    * @param <E>      返回值类型
    */
-  <T, E> T execute(RequestExecutor<T, H, P, E> executor, String uri, E data) throws WxErrorException;
-
-  <T, E> T executeInternal(RequestExecutor<T, H, P, E> executor, String uri, E data) throws WxErrorException;
+  <T, E> T execute(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException;
 
   /**
    * 注入 {@link WxCpConfigStorage} 的实现

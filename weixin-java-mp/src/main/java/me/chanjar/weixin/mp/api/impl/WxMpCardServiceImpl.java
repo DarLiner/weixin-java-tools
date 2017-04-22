@@ -1,22 +1,22 @@
-package me.chanjar.weixin.mp.api.impl.jodd;
+package me.chanjar.weixin.mp.api.impl;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.reflect.TypeToken;
-import jodd.http.HttpConnectionProvider;
-import jodd.http.ProxyInfo;
 import me.chanjar.weixin.common.bean.WxCardApiSignature;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.RandomUtils;
 import me.chanjar.weixin.common.util.crypto.SHA1;
-import me.chanjar.weixin.common.util.http.jodd.SimpleGetRequestExecutor;
+import me.chanjar.weixin.common.util.http.SimpleGetRequestExecutor;
 import me.chanjar.weixin.mp.api.WxMpCardService;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpCardResult;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
+import org.apache.http.HttpHost;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,11 +26,11 @@ import java.util.concurrent.locks.Lock;
 /**
  * Created by Binary Wang on 2016/7/27.
  */
-public class WxMpCardServiceImpl implements WxMpCardService<HttpConnectionProvider, ProxyInfo> {
+public class WxMpCardServiceImpl implements WxMpCardService<CloseableHttpClient, HttpHost> {
 
   private final Logger log = LoggerFactory.getLogger(WxMpCardServiceImpl.class);
 
-  private WxMpService<HttpConnectionProvider, ProxyInfo> wxMpService;
+  private WxMpService wxMpService;
 
   public WxMpCardServiceImpl(WxMpService wxMpService) {
     this.wxMpService = wxMpService;
@@ -41,7 +41,7 @@ public class WxMpCardServiceImpl implements WxMpCardService<HttpConnectionProvid
    * @return
    */
   @Override
-  public WxMpService<HttpConnectionProvider, ProxyInfo> getWxMpService(){
+  public WxMpService getWxMpService(){
       return this.wxMpService;
   }
 

@@ -24,14 +24,14 @@ public class SimpleGetRequestExecutor implements RequestExecutor<String, String>
 
   @Override
   public String execute(RequestHttp requestHttp, String uri, String queryParam) throws WxErrorException, IOException {
-    if (requestHttp.getHttpClient() instanceof CloseableHttpClient) {
-      CloseableHttpClient httpClient = (CloseableHttpClient) requestHttp.getHttpClient();
-      HttpHost httpProxy = (HttpHost) requestHttp.getHttpProxy();
+    if (requestHttp.getRequestHttpClient() instanceof CloseableHttpClient) {
+      CloseableHttpClient httpClient = (CloseableHttpClient) requestHttp.getRequestHttpClient();
+      HttpHost httpProxy = (HttpHost) requestHttp.getRequestHttpProxy();
       return executeApache(httpClient, httpProxy, uri, queryParam);
     }
-    if (requestHttp.getHttpClient() instanceof HttpConnectionProvider) {
-      HttpConnectionProvider provider = (HttpConnectionProvider) requestHttp.getHttpClient();
-      ProxyInfo proxyInfo = (ProxyInfo) requestHttp.getHttpProxy();
+    if (requestHttp.getRequestHttpClient() instanceof HttpConnectionProvider) {
+      HttpConnectionProvider provider = (HttpConnectionProvider) requestHttp.getRequestHttpClient();
+      ProxyInfo proxyInfo = (ProxyInfo) requestHttp.getRequestHttpProxy();
       return executeJodd(provider, proxyInfo, uri, queryParam);
     } else {
       //这里需要抛出异常，需要优化

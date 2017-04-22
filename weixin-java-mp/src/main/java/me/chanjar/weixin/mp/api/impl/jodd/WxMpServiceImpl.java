@@ -14,10 +14,7 @@ import me.chanjar.weixin.common.session.StandardSessionManager;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.common.util.RandomUtils;
 import me.chanjar.weixin.common.util.crypto.SHA1;
-import me.chanjar.weixin.common.util.http.RequestExecutor;
-import me.chanjar.weixin.common.util.http.URIUtil;
-import me.chanjar.weixin.common.util.http.jodd.SimpleGetRequestExecutor;
-import me.chanjar.weixin.common.util.http.jodd.SimplePostRequestExecutor;
+import me.chanjar.weixin.common.util.http.*;
 import me.chanjar.weixin.mp.api.*;
 import me.chanjar.weixin.mp.api.impl.*;
 import me.chanjar.weixin.mp.bean.*;
@@ -28,7 +25,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 
-public class WxMpServiceImpl implements WxMpService<HttpConnectionProvider, ProxyInfo> {
+public class WxMpServiceImpl implements WxMpService,RequestHttp {
 
   private static final JsonParser JSON_PARSER = new JsonParser();
 
@@ -248,8 +245,8 @@ public class WxMpServiceImpl implements WxMpService<HttpConnectionProvider, Prox
 
   private WxMpOAuth2AccessToken getOAuth2AccessToken(StringBuilder url) throws WxErrorException {
     try {
-      RequestExecutor<String, HttpConnectionProvider, ProxyInfo, String> executor = new SimpleGetRequestExecutor();
-      String responseText = executor.execute(getHttpclient(), getHttpProxy(), url.toString(), null);
+      RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
+      String responseText = executor.execute(this, url.toString(), null);
       return WxMpOAuth2AccessToken.fromJson(responseText);
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -292,8 +289,8 @@ public class WxMpServiceImpl implements WxMpService<HttpConnectionProvider, Prox
     }
 
     try {
-      RequestExecutor<String, HttpConnectionProvider, ProxyInfo, String> executor = new SimpleGetRequestExecutor();
-      String responseText = executor.execute(getHttpclient(), getHttpProxy(), url.toString(), null);
+      RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
+      String responseText = executor.execute(this, url.toString(), null);
       return WxMpUser.fromJson(responseText);
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -308,8 +305,8 @@ public class WxMpServiceImpl implements WxMpService<HttpConnectionProvider, Prox
     url.append("&openid=").append(oAuth2AccessToken.getOpenId());
 
     try {
-      RequestExecutor<String, HttpConnectionProvider, ProxyInfo, String> executor = new SimpleGetRequestExecutor();
-      executor.execute(getHttpclient(), getHttpProxy(), url.toString(), null);
+      RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
+      executor.execute(this, url.toString(), null);
     } catch (IOException e) {
       throw new RuntimeException(e);
     } catch (WxErrorException e) {
@@ -341,15 +338,20 @@ public class WxMpServiceImpl implements WxMpService<HttpConnectionProvider, Prox
     return execute(new SimplePostRequestExecutor(), url, postData);
   }
 
-  @Override
+  //@Override
   public HttpConnectionProvider getHttpclient() {
     return this.httpClient;
+  }
+
+  //@Override
+  public Object getHttpProxy() {
+    return null;
   }
 
   /**
    * 向微信端发送请求，在这里执行的策略是当发生access_token过期时才去刷新，然后重新执行请求，而不是全局定时请求
    */
-  public <T, E> T execute(RequestExecutor<T, HttpConnectionProvider, ProxyInfo, E> executor, String uri, E data) throws WxErrorException {
+  public <T, E> T execute(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
     int retryTimes = 0;
     do {
       try {
@@ -383,8 +385,7 @@ public class WxMpServiceImpl implements WxMpService<HttpConnectionProvider, Prox
     throw new RuntimeException("微信服务端异常，超出重试次数");
   }
 
-  @Override
-  public synchronized <T, E> T executeInternal(RequestExecutor<T, HttpConnectionProvider, ProxyInfo, E> executor, String uri, E data) throws WxErrorException {
+  public synchronized <T, E> T executeInternal(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
     if (uri.indexOf("access_token=") != -1) {
       throw new IllegalArgumentException("uri参数中不允许有access_token: " + uri);
     }
@@ -394,7 +395,7 @@ public class WxMpServiceImpl implements WxMpService<HttpConnectionProvider, Prox
     uriWithAccessToken += uri.indexOf('?') == -1 ? "?access_token=" + accessToken : "&access_token=" + accessToken;
 
     try {
-      return executor.execute(getHttpclient(), getHttpProxy(), uriWithAccessToken, data);
+      return executor.execute(this, uriWithAccessToken, data);
     } catch (WxErrorException e) {
       WxError error = e.getError();
       /*
@@ -422,7 +423,12 @@ public class WxMpServiceImpl implements WxMpService<HttpConnectionProvider, Prox
   }
 
   @Override
-  public ProxyInfo getHttpProxy() {
+  public Object getRequestHttpClient() {
+    return this.httpClient;
+  }
+
+  @Override
+  public Object getRequestHttpProxy() {
     return this.httpProxy;
   }
 

@@ -1,95 +1,93 @@
-package me.chanjar.weixin.common.util.http;
+package me.chanjar.weixin.mp.util.http;
 
 import jodd.http.HttpConnectionProvider;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
 import jodd.http.ProxyInfo;
 import me.chanjar.weixin.common.bean.result.WxError;
-import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.util.http.RequestExecutor;
+import me.chanjar.weixin.common.util.http.RequestHttp;
 import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
-import org.apache.http.HttpEntity;
+import me.chanjar.weixin.common.util.json.WxGsonBuilder;
+import me.chanjar.weixin.mp.bean.material.WxMpMaterialNews;
+import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
-/**
- * 上传媒体文件请求执行器，请求的参数是File, 返回的结果是String
- *
- * @author Daniel Qian
- */
-public class MediaUploadRequestExecutor implements RequestExecutor<WxMediaUploadResult, File> {
+public class MaterialNewsInfoRequestExecutor implements RequestExecutor<WxMpMaterialNews, String> {
+
+  public MaterialNewsInfoRequestExecutor() {
+    super();
+  }
 
   @Override
-  public WxMediaUploadResult execute(RequestHttp requestHttp, String uri, File file) throws WxErrorException, IOException {
+  public WxMpMaterialNews execute(RequestHttp requestHttp, String uri,
+                                  String materialId) throws WxErrorException, IOException {
     if (requestHttp.getRequestHttpClient() instanceof CloseableHttpClient) {
       CloseableHttpClient httpClient = (CloseableHttpClient) requestHttp.getRequestHttpClient();
       HttpHost httpProxy = (HttpHost) requestHttp.getRequestHttpProxy();
-      return executeApache(httpClient, httpProxy, uri, file);
+      return executeApache(httpClient, httpProxy, uri, materialId);
     }
     if (requestHttp.getRequestHttpClient() instanceof HttpConnectionProvider) {
       HttpConnectionProvider provider = (HttpConnectionProvider) requestHttp.getRequestHttpClient();
       ProxyInfo proxyInfo = (ProxyInfo) requestHttp.getRequestHttpProxy();
-      return executeJodd(provider, proxyInfo, uri, file);
+      return executeJodd(provider, proxyInfo, uri, materialId);
     } else {
       //这里需要抛出异常，需要优化
       return null;
     }
-
-
   }
 
-  private WxMediaUploadResult executeApache(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, File file) throws WxErrorException, IOException {
+  public WxMpMaterialNews executeApache(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String materialId) throws WxErrorException, IOException {
     HttpPost httpPost = new HttpPost(uri);
     if (httpProxy != null) {
       RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
       httpPost.setConfig(config);
     }
-    if (file != null) {
-      HttpEntity entity = MultipartEntityBuilder
-        .create()
-        .addBinaryBody("media", file)
-        .setMode(HttpMultipartMode.RFC6532)
-        .build();
-      httpPost.setEntity(entity);
-      httpPost.setHeader("Content-Type", ContentType.MULTIPART_FORM_DATA.toString());
-    }
+
+    Map<String, String> params = new HashMap<>();
+    params.put("media_id", materialId);
+    httpPost.setEntity(new StringEntity(WxGsonBuilder.create().toJson(params)));
     try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
       String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
       WxError error = WxError.fromJson(responseContent);
       if (error.getErrorCode() != 0) {
         throw new WxErrorException(error);
+      } else {
+        return WxMpGsonBuilder.create().fromJson(responseContent, WxMpMaterialNews.class);
       }
-      return WxMediaUploadResult.fromJson(responseContent);
     } finally {
       httpPost.releaseConnection();
     }
   }
 
 
-  private WxMediaUploadResult executeJodd(HttpConnectionProvider provider, ProxyInfo proxyInfo, String uri, File file) throws WxErrorException, IOException {
+  public WxMpMaterialNews executeJodd(HttpConnectionProvider httpclient, ProxyInfo httpProxy, String uri, String materialId) throws WxErrorException, IOException {
     HttpRequest request = HttpRequest.post(uri);
-    if (proxyInfo != null) {
-      provider.useProxy(proxyInfo);
+    if (httpProxy != null) {
+      httpclient.useProxy(httpProxy);
     }
-    request.withConnectionProvider(provider);
-    request.form("media", file);
+    request.withConnectionProvider(httpclient);
+
+    request.query("media_id", materialId);
     HttpResponse response = request.send();
-    String responseContent = response.bodyText();
+
+    String responseContent = request.bodyText();
     WxError error = WxError.fromJson(responseContent);
     if (error.getErrorCode() != 0) {
       throw new WxErrorException(error);
+    } else {
+      return WxMpGsonBuilder.create().fromJson(responseContent, WxMpMaterialNews.class);
     }
-    return WxMediaUploadResult.fromJson(responseContent);
   }
-
 
 }

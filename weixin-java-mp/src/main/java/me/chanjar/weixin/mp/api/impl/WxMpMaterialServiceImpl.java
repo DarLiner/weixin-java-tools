@@ -1,23 +1,18 @@
-package me.chanjar.weixin.mp.api.impl.apache;
+package me.chanjar.weixin.mp.api.impl;
 
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.fs.FileUtils;
-import me.chanjar.weixin.common.util.http.apache.MediaDownloadRequestExecutor;
-import me.chanjar.weixin.common.util.http.apache.MediaUploadRequestExecutor;
+import me.chanjar.weixin.common.util.http.MediaDownloadRequestExecutor;
+import me.chanjar.weixin.common.util.http.MediaUploadRequestExecutor;
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 import me.chanjar.weixin.mp.api.WxMpMaterialService;
 import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.bean.material.WxMpMaterial;
-import me.chanjar.weixin.mp.bean.material.WxMpMaterialArticleUpdate;
-import me.chanjar.weixin.mp.bean.material.WxMpMaterialNews;
 import me.chanjar.weixin.mp.bean.material.*;
-import me.chanjar.weixin.mp.util.http.apache.*;
+import me.chanjar.weixin.mp.util.http.*;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
-import org.apache.http.HttpHost;
-import org.apache.http.impl.client.CloseableHttpClient;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,7 +27,7 @@ import java.util.UUID;
 public class WxMpMaterialServiceImpl implements WxMpMaterialService {
   private static final String MEDIA_API_URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/media";
   private static final String MATERIAL_API_URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/material";
-  private WxMpService<CloseableHttpClient, HttpHost> wxMpService;
+  private WxMpService wxMpService;
 
   public WxMpMaterialServiceImpl(WxMpService wxMpService) {
     this.wxMpService = wxMpService;

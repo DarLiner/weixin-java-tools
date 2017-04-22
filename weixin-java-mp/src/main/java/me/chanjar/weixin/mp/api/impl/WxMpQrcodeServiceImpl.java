@@ -1,4 +1,4 @@
-package me.chanjar.weixin.mp.api.impl.apache;
+package me.chanjar.weixin.mp.api.impl;
 
 import com.google.gson.JsonObject;
 import me.chanjar.weixin.common.bean.result.WxError;
@@ -6,9 +6,7 @@ import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpQrcodeService;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
-import me.chanjar.weixin.mp.util.http.apache.QrCodeRequestExecutor;
-import org.apache.http.HttpHost;
-import org.apache.http.impl.client.CloseableHttpClient;
+import me.chanjar.weixin.mp.util.http.QrCodeRequestExecutor;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -20,7 +18,7 @@ import java.nio.charset.StandardCharsets;
  */
 public class WxMpQrcodeServiceImpl implements WxMpQrcodeService {
   private static final String API_URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/qrcode";
-  private WxMpService<CloseableHttpClient, HttpHost> wxMpService;
+  private WxMpService wxMpService;
 
   public WxMpQrcodeServiceImpl(WxMpService wxMpService) {
     this.wxMpService = wxMpService;

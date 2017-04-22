@@ -9,12 +9,12 @@ public interface RequestHttp {
    * httpClient
    * @return
    */
-  Object getHttpClient();
+  Object getRequestHttpClient();
 
   /**
    * httpProxy
    * @return
    */
-  Object getHttpProxy();
+  Object getRequestHttpProxy();
 
 }

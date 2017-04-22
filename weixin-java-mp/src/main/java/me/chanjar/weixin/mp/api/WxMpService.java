@@ -2,15 +2,15 @@ package me.chanjar.weixin.mp.api;
 
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.util.http.MediaUploadRequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
-import me.chanjar.weixin.common.util.http.apache.MediaUploadRequestExecutor;
 import me.chanjar.weixin.mp.bean.*;
 import me.chanjar.weixin.mp.bean.result.*;
 
 /**
  * 微信API的Service
  */
-public interface WxMpService<H, P> {
+public interface WxMpService {
 
   /**
    * <pre>
@@ -133,7 +133,6 @@ public interface WxMpService<H, P> {
    * 长链接转短链接接口
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=长链接转短链接接口
    * </pre>
-   *
    */
   String shortUrl(String long_url) throws WxErrorException;
 
@@ -153,8 +152,8 @@ public interface WxMpService<H, P> {
    * </pre>
    *
    * @param redirectURI 用户授权完成后的重定向链接，无需urlencode, 方法内会进行encode
-   * @param scope 应用授权作用域，拥有多个作用域用逗号（,）分隔，网页应用目前仅填写snsapi_login即可
-   * @param state 非必填，用于保持请求和回调的状态，授权请求后原样带回给第三方。该参数可用于防止csrf攻击（跨站请求伪造攻击），建议第三方带上该参数，可设置为简单的随机数加session进行校验
+   * @param scope       应用授权作用域，拥有多个作用域用逗号（,）分隔，网页应用目前仅填写snsapi_login即可
+   * @param state       非必填，用于保持请求和回调的状态，授权请求后原样带回给第三方。该参数可用于防止csrf攻击（跨站请求伪造攻击），建议第三方带上该参数，可设置为简单的随机数加session进行校验
    * @return url
    */
   String buildQrConnectUrl(String redirectURI, String scope, String state);
@@ -190,7 +189,7 @@ public interface WxMpService<H, P> {
    * 用oauth2获取用户信息, 当前面引导授权时的scope是snsapi_userinfo的时候才可以
    * </pre>
    *
-   * @param lang              zh_CN, zh_TW, en
+   * @param lang zh_CN, zh_TW, en
    */
   WxMpUser oauth2getUserInfo(WxMpOAuth2AccessToken oAuth2AccessToken, String lang) throws WxErrorException;
 
@@ -198,7 +197,6 @@ public interface WxMpService<H, P> {
    * <pre>
    * 验证oauth2的access token是否有效
    * </pre>
-   *
    */
   boolean oauth2validateAccessToken(WxMpOAuth2AccessToken oAuth2AccessToken);
 
@@ -227,15 +225,12 @@ public interface WxMpService<H, P> {
    * 可以参考，{@link MediaUploadRequestExecutor}的实现方法
    * </pre>
    */
-  <T, E> T execute(RequestExecutor<T, H, P, E> executor, String uri, E data) throws WxErrorException;
+  <T, E> T execute(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException;
 
-  <T, E> T executeInternal(RequestExecutor<T, H, P, E> executor, String uri, E data) throws WxErrorException;
-
-
-    /**
-     * 获取代理对象
-     */
-  //HttpHost getHttpProxy();
+  /**
+   * 获取代理对象
+   */
+  //HttpHost getRequestHttpProxy();
 
   /**
    * 注入 {@link WxMpConfigStorage} 的实现
@@ -350,15 +345,13 @@ public interface WxMpService<H, P> {
   WxMpDeviceService getDeviceService();
 
   /**
-   *
    * @return
    */
-  H getHttpclient();
+  //Object getHttpclient();
 
   /**
-   *
    * @return
    */
-  P getHttpProxy();
+  //Object getHttpProxy();
 
 }
