@@ -1,8 +1,13 @@
 package me.chanjar.weixin.common.util.http;
 
+import jodd.http.HttpConnectionProvider;
+import jodd.http.HttpRequest;
+import jodd.http.HttpResponse;
+import jodd.http.ProxyInfo;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
@@ -24,7 +29,35 @@ import java.io.IOException;
 public class MediaUploadRequestExecutor implements RequestExecutor<WxMediaUploadResult, File> {
 
   @Override
-  public WxMediaUploadResult execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, File file) throws WxErrorException, IOException {
+  public WxMediaUploadResult execute(RequestHttp requestHttp, String uri, File file) throws WxErrorException, IOException {
+    if (requestHttp.getRequestHttpClient() instanceof CloseableHttpClient) {
+      CloseableHttpClient httpClient = (CloseableHttpClient) requestHttp.getRequestHttpClient();
+      HttpHost httpProxy = (HttpHost) requestHttp.getRequestHttpProxy();
+      return executeApache(httpClient, httpProxy, uri, file);
+    }
+    if (requestHttp.getRequestHttpClient() instanceof HttpConnectionProvider) {
+      HttpConnectionProvider provider = (HttpConnectionProvider) requestHttp.getRequestHttpClient();
+      ProxyInfo proxyInfo = (ProxyInfo) requestHttp.getRequestHttpProxy();
+      return executeJodd(provider, proxyInfo, uri, file);
+    } else {
+      //这里需要抛出异常，需要优化
+      return null;
+    }
+
+
+  }
+
+  /**
+   * apache-http实现方式
+   * @param httpclient
+   * @param httpProxy
+   * @param uri
+   * @param file
+   * @return
+   * @throws WxErrorException
+   * @throws IOException
+   */
+  private WxMediaUploadResult executeApache(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, File file) throws WxErrorException, IOException {
     HttpPost httpPost = new HttpPost(uri);
     if (httpProxy != null) {
       RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
@@ -32,10 +65,10 @@ public class MediaUploadRequestExecutor implements RequestExecutor<WxMediaUpload
     }
     if (file != null) {
       HttpEntity entity = MultipartEntityBuilder
-              .create()
-              .addBinaryBody("media", file)
-              .setMode(HttpMultipartMode.RFC6532)
-              .build();
+        .create()
+        .addBinaryBody("media", file)
+        .setMode(HttpMultipartMode.RFC6532)
+        .build();
       httpPost.setEntity(entity);
       httpPost.setHeader("Content-Type", ContentType.MULTIPART_FORM_DATA.toString());
     }
@@ -50,5 +83,33 @@ public class MediaUploadRequestExecutor implements RequestExecutor<WxMediaUpload
       httpPost.releaseConnection();
     }
   }
+
+
+  /**
+   * jodd-http实现方式
+   * @param provider
+   * @param proxyInfo
+   * @param uri
+   * @param file
+   * @return
+   * @throws WxErrorException
+   * @throws IOException
+   */
+  private WxMediaUploadResult executeJodd(HttpConnectionProvider provider, ProxyInfo proxyInfo, String uri, File file) throws WxErrorException, IOException {
+    HttpRequest request = HttpRequest.post(uri);
+    if (proxyInfo != null) {
+      provider.useProxy(proxyInfo);
+    }
+    request.withConnectionProvider(provider);
+    request.form("media", file);
+    HttpResponse response = request.send();
+    String responseContent = response.bodyText();
+    WxError error = WxError.fromJson(responseContent);
+    if (error.getErrorCode() != 0) {
+      throw new WxErrorException(error);
+    }
+    return WxMediaUploadResult.fromJson(responseContent);
+  }
+
 
 }

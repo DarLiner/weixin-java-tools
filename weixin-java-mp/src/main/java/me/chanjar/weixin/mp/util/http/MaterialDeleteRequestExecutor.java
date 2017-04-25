@@ -1,9 +1,14 @@
 package me.chanjar.weixin.mp.util.http;
 
+import jodd.http.HttpConnectionProvider;
+import jodd.http.HttpRequest;
+import jodd.http.HttpResponse;
+import jodd.http.ProxyInfo;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
-import me.chanjar.weixin.common.util.http.Utf8ResponseHandler;
+import me.chanjar.weixin.common.util.http.RequestHttp;
+import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
@@ -24,7 +29,44 @@ public class MaterialDeleteRequestExecutor implements RequestExecutor<Boolean, S
   }
 
   @Override
-  public Boolean execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String materialId) throws WxErrorException, IOException {
+  public Boolean execute(RequestHttp requestHttp, String uri, String materialId) throws WxErrorException, IOException {
+    if (requestHttp.getRequestHttpClient() instanceof CloseableHttpClient) {
+      CloseableHttpClient httpClient = (CloseableHttpClient) requestHttp.getRequestHttpClient();
+      HttpHost httpProxy = (HttpHost) requestHttp.getRequestHttpProxy();
+      return executeApache(httpClient, httpProxy, uri, materialId);
+    }
+    if (requestHttp.getRequestHttpClient() instanceof HttpConnectionProvider) {
+      HttpConnectionProvider provider = (HttpConnectionProvider) requestHttp.getRequestHttpClient();
+      ProxyInfo proxyInfo = (ProxyInfo) requestHttp.getRequestHttpProxy();
+      return executeJodd(provider, proxyInfo, uri, materialId);
+    } else {
+      //这里需要抛出异常，需要优化
+      return null;
+    }
+
+
+  }
+
+  private Boolean executeJodd(HttpConnectionProvider provider, ProxyInfo proxyInfo, String uri, String materialId) throws WxErrorException, IOException {
+    HttpRequest request = HttpRequest.post(uri);
+    if (proxyInfo != null) {
+      provider.useProxy(proxyInfo);
+    }
+    request.withConnectionProvider(provider);
+
+    request.query("media_id", materialId);
+    HttpResponse response = request.send();
+    String responseContent = response.bodyText();
+    WxError error = WxError.fromJson(responseContent);
+    if (error.getErrorCode() != 0) {
+      throw new WxErrorException(error);
+    } else {
+      return true;
+    }
+  }
+
+  private Boolean executeApache(CloseableHttpClient httpclient, HttpHost httpProxy, String uri,
+                                String materialId) throws WxErrorException, IOException {
     HttpPost httpPost = new HttpPost(uri);
     if (httpProxy != null) {
       RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
@@ -34,7 +76,7 @@ public class MaterialDeleteRequestExecutor implements RequestExecutor<Boolean, S
     Map<String, String> params = new HashMap<>();
     params.put("media_id", materialId);
     httpPost.setEntity(new StringEntity(WxGsonBuilder.create().toJson(params)));
-    try(CloseableHttpResponse response = httpclient.execute(httpPost)){
+    try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
       String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
       WxError error = WxError.fromJson(responseContent);
       if (error.getErrorCode() != 0) {
@@ -42,9 +84,10 @@ public class MaterialDeleteRequestExecutor implements RequestExecutor<Boolean, S
       } else {
         return true;
       }
-    }finally {
+    } finally {
       httpPost.releaseConnection();
     }
   }
+
 
 }

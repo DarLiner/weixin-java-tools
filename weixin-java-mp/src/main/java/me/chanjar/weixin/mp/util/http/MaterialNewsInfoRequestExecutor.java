@@ -1,9 +1,14 @@
 package me.chanjar.weixin.mp.util.http;
 
+import jodd.http.HttpConnectionProvider;
+import jodd.http.HttpRequest;
+import jodd.http.HttpResponse;
+import jodd.http.ProxyInfo;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
-import me.chanjar.weixin.common.util.http.Utf8ResponseHandler;
+import me.chanjar.weixin.common.util.http.RequestHttp;
+import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 import me.chanjar.weixin.mp.bean.material.WxMpMaterialNews;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
@@ -25,7 +30,24 @@ public class MaterialNewsInfoRequestExecutor implements RequestExecutor<WxMpMate
   }
 
   @Override
-  public WxMpMaterialNews execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String materialId) throws WxErrorException, IOException {
+  public WxMpMaterialNews execute(RequestHttp requestHttp, String uri,
+                                  String materialId) throws WxErrorException, IOException {
+    if (requestHttp.getRequestHttpClient() instanceof CloseableHttpClient) {
+      CloseableHttpClient httpClient = (CloseableHttpClient) requestHttp.getRequestHttpClient();
+      HttpHost httpProxy = (HttpHost) requestHttp.getRequestHttpProxy();
+      return executeApache(httpClient, httpProxy, uri, materialId);
+    }
+    if (requestHttp.getRequestHttpClient() instanceof HttpConnectionProvider) {
+      HttpConnectionProvider provider = (HttpConnectionProvider) requestHttp.getRequestHttpClient();
+      ProxyInfo proxyInfo = (ProxyInfo) requestHttp.getRequestHttpProxy();
+      return executeJodd(provider, proxyInfo, uri, materialId);
+    } else {
+      //这里需要抛出异常，需要优化
+      return null;
+    }
+  }
+
+  public WxMpMaterialNews executeApache(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String materialId) throws WxErrorException, IOException {
     HttpPost httpPost = new HttpPost(uri);
     if (httpProxy != null) {
       RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
@@ -35,7 +57,7 @@ public class MaterialNewsInfoRequestExecutor implements RequestExecutor<WxMpMate
     Map<String, String> params = new HashMap<>();
     params.put("media_id", materialId);
     httpPost.setEntity(new StringEntity(WxGsonBuilder.create().toJson(params)));
-    try(CloseableHttpResponse response = httpclient.execute(httpPost)){
+    try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
       String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
       WxError error = WxError.fromJson(responseContent);
       if (error.getErrorCode() != 0) {
@@ -43,10 +65,29 @@ public class MaterialNewsInfoRequestExecutor implements RequestExecutor<WxMpMate
       } else {
         return WxMpGsonBuilder.create().fromJson(responseContent, WxMpMaterialNews.class);
       }
-    }finally {
+    } finally {
       httpPost.releaseConnection();
     }
+  }
 
+
+  public WxMpMaterialNews executeJodd(HttpConnectionProvider httpclient, ProxyInfo httpProxy, String uri, String materialId) throws WxErrorException, IOException {
+    HttpRequest request = HttpRequest.post(uri);
+    if (httpProxy != null) {
+      httpclient.useProxy(httpProxy);
+    }
+    request.withConnectionProvider(httpclient);
+
+    request.query("media_id", materialId);
+    HttpResponse response = request.send();
+
+    String responseContent = request.bodyText();
+    WxError error = WxError.fromJson(responseContent);
+    if (error.getErrorCode() != 0) {
+      throw new WxErrorException(error);
+    } else {
+      return WxMpGsonBuilder.create().fromJson(responseContent, WxMpMaterialNews.class);
+    }
   }
 
 }

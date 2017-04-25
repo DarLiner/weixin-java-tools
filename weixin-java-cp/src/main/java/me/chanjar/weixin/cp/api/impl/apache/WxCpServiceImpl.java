@@ -1,4 +1,4 @@
-package me.chanjar.weixin.cp.api;
+package me.chanjar.weixin.cp.api.impl.apache;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
@@ -15,7 +15,11 @@ import me.chanjar.weixin.common.util.RandomUtils;
 import me.chanjar.weixin.common.util.crypto.SHA1;
 import me.chanjar.weixin.common.util.fs.FileUtils;
 import me.chanjar.weixin.common.util.http.*;
+import me.chanjar.weixin.common.util.http.apache.ApacheHttpClientBuilder;
+import me.chanjar.weixin.common.util.http.apache.DefaultApacheHttpClientBuilder;
 import me.chanjar.weixin.common.util.json.GsonHelper;
+import me.chanjar.weixin.cp.api.WxCpConfigStorage;
+import me.chanjar.weixin.cp.api.WxCpService;
 import me.chanjar.weixin.cp.bean.WxCpDepart;
 import me.chanjar.weixin.cp.bean.WxCpMessage;
 import me.chanjar.weixin.cp.bean.WxCpTag;
@@ -37,7 +41,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.UUID;
 
-public class WxCpServiceImpl implements WxCpService {
+public class WxCpServiceImpl implements WxCpService, RequestHttp {
 
   protected final Logger log = LoggerFactory.getLogger(WxCpServiceImpl.class);
 
@@ -570,7 +574,7 @@ public class WxCpServiceImpl implements WxCpService {
     throw new RuntimeException("微信服务端异常，超出重试次数");
   }
 
-  protected synchronized <T, E> T executeInternal(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
+  public synchronized <T, E> T executeInternal(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
     if (uri.contains("access_token=")) {
       throw new IllegalArgumentException("uri参数中不允许有access_token: " + uri);
     }
@@ -580,7 +584,7 @@ public class WxCpServiceImpl implements WxCpService {
     uriWithAccessToken += uri.indexOf('?') == -1 ? "?access_token=" + accessToken : "&access_token=" + accessToken;
 
     try {
-      return executor.execute(getHttpclient(), this.httpProxy, uriWithAccessToken, data);
+      return executor.execute(this, uriWithAccessToken, data);
     } catch (WxErrorException e) {
       WxError error = e.getError();
       /*
@@ -694,4 +698,13 @@ public class WxCpServiceImpl implements WxCpService {
   }
 
 
+  @Override
+  public Object getRequestHttpClient() {
+    return this.httpClient;
+  }
+
+  @Override
+  public Object getRequestHttpProxy() {
+    return this.httpProxy;
+  }
 }

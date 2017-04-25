@@ -1,9 +1,14 @@
 package me.chanjar.weixin.mp.util.http;
 
+import jodd.http.HttpConnectionProvider;
+import jodd.http.HttpRequest;
+import jodd.http.HttpResponse;
+import jodd.http.ProxyInfo;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
-import me.chanjar.weixin.common.util.http.Utf8ResponseHandler;
+import me.chanjar.weixin.common.util.http.RequestHttp;
+import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
 import me.chanjar.weixin.mp.bean.material.WxMediaImgUploadResult;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
@@ -22,8 +27,50 @@ import java.io.IOException;
  * @author miller
  */
 public class MediaImgUploadRequestExecutor implements RequestExecutor<WxMediaImgUploadResult, File> {
+
   @Override
-  public WxMediaImgUploadResult execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, File data) throws WxErrorException, IOException {
+  public WxMediaImgUploadResult execute(RequestHttp requestHttp, String uri, File data) throws WxErrorException, IOException {
+    if (requestHttp.getRequestHttpClient() instanceof CloseableHttpClient) {
+      CloseableHttpClient httpClient = (CloseableHttpClient) requestHttp.getRequestHttpClient();
+      HttpHost httpProxy = (HttpHost) requestHttp.getRequestHttpProxy();
+      return executeApache(httpClient, httpProxy, uri, data);
+    }
+    if (requestHttp.getRequestHttpClient() instanceof HttpConnectionProvider) {
+      HttpConnectionProvider provider = (HttpConnectionProvider) requestHttp.getRequestHttpClient();
+      ProxyInfo proxyInfo = (ProxyInfo) requestHttp.getRequestHttpProxy();
+      return executeJodd(provider, proxyInfo, uri, data);
+    } else {
+      //这里需要抛出异常，需要优化
+      return null;
+    }
+
+  }
+
+
+  private WxMediaImgUploadResult executeJodd(HttpConnectionProvider provider, ProxyInfo proxyInfo, String uri, File data) throws WxErrorException, IOException {
+    if (data == null) {
+      throw new WxErrorException(WxError.newBuilder().setErrorMsg("文件对象为空").build());
+    }
+
+    HttpRequest request = HttpRequest.post(uri);
+    if (proxyInfo != null) {
+      provider.useProxy(proxyInfo);
+    }
+    request.withConnectionProvider(provider);
+
+    request.form("media", data);
+    HttpResponse response = request.send();
+    String responseContent = response.bodyText();
+    WxError error = WxError.fromJson(responseContent);
+    if (error.getErrorCode() != 0) {
+      throw new WxErrorException(error);
+    }
+
+    return WxMediaImgUploadResult.fromJson(responseContent);
+  }
+
+  private WxMediaImgUploadResult executeApache(CloseableHttpClient httpclient, HttpHost httpProxy, String uri,
+                                               File data) throws WxErrorException, IOException {
     if (data == null) {
       throw new WxErrorException(WxError.newBuilder().setErrorMsg("文件对象为空").build());
     }
@@ -52,4 +99,5 @@ public class MediaImgUploadRequestExecutor implements RequestExecutor<WxMediaImg
       return WxMediaImgUploadResult.fromJson(responseContent);
     }
   }
+
 }

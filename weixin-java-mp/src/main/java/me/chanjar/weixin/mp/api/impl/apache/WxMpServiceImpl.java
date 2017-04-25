@@ -1,4 +1,4 @@
-package me.chanjar.weixin.mp.api.impl;
+package me.chanjar.weixin.mp.api.impl.apache;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -13,7 +13,10 @@ import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.common.util.RandomUtils;
 import me.chanjar.weixin.common.util.crypto.SHA1;
 import me.chanjar.weixin.common.util.http.*;
+import me.chanjar.weixin.common.util.http.apache.ApacheHttpClientBuilder;
+import me.chanjar.weixin.common.util.http.apache.DefaultApacheHttpClientBuilder;
 import me.chanjar.weixin.mp.api.*;
+import me.chanjar.weixin.mp.api.impl.*;
 import me.chanjar.weixin.mp.bean.*;
 import me.chanjar.weixin.mp.bean.result.*;
 import org.apache.http.HttpHost;
@@ -28,7 +31,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 
-public class WxMpServiceImpl implements WxMpService {
+public class WxMpServiceImpl implements WxMpService,RequestHttp {
 
   private static final JsonParser JSON_PARSER = new JsonParser();
 
@@ -243,7 +246,7 @@ public class WxMpServiceImpl implements WxMpService {
   private WxMpOAuth2AccessToken getOAuth2AccessToken(StringBuilder url) throws WxErrorException {
     try {
       RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
-      String responseText = executor.execute(this.getHttpclient(), this.httpProxy, url.toString(), null);
+      String responseText = executor.execute(this, url.toString(), null);
       return WxMpOAuth2AccessToken.fromJson(responseText);
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -287,7 +290,7 @@ public class WxMpServiceImpl implements WxMpService {
 
     try {
       RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
-      String responseText = executor.execute(getHttpclient(), this.httpProxy, url.toString(), null);
+      String responseText = executor.execute(this, url.toString(), null);
       return WxMpUser.fromJson(responseText);
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -303,7 +306,7 @@ public class WxMpServiceImpl implements WxMpService {
 
     try {
       RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
-      executor.execute(getHttpclient(), this.httpProxy, url.toString(), null);
+      executor.execute(this, url.toString(), null);
     } catch (IOException e) {
       throw new RuntimeException(e);
     } catch (WxErrorException e) {
@@ -373,7 +376,7 @@ public class WxMpServiceImpl implements WxMpService {
     throw new RuntimeException("微信服务端异常，超出重试次数");
   }
 
-  protected synchronized <T, E> T executeInternal(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
+  public synchronized <T, E> T executeInternal(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
     if (uri.indexOf("access_token=") != -1) {
       throw new IllegalArgumentException("uri参数中不允许有access_token: " + uri);
     }
@@ -383,7 +386,7 @@ public class WxMpServiceImpl implements WxMpService {
     uriWithAccessToken += uri.indexOf('?') == -1 ? "?access_token=" + accessToken : "&access_token=" + accessToken;
 
     try {
-      return executor.execute(getHttpclient(), this.httpProxy, uriWithAccessToken, data);
+      return executor.execute(this, uriWithAccessToken, data);
     } catch (WxErrorException e) {
       WxError error = e.getError();
       /*
@@ -410,11 +413,12 @@ public class WxMpServiceImpl implements WxMpService {
     }
   }
 
-  @Override
+  //@Override
   public HttpHost getHttpProxy() {
     return this.httpProxy;
   }
 
+  //@Override
   public CloseableHttpClient getHttpclient() {
     return this.httpClient;
   }
@@ -517,5 +521,15 @@ public class WxMpServiceImpl implements WxMpService {
   @Override
   public WxMpDeviceService getDeviceService() {
     return this.deviceService;
+  }
+
+  @Override
+  public Object getRequestHttpClient() {
+    return this.httpClient;
+  }
+
+  @Override
+  public Object getRequestHttpProxy() {
+    return this.httpProxy;
   }
 }

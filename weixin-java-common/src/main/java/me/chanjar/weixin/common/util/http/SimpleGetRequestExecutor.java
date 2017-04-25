@@ -1,7 +1,12 @@
 package me.chanjar.weixin.common.util.http;
 
+import jodd.http.HttpConnectionProvider;
+import jodd.http.HttpRequest;
+import jodd.http.HttpResponse;
+import jodd.http.ProxyInfo;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -18,7 +23,34 @@ import java.io.IOException;
 public class SimpleGetRequestExecutor implements RequestExecutor<String, String> {
 
   @Override
-  public String execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String queryParam) throws WxErrorException, IOException {
+  public String execute(RequestHttp requestHttp, String uri, String queryParam) throws WxErrorException, IOException {
+    if (requestHttp.getRequestHttpClient() instanceof CloseableHttpClient) {
+      CloseableHttpClient httpClient = (CloseableHttpClient) requestHttp.getRequestHttpClient();
+      HttpHost httpProxy = (HttpHost) requestHttp.getRequestHttpProxy();
+      return executeApache(httpClient, httpProxy, uri, queryParam);
+    }
+    if (requestHttp.getRequestHttpClient() instanceof HttpConnectionProvider) {
+      HttpConnectionProvider provider = (HttpConnectionProvider) requestHttp.getRequestHttpClient();
+      ProxyInfo proxyInfo = (ProxyInfo) requestHttp.getRequestHttpProxy();
+      return executeJodd(provider, proxyInfo, uri, queryParam);
+    } else {
+      //这里需要抛出异常，需要优化
+      return null;
+    }
+  }
+
+
+  /**
+   * apache-http实现方式
+   * @param httpclient
+   * @param httpProxy
+   * @param uri
+   * @param queryParam
+   * @return
+   * @throws WxErrorException
+   * @throws IOException
+   */
+  private String executeApache(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String queryParam) throws WxErrorException, IOException {
     if (queryParam != null) {
       if (uri.indexOf('?') == -1) {
         uri += '?';
@@ -41,6 +73,39 @@ public class SimpleGetRequestExecutor implements RequestExecutor<String, String>
     } finally {
       httpGet.releaseConnection();
     }
+  }
+
+
+  /**
+   * jodd-http实现方式
+   * @param provider
+   * @param proxyInfo
+   * @param uri
+   * @param queryParam
+   * @return
+   * @throws WxErrorException
+   * @throws IOException
+   */
+  private String executeJodd(HttpConnectionProvider provider, ProxyInfo proxyInfo, String uri, String queryParam) throws WxErrorException, IOException {
+    if (queryParam != null) {
+      if (uri.indexOf('?') == -1) {
+        uri += '?';
+      }
+      uri += uri.endsWith("?") ? queryParam : '&' + queryParam;
+    }
+
+    HttpRequest request = HttpRequest.get(uri);
+    if (proxyInfo != null) {
+      provider.useProxy(proxyInfo);
+    }
+    request.withConnectionProvider(provider);
+    HttpResponse response = request.send();
+    String responseContent = response.bodyText();
+    WxError error = WxError.fromJson(responseContent);
+    if (error.getErrorCode() != 0) {
+      throw new WxErrorException(error);
+    }
+    return responseContent;
   }
 
 }
