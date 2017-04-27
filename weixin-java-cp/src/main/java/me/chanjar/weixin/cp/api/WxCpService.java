@@ -556,4 +556,11 @@ public interface WxCpService {
    * 初始化http请求对象
    */
   void initHttp();
+
+  /**
+   * 获取WxMpConfigStorage 对象
+   *
+   * @return WxMpConfigStorage
+   */
+  WxCpConfigStorage getWxMpConfigStorage();
 }

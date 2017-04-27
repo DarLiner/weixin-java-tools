@@ -4,6 +4,7 @@ import jodd.http.*;
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.cp.api.WxCpConfigStorage;
 import me.chanjar.weixin.cp.api.impl.AbstractWxCpService;
 
 public class WxCpServiceImpl extends AbstractWxCpService<HttpConnectionProvider, ProxyInfo> {
@@ -61,5 +62,10 @@ public class WxCpServiceImpl extends AbstractWxCpService<HttpConnectionProvider,
     }
 
     httpClient = JoddHttp.httpConnectionProvider;
+  }
+
+  @Override
+  public WxCpConfigStorage getWxMpConfigStorage() {
+    return this.configStorage;
   }
 }

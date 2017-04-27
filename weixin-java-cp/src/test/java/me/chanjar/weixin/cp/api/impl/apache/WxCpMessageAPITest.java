@@ -21,7 +21,7 @@ public class WxCpMessageAPITest {
   protected WxCpServiceImpl wxService;
 
   public void testSendCustomMessage() throws WxErrorException {
-    ApiTestModule.WxXmlCpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlCpInMemoryConfigStorage) this.wxService.configStorage;
+    ApiTestModule.WxXmlCpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlCpInMemoryConfigStorage) this.wxService.getWxMpConfigStorage();
     WxCpMessage message1 = new WxCpMessage();
     message1.setAgentId(configStorage.getAgentId());
     message1.setMsgType(WxConsts.CUSTOM_MSG_TEXT);

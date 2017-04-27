@@ -87,4 +87,9 @@ public class WxCpServiceImpl extends AbstractWxCpService<ConnectionPool, OkhttpP
 
     httpClient = new ConnectionPool();
   }
+
+  @Override
+  public WxCpConfigStorage getWxMpConfigStorage() {
+    return this.configStorage;
+  }
 }
