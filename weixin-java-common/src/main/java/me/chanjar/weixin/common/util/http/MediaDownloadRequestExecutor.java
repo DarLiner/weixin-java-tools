@@ -10,7 +10,6 @@ import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.fs.FileUtils;
 import me.chanjar.weixin.common.util.http.apache.InputStreamResponseHandler;
 import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
-
 import me.chanjar.weixin.common.util.http.okhttp.OkhttpProxyInfo;
 import okhttp3.*;
 
@@ -112,7 +111,7 @@ public class MediaDownloadRequestExecutor extends AbstractRequestExecutor<File, 
         }
       }
 
-      String fileName = getFileNameApache(response);
+      String fileName = getFileName(response);
       if (StringUtils.isBlank(fileName)) {
         return null;
       }
@@ -129,6 +128,7 @@ public class MediaDownloadRequestExecutor extends AbstractRequestExecutor<File, 
 
   /**
    * jodd-http实现方式
+   *
    * @param provider
    * @param proxyInfo
    * @param uri
@@ -237,23 +237,7 @@ public class MediaDownloadRequestExecutor extends AbstractRequestExecutor<File, 
     if (m.matches()) {
       return m.group(1);
     }
-    request.withConnectionProvider(provider);
-    HttpResponse response = request.send();
-    String contentType = response.header("Content-Type");
-    if (contentType != null && contentType.startsWith("application/json")) {
-      // application/json; encoding=utf-8 下载媒体文件出错
-      throw new WxErrorException(WxError.fromJson(response.bodyText()));
-    }
-
-    String fileName = getFileNameJodd(response);
-    if (StringUtils.isBlank(fileName)) {
-      return null;
-    }
-
-    InputStream inputStream = new ByteArrayInputStream(response.bodyBytes());
-    String[] nameAndExt = fileName.split("\\.");
-    return FileUtils.createTmpFile(inputStream, nameAndExt[0], nameAndExt[1], this.tmpDirFile);
+    throw new WxErrorException(WxError.newBuilder().setErrorMsg("无法获取到文件名").build());
   }
-
 
 }

@@ -19,7 +19,7 @@ public class WxMpBusyRetryTest {
 
   @DataProvider(name = "getService")
   public Object[][] getService() {
-    WxMpService service = new WxMpServiceImpl0() {
+    WxMpService service = new WxMpServiceImpl() {
 
       @Override
       public synchronized <T, E> T executeInternal(

@@ -19,7 +19,6 @@ public class WxCpServiceImpl extends AbstractWxCpService<HttpConnectionProvider,
   @Override
   public ProxyInfo getRequestHttpProxy() {
     return httpProxy;
-
   }
 
   @Override
@@ -57,12 +56,10 @@ public class WxCpServiceImpl extends AbstractWxCpService<HttpConnectionProvider,
 
   @Override
   public void initHttp() {
-
     if (this.configStorage.getHttpProxyHost() != null && this.configStorage.getHttpProxyPort() > 0) {
       httpProxy = new ProxyInfo(ProxyInfo.ProxyType.HTTP, configStorage.getHttpProxyHost(), configStorage.getHttpProxyPort(), configStorage.getHttpProxyUsername(), configStorage.getHttpProxyPassword());
     }
 
     httpClient = JoddHttp.httpConnectionProvider;
   }
-
 }

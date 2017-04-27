@@ -5,7 +5,6 @@ import me.chanjar.weixin.mp.api.WxMpConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpMessageHandler;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
-
 import me.chanjar.weixin.mp.api.impl.apache.WxMpServiceImpl;
 
 import org.eclipse.jetty.server.Server;
@@ -49,7 +48,7 @@ public class WxMpDemoServer {
         .fromXml(is1);
 
       wxMpConfigStorage = config;
-      wxMpService = new WxMpServiceImpl0();
+      wxMpService = new WxMpServiceImpl();
       wxMpService.setWxMpConfigStorage(config);
 
       WxMpMessageHandler logHandler = new DemoLogHandler();

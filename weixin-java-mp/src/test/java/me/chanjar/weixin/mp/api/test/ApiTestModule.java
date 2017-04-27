@@ -20,7 +20,7 @@ public class ApiTestModule implements Module {
     try (InputStream is1 = ClassLoader.getSystemResourceAsStream("test-config.xml")) {
       TestConfigStorage config = this.fromXml(TestConfigStorage.class, is1);
       config.setAccessTokenLock(new ReentrantLock());
-      WxMpService wxService = new WxMpServiceImpl0();
+      WxMpService wxService = new WxMpServiceImpl();
       wxService.setWxMpConfigStorage(config);
 
       binder.bind(WxMpService.class).toInstance(wxService);
