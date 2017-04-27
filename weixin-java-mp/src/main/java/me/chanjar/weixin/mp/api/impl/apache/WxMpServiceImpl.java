@@ -1,5 +1,6 @@
 package me.chanjar.weixin.mp.api.impl.apache;
 
+
 import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 
@@ -71,11 +72,13 @@ public class WxMpServiceImpl extends AbstractWxMpService<CloseableHttpClient,Htt
           + this.getWxMpConfigStorage().getSecret();
         try {
           HttpGet httpGet = new HttpGet(url);
+
           if (this.getRequestHttpProxy() != null) {
             RequestConfig config = RequestConfig.custom().setProxy(this.getRequestHttpProxy()).build();
             httpGet.setConfig(config);
           }
           try (CloseableHttpResponse response = getRequestHttpClient().execute(httpGet)) {
+
             String resultContent = new BasicResponseHandler().handleResponse(response);
             WxError error = WxError.fromJson(resultContent);
             if (error.getErrorCode() != 0) {
@@ -96,4 +99,5 @@ public class WxMpServiceImpl extends AbstractWxMpService<CloseableHttpClient,Htt
     }
     return this.getWxMpConfigStorage().getAccessToken();
   }
+
 }

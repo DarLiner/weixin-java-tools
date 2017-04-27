@@ -7,6 +7,8 @@ import me.chanjar.weixin.common.util.xml.XStreamInitializer;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpService;
 
+import me.chanjar.weixin.mp.api.impl.apache.WxMpServiceImpl;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.locks.ReentrantLock;

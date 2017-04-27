@@ -1,6 +1,5 @@
 package me.chanjar.weixin.mp.api.impl.jodd;
 
-
 import jodd.http.*;
 import jodd.http.net.SocketHttpConnectionProvider;
 import me.chanjar.weixin.common.bean.WxAccessToken;
@@ -30,6 +29,7 @@ public class WxMpServiceImpl extends AbstractWxMpService<HttpConnectionProvider,
 
   @Override
   public void initHttp() {
+
     WxMpConfigStorage configStorage = this.getWxMpConfigStorage();
 
     if (configStorage.getHttpProxyHost() != null && configStorage.getHttpProxyPort() > 0) {
@@ -38,7 +38,6 @@ public class WxMpServiceImpl extends AbstractWxMpService<HttpConnectionProvider,
 
     httpClient = JoddHttp.httpConnectionProvider;
   }
-
 
 
   @Override
@@ -57,9 +56,11 @@ public class WxMpServiceImpl extends AbstractWxMpService<HttpConnectionProvider,
           + this.getWxMpConfigStorage().getSecret();
 
         HttpRequest request = HttpRequest.get(url);
+
         if (this.getRequestHttpProxy() != null) {
           SocketHttpConnectionProvider provider = new SocketHttpConnectionProvider();
           provider.useProxy(getRequestHttpProxy());
+
           request.withConnectionProvider(provider);
         }
         HttpResponse response = request.send();
@@ -77,4 +78,5 @@ public class WxMpServiceImpl extends AbstractWxMpService<HttpConnectionProvider,
     }
     return this.getWxMpConfigStorage().getAccessToken();
   }
+
 }

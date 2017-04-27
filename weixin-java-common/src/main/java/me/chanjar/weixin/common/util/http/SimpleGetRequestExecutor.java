@@ -7,6 +7,7 @@ import jodd.http.ProxyInfo;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
+
 import me.chanjar.weixin.common.util.http.okhttp.OkhttpProxyInfo;
 import okhttp3.*;
 
@@ -27,6 +28,7 @@ import java.util.concurrent.TimeUnit;
  * @author Daniel Qian
  */
 public class SimpleGetRequestExecutor extends AbstractRequestExecutor<String, String> {
+
 
   /**
    * apache-http实现方式
@@ -98,6 +100,7 @@ public class SimpleGetRequestExecutor extends AbstractRequestExecutor<String, St
     return responseContent;
   }
 
+
   /**
    * okHttp实现方式
    *
@@ -145,6 +148,5 @@ public class SimpleGetRequestExecutor extends AbstractRequestExecutor<String, St
     }
     return responseContent;
   }
-
 
 }

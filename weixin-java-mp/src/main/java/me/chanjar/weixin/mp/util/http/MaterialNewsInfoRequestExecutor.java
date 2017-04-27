@@ -10,7 +10,9 @@ import me.chanjar.weixin.common.util.http.AbstractRequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestHttp;
 import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
+
 import me.chanjar.weixin.common.util.http.okhttp.OkhttpProxyInfo;
+
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 import me.chanjar.weixin.mp.bean.material.WxMpMaterialNews;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
@@ -57,6 +59,7 @@ public class MaterialNewsInfoRequestExecutor extends AbstractRequestExecutor<WxM
     }
   }
 
+
   @Override
   public WxMpMaterialNews executeJodd(HttpConnectionProvider httpclient, ProxyInfo httpProxy, String uri, String materialId) throws WxErrorException, IOException {
     HttpRequest request = HttpRequest.post(uri);
@@ -102,6 +105,7 @@ public class MaterialNewsInfoRequestExecutor extends AbstractRequestExecutor<WxM
 
     Response response = client.newCall(request).execute();
     String responseContent = response.body().toString();
+
     WxError error = WxError.fromJson(responseContent);
     if (error.getErrorCode() != 0) {
       throw new WxErrorException(error);

@@ -10,7 +10,9 @@ import me.chanjar.weixin.common.util.http.AbstractRequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestHttp;
 import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
+
 import me.chanjar.weixin.common.util.http.okhttp.OkhttpProxyInfo;
+
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 import me.chanjar.weixin.mp.bean.material.WxMediaImgUploadResult;
 import me.chanjar.weixin.mp.bean.material.WxMpMaterialVideoInfoResult;

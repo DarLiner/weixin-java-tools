@@ -7,6 +7,7 @@ import jodd.http.ProxyInfo;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
+
 import me.chanjar.weixin.common.util.http.okhttp.OkhttpProxyInfo;
 import okhttp3.*;
 
@@ -40,6 +41,7 @@ public class SimplePostRequestExecutor extends AbstractRequestExecutor<String, S
    * @throws IOException
    */
   public String executeApache(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String postEntity) throws WxErrorException, IOException {
+
     HttpPost httpPost = new HttpPost(uri);
     if (httpProxy != null) {
       RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();

@@ -6,6 +6,7 @@ import jodd.http.HttpResponse;
 import jodd.http.ProxyInfo;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
+
 import me.chanjar.weixin.common.util.http.AbstractRequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestHttp;
@@ -95,6 +96,7 @@ public class MaterialVoiceAndImageDownloadRequestExecutor extends AbstractReques
     Response response = client.newCall(request).execute();
 
     try (InputStream inputStream = new ByteArrayInputStream(response.body().bytes())) {
+
       // 下载媒体文件出错
       byte[] responseContent = IOUtils.toByteArray(inputStream);
       String responseContentString = new String(responseContent, "UTF-8");

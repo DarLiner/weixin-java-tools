@@ -8,11 +8,13 @@ import jodd.util.MimeTypes;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.fs.FileUtils;
+
 import me.chanjar.weixin.common.util.http.AbstractRequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestHttp;
 import me.chanjar.weixin.common.util.http.apache.InputStreamResponseHandler;
 import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
 import me.chanjar.weixin.common.util.http.okhttp.OkhttpProxyInfo;
+
 import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
 import okhttp3.*;
 
@@ -101,6 +103,7 @@ public class QrCodeRequestExecutor extends AbstractRequestExecutor<File, WxMpQrC
   @Override
   public File executeApache(CloseableHttpClient httpclient, HttpHost httpProxy, String uri,
                             WxMpQrCodeTicket ticket) throws WxErrorException, IOException {
+
     if (ticket != null) {
       if (uri.indexOf('?') == -1) {
         uri += '?';

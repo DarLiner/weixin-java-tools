@@ -350,4 +350,5 @@ public interface WxMpService {
    */
   void initHttp();
 
+
 }

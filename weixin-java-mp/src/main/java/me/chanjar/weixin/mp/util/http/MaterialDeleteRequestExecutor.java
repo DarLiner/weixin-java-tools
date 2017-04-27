@@ -10,7 +10,9 @@ import me.chanjar.weixin.common.util.http.AbstractRequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestHttp;
 import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
+
 import me.chanjar.weixin.common.util.http.okhttp.OkhttpProxyInfo;
+
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 import okhttp3.*;
 
@@ -56,6 +58,7 @@ public class MaterialDeleteRequestExecutor extends AbstractRequestExecutor<Boole
       httpPost.releaseConnection();
     }
   }
+
 
   @Override
   public Boolean executeJodd(HttpConnectionProvider provider, ProxyInfo proxyInfo, String uri, String materialId) throws WxErrorException, IOException {
@@ -107,6 +110,5 @@ public class MaterialDeleteRequestExecutor extends AbstractRequestExecutor<Boole
       return true;
     }
   }
-
 
 }

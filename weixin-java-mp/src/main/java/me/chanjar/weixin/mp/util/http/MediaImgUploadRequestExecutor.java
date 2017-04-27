@@ -4,7 +4,9 @@ import jodd.http.HttpConnectionProvider;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
 import jodd.http.ProxyInfo;
+
 import jodd.util.MimeTypes;
+
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -13,7 +15,9 @@ import me.chanjar.weixin.common.util.http.AbstractRequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestHttp;
 import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
+
 import me.chanjar.weixin.common.util.http.okhttp.OkhttpProxyInfo;
+
 import me.chanjar.weixin.mp.bean.material.WxMediaImgUploadResult;
 import okhttp3.*;
 
@@ -37,7 +41,6 @@ import java.util.UUID;
  * @author miller
  */
 public class MediaImgUploadRequestExecutor extends AbstractRequestExecutor<WxMediaImgUploadResult, File> {
-
 
   @Override
   public WxMediaImgUploadResult executeJodd(HttpConnectionProvider provider, ProxyInfo proxyInfo, String uri, File data) throws WxErrorException, IOException {
@@ -99,6 +102,7 @@ public class MediaImgUploadRequestExecutor extends AbstractRequestExecutor<WxMed
   @Override
   public WxMediaImgUploadResult executeApache(CloseableHttpClient httpclient, HttpHost httpProxy, String uri,
                                               File data) throws WxErrorException, IOException {
+
     if (data == null) {
       throw new WxErrorException(WxError.newBuilder().setErrorMsg("文件对象为空").build());
     }

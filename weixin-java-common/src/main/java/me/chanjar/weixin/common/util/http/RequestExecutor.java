@@ -3,6 +3,7 @@ package me.chanjar.weixin.common.util.http;
 import jodd.http.HttpConnectionProvider;
 import jodd.http.ProxyInfo;
 import me.chanjar.weixin.common.exception.WxErrorException;
+
 import me.chanjar.weixin.common.util.http.okhttp.OkhttpProxyInfo;
 import okhttp3.ConnectionPool;
 
@@ -62,6 +63,5 @@ public interface RequestExecutor<T, E> {
    * @throws IOException
    */
   T executeOkhttp(ConnectionPool pool, final OkhttpProxyInfo proxyInfo, String uri, E data) throws WxErrorException, IOException;
-
 
 }

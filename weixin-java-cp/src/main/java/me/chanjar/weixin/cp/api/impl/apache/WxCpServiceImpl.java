@@ -1,12 +1,12 @@
 package me.chanjar.weixin.cp.api.impl.apache;
 
-
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.apache.ApacheHttpClientBuilder;
 import me.chanjar.weixin.common.util.http.apache.DefaultApacheHttpClientBuilder;
 import me.chanjar.weixin.cp.api.impl.AbstractWxCpService;
+
 
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
@@ -73,6 +73,7 @@ public class WxCpServiceImpl extends AbstractWxCpService<CloseableHttpClient, Ht
   }
 
   @Override
+
   public void initHttp() {
     ApacheHttpClientBuilder apacheHttpClientBuilder = this.configStorage
       .getApacheHttpClientBuilder();
@@ -91,4 +92,5 @@ public class WxCpServiceImpl extends AbstractWxCpService<CloseableHttpClient, Ht
 
     this.httpClient = apacheHttpClientBuilder.build();
   }
+
 }
