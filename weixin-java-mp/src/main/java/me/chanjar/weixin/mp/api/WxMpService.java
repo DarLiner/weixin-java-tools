@@ -344,14 +344,10 @@ public interface WxMpService {
    */
   WxMpDeviceService getDeviceService();
 
-  /**
-   * @return
-   */
-  //Object getHttpclient();
 
   /**
-   * @return
+   * 初始化http请求对象
    */
-  //Object getHttpProxy();
+  void initHttp();
 
 }

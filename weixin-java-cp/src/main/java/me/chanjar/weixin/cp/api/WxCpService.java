@@ -551,4 +551,9 @@ public interface WxCpService {
    * 获取异步任务结果
    */
   String getTaskResult(String joinId) throws WxErrorException;
+
+  /**
+   * 初始化http请求对象
+   */
+  void initHttp();
 }
