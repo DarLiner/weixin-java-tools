@@ -562,5 +562,5 @@ public interface WxCpService {
    *
    * @return WxMpConfigStorage
    */
-  WxCpConfigStorage getWxMpConfigStorage();
+  WxCpConfigStorage getWxCpConfigStorage();
 }

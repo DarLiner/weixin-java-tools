@@ -94,7 +94,7 @@ public class WxCpServiceImpl extends AbstractWxCpService<CloseableHttpClient, Ht
   }
 
   @Override
-  public WxCpConfigStorage getWxMpConfigStorage() {
+  public WxCpConfigStorage getWxCpConfigStorage() {
     return this.configStorage;
   }
 }

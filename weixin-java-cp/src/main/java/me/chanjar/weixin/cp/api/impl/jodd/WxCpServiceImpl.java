@@ -65,7 +65,7 @@ public class WxCpServiceImpl extends AbstractWxCpService<HttpConnectionProvider,
   }
 
   @Override
-  public WxCpConfigStorage getWxMpConfigStorage() {
+  public WxCpConfigStorage getWxCpConfigStorage() {
     return this.configStorage;
   }
 }
