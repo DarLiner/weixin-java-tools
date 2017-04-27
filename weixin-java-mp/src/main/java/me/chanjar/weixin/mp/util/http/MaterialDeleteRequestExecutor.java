@@ -6,10 +6,16 @@ import jodd.http.HttpResponse;
 import jodd.http.ProxyInfo;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.util.http.AbstractRequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestHttp;
 import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
+
+import me.chanjar.weixin.common.util.http.okhttp.OkhttpProxyInfo;
+
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
+import okhttp3.*;
+
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -21,7 +27,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MaterialDeleteRequestExecutor implements RequestExecutor<Boolean, String> {
+public class MaterialDeleteRequestExecutor extends AbstractRequestExecutor<Boolean, String> {
 
 
   public MaterialDeleteRequestExecutor() {
@@ -29,44 +35,8 @@ public class MaterialDeleteRequestExecutor implements RequestExecutor<Boolean, S
   }
 
   @Override
-  public Boolean execute(RequestHttp requestHttp, String uri, String materialId) throws WxErrorException, IOException {
-    if (requestHttp.getRequestHttpClient() instanceof CloseableHttpClient) {
-      CloseableHttpClient httpClient = (CloseableHttpClient) requestHttp.getRequestHttpClient();
-      HttpHost httpProxy = (HttpHost) requestHttp.getRequestHttpProxy();
-      return executeApache(httpClient, httpProxy, uri, materialId);
-    }
-    if (requestHttp.getRequestHttpClient() instanceof HttpConnectionProvider) {
-      HttpConnectionProvider provider = (HttpConnectionProvider) requestHttp.getRequestHttpClient();
-      ProxyInfo proxyInfo = (ProxyInfo) requestHttp.getRequestHttpProxy();
-      return executeJodd(provider, proxyInfo, uri, materialId);
-    } else {
-      //这里需要抛出异常，需要优化
-      return null;
-    }
-
-
-  }
-
-  private Boolean executeJodd(HttpConnectionProvider provider, ProxyInfo proxyInfo, String uri, String materialId) throws WxErrorException, IOException {
-    HttpRequest request = HttpRequest.post(uri);
-    if (proxyInfo != null) {
-      provider.useProxy(proxyInfo);
-    }
-    request.withConnectionProvider(provider);
-
-    request.query("media_id", materialId);
-    HttpResponse response = request.send();
-    String responseContent = response.bodyText();
-    WxError error = WxError.fromJson(responseContent);
-    if (error.getErrorCode() != 0) {
-      throw new WxErrorException(error);
-    } else {
-      return true;
-    }
-  }
-
-  private Boolean executeApache(CloseableHttpClient httpclient, HttpHost httpProxy, String uri,
-                                String materialId) throws WxErrorException, IOException {
+  public Boolean executeApache(CloseableHttpClient httpclient, HttpHost httpProxy, String uri,
+                               String materialId) throws WxErrorException, IOException {
     HttpPost httpPost = new HttpPost(uri);
     if (httpProxy != null) {
       RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
@@ -89,5 +59,56 @@ public class MaterialDeleteRequestExecutor implements RequestExecutor<Boolean, S
     }
   }
 
+
+  @Override
+  public Boolean executeJodd(HttpConnectionProvider provider, ProxyInfo proxyInfo, String uri, String materialId) throws WxErrorException, IOException {
+    HttpRequest request = HttpRequest.post(uri);
+    if (proxyInfo != null) {
+      provider.useProxy(proxyInfo);
+    }
+    request.withConnectionProvider(provider);
+
+    request.query("media_id", materialId);
+    HttpResponse response = request.send();
+    String responseContent = response.bodyText();
+    WxError error = WxError.fromJson(responseContent);
+    if (error.getErrorCode() != 0) {
+      throw new WxErrorException(error);
+    } else {
+      return true;
+    }
+  }
+
+  @Override
+  public Boolean executeOkhttp(ConnectionPool pool, final OkhttpProxyInfo proxyInfo, String uri, String materialId) throws WxErrorException, IOException {
+    OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder().connectionPool(pool);
+    //设置代理
+    if (proxyInfo != null) {
+      clientBuilder.proxy(proxyInfo.getProxy());
+    }
+    //设置授权
+    clientBuilder.authenticator(new Authenticator() {
+      @Override
+      public Request authenticate(Route route, Response response) throws IOException {
+        String credential = Credentials.basic(proxyInfo.getProxyUsername(), proxyInfo.getProxyPassword());
+        return response.request().newBuilder()
+          .header("Authorization", credential)
+          .build();
+      }
+    });
+    //得到httpClient
+    OkHttpClient client = clientBuilder.build();
+
+    RequestBody requestBody = new FormBody.Builder().add("media_id", materialId).build();
+    Request request = new Request.Builder().url(uri).post(requestBody).build();
+    Response response = client.newCall(request).execute();
+    String responseContent = response.body().toString();
+    WxError error = WxError.fromJson(responseContent);
+    if (error.getErrorCode() != 0) {
+      throw new WxErrorException(error);
+    } else {
+      return true;
+    }
+  }
 
 }

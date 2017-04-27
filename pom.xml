@@ -107,14 +107,15 @@
     <commons-codec.version>1.10</commons-codec.version>
     <jetty.version>9.3.0.RC0</jetty.version>
     <jedis.version>2.9.0</jedis.version>
+    <!-- 由于较新的3.8版本需要jdk8，故而此处采用较低版本 -->
+    <jodd-http.version>3.7</jodd-http.version>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>org.jodd</groupId>
       <artifactId>jodd-http</artifactId>
-      <version>3.7</version>
-      <!-- 由于较新的3.8版本需要jdk8，故而此处采用较低版本 -->
+      <version>${jodd-http.version}</version>
     </dependency>
     <dependency>
       <groupId>com.squareup.okhttp3</groupId>

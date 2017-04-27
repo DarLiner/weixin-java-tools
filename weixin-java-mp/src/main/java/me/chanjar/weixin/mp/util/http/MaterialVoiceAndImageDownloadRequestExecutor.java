@@ -6,10 +6,16 @@ import jodd.http.HttpResponse;
 import jodd.http.ProxyInfo;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
+
+import me.chanjar.weixin.common.util.http.AbstractRequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestHttp;
 import me.chanjar.weixin.common.util.http.apache.InputStreamResponseHandler;
+import me.chanjar.weixin.common.util.http.okhttp.OkhttpProxyInfo;
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
+import me.chanjar.weixin.mp.bean.material.WxMediaImgUploadResult;
+import okhttp3.*;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
@@ -25,8 +31,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MaterialVoiceAndImageDownloadRequestExecutor implements RequestExecutor<InputStream, String> {
-
+public class MaterialVoiceAndImageDownloadRequestExecutor extends AbstractRequestExecutor<InputStream, String> {
 
   public MaterialVoiceAndImageDownloadRequestExecutor() {
     super();
@@ -36,24 +41,9 @@ public class MaterialVoiceAndImageDownloadRequestExecutor implements RequestExec
     super();
   }
 
-  @Override
-  public InputStream execute(RequestHttp requestHttp, String uri, String materialId) throws WxErrorException, IOException {
-    if (requestHttp.getRequestHttpClient() instanceof CloseableHttpClient) {
-      CloseableHttpClient httpClient = (CloseableHttpClient) requestHttp.getRequestHttpClient();
-      HttpHost httpProxy = (HttpHost) requestHttp.getRequestHttpProxy();
-      return executeApache(httpClient, httpProxy, uri, materialId);
-    }
-    if (requestHttp.getRequestHttpClient() instanceof HttpConnectionProvider) {
-      HttpConnectionProvider provider = (HttpConnectionProvider) requestHttp.getRequestHttpClient();
-      ProxyInfo proxyInfo = (ProxyInfo) requestHttp.getRequestHttpProxy();
-      return executeJodd(provider, proxyInfo, uri, materialId);
-    } else {
-      //这里需要抛出异常，需要优化
-      return null;
-    }
-  }
 
-  private InputStream executeJodd(HttpConnectionProvider provider, ProxyInfo proxyInfo, String uri, String materialId) throws WxErrorException, IOException {
+  @Override
+  public InputStream executeJodd(HttpConnectionProvider provider, ProxyInfo proxyInfo, String uri, String materialId) throws WxErrorException, IOException {
     HttpRequest request = HttpRequest.post(uri);
     if (proxyInfo != null) {
       provider.useProxy(proxyInfo);
@@ -81,8 +71,52 @@ public class MaterialVoiceAndImageDownloadRequestExecutor implements RequestExec
 
   }
 
-  private InputStream executeApache(CloseableHttpClient httpclient, HttpHost httpProxy, String uri,
-                                    String materialId) throws WxErrorException, IOException {
+  @Override
+  public InputStream executeOkhttp(ConnectionPool pool, final OkhttpProxyInfo proxyInfo, String uri, String materialId) throws WxErrorException, IOException {
+    OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder().connectionPool(pool);
+    //设置代理
+    if (proxyInfo != null) {
+      clientBuilder.proxy(proxyInfo.getProxy());
+    }
+    //设置授权
+    clientBuilder.authenticator(new Authenticator() {
+      @Override
+      public Request authenticate(Route route, Response response) throws IOException {
+        String credential = Credentials.basic(proxyInfo.getProxyUsername(), proxyInfo.getProxyPassword());
+        return response.request().newBuilder()
+          .header("Authorization", credential)
+          .build();
+      }
+    });
+    //得到httpClient
+    OkHttpClient client = clientBuilder.build();
+
+    RequestBody requestBody = new FormBody.Builder().add("media_id", materialId).build();
+    Request request = new Request.Builder().url(uri).get().post(requestBody).build();
+    Response response = client.newCall(request).execute();
+
+    try (InputStream inputStream = new ByteArrayInputStream(response.body().bytes())) {
+
+      // 下载媒体文件出错
+      byte[] responseContent = IOUtils.toByteArray(inputStream);
+      String responseContentString = new String(responseContent, "UTF-8");
+      if (responseContentString.length() < 100) {
+        try {
+          WxError wxError = WxGsonBuilder.create().fromJson(responseContentString, WxError.class);
+          if (wxError.getErrorCode() != 0) {
+            throw new WxErrorException(wxError);
+          }
+        } catch (com.google.gson.JsonSyntaxException ex) {
+          return new ByteArrayInputStream(responseContent);
+        }
+      }
+      return new ByteArrayInputStream(responseContent);
+    }
+  }
+
+  @Override
+  public InputStream executeApache(CloseableHttpClient httpclient, HttpHost httpProxy, String uri,
+                                   String materialId) throws WxErrorException, IOException {
     HttpPost httpPost = new HttpPost(uri);
     if (httpProxy != null) {
       RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
