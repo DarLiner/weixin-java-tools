@@ -292,8 +292,7 @@ public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, Requ
     int retryTimes = 0;
     do {
       try {
-        T result = executeInternal(executor, uri, data);
-        return result;
+        return this.executeInternal(executor, uri, data);
       } catch (WxErrorException e) {
         if (retryTimes + 1 > this.maxRetryTimes) {
           this.log.warn("重试达到最大次数【{}】", maxRetryTimes);
@@ -327,12 +326,7 @@ public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, Requ
     }
     String accessToken = getAccessToken(false);
 
-    String uriWithAccessToken;
-    if (uri.contains("?")) {
-      uriWithAccessToken = uri + "&access_token=" + accessToken;
-    } else {
-      uriWithAccessToken = uri + "?access_token=" + accessToken;
-    }
+    String uriWithAccessToken = uri + (uri.contains("?") ? "&" : "?") + "access_token=" + accessToken;
 
     try {
       T result = executor.execute(this, uriWithAccessToken, data);
@@ -344,8 +338,9 @@ public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, Requ
        * 发生以下情况时尝试刷新access_token
        * 40001 获取access_token时AppSecret错误，或者access_token无效
        * 42001 access_token超时
+       * 40014 不合法的access_token，请开发者认真比对access_token的有效性（如是否过期），或查看是否正在为恰当的公众号调用接口
        */
-      if (error.getErrorCode() == 42001 || error.getErrorCode() == 40001) {
+      if (error.getErrorCode() == 42001 || error.getErrorCode() == 40001 || error.getErrorCode() == 40014) {
         // 强制设置wxMpConfigStorage它的access token过期了，这样在下一次请求里就会刷新access token
         this.getWxMpConfigStorage().expireAccessToken();
         if (this.getWxMpConfigStorage().autoRefreshToken()) {
