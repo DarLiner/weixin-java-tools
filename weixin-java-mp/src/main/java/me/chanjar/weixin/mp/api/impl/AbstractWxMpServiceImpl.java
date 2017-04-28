@@ -1,16 +1,9 @@
 package me.chanjar.weixin.mp.api.impl;
 
-import java.io.IOException;
-import java.util.concurrent.locks.Lock;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -22,8 +15,13 @@ import me.chanjar.weixin.common.util.http.*;
 import me.chanjar.weixin.mp.api.*;
 import me.chanjar.weixin.mp.bean.*;
 import me.chanjar.weixin.mp.bean.result.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public abstract class AbstractWxMpService<H,P> implements WxMpService,RequestHttp<H,P> {
+import java.io.IOException;
+import java.util.concurrent.locks.Lock;
+
+public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, RequestHttp<H, P> {
 
   private static final JsonParser JSON_PARSER = new JsonParser();
 
@@ -45,7 +43,6 @@ public abstract class AbstractWxMpService<H,P> implements WxMpService,RequestHtt
 
   private int retrySleepMillis = 1000;
   private int maxRetryTimes = 5;
-
 
   @Override
   public boolean checkSignature(String timestamp, String nonce, String signature) {
@@ -296,7 +293,6 @@ public abstract class AbstractWxMpService<H,P> implements WxMpService,RequestHtt
     do {
       try {
         T result = executeInternal(executor, uri, data);
-        this.log.debug("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}", uri, data, result);
         return result;
       } catch (WxErrorException e) {
         if (retryTimes + 1 > this.maxRetryTimes) {
@@ -326,16 +322,22 @@ public abstract class AbstractWxMpService<H,P> implements WxMpService,RequestHtt
   }
 
   public synchronized <T, E> T executeInternal(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
-    if (uri.indexOf("access_token=") != -1) {
+    if (uri.contains("access_token=")) {
       throw new IllegalArgumentException("uri参数中不允许有access_token: " + uri);
     }
     String accessToken = getAccessToken(false);
 
-    String uriWithAccessToken = uri;
-    uriWithAccessToken += uri.indexOf('?') == -1 ? "?access_token=" + accessToken : "&access_token=" + accessToken;
+    String uriWithAccessToken;
+    if (uri.contains("?")) {
+      uriWithAccessToken = uri + "&access_token=" + accessToken;
+    } else {
+      uriWithAccessToken = uri + "?access_token=" + accessToken;
+    }
 
     try {
-      return executor.execute(this, uriWithAccessToken, data);
+      T result = executor.execute(this, uriWithAccessToken, data);
+      this.log.debug("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}", uriWithAccessToken, data, result);
+      return result;
     } catch (WxErrorException e) {
       WxError error = e.getError();
       /*
@@ -352,12 +354,12 @@ public abstract class AbstractWxMpService<H,P> implements WxMpService,RequestHtt
       }
 
       if (error.getErrorCode() != 0) {
-        this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}", uri, data, error);
+        this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}", uriWithAccessToken, data, error);
         throw new WxErrorException(error);
       }
       return null;
     } catch (IOException e) {
-      this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[EXCEPTION]: {}", uri, data, e.getMessage());
+      this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[EXCEPTION]: {}", uriWithAccessToken, data, e.getMessage());
       throw new RuntimeException(e);
     }
   }

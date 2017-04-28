@@ -16,12 +16,12 @@ import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.apache.ApacheHttpClientBuilder;
 import me.chanjar.weixin.common.util.http.apache.DefaultApacheHttpClientBuilder;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
-import me.chanjar.weixin.mp.api.impl.AbstractWxMpService;
+import me.chanjar.weixin.mp.api.impl.AbstractWxMpServiceImpl;
 
 /**
  * apache-http方式实现
  */
-public class WxMpServiceImpl extends AbstractWxMpService<CloseableHttpClient,HttpHost> {
+public class WxMpServiceImpl extends AbstractWxMpServiceImpl<CloseableHttpClient,HttpHost> {
   private CloseableHttpClient httpClient;
   private HttpHost httpProxy;
 

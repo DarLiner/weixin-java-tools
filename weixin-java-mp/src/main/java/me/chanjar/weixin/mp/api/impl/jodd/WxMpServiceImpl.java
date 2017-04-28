@@ -13,7 +13,7 @@ import java.util.concurrent.locks.Lock;
 /**
  * jodd-http方式实现
  */
-public class WxMpServiceImpl extends AbstractWxMpService<HttpConnectionProvider,ProxyInfo> {
+public class WxMpServiceImpl extends AbstractWxMpServiceImpl<HttpConnectionProvider,ProxyInfo> {
   private HttpConnectionProvider httpClient;
   private ProxyInfo httpProxy;
 

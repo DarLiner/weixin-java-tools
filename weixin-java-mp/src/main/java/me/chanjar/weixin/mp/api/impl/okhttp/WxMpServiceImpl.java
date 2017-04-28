@@ -11,7 +11,7 @@ import me.chanjar.weixin.mp.api.*;
 import me.chanjar.weixin.mp.api.impl.*;
 import okhttp3.*;
 
-public class WxMpServiceImpl extends AbstractWxMpService<ConnectionPool, OkhttpProxyInfo> {
+public class WxMpServiceImpl extends AbstractWxMpServiceImpl<ConnectionPool, OkhttpProxyInfo> {
 
 
   private ConnectionPool httpClient;
