@@ -1,8 +1,13 @@
 package me.chanjar.weixin.mp.api.impl.apache;
 
-import java.io.IOException;
-import java.util.concurrent.locks.Lock;
-
+import me.chanjar.weixin.common.bean.WxAccessToken;
+import me.chanjar.weixin.common.bean.result.WxError;
+import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.util.http.apache.ApacheHttpClientBuilder;
+import me.chanjar.weixin.common.util.http.apache.DefaultApacheHttpClientBuilder;
+import me.chanjar.weixin.mp.api.WxMpApiUrls;
+import me.chanjar.weixin.mp.api.WxMpConfigStorage;
+import me.chanjar.weixin.mp.api.impl.AbstractWxMpServiceImpl;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -10,13 +15,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 
-import me.chanjar.weixin.common.bean.WxAccessToken;
-import me.chanjar.weixin.common.bean.result.WxError;
-import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.util.http.apache.ApacheHttpClientBuilder;
-import me.chanjar.weixin.common.util.http.apache.DefaultApacheHttpClientBuilder;
-import me.chanjar.weixin.mp.api.WxMpConfigStorage;
-import me.chanjar.weixin.mp.api.impl.AbstractWxMpServiceImpl;
+import java.io.IOException;
+import java.util.concurrent.locks.Lock;
 
 /**
  * apache-http方式实现
@@ -66,9 +66,8 @@ public class WxMpServiceImpl extends AbstractWxMpServiceImpl<CloseableHttpClient
       }
 
       if (this.getWxMpConfigStorage().isAccessTokenExpired()) {
-        String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential" +
-          "&appid=" + this.getWxMpConfigStorage().getAppId() + "&secret="
-          + this.getWxMpConfigStorage().getSecret();
+        String url = String.format(WxMpApiUrls.GET_ACCESS_TOKEN_URL,
+          this.getWxMpConfigStorage().getAppId(), this.getWxMpConfigStorage().getSecret());
         try {
           HttpGet httpGet = new HttpGet(url);
           if (this.getRequestHttpProxy() != null) {

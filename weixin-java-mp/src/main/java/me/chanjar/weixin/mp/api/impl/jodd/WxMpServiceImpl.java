@@ -51,9 +51,8 @@ public class WxMpServiceImpl extends AbstractWxMpServiceImpl<HttpConnectionProvi
       }
 
       if (this.getWxMpConfigStorage().isAccessTokenExpired()) {
-        String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential" +
-          "&appid=" + this.getWxMpConfigStorage().getAppId() + "&secret="
-          + this.getWxMpConfigStorage().getSecret();
+        String url = String.format(WxMpApiUrls.GET_ACCESS_TOKEN_URL,
+          this.getWxMpConfigStorage().getAppId(), this.getWxMpConfigStorage().getSecret());
 
         HttpRequest request = HttpRequest.get(url);
 

@@ -15,6 +15,7 @@ import me.chanjar.weixin.common.util.http.*;
 import me.chanjar.weixin.mp.api.*;
 import me.chanjar.weixin.mp.bean.*;
 import me.chanjar.weixin.mp.bean.result.*;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,8 +71,7 @@ public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, Requ
       }
 
       if (this.getWxMpConfigStorage().isJsapiTicketExpired()) {
-        String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi";
-        String responseContent = execute(new SimpleGetRequestExecutor(), url, null);
+        String responseContent = execute(new SimpleGetRequestExecutor(), WxMpApiUrls.GET_JSAPI_TICKET_URL, null);
         JsonElement tmpJsonElement = JSON_PARSER.parse(responseContent);
         JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
         String jsapiTicket = tmpJsonObject.get("ticket").getAsString();
@@ -107,93 +107,66 @@ public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, Requ
 
   @Override
   public WxMpMassUploadResult massNewsUpload(WxMpMassNews news) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/media/uploadnews";
-    String responseContent = this.post(url, news.toJson());
+    String responseContent = this.post(WxMpApiUrls.MEDIA_UPLOAD_NEWS_URL, news.toJson());
     return WxMpMassUploadResult.fromJson(responseContent);
   }
 
   @Override
   public WxMpMassUploadResult massVideoUpload(WxMpMassVideo video) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/media/uploadvideo";
-    String responseContent = this.post(url, video.toJson());
+    String responseContent = this.post(WxMpApiUrls.MEDIA_UPLOAD_VIDEO_URL, video.toJson());
     return WxMpMassUploadResult.fromJson(responseContent);
   }
 
   @Override
   public WxMpMassSendResult massGroupMessageSend(WxMpMassTagMessage message) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/message/mass/sendall";
-    String responseContent = this.post(url, message.toJson());
+    String responseContent = this.post(WxMpApiUrls.MESSAGE_MASS_SENDALL_URL, message.toJson());
     return WxMpMassSendResult.fromJson(responseContent);
   }
 
   @Override
   public WxMpMassSendResult massOpenIdsMessageSend(WxMpMassOpenIdsMessage message) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/message/mass/send";
-    String responseContent = this.post(url, message.toJson());
+    String responseContent = this.post(WxMpApiUrls.MESSAGE_MASS_SEND_URL, message.toJson());
     return WxMpMassSendResult.fromJson(responseContent);
   }
 
   @Override
   public WxMpMassSendResult massMessagePreview(WxMpMassPreviewMessage wxMpMassPreviewMessage) throws Exception {
-    String url = "https://api.weixin.qq.com/cgi-bin/message/mass/preview";
-    String responseContent = this.post(url, wxMpMassPreviewMessage.toJson());
+    String responseContent = this.post(WxMpApiUrls.MESSAGE_MASS_PREVIEW_URL, wxMpMassPreviewMessage.toJson());
     return WxMpMassSendResult.fromJson(responseContent);
   }
 
   @Override
   public String shortUrl(String long_url) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/shorturl";
     JsonObject o = new JsonObject();
     o.addProperty("action", "long2short");
     o.addProperty("long_url", long_url);
-    String responseContent = this.post(url, o.toString());
+    String responseContent = this.post(WxMpApiUrls.SHORTURL_API_URL, o.toString());
     JsonElement tmpJsonElement = JSON_PARSER.parse(responseContent);
     return tmpJsonElement.getAsJsonObject().get("short_url").getAsString();
   }
 
   @Override
   public WxMpSemanticQueryResult semanticQuery(WxMpSemanticQuery semanticQuery) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/semantic/semproxy/search";
-    String responseContent = this.post(url, semanticQuery.toJson());
+    String responseContent = this.post(WxMpApiUrls.SEMANTIC_SEMPROXY_SEARCH_URL, semanticQuery.toJson());
     return WxMpSemanticQueryResult.fromJson(responseContent);
   }
 
   @Override
   public String oauth2buildAuthorizationUrl(String redirectURI, String scope, String state) {
-    StringBuilder url = new StringBuilder();
-    url.append("https://open.weixin.qq.com/connect/oauth2/authorize?");
-    url.append("appid=").append(this.getWxMpConfigStorage().getAppId());
-    url.append("&redirect_uri=").append(URIUtil.encodeURIComponent(redirectURI));
-    url.append("&response_type=code");
-    url.append("&scope=").append(scope);
-    if (state != null) {
-      url.append("&state=").append(state);
-    }
-    url.append("#wechat_redirect");
-    return url.toString();
+    return String.format(WxMpApiUrls.CONNECT_OAUTH2_AUTHORIZE_URL,
+      this.getWxMpConfigStorage().getAppId(), URIUtil.encodeURIComponent(redirectURI), scope, StringUtils.trimToEmpty(state));
   }
 
   @Override
-  public String buildQrConnectUrl(String redirectURI, String scope,
-                                  String state) {
-    StringBuilder url = new StringBuilder();
-    url.append("https://open.weixin.qq.com/connect/qrconnect?");
-    url.append("appid=").append(this.getWxMpConfigStorage().getAppId());
-    url.append("&redirect_uri=").append(URIUtil.encodeURIComponent(redirectURI));
-    url.append("&response_type=code");
-    url.append("&scope=").append(scope);
-    if (state != null) {
-      url.append("&state=").append(state);
-    }
-
-    url.append("#wechat_redirect");
-    return url.toString();
+  public String buildQrConnectUrl(String redirectURI, String scope, String state) {
+    return String.format(WxMpApiUrls.QRCONNECT_URL,
+      this.getWxMpConfigStorage().getAppId(), URIUtil.encodeURIComponent(redirectURI), scope, StringUtils.trimToEmpty(state));
   }
 
-  private WxMpOAuth2AccessToken getOAuth2AccessToken(StringBuilder url) throws WxErrorException {
+  private WxMpOAuth2AccessToken getOAuth2AccessToken(String url) throws WxErrorException {
     try {
       RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
-      String responseText = executor.execute(this, url.toString(), null);
+      String responseText = executor.execute(this, url, null);
       return WxMpOAuth2AccessToken.fromJson(responseText);
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -202,42 +175,27 @@ public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, Requ
 
   @Override
   public WxMpOAuth2AccessToken oauth2getAccessToken(String code) throws WxErrorException {
-    StringBuilder url = new StringBuilder();
-    url.append("https://api.weixin.qq.com/sns/oauth2/access_token?");
-    url.append("appid=").append(this.getWxMpConfigStorage().getAppId());
-    url.append("&secret=").append(this.getWxMpConfigStorage().getSecret());
-    url.append("&code=").append(code);
-    url.append("&grant_type=authorization_code");
-
+    String url = String.format(WxMpApiUrls.OAUTH2_ACCESS_TOKEN_URL, this.getWxMpConfigStorage().getAppId(), this.getWxMpConfigStorage().getSecret(), code);
     return this.getOAuth2AccessToken(url);
   }
 
   @Override
   public WxMpOAuth2AccessToken oauth2refreshAccessToken(String refreshToken) throws WxErrorException {
-    StringBuilder url = new StringBuilder();
-    url.append("https://api.weixin.qq.com/sns/oauth2/refresh_token?");
-    url.append("appid=").append(this.getWxMpConfigStorage().getAppId());
-    url.append("&grant_type=refresh_token");
-    url.append("&refresh_token=").append(refreshToken);
-
+    String url = String.format(WxMpApiUrls.OAUTH2_REFRESH_TOKEN_URL, this.getWxMpConfigStorage().getAppId(), refreshToken);
     return this.getOAuth2AccessToken(url);
   }
 
   @Override
   public WxMpUser oauth2getUserInfo(WxMpOAuth2AccessToken oAuth2AccessToken, String lang) throws WxErrorException {
-    StringBuilder url = new StringBuilder();
-    url.append("https://api.weixin.qq.com/sns/userinfo?");
-    url.append("access_token=").append(oAuth2AccessToken.getAccessToken());
-    url.append("&openid=").append(oAuth2AccessToken.getOpenId());
     if (lang == null) {
-      url.append("&lang=zh_CN");
-    } else {
-      url.append("&lang=").append(lang);
+      lang = "zh_CN";
     }
+
+    String url = String.format(WxMpApiUrls.OAUTH2_USERINFO_URL, oAuth2AccessToken.getAccessToken(), oAuth2AccessToken.getOpenId(), lang);
 
     try {
       RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
-      String responseText = executor.execute(this, url.toString(), null);
+      String responseText = executor.execute(this, url, null);
       return WxMpUser.fromJson(responseText);
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -246,14 +204,11 @@ public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, Requ
 
   @Override
   public boolean oauth2validateAccessToken(WxMpOAuth2AccessToken oAuth2AccessToken) {
-    StringBuilder url = new StringBuilder();
-    url.append("https://api.weixin.qq.com/sns/auth?");
-    url.append("access_token=").append(oAuth2AccessToken.getAccessToken());
-    url.append("&openid=").append(oAuth2AccessToken.getOpenId());
+    String url = String.format(WxMpApiUrls.OAUTH2_VALIDATE_TOKEN_URL, oAuth2AccessToken.getAccessToken(), oAuth2AccessToken.getOpenId());
 
     try {
       RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
-      executor.execute(this, url.toString(), null);
+      executor.execute(this, url, null);
     } catch (IOException e) {
       throw new RuntimeException(e);
     } catch (WxErrorException e) {
@@ -264,8 +219,7 @@ public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, Requ
 
   @Override
   public String[] getCallbackIP() throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/getcallbackip";
-    String responseContent = get(url, null);
+    String responseContent = this.get(WxMpApiUrls.GET_CALLBACK_IP_URL, null);
     JsonElement tmpJsonElement = JSON_PARSER.parse(responseContent);
     JsonArray ipList = tmpJsonElement.getAsJsonObject().get("ip_list").getAsJsonArray();
     String[] ipArray = new String[ipList.size()];
