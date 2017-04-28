@@ -71,7 +71,7 @@ public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, Requ
       }
 
       if (this.getWxMpConfigStorage().isJsapiTicketExpired()) {
-        String responseContent = execute(new SimpleGetRequestExecutor(), WxMpApiUrls.GET_JSAPI_TICKET_URL, null);
+        String responseContent = execute(new SimpleGetRequestExecutor(), WxMpService.GET_JSAPI_TICKET_URL, null);
         JsonElement tmpJsonElement = JSON_PARSER.parse(responseContent);
         JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
         String jsapiTicket = tmpJsonObject.get("ticket").getAsString();
@@ -107,31 +107,31 @@ public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, Requ
 
   @Override
   public WxMpMassUploadResult massNewsUpload(WxMpMassNews news) throws WxErrorException {
-    String responseContent = this.post(WxMpApiUrls.MEDIA_UPLOAD_NEWS_URL, news.toJson());
+    String responseContent = this.post(WxMpService.MEDIA_UPLOAD_NEWS_URL, news.toJson());
     return WxMpMassUploadResult.fromJson(responseContent);
   }
 
   @Override
   public WxMpMassUploadResult massVideoUpload(WxMpMassVideo video) throws WxErrorException {
-    String responseContent = this.post(WxMpApiUrls.MEDIA_UPLOAD_VIDEO_URL, video.toJson());
+    String responseContent = this.post(WxMpService.MEDIA_UPLOAD_VIDEO_URL, video.toJson());
     return WxMpMassUploadResult.fromJson(responseContent);
   }
 
   @Override
   public WxMpMassSendResult massGroupMessageSend(WxMpMassTagMessage message) throws WxErrorException {
-    String responseContent = this.post(WxMpApiUrls.MESSAGE_MASS_SENDALL_URL, message.toJson());
+    String responseContent = this.post(WxMpService.MESSAGE_MASS_SENDALL_URL, message.toJson());
     return WxMpMassSendResult.fromJson(responseContent);
   }
 
   @Override
   public WxMpMassSendResult massOpenIdsMessageSend(WxMpMassOpenIdsMessage message) throws WxErrorException {
-    String responseContent = this.post(WxMpApiUrls.MESSAGE_MASS_SEND_URL, message.toJson());
+    String responseContent = this.post(WxMpService.MESSAGE_MASS_SEND_URL, message.toJson());
     return WxMpMassSendResult.fromJson(responseContent);
   }
 
   @Override
   public WxMpMassSendResult massMessagePreview(WxMpMassPreviewMessage wxMpMassPreviewMessage) throws Exception {
-    String responseContent = this.post(WxMpApiUrls.MESSAGE_MASS_PREVIEW_URL, wxMpMassPreviewMessage.toJson());
+    String responseContent = this.post(WxMpService.MESSAGE_MASS_PREVIEW_URL, wxMpMassPreviewMessage.toJson());
     return WxMpMassSendResult.fromJson(responseContent);
   }
 
@@ -140,26 +140,26 @@ public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, Requ
     JsonObject o = new JsonObject();
     o.addProperty("action", "long2short");
     o.addProperty("long_url", long_url);
-    String responseContent = this.post(WxMpApiUrls.SHORTURL_API_URL, o.toString());
+    String responseContent = this.post(WxMpService.SHORTURL_API_URL, o.toString());
     JsonElement tmpJsonElement = JSON_PARSER.parse(responseContent);
     return tmpJsonElement.getAsJsonObject().get("short_url").getAsString();
   }
 
   @Override
   public WxMpSemanticQueryResult semanticQuery(WxMpSemanticQuery semanticQuery) throws WxErrorException {
-    String responseContent = this.post(WxMpApiUrls.SEMANTIC_SEMPROXY_SEARCH_URL, semanticQuery.toJson());
+    String responseContent = this.post(WxMpService.SEMANTIC_SEMPROXY_SEARCH_URL, semanticQuery.toJson());
     return WxMpSemanticQueryResult.fromJson(responseContent);
   }
 
   @Override
   public String oauth2buildAuthorizationUrl(String redirectURI, String scope, String state) {
-    return String.format(WxMpApiUrls.CONNECT_OAUTH2_AUTHORIZE_URL,
+    return String.format(WxMpService.CONNECT_OAUTH2_AUTHORIZE_URL,
       this.getWxMpConfigStorage().getAppId(), URIUtil.encodeURIComponent(redirectURI), scope, StringUtils.trimToEmpty(state));
   }
 
   @Override
   public String buildQrConnectUrl(String redirectURI, String scope, String state) {
-    return String.format(WxMpApiUrls.QRCONNECT_URL,
+    return String.format(WxMpService.QRCONNECT_URL,
       this.getWxMpConfigStorage().getAppId(), URIUtil.encodeURIComponent(redirectURI), scope, StringUtils.trimToEmpty(state));
   }
 
@@ -175,13 +175,13 @@ public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, Requ
 
   @Override
   public WxMpOAuth2AccessToken oauth2getAccessToken(String code) throws WxErrorException {
-    String url = String.format(WxMpApiUrls.OAUTH2_ACCESS_TOKEN_URL, this.getWxMpConfigStorage().getAppId(), this.getWxMpConfigStorage().getSecret(), code);
+    String url = String.format(WxMpService.OAUTH2_ACCESS_TOKEN_URL, this.getWxMpConfigStorage().getAppId(), this.getWxMpConfigStorage().getSecret(), code);
     return this.getOAuth2AccessToken(url);
   }
 
   @Override
   public WxMpOAuth2AccessToken oauth2refreshAccessToken(String refreshToken) throws WxErrorException {
-    String url = String.format(WxMpApiUrls.OAUTH2_REFRESH_TOKEN_URL, this.getWxMpConfigStorage().getAppId(), refreshToken);
+    String url = String.format(WxMpService.OAUTH2_REFRESH_TOKEN_URL, this.getWxMpConfigStorage().getAppId(), refreshToken);
     return this.getOAuth2AccessToken(url);
   }
 
@@ -191,7 +191,7 @@ public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, Requ
       lang = "zh_CN";
     }
 
-    String url = String.format(WxMpApiUrls.OAUTH2_USERINFO_URL, oAuth2AccessToken.getAccessToken(), oAuth2AccessToken.getOpenId(), lang);
+    String url = String.format(WxMpService.OAUTH2_USERINFO_URL, oAuth2AccessToken.getAccessToken(), oAuth2AccessToken.getOpenId(), lang);
 
     try {
       RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
@@ -204,7 +204,7 @@ public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, Requ
 
   @Override
   public boolean oauth2validateAccessToken(WxMpOAuth2AccessToken oAuth2AccessToken) {
-    String url = String.format(WxMpApiUrls.OAUTH2_VALIDATE_TOKEN_URL, oAuth2AccessToken.getAccessToken(), oAuth2AccessToken.getOpenId());
+    String url = String.format(WxMpService.OAUTH2_VALIDATE_TOKEN_URL, oAuth2AccessToken.getAccessToken(), oAuth2AccessToken.getOpenId());
 
     try {
       RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
@@ -219,7 +219,7 @@ public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, Requ
 
   @Override
   public String[] getCallbackIP() throws WxErrorException {
-    String responseContent = this.get(WxMpApiUrls.GET_CALLBACK_IP_URL, null);
+    String responseContent = this.get(WxMpService.GET_CALLBACK_IP_URL, null);
     JsonElement tmpJsonElement = JSON_PARSER.parse(responseContent);
     JsonArray ipList = tmpJsonElement.getAsJsonObject().get("ip_list").getAsJsonArray();
     String[] ipArray = new String[ipList.size()];

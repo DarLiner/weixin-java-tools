@@ -5,8 +5,8 @@ import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.apache.ApacheHttpClientBuilder;
 import me.chanjar.weixin.common.util.http.apache.DefaultApacheHttpClientBuilder;
-import me.chanjar.weixin.mp.api.WxMpApiUrls;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
+import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.impl.AbstractWxMpServiceImpl;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
@@ -66,7 +66,7 @@ public class WxMpServiceImpl extends AbstractWxMpServiceImpl<CloseableHttpClient
       }
 
       if (this.getWxMpConfigStorage().isAccessTokenExpired()) {
-        String url = String.format(WxMpApiUrls.GET_ACCESS_TOKEN_URL,
+        String url = String.format(WxMpService.GET_ACCESS_TOKEN_URL,
           this.getWxMpConfigStorage().getAppId(), this.getWxMpConfigStorage().getSecret());
         try {
           HttpGet httpGet = new HttpGet(url);

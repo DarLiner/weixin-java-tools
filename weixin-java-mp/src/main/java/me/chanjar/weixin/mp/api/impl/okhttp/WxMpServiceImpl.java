@@ -4,8 +4,8 @@ import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.okhttp.OkhttpProxyInfo;
-import me.chanjar.weixin.mp.api.WxMpApiUrls;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
+import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.impl.AbstractWxMpServiceImpl;
 import okhttp3.*;
 
@@ -37,7 +37,7 @@ public class WxMpServiceImpl extends AbstractWxMpServiceImpl<ConnectionPool, Okh
       }
 
       if (this.getWxMpConfigStorage().isAccessTokenExpired()) {
-        String url = String.format(WxMpApiUrls.GET_ACCESS_TOKEN_URL,
+        String url = String.format(WxMpService.GET_ACCESS_TOKEN_URL,
           this.getWxMpConfigStorage().getAppId(), this.getWxMpConfigStorage().getSecret());
 
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder().connectionPool(httpClient);
