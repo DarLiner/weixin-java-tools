@@ -39,6 +39,11 @@ public class WxCpJedisConfigStorage implements WxCpConfigStorage {
     this.jedisPool = new JedisPool(host, port);
   }
 
+  
+  public WxCpJedisConfigStorage(JedisPoolConfig poolConfig, String host, int port) {
+	    this.jedisPool = new JedisPool(poolConfig, host, port);
+  }
+  
   public WxCpJedisConfigStorage(JedisPoolConfig poolConfig, String host, int port, int timeout, final String password) {
 	    this.jedisPool = new JedisPool(poolConfig, host, port, timeout, password);
   }
