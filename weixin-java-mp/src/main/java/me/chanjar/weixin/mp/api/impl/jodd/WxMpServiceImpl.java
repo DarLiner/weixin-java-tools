@@ -13,7 +13,7 @@ import java.util.concurrent.locks.Lock;
 /**
  * jodd-http方式实现
  */
-public class WxMpServiceImpl extends AbstractWxMpService<HttpConnectionProvider,ProxyInfo> {
+public class WxMpServiceImpl extends AbstractWxMpServiceImpl<HttpConnectionProvider,ProxyInfo> {
   private HttpConnectionProvider httpClient;
   private ProxyInfo httpProxy;
 
@@ -51,9 +51,8 @@ public class WxMpServiceImpl extends AbstractWxMpService<HttpConnectionProvider,
       }
 
       if (this.getWxMpConfigStorage().isAccessTokenExpired()) {
-        String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential" +
-          "&appid=" + this.getWxMpConfigStorage().getAppId() + "&secret="
-          + this.getWxMpConfigStorage().getSecret();
+        String url = String.format(WxMpService.GET_ACCESS_TOKEN_URL,
+          this.getWxMpConfigStorage().getAppId(), this.getWxMpConfigStorage().getSecret());
 
         HttpRequest request = HttpRequest.get(url);
 

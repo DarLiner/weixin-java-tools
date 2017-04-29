@@ -1,22 +1,20 @@
 package me.chanjar.weixin.mp.api.impl.okhttp;
 
-import java.io.IOException;
-import java.util.concurrent.locks.Lock;
-
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.okhttp.OkhttpProxyInfo;
-import me.chanjar.weixin.mp.api.*;
-import me.chanjar.weixin.mp.api.impl.*;
+import me.chanjar.weixin.mp.api.WxMpConfigStorage;
+import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.api.impl.AbstractWxMpServiceImpl;
 import okhttp3.*;
 
-public class WxMpServiceImpl extends AbstractWxMpService<ConnectionPool, OkhttpProxyInfo> {
+import java.io.IOException;
+import java.util.concurrent.locks.Lock;
 
-
+public class WxMpServiceImpl extends AbstractWxMpServiceImpl<ConnectionPool, OkhttpProxyInfo> {
   private ConnectionPool httpClient;
   private OkhttpProxyInfo httpProxy;
-
 
   @Override
   public ConnectionPool getRequestHttpClient() {
@@ -27,7 +25,6 @@ public class WxMpServiceImpl extends AbstractWxMpService<ConnectionPool, OkhttpP
   public OkhttpProxyInfo getRequestHttpProxy() {
     return httpProxy;
   }
-
 
   @Override
   public String getAccessToken(boolean forceRefresh) throws WxErrorException {
@@ -40,9 +37,8 @@ public class WxMpServiceImpl extends AbstractWxMpService<ConnectionPool, OkhttpP
       }
 
       if (this.getWxMpConfigStorage().isAccessTokenExpired()) {
-        String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential" +
-          "&appid=" + this.getWxMpConfigStorage().getAppId() + "&secret="
-          + this.getWxMpConfigStorage().getSecret();
+        String url = String.format(WxMpService.GET_ACCESS_TOKEN_URL,
+          this.getWxMpConfigStorage().getAppId(), this.getWxMpConfigStorage().getSecret());
 
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder().connectionPool(httpClient);
         //设置代理
@@ -62,8 +58,8 @@ public class WxMpServiceImpl extends AbstractWxMpService<ConnectionPool, OkhttpP
         //得到httpClient
         OkHttpClient client = clientBuilder.build();
 
-        Request request =new Request.Builder().url(url).get().build();
-        Response response =client.newCall(request).execute();
+        Request request = new Request.Builder().url(url).get().build();
+        Response response = client.newCall(request).execute();
         String resultContent = response.body().toString();
         WxError error = WxError.fromJson(resultContent);
         if (error.getErrorCode() != 0) {

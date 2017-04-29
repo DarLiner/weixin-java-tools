@@ -1,8 +1,24 @@
 package me.chanjar.weixin.mp.api.impl.apache;
 
-import java.io.IOException;
-import java.util.concurrent.locks.Lock;
-
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import me.chanjar.weixin.common.bean.WxAccessToken;
+import me.chanjar.weixin.common.bean.WxJsapiSignature;
+import me.chanjar.weixin.common.bean.result.WxError;
+import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.session.StandardSessionManager;
+import me.chanjar.weixin.common.session.WxSessionManager;
+import me.chanjar.weixin.common.util.RandomUtils;
+import me.chanjar.weixin.common.util.crypto.SHA1;
+import me.chanjar.weixin.common.util.http.*;
+import me.chanjar.weixin.common.util.http.apache.ApacheHttpClientBuilder;
+import me.chanjar.weixin.common.util.http.apache.DefaultApacheHttpClientBuilder;
+import me.chanjar.weixin.mp.api.*;
+import me.chanjar.weixin.mp.api.impl.*;
+import me.chanjar.weixin.mp.bean.*;
+import me.chanjar.weixin.mp.bean.result.*;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -10,18 +26,13 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 
-import me.chanjar.weixin.common.bean.WxAccessToken;
-import me.chanjar.weixin.common.bean.result.WxError;
-import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.util.http.apache.ApacheHttpClientBuilder;
-import me.chanjar.weixin.common.util.http.apache.DefaultApacheHttpClientBuilder;
-import me.chanjar.weixin.mp.api.WxMpConfigStorage;
-import me.chanjar.weixin.mp.api.impl.AbstractWxMpService;
+import java.io.IOException;
+import java.util.concurrent.locks.Lock;
 
 /**
  * apache-http方式实现
  */
-public class WxMpServiceImpl extends AbstractWxMpService<CloseableHttpClient,HttpHost> {
+public class WxMpServiceImpl extends AbstractWxMpServiceImpl<CloseableHttpClient,HttpHost> {
   private CloseableHttpClient httpClient;
   private HttpHost httpProxy;
 
@@ -66,9 +77,8 @@ public class WxMpServiceImpl extends AbstractWxMpService<CloseableHttpClient,Htt
       }
 
       if (this.getWxMpConfigStorage().isAccessTokenExpired()) {
-        String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential" +
-          "&appid=" + this.getWxMpConfigStorage().getAppId() + "&secret="
-          + this.getWxMpConfigStorage().getSecret();
+        String url = String.format(WxMpService.GET_ACCESS_TOKEN_URL,
+          this.getWxMpConfigStorage().getAppId(), this.getWxMpConfigStorage().getSecret());
         try {
           HttpGet httpGet = new HttpGet(url);
           if (this.getRequestHttpProxy() != null) {

@@ -5,9 +5,9 @@ import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.cp.api.WxCpConfigStorage;
-import me.chanjar.weixin.cp.api.impl.AbstractWxCpService;
+import me.chanjar.weixin.cp.api.impl.AbstractWxCpServiceImpl;
 
-public class WxCpServiceImpl extends AbstractWxCpService<HttpConnectionProvider, ProxyInfo> {
+public class WxCpServiceImpl extends AbstractWxCpServiceImpl<HttpConnectionProvider, ProxyInfo> {
   protected HttpConnectionProvider httpClient;
   protected ProxyInfo httpProxy;
 
