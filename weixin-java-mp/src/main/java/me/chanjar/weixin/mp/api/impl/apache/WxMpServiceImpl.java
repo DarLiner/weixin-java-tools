@@ -47,6 +47,11 @@ public class WxMpServiceImpl extends AbstractWxMpServiceImpl<CloseableHttpClient
   }
 
   @Override
+  public HttpType getRequestType() {
+    return HttpType.apacheHttp;
+  }
+
+  @Override
   public void initHttp() {
     WxMpConfigStorage configStorage = this.getWxMpConfigStorage();
     ApacheHttpClientBuilder apacheHttpClientBuilder = configStorage.getApacheHttpClientBuilder();
