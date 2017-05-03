@@ -17,26 +17,29 @@ import okhttp3.ConnectionPool;
 public abstract class AbstractRequestExecutor<T, E> implements RequestExecutor<T, E> {
 
   @Override
-  public T execute(RequestHttp requestHttp, String uri, E data) throws WxErrorException, IOException{
-    if (requestHttp.getRequestHttpClient() instanceof CloseableHttpClient) {
-      //apache-http请求
-      CloseableHttpClient httpClient = (CloseableHttpClient) requestHttp.getRequestHttpClient();
-      HttpHost httpProxy = (HttpHost) requestHttp.getRequestHttpProxy();
-      return executeApache(httpClient, httpProxy, uri, data);
-    }
-    if (requestHttp.getRequestHttpClient() instanceof HttpConnectionProvider) {
-      //jodd-http请求
-      HttpConnectionProvider provider = (HttpConnectionProvider) requestHttp.getRequestHttpClient();
-      ProxyInfo proxyInfo = (ProxyInfo) requestHttp.getRequestHttpProxy();
-      return executeJodd(provider, proxyInfo, uri, data);
-    } else if (requestHttp.getRequestHttpClient() instanceof ConnectionPool) {
-      //okhttp请求
-      ConnectionPool pool = (ConnectionPool) requestHttp.getRequestHttpClient();
-      OkhttpProxyInfo proxyInfo = (OkhttpProxyInfo) requestHttp.getRequestHttpProxy();
-      return executeOkhttp(pool, proxyInfo, uri, data);
-    } else {
-      //TODO 这里需要抛出异常，需要优化
-      return null;
+  public T execute(RequestHttp requestHttp, String uri, E data) throws WxErrorException, IOException {
+    switch (requestHttp.getRequestType()) {
+      case apacheHttp: {
+        //apache-http请求
+        CloseableHttpClient httpClient = (CloseableHttpClient) requestHttp.getRequestHttpClient();
+        HttpHost httpProxy = (HttpHost) requestHttp.getRequestHttpProxy();
+        return executeApache(httpClient, httpProxy, uri, data);
+      }
+      case joddHttp: {
+        //jodd-http请求
+        HttpConnectionProvider provider = (HttpConnectionProvider) requestHttp.getRequestHttpClient();
+        ProxyInfo proxyInfo = (ProxyInfo) requestHttp.getRequestHttpProxy();
+        return executeJodd(provider, proxyInfo, uri, data);
+      }
+      case okHttp: {
+        //okhttp请求
+        ConnectionPool pool = (ConnectionPool) requestHttp.getRequestHttpClient();
+        OkhttpProxyInfo proxyInfo = (OkhttpProxyInfo) requestHttp.getRequestHttpProxy();
+        return executeOkhttp(pool, proxyInfo, uri, data);
+      }
+      default:
+        //TODO 这里需要抛出异常，需要优化
+        return null;
     }
   }
 
