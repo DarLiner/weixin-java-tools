@@ -36,10 +36,6 @@ public class WxMpCardServiceImpl implements WxMpCardService<CloseableHttpClient,
     this.wxMpService = wxMpService;
   }
 
-  /**
-   * 得到WxMpService
-   * @return
-   */
   @Override
   public WxMpService getWxMpService(){
       return this.wxMpService;
