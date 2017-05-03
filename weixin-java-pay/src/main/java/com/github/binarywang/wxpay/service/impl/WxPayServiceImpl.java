@@ -45,7 +45,7 @@ public class WxPayServiceImpl implements WxPayService {
   }
 
   private String getPayBaseUrl() {
-    if (this.getConfig().useSandboxForWxPay()) {
+    if (this.getConfig().useSandbox()) {
       return PAY_BASE_URL + "/sandboxnew";
     }
 

@@ -129,7 +129,7 @@ public class WxPayConfig {
    * 微信支付是否使用仿真测试环境
    * 默认不使用
    */
-  public boolean useSandboxForWxPay() {
+  public boolean useSandbox() {
     return false;
   }
 
