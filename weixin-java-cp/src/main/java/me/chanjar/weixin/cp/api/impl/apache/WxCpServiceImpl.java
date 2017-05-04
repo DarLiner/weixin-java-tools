@@ -8,7 +8,7 @@ import me.chanjar.weixin.common.util.http.HttpType;
 import me.chanjar.weixin.common.util.http.apache.ApacheHttpClientBuilder;
 import me.chanjar.weixin.common.util.http.apache.DefaultApacheHttpClientBuilder;
 import me.chanjar.weixin.cp.api.WxCpConfigStorage;
-import me.chanjar.weixin.cp.api.impl.AbstractWxCpService;
+import me.chanjar.weixin.cp.api.impl.AbstractWxCpServiceImpl;
 
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
@@ -19,7 +19,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 
 import java.io.IOException;
 
-public class WxCpServiceImpl extends AbstractWxCpService<CloseableHttpClient, HttpHost> {
+public class WxCpServiceImpl extends AbstractWxCpServiceImpl<CloseableHttpClient, HttpHost> {
   protected CloseableHttpClient httpClient;
   protected HttpHost httpProxy;
 
