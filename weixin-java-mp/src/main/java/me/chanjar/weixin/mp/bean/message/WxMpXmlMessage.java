@@ -209,6 +209,18 @@ public class WxMpXmlMessage implements Serializable {
   @XStreamAlias("OuterStr")
   private String outerStr;
 
+  /**
+   * 是否转赠退回，0代表不是，1代表是。
+   */
+  @XStreamAlias("IsReturnBack")
+  private String isReturnBack;
+
+  /**
+   * 是否是群转赠，0代表不是，1代表是。
+   */
+  @XStreamAlias("IsChatRoom")
+  private String isChatRoom;
+
   @XStreamAlias("ScanCodeInfo")
   private ScanCodeInfo scanCodeInfo = new ScanCodeInfo();
 
@@ -831,6 +843,22 @@ public class WxMpXmlMessage implements Serializable {
 
   public void setOuterStr(String outerStr) {
     this.outerStr = outerStr;
+  }
+
+  public String getIsReturnBack() {
+    return isReturnBack;
+  }
+
+  public void setIsReturnBack(String isReturnBack) {
+    this.isReturnBack = isReturnBack;
+  }
+
+  public String getIsChatRoom() {
+    return isChatRoom;
+  }
+
+  public void setIsChatRoom(String isChatRoom) {
+    this.isChatRoom = isChatRoom;
   }
 
   @Override
