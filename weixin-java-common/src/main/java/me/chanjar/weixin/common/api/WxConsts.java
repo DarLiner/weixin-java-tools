@@ -91,6 +91,10 @@ public class WxConsts {
   public static final String EVT_CARD_PASS_CHECK = "card_pass_check";
   public static final String EVT_CARD_NOT_PASS_CHECK = "card_not_pass_check";
   public static final String EVT_USER_GET_CARD = "user_get_card";
+  /**
+   * 卡券转赠事件
+   */
+  public static final String EVT_USER_GIFTING_CARD = "user_gifting_card";
   public static final String EVT_USER_DEL_CARD = "user_del_card";
   public static final String EVT_USER_CONSUME_CARD = "user_consume_card";
   public static final String EVT_USER_PAY_FROM_PAY_CELL = "user_pay_from_pay_cell";
@@ -101,7 +105,8 @@ public class WxConsts {
   public static final String EVT_KF_CLOSE_SESSION = "kf_close_session"; // 客服关闭会话
   public static final String EVT_KF_SWITCH_SESSION = "kf_switch_session"; // 客服转接会话
   public static final String EVT_POI_CHECK_NOTIFY = "poi_check_notify"; //门店审核事件推送
-  public static final String EVN_SUBMIT_MEMBERCARD_USER_INFO = "submit_membercard_user_info"; //接收会员信息事件推送
+  public static final String EVT_SUBMIT_MEMBERCARD_USER_INFO = "submit_membercard_user_info"; //接收会员信息事件推送
+
   //以下为微信认证事件
   /**
    * 资质认证成功
@@ -185,7 +190,7 @@ public class WxConsts {
    * 跳转图文消息URL
    */
   public static final String BUTTON_VIEW_LIMITED = "view_limited";
-  
+
   /**
    * 不弹出授权页面，直接跳转，只能获取用户openid
    */
