@@ -5,6 +5,7 @@ import jodd.http.net.SocketHttpConnectionProvider;
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.util.http.HttpType;
 import me.chanjar.weixin.mp.api.*;
 import me.chanjar.weixin.mp.api.impl.*;
 
@@ -25,6 +26,11 @@ public class WxMpServiceImpl extends AbstractWxMpServiceImpl<HttpConnectionProvi
   @Override
   public ProxyInfo getRequestHttpProxy() {
     return httpProxy;
+  }
+
+  @Override
+  public HttpType getRequestType() {
+    return HttpType.joddHttp;
   }
 
   @Override

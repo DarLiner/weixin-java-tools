@@ -1,13 +1,24 @@
 package me.chanjar.weixin.mp.api.impl.apache;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import me.chanjar.weixin.common.bean.WxAccessToken;
+import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.session.StandardSessionManager;
+import me.chanjar.weixin.common.session.WxSessionManager;
+import me.chanjar.weixin.common.util.RandomUtils;
+import me.chanjar.weixin.common.util.crypto.SHA1;
+import me.chanjar.weixin.common.util.http.*;
 import me.chanjar.weixin.common.util.http.apache.ApacheHttpClientBuilder;
 import me.chanjar.weixin.common.util.http.apache.DefaultApacheHttpClientBuilder;
-import me.chanjar.weixin.mp.api.WxMpConfigStorage;
-import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.api.impl.AbstractWxMpServiceImpl;
+import me.chanjar.weixin.mp.api.*;
+import me.chanjar.weixin.mp.api.impl.*;
+import me.chanjar.weixin.mp.bean.*;
+import me.chanjar.weixin.mp.bean.result.*;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -33,6 +44,11 @@ public class WxMpServiceImpl extends AbstractWxMpServiceImpl<CloseableHttpClient
   @Override
   public HttpHost getRequestHttpProxy() {
     return httpProxy;
+  }
+
+  @Override
+  public HttpType getRequestType() {
+    return HttpType.apacheHttp;
   }
 
   @Override

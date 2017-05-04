@@ -17,4 +17,10 @@ public interface RequestHttp<H,P> {
    */
   P getRequestHttpProxy();
 
+  /**
+   *
+   * @return
+   */
+  HttpType getRequestType();
+
 }

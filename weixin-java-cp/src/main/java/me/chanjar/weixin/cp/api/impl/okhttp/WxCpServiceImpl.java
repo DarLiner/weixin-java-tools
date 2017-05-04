@@ -5,6 +5,7 @@ import java.io.IOException;
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.util.http.HttpType;
 import me.chanjar.weixin.common.util.http.okhttp.OkhttpProxyInfo;
 import me.chanjar.weixin.cp.api.WxCpConfigStorage;
 import me.chanjar.weixin.cp.api.impl.AbstractWxCpServiceImpl;
@@ -23,6 +24,11 @@ public class WxCpServiceImpl extends AbstractWxCpServiceImpl<ConnectionPool, Okh
   @Override
   public OkhttpProxyInfo getRequestHttpProxy() {
     return httpProxy;
+  }
+
+  @Override
+  public HttpType getRequestType() {
+    return HttpType.okHttp;
   }
 
   @Override
@@ -62,7 +68,12 @@ public class WxCpServiceImpl extends AbstractWxCpServiceImpl<ConnectionPool, Okh
           } catch (IOException e) {
             e.printStackTrace();
           }
-          String resultContent = response.body().toString();
+          String resultContent = null;
+          try {
+            resultContent = response.body().string();
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
           WxError error = WxError.fromJson(resultContent);
           if (error.getErrorCode() != 0) {
             throw new WxErrorException(error);

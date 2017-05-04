@@ -136,7 +136,7 @@ public class MediaUploadRequestExecutor extends AbstractRequestExecutor<WxMediaU
     Request request = new Request.Builder().url(uri).post(body).build();
 
     Response response = client.newCall(request).execute();
-    String responseContent = response.body().toString();
+    String responseContent = response.body().string();
     WxError error = WxError.fromJson(responseContent);
     if (error.getErrorCode() != 0) {
       throw new WxErrorException(error);

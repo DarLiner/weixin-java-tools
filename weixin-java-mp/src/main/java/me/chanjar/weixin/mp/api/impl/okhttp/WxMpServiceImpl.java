@@ -3,6 +3,7 @@ package me.chanjar.weixin.mp.api.impl.okhttp;
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.util.http.HttpType;
 import me.chanjar.weixin.common.util.http.okhttp.OkhttpProxyInfo;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -24,6 +25,11 @@ public class WxMpServiceImpl extends AbstractWxMpServiceImpl<ConnectionPool, Okh
   @Override
   public OkhttpProxyInfo getRequestHttpProxy() {
     return httpProxy;
+  }
+
+  @Override
+  public HttpType getRequestType() {
+    return HttpType.okHttp;
   }
 
   @Override
@@ -60,7 +66,7 @@ public class WxMpServiceImpl extends AbstractWxMpServiceImpl<ConnectionPool, Okh
 
         Request request = new Request.Builder().url(url).get().build();
         Response response = client.newCall(request).execute();
-        String resultContent = response.body().toString();
+        String resultContent = response.body().string();
         WxError error = WxError.fromJson(resultContent);
         if (error.getErrorCode() != 0) {
           throw new WxErrorException(error);

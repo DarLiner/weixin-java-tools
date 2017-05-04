@@ -104,7 +104,7 @@ public class MaterialNewsInfoRequestExecutor extends AbstractRequestExecutor<WxM
     Request request = new Request.Builder().url(uri).post(requestBody).build();
 
     Response response = client.newCall(request).execute();
-    String responseContent = response.body().toString();
+    String responseContent = response.body().string();
 
     WxError error = WxError.fromJson(responseContent);
     if (error.getErrorCode() != 0) {

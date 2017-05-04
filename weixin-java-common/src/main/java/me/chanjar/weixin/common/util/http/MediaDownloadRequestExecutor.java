@@ -213,7 +213,7 @@ public class MediaDownloadRequestExecutor extends AbstractRequestExecutor<File, 
     String contentType = response.header("Content-Type");
     if (contentType != null && contentType.startsWith("application/json")) {
       // application/json; encoding=utf-8 下载媒体文件出错
-      throw new WxErrorException(WxError.fromJson(response.body().toString()));
+      throw new WxErrorException(WxError.fromJson(response.body().string()));
     }
 
     String fileName = getFileName(response);
