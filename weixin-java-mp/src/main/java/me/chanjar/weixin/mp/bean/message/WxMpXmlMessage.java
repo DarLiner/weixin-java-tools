@@ -12,8 +12,6 @@ import org.apache.commons.io.IOUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * <pre>
@@ -199,6 +197,18 @@ public class WxMpXmlMessage implements Serializable {
   @XStreamAlias("OuterId")
   private Integer outerId;
 
+  /**
+   * 用户删除会员卡后可重新找回，当用户本次操作为找回时，该值为1，否则为0
+   */
+  @XStreamAlias("IsRestoreMemberCard")
+  private String isRestoreMemberCard;
+
+  /**
+   * 领取场景值，用于领取渠道数据统计。可在生成二维码接口及添加Addcard接口中自定义该字段的字符串值。
+   */
+  @XStreamAlias("OuterStr")
+  private String outerStr;
+
   @XStreamAlias("ScanCodeInfo")
   private ScanCodeInfo scanCodeInfo = new ScanCodeInfo();
 
@@ -314,11 +324,11 @@ public class WxMpXmlMessage implements Serializable {
   /**
    * 从加密字符串转换
    *
-   * @param encryptedXml
-   * @param wxMpConfigStorage
-   * @param timestamp
-   * @param nonce
-   * @param msgSignature
+   * @param encryptedXml      密文
+   * @param wxMpConfigStorage 配置存储器对象
+   * @param timestamp         时间戳
+   * @param nonce             随机串
+   * @param msgSignature      签名串
    */
   public static WxMpXmlMessage fromEncryptedXml(String encryptedXml,
                                                 WxMpConfigStorage wxMpConfigStorage, String timestamp, String nonce,
@@ -750,28 +760,28 @@ public class WxMpXmlMessage implements Serializable {
     this.outerId = outerId;
   }
 
-  public WxMpXmlMessage.ScanCodeInfo getScanCodeInfo() {
+  public ScanCodeInfo getScanCodeInfo() {
     return this.scanCodeInfo;
   }
 
-  public void setScanCodeInfo(WxMpXmlMessage.ScanCodeInfo scanCodeInfo) {
+  public void setScanCodeInfo(ScanCodeInfo scanCodeInfo) {
     this.scanCodeInfo = scanCodeInfo;
   }
 
-  public WxMpXmlMessage.SendPicsInfo getSendPicsInfo() {
+  public SendPicsInfo getSendPicsInfo() {
     return this.sendPicsInfo;
   }
 
-  public void setSendPicsInfo(WxMpXmlMessage.SendPicsInfo sendPicsInfo) {
+  public void setSendPicsInfo(SendPicsInfo sendPicsInfo) {
     this.sendPicsInfo = sendPicsInfo;
   }
 
-  public WxMpXmlMessage.SendLocationInfo getSendLocationInfo() {
+  public SendLocationInfo getSendLocationInfo() {
     return this.sendLocationInfo;
   }
 
   public void setSendLocationInfo(
-    WxMpXmlMessage.SendLocationInfo sendLocationInfo) {
+    SendLocationInfo sendLocationInfo) {
     this.sendLocationInfo = sendLocationInfo;
   }
 
@@ -807,198 +817,25 @@ public class WxMpXmlMessage implements Serializable {
     this.fromKfAccount = fromKfAccount;
   }
 
+  public String getIsRestoreMemberCard() {
+    return isRestoreMemberCard;
+  }
+
+  public void setIsRestoreMemberCard(String isRestoreMemberCard) {
+    this.isRestoreMemberCard = isRestoreMemberCard;
+  }
+
+  public String getOuterStr() {
+    return outerStr;
+  }
+
+  public void setOuterStr(String outerStr) {
+    this.outerStr = outerStr;
+  }
+
   @Override
   public String toString() {
     return ToStringUtils.toSimpleString(this);
   }
 
-  @XStreamAlias("HardWare")
-  public static class HardWare {
-    /**
-     * 消息展示，目前支持myrank(排行榜)
-     */
-    @XStreamAlias("MessageView")
-    @XStreamConverter(value = XStreamCDataConverter.class)
-    private String messageView;
-    /**
-     * 消息点击动作，目前支持ranklist(点击跳转排行榜)
-     */
-    @XStreamAlias("MessageAction")
-    @XStreamConverter(value = XStreamCDataConverter.class)
-    private String messageAction;
-
-    @Override
-    public String toString() {
-      return ToStringUtils.toSimpleString(this);
-    }
-
-    public String getMessageView() {
-      return messageView;
-    }
-
-    public void setMessageView(String messageView) {
-      this.messageView = messageView;
-    }
-
-    public String getMessageAction() {
-      return messageAction;
-    }
-
-    public void setMessageAction(String messageAction) {
-      this.messageAction = messageAction;
-    }
-  }
-
-  @XStreamAlias("ScanCodeInfo")
-  public static class ScanCodeInfo {
-    @XStreamAlias("ScanType")
-    @XStreamConverter(value = XStreamCDataConverter.class)
-    private String scanType;
-    @XStreamAlias("ScanResult")
-    @XStreamConverter(value = XStreamCDataConverter.class)
-    private String scanResult;
-
-    @Override
-    public String toString() {
-      return ToStringUtils.toSimpleString(this);
-    }
-
-    /**
-     * 扫描类型，一般是qrcode
-     */
-    public String getScanType() {
-
-      return this.scanType;
-    }
-
-    public void setScanType(String scanType) {
-      this.scanType = scanType;
-    }
-
-    /**
-     * 扫描结果，即二维码对应的字符串信息
-     */
-    public String getScanResult() {
-      return this.scanResult;
-    }
-
-    public void setScanResult(String scanResult) {
-      this.scanResult = scanResult;
-    }
-
-  }
-
-  @XStreamAlias("SendPicsInfo")
-  public static class SendPicsInfo {
-    @XStreamAlias("PicList")
-    protected final List<Item> picList = new ArrayList<>();
-    @XStreamAlias("Count")
-    private Long count;
-
-    @Override
-    public String toString() {
-      return ToStringUtils.toSimpleString(this);
-    }
-
-    public Long getCount() {
-      return this.count;
-    }
-
-    public void setCount(Long count) {
-      this.count = count;
-    }
-
-    public List<Item> getPicList() {
-      return this.picList;
-    }
-
-    @XStreamAlias("item")
-    public static class Item {
-      @XStreamAlias("PicMd5Sum")
-      @XStreamConverter(value = XStreamCDataConverter.class)
-      private String picMd5Sum;
-
-      @Override
-      public String toString() {
-        return ToStringUtils.toSimpleString(this);
-      }
-
-      public String getPicMd5Sum() {
-        return this.picMd5Sum;
-      }
-
-      public void setPicMd5Sum(String picMd5Sum) {
-        this.picMd5Sum = picMd5Sum;
-      }
-    }
-  }
-
-  @XStreamAlias("SendLocationInfo")
-  public static class SendLocationInfo {
-
-    @XStreamAlias("Location_X")
-    @XStreamConverter(value = XStreamCDataConverter.class)
-    private String locationX;
-
-    @XStreamAlias("Location_Y")
-    @XStreamConverter(value = XStreamCDataConverter.class)
-    private String locationY;
-
-    @XStreamAlias("Scale")
-    @XStreamConverter(value = XStreamCDataConverter.class)
-    private String scale;
-
-    @XStreamAlias("Label")
-    @XStreamConverter(value = XStreamCDataConverter.class)
-    private String label;
-
-    @XStreamAlias("Poiname")
-    @XStreamConverter(value = XStreamCDataConverter.class)
-    private String poiname;
-
-    @Override
-    public String toString() {
-      return ToStringUtils.toSimpleString(this);
-    }
-
-    public String getLocationX() {
-      return this.locationX;
-    }
-
-    public void setLocationX(String locationX) {
-      this.locationX = locationX;
-    }
-
-    public String getLocationY() {
-      return this.locationY;
-    }
-
-    public void setLocationY(String locationY) {
-      this.locationY = locationY;
-    }
-
-    public String getScale() {
-      return this.scale;
-    }
-
-    public void setScale(String scale) {
-      this.scale = scale;
-    }
-
-    public String getLabel() {
-      return this.label;
-    }
-
-    public void setLabel(String label) {
-      this.label = label;
-    }
-
-    public String getPoiname() {
-      return this.poiname;
-    }
-
-    public void setPoiname(String poiname) {
-      this.poiname = poiname;
-    }
-  }
 }
