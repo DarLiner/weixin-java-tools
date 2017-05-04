@@ -141,7 +141,7 @@ public class SimpleGetRequestExecutor extends AbstractRequestExecutor<String, St
     Request request = new Request.Builder().url(uri).build();
 
     Response response = client.newCall(request).execute();
-    String responseContent = response.body().toString();
+    String responseContent = response.body().string();
     WxError error = WxError.fromJson(responseContent);
     if (error.getErrorCode() != 0) {
       throw new WxErrorException(error);

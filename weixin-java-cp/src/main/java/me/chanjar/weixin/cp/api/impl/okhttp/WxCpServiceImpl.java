@@ -68,7 +68,12 @@ public class WxCpServiceImpl extends AbstractWxCpServiceImpl<ConnectionPool, Okh
           } catch (IOException e) {
             e.printStackTrace();
           }
-          String resultContent = response.body().toString();
+          String resultContent = null;
+          try {
+            resultContent = response.body().string();
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
           WxError error = WxError.fromJson(resultContent);
           if (error.getErrorCode() != 0) {
             throw new WxErrorException(error);

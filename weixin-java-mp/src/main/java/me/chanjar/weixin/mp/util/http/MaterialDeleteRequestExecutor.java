@@ -102,7 +102,7 @@ public class MaterialDeleteRequestExecutor extends AbstractRequestExecutor<Boole
     RequestBody requestBody = new FormBody.Builder().add("media_id", materialId).build();
     Request request = new Request.Builder().url(uri).post(requestBody).build();
     Response response = client.newCall(request).execute();
-    String responseContent = response.body().toString();
+    String responseContent = response.body().string();
     WxError error = WxError.fromJson(responseContent);
     if (error.getErrorCode() != 0) {
       throw new WxErrorException(error);

@@ -66,7 +66,7 @@ public class WxMpServiceImpl extends AbstractWxMpServiceImpl<ConnectionPool, Okh
 
         Request request = new Request.Builder().url(url).get().build();
         Response response = client.newCall(request).execute();
-        String resultContent = response.body().toString();
+        String resultContent = response.body().string();
         WxError error = WxError.fromJson(resultContent);
         if (error.getErrorCode() != 0) {
           throw new WxErrorException(error);

@@ -92,7 +92,7 @@ public class QrCodeRequestExecutor extends AbstractRequestExecutor<File, WxMpQrC
     Response response = client.newCall(request).execute();
     String contentTypeHeader = response.header("Content-Type");
     if (MimeTypes.MIME_TEXT_PLAIN.equals(contentTypeHeader)) {
-      String responseContent = response.body().toString();
+      String responseContent = response.body().string();
       throw new WxErrorException(WxError.fromJson(responseContent));
     }
     try (InputStream inputStream = new ByteArrayInputStream(response.body().bytes())) {
