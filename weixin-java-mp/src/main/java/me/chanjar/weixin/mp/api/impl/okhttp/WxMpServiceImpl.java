@@ -4,6 +4,7 @@ import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.HttpType;
+import me.chanjar.weixin.common.util.http.RequestHttp;
 import me.chanjar.weixin.common.util.http.okhttp.OkhttpProxyInfo;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -92,6 +93,11 @@ public class WxMpServiceImpl extends AbstractWxMpServiceImpl<ConnectionPool, Okh
     }
 
     httpClient = new ConnectionPool();
+  }
+
+  @Override
+  public RequestHttp getRequestHttp() {
+    return this;
   }
 
 

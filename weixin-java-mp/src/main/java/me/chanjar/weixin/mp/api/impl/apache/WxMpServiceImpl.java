@@ -72,6 +72,11 @@ public class WxMpServiceImpl extends AbstractWxMpServiceImpl<CloseableHttpClient
   }
 
   @Override
+  public RequestHttp getRequestHttp() {
+    return this;
+  }
+
+  @Override
   public String getAccessToken(boolean forceRefresh) throws WxErrorException {
     Lock lock = this.getWxMpConfigStorage().getAccessTokenLock();
     try {

@@ -6,7 +6,6 @@ import jodd.http.HttpResponse;
 import jodd.http.ProxyInfo;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.util.http.AbstractRequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestHttp;
 import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
@@ -14,8 +13,10 @@ import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
 import me.chanjar.weixin.common.util.http.okhttp.OkhttpProxyInfo;
 
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
-import me.chanjar.weixin.mp.bean.material.WxMediaImgUploadResult;
 import me.chanjar.weixin.mp.bean.material.WxMpMaterialVideoInfoResult;
+import me.chanjar.weixin.mp.util.http.apache.ApacheMaterialVideoInfoRequestExecutor;
+import me.chanjar.weixin.mp.util.http.jodd.JoddMaterialVideoInfoRequestExecutor;
+import me.chanjar.weixin.mp.util.http.okhttp.OkhttpMaterialVideoInfoRequestExecutor;
 import okhttp3.*;
 
 import org.apache.http.HttpHost;
@@ -29,87 +30,23 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MaterialVideoInfoRequestExecutor extends AbstractRequestExecutor<WxMpMaterialVideoInfoResult, String> {
-
-  public MaterialVideoInfoRequestExecutor() {
-    super();
+public abstract class MaterialVideoInfoRequestExecutor<H,P> implements RequestExecutor<WxMpMaterialVideoInfoResult, String> {
+  protected RequestHttp<H,P> requestHttp;
+  public MaterialVideoInfoRequestExecutor(RequestHttp requestHttp){
+    this.requestHttp =requestHttp;
   }
 
-  @Override
-  public WxMpMaterialVideoInfoResult executeJodd(HttpConnectionProvider provider, ProxyInfo proxyInfo, String uri, String materialId) throws WxErrorException, IOException {
-    HttpRequest request = HttpRequest.post(uri);
-    if (proxyInfo != null) {
-      provider.useProxy(proxyInfo);
-    }
-    request.withConnectionProvider(provider);
-
-    request.query("media_id", materialId);
-    HttpResponse response = request.send();
-    String responseContent = response.bodyText();
-    WxError error = WxError.fromJson(responseContent);
-    if (error.getErrorCode() != 0) {
-      throw new WxErrorException(error);
-    } else {
-      return WxMpMaterialVideoInfoResult.fromJson(responseContent);
+  public static RequestExecutor<WxMpMaterialVideoInfoResult, String> create(RequestHttp requestHttp){
+    switch (requestHttp.getRequestType()){
+      case apacheHttp:
+        return new ApacheMaterialVideoInfoRequestExecutor(requestHttp);
+      case joddHttp:
+        return new JoddMaterialVideoInfoRequestExecutor(requestHttp);
+      case okHttp:
+        return new OkhttpMaterialVideoInfoRequestExecutor(requestHttp);
+      default:
+        return null;
     }
   }
-
-  @Override
-  public WxMpMaterialVideoInfoResult executeOkhttp(ConnectionPool pool, final OkhttpProxyInfo proxyInfo, String uri, String materialId) throws WxErrorException, IOException {
-    OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder().connectionPool(pool);
-    //设置代理
-    if (proxyInfo != null) {
-      clientBuilder.proxy(proxyInfo.getProxy());
-    }
-    //设置授权
-    clientBuilder.authenticator(new Authenticator() {
-      @Override
-      public Request authenticate(Route route, Response response) throws IOException {
-        String credential = Credentials.basic(proxyInfo.getProxyUsername(), proxyInfo.getProxyPassword());
-        return response.request().newBuilder()
-          .header("Authorization", credential)
-          .build();
-      }
-    });
-    //得到httpClient
-    OkHttpClient client = clientBuilder.build();
-
-    RequestBody requestBody =new FormBody.Builder().add("media_id", materialId).build();
-    Request request = new Request.Builder().url(uri).post(requestBody).build();
-    Response response = client.newCall(request).execute();
-    String responseContent = response.body().string();
-    WxError error = WxError.fromJson(responseContent);
-    if (error.getErrorCode() != 0) {
-      throw new WxErrorException(error);
-    } else {
-      return WxMpMaterialVideoInfoResult.fromJson(responseContent);
-    }
-  }
-
-  @Override
-  public WxMpMaterialVideoInfoResult executeApache(CloseableHttpClient httpclient, HttpHost httpProxy, String uri,
-                                                   String materialId) throws WxErrorException, IOException {
-    HttpPost httpPost = new HttpPost(uri);
-    if (httpProxy != null) {
-      RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
-      httpPost.setConfig(config);
-    }
-
-    Map<String, String> params = new HashMap<>();
-    params.put("media_id", materialId);
-    httpPost.setEntity(new StringEntity(WxGsonBuilder.create().toJson(params)));
-    try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
-      String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
-      WxError error = WxError.fromJson(responseContent);
-      if (error.getErrorCode() != 0) {
-        throw new WxErrorException(error);
-      } else {
-        return WxMpMaterialVideoInfoResult.fromJson(responseContent);
-      }
-    } finally {
-      httpPost.releaseConnection();
-    }
-  }
-
 
 }

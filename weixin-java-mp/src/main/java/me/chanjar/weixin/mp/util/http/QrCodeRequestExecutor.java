@@ -9,13 +9,16 @@ import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.fs.FileUtils;
 
-import me.chanjar.weixin.common.util.http.AbstractRequestExecutor;
+import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestHttp;
 import me.chanjar.weixin.common.util.http.apache.InputStreamResponseHandler;
 import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
 import me.chanjar.weixin.common.util.http.okhttp.OkhttpProxyInfo;
 
 import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
+import me.chanjar.weixin.mp.util.http.apache.ApacheQrCodeRequestExecutor;
+import me.chanjar.weixin.mp.util.http.jodd.JoddQrCodeRequestExecutor;
+import me.chanjar.weixin.mp.util.http.okhttp.OkhttpQrCodeRequestExecutor;
 import okhttp3.*;
 
 import org.apache.http.Header;
@@ -38,102 +41,25 @@ import java.util.UUID;
  *
  * @author chanjarster
  */
-public class QrCodeRequestExecutor extends AbstractRequestExecutor<File, WxMpQrCodeTicket> {
+public abstract class QrCodeRequestExecutor<H, P> implements RequestExecutor<File,WxMpQrCodeTicket> {
+  protected RequestHttp<H, P> requestHttp;
 
-@Override
-  public File executeJodd(HttpConnectionProvider provider, ProxyInfo proxyInfo, String uri, WxMpQrCodeTicket ticket) throws WxErrorException, IOException {
-    if (ticket != null) {
-      if (uri.indexOf('?') == -1) {
-        uri += '?';
-      }
-      uri += uri.endsWith("?")
-        ? "ticket=" + URLEncoder.encode(ticket.getTicket(), "UTF-8")
-        : "&ticket=" + URLEncoder.encode(ticket.getTicket(), "UTF-8");
-    }
-
-    HttpRequest request = HttpRequest.get(uri);
-    if (proxyInfo != null) {
-      provider.useProxy(proxyInfo);
-    }
-    request.withConnectionProvider(provider);
-
-    HttpResponse response = request.send();
-    String contentTypeHeader = response.header("Content-Type");
-    if (MimeTypes.MIME_TEXT_PLAIN.equals(contentTypeHeader)) {
-      String responseContent = response.bodyText();
-      throw new WxErrorException(WxError.fromJson(responseContent));
-    }
-    try (InputStream inputStream = new ByteArrayInputStream(response.bodyBytes())) {
-      return FileUtils.createTmpFile(inputStream, UUID.randomUUID().toString(), "jpg");
-    }
+  public QrCodeRequestExecutor(RequestHttp requestHttp){
+    this.requestHttp =requestHttp;
   }
 
-  @Override
-  public File executeOkhttp(ConnectionPool pool, final OkhttpProxyInfo proxyInfo, String uri, WxMpQrCodeTicket data) throws WxErrorException, IOException {
-    OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder().connectionPool(pool);
-    //设置代理
-    if (proxyInfo != null) {
-      clientBuilder.proxy(proxyInfo.getProxy());
-    }
-    //设置授权
-    clientBuilder.authenticator(new Authenticator() {
-      @Override
-      public Request authenticate(Route route, Response response) throws IOException {
-        String credential = Credentials.basic(proxyInfo.getProxyUsername(), proxyInfo.getProxyPassword());
-        return response.request().newBuilder()
-          .header("Authorization", credential)
-          .build();
-      }
-    });
-    //得到httpClient
-    OkHttpClient client = clientBuilder.build();
-
-    Request request = new Request.Builder().url(uri).get().build();
-    Response response = client.newCall(request).execute();
-    String contentTypeHeader = response.header("Content-Type");
-    if (MimeTypes.MIME_TEXT_PLAIN.equals(contentTypeHeader)) {
-      String responseContent = response.body().string();
-      throw new WxErrorException(WxError.fromJson(responseContent));
-    }
-    try (InputStream inputStream = new ByteArrayInputStream(response.body().bytes())) {
-      return FileUtils.createTmpFile(inputStream, UUID.randomUUID().toString(), "jpg");
+  public static RequestExecutor<File,WxMpQrCodeTicket> create(RequestHttp requestHttp){
+    switch (requestHttp.getRequestType()){
+      case apacheHttp:
+        return new ApacheQrCodeRequestExecutor(requestHttp);
+      case joddHttp:
+        return new JoddQrCodeRequestExecutor(requestHttp);
+      case okHttp:
+        return new OkhttpQrCodeRequestExecutor(requestHttp);
+      default:
+        //TODO 需要优化，最好抛出异常
+        return null;
     }
   }
-
-  @Override
-  public File executeApache(CloseableHttpClient httpclient, HttpHost httpProxy, String uri,
-                            WxMpQrCodeTicket ticket) throws WxErrorException, IOException {
-
-    if (ticket != null) {
-      if (uri.indexOf('?') == -1) {
-        uri += '?';
-      }
-      uri += uri.endsWith("?")
-        ? "ticket=" + URLEncoder.encode(ticket.getTicket(), "UTF-8")
-        : "&ticket=" + URLEncoder.encode(ticket.getTicket(), "UTF-8");
-    }
-
-    HttpGet httpGet = new HttpGet(uri);
-    if (httpProxy != null) {
-      RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
-      httpGet.setConfig(config);
-    }
-
-    try (CloseableHttpResponse response = httpclient.execute(httpGet);
-         InputStream inputStream = InputStreamResponseHandler.INSTANCE.handleResponse(response);) {
-      Header[] contentTypeHeader = response.getHeaders("Content-Type");
-      if (contentTypeHeader != null && contentTypeHeader.length > 0) {
-        // 出错
-        if (ContentType.TEXT_PLAIN.getMimeType().equals(contentTypeHeader[0].getValue())) {
-          String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
-          throw new WxErrorException(WxError.fromJson(responseContent));
-        }
-      }
-      return FileUtils.createTmpFile(inputStream, UUID.randomUUID().toString(), "jpg");
-    } finally {
-      httpGet.releaseConnection();
-    }
-  }
-
 
 }
