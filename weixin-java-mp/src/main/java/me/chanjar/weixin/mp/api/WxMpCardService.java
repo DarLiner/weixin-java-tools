@@ -12,7 +12,6 @@ public interface WxMpCardService {
 
   /**
    * 得到WxMpService
-   * @return
    */
   WxMpService getWxMpService();
 
@@ -20,7 +19,6 @@ public interface WxMpCardService {
    * 获得卡券api_ticket，不强制刷新卡券api_ticket
    *
    * @return 卡券api_ticket
-   * @throws WxErrorException
    * @see #getCardApiTicket(boolean)
    */
   String getCardApiTicket() throws WxErrorException;

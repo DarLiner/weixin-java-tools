@@ -34,10 +34,6 @@ public class WxMpCardServiceImpl implements WxMpCardService {
     this.wxMpService = wxMpService;
   }
 
-  /**
-   * 得到WxMpService
-   * @return
-   */
   @Override
   public WxMpService getWxMpService(){
       return this.wxMpService;

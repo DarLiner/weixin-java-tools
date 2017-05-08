@@ -45,7 +45,7 @@ public class WxPayServiceImpl implements WxPayService {
   }
 
   private String getPayBaseUrl() {
-    if (this.getConfig().useSandboxForWxPay()) {
+    if (this.getConfig().useSandbox()) {
       return PAY_BASE_URL + "/sandboxnew";
     }
 
@@ -203,7 +203,7 @@ public class WxPayServiceImpl implements WxPayService {
       configMap.put("noncestr", String.valueOf(System.currentTimeMillis()));
       configMap.put("appid", appId);
       // 此map用于客户端与微信服务器交互
-      payInfo.put("paySign", SignUtils.createSign(payInfo, this.getConfig().getMchKey()));
+      payInfo.put("sign", SignUtils.createSign(configMap, this.getConfig().getMchKey()));
       payInfo.put("prepayId", prepayId);
       payInfo.put("partnerId", partnerid);
       payInfo.put("appId", appId);
