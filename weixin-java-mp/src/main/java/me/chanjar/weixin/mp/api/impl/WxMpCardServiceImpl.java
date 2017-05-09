@@ -15,8 +15,6 @@ import me.chanjar.weixin.mp.api.WxMpCardService;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpCardResult;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
-import org.apache.http.HttpHost;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +24,7 @@ import java.util.concurrent.locks.Lock;
 /**
  * Created by Binary Wang on 2016/7/27.
  */
-public class WxMpCardServiceImpl implements WxMpCardService<CloseableHttpClient, HttpHost> {
+public class WxMpCardServiceImpl implements WxMpCardService {
 
   private final Logger log = LoggerFactory.getLogger(WxMpCardServiceImpl.class);
 
@@ -77,7 +75,7 @@ public class WxMpCardServiceImpl implements WxMpCardService<CloseableHttpClient,
 
       if (this.getWxMpService().getWxMpConfigStorage().isCardApiTicketExpired()) {
         String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=wx_card";
-        String responseContent = this.wxMpService.execute(new SimpleGetRequestExecutor(), url, null);
+        String responseContent = this.wxMpService.execute(SimpleGetRequestExecutor.create(this.getWxMpService().getRequestHttp()), url, null);
         JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
         JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
         String cardApiTicket = tmpJsonObject.get("ticket").getAsString();

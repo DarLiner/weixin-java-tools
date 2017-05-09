@@ -8,7 +8,7 @@ import me.chanjar.weixin.mp.bean.result.WxMpCardResult;
  * 卡券相关接口
  * @author YuJian(mgcnrx11@hotmail.com) on 01/11/2016
  */
-public interface WxMpCardService<H, P> {
+public interface WxMpCardService {
 
   /**
    * 得到WxMpService

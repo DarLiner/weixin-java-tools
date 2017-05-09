@@ -7,8 +7,11 @@ import jodd.http.ProxyInfo;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.util.http.apache.ApacheMediaUploadRequestExecutor;
 import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
 
+import me.chanjar.weixin.common.util.http.jodd.JoddMediaUploadRequestExecutor;
+import me.chanjar.weixin.common.util.http.okhttp.OkMediaUploadRequestExecutor;
 import me.chanjar.weixin.common.util.http.okhttp.OkhttpProxyInfo;
 import okhttp3.*;
 
@@ -32,117 +35,24 @@ import java.net.Proxy;
  *
  * @author Daniel Qian
  */
-public class MediaUploadRequestExecutor extends AbstractRequestExecutor<WxMediaUploadResult, File> {
+public abstract class MediaUploadRequestExecutor<H, P> implements RequestExecutor<WxMediaUploadResult, File> {
+  protected RequestHttp<H,P> requestHttp;
 
-  /**
-   * apache-http实现方式
-   *
-   * @param httpclient
-   * @param httpProxy
-   * @param uri
-   * @param file
-   * @return
-   * @throws WxErrorException
-   * @throws IOException
-   */
-  public WxMediaUploadResult executeApache(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, File file) throws WxErrorException, IOException {
-    HttpPost httpPost = new HttpPost(uri);
-    if (httpProxy != null) {
-      RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
-      httpPost.setConfig(config);
-    }
-    if (file != null) {
-      HttpEntity entity = MultipartEntityBuilder
-        .create()
-        .addBinaryBody("media", file)
-        .setMode(HttpMultipartMode.RFC6532)
-        .build();
-      httpPost.setEntity(entity);
-      httpPost.setHeader("Content-Type", ContentType.MULTIPART_FORM_DATA.toString());
-    }
-    try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
-      String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
-      WxError error = WxError.fromJson(responseContent);
-      if (error.getErrorCode() != 0) {
-        throw new WxErrorException(error);
-      }
-      return WxMediaUploadResult.fromJson(responseContent);
-    } finally {
-      httpPost.releaseConnection();
-    }
+  public MediaUploadRequestExecutor(RequestHttp requestHttp){
+    this.requestHttp =requestHttp;
   }
 
-
-  /**
-   * jodd-http实现方式
-   *
-   * @param provider
-   * @param proxyInfo
-   * @param uri
-   * @param file
-   * @return
-   * @throws WxErrorException
-   * @throws IOException
-   */
-  public WxMediaUploadResult executeJodd(HttpConnectionProvider provider, ProxyInfo proxyInfo, String uri, File file) throws WxErrorException, IOException {
-    HttpRequest request = HttpRequest.post(uri);
-    if (proxyInfo != null) {
-      provider.useProxy(proxyInfo);
+  public static RequestExecutor<WxMediaUploadResult, File>  create(RequestHttp requestHttp){
+    switch (requestHttp.getRequestType()){
+      case apacheHttp:
+        return new ApacheMediaUploadRequestExecutor(requestHttp);
+      case joddHttp:
+        return new JoddMediaUploadRequestExecutor(requestHttp);
+      case okHttp:
+        return new OkMediaUploadRequestExecutor(requestHttp);
+      default:
+        return null;
     }
-    request.withConnectionProvider(provider);
-    request.form("media", file);
-    HttpResponse response = request.send();
-    String responseContent = response.bodyText();
-    WxError error = WxError.fromJson(responseContent);
-    if (error.getErrorCode() != 0) {
-      throw new WxErrorException(error);
-    }
-    return WxMediaUploadResult.fromJson(responseContent);
   }
-
-
-  /**
-   * okhttp现实方式
-   *
-   * @param pool
-   * @param proxyInfo
-   * @param uri
-   * @param file
-   * @return
-   * @throws WxErrorException
-   * @throws IOException
-   */
-  public WxMediaUploadResult executeOkhttp(ConnectionPool pool, final OkhttpProxyInfo proxyInfo, String uri, File file) throws WxErrorException, IOException {
-    OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder().connectionPool(pool);
-    //设置代理
-    if (proxyInfo != null) {
-      clientBuilder.proxy(proxyInfo.getProxy());
-    }
-    //设置授权
-    clientBuilder.authenticator(new Authenticator() {
-      @Override
-      public Request authenticate(Route route, Response response) throws IOException {
-        String credential = Credentials.basic(proxyInfo.getProxyUsername(), proxyInfo.getProxyPassword());
-        return response.request().newBuilder()
-          .header("Authorization", credential)
-          .build();
-      }
-    });
-    //得到httpClient
-    OkHttpClient client = clientBuilder.build();
-
-    RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-    RequestBody body = new MultipartBody.Builder().addFormDataPart("media", null, fileBody).build();
-    Request request = new Request.Builder().url(uri).post(body).build();
-
-    Response response = client.newCall(request).execute();
-    String responseContent = response.body().string();
-    WxError error = WxError.fromJson(responseContent);
-    if (error.getErrorCode() != 0) {
-      throw new WxErrorException(error);
-    }
-    return WxMediaUploadResult.fromJson(responseContent);
-  }
-
 
 }

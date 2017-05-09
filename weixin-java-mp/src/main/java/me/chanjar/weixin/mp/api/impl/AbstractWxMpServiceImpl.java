@@ -45,6 +45,7 @@ public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, Requ
   private int retrySleepMillis = 1000;
   private int maxRetryTimes = 5;
 
+
   @Override
   public boolean checkSignature(String timestamp, String nonce, String signature) {
     try {
@@ -71,7 +72,7 @@ public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, Requ
       }
 
       if (this.getWxMpConfigStorage().isJsapiTicketExpired()) {
-        String responseContent = execute(new SimpleGetRequestExecutor(), WxMpService.GET_JSAPI_TICKET_URL, null);
+        String responseContent = execute(SimpleGetRequestExecutor.create(this), WxMpService.GET_JSAPI_TICKET_URL, null);
         JsonElement tmpJsonElement = JSON_PARSER.parse(responseContent);
         JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
         String jsapiTicket = tmpJsonObject.get("ticket").getAsString();
@@ -165,8 +166,8 @@ public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, Requ
 
   private WxMpOAuth2AccessToken getOAuth2AccessToken(String url) throws WxErrorException {
     try {
-      RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
-      String responseText = executor.execute(this, url, null);
+      RequestExecutor<String, String> executor = SimpleGetRequestExecutor.create(this);
+      String responseText = executor.execute(url, null);
       return WxMpOAuth2AccessToken.fromJson(responseText);
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -194,8 +195,8 @@ public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, Requ
     String url = String.format(WxMpService.OAUTH2_USERINFO_URL, oAuth2AccessToken.getAccessToken(), oAuth2AccessToken.getOpenId(), lang);
 
     try {
-      RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
-      String responseText = executor.execute(this, url, null);
+      RequestExecutor<String, String> executor = SimpleGetRequestExecutor.create(this);
+      String responseText = executor.execute(url, null);
       return WxMpUser.fromJson(responseText);
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -207,8 +208,8 @@ public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, Requ
     String url = String.format(WxMpService.OAUTH2_VALIDATE_TOKEN_URL, oAuth2AccessToken.getAccessToken(), oAuth2AccessToken.getOpenId());
 
     try {
-      RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
-      executor.execute(this, url, null);
+      RequestExecutor<String, String> executor = SimpleGetRequestExecutor.create(this);
+      executor.execute(url, null);
     } catch (IOException e) {
       throw new RuntimeException(e);
     } catch (WxErrorException e) {
@@ -231,12 +232,12 @@ public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, Requ
 
   @Override
   public String get(String url, String queryParam) throws WxErrorException {
-    return execute(new SimpleGetRequestExecutor(), url, queryParam);
+    return execute(SimpleGetRequestExecutor.create(this), url, queryParam);
   }
 
   @Override
   public String post(String url, String postData) throws WxErrorException {
-    return execute(new SimplePostRequestExecutor(), url, postData);
+    return execute(SimplePostRequestExecutor.create(this), url, postData);
   }
 
   /**
@@ -283,7 +284,7 @@ public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, Requ
     String uriWithAccessToken = uri + (uri.contains("?") ? "&" : "?") + "access_token=" + accessToken;
 
     try {
-      T result = executor.execute(this, uriWithAccessToken, data);
+      T result = executor.execute(uriWithAccessToken, data);
       this.log.debug("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}", uriWithAccessToken, data, result);
       return result;
     } catch (WxErrorException e) {

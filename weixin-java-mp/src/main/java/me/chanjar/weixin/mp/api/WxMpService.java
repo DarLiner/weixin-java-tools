@@ -4,6 +4,7 @@ import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.MediaUploadRequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
+import me.chanjar.weixin.common.util.http.RequestHttp;
 import me.chanjar.weixin.mp.bean.*;
 import me.chanjar.weixin.mp.bean.result.*;
 
@@ -413,6 +414,12 @@ public interface WxMpService {
    * 初始化http请求对象
    */
   void initHttp();
+
+  /**
+   *
+   * @return
+   */
+  RequestHttp getRequestHttp();
 
 
 }

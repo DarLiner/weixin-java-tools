@@ -89,7 +89,7 @@ public class WxMpQrcodeServiceImpl implements WxMpQrcodeService {
   @Override
   public File qrCodePicture(WxMpQrCodeTicket ticket) throws WxErrorException {
     String url = "https://mp.weixin.qq.com/cgi-bin/showqrcode";
-    return this.wxMpService.execute(new QrCodeRequestExecutor(), url, ticket);
+    return this.wxMpService.execute(QrCodeRequestExecutor.create(this.wxMpService.getRequestHttp()), url, ticket);
   }
 
   @Override

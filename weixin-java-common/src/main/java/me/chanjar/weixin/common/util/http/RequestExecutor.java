@@ -26,7 +26,7 @@ public interface RequestExecutor<T, E> {
    * @throws WxErrorException
    * @throws IOException
    */
-  T execute(RequestHttp requestHttp, String uri, E data) throws WxErrorException, IOException;
+  T execute(String uri, E data) throws WxErrorException, IOException;
 
   /**
    * apache-http实现方式
@@ -37,10 +37,10 @@ public interface RequestExecutor<T, E> {
    * @return
    * @throws WxErrorException
    * @throws IOException
-   */
+   *//*
   T executeApache(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, E data) throws WxErrorException, IOException;
 
-    /**
+    *//**
      * jodd-http实现方式
      * @param provider
      * @param proxyInfo
@@ -49,11 +49,11 @@ public interface RequestExecutor<T, E> {
      * @return
      * @throws WxErrorException
      * @throws IOException
-     */
+     *//*
   T executeJodd(HttpConnectionProvider provider, ProxyInfo proxyInfo, String uri, E data) throws WxErrorException, IOException;
 
 
-  /** okhttp实现方式
+  *//** okhttp实现方式
    * @param pool
    * @param proxyInfo
    * @param uri
@@ -61,7 +61,7 @@ public interface RequestExecutor<T, E> {
    * @return
    * @throws WxErrorException
    * @throws IOException
-   */
+   *//*
   T executeOkhttp(ConnectionPool pool, final OkhttpProxyInfo proxyInfo, String uri, E data) throws WxErrorException, IOException;
-
+*/
 }

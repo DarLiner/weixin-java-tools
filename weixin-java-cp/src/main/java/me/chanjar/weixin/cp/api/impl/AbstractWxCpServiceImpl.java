@@ -93,7 +93,7 @@ public abstract class AbstractWxCpServiceImpl<H, P> implements WxCpService, Requ
       synchronized (this.globalJsapiTicketRefreshLock) {
         if (this.configStorage.isJsapiTicketExpired()) {
           String url = "https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket";
-          String responseContent = execute(new SimpleGetRequestExecutor(), url, null);
+          String responseContent = execute(SimpleGetRequestExecutor.create(this), url, null);
           JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
           JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
           String jsapiTicket = tmpJsonObject.get("ticket").getAsString();
@@ -187,14 +187,14 @@ public abstract class AbstractWxCpServiceImpl<H, P> implements WxCpService, Requ
   @Override
   public WxMediaUploadResult mediaUpload(String mediaType, File file) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/media/upload?type=" + mediaType;
-    return execute(new MediaUploadRequestExecutor(), url, file);
+    return execute(MediaUploadRequestExecutor.create(this), url, file);
   }
 
   @Override
   public File mediaDownload(String mediaId) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/media/get";
     return execute(
-      new MediaDownloadRequestExecutor(
+      MediaDownloadRequestExecutor.create(this,
         this.configStorage.getTmpDirFile()),
       url, "media_id=" + mediaId);
   }
@@ -204,7 +204,7 @@ public abstract class AbstractWxCpServiceImpl<H, P> implements WxCpService, Requ
   public Integer departCreate(WxCpDepart depart) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/department/create";
     String responseContent = execute(
-      new SimplePostRequestExecutor(),
+      SimplePostRequestExecutor.create(this),
       url,
       depart.toJson());
     JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
@@ -475,12 +475,12 @@ public abstract class AbstractWxCpServiceImpl<H, P> implements WxCpService, Requ
 
   @Override
   public String get(String url, String queryParam) throws WxErrorException {
-    return execute(new SimpleGetRequestExecutor(), url, queryParam);
+    return execute(SimpleGetRequestExecutor.create(this), url, queryParam);
   }
 
   @Override
   public String post(String url, String postData) throws WxErrorException {
-    return execute(new SimplePostRequestExecutor(), url, postData);
+    return execute(SimplePostRequestExecutor.create(this), url, postData);
   }
 
   /**
@@ -530,7 +530,7 @@ public abstract class AbstractWxCpServiceImpl<H, P> implements WxCpService, Requ
     String uriWithAccessToken = uri + (uri.contains("?") ? "&" : "?") + "access_token=" + accessToken;
 
     try {
-      T result = executor.execute(this, uriWithAccessToken, data);
+      T result = executor.execute(uriWithAccessToken, data);
       this.log.debug("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}", uriWithAccessToken, data, result);
       return result;
     } catch (WxErrorException e) {

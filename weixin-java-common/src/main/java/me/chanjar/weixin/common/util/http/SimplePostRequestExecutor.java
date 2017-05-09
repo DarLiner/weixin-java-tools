@@ -6,8 +6,12 @@ import jodd.http.HttpResponse;
 import jodd.http.ProxyInfo;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.util.http.apache.ApacheSimpleGetRequestExecutor;
+import me.chanjar.weixin.common.util.http.apache.ApacheSimplePostRequestExecutor;
 import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
 
+import me.chanjar.weixin.common.util.http.jodd.JoddSimplePostRequestExecutor;
+import me.chanjar.weixin.common.util.http.okhttp.OkSimplePostRequestExecutor;
 import me.chanjar.weixin.common.util.http.okhttp.OkhttpProxyInfo;
 import okhttp3.*;
 
@@ -27,142 +31,24 @@ import java.io.IOException;
  *
  * @author Daniel Qian
  */
-public class SimplePostRequestExecutor extends AbstractRequestExecutor<String, String> {
+public abstract class SimplePostRequestExecutor<H, P> implements RequestExecutor<String, String> {
+  protected RequestHttp<H,P> requestHttp;
 
-  /**
-   * apache-http实现方式
-   *
-   * @param httpclient
-   * @param httpProxy
-   * @param uri
-   * @param postEntity
-   * @return
-   * @throws WxErrorException
-   * @throws IOException
-   */
-  public String executeApache(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String postEntity) throws WxErrorException, IOException {
-
-    HttpPost httpPost = new HttpPost(uri);
-    if (httpProxy != null) {
-      RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
-      httpPost.setConfig(config);
-    }
-
-    if (postEntity != null) {
-      StringEntity entity = new StringEntity(postEntity, Consts.UTF_8);
-      httpPost.setEntity(entity);
-    }
-
-    try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
-      String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
-      if (responseContent.isEmpty()) {
-        throw new WxErrorException(
-          WxError.newBuilder().setErrorCode(9999).setErrorMsg("无响应内容")
-            .build());
-      }
-
-      if (responseContent.startsWith("<xml>")) {
-        //xml格式输出直接返回
-        return responseContent;
-      }
-
-      WxError error = WxError.fromJson(responseContent);
-      if (error.getErrorCode() != 0) {
-        throw new WxErrorException(error);
-      }
-      return responseContent;
-    } finally {
-      httpPost.releaseConnection();
-    }
+  public SimplePostRequestExecutor(RequestHttp requestHttp){
+    this.requestHttp =requestHttp;
   }
 
-
-  /**
-   * jodd-http实现方式
-   *
-   * @param provider
-   * @param proxyInfo
-   * @param uri
-   * @param postEntity
-   * @return
-   * @throws WxErrorException
-   * @throws IOException
-   */
-  public String executeJodd(HttpConnectionProvider provider, ProxyInfo proxyInfo, String uri, String postEntity) throws WxErrorException, IOException {
-    HttpRequest request = HttpRequest.post(uri);
-    if (proxyInfo != null) {
-      provider.useProxy(proxyInfo);
+  public static RequestExecutor<String, String> create(RequestHttp requestHttp){
+    switch (requestHttp.getRequestType()){
+      case apacheHttp:
+        return new ApacheSimplePostRequestExecutor(requestHttp);
+      case joddHttp:
+        return new JoddSimplePostRequestExecutor(requestHttp);
+      case okHttp:
+        return new OkSimplePostRequestExecutor(requestHttp);
+      default:
+        return null;
     }
-    request.withConnectionProvider(provider);
-    if (postEntity != null) {
-      request.bodyText(postEntity);
-    }
-    HttpResponse response = request.send();
-
-    String responseContent = response.bodyText();
-    if (responseContent.isEmpty()) {
-      throw new WxErrorException(
-        WxError.newBuilder().setErrorCode(9999).setErrorMsg("无响应内容")
-          .build());
-    }
-
-    if (responseContent.startsWith("<xml>")) {
-      //xml格式输出直接返回
-      return responseContent;
-    }
-
-    WxError error = WxError.fromJson(responseContent);
-    if (error.getErrorCode() != 0) {
-      throw new WxErrorException(error);
-    }
-    return responseContent;
   }
-
-
-  /**
-   * okHttp实现方式
-   *
-   * @param pool
-   * @param proxyInfo
-   * @param uri
-   * @param postEntity
-   * @return
-   * @throws WxErrorException
-   * @throws IOException
-   */
-  public String executeOkhttp(ConnectionPool pool, final OkhttpProxyInfo proxyInfo, String uri, String postEntity) throws WxErrorException, IOException {
-    OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder().connectionPool(pool);
-    //设置代理
-    if (proxyInfo != null) {
-      clientBuilder.proxy(proxyInfo.getProxy());
-    }
-    //设置授权
-    clientBuilder.authenticator(new Authenticator() {
-      @Override
-      public Request authenticate(Route route, Response response) throws IOException {
-        String credential = Credentials.basic(proxyInfo.getProxyUsername(), proxyInfo.getProxyPassword());
-        return response.request().newBuilder()
-          .header("Authorization", credential)
-          .build();
-      }
-    });
-    //得到httpClient
-    OkHttpClient client = clientBuilder.build();
-
-
-    MediaType mediaType = MediaType.parse("text/plain; charset=utf-8");
-    RequestBody body = RequestBody.create(mediaType, postEntity);
-
-    Request request = new Request.Builder().url(uri).post(body).build();
-
-    Response response = client.newCall(request).execute();
-    String responseContent = response.body().string();
-    WxError error = WxError.fromJson(responseContent);
-    if (error.getErrorCode() != 0) {
-      throw new WxErrorException(error);
-    }
-    return responseContent;
-  }
-
 
 }

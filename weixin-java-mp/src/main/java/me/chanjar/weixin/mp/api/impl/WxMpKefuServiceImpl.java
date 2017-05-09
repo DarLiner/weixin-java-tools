@@ -67,7 +67,7 @@ public class WxMpKefuServiceImpl implements WxMpKefuService {
   @Override
   public boolean kfAccountUploadHeadImg(String kfAccount, File imgFile) throws WxErrorException {
     WxMediaUploadResult responseContent = this.wxMpService
-      .execute(new MediaUploadRequestExecutor(), String.format(KFACCOUNT_UPLOAD_HEAD_IMG, kfAccount), imgFile);
+      .execute(MediaUploadRequestExecutor.create(this.wxMpService.getRequestHttp()), String.format(KFACCOUNT_UPLOAD_HEAD_IMG, kfAccount), imgFile);
     return responseContent != null;
   }
 
