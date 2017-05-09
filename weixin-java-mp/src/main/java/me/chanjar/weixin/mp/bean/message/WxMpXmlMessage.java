@@ -204,7 +204,10 @@ public class WxMpXmlMessage implements Serializable {
   private String isRestoreMemberCard;
 
   /**
+   * <pre>
    * 领取场景值，用于领取渠道数据统计。可在生成二维码接口及添加Addcard接口中自定义该字段的字符串值。
+   * 核销卡券时：开发者发起核销时传入的自定义参数，用于进行核销渠道统计
+   * </pre>
    */
   @XStreamAlias("OuterStr")
   private String outerStr;
@@ -220,6 +223,36 @@ public class WxMpXmlMessage implements Serializable {
    */
   @XStreamAlias("IsChatRoom")
   private String isChatRoom;
+
+  /**
+   * 核销来源。支持开发者统计API核销（FROM_API）、公众平台核销（FROM_MP）、卡券商户助手核销（FROM_MOBILE_HELPER）（核销员微信号）
+   */
+  @XStreamAlias("ConsumeSource")
+  private String consumeSource;
+
+  /**
+   * 门店名称，当前卡券核销的门店名称（只有通过自助核销和买单核销时才会出现该字段）
+   */
+  @XStreamAlias("LocationName")
+  private String locationName;
+
+  /**
+   * 核销该卡券核销员的openid（只有通过卡券商户助手核销时才会出现）
+   */
+  @XStreamAlias("StaffOpenId")
+  private String staffOpenId;
+
+  /**
+   * 自助核销时，用户输入的验证码
+   */
+  @XStreamAlias("VerifyCode")
+  private String verifyCode;
+
+  /**
+   * 自助核销时，用户输入的备注金额
+   */
+  @XStreamAlias("RemarkAmount")
+  private String remarkAmount;
 
   @XStreamAlias("ScanCodeInfo")
   private ScanCodeInfo scanCodeInfo = new ScanCodeInfo();
@@ -859,6 +892,46 @@ public class WxMpXmlMessage implements Serializable {
 
   public void setIsChatRoom(String isChatRoom) {
     this.isChatRoom = isChatRoom;
+  }
+
+  public String getConsumeSource() {
+    return this.consumeSource;
+  }
+
+  public void setConsumeSource(String consumeSource) {
+    this.consumeSource = consumeSource;
+  }
+
+  public String getLocationName() {
+    return this.locationName;
+  }
+
+  public void setLocationName(String locationName) {
+    this.locationName = locationName;
+  }
+
+  public String getStaffOpenId() {
+    return this.staffOpenId;
+  }
+
+  public void setStaffOpenId(String staffOpenId) {
+    this.staffOpenId = staffOpenId;
+  }
+
+  public String getVerifyCode() {
+    return this.verifyCode;
+  }
+
+  public void setVerifyCode(String verifyCode) {
+    this.verifyCode = verifyCode;
+  }
+
+  public String getRemarkAmount() {
+    return this.remarkAmount;
+  }
+
+  public void setRemarkAmount(String remarkAmount) {
+    this.remarkAmount = remarkAmount;
   }
 
   @Override
