@@ -88,6 +88,8 @@ public class WxConsts {
   public static final String EVT_LOCATION_SELECT = "location_select";
   public static final String EVT_TEMPLATESENDJOBFINISH = "TEMPLATESENDJOBFINISH";
   public static final String EVT_ENTER_AGENT = "enter_agent";
+
+  //以下为卡券相关事件
   public static final String EVT_CARD_PASS_CHECK = "card_pass_check";
   public static final String EVT_CARD_NOT_PASS_CHECK = "card_not_pass_check";
   public static final String EVT_USER_GET_CARD = "user_get_card";
@@ -105,7 +107,10 @@ public class WxConsts {
    * 会员卡内容更新事件
    */
   public static final String EVT_UPDATE_MEMBER_CARD = "update_member_card";
-
+  /**
+   * 券点流水详情事件
+   */
+  public static final String EVT_CARD_PAY_ORDER = "card_pay_order";
 
   //以下为客服相关事件
   public static final String EVT_KF_CREATE_SESSION = "kf_create_session"; // 客服接入会话
