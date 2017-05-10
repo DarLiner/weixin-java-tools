@@ -101,9 +101,17 @@ public class WxConsts {
   public static final String EVT_USER_VIEW_CARD = "user_view_card";
   public static final String EVT_USER_ENTER_SESSION_FROM_CARD = "user_enter_session_from_card";
   public static final String EVT_CARD_SKU_REMIND = "card_sku_remind"; // 库存报警
+  /**
+   * 会员卡内容更新事件
+   */
+  public static final String EVT_UPDATE_MEMBER_CARD = "update_member_card";
+
+
+  //以下为客服相关事件
   public static final String EVT_KF_CREATE_SESSION = "kf_create_session"; // 客服接入会话
   public static final String EVT_KF_CLOSE_SESSION = "kf_close_session"; // 客服关闭会话
   public static final String EVT_KF_SWITCH_SESSION = "kf_switch_session"; // 客服转接会话
+
   public static final String EVT_POI_CHECK_NOTIFY = "poi_check_notify"; //门店审核事件推送
   public static final String EVT_SUBMIT_MEMBERCARD_USER_INFO = "submit_membercard_user_info"; //接收会员信息事件推送
 
