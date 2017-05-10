@@ -146,6 +146,11 @@ public class WxConsts {
    */
   public static final String EVT_VERIFY_EXPIRED = "verify_expired";
 
+  /**
+   * 微信摇一摇周边>>摇一摇事件通知
+   */
+  public static final String EVT_SHAKEAROUND_USER_SHAKE = "ShakearoundUserShake";
+
   ///////////////////////
   // 上传多媒体文件的类型
   ///////////////////////
