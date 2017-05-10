@@ -22,6 +22,7 @@ public class WxPayConfig {
   private String tradeType;
   private SSLContext sslContext;
   private String keyPath;
+  private boolean useSandboxEnv = false;
 
   public void setNotifyUrl(String notifyUrl) {
     this.notifyUrl = notifyUrl;
@@ -130,7 +131,14 @@ public class WxPayConfig {
    * 默认不使用
    */
   public boolean useSandbox() {
-    return false;
+    return this.useSandboxEnv;
+  }
+
+  /**
+   * 设置是否使用沙箱仿真测试环境
+   */
+  public void setUseSandboxEnv(boolean useSandboxEnv) {
+    this.useSandboxEnv = useSandboxEnv;
   }
 
   public SSLContext initSSLContext() {
