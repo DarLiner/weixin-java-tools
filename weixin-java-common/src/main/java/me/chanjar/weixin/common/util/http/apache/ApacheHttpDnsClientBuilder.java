@@ -1,4 +1,4 @@
-package me.chanjar.weixin.common.util.http;
+package me.chanjar.weixin.common.util.http.apache;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.annotation.NotThreadSafe;
@@ -30,7 +30,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * httpclient 连接管理器 自带DNS解析
- * 
+ *
  * 大部分代码拷贝自：DefaultApacheHttpClientBuilder
  *
  * @author Andy.Huo
@@ -62,7 +62,7 @@ public class ApacheHttpDnsClientBuilder implements ApacheHttpClientBuilder {
 	private int httpProxyPort;
 	private String httpProxyUsername;
 	private String httpProxyPassword;
-	
+
 	/**
 	 * 闲置连接监控线程
 	 */
@@ -207,7 +207,7 @@ public class ApacheHttpDnsClientBuilder implements ApacheHttpClientBuilder {
 		Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create()
 				.register("http", this.plainConnectionSocketFactory).register("https", this.sslConnectionSocketFactory)
 				.build();
-		
+
 		@SuppressWarnings("resource")
 		PoolingHttpClientConnectionManager connectionManager;
 		if(dnsResover != null){
@@ -221,7 +221,7 @@ public class ApacheHttpDnsClientBuilder implements ApacheHttpClientBuilder {
 			}
 			connectionManager = new PoolingHttpClientConnectionManager(registry);
 		}
-		 
+
 		connectionManager.setMaxTotal(this.maxTotalConn);
 		connectionManager.setDefaultMaxPerRoute(this.maxConnPerHost);
 		connectionManager
