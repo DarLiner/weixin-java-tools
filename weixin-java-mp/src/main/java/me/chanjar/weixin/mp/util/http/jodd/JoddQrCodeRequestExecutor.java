@@ -1,12 +1,5 @@
 package me.chanjar.weixin.mp.util.http.jodd;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URLEncoder;
-import java.util.UUID;
-
 import jodd.http.HttpConnectionProvider;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
@@ -19,10 +12,17 @@ import me.chanjar.weixin.common.util.http.RequestHttp;
 import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
 import me.chanjar.weixin.mp.util.http.QrCodeRequestExecutor;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLEncoder;
+import java.util.UUID;
+
 /**
  * Created by ecoolper on 2017/5/5.
  */
-public class JoddQrCodeRequestExecutor extends QrCodeRequestExecutor<HttpConnectionProvider,ProxyInfo> {
+public class JoddQrCodeRequestExecutor extends QrCodeRequestExecutor<HttpConnectionProvider, ProxyInfo> {
   public JoddQrCodeRequestExecutor(RequestHttp requestHttp) {
     super(requestHttp);
   }

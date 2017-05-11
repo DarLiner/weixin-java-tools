@@ -1,7 +1,5 @@
 package me.chanjar.weixin.mp.util.http.jodd;
 
-import java.io.IOException;
-
 import jodd.http.HttpConnectionProvider;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
@@ -11,10 +9,12 @@ import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestHttp;
 import me.chanjar.weixin.mp.util.http.MaterialDeleteRequestExecutor;
 
+import java.io.IOException;
+
 /**
  * Created by ecoolper on 2017/5/5.
  */
-public class JoddMaterialDeleteRequestExecutor extends MaterialDeleteRequestExecutor<HttpConnectionProvider,ProxyInfo> {
+public class JoddMaterialDeleteRequestExecutor extends MaterialDeleteRequestExecutor<HttpConnectionProvider, ProxyInfo> {
   public JoddMaterialDeleteRequestExecutor(RequestHttp requestHttp) {
     super(requestHttp);
   }
