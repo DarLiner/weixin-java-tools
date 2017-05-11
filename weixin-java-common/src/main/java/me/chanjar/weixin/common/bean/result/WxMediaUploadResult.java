@@ -51,7 +51,7 @@ public class WxMediaUploadResult implements Serializable {
   @Override
   public String toString() {
     return "WxUploadResult [type=" + this.type + ", media_id=" + this.mediaId + ", thumb_media_id=" + this.thumbMediaId
-            + ", created_at=" + this.createdAt + "]";
+      + ", created_at=" + this.createdAt + "]";
   }
 
 }

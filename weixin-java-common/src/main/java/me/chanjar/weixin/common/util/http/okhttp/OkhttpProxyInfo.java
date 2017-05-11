@@ -8,19 +8,11 @@ import java.net.Proxy;
  * Proxy information.
  */
 public class OkhttpProxyInfo {
-  /**
-   * Proxy types.
-   */
-  public enum ProxyType {
-    NONE, HTTP, SOCKS4, SOCKS5
-  }
-
   private final String proxyAddress;
   private final int proxyPort;
   private final String proxyUsername;
   private final String proxyPassword;
   private final ProxyType proxyType;
-
   public OkhttpProxyInfo(ProxyType proxyType, String proxyHost, int proxyPort, String proxyUser, String proxyPassword) {
     this.proxyType = proxyType;
     this.proxyAddress = proxyHost;
@@ -29,14 +21,14 @@ public class OkhttpProxyInfo {
     this.proxyPassword = proxyPassword;
   }
 
-  // ---------------------------------------------------------------- factory
-
   /**
    * Creates directProxy.
    */
   public static OkhttpProxyInfo directProxy() {
     return new OkhttpProxyInfo(ProxyType.NONE, null, 0, null, null);
   }
+
+  // ---------------------------------------------------------------- factory
 
   /**
    * Creates SOCKS4 proxy.
@@ -59,14 +51,14 @@ public class OkhttpProxyInfo {
     return new OkhttpProxyInfo(ProxyType.HTTP, proxyAddress, proxyPort, proxyUser, proxyPassword);
   }
 
-  // ---------------------------------------------------------------- getter
-
   /**
    * Returns proxy type.
    */
   public ProxyType getProxyType() {
     return proxyType;
   }
+
+  // ---------------------------------------------------------------- getter
 
   /**
    * Returns proxy address.
@@ -99,6 +91,7 @@ public class OkhttpProxyInfo {
 
   /**
    * 返回 java.net.Proxy
+   *
    * @return
    */
   public Proxy getProxy() {
@@ -113,5 +106,12 @@ public class OkhttpProxyInfo {
       proxy = new Proxy(Proxy.Type.DIRECT, new InetSocketAddress(getProxyAddress(), getProxyPort()));
     }
     return proxy;
+  }
+
+  /**
+   * Proxy types.
+   */
+  public enum ProxyType {
+    NONE, HTTP, SOCKS4, SOCKS5
   }
 }

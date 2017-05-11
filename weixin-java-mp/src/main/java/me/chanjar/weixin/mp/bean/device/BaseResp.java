@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by keungtung on 10/12/2016.
  */
-public class BaseResp extends AbstractDeviceBean{
+public class BaseResp extends AbstractDeviceBean {
   @SerializedName("base_info")
   private BaseInfo baseInfo;
   @SerializedName("errcode")

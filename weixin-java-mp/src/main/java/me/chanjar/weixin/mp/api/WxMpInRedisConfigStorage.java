@@ -25,10 +25,10 @@ public class WxMpInRedisConfigStorage extends WxMpInMemoryConfigStorage {
 
   @Override
   public boolean isAccessTokenExpired() {
-      return getAccessToken() == null ? true : false;
+    return getAccessToken() == null ? true : false;
   }
 
-@Override
+  @Override
   public synchronized void updateAccessToken(String accessToken, int expiresInSeconds) {
     jedis.set(ACCESS_TOKEN_KEY.concat(appId), accessToken);
     jedis.expire(ACCESS_TOKEN_KEY.concat(appId), expiresInSeconds - 200);

@@ -1,17 +1,12 @@
 package me.chanjar.weixin.common.util.http.okhttp;
 
-import java.io.IOException;
-
-import jodd.http.HttpConnectionProvider;
-import jodd.http.HttpRequest;
-import jodd.http.HttpResponse;
-import jodd.http.ProxyInfo;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestHttp;
 import me.chanjar.weixin.common.util.http.SimpleGetRequestExecutor;
 import okhttp3.*;
+
+import java.io.IOException;
 
 /**
  * Created by ecoolper on 2017/5/4.
@@ -47,7 +42,7 @@ public class OkSimpleGetRequestExecutor extends SimpleGetRequestExecutor<Connect
       }
     });
     //得到httpClient
-    OkHttpClient client =clientBuilder.build();
+    OkHttpClient client = clientBuilder.build();
 
     Request request = new Request.Builder().url(uri).build();
 

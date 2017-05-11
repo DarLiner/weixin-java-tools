@@ -93,7 +93,7 @@ public class WxCpMessageGsonAdapter implements JsonSerializer<WxCpMessage> {
       JsonObject newsJsonObject = new JsonObject();
       if (message.getMediaId() != null) {
         newsJsonObject.addProperty("media_id", message.getMediaId());
-      }else {
+      } else {
         JsonArray articleJsonArray = new JsonArray();
         for (MpnewsArticle article : message.getMpnewsArticles()) {
           JsonObject articleJson = new JsonObject();

@@ -41,7 +41,7 @@ public class WxMpEventConstants {
      * 卡券转赠事件
      */
     public static final String USER_GIFTING_CARD = "user_gifting_card";
-    
+
     /**
      * 库存报警
      */

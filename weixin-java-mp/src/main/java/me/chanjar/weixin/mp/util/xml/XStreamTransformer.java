@@ -55,13 +55,14 @@ public class XStreamTransformer {
 
   /**
    * 会自动注册该类及其子类
+   *
    * @param clz 要注册的类
    */
   private static void registerClass(Class<?> clz) {
     XStream xstream = XStreamInitializer.getInstance();
     xstream.processAnnotations(clz);
     xstream.processAnnotations(getInnerClasses(clz));
-    if(clz.equals(WxMpXmlMessage.class)){
+    if (clz.equals(WxMpXmlMessage.class)) {
       // 操蛋的微信，模板消息推送成功的消息是MsgID，其他消息推送过来是MsgId
       xstream.aliasField("MsgID", WxMpXmlMessage.class, "msgId");
     }

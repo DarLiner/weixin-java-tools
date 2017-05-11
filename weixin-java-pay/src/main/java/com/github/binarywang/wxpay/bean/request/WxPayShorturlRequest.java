@@ -24,18 +24,18 @@ public class WxPayShorturlRequest extends WxPayBaseRequest {
   @XStreamAlias("long_url")
   private String longUrl;
 
+  public WxPayShorturlRequest() {
+  }
+
+  public WxPayShorturlRequest(String longUrl) {
+    this.longUrl = longUrl;
+  }
+
   public String getLongUrl() {
     return this.longUrl;
   }
 
   public void setLongUrl(String longUrl) {
-    this.longUrl = longUrl;
-  }
-
-  public WxPayShorturlRequest() {
-  }
-
-  public WxPayShorturlRequest(String longUrl) {
     this.longUrl = longUrl;
   }
 

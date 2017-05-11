@@ -5,9 +5,8 @@ import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.cp.api.impl.apache.WxCpServiceImpl;
 import me.chanjar.weixin.cp.bean.WxCpDepart;
 import me.chanjar.weixin.cp.bean.WxCpUser;
-import org.testng.Assert;
-import org.testng.annotations.Guice;
-import org.testng.annotations.Test;
+import org.testng.*;
+import org.testng.annotations.*;
 
 import java.util.List;
 

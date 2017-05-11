@@ -482,13 +482,6 @@ public interface WxCpService {
   <T, E> T execute(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException;
 
   /**
-   * 注入 {@link WxCpConfigStorage} 的实现
-   *
-   * @param wxConfigProvider 配置对象
-   */
-  void setWxCpConfigStorage(WxCpConfigStorage wxConfigProvider);
-
-  /**
    * <pre>
    * 设置当微信系统响应系统繁忙时，要等待多少 retrySleepMillis(ms) * 2^(重试次数 - 1) 再发起重试
    * 默认：1000ms
@@ -563,4 +556,11 @@ public interface WxCpService {
    * @return WxMpConfigStorage
    */
   WxCpConfigStorage getWxCpConfigStorage();
+
+  /**
+   * 注入 {@link WxCpConfigStorage} 的实现
+   *
+   * @param wxConfigProvider 配置对象
+   */
+  void setWxCpConfigStorage(WxCpConfigStorage wxConfigProvider);
 }

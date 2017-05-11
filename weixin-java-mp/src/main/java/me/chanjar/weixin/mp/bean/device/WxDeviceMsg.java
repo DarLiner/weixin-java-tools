@@ -6,7 +6,7 @@ import me.chanjar.weixin.common.util.ToStringUtils;
 /**
  * Created by keungtung on 10/12/2016.
  */
-public class WxDeviceMsg extends AbstractDeviceBean{
+public class WxDeviceMsg extends AbstractDeviceBean {
   @SerializedName("device_type")
   private String deviceType;
   @SerializedName("device_id")

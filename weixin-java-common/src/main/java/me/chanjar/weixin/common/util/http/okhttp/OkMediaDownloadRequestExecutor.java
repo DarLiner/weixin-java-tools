@@ -1,22 +1,19 @@
 package me.chanjar.weixin.common.util.http.okhttp;
 
+import me.chanjar.weixin.common.bean.result.WxError;
+import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.util.fs.FileUtils;
+import me.chanjar.weixin.common.util.http.MediaDownloadRequestExecutor;
+import me.chanjar.weixin.common.util.http.RequestHttp;
+import okhttp3.*;
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.commons.lang3.StringUtils;
-
-import me.chanjar.weixin.common.bean.result.WxError;
-import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
-import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.util.fs.FileUtils;
-import me.chanjar.weixin.common.util.http.MediaDownloadRequestExecutor;
-import me.chanjar.weixin.common.util.http.RequestExecutor;
-import me.chanjar.weixin.common.util.http.RequestHttp;
-import okhttp3.*;
 
 /**
  * Created by ecoolper on 2017/5/5.

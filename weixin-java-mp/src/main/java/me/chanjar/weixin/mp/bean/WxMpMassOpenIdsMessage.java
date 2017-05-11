@@ -38,6 +38,7 @@ public class WxMpMassOpenIdsMessage implements Serializable {
    * {@link me.chanjar.weixin.common.api.WxConsts#MASS_MSG_VOICE}
    * 如果msgtype和media_id不匹配的话，会返回系统繁忙的错误
    * </pre>
+   *
    * @param msgType
    */
   public void setMsgType(String msgType) {
@@ -72,19 +73,21 @@ public class WxMpMassOpenIdsMessage implements Serializable {
   }
 
   /**
-   * 添加openid，最多支持10,000个
-   * @param openid
-   */
-  public void addUser(String openid) {
-    this.toUsers.add(openid);
-  }
-
-  /**
    * 提供set方法，方便客户端直接设置所有群发对象的openid列表
+   *
    * @param toUsers
    */
   public void setToUsers(List<String> toUsers) {
     this.toUsers = toUsers;
+  }
+
+  /**
+   * 添加openid，最多支持10,000个
+   *
+   * @param openid
+   */
+  public void addUser(String openid) {
+    this.toUsers.add(openid);
   }
 
   public boolean isSendIgnoreReprint() {
@@ -92,7 +95,6 @@ public class WxMpMassOpenIdsMessage implements Serializable {
   }
 
   /**
-   *
    * @param sendIgnoreReprint 文章被判定为转载时，是否继续进行群发操作。
    */
   public void setSendIgnoreReprint(boolean sendIgnoreReprint) {

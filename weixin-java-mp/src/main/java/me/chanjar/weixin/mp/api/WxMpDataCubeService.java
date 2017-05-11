@@ -1,19 +1,15 @@
 package me.chanjar.weixin.mp.api;
 
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.mp.bean.datacube.WxDataCubeArticleResult;
-import me.chanjar.weixin.mp.bean.datacube.WxDataCubeArticleTotal;
-import me.chanjar.weixin.mp.bean.datacube.WxDataCubeInterfaceResult;
-import me.chanjar.weixin.mp.bean.datacube.WxDataCubeMsgResult;
-import me.chanjar.weixin.mp.bean.datacube.WxDataCubeUserCumulate;
-import me.chanjar.weixin.mp.bean.datacube.WxDataCubeUserSummary;
+import me.chanjar.weixin.mp.bean.datacube.*;
 
 import java.util.Date;
 import java.util.List;
 
 /**
  * 统计分析相关接口
- *  Created by Binary Wang on 2016/8/23.
+ * Created by Binary Wang on 2016/8/23.
+ *
  * @author binarywang (https://github.com/binarywang)
  */
 public interface WxMpDataCubeService {
@@ -192,6 +188,7 @@ public interface WxMpDataCubeService {
   List<WxDataCubeMsgResult> getUpstreamMsgDistMonth(Date beginDate, Date endDate) throws WxErrorException;
 
   //*******************接口分析数据接口***********************//
+
   /**
    * <pre>
    * 获取接口分析数据（getinterfacesummary）

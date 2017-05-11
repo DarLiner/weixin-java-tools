@@ -188,7 +188,7 @@ public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
   }
 
   private synchronized void prepare() {
-    if(prepared.get()){
+    if (prepared.get()) {
       return;
     }
     Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create()
@@ -242,7 +242,7 @@ public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
 
   @Override
   public CloseableHttpClient build() {
-    if(!prepared.get()){
+    if (!prepared.get()) {
       prepare();
     }
     return this.httpClientBuilder.build();

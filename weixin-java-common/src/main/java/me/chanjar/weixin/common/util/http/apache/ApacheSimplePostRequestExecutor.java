@@ -1,7 +1,9 @@
 package me.chanjar.weixin.common.util.http.apache;
 
-import java.io.IOException;
-
+import me.chanjar.weixin.common.bean.result.WxError;
+import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.util.http.RequestHttp;
+import me.chanjar.weixin.common.util.http.SimplePostRequestExecutor;
 import org.apache.http.Consts;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
@@ -10,11 +12,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 
-import me.chanjar.weixin.common.bean.result.WxError;
-import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.util.http.RequestExecutor;
-import me.chanjar.weixin.common.util.http.RequestHttp;
-import me.chanjar.weixin.common.util.http.SimplePostRequestExecutor;
+import java.io.IOException;
 
 /**
  * Created by ecoolper on 2017/5/4.

@@ -6,7 +6,7 @@ import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 /**
  * Created by keungtung on 10/12/2016.
  */
-public class WxDeviceBindResult extends AbstractDeviceBean{
+public class WxDeviceBindResult extends AbstractDeviceBean {
   @SerializedName("base_resp")
   private BaseResp baseResp;
 

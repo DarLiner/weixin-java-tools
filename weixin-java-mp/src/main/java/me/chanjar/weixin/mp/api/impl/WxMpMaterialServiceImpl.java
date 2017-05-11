@@ -83,7 +83,7 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService {
   @Override
   public InputStream materialImageOrVoiceDownload(String media_id) throws WxErrorException {
     String url = MATERIAL_API_URL_PREFIX + "/get_material";
-    return this.wxMpService.execute(MaterialVoiceAndImageDownloadRequestExecutor.create(this.wxMpService.getRequestHttp(),this.wxMpService.getWxMpConfigStorage().getTmpDirFile()), url, media_id);
+    return this.wxMpService.execute(MaterialVoiceAndImageDownloadRequestExecutor.create(this.wxMpService.getRequestHttp(), this.wxMpService.getWxMpConfigStorage().getTmpDirFile()), url, media_id);
   }
 
   @Override
