@@ -1,7 +1,5 @@
 package me.chanjar.weixin.mp.util.http.jodd;
 
-import java.io.IOException;
-
 import jodd.http.HttpConnectionProvider;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
@@ -12,10 +10,12 @@ import me.chanjar.weixin.common.util.http.RequestHttp;
 import me.chanjar.weixin.mp.bean.material.WxMpMaterialVideoInfoResult;
 import me.chanjar.weixin.mp.util.http.MaterialVideoInfoRequestExecutor;
 
+import java.io.IOException;
+
 /**
  * Created by ecoolper on 2017/5/5.
  */
-public class JoddMaterialVideoInfoRequestExecutor extends MaterialVideoInfoRequestExecutor<HttpConnectionProvider,ProxyInfo> {
+public class JoddMaterialVideoInfoRequestExecutor extends MaterialVideoInfoRequestExecutor<HttpConnectionProvider, ProxyInfo> {
   public JoddMaterialVideoInfoRequestExecutor(RequestHttp requestHttp) {
     super(requestHttp);
   }

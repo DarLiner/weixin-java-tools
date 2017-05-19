@@ -10,6 +10,7 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
 import org.apache.http.config.SocketConfig;
+import org.apache.http.conn.DnsResolver;
 import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.conn.socket.ConnectionSocketFactory;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
@@ -28,13 +29,15 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * httpclient 连接管理器
+ * httpclient 连接管理器 自带DNS解析
+ * <p>
+ * 大部分代码拷贝自：DefaultApacheHttpClientBuilder
  *
- * @author kakotor
+ * @author Andy.Huo
  */
 @NotThreadSafe
-public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
-  protected final Logger log = LoggerFactory.getLogger(DefaultApacheHttpClientBuilder.class);
+public class ApacheHttpDnsClientBuilder implements ApacheHttpClientBuilder {
+  protected final Logger log = LoggerFactory.getLogger(ApacheHttpDnsClientBuilder.class);
   private final AtomicBoolean prepared = new AtomicBoolean(false);
   private int connectionRequestTimeout = 3000;
   private int connectionTimeout = 5000;
@@ -44,6 +47,9 @@ public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
   private int maxConnPerHost = 10;
   private int maxTotalConn = 50;
   private String userAgent;
+
+  private DnsResolver dnsResover;
+
   private HttpRequestRetryHandler httpRequestRetryHandler = new HttpRequestRetryHandler() {
     @Override
     public boolean retryRequest(IOException exception, int executionCount, HttpContext context) {
@@ -56,17 +62,18 @@ public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
   private int httpProxyPort;
   private String httpProxyUsername;
   private String httpProxyPassword;
+
   /**
    * 闲置连接监控线程
    */
   private IdleConnectionMonitorThread idleConnectionMonitorThread;
   private HttpClientBuilder httpClientBuilder;
 
-  private DefaultApacheHttpClientBuilder() {
+  private ApacheHttpDnsClientBuilder() {
   }
 
-  public static DefaultApacheHttpClientBuilder get() {
-    return new DefaultApacheHttpClientBuilder();
+  public static ApacheHttpDnsClientBuilder get() {
+    return new ApacheHttpDnsClientBuilder();
   }
 
   @Override
@@ -102,8 +109,7 @@ public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
   /**
    * 获取链接的超时时间设置,默认3000ms
    * <p>
-   * 设置为零时不超时,一直等待.
-   * 设置为负数是使用系统默认设置(非上述的3000ms的默认值,而是httpclient的默认设置).
+   * 设置为零时不超时,一直等待. 设置为负数是使用系统默认设置(非上述的3000ms的默认值,而是httpclient的默认设置).
    * </p>
    *
    * @param connectionRequestTimeout 获取链接的超时时间设置(单位毫秒),默认3000ms
@@ -115,8 +121,7 @@ public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
   /**
    * 建立链接的超时时间,默认为5000ms.由于是在链接池获取链接,此设置应该并不起什么作用
    * <p>
-   * 设置为零时不超时,一直等待.
-   * 设置为负数是使用系统默认设置(非上述的5000ms的默认值,而是httpclient的默认设置).
+   * 设置为零时不超时,一直等待. 设置为负数是使用系统默认设置(非上述的5000ms的默认值,而是httpclient的默认设置).
    * </p>
    *
    * @param connectionTimeout 建立链接的超时时间设置(单位毫秒),默认5000ms
@@ -192,45 +197,45 @@ public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
       return;
     }
     Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create()
-      .register("http", this.plainConnectionSocketFactory)
-      .register("https", this.sslConnectionSocketFactory)
+      .register("http", this.plainConnectionSocketFactory).register("https", this.sslConnectionSocketFactory)
       .build();
 
     @SuppressWarnings("resource")
-    PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager(registry);
+    PoolingHttpClientConnectionManager connectionManager;
+    if (dnsResover != null) {
+      if (log.isDebugEnabled()) {
+        log.debug("specified dns resolver.");
+      }
+      connectionManager = new PoolingHttpClientConnectionManager(registry, dnsResover);
+    } else {
+      if (log.isDebugEnabled()) {
+        log.debug("Not specified dns resolver.");
+      }
+      connectionManager = new PoolingHttpClientConnectionManager(registry);
+    }
+
     connectionManager.setMaxTotal(this.maxTotalConn);
     connectionManager.setDefaultMaxPerRoute(this.maxConnPerHost);
-    connectionManager.setDefaultSocketConfig(
-      SocketConfig.copy(SocketConfig.DEFAULT)
-        .setSoTimeout(this.soTimeout)
-        .build()
-    );
+    connectionManager
+      .setDefaultSocketConfig(SocketConfig.copy(SocketConfig.DEFAULT).setSoTimeout(this.soTimeout).build());
 
-    this.idleConnectionMonitorThread = new IdleConnectionMonitorThread(
-      connectionManager, this.idleConnTimeout, this.checkWaitTime);
+    this.idleConnectionMonitorThread = new IdleConnectionMonitorThread(connectionManager, this.idleConnTimeout,
+      this.checkWaitTime);
     this.idleConnectionMonitorThread.setDaemon(true);
     this.idleConnectionMonitorThread.start();
 
-    this.httpClientBuilder = HttpClients.custom()
-      .setConnectionManager(connectionManager)
+    this.httpClientBuilder = HttpClients.custom().setConnectionManager(connectionManager)
       .setConnectionManagerShared(true)
-      .setDefaultRequestConfig(
-        RequestConfig.custom()
-          .setSocketTimeout(this.soTimeout)
-          .setConnectTimeout(this.connectionTimeout)
-          .setConnectionRequestTimeout(this.connectionRequestTimeout)
-          .build()
-      )
+      .setDefaultRequestConfig(RequestConfig.custom().setSocketTimeout(this.soTimeout)
+        .setConnectTimeout(this.connectionTimeout)
+        .setConnectionRequestTimeout(this.connectionRequestTimeout).build())
       .setRetryHandler(this.httpRequestRetryHandler);
 
-    if (StringUtils.isNotBlank(this.httpProxyHost)
-      && StringUtils.isNotBlank(this.httpProxyUsername)) {
+    if (StringUtils.isNotBlank(this.httpProxyHost) && StringUtils.isNotBlank(this.httpProxyUsername)) {
       // 使用代理服务器 需要用户认证的代理服务器
       CredentialsProvider provider = new BasicCredentialsProvider();
-      provider.setCredentials(
-        new AuthScope(this.httpProxyHost, this.httpProxyPort),
-        new UsernamePasswordCredentials(this.httpProxyUsername,
-          this.httpProxyPassword));
+      provider.setCredentials(new AuthScope(this.httpProxyHost, this.httpProxyPort),
+        new UsernamePasswordCredentials(this.httpProxyUsername, this.httpProxyPassword));
       this.httpClientBuilder.setDefaultCredentialsProvider(provider);
     }
 
@@ -248,13 +253,22 @@ public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
     return this.httpClientBuilder.build();
   }
 
+  public DnsResolver getDnsResover() {
+    return dnsResover;
+  }
+
+  public void setDnsResover(DnsResolver dnsResover) {
+    this.dnsResover = dnsResover;
+  }
+
   public static class IdleConnectionMonitorThread extends Thread {
     private final HttpClientConnectionManager connMgr;
     private final int idleConnTimeout;
     private final int checkWaitTime;
     private volatile boolean shutdown;
 
-    public IdleConnectionMonitorThread(HttpClientConnectionManager connMgr, int idleConnTimeout, int checkWaitTime) {
+    public IdleConnectionMonitorThread(HttpClientConnectionManager connMgr, int idleConnTimeout,
+                                       int checkWaitTime) {
       super("IdleConnectionMonitorThread");
       this.connMgr = connMgr;
       this.idleConnTimeout = idleConnTimeout;
@@ -268,8 +282,7 @@ public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
           synchronized (this) {
             wait(this.checkWaitTime);
             this.connMgr.closeExpiredConnections();
-            this.connMgr.closeIdleConnections(this.idleConnTimeout,
-              TimeUnit.MILLISECONDS);
+            this.connMgr.closeIdleConnections(this.idleConnTimeout, TimeUnit.MILLISECONDS);
           }
         }
       } catch (InterruptedException ignore) {
@@ -289,4 +302,5 @@ public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
       }
     }
   }
+
 }

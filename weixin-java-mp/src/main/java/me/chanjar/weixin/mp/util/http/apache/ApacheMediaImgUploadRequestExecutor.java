@@ -1,8 +1,11 @@
 package me.chanjar.weixin.mp.util.http.apache;
 
-import java.io.File;
-import java.io.IOException;
-
+import me.chanjar.weixin.common.bean.result.WxError;
+import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.util.http.RequestHttp;
+import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
+import me.chanjar.weixin.mp.bean.material.WxMediaImgUploadResult;
+import me.chanjar.weixin.mp.util.http.MediaImgUploadRequestExecutor;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
@@ -13,17 +16,13 @@ import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 
-import me.chanjar.weixin.common.bean.result.WxError;
-import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.util.http.RequestHttp;
-import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
-import me.chanjar.weixin.mp.bean.material.WxMediaImgUploadResult;
-import me.chanjar.weixin.mp.util.http.MediaImgUploadRequestExecutor;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by ecoolper on 2017/5/5.
  */
-public class ApacheMediaImgUploadRequestExecutor extends MediaImgUploadRequestExecutor<CloseableHttpClient,HttpHost> {
+public class ApacheMediaImgUploadRequestExecutor extends MediaImgUploadRequestExecutor<CloseableHttpClient, HttpHost> {
   public ApacheMediaImgUploadRequestExecutor(RequestHttp requestHttp) {
     super(requestHttp);
   }

@@ -1,10 +1,13 @@
 package me.chanjar.weixin.mp.util.http.apache;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Map;
-
+import me.chanjar.weixin.common.bean.result.WxError;
+import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.util.http.RequestHttp;
+import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
+import me.chanjar.weixin.common.util.json.WxGsonBuilder;
+import me.chanjar.weixin.mp.bean.material.WxMpMaterial;
+import me.chanjar.weixin.mp.bean.material.WxMpMaterialUploadResult;
+import me.chanjar.weixin.mp.util.http.MaterialUploadRequestExecutor;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -14,19 +17,15 @@ import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 
-import me.chanjar.weixin.common.bean.result.WxError;
-import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.util.http.RequestHttp;
-import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
-import me.chanjar.weixin.common.util.json.WxGsonBuilder;
-import me.chanjar.weixin.mp.bean.material.WxMpMaterial;
-import me.chanjar.weixin.mp.bean.material.WxMpMaterialUploadResult;
-import me.chanjar.weixin.mp.util.http.MaterialUploadRequestExecutor;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * Created by ecoolper on 2017/5/5.
  */
-public class ApacheMaterialUploadRequestExecutor extends MaterialUploadRequestExecutor<CloseableHttpClient,HttpHost> {
+public class ApacheMaterialUploadRequestExecutor extends MaterialUploadRequestExecutor<CloseableHttpClient, HttpHost> {
   public ApacheMaterialUploadRequestExecutor(RequestHttp requestHttp) {
     super(requestHttp);
   }

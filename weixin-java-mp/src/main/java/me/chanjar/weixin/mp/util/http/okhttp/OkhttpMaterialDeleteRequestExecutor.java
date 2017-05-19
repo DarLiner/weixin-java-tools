@@ -1,14 +1,13 @@
 package me.chanjar.weixin.mp.util.http.okhttp;
 
-import java.io.IOException;
-
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestHttp;
 import me.chanjar.weixin.common.util.http.okhttp.OkhttpProxyInfo;
 import me.chanjar.weixin.mp.util.http.MaterialDeleteRequestExecutor;
 import okhttp3.*;
+
+import java.io.IOException;
 
 /**
  * Created by ecoolper on 2017/5/5.

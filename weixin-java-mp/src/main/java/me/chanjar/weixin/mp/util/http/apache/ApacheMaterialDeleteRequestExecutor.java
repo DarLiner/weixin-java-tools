@@ -1,9 +1,11 @@
 package me.chanjar.weixin.mp.util.http.apache;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
+import me.chanjar.weixin.common.bean.result.WxError;
+import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.util.http.RequestHttp;
+import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
+import me.chanjar.weixin.common.util.json.WxGsonBuilder;
+import me.chanjar.weixin.mp.util.http.MaterialDeleteRequestExecutor;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -11,17 +13,14 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 
-import me.chanjar.weixin.common.bean.result.WxError;
-import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.util.http.RequestHttp;
-import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
-import me.chanjar.weixin.common.util.json.WxGsonBuilder;
-import me.chanjar.weixin.mp.util.http.MaterialDeleteRequestExecutor;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by ecoolper on 2017/5/5.
  */
-public class ApacheMaterialDeleteRequestExecutor extends MaterialDeleteRequestExecutor<CloseableHttpClient,HttpHost> {
+public class ApacheMaterialDeleteRequestExecutor extends MaterialDeleteRequestExecutor<CloseableHttpClient, HttpHost> {
   public ApacheMaterialDeleteRequestExecutor(RequestHttp requestHttp) {
     super(requestHttp);
   }

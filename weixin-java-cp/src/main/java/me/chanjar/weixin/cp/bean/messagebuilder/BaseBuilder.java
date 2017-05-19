@@ -44,7 +44,7 @@ public class BaseBuilder<T> {
     m.setToParty(this.toParty);
     m.setToTag(this.toTag);
     m.setSafe(
-            (this.safe == null || "".equals(this.safe)) ? WxConsts.CUSTOM_MSG_SAFE_NO : this.safe);
+      (this.safe == null || "".equals(this.safe)) ? WxConsts.CUSTOM_MSG_SAFE_NO : this.safe);
     return m;
   }
 

@@ -6,10 +6,8 @@ import me.chanjar.weixin.common.bean.menu.WxMenu;
 import me.chanjar.weixin.common.bean.menu.WxMenuButton;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.cp.api.impl.apache.WxCpServiceImpl;
-import org.testng.Assert;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Guice;
-import org.testng.annotations.Test;
+import org.testng.*;
+import org.testng.annotations.*;
 
 /**
  * 测试菜单
@@ -78,9 +76,9 @@ public class WxMenuAPITest {
     button3.getSubButtons().add(button33);
 
     return new Object[][]{
-            new Object[]{
-                    menu
-            }
+      new Object[]{
+        menu
+      }
     };
 
   }

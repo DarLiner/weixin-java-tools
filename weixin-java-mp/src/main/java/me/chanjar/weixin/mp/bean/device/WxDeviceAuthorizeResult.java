@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by keungtung on 10/12/2016.
  */
-public class WxDeviceAuthorizeResult extends AbstractDeviceBean{
+public class WxDeviceAuthorizeResult extends AbstractDeviceBean {
   private List<BaseResp> resp;
 
   public static WxDeviceAuthorizeResult fromJson(String response) {

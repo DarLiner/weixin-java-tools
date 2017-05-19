@@ -32,6 +32,7 @@ public class WxMpTemplateMessage implements Serializable {
   private String url;
   /**
    * 模板跳转链接
+   *
    * @see #url
    */
   private MiniProgram miniProgram;
@@ -42,6 +43,10 @@ public class WxMpTemplateMessage implements Serializable {
   private List<WxMpTemplateData> data = new ArrayList<>();
 
   public WxMpTemplateMessage() {
+  }
+
+  public static WxMpTemplateMessageBuilder builder() {
+    return new WxMpTemplateMessageBuilder();
   }
 
   public String getToUser() {
@@ -90,10 +95,6 @@ public class WxMpTemplateMessage implements Serializable {
 
   public String toJson() {
     return WxMpGsonBuilder.INSTANCE.create().toJson(this);
-  }
-
-  public static WxMpTemplateMessageBuilder builder() {
-    return new WxMpTemplateMessageBuilder();
   }
 
   public static class MiniProgram {

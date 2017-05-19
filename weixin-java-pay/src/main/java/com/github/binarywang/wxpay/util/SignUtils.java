@@ -36,7 +36,7 @@ public class SignUtils {
    * @return 签名字符串
    */
   public static String createSign(Map<String, String> params, String signKey) {
-//    if (this.getConfig().useSandboxForWxPay()) {
+//    if (this.getConfig().useSandbox()) {
 //      //使用仿真测试环境
 //      //TODO 目前测试发现，以下两行代码都会出问题，所以暂不建议使用仿真测试环境
 //      signKey = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456";
@@ -49,11 +49,11 @@ public class SignUtils {
     for (String key : sortedMap.keySet()) {
       String value = params.get(key);
       if (StringUtils.isNotEmpty(value) && !"sign".equals(key) && !"key".equals(key)) {
-        toSign.append(key + "=" + value + "&");
+        toSign.append(key).append("=").append(value).append("&");
       }
     }
 
-    toSign.append("key=" + signKey);
+    toSign.append("key=").append(signKey);
     return DigestUtils.md5Hex(toSign.toString()).toUpperCase();
   }
 

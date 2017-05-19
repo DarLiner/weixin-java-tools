@@ -1,15 +1,14 @@
 package me.chanjar.weixin.cp.api;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
 import me.chanjar.weixin.cp.api.impl.apache.WxCpServiceImpl;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public class ApiTestModule implements Module {
 
@@ -23,9 +22,9 @@ public class ApiTestModule implements Module {
   @Override
   public void configure(Binder binder) {
     try (InputStream is1 = ClassLoader
-        .getSystemResourceAsStream("test-config.xml")) {
+      .getSystemResourceAsStream("test-config.xml")) {
       WxXmlCpInMemoryConfigStorage config = fromXml(
-          WxXmlCpInMemoryConfigStorage.class, is1);
+        WxXmlCpInMemoryConfigStorage.class, is1);
       WxCpServiceImpl wxService = new WxCpServiceImpl();
       wxService.setWxCpConfigStorage(config);
 
@@ -72,10 +71,10 @@ public class ApiTestModule implements Module {
     @Override
     public String toString() {
       return super.toString() + " > WxXmlCpConfigStorage{" +
-              "userId='" + this.userId + '\'' +
-              ", departmentId='" + this.departmentId + '\'' +
-              ", tagId='" + this.tagId + '\'' +
-              '}';
+        "userId='" + this.userId + '\'' +
+        ", departmentId='" + this.departmentId + '\'' +
+        ", tagId='" + this.tagId + '\'' +
+        '}';
     }
   }
 

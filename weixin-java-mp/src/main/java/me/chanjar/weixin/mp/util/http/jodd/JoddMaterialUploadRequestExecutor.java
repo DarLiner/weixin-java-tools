@@ -1,10 +1,5 @@
 package me.chanjar.weixin.mp.util.http.jodd;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Map;
-
 import jodd.http.HttpConnectionProvider;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
@@ -17,10 +12,15 @@ import me.chanjar.weixin.mp.bean.material.WxMpMaterial;
 import me.chanjar.weixin.mp.bean.material.WxMpMaterialUploadResult;
 import me.chanjar.weixin.mp.util.http.MaterialUploadRequestExecutor;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Map;
+
 /**
  * Created by ecoolper on 2017/5/5.
  */
-public class JoddMaterialUploadRequestExecutor extends MaterialUploadRequestExecutor<HttpConnectionProvider,ProxyInfo> {
+public class JoddMaterialUploadRequestExecutor extends MaterialUploadRequestExecutor<HttpConnectionProvider, ProxyInfo> {
   public JoddMaterialUploadRequestExecutor(RequestHttp requestHttp) {
     super(requestHttp);
   }

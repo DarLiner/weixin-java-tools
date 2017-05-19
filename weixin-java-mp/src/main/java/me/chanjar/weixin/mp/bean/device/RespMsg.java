@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by keungtung on 10/12/2016.
  */
 
-public class RespMsg extends AbstractDeviceBean{
+public class RespMsg extends AbstractDeviceBean {
   @SerializedName("ret_code")
   private Integer retCode;
   @SerializedName("error_info")

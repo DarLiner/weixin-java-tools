@@ -16,7 +16,6 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.List;
 
 /**
- *
  * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  *         Created by Binary Wang on 2016/9/2.
  */
@@ -88,7 +87,7 @@ public class WxMpUserTagServiceImpl implements WxMpUserTagService {
 
   @Override
   public WxTagListUser tagListUser(Long tagId, String nextOpenid)
-      throws WxErrorException {
+    throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/user/tag/get";
 
     JsonObject json = new JsonObject();
@@ -101,7 +100,7 @@ public class WxMpUserTagServiceImpl implements WxMpUserTagService {
 
   @Override
   public boolean batchTagging(Long tagId, String[] openids)
-      throws WxErrorException {
+    throws WxErrorException {
     String url = API_URL_PREFIX + "/members/batchtagging";
 
     JsonObject json = new JsonObject();
@@ -123,7 +122,7 @@ public class WxMpUserTagServiceImpl implements WxMpUserTagService {
 
   @Override
   public boolean batchUntagging(Long tagId, String[] openids)
-      throws WxErrorException {
+    throws WxErrorException {
     String url = API_URL_PREFIX + "/members/batchuntagging";
 
     JsonObject json = new JsonObject();
@@ -153,8 +152,8 @@ public class WxMpUserTagServiceImpl implements WxMpUserTagService {
     String responseContent = this.wxMpService.post(url, json.toString());
 
     return WxMpGsonBuilder.create().fromJson(
-        new JsonParser().parse(responseContent).getAsJsonObject().get("tagid_list"),
-        new TypeToken<List<Long>>() {
-    }.getType());
+      new JsonParser().parse(responseContent).getAsJsonObject().get("tagid_list"),
+      new TypeToken<List<Long>>() {
+      }.getType());
   }
 }

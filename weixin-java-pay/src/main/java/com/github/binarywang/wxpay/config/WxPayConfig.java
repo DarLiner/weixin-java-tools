@@ -22,49 +22,19 @@ public class WxPayConfig {
   private String tradeType;
   private SSLContext sslContext;
   private String keyPath;
-
-  public void setNotifyUrl(String notifyUrl) {
-    this.notifyUrl = notifyUrl;
-  }
-
-  public void setTradeType(String tradeType) {
-    this.tradeType = tradeType;
-  }
-
-  /**
-   * 设置证书
-   * @param keyPath apiclient_cert.p12的文件的绝对路径
-   */
-  public void setKeyPath(String keyPath) {
-    this.keyPath = keyPath;
-  }
+  private boolean useSandboxEnv = false;
 
   public String getKeyPath() {
     return keyPath;
   }
 
-  public void setAppId(String appId) {
-    this.appId = appId;
-  }
-
-  public void setSubAppId(String subAppId) {
-    this.subAppId = subAppId;
-  }
-
-  public void setMchId(String mchId) {
-    this.mchId = mchId;
-  }
-
-  public void setMchKey(String mchKey) {
-    this.mchKey = mchKey;
-  }
-
-  public void setSubMchId(String subMchId) {
-    this.subMchId = subMchId;
-  }
-
-  public void setSslContext(SSLContext sslContext) {
-    this.sslContext = sslContext;
+  /**
+   * 设置证书
+   *
+   * @param keyPath apiclient_cert.p12的文件的绝对路径
+   */
+  public void setKeyPath(String keyPath) {
+    this.keyPath = keyPath;
   }
 
   /**
@@ -74,11 +44,19 @@ public class WxPayConfig {
     return this.mchId;
   }
 
+  public void setMchId(String mchId) {
+    this.mchId = mchId;
+  }
+
   /**
    * 商户密钥
    */
   public String getMchKey() {
     return this.mchKey;
+  }
+
+  public void setMchKey(String mchKey) {
+    this.mchKey = mchKey;
   }
 
   /**
@@ -88,11 +66,19 @@ public class WxPayConfig {
     return this.appId;
   }
 
+  public void setAppId(String appId) {
+    this.appId = appId;
+  }
+
   /**
    * 服务商模式下的子商户公众账号ID
    */
   public String getSubAppId() {
     return this.subAppId;
+  }
+
+  public void setSubAppId(String subAppId) {
+    this.subAppId = subAppId;
   }
 
   /**
@@ -102,11 +88,19 @@ public class WxPayConfig {
     return this.subMchId;
   }
 
+  public void setSubMchId(String subMchId) {
+    this.subMchId = subMchId;
+  }
+
   /**
    * 微信支付异步回掉地址，通知url必须为直接可访问的url，不能携带参数。
    */
   public String getNotifyUrl() {
     return this.notifyUrl;
+  }
+
+  public void setNotifyUrl(String notifyUrl) {
+    this.notifyUrl = notifyUrl;
   }
 
   /**
@@ -121,8 +115,16 @@ public class WxPayConfig {
     return this.tradeType;
   }
 
+  public void setTradeType(String tradeType) {
+    this.tradeType = tradeType;
+  }
+
   public SSLContext getSslContext() {
     return this.sslContext;
+  }
+
+  public void setSslContext(SSLContext sslContext) {
+    this.sslContext = sslContext;
   }
 
   /**
@@ -130,7 +132,14 @@ public class WxPayConfig {
    * 默认不使用
    */
   public boolean useSandbox() {
-    return false;
+    return this.useSandboxEnv;
+  }
+
+  /**
+   * 设置是否使用沙箱仿真测试环境
+   */
+  public void setUseSandboxEnv(boolean useSandboxEnv) {
+    this.useSandboxEnv = useSandboxEnv;
   }
 
   public SSLContext initSSLContext() {

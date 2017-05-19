@@ -288,6 +288,7 @@ public interface WxPayService {
    *  接口地址：https://api.mch.weixin.qq.com/tools/shorturl
    *  是否需要证书：否
    * </pre>
+   *
    * @param request 请求对象
    */
   String shorturl(WxPayShorturlRequest request) throws WxErrorException;
@@ -296,8 +297,9 @@ public interface WxPayService {
    * <pre>
    *  转换短链接
    * </pre>
-   * @see WxPayService#shorturl(WxPayShorturlRequest)
+   *
    * @param longUrl 需要被压缩的网址
+   * @see WxPayService#shorturl(WxPayShorturlRequest)
    */
   String shorturl(String longUrl) throws WxErrorException;
 
@@ -310,6 +312,7 @@ public interface WxPayService {
    * 接口链接:
    *    https://api.mch.weixin.qq.com/tools/authcodetoopenid
    * </pre>
+   *
    * @param request 请求对象
    * @return openid
    */
@@ -319,9 +322,10 @@ public interface WxPayService {
    * <pre>
    * 授权码查询OPENID接口
    * </pre>
-   * @see WxPayService#authcode2Openid(WxPayAuthcode2OpenidRequest)
+   *
    * @param authCode 授权码
    * @return openid
+   * @see WxPayService#authcode2Openid(WxPayAuthcode2OpenidRequest)
    */
   String authcode2Openid(String authCode) throws WxErrorException;
 }

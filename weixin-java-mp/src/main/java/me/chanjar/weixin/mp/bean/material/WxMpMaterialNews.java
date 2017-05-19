@@ -28,6 +28,11 @@ public class WxMpMaterialNews implements Serializable {
     return this.articles == null || this.articles.isEmpty();
   }
 
+  @Override
+  public String toString() {
+    return ToStringUtils.toSimpleString(this);
+  }
+
   /**
    * <pre>
    * 群发图文消息article
@@ -79,7 +84,7 @@ public class WxMpMaterialNews implements Serializable {
 
     /**
      * 点击图文消息跳转链接
-    */
+     */
     private String url;
 
     public String getThumbMediaId() {
@@ -139,11 +144,11 @@ public class WxMpMaterialNews implements Serializable {
     }
 
     public String getUrl() {
-        return this.url;
+      return this.url;
     }
 
     public void setUrl(String url) {
-        this.url = url;
+      this.url = url;
     }
 
     public String getThumbUrl() {
@@ -158,10 +163,5 @@ public class WxMpMaterialNews implements Serializable {
     public String toString() {
       return ToStringUtils.toSimpleString(this);
     }
-  }
-
-  @Override
-  public String toString() {
-    return ToStringUtils.toSimpleString(this);
   }
 }

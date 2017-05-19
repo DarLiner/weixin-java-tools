@@ -35,8 +35,8 @@ public class WxMpCardServiceImpl implements WxMpCardService {
   }
 
   @Override
-  public WxMpService getWxMpService(){
-      return this.wxMpService;
+  public WxMpService getWxMpService() {
+    return this.wxMpService;
   }
 
   /**
@@ -98,13 +98,13 @@ public class WxMpCardServiceImpl implements WxMpCardService {
    * </pre>
    *
    * @param optionalSignParam 参与签名的参数数组。
-   *                  可以为下列字段：app_id, card_id, card_type, code, openid, location_id
-   *                  </br>注意：当做wx.chooseCard调用时，必须传入app_id参与签名，否则会造成签名失败导致拉取卡券列表为空
+   *                          可以为下列字段：app_id, card_id, card_type, code, openid, location_id
+   *                          </br>注意：当做wx.chooseCard调用时，必须传入app_id参与签名，否则会造成签名失败导致拉取卡券列表为空
    * @return 卡券Api签名对象
    */
   @Override
   public WxCardApiSignature createCardApiSignature(String... optionalSignParam) throws
-          WxErrorException {
+    WxErrorException {
     long timestamp = System.currentTimeMillis() / 1000;
     String nonceStr = RandomUtils.getRandomStr();
     String cardApiTicket = getCardApiTicket(false);
@@ -157,8 +157,8 @@ public class WxMpCardServiceImpl implements WxMpCardService {
     String responseContent = this.wxMpService.post(url, param.toString());
     JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
     return WxMpGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement,
-            new TypeToken<WxMpCardResult>() {
-            }.getType());
+      new TypeToken<WxMpCardResult>() {
+      }.getType());
   }
 
   /**
@@ -206,7 +206,7 @@ public class WxMpCardServiceImpl implements WxMpCardService {
    */
   @Override
   public void markCardCode(String code, String cardId, String openId, boolean isMark) throws
-          WxErrorException {
+    WxErrorException {
     String url = "https://api.weixin.qq.com/card/code/mark";
     JsonObject param = new JsonObject();
     param.addProperty("code", code);
@@ -216,7 +216,8 @@ public class WxMpCardServiceImpl implements WxMpCardService {
     String responseContent = this.getWxMpService().post(url, param.toString());
     JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
     WxMpCardResult cardResult = WxMpGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement,
-            new TypeToken<WxMpCardResult>() { }.getType());
+      new TypeToken<WxMpCardResult>() {
+      }.getType());
     if (!cardResult.getErrorCode().equals("0")) {
       this.log.warn("朋友的券mark失败：{}", cardResult.getErrorMsg());
     }

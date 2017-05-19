@@ -5,8 +5,7 @@ import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.cp.api.ApiTestModule;
 import me.chanjar.weixin.cp.bean.WxCpMessage;
-import org.testng.annotations.Guice;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 /***
  * 测试发送消息
@@ -30,11 +29,11 @@ public class WxCpMessageAPITest {
     this.wxService.messageSend(message1);
 
     WxCpMessage message2 = WxCpMessage
-            .TEXT()
-            .agentId(configStorage.getAgentId())
-            .toUser(configStorage.getUserId())
-        .content("欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>")
-            .build();
+      .TEXT()
+      .agentId(configStorage.getAgentId())
+      .toUser(configStorage.getUserId())
+      .content("欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>")
+      .build();
     this.wxService.messageSend(message2);
 
   }

@@ -1,7 +1,5 @@
 package me.chanjar.weixin.mp.util.http.jodd;
 
-import java.io.IOException;
-
 import jodd.http.HttpConnectionProvider;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
@@ -13,10 +11,12 @@ import me.chanjar.weixin.mp.bean.material.WxMpMaterialNews;
 import me.chanjar.weixin.mp.util.http.MaterialNewsInfoRequestExecutor;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
+import java.io.IOException;
+
 /**
  * Created by ecoolper on 2017/5/5.
  */
-public class JoddMaterialNewsInfoRequestExecutor extends MaterialNewsInfoRequestExecutor<HttpConnectionProvider,ProxyInfo> {
+public class JoddMaterialNewsInfoRequestExecutor extends MaterialNewsInfoRequestExecutor<HttpConnectionProvider, ProxyInfo> {
   public JoddMaterialNewsInfoRequestExecutor(RequestHttp requestHttp) {
     super(requestHttp);
   }

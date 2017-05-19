@@ -4,6 +4,7 @@ package me.chanjar.weixin.cp.bean.article;
  * <pre>
  *  Created by BinaryWang on 2017/3/27.
  * </pre>
+ *
  * @author Binary Wang
  */
 public class MpnewsArticle {

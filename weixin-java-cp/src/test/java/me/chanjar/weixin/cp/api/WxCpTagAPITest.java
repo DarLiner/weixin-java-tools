@@ -4,9 +4,8 @@ import com.google.inject.Inject;
 import me.chanjar.weixin.cp.api.impl.apache.WxCpServiceImpl;
 import me.chanjar.weixin.cp.bean.WxCpTag;
 import me.chanjar.weixin.cp.bean.WxCpUser;
-import org.testng.Assert;
-import org.testng.annotations.Guice;
-import org.testng.annotations.Test;
+import org.testng.*;
+import org.testng.annotations.*;
 
 import java.util.ArrayList;
 import java.util.List;

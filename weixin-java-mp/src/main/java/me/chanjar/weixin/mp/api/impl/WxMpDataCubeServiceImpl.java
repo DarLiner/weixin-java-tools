@@ -12,7 +12,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- *  Created by Binary Wang on 2016/8/23.
+ * Created by Binary Wang on 2016/8/23.
+ *
  * @author binarywang (https://github.com/binarywang)
  */
 public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
@@ -108,7 +109,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
 
   @Override
   public List<WxDataCubeMsgResult> getUpstreamMsg(Date beginDate, Date endDate)
-      throws WxErrorException {
+    throws WxErrorException {
     String url = API_URL_PREFIX + "/getupstreammsg";
     JsonObject param = new JsonObject();
     param.addProperty("begin_date", this.dateFormat.format(beginDate));
@@ -119,7 +120,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
 
   @Override
   public List<WxDataCubeMsgResult> getUpstreamMsgHour(Date beginDate,
-      Date endDate) throws WxErrorException {
+                                                      Date endDate) throws WxErrorException {
     String url = API_URL_PREFIX + "/getupstreammsghour";
     JsonObject param = new JsonObject();
     param.addProperty("begin_date", this.dateFormat.format(beginDate));
@@ -130,7 +131,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
 
   @Override
   public List<WxDataCubeMsgResult> getUpstreamMsgWeek(Date beginDate,
-      Date endDate) throws WxErrorException {
+                                                      Date endDate) throws WxErrorException {
     String url = API_URL_PREFIX + "/getupstreammsgweek";
     JsonObject param = new JsonObject();
     param.addProperty("begin_date", this.dateFormat.format(beginDate));
@@ -141,7 +142,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
 
   @Override
   public List<WxDataCubeMsgResult> getUpstreamMsgMonth(Date beginDate,
-      Date endDate) throws WxErrorException {
+                                                       Date endDate) throws WxErrorException {
     String url = API_URL_PREFIX + "/getupstreammsgmonth";
     JsonObject param = new JsonObject();
     param.addProperty("begin_date", this.dateFormat.format(beginDate));
@@ -152,7 +153,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
 
   @Override
   public List<WxDataCubeMsgResult> getUpstreamMsgDist(Date beginDate,
-      Date endDate) throws WxErrorException {
+                                                      Date endDate) throws WxErrorException {
     String url = API_URL_PREFIX + "/getupstreammsgdist";
     JsonObject param = new JsonObject();
     param.addProperty("begin_date", this.dateFormat.format(beginDate));
@@ -163,7 +164,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
 
   @Override
   public List<WxDataCubeMsgResult> getUpstreamMsgDistWeek(Date beginDate,
-      Date endDate) throws WxErrorException {
+                                                          Date endDate) throws WxErrorException {
     String url = API_URL_PREFIX + "/getupstreammsgdistweek";
     JsonObject param = new JsonObject();
     param.addProperty("begin_date", this.dateFormat.format(beginDate));
@@ -174,7 +175,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
 
   @Override
   public List<WxDataCubeMsgResult> getUpstreamMsgDistMonth(Date beginDate,
-      Date endDate) throws WxErrorException {
+                                                           Date endDate) throws WxErrorException {
     String url = API_URL_PREFIX + "/getupstreammsgdistmonth";
     JsonObject param = new JsonObject();
     param.addProperty("begin_date", this.dateFormat.format(beginDate));
@@ -185,7 +186,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
 
   @Override
   public List<WxDataCubeInterfaceResult> getInterfaceSummary(Date beginDate,
-      Date endDate) throws WxErrorException {
+                                                             Date endDate) throws WxErrorException {
     String url = API_URL_PREFIX + "/getinterfacesummary";
     JsonObject param = new JsonObject();
     param.addProperty("begin_date", this.dateFormat.format(beginDate));
@@ -196,7 +197,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
 
   @Override
   public List<WxDataCubeInterfaceResult> getInterfaceSummaryHour(Date beginDate,
-      Date endDate) throws WxErrorException {
+                                                                 Date endDate) throws WxErrorException {
     String url = API_URL_PREFIX + "/getinterfacesummaryhour";
     JsonObject param = new JsonObject();
     param.addProperty("begin_date", this.dateFormat.format(beginDate));

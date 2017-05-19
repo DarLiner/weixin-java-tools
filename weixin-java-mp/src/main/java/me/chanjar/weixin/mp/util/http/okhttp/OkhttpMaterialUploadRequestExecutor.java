@@ -1,27 +1,19 @@
 package me.chanjar.weixin.mp.util.http.okhttp;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Map;
-
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestHttp;
-import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
 import me.chanjar.weixin.common.util.http.okhttp.OkhttpProxyInfo;
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 import me.chanjar.weixin.mp.bean.material.WxMpMaterial;
 import me.chanjar.weixin.mp.bean.material.WxMpMaterialUploadResult;
 import me.chanjar.weixin.mp.util.http.MaterialUploadRequestExecutor;
 import okhttp3.*;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * Created by ecoolper on 2017/5/5.
@@ -66,7 +58,7 @@ public class OkhttpMaterialUploadRequestExecutor extends MaterialUploadRequestEx
     if (material.getForm() != null) {
       bodyBuilder.addFormDataPart("description", WxGsonBuilder.create().toJson(form));
     }
-    RequestBody body =bodyBuilder.build();
+    RequestBody body = bodyBuilder.build();
     Request request = new Request.Builder().url(uri).post(body).build();
     Response response = client.newCall(request).execute();
     String responseContent = response.body().string();

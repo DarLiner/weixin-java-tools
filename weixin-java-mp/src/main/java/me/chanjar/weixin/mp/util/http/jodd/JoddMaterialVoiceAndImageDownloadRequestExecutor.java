@@ -1,12 +1,5 @@
 package me.chanjar.weixin.mp.util.http.jodd;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-
-import org.apache.commons.io.IOUtils;
-
 import jodd.http.HttpConnectionProvider;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
@@ -16,12 +9,17 @@ import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestHttp;
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 import me.chanjar.weixin.mp.util.http.MaterialVoiceAndImageDownloadRequestExecutor;
-import me.chanjar.weixin.mp.util.http.okhttp.OkhttpMaterialVoiceAndImageDownloadRequestExecutor;
+import org.apache.commons.io.IOUtils;
+
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by ecoolper on 2017/5/5.
  */
-public class JoddMaterialVoiceAndImageDownloadRequestExecutor extends MaterialVoiceAndImageDownloadRequestExecutor<HttpConnectionProvider,ProxyInfo> {
+public class JoddMaterialVoiceAndImageDownloadRequestExecutor extends MaterialVoiceAndImageDownloadRequestExecutor<HttpConnectionProvider, ProxyInfo> {
   public JoddMaterialVoiceAndImageDownloadRequestExecutor(RequestHttp requestHttp, File tmpDirFile) {
     super(requestHttp, tmpDirFile);
   }

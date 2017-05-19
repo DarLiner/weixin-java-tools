@@ -1,12 +1,5 @@
 package me.chanjar.weixin.mp.util.http.okhttp;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.UUID;
-
-import jodd.util.MimeTypes;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.fs.FileUtils;
@@ -15,6 +8,12 @@ import me.chanjar.weixin.common.util.http.okhttp.OkhttpProxyInfo;
 import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
 import me.chanjar.weixin.mp.util.http.QrCodeRequestExecutor;
 import okhttp3.*;
+
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.UUID;
 
 /**
  * Created by ecoolper on 2017/5/5.

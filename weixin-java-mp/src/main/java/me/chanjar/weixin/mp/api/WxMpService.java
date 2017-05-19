@@ -298,11 +298,6 @@ public interface WxMpService {
   //HttpHost getRequestHttpProxy();
 
   /**
-   * 注入 {@link WxMpConfigStorage} 的实现
-   */
-  void setWxMpConfigStorage(WxMpConfigStorage wxConfigProvider);
-
-  /**
    * <pre>
    * 设置当微信系统响应系统繁忙时，要等待多少 retrySleepMillis(ms) * 2^(重试次数 - 1) 再发起重试
    * 默认：1000ms
@@ -324,6 +319,11 @@ public interface WxMpService {
    * @return WxMpConfigStorage
    */
   WxMpConfigStorage getWxMpConfigStorage();
+
+  /**
+   * 注入 {@link WxMpConfigStorage} 的实现
+   */
+  void setWxMpConfigStorage(WxMpConfigStorage wxConfigProvider);
 
   /**
    * 返回客服接口方法实现类，以方便调用其各个接口
@@ -416,7 +416,6 @@ public interface WxMpService {
   void initHttp();
 
   /**
-   *
    * @return
    */
   RequestHttp getRequestHttp();

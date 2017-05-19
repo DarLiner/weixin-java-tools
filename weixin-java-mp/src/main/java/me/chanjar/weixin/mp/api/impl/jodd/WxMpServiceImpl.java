@@ -7,15 +7,16 @@ import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.HttpType;
 import me.chanjar.weixin.common.util.http.RequestHttp;
-import me.chanjar.weixin.mp.api.*;
-import me.chanjar.weixin.mp.api.impl.*;
+import me.chanjar.weixin.mp.api.WxMpConfigStorage;
+import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.api.impl.AbstractWxMpServiceImpl;
 
 import java.util.concurrent.locks.Lock;
 
 /**
  * jodd-http方式实现
  */
-public class WxMpServiceImpl extends AbstractWxMpServiceImpl<HttpConnectionProvider,ProxyInfo> {
+public class WxMpServiceImpl extends AbstractWxMpServiceImpl<HttpConnectionProvider, ProxyInfo> {
   private HttpConnectionProvider httpClient;
   private ProxyInfo httpProxy;
 

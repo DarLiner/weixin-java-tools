@@ -1,16 +1,5 @@
 package me.chanjar.weixin.mp.util.http.apache;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.http.HttpHost;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestHttp;
@@ -19,11 +8,21 @@ import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 import me.chanjar.weixin.mp.bean.material.WxMpMaterialNews;
 import me.chanjar.weixin.mp.util.http.MaterialNewsInfoRequestExecutor;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
+import org.apache.http.HttpHost;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by ecoolper on 2017/5/5.
  */
-public class ApacheMaterialNewsInfoRequestExecutor extends MaterialNewsInfoRequestExecutor<CloseableHttpClient,HttpHost> {
+public class ApacheMaterialNewsInfoRequestExecutor extends MaterialNewsInfoRequestExecutor<CloseableHttpClient, HttpHost> {
   public ApacheMaterialNewsInfoRequestExecutor(RequestHttp requestHttp) {
     super(requestHttp);
   }
