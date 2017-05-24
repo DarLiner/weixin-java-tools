@@ -21,6 +21,8 @@ import javax.net.ssl.SSLContext;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -320,7 +322,7 @@ public class WxPayServiceImpl implements WxPayService {
       return wxPayBillResult;
     }
   }
-  
+
     private WxPayBillResult billInformationDeal(String responseContent){
     WxPayBillResult wxPayBillResult = new WxPayBillResult();
 
@@ -388,7 +390,7 @@ public class WxPayServiceImpl implements WxPayService {
     wxPayBillResult.setTotalRefundFee(totalTempStr[3]);
     wxPayBillResult.setTotalCouponFee(totalTempStr[4]);
     wxPayBillResult.setTotalPoundageFee(totalTempStr[5]);
-    
+
     return wxPayBillResult;
   }
 
