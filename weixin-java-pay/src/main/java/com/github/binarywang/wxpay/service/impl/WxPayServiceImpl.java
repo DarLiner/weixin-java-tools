@@ -311,24 +311,23 @@ public class WxPayServiceImpl implements WxPayService {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/pay/downloadbill";
-    //TODO 返回的内容可能是文件流，也有可能是xml，需要区分对待
     String responseContent = this.post(url, request.toXML());
-    if (responseContent.startsWith("<")){
+    if (responseContent.startsWith("<")) {
       WxPayCommonResult result = WxPayBaseResult.fromXML(responseContent, WxPayCommonResult.class);
       result.checkResult(this);
       return null;
-    }else{
+    } else {
       WxPayBillResult wxPayBillResult = billInformationDeal(responseContent);
       return wxPayBillResult;
     }
   }
 
-    private WxPayBillResult billInformationDeal(String responseContent){
+  private WxPayBillResult billInformationDeal(String responseContent) {
     WxPayBillResult wxPayBillResult = new WxPayBillResult();
 
     String listStr = "";
     String objStr = "";
-    if (responseContent.indexOf("总交易单数") >= 0){
+    if (responseContent.contains("总交易单数")) {
       listStr = responseContent.substring(0, responseContent.indexOf("总交易单数"));
       objStr = responseContent.substring(responseContent.indexOf("总交易单数"));
     }
@@ -341,13 +340,13 @@ public class WxPayServiceImpl implements WxPayService {
 
     // 参考以上格式进行取值
 
-    List<WxPayBillBaseResult> wxPayBillBaseResultLst = new LinkedList<WxPayBillBaseResult>();
+    List<WxPayBillBaseResult> wxPayBillBaseResultLst = new LinkedList<>();
     String newStr = listStr.replaceAll(",", " "); // 去空格
     String[] tempStr = newStr.split("`"); // 数据分组
     String[] t = tempStr[0].split(" ");// 分组标题
     int j = tempStr.length / t.length; // 计算循环次数
     int k = 1; // 纪录数组下标
-    for (int i = 0; i < j; i++){
+    for (int i = 0; i < j; i++) {
       WxPayBillBaseResult wxPayBillBaseResult = new WxPayBillBaseResult();
 
       wxPayBillBaseResult.setTradeTime(tempStr[k]);
