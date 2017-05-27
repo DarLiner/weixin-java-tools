@@ -22,9 +22,11 @@
     <dependency>
       <groupId>com.github.binarywang</groupId>
       <artifactId>qrcode-utils</artifactId>
-      <version>1.1</version>
     </dependency>
-
+    <dependency>
+      <groupId>org.jodd</groupId>
+      <artifactId>jodd-http</artifactId>
+    </dependency>
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
