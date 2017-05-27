@@ -143,7 +143,7 @@ public abstract class AbstractWxCpServiceImpl<H, P> implements WxCpService, Requ
   @Override
   public void menuCreate(Integer agentId, WxMenu menu) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/menu/create?agentid="
-      + this.configStorage.getAgentId();
+      + agentId;
     post(url, menu.toJson());
   }
 
