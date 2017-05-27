@@ -103,7 +103,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <downloadJavadocs>true</downloadJavadocs>
     <downloadSources>true</downloadSources>
-    <httpclient.version>4.5.3</httpclient.version>
+    <httpclient.version>4.5</httpclient.version>
     <jetty.version>9.3.0.RC0</jetty.version>
   </properties>
 
@@ -163,10 +163,11 @@
         <artifactId>xstream</artifactId>
         <version>1.4.9</version>
       </dependency>
+      <!-- 由于guava较新的21.0版本需要jdk8，故而此处采用较低版本 -->
       <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
-        <version>22.0</version>
+        <version>20.0</version>
       </dependency>
       <dependency>
         <groupId>com.google.code.gson</groupId>
