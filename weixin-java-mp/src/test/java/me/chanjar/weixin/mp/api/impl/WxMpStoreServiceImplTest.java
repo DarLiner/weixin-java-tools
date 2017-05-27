@@ -12,7 +12,7 @@ import org.testng.annotations.*;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
+import static org.testng.AssertJUnit.assertNotNull;
 
 /**
  * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
