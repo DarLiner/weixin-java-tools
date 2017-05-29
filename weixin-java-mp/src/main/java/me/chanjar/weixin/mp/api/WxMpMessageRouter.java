@@ -77,8 +77,6 @@ public class WxMpMessageRouter {
    * 设置自定义的 {@link ExecutorService}
    * 如果不调用该方法，默认使用 Executors.newFixedThreadPool(100)
    * </pre>
-   *
-   * @param executorService
    */
   public void setExecutorService(ExecutorService executorService) {
     this.executorService = executorService;
@@ -89,8 +87,6 @@ public class WxMpMessageRouter {
    * 设置自定义的 {@link me.chanjar.weixin.common.api.WxMessageDuplicateChecker}
    * 如果不调用该方法，默认使用 {@link me.chanjar.weixin.common.api.WxMessageInMemoryDuplicateChecker}
    * </pre>
-   *
-   * @param messageDuplicateChecker
    */
   public void setMessageDuplicateChecker(WxMessageDuplicateChecker messageDuplicateChecker) {
     this.messageDuplicateChecker = messageDuplicateChecker;
@@ -101,8 +97,6 @@ public class WxMpMessageRouter {
    * 设置自定义的{@link me.chanjar.weixin.common.session.WxSessionManager}
    * 如果不调用该方法，默认使用 {@link me.chanjar.weixin.common.session.StandardSessionManager}
    * </pre>
-   *
-   * @param sessionManager
    */
   public void setSessionManager(WxSessionManager sessionManager) {
     this.sessionManager = sessionManager;
@@ -113,8 +107,6 @@ public class WxMpMessageRouter {
    * 设置自定义的{@link me.chanjar.weixin.common.api.WxErrorExceptionHandler}
    * 如果不调用该方法，默认使用 {@link me.chanjar.weixin.common.util.LogExceptionHandler}
    * </pre>
-   *
-   * @param exceptionHandler
    */
   public void setExceptionHandler(WxErrorExceptionHandler exceptionHandler) {
     this.exceptionHandler = exceptionHandler;
@@ -133,11 +125,9 @@ public class WxMpMessageRouter {
 
   /**
    * 处理微信消息
-   *
-   * @param wxMessage
    */
   public WxMpXmlOutMessage route(final WxMpXmlMessage wxMessage) {
-    if (isDuplicateMessage(wxMessage)) {
+    if (isMsgDuplicated(wxMessage)) {
       // 如果是重复消息，那么就不做处理
       return null;
     }
@@ -188,9 +178,7 @@ public class WxMpMessageRouter {
               WxMpMessageRouter.this.log.debug("End session access: async=true, sessionId={}", wxMessage.getFromUser());
               // 异步操作结束，session访问结束
               sessionEndAccess(wxMessage);
-            } catch (InterruptedException e) {
-              WxMpMessageRouter.this.log.error("Error happened when wait task finish", e);
-            } catch (ExecutionException e) {
+            } catch (InterruptedException | ExecutionException e) {
               WxMpMessageRouter.this.log.error("Error happened when wait task finish", e);
             }
           }
@@ -200,9 +188,9 @@ public class WxMpMessageRouter {
     return res;
   }
 
-  protected boolean isDuplicateMessage(WxMpXmlMessage wxMessage) {
+  protected boolean isMsgDuplicated(WxMpXmlMessage wxMessage) {
 
-    StringBuffer messageId = new StringBuffer();
+    StringBuilder messageId = new StringBuilder();
     if (wxMessage.getMsgId() == null) {
       messageId.append(wxMessage.getCreateTime())
         .append("-").append(wxMessage.getFromUser())
@@ -219,8 +207,6 @@ public class WxMpMessageRouter {
 
   /**
    * 对session的访问结束
-   *
-   * @param wxMessage
    */
   protected void sessionEndAccess(WxMpXmlMessage wxMessage) {
 
