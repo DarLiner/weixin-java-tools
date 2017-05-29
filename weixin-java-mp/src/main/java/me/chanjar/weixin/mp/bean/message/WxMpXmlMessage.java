@@ -263,6 +263,24 @@ public class WxMpXmlMessage implements Serializable {
   @XStreamAlias("Detail")
   private String detail;
 
+  /**
+   * <pre>
+   * 官网文档中，微信卡券>>卡券事件推送>>2.9 会员卡内容更新事件 update_member_card
+   * ModifyBonus：变动的积分值
+   * </pre>
+   */
+  @XStreamAlias("ModifyBonus")
+  private String modifyBonus;
+
+  /**
+   * <pre>
+   * 官网文档中，微信卡券>>卡券事件推送>>2.9 会员卡内容更新事件 update_member_card
+   * ModifyBalance：变动的余额值
+   * </pre>
+   */
+  @XStreamAlias("ModifyBalance")
+  private String modifyBalance;
+
   @XStreamAlias("ScanCodeInfo")
   private ScanCodeInfo scanCodeInfo = new ScanCodeInfo();
 
@@ -483,6 +501,22 @@ public class WxMpXmlMessage implements Serializable {
 
   public void setDetail(String detail) {
     this.detail = detail;
+  }
+
+  public String getModifyBonus() {
+    return modifyBonus;
+  }
+
+  public void setModifyBonus(String modifyBonus) {
+    this.modifyBonus = modifyBonus;
+  }
+
+  public String getModifyBalance() {
+    return modifyBalance;
+  }
+
+  public void setModifyBalance(String modifyBalance) {
+    this.modifyBalance = modifyBalance;
   }
 
   public String getStoreUniqId() {
