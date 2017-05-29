@@ -74,8 +74,7 @@ public class WxMpCardServiceImpl implements WxMpCardService {
       }
 
       if (this.getWxMpService().getWxMpConfigStorage().isCardApiTicketExpired()) {
-        String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=wx_card";
-        String responseContent = this.wxMpService.execute(SimpleGetRequestExecutor.create(this.getWxMpService().getRequestHttp()), url, null);
+        String responseContent = this.wxMpService.execute(SimpleGetRequestExecutor.create(this.getWxMpService().getRequestHttp()), CARD_GET_TICKET, null);
         JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
         JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
         String cardApiTicket = tmpJsonObject.get("ticket").getAsString();
@@ -129,10 +128,9 @@ public class WxMpCardServiceImpl implements WxMpCardService {
    */
   @Override
   public String decryptCardCode(String encryptCode) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/card/code/decrypt";
     JsonObject param = new JsonObject();
     param.addProperty("encrypt_code", encryptCode);
-    String responseContent = this.wxMpService.post(url, param.toString());
+    String responseContent = this.wxMpService.post(CARD_CODE_DECRYPT, param.toString());
     JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
     JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
     JsonPrimitive jsonPrimitive = tmpJsonObject.getAsJsonPrimitive("code");
@@ -149,12 +147,11 @@ public class WxMpCardServiceImpl implements WxMpCardService {
    */
   @Override
   public WxMpCardResult queryCardCode(String cardId, String code, boolean checkConsume) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/card/code/get";
     JsonObject param = new JsonObject();
     param.addProperty("card_id", cardId);
     param.addProperty("code", code);
     param.addProperty("check_consume", checkConsume);
-    String responseContent = this.wxMpService.post(url, param.toString());
+    String responseContent = this.wxMpService.post(CARD_CODE_GET, param.toString());
     JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
     return WxMpGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement,
       new TypeToken<WxMpCardResult>() {
@@ -183,7 +180,6 @@ public class WxMpCardServiceImpl implements WxMpCardService {
    */
   @Override
   public String consumeCardCode(String code, String cardId) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/card/code/consume";
     JsonObject param = new JsonObject();
     param.addProperty("code", code);
 
@@ -191,7 +187,7 @@ public class WxMpCardServiceImpl implements WxMpCardService {
       param.addProperty("card_id", cardId);
     }
 
-    return this.wxMpService.post(url, param.toString());
+    return this.wxMpService.post(CARD_CODE_CONSUME, param.toString());
   }
 
   /**
@@ -207,13 +203,12 @@ public class WxMpCardServiceImpl implements WxMpCardService {
   @Override
   public void markCardCode(String code, String cardId, String openId, boolean isMark) throws
     WxErrorException {
-    String url = "https://api.weixin.qq.com/card/code/mark";
     JsonObject param = new JsonObject();
     param.addProperty("code", code);
     param.addProperty("card_id", cardId);
     param.addProperty("openid", openId);
     param.addProperty("is_mark", isMark);
-    String responseContent = this.getWxMpService().post(url, param.toString());
+    String responseContent = this.getWxMpService().post(CARD_CODE_MARK, param.toString());
     JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
     WxMpCardResult cardResult = WxMpGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement,
       new TypeToken<WxMpCardResult>() {
@@ -225,10 +220,9 @@ public class WxMpCardServiceImpl implements WxMpCardService {
 
   @Override
   public String getCardDetail(String cardId) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/card/get";
     JsonObject param = new JsonObject();
     param.addProperty("card_id", cardId);
-    String responseContent = this.wxMpService.post(url, param.toString());
+    String responseContent = this.wxMpService.post(CARD_GET, param.toString());
 
     // 判断返回值
     JsonObject json = (new JsonParser()).parse(responseContent).getAsJsonObject();

@@ -10,6 +10,12 @@ import me.chanjar.weixin.mp.bean.result.WxMpCardResult;
  * @author YuJian(mgcnrx11@hotmail.com) on 01/11/2016
  */
 public interface WxMpCardService {
+  String CARD_GET = "https://api.weixin.qq.com/card/get";
+  String CARD_GET_TICKET = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=wx_card";
+  String CARD_CODE_DECRYPT = "https://api.weixin.qq.com/card/code/decrypt";
+  String CARD_CODE_GET = "https://api.weixin.qq.com/card/code/get";
+  String CARD_CODE_CONSUME = "https://api.weixin.qq.com/card/code/consume";
+  String CARD_CODE_MARK = "https://api.weixin.qq.com/card/code/mark";
 
   /**
    * 得到WxMpService
