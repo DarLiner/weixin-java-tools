@@ -284,6 +284,42 @@ public class WxMpXmlMessage implements Serializable {
   @XStreamAlias("ModifyBalance")
   private String modifyBalance;
 
+  /**
+   * <pre>
+   * 官网文档中，微信卡券>>卡券事件推送>>2.6 买单事件推送 User_pay_from_pay_cell
+   * TransId：微信支付交易订单号（只有使用买单功能核销的卡券才会出现）
+   * </pre>
+   */
+  @XStreamAlias("TransId")
+  private String transId;
+
+  /**
+   * <pre>
+   * 官网文档中，微信卡券>>卡券事件推送>>2.6 买单事件推送 User_pay_from_pay_cell
+   * LocationId：门店ID，当前卡券核销的门店ID（只有通过卡券商户助手和买单核销时才会出现）
+   * </pre>
+   */
+  @XStreamAlias("LocationId")
+  private String locationId;
+
+  /**
+   * <pre>
+   * 官网文档中，微信卡券>>卡券事件推送>>2.6 买单事件推送 User_pay_from_pay_cell
+   * Fee：实付金额，单位为分
+   * </pre>
+   */
+  @XStreamAlias("Fee")
+  private String fee;
+
+  /**
+   * <pre>
+   * 官网文档中，微信卡券>>卡券事件推送>>2.6 买单事件推送 User_pay_from_pay_cell
+   * OriginalFee：应付金额，单位为分
+   * </pre>
+   */
+  @XStreamAlias("OriginalFee")
+  private String originalFee;
+
   @XStreamAlias("ScanCodeInfo")
   private ScanCodeInfo scanCodeInfo = new ScanCodeInfo();
 
@@ -520,6 +556,38 @@ public class WxMpXmlMessage implements Serializable {
 
   public void setModifyBalance(String modifyBalance) {
     this.modifyBalance = modifyBalance;
+  }
+
+  public String getTransId() {
+    return transId;
+  }
+
+  public void setTransId(String transId) {
+    this.transId = transId;
+  }
+
+  public String getLocationId() {
+    return locationId;
+  }
+
+  public void setLocationId(String locationId) {
+    this.locationId = locationId;
+  }
+
+  public String getFee() {
+    return fee;
+  }
+
+  public void setFee(String fee) {
+    this.fee = fee;
+  }
+
+  public String getOriginalFee() {
+    return originalFee;
+  }
+
+  public void setOriginalFee(String originalFee) {
+    this.originalFee = originalFee;
   }
 
   public String getStoreUniqId() {
