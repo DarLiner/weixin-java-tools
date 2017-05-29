@@ -40,7 +40,6 @@ public class ApacheMediaUploadRequestExecutor extends MediaUploadRequestExecutor
         .setMode(HttpMultipartMode.RFC6532)
         .build();
       httpPost.setEntity(entity);
-      httpPost.setHeader("Content-Type", ContentType.MULTIPART_FORM_DATA.toString());
     }
     try (CloseableHttpResponse response = requestHttp.getRequestHttpClient().execute(httpPost)) {
       String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
