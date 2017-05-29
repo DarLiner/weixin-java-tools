@@ -254,6 +254,15 @@ public class WxMpXmlMessage implements Serializable {
   @XStreamAlias("RemarkAmount")
   private String remarkAmount;
 
+  /**
+   * <pre>
+   * 官网文档中，微信卡券>>卡券事件推送>>2.10 库存报警事件card_sku_remind
+   * Detail：报警详细信息
+   * </pre>
+   */
+  @XStreamAlias("Detail")
+  private String detail;
+
   @XStreamAlias("ScanCodeInfo")
   private ScanCodeInfo scanCodeInfo = new ScanCodeInfo();
 
@@ -466,6 +475,14 @@ public class WxMpXmlMessage implements Serializable {
 
   public void setFailReason(String failReason) {
     this.failReason = failReason;
+  }
+
+  public String getDetail() {
+    return detail;
+  }
+
+  public void setDetail(String detail) {
+    this.detail = detail;
   }
 
   public String getStoreUniqId() {
