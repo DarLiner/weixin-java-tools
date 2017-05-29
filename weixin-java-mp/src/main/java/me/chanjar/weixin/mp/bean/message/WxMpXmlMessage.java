@@ -207,6 +207,9 @@ public class WxMpXmlMessage implements Serializable {
    * <pre>
    * 领取场景值，用于领取渠道数据统计。可在生成二维码接口及添加Addcard接口中自定义该字段的字符串值。
    * 核销卡券时：开发者发起核销时传入的自定义参数，用于进行核销渠道统计
+   * 另外：
+   * 官网文档中，微信卡券>>卡券事件推送>>2.7 进入会员卡事件推送 user_view_card
+   * OuterStr：商户自定义二维码渠道参数，用于标识本次扫码打开会员卡来源来自于某个渠道值的二维码
    * </pre>
    */
   @XStreamAlias("OuterStr")
