@@ -25,7 +25,7 @@ public class WxMpInRedisConfigStorage extends WxMpInMemoryConfigStorage {
 
   @Override
   public boolean isAccessTokenExpired() {
-    return getAccessToken() == null ? true : false;
+    return jedis.ttl(ACCESS_TOKEN_KEY.concat(appId)) < 2;
   }
 
   @Override
@@ -46,7 +46,7 @@ public class WxMpInRedisConfigStorage extends WxMpInMemoryConfigStorage {
 
   @Override
   public boolean isJsapiTicketExpired() {
-    return getJsapiTicket() == null ? true : false;
+    return jedis.ttl(JSAPI_TICKET_KEY.concat(appId)) < 2;
   }
 
   @Override
@@ -70,7 +70,7 @@ public class WxMpInRedisConfigStorage extends WxMpInMemoryConfigStorage {
 
   @Override
   public boolean isCardApiTicketExpired() {
-    return getCardApiTicket() == null ? true : false;
+    return jedis.ttl(CARDAPI_TICKET_KEY.concat(appId)) < 2;
   }
 
   @Override
