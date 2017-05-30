@@ -1,5 +1,6 @@
 package com.github.binarywang.wxpay.config;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.ssl.SSLContexts;
 
 import javax.net.ssl.SSLContext;
@@ -143,13 +144,17 @@ public class WxPayConfig {
   }
 
   public SSLContext initSSLContext() {
-    if (null == mchId) {
-      throw new IllegalArgumentException("请确保商户号mch_id已设置");
+    if (StringUtils.isBlank(mchId)) {
+      throw new IllegalArgumentException("请确保商户号mchId已设置");
+    }
+
+    if (StringUtils.isBlank(this.keyPath)) {
+      throw new IllegalArgumentException("请确保证书文件地址keyPath已配置");
     }
 
     File file = new File(this.keyPath);
     if (!file.exists()) {
-      throw new RuntimeException("证书文件：【" + file.getPath() + "】不存在！");
+      throw new RuntimeException("证书文件【" + file.getPath() + "】不存在！");
     }
 
     try {
