@@ -1,9 +1,8 @@
 package me.chanjar.weixin.common.util.http.jodd;
 
-import jodd.http.HttpConnectionProvider;
-import jodd.http.HttpRequest;
-import jodd.http.HttpResponse;
-import jodd.http.ProxyInfo;
+import jodd.http.*;
+import jodd.util.StringPool;
+
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestHttp;
@@ -35,7 +34,10 @@ public class JoddSimpleGetRequestExecutor extends SimpleGetRequestExecutor<HttpC
     }
     request.withConnectionProvider(requestHttp.getRequestHttpClient());
     HttpResponse response = request.send();
+    response.charset(StringPool.UTF_8);
+
     String responseContent = response.bodyText();
+
     WxError error = WxError.fromJson(responseContent);
     if (error.getErrorCode() != 0) {
       throw new WxErrorException(error);

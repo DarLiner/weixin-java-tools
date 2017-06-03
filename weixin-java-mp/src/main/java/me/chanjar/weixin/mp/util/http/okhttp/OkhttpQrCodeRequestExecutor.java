@@ -1,6 +1,5 @@
 package me.chanjar.weixin.mp.util.http.okhttp;
 
-import jodd.util.MimeTypes;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.fs.FileUtils;
@@ -8,6 +7,7 @@ import me.chanjar.weixin.common.util.http.RequestHttp;
 import me.chanjar.weixin.common.util.http.okhttp.OkhttpProxyInfo;
 import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
 import me.chanjar.weixin.mp.util.http.QrCodeRequestExecutor;
+
 import okhttp3.*;
 
 import java.io.ByteArrayInputStream;
@@ -47,7 +47,7 @@ public class OkhttpQrCodeRequestExecutor extends QrCodeRequestExecutor<Connectio
     Request request = new Request.Builder().url(uri).get().build();
     Response response = client.newCall(request).execute();
     String contentTypeHeader = response.header("Content-Type");
-    if (MimeTypes.MIME_TEXT_PLAIN.equals(contentTypeHeader)) {
+    if ("text/plain".equals(contentTypeHeader)) {
       String responseContent = response.body().string();
       throw new WxErrorException(WxError.fromJson(responseContent));
     }
