@@ -4,6 +4,8 @@ import jodd.http.HttpConnectionProvider;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
 import jodd.http.ProxyInfo;
+import jodd.util.StringPool;
+
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.fs.FileUtils;
@@ -44,6 +46,8 @@ public class JoddMediaDownloadRequestExecutor extends MediaDownloadRequestExecut
     request.withConnectionProvider(requestHttp.getRequestHttpClient());
 
     HttpResponse response = request.send();
+    response.charset(StringPool.UTF_8);
+
     String contentType = response.header("Content-Type");
     if (contentType != null && contentType.startsWith("application/json")) {
       // application/json; encoding=utf-8 下载媒体文件出错

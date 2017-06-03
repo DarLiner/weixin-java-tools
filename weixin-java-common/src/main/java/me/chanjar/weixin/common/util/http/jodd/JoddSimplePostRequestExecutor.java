@@ -4,6 +4,8 @@ import jodd.http.HttpConnectionProvider;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
 import jodd.http.ProxyInfo;
+import jodd.util.StringPool;
+
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestHttp;
@@ -34,6 +36,7 @@ public class JoddSimplePostRequestExecutor extends SimplePostRequestExecutor<Htt
       request.bodyText(postEntity);
     }
     HttpResponse response = request.send();
+    response.charset(StringPool.UTF_8);
 
     String responseContent = response.bodyText();
     if (responseContent.isEmpty()) {
