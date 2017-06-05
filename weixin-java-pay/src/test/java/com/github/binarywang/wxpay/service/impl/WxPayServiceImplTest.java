@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.*;
 
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
@@ -35,7 +34,7 @@ public class WxPayServiceImplTest {
 
   @Test
   public void testGetPayInfo() throws Exception {
-    Map<String, String> payInfo = this.payService.getPayInfo(WxPayUnifiedOrderRequest.builder()
+    Map<String, String> payInfo = this.payService.getPayInfo(WxPayUnifiedOrderRequest.newBuilder()
       .body("我去")
       .totalFee(1)
       .spbillCreateIp("111111")
@@ -136,7 +135,7 @@ public class WxPayServiceImplTest {
   @Test
   public void testUnifiedOrder() throws WxErrorException {
     WxPayUnifiedOrderResult result = this.payService
-      .unifiedOrder(WxPayUnifiedOrderRequest.builder()
+      .unifiedOrder(WxPayUnifiedOrderRequest.newBuilder()
         .body("我去")
         .totalFee(1)
         .spbillCreateIp("111111")
