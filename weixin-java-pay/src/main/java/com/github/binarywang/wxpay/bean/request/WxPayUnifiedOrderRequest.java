@@ -1,9 +1,9 @@
 package com.github.binarywang.wxpay.bean.request;
 
 import com.github.binarywang.wxpay.config.WxPayConfig;
+import com.github.binarywang.wxpay.exception.WxPayException;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import me.chanjar.weixin.common.annotation.Required;
-import me.chanjar.weixin.common.exception.WxErrorException;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -458,7 +458,7 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
   }
 
   @Override
-  public void checkAndSign(WxPayConfig config) throws WxErrorException {
+  public void checkAndSign(WxPayConfig config) throws WxPayException {
     if (StringUtils.isBlank(this.getNotifyURL())) {
       this.setNotifyURL(config.getNotifyUrl());
     }

@@ -3,11 +3,11 @@ package com.github.binarywang.wxpay.service.impl;
 import com.github.binarywang.utils.qrcode.QrcodeUtils;
 import com.github.binarywang.wxpay.bean.request.*;
 import com.github.binarywang.wxpay.bean.result.*;
+import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
 import com.github.binarywang.wxpay.testbase.ApiTestModule;
 import com.github.binarywang.wxpay.testbase.XmlWxPayConfig;
 import com.google.inject.Inject;
-import me.chanjar.weixin.common.exception.WxErrorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.*;
@@ -133,7 +133,7 @@ public class WxPayServiceImplTest {
    * Test method for {@link WxPayService#unifiedOrder(WxPayUnifiedOrderRequest)}.
    */
   @Test
-  public void testUnifiedOrder() throws WxErrorException {
+  public void testUnifiedOrder() throws WxPayException {
     WxPayUnifiedOrderResult result = this.payService
       .unifiedOrder(WxPayUnifiedOrderRequest.newBuilder()
         .body("我去")
@@ -151,7 +151,7 @@ public class WxPayServiceImplTest {
    * Test method for {@link WxPayService#queryOrder(java.lang.String, java.lang.String)} .
    */
   @Test
-  public void testQueryOrder() throws WxErrorException {
+  public void testQueryOrder() throws WxPayException {
     this.logger.info(this.payService.queryOrder("11212121", null).toString());
     this.logger.info(this.payService.queryOrder(null, "11111").toString());
   }
@@ -160,7 +160,7 @@ public class WxPayServiceImplTest {
    * Test method for {@link WxPayService#closeOrder(java.lang.String)} .
    */
   @Test
-  public void testCloseOrder() throws WxErrorException {
+  public void testCloseOrder() throws WxPayException {
     this.logger.info(this.payService.closeOrder("11212121").toString());
   }
 
@@ -168,7 +168,7 @@ public class WxPayServiceImplTest {
    * Test method for {@link WxPayService#entPay(WxEntPayRequest)}.
    */
   @Test
-  public void testEntPay() throws WxErrorException {
+  public void testEntPay() throws WxPayException {
     WxEntPayRequest request = new WxEntPayRequest();
     this.logger.info(this.payService.entPay(request).toString());
   }
@@ -177,7 +177,7 @@ public class WxPayServiceImplTest {
    * Test method for {@link WxPayService#queryEntPay(java.lang.String)}.
    */
   @Test
-  public void testQueryEntPay() throws WxErrorException {
+  public void testQueryEntPay() throws WxPayException {
     this.logger.info(this.payService.queryEntPay("11212121").toString());
   }
 

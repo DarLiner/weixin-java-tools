@@ -4,14 +4,13 @@ import com.github.binarywang.utils.qrcode.QrcodeUtils;
 import com.github.binarywang.wxpay.bean.request.*;
 import com.github.binarywang.wxpay.bean.result.*;
 import com.github.binarywang.wxpay.config.WxPayConfig;
+import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
 import com.github.binarywang.wxpay.util.SignUtils;
 import com.google.common.collect.Maps;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
 import jodd.http.net.SSLSocketHttpConnectionProvider;
-import me.chanjar.weixin.common.bean.result.WxError;
-import me.chanjar.weixin.common.exception.WxErrorException;
 import org.apache.commons.lang3.CharEncoding;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -55,7 +54,7 @@ public class WxPayServiceImpl implements WxPayService {
   }
 
   @Override
-  public WxPayRefundResult refund(WxPayRefundRequest request) throws WxErrorException {
+  public WxPayRefundResult refund(WxPayRefundRequest request) throws WxPayException {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/secapi/pay/refund";
@@ -67,7 +66,7 @@ public class WxPayServiceImpl implements WxPayService {
 
   @Override
   public WxPayRefundQueryResult refundQuery(String transactionId, String outTradeNo, String outRefundNo, String refundId)
-    throws WxErrorException {
+    throws WxPayException {
     WxPayRefundQueryRequest request = new WxPayRefundQueryRequest();
     request.setOutTradeNo(StringUtils.trimToNull(outTradeNo));
     request.setTransactionId(StringUtils.trimToNull(transactionId));
@@ -85,24 +84,24 @@ public class WxPayServiceImpl implements WxPayService {
   }
 
   @Override
-  public WxPayOrderNotifyResult getOrderNotifyResult(String xmlData) throws WxErrorException {
+  public WxPayOrderNotifyResult getOrderNotifyResult(String xmlData) throws WxPayException {
     try {
       log.debug("微信支付回调参数详细：{}", xmlData);
       WxPayOrderNotifyResult result = WxPayOrderNotifyResult.fromXML(xmlData);
       log.debug("微信支付回调结果对象：{}", result);
       result.checkResult(this);
       return result;
-    } catch (WxErrorException e) {
+    } catch (WxPayException e) {
       log.error(e.getMessage(), e);
       throw e;
     } catch (Exception e) {
       log.error(e.getMessage(), e);
-      throw new WxErrorException(WxError.newBuilder().setErrorMsg("发生异常" + e.getMessage()).build());
+      throw new WxPayException("发生异常，" + e.getMessage());
     }
   }
 
   @Override
-  public WxPaySendRedpackResult sendRedpack(WxPaySendRedpackRequest request) throws WxErrorException {
+  public WxPaySendRedpackResult sendRedpack(WxPaySendRedpackRequest request) throws WxPayException {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/mmpaymkttransfers/sendredpack";
@@ -119,7 +118,7 @@ public class WxPayServiceImpl implements WxPayService {
   }
 
   @Override
-  public WxPayRedpackQueryResult queryRedpack(String mchBillNo) throws WxErrorException {
+  public WxPayRedpackQueryResult queryRedpack(String mchBillNo) throws WxPayException {
     WxPayRedpackQueryRequest request = new WxPayRedpackQueryRequest();
     request.setMchBillNo(mchBillNo);
     request.setBillType("MCHT");
@@ -133,7 +132,7 @@ public class WxPayServiceImpl implements WxPayService {
   }
 
   @Override
-  public WxPayOrderQueryResult queryOrder(String transactionId, String outTradeNo) throws WxErrorException {
+  public WxPayOrderQueryResult queryOrder(String transactionId, String outTradeNo) throws WxPayException {
     WxPayOrderQueryRequest request = new WxPayOrderQueryRequest();
     request.setOutTradeNo(StringUtils.trimToNull(outTradeNo));
     request.setTransactionId(StringUtils.trimToNull(transactionId));
@@ -142,7 +141,7 @@ public class WxPayServiceImpl implements WxPayService {
     String url = this.getPayBaseUrl() + "/pay/orderquery";
     String responseContent = this.post(url, request.toXML());
     if (StringUtils.isBlank(responseContent)) {
-      throw new WxErrorException(WxError.newBuilder().setErrorMsg("无响应结果").build());
+      throw new WxPayException("无响应结果");
     }
 
     WxPayOrderQueryResult result = WxPayBaseResult.fromXML(responseContent, WxPayOrderQueryResult.class);
@@ -152,7 +151,7 @@ public class WxPayServiceImpl implements WxPayService {
   }
 
   @Override
-  public WxPayOrderCloseResult closeOrder(String outTradeNo) throws WxErrorException {
+  public WxPayOrderCloseResult closeOrder(String outTradeNo) throws WxPayException {
     if (StringUtils.isBlank(outTradeNo)) {
       throw new IllegalArgumentException("out_trade_no不能为空");
     }
@@ -170,7 +169,7 @@ public class WxPayServiceImpl implements WxPayService {
   }
 
   @Override
-  public WxPayUnifiedOrderResult unifiedOrder(WxPayUnifiedOrderRequest request) throws WxErrorException {
+  public WxPayUnifiedOrderResult unifiedOrder(WxPayUnifiedOrderRequest request) throws WxPayException {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/pay/unifiedorder";
@@ -181,7 +180,7 @@ public class WxPayServiceImpl implements WxPayService {
   }
 
   @Override
-  public Map<String, String> getPayInfo(WxPayUnifiedOrderRequest request) throws WxErrorException {
+  public Map<String, String> getPayInfo(WxPayUnifiedOrderRequest request) throws WxPayException {
     WxPayUnifiedOrderResult unifiedOrderResult = this.unifiedOrder(request);
     String prepayId = unifiedOrderResult.getPrepayId();
     if (StringUtils.isBlank(prepayId)) {
@@ -225,7 +224,7 @@ public class WxPayServiceImpl implements WxPayService {
   }
 
   @Override
-  public WxEntPayResult entPay(WxEntPayRequest request) throws WxErrorException {
+  public WxEntPayResult entPay(WxEntPayRequest request) throws WxPayException {
     request.checkAndSign(this.getConfig());
     String url = this.getPayBaseUrl() + "/mmpaymkttransfers/promotion/transfers";
 
@@ -236,7 +235,7 @@ public class WxPayServiceImpl implements WxPayService {
   }
 
   @Override
-  public WxEntPayQueryResult queryEntPay(String partnerTradeNo) throws WxErrorException {
+  public WxEntPayQueryResult queryEntPay(String partnerTradeNo) throws WxPayException {
     WxEntPayQueryRequest request = new WxEntPayQueryRequest();
     request.setPartnerTradeNo(partnerTradeNo);
     request.checkAndSign(this.getConfig());
@@ -291,7 +290,7 @@ public class WxPayServiceImpl implements WxPayService {
     return QrcodeUtils.createQrcode(content, sideLength, logoFile);
   }
 
-  public void report(WxPayReportRequest request) throws WxErrorException {
+  public void report(WxPayReportRequest request) throws WxPayException {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/payitil/report";
@@ -301,7 +300,7 @@ public class WxPayServiceImpl implements WxPayService {
   }
 
   @Override
-  public WxPayBillResult downloadBill(String billDate, String billType, String tarType, String deviceInfo) throws WxErrorException {
+  public WxPayBillResult downloadBill(String billDate, String billType, String tarType, String deviceInfo) throws WxPayException {
     WxPayDownloadBillRequest request = new WxPayDownloadBillRequest();
     request.setBillType(billType);
     request.setBillDate(billDate);
@@ -394,7 +393,7 @@ public class WxPayServiceImpl implements WxPayService {
   }
 
   @Override
-  public WxPayMicropayResult micropay(WxPayMicropayRequest request) throws WxErrorException {
+  public WxPayMicropayResult micropay(WxPayMicropayRequest request) throws WxPayException {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/pay/micropay";
@@ -405,7 +404,7 @@ public class WxPayServiceImpl implements WxPayService {
   }
 
   @Override
-  public WxPayOrderReverseResult reverseOrder(WxPayOrderReverseRequest request) throws WxErrorException {
+  public WxPayOrderReverseResult reverseOrder(WxPayOrderReverseRequest request) throws WxPayException {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/secapi/pay/reverse";
@@ -416,7 +415,7 @@ public class WxPayServiceImpl implements WxPayService {
   }
 
   @Override
-  public String shorturl(WxPayShorturlRequest request) throws WxErrorException {
+  public String shorturl(WxPayShorturlRequest request) throws WxPayException {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/tools/shorturl";
@@ -427,12 +426,12 @@ public class WxPayServiceImpl implements WxPayService {
   }
 
   @Override
-  public String shorturl(String longUrl) throws WxErrorException {
+  public String shorturl(String longUrl) throws WxPayException {
     return this.shorturl(new WxPayShorturlRequest(longUrl));
   }
 
   @Override
-  public String authcode2Openid(WxPayAuthcode2OpenidRequest request) throws WxErrorException {
+  public String authcode2Openid(WxPayAuthcode2OpenidRequest request) throws WxPayException {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/tools/authcodetoopenid";
@@ -443,7 +442,7 @@ public class WxPayServiceImpl implements WxPayService {
   }
 
   @Override
-  public String authcode2Openid(String authCode) throws WxErrorException {
+  public String authcode2Openid(String authCode) throws WxPayException {
     return this.authcode2Openid(new WxPayAuthcode2OpenidRequest(authCode));
   }
 
@@ -472,7 +471,7 @@ public class WxPayServiceImpl implements WxPayService {
   /**
    * ecoolper(20170418)，修改为jodd-http方式
    */
-  private String postWithKey(String url, String requestStr) throws WxErrorException {
+  private String postWithKey(String url, String requestStr) throws WxPayException {
     try {
       SSLContext sslContext = this.getConfig().getSslContext();
       if (null == sslContext) {
@@ -487,7 +486,7 @@ public class WxPayServiceImpl implements WxPayService {
       return result;
     } catch (Exception e) {
       this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[EXCEPTION]: {}", url, requestStr, e.getMessage());
-      throw new WxErrorException(WxError.newBuilder().setErrorCode(-1).setErrorMsg(e.getMessage()).build(), e);
+      throw new WxPayException(e.getMessage());
     }
   }
 

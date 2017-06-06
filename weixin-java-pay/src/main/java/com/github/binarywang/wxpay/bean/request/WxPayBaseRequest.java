@@ -1,6 +1,7 @@
 package com.github.binarywang.wxpay.bean.request;
 
 import com.github.binarywang.wxpay.config.WxPayConfig;
+import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.util.SignUtils;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -113,9 +114,13 @@ public abstract class WxPayBaseRequest {
   /**
    * 检查请求参数内容，包括必填参数以及特殊约束
    */
-  protected void checkFields() throws WxErrorException {
+  protected void checkFields() throws WxPayException {
     //check required fields
-    BeanUtils.checkRequiredFields(this);
+    try {
+      BeanUtils.checkRequiredFields(this);
+    } catch (WxErrorException e) {
+      throw new WxPayException(e.getError().getErrorMsg());
+    }
 
     //check other parameters
     this.checkConstraints();
@@ -210,7 +215,7 @@ public abstract class WxPayBaseRequest {
    *
    * @param config 支付配置对象，用于读取相应系统配置信息
    */
-  public void checkAndSign(WxPayConfig config) throws WxErrorException {
+  public void checkAndSign(WxPayConfig config) throws WxPayException {
     this.checkFields();
 
     if (StringUtils.isBlank(getAppid())) {
