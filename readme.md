@@ -43,18 +43,17 @@
 ## 可参考的Demo项目
 #### 欢迎提供更多的Demo供新手参考:
 * https://github.com/wechat-group/weixin-java-mp-demo （公众号Demo，使用Spring MVC实现）
-* https://github.com/wechat-group/weixin-java-mp-multi-demo (支持多公众号)
-* https://github.com/wechat-group/weixin-java-tools-springmvc （公众号Demo，内含部分微信支付代码）
 * https://github.com/wechat-group/weixin-java-mp-demo-springboot （公众号Demo，使用Spring Boot实现）
+* https://github.com/wechat-group/weixin-java-tools-springmvc （公众号Demo，内含部分微信支付代码）
+* https://github.com/wechat-group/weixin-java-mp-multi-demo (支持多公众号)
 * https://github.com/wechat-group/weixin-java-pay-demo （微信支付demo） 
 * https://github.com/wechat-group/weixin-java-cp-demo （企业号demo，筹备中）
 
 ---------------------------------
-## Maven & Gradle 最新正式版本
+## Maven 最新正式版本
 
 * 微信支付：
 
-maven：
 ```xml
 <dependency>
   <groupId>com.github.binarywang</groupId>
@@ -62,14 +61,9 @@ maven：
   <version>2.6.0</version>
 </dependency>
 ```
-gradle：
-```groovy
-compile 'com.github.binarywang:weixin-java-pay:2.6.0'
-```
 
 * 公众号（订阅号及服务号）：
 
-maven：
 ```xml
 <dependency>
   <groupId>com.github.binarywang</groupId>
@@ -77,22 +71,13 @@ maven：
   <version>2.6.0</version>
 </dependency>
 ```
-gradle：
-```groovy
-compile 'com.github.binarywang:weixin-java-mp:2.6.0'
-```
 
 * 企业号：
 
-maven：
 ```xml
 <dependency>
   <groupId>com.github.binarywang</groupId>
   <artifactId>weixin-java-cp</artifactId>
   <version>2.6.0</version>
 </dependency>
-```
-gradle：
-```groovy
-compile 'com.github.binarywang:weixin-java-cp:2.6.0'
 ```
