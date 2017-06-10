@@ -17,6 +17,7 @@ public abstract class MediaDownloadRequestExecutor<H, P> implements RequestExecu
   protected RequestHttp<H, P> requestHttp;
   protected File tmpDirFile;
   public MediaDownloadRequestExecutor(RequestHttp requestHttp, File tmpDirFile) {
+    this.requestHttp = requestHttp;
     this.tmpDirFile = tmpDirFile;
   }
 
