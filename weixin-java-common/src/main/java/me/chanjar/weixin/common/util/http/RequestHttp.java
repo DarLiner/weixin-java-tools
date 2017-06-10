@@ -8,20 +8,15 @@ public interface RequestHttp<H, P> {
   /**
    * 返回httpClient
    *
-   * @return
    */
   H getRequestHttpClient();
 
   /**
    * 返回httpProxy
    *
-   * @return
    */
   P getRequestHttpProxy();
 
-  /**
-   * @return
-   */
   HttpType getRequestType();
 
 }

@@ -210,8 +210,7 @@ public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, Requ
     String url = String.format(WxMpService.OAUTH2_VALIDATE_TOKEN_URL, oAuth2AccessToken.getAccessToken(), oAuth2AccessToken.getOpenId());
 
     try {
-      RequestExecutor<String, String> executor = SimpleGetRequestExecutor.create(this);
-      executor.execute(url, null);
+      SimpleGetRequestExecutor.create(this).execute(url, null);
     } catch (IOException e) {
       throw new RuntimeException(e);
     } catch (WxErrorException e) {

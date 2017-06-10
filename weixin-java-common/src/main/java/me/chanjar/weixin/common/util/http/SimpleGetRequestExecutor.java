@@ -12,10 +12,9 @@ import me.chanjar.weixin.common.util.http.okhttp.OkHttpSimpleGetRequestExecutor;
 public abstract class SimpleGetRequestExecutor<H, P> implements RequestExecutor<String, String> {
   protected RequestHttp<H, P> requestHttp;
 
-  public SimpleGetRequestExecutor(RequestHttp requestHttp) {
+  public SimpleGetRequestExecutor(RequestHttp<H, P> requestHttp) {
     this.requestHttp = requestHttp;
   }
-
 
   public static RequestExecutor<String, String> create(RequestHttp requestHttp) {
     switch (requestHttp.getRequestType()) {
@@ -26,7 +25,7 @@ public abstract class SimpleGetRequestExecutor<H, P> implements RequestExecutor<
       case OK_HTTP:
         return new OkHttpSimpleGetRequestExecutor(requestHttp);
       default:
-        return null;
+        throw new IllegalArgumentException("非法请求参数");
     }
   }
 
