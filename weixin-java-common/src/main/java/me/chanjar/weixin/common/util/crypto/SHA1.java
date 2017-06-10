@@ -30,6 +30,10 @@ public class SHA1 {
    * 用&串接arr参数，生成sha1 digest
    */
   public static String genWithAmple(String... arr) {
+    if (StringUtils.isAnyEmpty(arr)) {
+      throw new IllegalArgumentException("非法请求参数，有部分参数为空 : " + Arrays.toString(arr));
+    }
+    
     Arrays.sort(arr);
     StringBuilder sb = new StringBuilder();
     for (int i = 0; i < arr.length; i++) {
