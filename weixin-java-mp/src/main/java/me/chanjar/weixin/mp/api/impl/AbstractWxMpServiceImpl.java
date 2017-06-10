@@ -53,6 +53,7 @@ public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, Requ
       return SHA1.gen(this.getWxMpConfigStorage().getToken(), timestamp, nonce)
         .equals(signature);
     } catch (Exception e) {
+      this.log.error("Checking signature failed, and the reason is :" + e.getMessage());
       return false;
     }
   }

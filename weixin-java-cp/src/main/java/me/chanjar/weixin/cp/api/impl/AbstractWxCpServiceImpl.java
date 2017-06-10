@@ -63,6 +63,7 @@ public abstract class AbstractWxCpServiceImpl<H, P> implements WxCpService, Requ
       return SHA1.gen(this.configStorage.getToken(), timestamp, nonce, data)
         .equals(msgSignature);
     } catch (Exception e) {
+      this.log.error("Checking signature failed, and the reason is :" + e.getMessage());
       return false;
     }
   }
@@ -293,7 +294,7 @@ public abstract class AbstractWxCpServiceImpl<H, P> implements WxCpService, Requ
     String responseContent = get(url, params);
     JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
     return WxCpGsonBuilder.INSTANCE.create()
-      .fromJson(        tmpJsonElement.getAsJsonObject().get("userlist"),
+      .fromJson(tmpJsonElement.getAsJsonObject().get("userlist"),
         new TypeToken<List<WxCpUser>>() {
         }.getType()
       );

@@ -33,7 +33,7 @@ public class SHA1 {
     if (StringUtils.isAnyEmpty(arr)) {
       throw new IllegalArgumentException("非法请求参数，有部分参数为空 : " + Arrays.toString(arr));
     }
-    
+
     Arrays.sort(arr);
     StringBuilder sb = new StringBuilder();
     for (int i = 0; i < arr.length; i++) {
