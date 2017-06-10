@@ -14,19 +14,21 @@ import java.util.List;
 public class WxCpUser implements Serializable {
 
   private static final long serialVersionUID = -5696099236344075582L;
-  private final List<Attr> extAttrs = new ArrayList<>();
   private String userId;
   private String name;
   private Integer[] departIds;
   private String position;
   private String mobile;
   private String gender;
-  private String tel;
   private String email;
-  private String weiXinId;
   private String avatar;
   private Integer status;
   private Integer enable;
+  private Integer isLeader;
+  private final List<Attr> extAttrs = new ArrayList<>();
+  private Integer hideMobile;
+  private String englishName;
+  private String telephone;
 
   public static WxCpUser fromJson(String json) {
     return WxCpGsonBuilder.INSTANCE.create().fromJson(json, WxCpUser.class);
@@ -80,12 +82,12 @@ public class WxCpUser implements Serializable {
     this.mobile = mobile;
   }
 
-  public String getTel() {
-    return this.tel;
+  public String getTelephone() {
+    return this.telephone;
   }
 
-  public void setTel(String tel) {
-    this.tel = tel;
+  public void setTelephone(String telephone) {
+    this.telephone = telephone;
   }
 
   public String getEmail() {
@@ -94,14 +96,6 @@ public class WxCpUser implements Serializable {
 
   public void setEmail(String email) {
     this.email = email;
-  }
-
-  public String getWeiXinId() {
-    return this.weiXinId;
-  }
-
-  public void setWeiXinId(String weiXinId) {
-    this.weiXinId = weiXinId;
   }
 
   public String getAvatar() {
@@ -134,6 +128,30 @@ public class WxCpUser implements Serializable {
 
   public List<Attr> getExtAttrs() {
     return this.extAttrs;
+  }
+
+  public Integer getIsLeader() {
+    return isLeader;
+  }
+
+  public void setIsLeader(Integer isLeader) {
+    this.isLeader = isLeader;
+  }
+
+  public Integer getHideMobile() {
+    return hideMobile;
+  }
+
+  public void setHideMobile(Integer hideMobile) {
+    this.hideMobile = hideMobile;
+  }
+
+  public String getEnglishName() {
+    return englishName;
+  }
+
+  public void setEnglishName(String englishName) {
+    this.englishName = englishName;
   }
 
   public String toJson() {

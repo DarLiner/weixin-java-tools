@@ -34,7 +34,7 @@ import java.util.UUID;
 
 public abstract class AbstractWxCpServiceImpl<H, P> implements WxCpService, RequestHttp<H, P> {
 
-  protected final Logger log = LoggerFactory.getLogger(AbstractWxCpServiceImpl.class);
+  protected final Logger log = LoggerFactory.getLogger(this.getClass());
 
   /**
    * 全局的是否正在刷新access token的锁
@@ -293,8 +293,7 @@ public abstract class AbstractWxCpServiceImpl<H, P> implements WxCpService, Requ
     String responseContent = get(url, params);
     JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
     return WxCpGsonBuilder.INSTANCE.create()
-      .fromJson(
-        tmpJsonElement.getAsJsonObject().get("userlist"),
+      .fromJson(        tmpJsonElement.getAsJsonObject().get("userlist"),
         new TypeToken<List<WxCpUser>>() {
         }.getType()
       );

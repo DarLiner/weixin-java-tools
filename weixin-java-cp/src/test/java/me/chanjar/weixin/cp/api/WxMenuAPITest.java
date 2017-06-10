@@ -5,9 +5,11 @@ import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.menu.WxMenu;
 import me.chanjar.weixin.common.bean.menu.WxMenuButton;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.cp.api.impl.apache.WxCpServiceImpl;
-import org.testng.*;
-import org.testng.annotations.*;
+import me.chanjar.weixin.cp.api.impl.WxCpServiceImpl;
+import org.testng.Assert;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Guice;
+import org.testng.annotations.Test;
 
 /**
  * 测试菜单

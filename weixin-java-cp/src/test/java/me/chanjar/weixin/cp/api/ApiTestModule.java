@@ -5,7 +5,7 @@ import com.google.inject.Module;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
-import me.chanjar.weixin.cp.api.impl.apache.WxCpServiceImpl;
+import me.chanjar.weixin.cp.api.impl.WxCpServiceImpl;
 
 import java.io.IOException;
 import java.io.InputStream;

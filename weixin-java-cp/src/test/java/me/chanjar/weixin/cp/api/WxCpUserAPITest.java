@@ -2,27 +2,29 @@ package me.chanjar.weixin.cp.api;
 
 import com.google.inject.Inject;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.cp.api.impl.apache.WxCpServiceImpl;
-import me.chanjar.weixin.cp.bean.WxCpDepart;
+import me.chanjar.weixin.cp.api.impl.WxCpServiceImpl;
 import me.chanjar.weixin.cp.bean.WxCpUser;
-import org.testng.*;
-import org.testng.annotations.*;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import org.testng.Assert;
+import org.testng.annotations.Guice;
+import org.testng.annotations.Test;
 
 import java.util.List;
+
+import static org.testng.Assert.assertNotEquals;
 
 /**
  * 测试用户接口
  *
  * @author Daniel Qian
  */
-@Test(groups = "userAPI", dependsOnGroups = "baseAPI")
+@Test(groups = "userAPI")
 @Guice(modules = ApiTestModule.class)
 public class WxCpUserAPITest {
 
   @Inject
   protected WxCpServiceImpl wxCpService;
-
-  protected WxCpDepart depart;
 
   public void testUserCreate() throws WxErrorException {
     WxCpUser user = new WxCpUser();
@@ -33,7 +35,7 @@ public class WxCpUserAPITest {
     user.setGender("女");
     user.setMobile("13560084979");
     user.setPosition("woman");
-    user.setTel("3300393");
+    user.setTelephone("3300393");
     user.addExtAttr("爱好", "table");
     this.wxCpService.userCreate(user);
   }
@@ -56,11 +58,19 @@ public class WxCpUserAPITest {
   @Test(dependsOnMethods = "testUserGet")
   public void testDepartGetUsers() throws WxErrorException {
     List<WxCpUser> users = this.wxCpService.departGetUsers(1, true, 0);
-    Assert.assertNotEquals(users.size(), 0);
+    assertNotEquals(users.size(), 0);
   }
 
   @Test(dependsOnMethods = "testDepartGetUsers")
   public void testUserDelete() throws WxErrorException {
     this.wxCpService.userDelete("some.woman");
+  }
+
+  public void testUserList() throws WxErrorException {
+    List<WxCpUser> users = this.wxCpService.userList(1, true, 0);
+    assertNotEquals(users.size(), 0);
+    for (WxCpUser user : users) {
+      System.out.println(ToStringBuilder.reflectionToString(user, ToStringStyle.MULTI_LINE_STYLE));
+    }
   }
 }

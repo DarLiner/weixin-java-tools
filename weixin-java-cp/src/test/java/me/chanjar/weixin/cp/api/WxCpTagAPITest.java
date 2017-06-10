@@ -1,11 +1,12 @@
 package me.chanjar.weixin.cp.api;
 
 import com.google.inject.Inject;
-import me.chanjar.weixin.cp.api.impl.apache.WxCpServiceImpl;
+import me.chanjar.weixin.cp.api.impl.WxCpServiceImpl;
 import me.chanjar.weixin.cp.bean.WxCpTag;
 import me.chanjar.weixin.cp.bean.WxCpUser;
-import org.testng.*;
-import org.testng.annotations.*;
+import org.testng.Assert;
+import org.testng.annotations.Guice;
+import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.List;

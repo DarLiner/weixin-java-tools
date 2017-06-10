@@ -2,19 +2,23 @@ package me.chanjar.weixin.cp.api;
 
 import com.google.inject.Inject;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.cp.api.impl.apache.WxCpServiceImpl;
+import me.chanjar.weixin.cp.api.impl.WxCpServiceImpl;
 import me.chanjar.weixin.cp.bean.WxCpDepart;
-import org.testng.*;
-import org.testng.annotations.*;
+import org.testng.Assert;
+import org.testng.annotations.Guice;
+import org.testng.annotations.Test;
 
 import java.util.List;
+
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 /**
  * 测试部门接口
  *
  * @author Daniel Qian
  */
-@Test(groups = "departAPI", dependsOnGroups = "baseAPI")
+@Test(groups = "departAPI")
 @Guice(modules = ApiTestModule.class)
 public class WxCpDepartAPITest {
 
@@ -23,6 +27,7 @@ public class WxCpDepartAPITest {
 
   protected WxCpDepart depart;
 
+  @Test
   public void testDepartCreate() throws WxErrorException {
     WxCpDepart cpDepart = new WxCpDepart();
     cpDepart.setName("子部门" + System.currentTimeMillis());
@@ -32,16 +37,16 @@ public class WxCpDepartAPITest {
     System.out.println(departId);
   }
 
-  @Test(dependsOnMethods = "testDepartCreate")
+  @Test//(dependsOnMethods = "testDepartCreate")
   public void testDepartGet() throws WxErrorException {
     System.out.println("=================获取部门");
     List<WxCpDepart> departList = this.wxCpService.departGet();
-    Assert.assertNotNull(departList);
-    Assert.assertTrue(departList.size() > 0);
+    assertNotNull(departList);
+    assertTrue(departList.size() > 0);
     for (WxCpDepart g : departList) {
       this.depart = g;
       System.out.println(this.depart.getId() + ":" + this.depart.getName());
-      Assert.assertNotNull(g.getName());
+      assertNotNull(g.getName());
     }
   }
 
