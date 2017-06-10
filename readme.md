@@ -42,12 +42,12 @@
 ---------------------------------
 ## 可参考的Demo项目
 #### 欢迎提供更多的Demo供新手参考:
+* https://github.com/wechat-group/weixin-java-pay-demo （微信支付Demo） 
+* https://github.com/wechat-group/weixin-java-cp-demo （企业号Demo）
 * https://github.com/wechat-group/weixin-java-mp-demo （公众号Demo，使用Spring MVC实现）
 * https://github.com/wechat-group/weixin-java-mp-demo-springboot （公众号Demo，使用Spring Boot实现）
 * https://github.com/wechat-group/weixin-java-tools-springmvc （公众号Demo，内含部分微信支付代码）
 * https://github.com/wechat-group/weixin-java-mp-multi-demo (支持多公众号)
-* https://github.com/wechat-group/weixin-java-pay-demo （微信支付demo） 
-* https://github.com/wechat-group/weixin-java-cp-demo （企业号demo，筹备中）
 
 ---------------------------------
 ## Maven 最新正式版本
