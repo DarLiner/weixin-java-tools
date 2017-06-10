@@ -19,11 +19,11 @@ public abstract class MaterialVideoInfoRequestExecutor<H, P> implements RequestE
 
         public static RequestExecutor<WxMpMaterialVideoInfoResult, String> create(RequestHttp requestHttp) {
           switch (requestHttp.getRequestType()) {
-            case apacheHttp:
+            case APACHE_HTTP:
               return new ApacheMaterialVideoInfoRequestExecutor(requestHttp);
-            case joddHttp:
+            case JODD_HTTP:
               return new JoddMaterialVideoInfoRequestExecutor(requestHttp);
-            case okHttp:
+            case OK_HTTP:
               return new OkhttpMaterialVideoInfoRequestExecutor(requestHttp);
             default:
               return null;

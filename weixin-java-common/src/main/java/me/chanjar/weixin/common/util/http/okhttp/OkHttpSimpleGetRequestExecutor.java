@@ -1,26 +1,31 @@
 package me.chanjar.weixin.common.util.http.okhttp;
 
 import me.chanjar.weixin.common.bean.result.WxError;
-import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.util.http.MediaUploadRequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestHttp;
+import me.chanjar.weixin.common.util.http.SimpleGetRequestExecutor;
 import okhttp3.*;
 
-import java.io.File;
 import java.io.IOException;
 
 /**
- * Created by ecoolper on 2017/5/5.
+ * Created by ecoolper on 2017/5/4.
  */
-public class OkMediaUploadRequestExecutor extends MediaUploadRequestExecutor<ConnectionPool, OkhttpProxyInfo> {
+public class OkHttpSimpleGetRequestExecutor extends SimpleGetRequestExecutor<ConnectionPool, OkHttpProxyInfo> {
 
-  public OkMediaUploadRequestExecutor(RequestHttp requestHttp) {
+  public OkHttpSimpleGetRequestExecutor(RequestHttp requestHttp) {
     super(requestHttp);
   }
 
   @Override
-  public WxMediaUploadResult execute(String uri, File file) throws WxErrorException, IOException {
+  public String execute(String uri, String queryParam) throws WxErrorException, IOException {
+    if (queryParam != null) {
+      if (uri.indexOf('?') == -1) {
+        uri += '?';
+      }
+      uri += uri.endsWith("?") ? queryParam : '&' + queryParam;
+    }
+
     OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder().connectionPool(requestHttp.getRequestHttpClient());
     //设置代理
     if (requestHttp.getRequestHttpProxy() != null) {
@@ -39,9 +44,7 @@ public class OkMediaUploadRequestExecutor extends MediaUploadRequestExecutor<Con
     //得到httpClient
     OkHttpClient client = clientBuilder.build();
 
-    RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-    RequestBody body = new MultipartBody.Builder().addFormDataPart("media", null, fileBody).build();
-    Request request = new Request.Builder().url(uri).post(body).build();
+    Request request = new Request.Builder().url(uri).build();
 
     Response response = client.newCall(request).execute();
     String responseContent = response.body().string();
@@ -49,7 +52,7 @@ public class OkMediaUploadRequestExecutor extends MediaUploadRequestExecutor<Con
     if (error.getErrorCode() != 0) {
       throw new WxErrorException(error);
     }
-    return WxMediaUploadResult.fromJson(responseContent);
+    return responseContent;
   }
 
 }

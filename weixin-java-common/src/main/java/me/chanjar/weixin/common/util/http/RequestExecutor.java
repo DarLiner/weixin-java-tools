@@ -54,6 +54,6 @@ public interface RequestExecutor<T, E> {
    * @throws WxErrorException
    * @throws IOException
    *//*
-  T executeOkhttp(ConnectionPool pool, final OkhttpProxyInfo proxyInfo, String uri, E data) throws WxErrorException, IOException;
+  T executeOkhttp(ConnectionPool pool, final OkHttpProxyInfo proxyInfo, String uri, E data) throws WxErrorException, IOException;
 */
 }

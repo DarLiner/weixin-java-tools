@@ -15,11 +15,11 @@ public abstract class MaterialDeleteRequestExecutor<H, P> implements RequestExec
 
   public static RequestExecutor<Boolean, String> create(RequestHttp requestHttp) {
     switch (requestHttp.getRequestType()) {
-      case apacheHttp:
+      case APACHE_HTTP:
         return new ApacheMaterialDeleteRequestExecutor(requestHttp);
-      case joddHttp:
+      case JODD_HTTP:
         return new JoddMaterialDeleteRequestExecutor(requestHttp);
-      case okHttp:
+      case OK_HTTP:
         return new OkhttpMaterialDeleteRequestExecutor(requestHttp);
       default:
         return null;

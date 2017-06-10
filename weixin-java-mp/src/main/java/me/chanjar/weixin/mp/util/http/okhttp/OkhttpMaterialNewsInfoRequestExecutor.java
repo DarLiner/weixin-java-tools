@@ -3,7 +3,7 @@ package me.chanjar.weixin.mp.util.http.okhttp;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestHttp;
-import me.chanjar.weixin.common.util.http.okhttp.OkhttpProxyInfo;
+import me.chanjar.weixin.common.util.http.okhttp.OkHttpProxyInfo;
 import me.chanjar.weixin.mp.bean.material.WxMpMaterialNews;
 import me.chanjar.weixin.mp.util.http.MaterialNewsInfoRequestExecutor;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * Created by ecoolper on 2017/5/5.
  */
-public class OkhttpMaterialNewsInfoRequestExecutor extends MaterialNewsInfoRequestExecutor<ConnectionPool, OkhttpProxyInfo> {
+public class OkhttpMaterialNewsInfoRequestExecutor extends MaterialNewsInfoRequestExecutor<ConnectionPool, OkHttpProxyInfo> {
   public OkhttpMaterialNewsInfoRequestExecutor(RequestHttp requestHttp) {
     super(requestHttp);
   }

@@ -17,11 +17,11 @@ public abstract class MaterialUploadRequestExecutor<H, P> implements RequestExec
 
   public static RequestExecutor<WxMpMaterialUploadResult, WxMpMaterial> create(RequestHttp requestHttp) {
     switch (requestHttp.getRequestType()) {
-      case apacheHttp:
+      case APACHE_HTTP:
         return new ApacheMaterialUploadRequestExecutor(requestHttp);
-      case joddHttp:
+      case JODD_HTTP:
         return new JoddMaterialUploadRequestExecutor(requestHttp);
-      case okHttp:
+      case OK_HTTP:
         return new OkhttpMaterialUploadRequestExecutor(requestHttp);
       default:
         return null;

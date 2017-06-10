@@ -3,7 +3,7 @@ package me.chanjar.weixin.common.util.http.okhttp;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestHttp;
-import me.chanjar.weixin.common.util.http.SimpleGetRequestExecutor;
+import me.chanjar.weixin.common.util.http.SimplePostRequestExecutor;
 import okhttp3.*;
 
 import java.io.IOException;
@@ -11,31 +11,27 @@ import java.io.IOException;
 /**
  * Created by ecoolper on 2017/5/4.
  */
-public class OkSimpleGetRequestExecutor extends SimpleGetRequestExecutor<ConnectionPool, OkhttpProxyInfo> {
+public class OkHttpSimplePostRequestExecutor extends SimplePostRequestExecutor<ConnectionPool, OkHttpProxyInfo> {
 
-  public OkSimpleGetRequestExecutor(RequestHttp requestHttp) {
+  public OkHttpSimplePostRequestExecutor(RequestHttp requestHttp) {
     super(requestHttp);
   }
 
   @Override
-  public String execute(String uri, String queryParam) throws WxErrorException, IOException {
-    if (queryParam != null) {
-      if (uri.indexOf('?') == -1) {
-        uri += '?';
-      }
-      uri += uri.endsWith("?") ? queryParam : '&' + queryParam;
-    }
+  public String execute(String uri, String postEntity) throws WxErrorException, IOException {
+    ConnectionPool pool = requestHttp.getRequestHttpClient();
+    final OkHttpProxyInfo proxyInfo = requestHttp.getRequestHttpProxy();
 
-    OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder().connectionPool(requestHttp.getRequestHttpClient());
+    OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder().connectionPool(pool);
     //设置代理
-    if (requestHttp.getRequestHttpProxy() != null) {
-      clientBuilder.proxy(requestHttp.getRequestHttpProxy().getProxy());
+    if (proxyInfo != null) {
+      clientBuilder.proxy(proxyInfo.getProxy());
     }
     //设置授权
     clientBuilder.authenticator(new Authenticator() {
       @Override
       public Request authenticate(Route route, Response response) throws IOException {
-        String credential = Credentials.basic(requestHttp.getRequestHttpProxy().getProxyUsername(), requestHttp.getRequestHttpProxy().getProxyPassword());
+        String credential = Credentials.basic(proxyInfo.getProxyUsername(), proxyInfo.getProxyPassword());
         return response.request().newBuilder()
           .header("Authorization", credential)
           .build();
@@ -44,7 +40,11 @@ public class OkSimpleGetRequestExecutor extends SimpleGetRequestExecutor<Connect
     //得到httpClient
     OkHttpClient client = clientBuilder.build();
 
-    Request request = new Request.Builder().url(uri).build();
+
+    MediaType mediaType = MediaType.parse("text/plain; charset=utf-8");
+    RequestBody body = RequestBody.create(mediaType, postEntity);
+
+    Request request = new Request.Builder().url(uri).post(body).build();
 
     Response response = client.newCall(request).execute();
     String responseContent = response.body().string();

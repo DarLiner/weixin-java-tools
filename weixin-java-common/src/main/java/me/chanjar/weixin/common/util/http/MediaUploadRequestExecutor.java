@@ -2,8 +2,8 @@ package me.chanjar.weixin.common.util.http;
 
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.util.http.apache.ApacheMediaUploadRequestExecutor;
-import me.chanjar.weixin.common.util.http.jodd.JoddMediaUploadRequestExecutor;
-import me.chanjar.weixin.common.util.http.okhttp.OkMediaUploadRequestExecutor;
+import me.chanjar.weixin.common.util.http.jodd.JoddHttpMediaUploadRequestExecutor;
+import me.chanjar.weixin.common.util.http.okhttp.OkHttpMediaUploadRequestExecutor;
 
 import java.io.File;
 
@@ -21,12 +21,12 @@ public abstract class MediaUploadRequestExecutor<H, P> implements RequestExecuto
 
   public static RequestExecutor<WxMediaUploadResult, File> create(RequestHttp requestHttp) {
     switch (requestHttp.getRequestType()) {
-      case apacheHttp:
+      case APACHE_HTTP:
         return new ApacheMediaUploadRequestExecutor(requestHttp);
-      case joddHttp:
-        return new JoddMediaUploadRequestExecutor(requestHttp);
-      case okHttp:
-        return new OkMediaUploadRequestExecutor(requestHttp);
+      case JODD_HTTP:
+        return new JoddHttpMediaUploadRequestExecutor(requestHttp);
+      case OK_HTTP:
+        return new OkHttpMediaUploadRequestExecutor(requestHttp);
       default:
         return null;
     }

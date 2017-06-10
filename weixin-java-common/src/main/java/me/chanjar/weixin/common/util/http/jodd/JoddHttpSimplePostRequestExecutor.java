@@ -16,9 +16,9 @@ import java.io.IOException;
 /**
  * Created by ecoolper on 2017/5/4.
  */
-public class JoddSimplePostRequestExecutor extends SimplePostRequestExecutor<HttpConnectionProvider, ProxyInfo> {
+public class JoddHttpSimplePostRequestExecutor extends SimplePostRequestExecutor<HttpConnectionProvider, ProxyInfo> {
 
-  public JoddSimplePostRequestExecutor(RequestHttp requestHttp) {
+  public JoddHttpSimplePostRequestExecutor(RequestHttp requestHttp) {
     super(requestHttp);
   }
 

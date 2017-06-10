@@ -1,19 +1,19 @@
-package me.chanjar.weixin.cp.api.impl.okhttp;
+package me.chanjar.weixin.cp.api.impl;
 
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.HttpType;
-import me.chanjar.weixin.common.util.http.okhttp.OkhttpProxyInfo;
+import me.chanjar.weixin.common.util.http.okhttp.OkHttpProxyInfo;
 import me.chanjar.weixin.cp.api.WxCpConfigStorage;
 import me.chanjar.weixin.cp.api.impl.AbstractWxCpServiceImpl;
 import okhttp3.*;
 
 import java.io.IOException;
 
-public class WxCpServiceImpl extends AbstractWxCpServiceImpl<ConnectionPool, OkhttpProxyInfo> {
+public class WxCpServiceOkHttpImpl extends AbstractWxCpServiceImpl<ConnectionPool, OkHttpProxyInfo> {
   protected ConnectionPool httpClient;
-  protected OkhttpProxyInfo httpProxy;
+  protected OkHttpProxyInfo httpProxy;
 
 
   @Override
@@ -22,13 +22,13 @@ public class WxCpServiceImpl extends AbstractWxCpServiceImpl<ConnectionPool, Okh
   }
 
   @Override
-  public OkhttpProxyInfo getRequestHttpProxy() {
+  public OkHttpProxyInfo getRequestHttpProxy() {
     return httpProxy;
   }
 
   @Override
   public HttpType getRequestType() {
-    return HttpType.okHttp;
+    return HttpType.OK_HTTP;
   }
 
   @Override
@@ -92,7 +92,7 @@ public class WxCpServiceImpl extends AbstractWxCpServiceImpl<ConnectionPool, Okh
     WxCpConfigStorage configStorage = this.configStorage;
 
     if (configStorage.getHttpProxyHost() != null && configStorage.getHttpProxyPort() > 0) {
-      httpProxy = new OkhttpProxyInfo(OkhttpProxyInfo.ProxyType.SOCKS5, configStorage.getHttpProxyHost(), configStorage.getHttpProxyPort(), configStorage.getHttpProxyUsername(), configStorage.getHttpProxyPassword());
+      httpProxy = new OkHttpProxyInfo(OkHttpProxyInfo.ProxyType.SOCKS5, configStorage.getHttpProxyHost(), configStorage.getHttpProxyPort(), configStorage.getHttpProxyUsername(), configStorage.getHttpProxyPassword());
     }
 
     httpClient = new ConnectionPool();

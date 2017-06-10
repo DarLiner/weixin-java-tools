@@ -18,8 +18,8 @@ import java.io.IOException;
 /**
  * Created by ecoolper on 2017/5/5.
  */
-public class JoddMediaUploadRequestExecutor extends MediaUploadRequestExecutor<HttpConnectionProvider, ProxyInfo> {
-  public JoddMediaUploadRequestExecutor(RequestHttp requestHttp) {
+public class JoddHttpMediaUploadRequestExecutor extends MediaUploadRequestExecutor<HttpConnectionProvider, ProxyInfo> {
+  public JoddHttpMediaUploadRequestExecutor(RequestHttp requestHttp) {
     super(requestHttp);
   }
 

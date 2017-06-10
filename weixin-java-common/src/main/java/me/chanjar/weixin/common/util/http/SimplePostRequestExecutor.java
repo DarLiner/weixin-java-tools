@@ -1,8 +1,8 @@
 package me.chanjar.weixin.common.util.http;
 
 import me.chanjar.weixin.common.util.http.apache.ApacheSimplePostRequestExecutor;
-import me.chanjar.weixin.common.util.http.jodd.JoddSimplePostRequestExecutor;
-import me.chanjar.weixin.common.util.http.okhttp.OkSimplePostRequestExecutor;
+import me.chanjar.weixin.common.util.http.jodd.JoddHttpSimplePostRequestExecutor;
+import me.chanjar.weixin.common.util.http.okhttp.OkHttpSimplePostRequestExecutor;
 
 /**
  * 用装饰模式实现
@@ -19,12 +19,12 @@ public abstract class SimplePostRequestExecutor<H, P> implements RequestExecutor
 
   public static RequestExecutor<String, String> create(RequestHttp requestHttp) {
     switch (requestHttp.getRequestType()) {
-      case apacheHttp:
+      case APACHE_HTTP:
         return new ApacheSimplePostRequestExecutor(requestHttp);
-      case joddHttp:
-        return new JoddSimplePostRequestExecutor(requestHttp);
-      case okHttp:
-        return new OkSimplePostRequestExecutor(requestHttp);
+      case JODD_HTTP:
+        return new JoddHttpSimplePostRequestExecutor(requestHttp);
+      case OK_HTTP:
+        return new OkHttpSimplePostRequestExecutor(requestHttp);
       default:
         return null;
     }

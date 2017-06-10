@@ -7,13 +7,13 @@ import java.net.Proxy;
  * Created by ecoolper on 2017/4/26.
  * Proxy information.
  */
-public class OkhttpProxyInfo {
+public class OkHttpProxyInfo {
   private final String proxyAddress;
   private final int proxyPort;
   private final String proxyUsername;
   private final String proxyPassword;
   private final ProxyType proxyType;
-  public OkhttpProxyInfo(ProxyType proxyType, String proxyHost, int proxyPort, String proxyUser, String proxyPassword) {
+  public OkHttpProxyInfo(ProxyType proxyType, String proxyHost, int proxyPort, String proxyUser, String proxyPassword) {
     this.proxyType = proxyType;
     this.proxyAddress = proxyHost;
     this.proxyPort = proxyPort;
@@ -24,8 +24,8 @@ public class OkhttpProxyInfo {
   /**
    * Creates directProxy.
    */
-  public static OkhttpProxyInfo directProxy() {
-    return new OkhttpProxyInfo(ProxyType.NONE, null, 0, null, null);
+  public static OkHttpProxyInfo directProxy() {
+    return new OkHttpProxyInfo(ProxyType.NONE, null, 0, null, null);
   }
 
   // ---------------------------------------------------------------- factory
@@ -33,22 +33,22 @@ public class OkhttpProxyInfo {
   /**
    * Creates SOCKS4 proxy.
    */
-  public static OkhttpProxyInfo socks4Proxy(String proxyAddress, int proxyPort, String proxyUser) {
-    return new OkhttpProxyInfo(ProxyType.SOCKS4, proxyAddress, proxyPort, proxyUser, null);
+  public static OkHttpProxyInfo socks4Proxy(String proxyAddress, int proxyPort, String proxyUser) {
+    return new OkHttpProxyInfo(ProxyType.SOCKS4, proxyAddress, proxyPort, proxyUser, null);
   }
 
   /**
    * Creates SOCKS5 proxy.
    */
-  public static OkhttpProxyInfo socks5Proxy(String proxyAddress, int proxyPort, String proxyUser, String proxyPassword) {
-    return new OkhttpProxyInfo(ProxyType.SOCKS5, proxyAddress, proxyPort, proxyUser, proxyPassword);
+  public static OkHttpProxyInfo socks5Proxy(String proxyAddress, int proxyPort, String proxyUser, String proxyPassword) {
+    return new OkHttpProxyInfo(ProxyType.SOCKS5, proxyAddress, proxyPort, proxyUser, proxyPassword);
   }
 
   /**
    * Creates HTTP proxy.
    */
-  public static OkhttpProxyInfo httpProxy(String proxyAddress, int proxyPort, String proxyUser, String proxyPassword) {
-    return new OkhttpProxyInfo(ProxyType.HTTP, proxyAddress, proxyPort, proxyUser, proxyPassword);
+  public static OkHttpProxyInfo httpProxy(String proxyAddress, int proxyPort, String proxyUser, String proxyPassword) {
+    return new OkHttpProxyInfo(ProxyType.HTTP, proxyAddress, proxyPort, proxyUser, proxyPassword);
   }
 
   /**

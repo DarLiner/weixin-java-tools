@@ -21,11 +21,11 @@ public abstract class MediaImgUploadRequestExecutor<H, P> implements RequestExec
 
   public static RequestExecutor<WxMediaImgUploadResult, File> create(RequestHttp requestHttp) {
     switch (requestHttp.getRequestType()) {
-      case apacheHttp:
+      case APACHE_HTTP:
         return new ApacheMediaImgUploadRequestExecutor(requestHttp);
-      case joddHttp:
+      case JODD_HTTP:
         return new JoddMediaImgUploadRequestExecutor(requestHttp);
-      case okHttp:
+      case OK_HTTP:
         return new OkhttpMediaImgUploadRequestExecutor(requestHttp);
       default:
         return null;

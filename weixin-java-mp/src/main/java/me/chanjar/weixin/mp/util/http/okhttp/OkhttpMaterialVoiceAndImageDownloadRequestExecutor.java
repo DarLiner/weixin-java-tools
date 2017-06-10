@@ -3,7 +3,7 @@ package me.chanjar.weixin.mp.util.http.okhttp;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestHttp;
-import me.chanjar.weixin.common.util.http.okhttp.OkhttpProxyInfo;
+import me.chanjar.weixin.common.util.http.okhttp.OkHttpProxyInfo;
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 import me.chanjar.weixin.mp.util.http.MaterialVoiceAndImageDownloadRequestExecutor;
 import okhttp3.*;
@@ -17,7 +17,7 @@ import java.io.InputStream;
 /**
  * Created by ecoolper on 2017/5/5.
  */
-public class OkhttpMaterialVoiceAndImageDownloadRequestExecutor extends MaterialVoiceAndImageDownloadRequestExecutor<ConnectionPool, OkhttpProxyInfo> {
+public class OkhttpMaterialVoiceAndImageDownloadRequestExecutor extends MaterialVoiceAndImageDownloadRequestExecutor<ConnectionPool, OkHttpProxyInfo> {
   public OkhttpMaterialVoiceAndImageDownloadRequestExecutor(RequestHttp requestHttp, File tmpDirFile) {
     super(requestHttp, tmpDirFile);
   }

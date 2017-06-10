@@ -15,9 +15,9 @@ import java.io.IOException;
 /**
  * Created by ecoolper on 2017/5/4.
  */
-public class ApacheSimpleGetRequestExecutor extends SimpleGetRequestExecutor<CloseableHttpClient, HttpHost> {
+public class ApacheHttpClientSimpleGetRequestExecutor extends SimpleGetRequestExecutor<CloseableHttpClient, HttpHost> {
 
-  public ApacheSimpleGetRequestExecutor(RequestHttp requestHttp) {
+  public ApacheHttpClientSimpleGetRequestExecutor(RequestHttp requestHttp) {
     super(requestHttp);
   }
 

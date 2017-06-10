@@ -7,5 +7,5 @@ package me.chanjar.weixin.mp.api.impl;
  * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  * </pre>
  */
-public class WxMpServiceImpl extends me.chanjar.weixin.mp.api.impl.apache.WxMpServiceImpl{
+public class WxMpServiceImpl extends WxMpServiceApacheHttpClientImpl {
 }

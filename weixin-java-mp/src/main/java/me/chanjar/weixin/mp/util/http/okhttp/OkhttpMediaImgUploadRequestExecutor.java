@@ -3,7 +3,7 @@ package me.chanjar.weixin.mp.util.http.okhttp;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestHttp;
-import me.chanjar.weixin.common.util.http.okhttp.OkhttpProxyInfo;
+import me.chanjar.weixin.common.util.http.okhttp.OkHttpProxyInfo;
 import me.chanjar.weixin.mp.bean.material.WxMediaImgUploadResult;
 import me.chanjar.weixin.mp.util.http.MediaImgUploadRequestExecutor;
 import okhttp3.*;
@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * Created by ecoolper on 2017/5/5.
  */
-public class OkhttpMediaImgUploadRequestExecutor extends MediaImgUploadRequestExecutor<ConnectionPool, OkhttpProxyInfo> {
+public class OkhttpMediaImgUploadRequestExecutor extends MediaImgUploadRequestExecutor<ConnectionPool, OkHttpProxyInfo> {
 
   public OkhttpMediaImgUploadRequestExecutor(RequestHttp requestHttp) {
     super(requestHttp);

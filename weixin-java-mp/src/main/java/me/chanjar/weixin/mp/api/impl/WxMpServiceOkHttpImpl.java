@@ -1,22 +1,21 @@
-package me.chanjar.weixin.mp.api.impl.okhttp;
+package me.chanjar.weixin.mp.api.impl;
 
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.HttpType;
 import me.chanjar.weixin.common.util.http.RequestHttp;
-import me.chanjar.weixin.common.util.http.okhttp.OkhttpProxyInfo;
+import me.chanjar.weixin.common.util.http.okhttp.OkHttpProxyInfo;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.api.impl.AbstractWxMpServiceImpl;
 import okhttp3.*;
 
 import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 
-public class WxMpServiceImpl extends AbstractWxMpServiceImpl<ConnectionPool, OkhttpProxyInfo> {
+public class WxMpServiceOkHttpImpl extends AbstractWxMpServiceImpl<ConnectionPool, OkHttpProxyInfo> {
   private ConnectionPool httpClient;
-  private OkhttpProxyInfo httpProxy;
+  private OkHttpProxyInfo httpProxy;
 
   @Override
   public ConnectionPool getRequestHttpClient() {
@@ -24,13 +23,13 @@ public class WxMpServiceImpl extends AbstractWxMpServiceImpl<ConnectionPool, Okh
   }
 
   @Override
-  public OkhttpProxyInfo getRequestHttpProxy() {
+  public OkHttpProxyInfo getRequestHttpProxy() {
     return httpProxy;
   }
 
   @Override
   public HttpType getRequestType() {
-    return HttpType.okHttp;
+    return HttpType.OK_HTTP;
   }
 
   @Override
@@ -89,7 +88,7 @@ public class WxMpServiceImpl extends AbstractWxMpServiceImpl<ConnectionPool, Okh
     WxMpConfigStorage configStorage = this.getWxMpConfigStorage();
 
     if (configStorage.getHttpProxyHost() != null && configStorage.getHttpProxyPort() > 0) {
-      httpProxy = new OkhttpProxyInfo(OkhttpProxyInfo.ProxyType.SOCKS5, configStorage.getHttpProxyHost(), configStorage.getHttpProxyPort(), configStorage.getHttpProxyUsername(), configStorage.getHttpProxyPassword());
+      httpProxy = new OkHttpProxyInfo(OkHttpProxyInfo.ProxyType.SOCKS5, configStorage.getHttpProxyHost(), configStorage.getHttpProxyPort(), configStorage.getHttpProxyUsername(), configStorage.getHttpProxyPassword());
     }
 
     httpClient = new ConnectionPool();

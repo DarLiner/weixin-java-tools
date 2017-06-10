@@ -1,4 +1,4 @@
-package me.chanjar.weixin.mp.api.impl.apache;
+package me.chanjar.weixin.mp.api.impl;
 
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.bean.result.WxError;
@@ -9,7 +9,6 @@ import me.chanjar.weixin.common.util.http.apache.ApacheHttpClientBuilder;
 import me.chanjar.weixin.common.util.http.apache.DefaultApacheHttpClientBuilder;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.api.impl.AbstractWxMpServiceImpl;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -23,7 +22,7 @@ import java.util.concurrent.locks.Lock;
 /**
  * apache-http方式实现
  */
-public class WxMpServiceImpl extends AbstractWxMpServiceImpl<CloseableHttpClient, HttpHost> {
+public class WxMpServiceApacheHttpClientImpl extends AbstractWxMpServiceImpl<CloseableHttpClient, HttpHost> {
   private CloseableHttpClient httpClient;
   private HttpHost httpProxy;
 
@@ -39,7 +38,7 @@ public class WxMpServiceImpl extends AbstractWxMpServiceImpl<CloseableHttpClient
 
   @Override
   public HttpType getRequestType() {
-    return HttpType.apacheHttp;
+    return HttpType.APACHE_HTTP;
   }
 
   @Override

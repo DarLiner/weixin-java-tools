@@ -1,16 +1,11 @@
-package me.chanjar.weixin.common.util.http.jodd;
-
-import jodd.http.HttpConnectionProvider;
-import jodd.http.HttpRequest;
-import jodd.http.HttpResponse;
-import jodd.http.ProxyInfo;
-import jodd.util.StringPool;
+package me.chanjar.weixin.common.util.http.okhttp;
 
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.fs.FileUtils;
 import me.chanjar.weixin.common.util.http.MediaDownloadRequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestHttp;
+import okhttp3.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.ByteArrayInputStream;
@@ -23,10 +18,10 @@ import java.util.regex.Pattern;
 /**
  * Created by ecoolper on 2017/5/5.
  */
-public class JoddMediaDownloadRequestExecutor extends MediaDownloadRequestExecutor<HttpConnectionProvider, ProxyInfo> {
+public class OkHttpMediaDownloadRequestExecutor extends MediaDownloadRequestExecutor<ConnectionPool, OkHttpProxyInfo> {
 
 
-  public JoddMediaDownloadRequestExecutor(RequestHttp requestHttp, File tmpDirFile) {
+  public OkHttpMediaDownloadRequestExecutor(RequestHttp requestHttp, File tmpDirFile) {
     super(requestHttp, tmpDirFile);
   }
 
@@ -39,19 +34,32 @@ public class JoddMediaDownloadRequestExecutor extends MediaDownloadRequestExecut
       uri += uri.endsWith("?") ? queryParam : '&' + queryParam;
     }
 
-    HttpRequest request = HttpRequest.get(uri);
+    OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder().connectionPool(requestHttp.getRequestHttpClient());
+    //设置代理
     if (requestHttp.getRequestHttpProxy() != null) {
-      requestHttp.getRequestHttpClient().useProxy(requestHttp.getRequestHttpProxy());
+      clientBuilder.proxy(requestHttp.getRequestHttpProxy().getProxy());
     }
-    request.withConnectionProvider(requestHttp.getRequestHttpClient());
+    //设置授权
+    clientBuilder.authenticator(new Authenticator() {
+      @Override
+      public Request authenticate(Route route, Response response) throws IOException {
+        String credential = Credentials.basic(requestHttp.getRequestHttpProxy().getProxyUsername(), requestHttp.getRequestHttpProxy().getProxyPassword());
+        return response.request().newBuilder()
+          .header("Authorization", credential)
+          .build();
+      }
+    });
+    //得到httpClient
+    OkHttpClient client = clientBuilder.build();
 
-    HttpResponse response = request.send();
-    response.charset(StringPool.UTF_8);
+    Request request = new Request.Builder().url(uri).get().build();
+
+    Response response = client.newCall(request).execute();
 
     String contentType = response.header("Content-Type");
     if (contentType != null && contentType.startsWith("application/json")) {
       // application/json; encoding=utf-8 下载媒体文件出错
-      throw new WxErrorException(WxError.fromJson(response.bodyText()));
+      throw new WxErrorException(WxError.fromJson(response.body().string()));
     }
 
     String fileName = getFileName(response);
@@ -59,12 +67,12 @@ public class JoddMediaDownloadRequestExecutor extends MediaDownloadRequestExecut
       return null;
     }
 
-    InputStream inputStream = new ByteArrayInputStream(response.bodyBytes());
+    InputStream inputStream = new ByteArrayInputStream(response.body().bytes());
     String[] nameAndExt = fileName.split("\\.");
     return FileUtils.createTmpFile(inputStream, nameAndExt[0], nameAndExt[1], super.tmpDirFile);
   }
 
-  private String getFileName(HttpResponse response) throws WxErrorException {
+  private String getFileName(Response response) throws WxErrorException {
     String content = response.header("Content-disposition");
     if (content == null || content.length() == 0) {
       throw new WxErrorException(WxError.newBuilder().setErrorMsg("无法获取到文件名").build());

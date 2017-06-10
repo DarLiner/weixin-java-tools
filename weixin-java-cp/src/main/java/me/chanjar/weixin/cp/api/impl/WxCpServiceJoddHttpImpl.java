@@ -1,4 +1,4 @@
-package me.chanjar.weixin.cp.api.impl.jodd;
+package me.chanjar.weixin.cp.api.impl;
 
 import jodd.http.*;
 import me.chanjar.weixin.common.bean.WxAccessToken;
@@ -8,7 +8,7 @@ import me.chanjar.weixin.common.util.http.HttpType;
 import me.chanjar.weixin.cp.api.WxCpConfigStorage;
 import me.chanjar.weixin.cp.api.impl.AbstractWxCpServiceImpl;
 
-public class WxCpServiceImpl extends AbstractWxCpServiceImpl<HttpConnectionProvider, ProxyInfo> {
+public class WxCpServiceJoddHttpImpl extends AbstractWxCpServiceImpl<HttpConnectionProvider, ProxyInfo> {
   protected HttpConnectionProvider httpClient;
   protected ProxyInfo httpProxy;
 
@@ -25,7 +25,7 @@ public class WxCpServiceImpl extends AbstractWxCpServiceImpl<HttpConnectionProvi
 
   @Override
   public HttpType getRequestType() {
-    return HttpType.joddHttp;
+    return HttpType.JODD_HTTP;
   }
 
   @Override

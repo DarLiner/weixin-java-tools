@@ -16,11 +16,11 @@ public abstract class MaterialNewsInfoRequestExecutor<H, P> implements RequestEx
 
   public static RequestExecutor<WxMpMaterialNews, String> create(RequestHttp requestHttp) {
     switch (requestHttp.getRequestType()) {
-      case apacheHttp:
+      case APACHE_HTTP:
         return new ApacheMaterialNewsInfoRequestExecutor(requestHttp);
-      case joddHttp:
+      case JODD_HTTP:
         return new JoddMaterialNewsInfoRequestExecutor(requestHttp);
-      case okHttp:
+      case OK_HTTP:
         return new OkhttpMaterialNewsInfoRequestExecutor(requestHttp);
       default:
         //TODO 需要优化抛出异常

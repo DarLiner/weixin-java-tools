@@ -7,5 +7,5 @@ package me.chanjar.weixin.cp.api.impl;
  * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  * </pre>
  */
-public class WxCpServiceImpl extends me.chanjar.weixin.cp.api.impl.apache.WxCpServiceImpl{
+public class WxCpServiceImpl extends WxCpServiceApacheHttpClientImpl {
 }

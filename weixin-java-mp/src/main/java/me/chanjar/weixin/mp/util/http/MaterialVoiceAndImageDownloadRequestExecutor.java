@@ -22,11 +22,11 @@ public abstract class MaterialVoiceAndImageDownloadRequestExecutor<H, P> impleme
 
   public static RequestExecutor<InputStream, String> create(RequestHttp requestHttp, File tmpDirFile) {
     switch (requestHttp.getRequestType()) {
-      case apacheHttp:
+      case APACHE_HTTP:
         return new ApacheMaterialVoiceAndImageDownloadRequestExecutor(requestHttp, tmpDirFile);
-      case joddHttp:
+      case JODD_HTTP:
         return new JoddMaterialVoiceAndImageDownloadRequestExecutor(requestHttp, tmpDirFile);
-      case okHttp:
+      case OK_HTTP:
         return new OkhttpMaterialVoiceAndImageDownloadRequestExecutor(requestHttp, tmpDirFile);
       default:
         return null;

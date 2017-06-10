@@ -1,4 +1,4 @@
-package me.chanjar.weixin.mp.api.impl.jodd;
+package me.chanjar.weixin.mp.api.impl;
 
 import jodd.http.*;
 import jodd.http.net.SocketHttpConnectionProvider;
@@ -9,14 +9,13 @@ import me.chanjar.weixin.common.util.http.HttpType;
 import me.chanjar.weixin.common.util.http.RequestHttp;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.api.impl.AbstractWxMpServiceImpl;
 
 import java.util.concurrent.locks.Lock;
 
 /**
  * jodd-http方式实现
  */
-public class WxMpServiceImpl extends AbstractWxMpServiceImpl<HttpConnectionProvider, ProxyInfo> {
+public class WxMpServiceJoddHttpImpl extends AbstractWxMpServiceImpl<HttpConnectionProvider, ProxyInfo> {
   private HttpConnectionProvider httpClient;
   private ProxyInfo httpProxy;
 
@@ -32,7 +31,7 @@ public class WxMpServiceImpl extends AbstractWxMpServiceImpl<HttpConnectionProvi
 
   @Override
   public HttpType getRequestType() {
-    return HttpType.joddHttp;
+    return HttpType.JODD_HTTP;
   }
 
   @Override

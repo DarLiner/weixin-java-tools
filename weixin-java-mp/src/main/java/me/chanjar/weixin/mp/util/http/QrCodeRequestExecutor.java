@@ -23,11 +23,11 @@ public abstract class QrCodeRequestExecutor<H, P> implements RequestExecutor<Fil
 
   public static RequestExecutor<File, WxMpQrCodeTicket> create(RequestHttp requestHttp) {
     switch (requestHttp.getRequestType()) {
-      case apacheHttp:
+      case APACHE_HTTP:
         return new ApacheQrCodeRequestExecutor(requestHttp);
-      case joddHttp:
+      case JODD_HTTP:
         return new JoddQrCodeRequestExecutor(requestHttp);
-      case okHttp:
+      case OK_HTTP:
         return new OkhttpQrCodeRequestExecutor(requestHttp);
       default:
         //TODO 需要优化，最好抛出异常
