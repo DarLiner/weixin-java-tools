@@ -27,7 +27,7 @@ import java.util.Arrays;
  */
 @XStreamAlias("xml")
 public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
-  private static final String[] TRADE_TYPES = new String[]{"JSAPI", "NATIVE", "APP"};
+  private static final String[] TRADE_TYPES = new String[]{"JSAPI", "NATIVE", "APP","MWEB"};
 
   /**
    * <pre>
@@ -443,10 +443,10 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
 
   @Override
   protected void checkConstraints() {
-    if (!ArrayUtils.contains(TRADE_TYPES, this.getTradeType())) {
-      throw new IllegalArgumentException(String.format("trade_type目前必须为%s其中之一,实际值：%s",
-        Arrays.toString(TRADE_TYPES), this.getTradeType()));
-    }
+//    if (!ArrayUtils.contains(TRADE_TYPES, this.getTradeType())) {
+//      throw new IllegalArgumentException(String.format("trade_type目前必须为%s其中之一,实际值：%s",
+//        Arrays.toString(TRADE_TYPES), this.getTradeType()));
+//    }
 
     if ("JSAPI".equals(this.getTradeType()) && this.getOpenid() == null) {
       throw new IllegalArgumentException("当 trade_type是'JSAPI'时未指定openid");
