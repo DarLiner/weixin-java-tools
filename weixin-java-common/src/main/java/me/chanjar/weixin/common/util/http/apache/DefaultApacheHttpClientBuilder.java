@@ -14,16 +14,24 @@ import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.conn.socket.ConnectionSocketFactory;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.protocol.HttpContext;
+import org.apache.http.ssl.SSLContexts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.net.ssl.SSLContext;
 import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -214,6 +222,7 @@ public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
     this.httpClientBuilder = HttpClients.custom()
       .setConnectionManager(connectionManager)
       .setConnectionManagerShared(true)
+      .setSSLSocketFactory(this.buildSSLConnectionSocketFactory())
       .setDefaultRequestConfig(
         RequestConfig.custom()
           .setSocketTimeout(this.soTimeout)
@@ -238,6 +247,29 @@ public class DefaultApacheHttpClientBuilder implements ApacheHttpClientBuilder {
       this.httpClientBuilder.setUserAgent(this.userAgent);
     }
     prepared.set(true);
+  }
+
+  private SSLConnectionSocketFactory buildSSLConnectionSocketFactory() {
+    try {
+      SSLContext sslcontext = SSLContexts.custom()
+        //忽略掉对服务器端证书的校验
+        .loadTrustMaterial(new TrustStrategy() {
+          @Override
+          public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+            return true;
+          }
+        }).build();
+
+      return new SSLConnectionSocketFactory(
+        sslcontext,
+        new String[]{"TLSv1"},
+        null,
+        SSLConnectionSocketFactory.getDefaultHostnameVerifier());
+    } catch (NoSuchAlgorithmException | KeyManagementException | KeyStoreException e) {
+      this.log.error(e.getMessage(), e);
+    }
+
+    return null;
   }
 
   @Override
