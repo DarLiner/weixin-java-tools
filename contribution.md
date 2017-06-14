@@ -28,7 +28,7 @@ $ git push
 ```bash
 $ git remote add upstream https://github.com/wechat-group/weixin-java-tools
 $ git fetch upstream
-$ git checkout dev
-$ git rebase upstream/dev
-$ git push -f origin dev
+$ git checkout develop
+$ git rebase upstream/develop
+$ git push -f origin develop
 ```
