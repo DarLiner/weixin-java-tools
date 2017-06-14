@@ -15,7 +15,7 @@
 1. 本SDK要求的最低JDK版本是7，还在使用JDK6的用户请参考[【此项目】]( https://github.com/binarywang/weixin-java-tools-for-jdk6) ，而其他更早的JDK版本则需要自己改造实现。
 1. 如有新功能需求，发现BUG，或者由于微信官方接口调整导致的代码问题，可以直接在[【Issues】](https://github.com/Wechat-Group/weixin-java-tools/issues)页提出issue，便于讨论追踪问题；
 1. 如果想贡献代码，请阅读[【代码贡献指南】](contribution.md)；
-1. 捐助渠道已开通，如有意向请前往托管于码云的项目首页（具体地址见下文）的页面评论区上方，可以找到“捐助”按钮，非常感谢各位捐助的同学！
+1. **捐助渠道已开通，如有意向请点击[支付宝二维码](alipay_qrcode.jpg)捐赠，或者直接前往[托管于码云的项目首页](http://git.oschina.net/binary/weixin-java-tools)的页面，在评论区上方可以找到“捐助”按钮。非常感谢各位捐助的同学！**
 
 ---------------------------------
 ## SDK使用交流方式说明：
