@@ -93,6 +93,7 @@
     <module>weixin-java-cp</module>
     <module>weixin-java-mp</module>
     <module>weixin-java-pay</module>
+    <module>weixin-java-miniapp</module>
     <!--module>weixin-java-osgi</module-->
   </modules>
 
