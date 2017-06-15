@@ -1,6 +1,5 @@
 package com.github.binarywang.wxpay.bean;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -12,16 +11,10 @@ import java.util.Map;
  * 支付异步通知代金券详细
  */
 public class WxPayOrderNotifyCoupon implements Serializable {
-  /**
-   * @fields serialVersionUID
-   */
   private static final long serialVersionUID = -4165343733538156097L;
 
-  @XStreamAlias("coupon_id")
   private String couponId;
-  @XStreamAlias("coupon_type")
   private String couponType;
-  @XStreamAlias("coupon_fee")
   private Integer couponFee;
 
   public String getCouponId() {
