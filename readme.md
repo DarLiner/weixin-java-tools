@@ -1,4 +1,4 @@
-微信支付、公众号&企业号开发Java SDK
+微信支付、小程序、公众号&企业号开发Java SDK
 ---------------------------------
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.binarywang/weixin-java-parent/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.binarywang/weixin-java-parent)
 [![Build Status](https://travis-ci.org/Wechat-Group/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/Wechat-Group/weixin-java-tools)
@@ -42,6 +42,7 @@
 ---------------------------------
 ## 可参考的Demo项目
 #### 欢迎提供更多的Demo供新手参考:
+* https://github.com/wechat-group/weixin-java-miniapp-demo （微信小程序Demo） 
 * https://github.com/wechat-group/weixin-java-pay-demo （微信支付Demo） 
 * https://github.com/wechat-group/weixin-java-cp-demo （企业号Demo）
 * https://github.com/wechat-group/weixin-java-mp-demo （公众号Demo，使用Spring MVC实现）
@@ -51,6 +52,16 @@
 
 ---------------------------------
 ## Maven 最新正式版本
+
+* 微信小程序（暂时为测试版本）：
+
+```xml
+<dependency>
+  <groupId>com.github.binarywang</groupId>
+  <artifactId>weixin-java-miniapp</artifactId>
+  <version>2.6.5.BETA</version>
+</dependency>
+```
 
 * 微信支付：
 
