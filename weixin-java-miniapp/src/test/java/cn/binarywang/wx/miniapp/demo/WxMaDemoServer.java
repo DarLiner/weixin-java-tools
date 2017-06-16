@@ -6,6 +6,7 @@ import cn.binarywang.wx.miniapp.bean.WxMaMessage;
 import cn.binarywang.wx.miniapp.bean.WxMaKefuMessage;
 import cn.binarywang.wx.miniapp.bean.WxMaTemplateMessage;
 import cn.binarywang.wx.miniapp.config.WxMaConfig;
+import cn.binarywang.wx.miniapp.constant.WxMaConstants;
 import cn.binarywang.wx.miniapp.message.WxMaMessageHandler;
 import cn.binarywang.wx.miniapp.message.WxMaMessageRouter;
 import cn.binarywang.wx.miniapp.test.TestConfig;
@@ -37,6 +38,7 @@ public class WxMaDemoServer {
         .toUser(wxMessage.getFromUser()).build());
     }
   };
+
   private static final WxMaMessageHandler textHandler = new WxMaMessageHandler() {
     @Override
     public void handle(WxMaMessage wxMessage, Map<String, Object> context,
@@ -47,13 +49,14 @@ public class WxMaDemoServer {
     }
 
   };
+
   private static final WxMaMessageHandler picHandler = new WxMaMessageHandler() {
     @Override
     public void handle(WxMaMessage wxMessage, Map<String, Object> context,
                        WxMaService service, WxSessionManager sessionManager) throws WxErrorException {
       try {
         WxMediaUploadResult uploadResult = service.getMediaService()
-          .uploadMedia("image", "png",
+          .uploadMedia(WxMaConstants.MediaType.IMAGE, "png",
             ClassLoader.getSystemResourceAsStream("tmp.png"));
         service.getMsgService().sendKefuMsg(
           WxMaKefuMessage
@@ -66,13 +69,14 @@ public class WxMaDemoServer {
       }
     }
   };
+  
   private static final WxMaMessageHandler qrcodeHandler = new WxMaMessageHandler() {
     @Override
     public void handle(WxMaMessage wxMessage, Map<String, Object> context,
                        WxMaService service, WxSessionManager sessionManager) throws WxErrorException {
       try {
         final File file = service.getQrcodeService().createQrcode("123", 430);
-        WxMediaUploadResult uploadResult = service.getMediaService().uploadMedia("image", file);
+        WxMediaUploadResult uploadResult = service.getMediaService().uploadMedia(WxMaConstants.MediaType.IMAGE, file);
         service.getMsgService().sendKefuMsg(
           WxMaKefuMessage
             .IMAGE()

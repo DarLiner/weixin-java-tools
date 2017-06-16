@@ -9,6 +9,13 @@ package cn.binarywang.wx.miniapp.constant;
  */
 public class WxMaConstants {
   /**
+   * 素材类型
+   */
+  public static class MediaType {
+    public static final String IMAGE = "image";//图片
+  }
+
+  /**
    * 消息格式
    */
   public static class MsgDataFormat {
