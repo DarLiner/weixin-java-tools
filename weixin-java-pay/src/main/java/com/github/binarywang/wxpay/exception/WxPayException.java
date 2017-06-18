@@ -45,6 +45,11 @@ public class WxPayException extends Exception {
     this.customErrorMsg = customErrorMsg;
   }
 
+  public WxPayException(String customErrorMsg, Throwable tr) {
+    super(customErrorMsg, tr);
+    this.customErrorMsg = customErrorMsg;
+  }
+
   private WxPayException(Builder builder) {
     super(builder.buildErrorMsg());
     returnCode = builder.returnCode;

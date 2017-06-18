@@ -1,11 +1,15 @@
 package com.github.binarywang.wxpay.config;
 
+import com.github.binarywang.wxpay.exception.WxPayException;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.ssl.SSLContexts;
 
 import javax.net.ssl.SSLContext;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.KeyStore;
 
 /**
@@ -143,7 +147,7 @@ public class WxPayConfig {
     this.useSandboxEnv = useSandboxEnv;
   }
 
-  public SSLContext initSSLContext() {
+  public SSLContext initSSLContext() throws WxPayException {
     if (StringUtils.isBlank(mchId)) {
       throw new IllegalArgumentException("请确保商户号mchId已设置");
     }
@@ -152,20 +156,33 @@ public class WxPayConfig {
       throw new IllegalArgumentException("请确保证书文件地址keyPath已配置");
     }
 
-    File file = new File(this.keyPath);
-    if (!file.exists()) {
-      throw new RuntimeException("证书文件【" + file.getPath() + "】不存在！");
+    InputStream inputStream;
+    final String prefix = "classpath:";
+    if (this.keyPath.startsWith(prefix)) {
+      inputStream = WxPayConfig.class.getResourceAsStream(this.keyPath.replace(prefix, ""));
+    } else {
+      try {
+        File file = new File(this.keyPath);
+        if (!file.exists()) {
+          throw new WxPayException("证书文件【" + file.getPath() + "】不存在！");
+        }
+
+        inputStream = new FileInputStream(file);
+      } catch (IOException e) {
+        throw new WxPayException("证书文件有问题，请核实！", e);
+      }
     }
 
     try {
-      FileInputStream inputStream = new FileInputStream(file);
       KeyStore keystore = KeyStore.getInstance("PKCS12");
       char[] partnerId2charArray = mchId.toCharArray();
       keystore.load(inputStream, partnerId2charArray);
       this.sslContext = SSLContexts.custom().loadKeyMaterial(keystore, partnerId2charArray).build();
       return this.sslContext;
     } catch (Exception e) {
-      throw new RuntimeException("证书文件有问题，请核实！", e);
+      throw new WxPayException("证书文件有问题，请核实！", e);
+    } finally {
+      IOUtils.closeQuietly(inputStream);
     }
   }
 }
