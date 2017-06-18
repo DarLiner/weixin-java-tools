@@ -264,5 +264,11 @@ public class WxPayServiceImplTest {
     this.logger.info(result);
   }
 
+  @Test
+  public void testGetSandboxSignKey() throws Exception {
+    final String signKey = this.payService.getSandboxSignKey();
+    assertNotNull(signKey);
+    this.logger.info(signKey);
+  }
 
 }

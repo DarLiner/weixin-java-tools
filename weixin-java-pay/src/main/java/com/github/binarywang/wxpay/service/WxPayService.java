@@ -328,4 +328,15 @@ public interface WxPayService {
    * @see WxPayService#authcode2Openid(WxPayAuthcode2OpenidRequest)
    */
   String authcode2Openid(String authCode) throws WxPayException;
+
+  /**
+   * <pre>
+   * 获取仿真测试系统的验签密钥
+   * 请求Url： https://api.mch.weixin.qq.com/sandboxnew/pay/getsignkey
+   * 是否需要证书： 否
+   * 请求方式： POST
+   * 文档地址：https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=23_1
+   * </pre>
+   */
+  String getSandboxSignKey() throws WxPayException;
 }
