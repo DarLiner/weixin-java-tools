@@ -474,18 +474,9 @@ public class WxPayServiceImpl implements WxPayService {
     }
 
     HttpRequest request = HttpRequest.post(url).body(requestString);
-    HttpResponse response = request.send();
-    String responseString = response.bodyText();
+    String responseString = this.getResponseString(request.send());
 
-    if (needTransferEncoding) {
-      try {
-        responseString = new String(response.bodyText().getBytes(CharEncoding.ISO_8859_1), CharEncoding.UTF_8);
-      } catch (UnsupportedEncodingException e) {
-        e.printStackTrace();
-      }
-    }
-
-    this.log.debug("\n[URL]: {}\n[PARAMS]: {}\n[RESPONSE]: {}", url, xmlParam, responseString);
+    this.log.info("\n【请求地址】: {}\n【请求参数】：{}\n【响应数据】：{}", url, xmlParam, responseString);
     return responseString;
   }
 
@@ -499,16 +490,35 @@ public class WxPayServiceImpl implements WxPayService {
         sslContext = this.getConfig().initSSLContext();
       }
 
-      HttpRequest request = HttpRequest.post(url).withConnectionProvider(new SSLSocketHttpConnectionProvider(sslContext));
-      request.bodyText(requestStr);
-      HttpResponse response = request.send();
-      String result = response.bodyText();
-      this.log.debug("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}", url, requestStr, result);
-      return result;
+      HttpRequest request = HttpRequest
+        .post(url)
+        .withConnectionProvider(new SSLSocketHttpConnectionProvider(sslContext))
+        .bodyText(requestStr);
+
+      String responseString = this.getResponseString(request.send());
+
+      this.log.debug("\n【请求地址】: {}\n【请求参数】：{}\n【响应数据】：{}", url, requestStr, responseString);
+      return responseString;
     } catch (Exception e) {
-      this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[EXCEPTION]: {}", url, requestStr, e.getMessage());
+      this.log.error("\n【请求地址】: {}\n【请求参数】：{}\n【异常信息】：{}", url, requestStr, e.getMessage());
       throw new WxPayException(e.getMessage());
     }
   }
+
+  private String getResponseString(HttpResponse response) {
+    this.log.debug("【微信服务器响应头信息】：\n{}", response.toString(false));
+
+    String responseString = response.bodyText();
+
+    if (StringUtils.isBlank(response.charset())) {
+      try {
+        responseString = new String(response.bodyText().getBytes(CharEncoding.ISO_8859_1), CharEncoding.UTF_8);
+      } catch (UnsupportedEncodingException e) {
+        e.printStackTrace();
+      }
+    }
+    return responseString;
+  }
+
 
 }
