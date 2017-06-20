@@ -5,7 +5,7 @@
 
 #### 声明： ***本项目Fork自chanjarster/weixin-java-tools，但由于原项目已停止维护，故单独维护和发布，且发布到maven上的groupId也会不同，详细信息见下文。***
 
-** 新人提示：本项目仅是一个开发工具包（即SDK），未提供Web实现，建议使用maven或gradle引用本项目即可使用本SDK提供的各种功能，详情可参考下文中提到的Demo项目或本项目中的部分单元测试代码；另外微信开发新手请务必阅读wiki首页的常见问题部分，可以少走很多弯路，节省不少时间。**
+***新人提示：本项目仅是一个开发工具包（即SDK），未提供Web实现，建议使用maven或gradle引用本项目即可使用本SDK提供的各种功能，详情可参考下文中提到的Demo项目或本项目中的部分单元测试代码；另外微信开发新手请务必阅读wiki首页的常见问题部分，可以少走很多弯路，节省不少时间。***
 
 ## Demo项目列表
 * https://github.com/wechat-group/weixin-java-miniapp-demo （微信小程序Demo） 
