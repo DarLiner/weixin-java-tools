@@ -8,10 +8,7 @@ import me.chanjar.weixin.common.session.WxSession;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.common.util.http.MediaUploadRequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
-import me.chanjar.weixin.cp.bean.WxCpDepart;
-import me.chanjar.weixin.cp.bean.WxCpMessage;
-import me.chanjar.weixin.cp.bean.WxCpTag;
-import me.chanjar.weixin.cp.bean.WxCpUser;
+import me.chanjar.weixin.cp.bean.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -141,7 +138,7 @@ public interface WxCpService {
    *
    * @param message 要发送的消息对象
    */
-  void messageSend(WxCpMessage message) throws WxErrorException;
+  WxCpMessageSendResult messageSend(WxCpMessage message) throws WxErrorException;
 
   /**
    * <pre>

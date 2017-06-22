@@ -17,10 +17,7 @@ import me.chanjar.weixin.common.util.http.*;
 import me.chanjar.weixin.common.util.json.GsonHelper;
 import me.chanjar.weixin.cp.api.WxCpConfigStorage;
 import me.chanjar.weixin.cp.api.WxCpService;
-import me.chanjar.weixin.cp.bean.WxCpDepart;
-import me.chanjar.weixin.cp.bean.WxCpMessage;
-import me.chanjar.weixin.cp.bean.WxCpTag;
-import me.chanjar.weixin.cp.bean.WxCpUser;
+import me.chanjar.weixin.cp.bean.*;
 import me.chanjar.weixin.cp.util.json.WxCpGsonBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -131,9 +128,9 @@ public abstract class AbstractWxCpServiceImpl<H, P> implements WxCpService, Requ
   }
 
   @Override
-  public void messageSend(WxCpMessage message) throws WxErrorException {
+  public WxCpMessageSendResult messageSend(WxCpMessage message) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/message/send";
-    post(url, message.toJson());
+    return WxCpMessageSendResult.fromJson(this.post(url, message.toJson()));
   }
 
   @Override
