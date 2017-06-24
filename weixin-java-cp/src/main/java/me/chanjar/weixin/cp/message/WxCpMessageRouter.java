@@ -1,4 +1,4 @@
-package me.chanjar.weixin.cp.api;
+package me.chanjar.weixin.cp.message;
 
 import me.chanjar.weixin.common.api.WxErrorExceptionHandler;
 import me.chanjar.weixin.common.api.WxMessageDuplicateChecker;
@@ -8,6 +8,7 @@ import me.chanjar.weixin.common.session.InternalSessionManager;
 import me.chanjar.weixin.common.session.StandardSessionManager;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.common.util.LogExceptionHandler;
+import me.chanjar.weixin.cp.api.WxCpService;
 import me.chanjar.weixin.cp.bean.WxCpXmlMessage;
 import me.chanjar.weixin.cp.bean.WxCpXmlOutMessage;
 import org.slf4j.Logger;

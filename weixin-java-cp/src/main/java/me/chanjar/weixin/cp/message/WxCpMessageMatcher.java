@@ -1,4 +1,4 @@
-package me.chanjar.weixin.cp.api;
+package me.chanjar.weixin.cp.message;
 
 import me.chanjar.weixin.cp.bean.WxCpXmlMessage;
 
