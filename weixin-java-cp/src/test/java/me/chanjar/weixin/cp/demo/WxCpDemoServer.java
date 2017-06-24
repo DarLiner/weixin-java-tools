@@ -1,9 +1,9 @@
 package me.chanjar.weixin.cp.demo;
 
 import me.chanjar.weixin.common.session.WxSessionManager;
-import me.chanjar.weixin.cp.api.WxCpConfigStorage;
-import me.chanjar.weixin.cp.api.WxCpMessageHandler;
-import me.chanjar.weixin.cp.api.WxCpMessageRouter;
+import me.chanjar.weixin.cp.config.WxCpConfigStorage;
+import me.chanjar.weixin.cp.message.WxCpMessageHandler;
+import me.chanjar.weixin.cp.message.WxCpMessageRouter;
 import me.chanjar.weixin.cp.api.WxCpService;
 import me.chanjar.weixin.cp.api.impl.WxCpServiceImpl;
 import me.chanjar.weixin.cp.bean.WxCpXmlMessage;

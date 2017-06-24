@@ -15,9 +15,9 @@ import me.chanjar.weixin.common.util.crypto.SHA1;
 import me.chanjar.weixin.common.util.fs.FileUtils;
 import me.chanjar.weixin.common.util.http.*;
 import me.chanjar.weixin.common.util.json.GsonHelper;
-import me.chanjar.weixin.cp.api.WxCpConfigStorage;
-import me.chanjar.weixin.cp.api.WxCpService;
+import me.chanjar.weixin.cp.api.*;
 import me.chanjar.weixin.cp.bean.*;
+import me.chanjar.weixin.cp.config.WxCpConfigStorage;
 import me.chanjar.weixin.cp.util.json.WxCpGsonBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -30,8 +30,14 @@ import java.util.List;
 import java.util.UUID;
 
 public abstract class AbstractWxCpServiceImpl<H, P> implements WxCpService, RequestHttp<H, P> {
-
   protected final Logger log = LoggerFactory.getLogger(this.getClass());
+
+  private WxCpUserService userService = new WxCpUserServiceImpl(this);
+  private WxCpDepartmentService departmentService = new WxCpDepartmentServiceImpl(this);
+  private WxCpMediaService mediaService;
+  private WxCpMenuService menuService;
+  private WxCpOauth2Service oauth2Service;
+  private WxCpTagService tagService;
 
   /**
    * 全局的是否正在刷新access token的锁
@@ -63,12 +69,6 @@ public abstract class AbstractWxCpServiceImpl<H, P> implements WxCpService, Requ
       this.log.error("Checking signature failed, and the reason is :" + e.getMessage());
       return false;
     }
-  }
-
-  @Override
-  public void userAuthenticated(String userId) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/authsucc?userid=" + userId;
-    get(url, null);
   }
 
   @Override
@@ -134,11 +134,13 @@ public abstract class AbstractWxCpServiceImpl<H, P> implements WxCpService, Requ
   }
 
   @Override
+  @Deprecated
   public void menuCreate(WxMenu menu) throws WxErrorException {
     menuCreate(this.configStorage.getAgentId(), menu);
   }
 
   @Override
+  @Deprecated
   public void menuCreate(Integer agentId, WxMenu menu) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/menu/create?agentid="
       + agentId;
@@ -146,22 +148,26 @@ public abstract class AbstractWxCpServiceImpl<H, P> implements WxCpService, Requ
   }
 
   @Override
+  @Deprecated
   public void menuDelete() throws WxErrorException {
     menuDelete(this.configStorage.getAgentId());
   }
 
   @Override
+  @Deprecated
   public void menuDelete(Integer agentId) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/menu/delete?agentid=" + agentId;
     get(url, null);
   }
 
   @Override
+  @Deprecated
   public WxMenu menuGet() throws WxErrorException {
     return menuGet(this.configStorage.getAgentId());
   }
 
   @Override
+  @Deprecated
   public WxMenu menuGet(Integer agentId) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/menu/get?agentid=" + agentId;
     try {
@@ -177,18 +183,21 @@ public abstract class AbstractWxCpServiceImpl<H, P> implements WxCpService, Requ
   }
 
   @Override
+  @Deprecated
   public WxMediaUploadResult mediaUpload(String mediaType, String fileType, InputStream inputStream)
     throws WxErrorException, IOException {
     return mediaUpload(mediaType, FileUtils.createTmpFile(inputStream, UUID.randomUUID().toString(), fileType));
   }
 
   @Override
+  @Deprecated
   public WxMediaUploadResult mediaUpload(String mediaType, File file) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/media/upload?type=" + mediaType;
     return execute(MediaUploadRequestExecutor.create(this), url, file);
   }
 
   @Override
+  @Deprecated
   public File mediaDownload(String mediaId) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/media/get";
     return execute(
@@ -197,130 +206,56 @@ public abstract class AbstractWxCpServiceImpl<H, P> implements WxCpService, Requ
       url, "media_id=" + mediaId);
   }
 
-
   @Override
-  public Integer departCreate(WxCpDepart depart) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/department/create";
-    String responseContent = execute(
-      SimplePostRequestExecutor.create(this),
-      url,
-      depart.toJson());
-    JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
-    return GsonHelper.getAsInteger(tmpJsonElement.getAsJsonObject().get("id"));
+  @Deprecated
+  public void userAuthenticated(String userId) throws WxErrorException {
+    this.getUserService().authenticate(userId);
   }
 
   @Override
-  public void departUpdate(WxCpDepart group) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/department/update";
-    post(url, group.toJson());
-  }
-
-  @Override
-  public void departDelete(Integer departId) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/department/delete?id=" + departId;
-    get(url, null);
-  }
-
-  @Override
-  public List<WxCpDepart> departGet() throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/department/list";
-    String responseContent = get(url, null);
-    /*
-     * 操蛋的微信API，创建时返回的是 { group : { id : ..., name : ...} }
-     * 查询时返回的是 { groups : [ { id : ..., name : ..., count : ... }, ... ] }
-     */
-    JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
-    return WxCpGsonBuilder.INSTANCE.create()
-      .fromJson(
-        tmpJsonElement.getAsJsonObject().get("department"),
-        new TypeToken<List<WxCpDepart>>() {
-        }.getType()
-      );
-  }
-
-  @Override
+  @Deprecated
   public void userCreate(WxCpUser user) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/create";
-    post(url, user.toJson());
+    this.getUserService().create(user);
   }
 
   @Override
+  @Deprecated
   public void userUpdate(WxCpUser user) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/update";
-    post(url, user.toJson());
+    this.getUserService().update(user);
   }
 
   @Override
+  @Deprecated
   public void userDelete(String userid) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/delete?userid=" + userid;
-    get(url, null);
+    this.getUserService().delete(userid);
   }
 
   @Override
+  @Deprecated
   public void userDelete(String[] userids) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/batchdelete";
-    JsonObject jsonObject = new JsonObject();
-    JsonArray jsonArray = new JsonArray();
-    for (String userid : userids) {
-      jsonArray.add(new JsonPrimitive(userid));
-    }
-    jsonObject.add("useridlist", jsonArray);
-    post(url, jsonObject.toString());
+    this.getUserService().delete(userids);
   }
 
   @Override
+  @Deprecated
   public WxCpUser userGet(String userid) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/get?userid=" + userid;
-    String responseContent = get(url, null);
-    return WxCpUser.fromJson(responseContent);
+    return this.getUserService().getById(userid);
   }
 
   @Override
+  @Deprecated
   public List<WxCpUser> userList(Integer departId, Boolean fetchChild, Integer status) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/list?department_id=" + departId;
-    String params = "";
-    if (fetchChild != null) {
-      params += "&fetch_child=" + (fetchChild ? "1" : "0");
-    }
-    if (status != null) {
-      params += "&status=" + status;
-    } else {
-      params += "&status=0";
-    }
-
-    String responseContent = get(url, params);
-    JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
-    return WxCpGsonBuilder.INSTANCE.create()
-      .fromJson(tmpJsonElement.getAsJsonObject().get("userlist"),
-        new TypeToken<List<WxCpUser>>() {
-        }.getType()
-      );
+    return  this.getUserService().listByDepartment(departId, fetchChild, status);
   }
 
   @Override
+  @Deprecated
   public List<WxCpUser> departGetUsers(Integer departId, Boolean fetchChild, Integer status) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/simplelist?department_id=" + departId;
-    String params = "";
-    if (fetchChild != null) {
-      params += "&fetch_child=" + (fetchChild ? "1" : "0");
-    }
-    if (status != null) {
-      params += "&status=" + status;
-    } else {
-      params += "&status=0";
-    }
-
-    String responseContent = get(url, params);
-    JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
-    return WxCpGsonBuilder.INSTANCE.create()
-      .fromJson(
-        tmpJsonElement.getAsJsonObject().get("userlist"),
-        new TypeToken<List<WxCpUser>>() {
-        }.getType()
-      );
+    return  this.getUserService().listSimpleByDepartment(departId, fetchChild, status);
   }
 
   @Override
+  @Deprecated
   public String tagCreate(String tagName) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/tag/create";
     JsonObject o = new JsonObject();
@@ -331,6 +266,7 @@ public abstract class AbstractWxCpServiceImpl<H, P> implements WxCpService, Requ
   }
 
   @Override
+  @Deprecated
   public void tagUpdate(String tagId, String tagName) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/tag/update";
     JsonObject o = new JsonObject();
@@ -340,12 +276,14 @@ public abstract class AbstractWxCpServiceImpl<H, P> implements WxCpService, Requ
   }
 
   @Override
+  @Deprecated
   public void tagDelete(String tagId) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/tag/delete?tagid=" + tagId;
     get(url, null);
   }
 
   @Override
+  @Deprecated
   public List<WxCpTag> tagGet() throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/tag/list";
     String responseContent = get(url, null);
@@ -359,6 +297,7 @@ public abstract class AbstractWxCpServiceImpl<H, P> implements WxCpService, Requ
   }
 
   @Override
+  @Deprecated
   public List<WxCpUser> tagGetUsers(String tagId) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/tag/get?tagid=" + tagId;
     String responseContent = get(url, null);
@@ -372,6 +311,7 @@ public abstract class AbstractWxCpServiceImpl<H, P> implements WxCpService, Requ
   }
 
   @Override
+  @Deprecated
   public void tagAddUsers(String tagId, List<String> userIds, List<String> partyIds) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/tag/addtagusers";
     JsonObject jsonObject = new JsonObject();
@@ -394,6 +334,7 @@ public abstract class AbstractWxCpServiceImpl<H, P> implements WxCpService, Requ
   }
 
   @Override
+  @Deprecated
   public void tagRemoveUsers(String tagId, List<String> userIds) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/tag/deltagusers";
     JsonObject jsonObject = new JsonObject();
@@ -407,6 +348,7 @@ public abstract class AbstractWxCpServiceImpl<H, P> implements WxCpService, Requ
   }
 
   @Override
+  @Deprecated
   public String oauth2buildAuthorizationUrl(String state) {
     return this.oauth2buildAuthorizationUrl(
       this.configStorage.getOauth2redirectUri(),
@@ -415,6 +357,7 @@ public abstract class AbstractWxCpServiceImpl<H, P> implements WxCpService, Requ
   }
 
   @Override
+  @Deprecated
   public String oauth2buildAuthorizationUrl(String redirectUri, String state) {
     String url = "https://open.weixin.qq.com/connect/oauth2/authorize?";
     url += "appid=" + this.configStorage.getCorpId();
@@ -429,11 +372,13 @@ public abstract class AbstractWxCpServiceImpl<H, P> implements WxCpService, Requ
   }
 
   @Override
+  @Deprecated
   public String[] oauth2getUserInfo(String code) throws WxErrorException {
     return oauth2getUserInfo(this.configStorage.getAgentId(), code);
   }
 
   @Override
+  @Deprecated
   public String[] oauth2getUserInfo(Integer agentId, String code) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?"
       + "code=" + code
@@ -588,7 +533,6 @@ public abstract class AbstractWxCpServiceImpl<H, P> implements WxCpService, Requ
     return this.sessionManager.getSession(id, create);
   }
 
-
   @Override
   public void setSessionManager(WxSessionManager sessionManager) {
     this.sessionManager = sessionManager;
@@ -624,4 +568,57 @@ public abstract class AbstractWxCpServiceImpl<H, P> implements WxCpService, Requ
     this.tmpDirFile = tmpDirFile;
   }
 
+  @Override
+  public WxCpDepartmentService getDepartmentService() {
+    return departmentService;
+  }
+
+  @Override
+  public WxCpMediaService getMediaService() {
+    return mediaService;
+  }
+
+  @Override
+  public WxCpMenuService getMenuService() {
+    return menuService;
+  }
+
+  @Override
+  public WxCpOauth2Service getOauth2Service() {
+    return oauth2Service;
+  }
+
+  @Override
+  public WxCpTagService getTagService() {
+    return tagService;
+  }
+
+  @Override
+  public WxCpUserService getUserService() {
+    return userService;
+  }
+
+  @Override
+  @Deprecated
+  public Integer departCreate(WxCpDepart depart) throws WxErrorException {
+    return this.getDepartmentService().create(depart);
+  }
+
+  @Override
+  @Deprecated
+  public void departUpdate(WxCpDepart depart) throws WxErrorException {
+    this.getDepartmentService().update(depart);
+  }
+
+  @Override
+  @Deprecated
+  public void departDelete(Integer departId) throws WxErrorException {
+    this.getDepartmentService().delete(departId);
+  }
+
+  @Override
+  @Deprecated
+  public List<WxCpDepart> departGet() throws WxErrorException {
+    return this.getDepartmentService().listAll();
+  }
 }

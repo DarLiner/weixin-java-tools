@@ -6,6 +6,8 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
 import me.chanjar.weixin.cp.api.impl.WxCpServiceImpl;
+import me.chanjar.weixin.cp.config.WxCpConfigStorage;
+import me.chanjar.weixin.cp.config.WxCpInMemoryConfigStorage;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,10 +27,10 @@ public class ApiTestModule implements Module {
       .getSystemResourceAsStream("test-config.xml")) {
       WxXmlCpInMemoryConfigStorage config = fromXml(
         WxXmlCpInMemoryConfigStorage.class, is1);
-      WxCpServiceImpl wxService = new WxCpServiceImpl();
+      WxCpService wxService = new WxCpServiceImpl();
       wxService.setWxCpConfigStorage(config);
 
-      binder.bind(WxCpServiceImpl.class).toInstance(wxService);
+      binder.bind(WxCpService.class).toInstance(wxService);
       binder.bind(WxCpConfigStorage.class).toInstance(config);
     } catch (IOException e) {
       e.printStackTrace();

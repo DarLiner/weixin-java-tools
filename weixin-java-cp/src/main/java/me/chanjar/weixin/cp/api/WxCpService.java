@@ -9,6 +9,7 @@ import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.common.util.http.MediaUploadRequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.cp.bean.*;
+import me.chanjar.weixin.cp.config.WxCpConfigStorage;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,16 +33,6 @@ public interface WxCpService {
    * @param data         微信传输过来的数据，有可能是echoStr，有可能是xml消息
    */
   boolean checkSignature(String msgSignature, String timestamp, String nonce, String data);
-
-  /**
-   * <pre>
-   *   用在二次验证的时候
-   *   企业在员工验证成功后，调用本方法告诉企业号平台该员工关注成功。
-   * </pre>
-   *
-   * @param userId 用户id
-   */
-  void userAuthenticated(String userId) throws WxErrorException;
 
   /**
    * 获取access_token, 不强制刷新access_token
@@ -218,108 +209,76 @@ public interface WxCpService {
   WxMenu menuGet(Integer agentId) throws WxErrorException;
 
   /**
-   * <pre>
-   * 部门管理接口 - 创建部门
-   * 最多支持创建500个部门
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=部门管理接口
-   * </pre>
-   *
-   * @param depart 部门
-   * @return 部门id
+   * @deprecated  请使用 {@link WxCpDepartmentService#create(WxCpDepart depart) }
    */
+  @Deprecated
   Integer departCreate(WxCpDepart depart) throws WxErrorException;
 
   /**
-   * <pre>
-   * 部门管理接口 - 查询所有部门
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=部门管理接口
-   * </pre>
+   * @deprecated  请使用 {@link WxCpDepartmentService#update(WxCpDepart group) }
    */
-  List<WxCpDepart> departGet() throws WxErrorException;
-
-  /**
-   * <pre>
-   * 部门管理接口 - 修改部门名
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=部门管理接口
-   * 如果id为0(未部门),1(黑名单),2(星标组)，或者不存在的id，微信会返回系统繁忙的错误
-   * </pre>
-   *
-   * @param group 要更新的group，group的id,name必须设置
-   */
+  @Deprecated
   void departUpdate(WxCpDepart group) throws WxErrorException;
 
   /**
-   * <pre>
-   * 部门管理接口 - 删除部门
-   * </pre>
-   *
-   * @param departId 部门id
+   * @deprecated  请使用 {@link WxCpDepartmentService#delete(Integer departId) }
    */
+  @Deprecated
   void departDelete(Integer departId) throws WxErrorException;
 
   /**
-   * <pre>
-   * 获取部门成员(详情)
-   *
-   * http://qydev.weixin.qq.com/wiki/index.php?title=管理成员#.E8.8E.B7.E5.8F.96.E9.83.A8.E9.97.A8.E6.88.90.E5.91.98.28.E8.AF.A6.E6.83.85.29
-   * </pre>
-   *
-   * @param departId   必填。部门id
-   * @param fetchChild 非必填。1/0：是否递归获取子部门下面的成员
-   * @param status     非必填。0获取全部员工，1获取已关注成员列表，2获取禁用成员列表，4获取未关注成员列表。status可叠加
+   * @deprecated  请使用 {@link WxCpDepartmentService#listAll() }
    */
-  List<WxCpUser> userList(Integer departId, Boolean fetchChild, Integer status) throws WxErrorException;
+  @Deprecated
+  List<WxCpDepart> departGet() throws WxErrorException;
 
   /**
-   * <pre>
-   * 获取部门成员
-   *
-   * http://qydev.weixin.qq.com/wiki/index.php?title=管理成员#.E8.8E.B7.E5.8F.96.E9.83.A8.E9.97.A8.E6.88.90.E5.91.98
-   * </pre>
-   *
-   * @param departId   必填。部门id
-   * @param fetchChild 非必填。1/0：是否递归获取子部门下面的成员
-   * @param status     非必填。0获取全部员工，1获取已关注成员列表，2获取禁用成员列表，4获取未关注成员列表。status可叠加
+   * @deprecated  请使用 {@link WxCpUserService#authenticate(String userId) }
    */
-  List<WxCpUser> departGetUsers(Integer departId, Boolean fetchChild, Integer status) throws WxErrorException;
+  @Deprecated
+  void userAuthenticated(String userId) throws WxErrorException;
 
   /**
-   * 新建用户
-   *
-   * @param user 用户对象
+   * @deprecated  请使用 {@link WxCpUserService#create(WxCpUser user) }
    */
+  @Deprecated
   void userCreate(WxCpUser user) throws WxErrorException;
 
   /**
-   * 更新用户
-   *
-   * @param user 用户对象
+   * @deprecated  请使用 {@link WxCpUserService#update(WxCpUser user)}
    */
+  @Deprecated
   void userUpdate(WxCpUser user) throws WxErrorException;
 
   /**
-   * 删除用户
-   *
-   * @param userid 用户id
+   * @deprecated  请使用 {@link WxCpUserService#delete(String... userids) }
    */
+  @Deprecated
   void userDelete(String userid) throws WxErrorException;
 
   /**
-   * <pre>
-   * 批量删除成员
-   * http://qydev.weixin.qq.com/wiki/index.php?title=管理成员#.E6.89.B9.E9.87.8F.E5.88.A0.E9.99.A4.E6.88.90.E5.91.98
-   * </pre>
-   *
-   * @param userids 员工UserID列表。对应管理端的帐号
+   * @deprecated  请使用 {@link WxCpUserService#delete(String[] userids) }
    */
+  @Deprecated
   void userDelete(String[] userids) throws WxErrorException;
 
   /**
-   * 获取用户
-   *
-   * @param userid 用户id
+   * @deprecated  请使用 {@link WxCpUserService#getById(String userid) }
    */
+  @Deprecated
   WxCpUser userGet(String userid) throws WxErrorException;
+
+  /**
+   * @deprecated  请使用 {@link WxCpUserService#listByDepartment(Integer departId, Boolean fetchChild, Integer status) }
+   */
+  @Deprecated
+  List<WxCpUser> userList(Integer departId, Boolean fetchChild, Integer status) throws WxErrorException;
+
+  /**
+   * @deprecated  请使用 {@link WxCpUserService#listSimpleByDepartment(Integer departId, Boolean fetchChild, Integer status) }
+   */
+  @Deprecated
+  List<WxCpUser> departGetUsers(Integer departId, Boolean fetchChild, Integer status) throws WxErrorException;
 
   /**
    * 创建标签
@@ -560,4 +519,34 @@ public interface WxCpService {
    * @param wxConfigProvider 配置对象
    */
   void setWxCpConfigStorage(WxCpConfigStorage wxConfigProvider);
+
+  /**
+   * 获取部门相关接口的服务类对象
+   */
+  WxCpDepartmentService getDepartmentService();
+
+  /**
+   * 获取媒体相关接口的服务类对象
+   */
+  WxCpMediaService getMediaService();
+
+  /**
+   * 获取菜单相关接口的服务类对象
+   */
+  WxCpMenuService getMenuService();
+
+  /**
+   * 获取Oauth2相关接口的服务类对象
+   */
+  WxCpOauth2Service getOauth2Service();
+
+  /**
+   * 获取标签相关接口的服务类对象
+   */
+  WxCpTagService getTagService();
+
+  /**
+   * 获取用户相关接口的服务类对象
+   */
+  WxCpUserService getUserService();
 }
