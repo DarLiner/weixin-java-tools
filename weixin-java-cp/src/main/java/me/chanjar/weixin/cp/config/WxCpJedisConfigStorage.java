@@ -1,4 +1,4 @@
-package me.chanjar.weixin.cp.api;
+package me.chanjar.weixin.cp.config;
 
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.util.http.apache.ApacheHttpClientBuilder;
