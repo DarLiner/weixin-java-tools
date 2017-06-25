@@ -30,7 +30,7 @@ public class WxCpOAuth2Servlet extends HttpServlet {
       response.getWriter().println("<h1>code</h1>");
       response.getWriter().println(code);
 
-      String[] res = this.wxCpService.oauth2getUserInfo(code);
+      String[] res = this.wxCpService.getOauth2Service().getUserInfo(code);
       response.getWriter().println("<h1>result</h1>");
       response.getWriter().println(Arrays.toString(res));
     } catch (WxErrorException e) {

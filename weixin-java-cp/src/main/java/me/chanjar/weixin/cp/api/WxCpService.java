@@ -8,6 +8,7 @@ import me.chanjar.weixin.common.session.WxSession;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.common.util.http.MediaUploadRequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
+import me.chanjar.weixin.common.util.http.RequestHttp;
 import me.chanjar.weixin.cp.bean.*;
 import me.chanjar.weixin.cp.config.WxCpConfigStorage;
 
@@ -85,41 +86,40 @@ public interface WxCpService {
   WxJsapiSignature createJsapiSignature(String url) throws WxErrorException;
 
   /**
-   * <pre>
-   * 上传多媒体文件
-   * 上传的多媒体文件有格式和大小限制，如下：
-   *   图片（image）: 1M，支持JPG格式
-   *   语音（voice）：2M，播放长度不超过60s，支持AMR\MP3格式
-   *   视频（video）：10MB，支持MP4格式
-   *   缩略图（thumb）：64KB，支持JPG格式
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=上传下载多媒体文件
-   * </pre>
-   *
-   * @param mediaType   媒体类型, 请看{@link me.chanjar.weixin.common.api.WxConsts}
-   * @param fileType    文件类型，请看{@link me.chanjar.weixin.common.api.WxConsts}
-   * @param inputStream 输入流
+   * @deprecated  请使用 {@link WxCpMenuService#create(WxMenu)}
    */
-  WxMediaUploadResult mediaUpload(String mediaType, String fileType, InputStream inputStream)
-    throws WxErrorException, IOException;
+  @Deprecated
+  void menuCreate(WxMenu menu) throws WxErrorException;
 
   /**
-   * @param mediaType 媒体类型
-   * @param file      文件对象
-   * @see #mediaUpload(String, String, InputStream)
+   * @deprecated  请使用 {@link WxCpMenuService#create(Integer, WxMenu)}
    */
-  WxMediaUploadResult mediaUpload(String mediaType, File file) throws WxErrorException;
+  @Deprecated
+  void menuCreate(Integer agentId, WxMenu menu) throws WxErrorException;
 
   /**
-   * <pre>
-   * 下载多媒体文件
-   * 根据微信文档，视频文件下载不了，会返回null
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=上传下载多媒体文件
-   * </pre>
-   *
-   * @param mediaId 媒体id
-   * @return 保存到本地的临时文件
+   * @deprecated  请使用 {@link WxCpMenuService#delete()}  }
    */
-  File mediaDownload(String mediaId) throws WxErrorException;
+  @Deprecated
+  void menuDelete() throws WxErrorException;
+
+  /**
+   * @deprecated  请使用 {@link WxCpMenuService#delete(Integer)}
+   */
+  @Deprecated
+  void menuDelete(Integer agentId) throws WxErrorException;
+
+  /**
+   * @deprecated  请使用 {@link WxCpMenuService#get() }
+   */
+  @Deprecated
+  WxMenu menuGet() throws WxErrorException;
+
+  /**
+   * @deprecated  请使用 {@link WxCpMenuService#get(Integer)}
+   */
+  @Deprecated
+  WxMenu menuGet(Integer agentId) throws WxErrorException;
 
   /**
    * <pre>
@@ -132,96 +132,19 @@ public interface WxCpService {
   WxCpMessageSendResult messageSend(WxCpMessage message) throws WxErrorException;
 
   /**
-   * <pre>
-   * 自定义菜单创建接口
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单创建接口
-   *
-   * 注意: 这个方法使用WxCpConfigStorage里的agentId
-   * </pre>
-   *
-   * @param menu 菜单对象
-   * @see #menuCreate(Integer, WxMenu)
-   */
-  void menuCreate(WxMenu menu) throws WxErrorException;
-
-  /**
-   * <pre>
-   * 自定义菜单创建接口
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单创建接口
-   *
-   * 注意: 这个方法不使用WxCpConfigStorage里的agentId，需要开发人员自己给出
-   * </pre>
-   *
-   * @param agentId 企业号应用的id
-   * @param menu    菜单对象
-   * @see #menuCreate(me.chanjar.weixin.common.bean.menu.WxMenu)
-   */
-  void menuCreate(Integer agentId, WxMenu menu) throws WxErrorException;
-
-  /**
-   * <pre>
-   * 自定义菜单删除接口
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单删除接口
-   *
-   * 注意: 这个方法使用WxCpConfigStorage里的agentId
-   * </pre>
-   *
-   * @see #menuDelete(Integer)
-   */
-  void menuDelete() throws WxErrorException;
-
-  /**
-   * <pre>
-   * 自定义菜单删除接口
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单删除接口
-   *
-   * 注意: 这个方法不使用WxCpConfigStorage里的agentId，需要开发人员自己给出
-   * </pre>
-   *
-   * @param agentId 企业号应用的id
-   * @see #menuDelete()
-   */
-  void menuDelete(Integer agentId) throws WxErrorException;
-
-  /**
-   * <pre>
-   * 自定义菜单查询接口
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单查询接口
-   *
-   * 注意: 这个方法使用WxCpConfigStorage里的agentId
-   * </pre>
-   *
-   * @see #menuGet(Integer)
-   */
-  WxMenu menuGet() throws WxErrorException;
-
-  /**
-   * <pre>
-   * 自定义菜单查询接口
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单查询接口
-   *
-   * 注意: 这个方法不使用WxCpConfigStorage里的agentId，需要开发人员自己给出
-   * </pre>
-   *
-   * @param agentId 企业号应用的id
-   * @see #menuGet()
-   */
-  WxMenu menuGet(Integer agentId) throws WxErrorException;
-
-  /**
-   * @deprecated  请使用 {@link WxCpDepartmentService#create(WxCpDepart depart) }
+   * @deprecated  请使用 {@link WxCpDepartmentService#create(WxCpDepart)}
    */
   @Deprecated
   Integer departCreate(WxCpDepart depart) throws WxErrorException;
 
   /**
-   * @deprecated  请使用 {@link WxCpDepartmentService#update(WxCpDepart group) }
+   * @deprecated  请使用 {@link WxCpDepartmentService#update(WxCpDepart)}
    */
   @Deprecated
   void departUpdate(WxCpDepart group) throws WxErrorException;
 
   /**
-   * @deprecated  请使用 {@link WxCpDepartmentService#delete(Integer departId) }
+   * @deprecated  请使用 {@link WxCpDepartmentService#delete(Integer)}
    */
   @Deprecated
   void departDelete(Integer departId) throws WxErrorException;
@@ -233,156 +156,137 @@ public interface WxCpService {
   List<WxCpDepart> departGet() throws WxErrorException;
 
   /**
-   * @deprecated  请使用 {@link WxCpUserService#authenticate(String userId) }
+   * @deprecated  请使用 {@link WxCpMediaService#upload(String, String, InputStream)}
+   */
+  @Deprecated
+  WxMediaUploadResult mediaUpload(String mediaType, String fileType, InputStream inputStream)
+    throws WxErrorException, IOException;
+
+  /**
+   * @deprecated  请使用 {@link WxCpMediaService#upload(String, File)}
+   */
+  @Deprecated
+  WxMediaUploadResult mediaUpload(String mediaType, File file) throws WxErrorException;
+
+  /**
+   * @deprecated  请使用 {@link WxCpMediaService#download(String)}
+   */
+  @Deprecated
+  File mediaDownload(String mediaId) throws WxErrorException;
+
+  /**
+   * @deprecated  请使用 {@link WxCpUserService#authenticate(String)}
    */
   @Deprecated
   void userAuthenticated(String userId) throws WxErrorException;
 
   /**
-   * @deprecated  请使用 {@link WxCpUserService#create(WxCpUser user) }
+   * @deprecated  请使用 {@link WxCpUserService#create(WxCpUser)}
    */
   @Deprecated
   void userCreate(WxCpUser user) throws WxErrorException;
 
   /**
-   * @deprecated  请使用 {@link WxCpUserService#update(WxCpUser user)}
+   * @deprecated  请使用 {@link WxCpUserService#update(WxCpUser)}
    */
   @Deprecated
   void userUpdate(WxCpUser user) throws WxErrorException;
 
   /**
-   * @deprecated  请使用 {@link WxCpUserService#delete(String... userids) }
+   * @deprecated  请使用 {@link WxCpUserService#delete(String...)}
    */
   @Deprecated
   void userDelete(String userid) throws WxErrorException;
 
   /**
-   * @deprecated  请使用 {@link WxCpUserService#delete(String[] userids) }
+   * @deprecated  请使用 {@link WxCpUserService#delete(String...)}
    */
   @Deprecated
   void userDelete(String[] userids) throws WxErrorException;
 
   /**
-   * @deprecated  请使用 {@link WxCpUserService#getById(String userid) }
+   * @deprecated  请使用 {@link WxCpUserService#getById(String)}
    */
   @Deprecated
   WxCpUser userGet(String userid) throws WxErrorException;
 
   /**
-   * @deprecated  请使用 {@link WxCpUserService#listByDepartment(Integer departId, Boolean fetchChild, Integer status) }
+   * @deprecated  请使用 {@link WxCpUserService#listByDepartment(Integer, Boolean, Integer)}
    */
   @Deprecated
   List<WxCpUser> userList(Integer departId, Boolean fetchChild, Integer status) throws WxErrorException;
 
   /**
-   * @deprecated  请使用 {@link WxCpUserService#listSimpleByDepartment(Integer departId, Boolean fetchChild, Integer status) }
+   * @deprecated  请使用 {@link WxCpUserService#listSimpleByDepartment(Integer, Boolean, Integer)}
    */
   @Deprecated
   List<WxCpUser> departGetUsers(Integer departId, Boolean fetchChild, Integer status) throws WxErrorException;
 
   /**
-   * 创建标签
-   *
-   * @param tagName 标签名
+   * @deprecated  请使用 {@link WxCpTagService#create(String)}
    */
+  @Deprecated
   String tagCreate(String tagName) throws WxErrorException;
 
   /**
-   * 更新标签
-   *
-   * @param tagId   标签id
-   * @param tagName 标签名
+   * @deprecated  请使用 {@link WxCpTagService#update(String, String)}
    */
+  @Deprecated
   void tagUpdate(String tagId, String tagName) throws WxErrorException;
 
   /**
-   * 删除标签
-   *
-   * @param tagId 标签id
+   * @deprecated  请使用 {@link WxCpTagService#delete(String)}
    */
+  @Deprecated
   void tagDelete(String tagId) throws WxErrorException;
 
   /**
-   * 获得标签列表
+   * @deprecated  请使用 {@link WxCpTagService#listAll()}
    */
+  @Deprecated
   List<WxCpTag> tagGet() throws WxErrorException;
 
   /**
-   * 获取标签成员
-   *
-   * @param tagId 标签ID
+   * @deprecated  请使用 {@link WxCpTagService#listUsersByTagId(String)}
    */
+  @Deprecated
   List<WxCpUser> tagGetUsers(String tagId) throws WxErrorException;
 
   /**
-   * 增加标签成员
-   *
-   * @param tagId   标签id
-   * @param userIds 用户ID 列表
+   * @deprecated  请使用 {@link WxCpTagService#addUsers2Tag(String, List, List)}
    */
+  @Deprecated
   void tagAddUsers(String tagId, List<String> userIds, List<String> partyIds) throws WxErrorException;
 
   /**
-   * <pre>
-   * 构造oauth2授权的url连接
-   * </pre>
-   *
-   * @param state 状态码
-   * @return url
+   * @deprecated  请使用 {@link WxCpTagService#removeUsersFromTag(String, List)}
    */
+  @Deprecated
+  void tagRemoveUsers(String tagId, List<String> userIds) throws WxErrorException;
+
+  /**
+   * @deprecated  请使用 {@link WxCpOAuth2Service#buildAuthorizationUrl(String)}
+   */
+  @Deprecated
   String oauth2buildAuthorizationUrl(String state);
 
   /**
-   * <pre>
-   * 构造oauth2授权的url连接
-   * 详情请见: http://qydev.weixin.qq.com/wiki/index.php?title=企业获取code
-   * </pre>
-   *
-   * @param redirectUri 跳转链接地址
-   * @param state       状态码
-   * @return url
+   * @deprecated  请使用 {@link WxCpOAuth2Service#buildAuthorizationUrl(String, String)}
    */
+  @Deprecated
   String oauth2buildAuthorizationUrl(String redirectUri, String state);
 
   /**
-   * <pre>
-   * 用oauth2获取用户信息
-   * http://qydev.weixin.qq.com/wiki/index.php?title=根据code获取成员信息
-   * 因为企业号oauth2.0必须在应用设置里设置通过ICP备案的可信域名，所以无法测试，因此这个方法很可能是坏的。
-   *
-   * 注意: 这个方法使用WxCpConfigStorage里的agentId
-   * </pre>
-   *
-   * @param code 微信oauth授权返回的代码
-   * @return [userid, deviceid]
-   * @see #oauth2getUserInfo(Integer, String)
+   * @deprecated  请使用 {@link WxCpOAuth2Service#getUserInfo(String)}
    */
+  @Deprecated
   String[] oauth2getUserInfo(String code) throws WxErrorException;
 
   /**
-   * <pre>
-   * 用oauth2获取用户信息
-   * http://qydev.weixin.qq.com/wiki/index.php?title=根据code获取成员信息
-   * 因为企业号oauth2.0必须在应用设置里设置通过ICP备案的可信域名，所以无法测试，因此这个方法很可能是坏的。
-   *
-   * 注意: 这个方法不使用WxCpConfigStorage里的agentId，需要开发人员自己给出
-   * </pre>
-   *
-   * @param agentId 企业号应用的id
-   * @param code    微信oauth授权返回的代码
-   * @return [userid, deviceid]
-   * @see #oauth2getUserInfo(String)
+   * @deprecated  请使用 {@link WxCpOAuth2Service#getUserInfo(Integer, String)}
    */
+  @Deprecated
   String[] oauth2getUserInfo(Integer agentId, String code) throws WxErrorException;
-
-
-  /**
-   * 移除标签成员
-   *
-   * @param tagId   标签id
-   * @param userIds 用户id列表
-   */
-  void tagRemoveUsers(String tagId, List<String> userIds) throws WxErrorException;
 
   /**
    * <pre>
@@ -538,7 +442,7 @@ public interface WxCpService {
   /**
    * 获取Oauth2相关接口的服务类对象
    */
-  WxCpOauth2Service getOauth2Service();
+  WxCpOAuth2Service getOauth2Service();
 
   /**
    * 获取标签相关接口的服务类对象
@@ -549,4 +453,9 @@ public interface WxCpService {
    * 获取用户相关接口的服务类对象
    */
   WxCpUserService getUserService();
+
+  /**
+   * http请求对象
+   */
+  RequestHttp getRequestHttp();
 }

@@ -39,7 +39,7 @@ public class WxCpUserGsonAdapter implements JsonDeserializer<WxCpUser>, JsonSeri
     user.setName(GsonHelper.getString(o, "name"));
     user.setPosition(GsonHelper.getString(o, "position"));
     user.setMobile(GsonHelper.getString(o, "mobile"));
-    user.setGender(GsonHelper.getString(o, "gender"));
+    user.setGender(WxCpUser.Gender.fromCode(GsonHelper.getString(o, "gender")));
     user.setEmail(GsonHelper.getString(o, "email"));
     user.setAvatar(GsonHelper.getString(o, "avatar"));
     user.setStatus(GsonHelper.getInteger(o, "status"));
@@ -85,7 +85,7 @@ public class WxCpUserGsonAdapter implements JsonDeserializer<WxCpUser>, JsonSeri
       o.addProperty("mobile", user.getMobile());
     }
     if (user.getGender() != null) {
-      o.addProperty("gender", user.getGender());
+      o.addProperty("gender", user.getGender().getCode());
     }
     if (user.getEmail() != null) {
       o.addProperty("email", user.getEmail());

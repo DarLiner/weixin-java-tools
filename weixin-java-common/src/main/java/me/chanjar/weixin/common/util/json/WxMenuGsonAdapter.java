@@ -90,9 +90,14 @@ public class WxMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserializ
      * 操蛋的微信
      * 创建菜单时是 { button : ... }
      * 查询菜单时是 { menu : { button : ... } }
+     * 现在企业号升级为企业微信后，没有此问题，因此需要单独处理
      */
-    WxMenu menu = new WxMenu();
     JsonArray buttonsJson = json.getAsJsonObject().get("menu").getAsJsonObject().get("button").getAsJsonArray();
+    return this.buildMenuFromJson(buttonsJson);
+  }
+
+  protected WxMenu buildMenuFromJson(JsonArray buttonsJson) {
+    WxMenu menu = new WxMenu();
     for (int i = 0; i < buttonsJson.size(); i++) {
       JsonObject buttonJson = buttonsJson.get(i).getAsJsonObject();
       WxMenuButton button = convertFromJson(buttonJson);

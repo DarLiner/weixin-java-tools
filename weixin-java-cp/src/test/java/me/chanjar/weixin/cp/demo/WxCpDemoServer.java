@@ -1,14 +1,14 @@
 package me.chanjar.weixin.cp.demo;
 
 import me.chanjar.weixin.common.session.WxSessionManager;
-import me.chanjar.weixin.cp.config.WxCpConfigStorage;
-import me.chanjar.weixin.cp.message.WxCpMessageHandler;
-import me.chanjar.weixin.cp.message.WxCpMessageRouter;
 import me.chanjar.weixin.cp.api.WxCpService;
 import me.chanjar.weixin.cp.api.impl.WxCpServiceImpl;
 import me.chanjar.weixin.cp.bean.WxCpXmlMessage;
 import me.chanjar.weixin.cp.bean.WxCpXmlOutMessage;
 import me.chanjar.weixin.cp.bean.WxCpXmlOutTextMessage;
+import me.chanjar.weixin.cp.config.WxCpConfigStorage;
+import me.chanjar.weixin.cp.message.WxCpMessageHandler;
+import me.chanjar.weixin.cp.message.WxCpMessageRouter;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -69,8 +69,7 @@ public class WxCpDemoServer {
                                         Map<String, Object> context, WxCpService wxService,
                                         WxSessionManager sessionManager) {
           String href = "<a href=\""
-            + wxService.oauth2buildAuthorizationUrl(
-            wxCpConfigStorage.getOauth2redirectUri(), null)
+            + wxService.getOauth2Service().buildAuthorizationUrl(wxCpConfigStorage.getOauth2redirectUri(), null)
             + "\">测试oauth2</a>";
           return WxCpXmlOutMessage.TEXT().content(href)
             .fromUser(wxMessage.getToUserName())

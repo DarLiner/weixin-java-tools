@@ -31,7 +31,7 @@ public class ApiTestModule implements Module {
       wxService.setWxCpConfigStorage(config);
 
       binder.bind(WxCpService.class).toInstance(wxService);
-      binder.bind(WxCpConfigStorage.class).toInstance(config);
+      binder.bind(WxXmlCpInMemoryConfigStorage.class).toInstance(config);
     } catch (IOException e) {
       e.printStackTrace();
     }

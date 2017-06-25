@@ -13,13 +13,45 @@ import java.util.List;
  */
 public class WxCpUser implements Serializable {
 
+  public enum Gender {
+    MALE("男", "1"),
+    FEMAIL("女", "2");
+
+    private String genderName;
+    private String code;
+
+    Gender(String genderName, String code) {
+      this.genderName = genderName;
+      this.code = code;
+    }
+
+    public String getGenderName() {
+      return this.genderName;
+    }
+
+    public String getCode() {
+      return this.code;
+    }
+
+    public static Gender fromCode(String code) {
+      if ("1".equals(code)) {
+        return Gender.MALE;
+      }
+      if ("2".equals(code)) {
+        return Gender.FEMAIL;
+      }
+
+      return null;
+    }
+  }
+
   private static final long serialVersionUID = -5696099236344075582L;
   private String userId;
   private String name;
   private Integer[] departIds;
   private String position;
   private String mobile;
-  private String gender;
+  private Gender gender;
   private String email;
   private String avatar;
   private Integer status;
@@ -58,11 +90,11 @@ public class WxCpUser implements Serializable {
     this.departIds = departIds;
   }
 
-  public String getGender() {
+  public Gender getGender() {
     return this.gender;
   }
 
-  public void setGender(String gender) {
+  public void setGender(Gender gender) {
     this.gender = gender;
   }
 
@@ -159,7 +191,6 @@ public class WxCpUser implements Serializable {
   }
 
   public static class Attr {
-
     private String name;
     private String value;
 
