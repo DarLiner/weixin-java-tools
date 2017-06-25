@@ -286,7 +286,7 @@ public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, Requ
 
     try {
       T result = executor.execute(uriWithAccessToken, data);
-      this.log.debug("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}", uriWithAccessToken, data, result);
+      this.log.debug("\n【请求地址】: {}\n【请求参数】：{}\n【响应数据】：{}", uriWithAccessToken, data, result);
       return result;
     } catch (WxErrorException e) {
       WxError error = e.getError();
@@ -305,12 +305,12 @@ public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, Requ
       }
 
       if (error.getErrorCode() != 0) {
-        this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}", uriWithAccessToken, data, error);
+        this.log.error("\n【请求地址】: {}\n【请求参数】：{}\n【错误信息】：{}", uriWithAccessToken, data, error);
         throw new WxErrorException(error);
       }
       return null;
     } catch (IOException e) {
-      this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[EXCEPTION]: {}", uriWithAccessToken, data, e.getMessage());
+      this.log.error("\n【请求地址】: {}\n【请求参数】：{}\n【异常信息】：{}", uriWithAccessToken, data, e.getMessage());
       throw new RuntimeException(e);
     }
   }
