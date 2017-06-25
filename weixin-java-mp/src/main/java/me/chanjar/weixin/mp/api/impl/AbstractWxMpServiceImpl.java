@@ -400,4 +400,9 @@ public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, Requ
   public WxMpShakeService getShakeService(){
     return this.shakeService;
   }
+
+  @Override
+  public RequestHttp getRequestHttp() {
+    return this;
+  }
 }

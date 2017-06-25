@@ -4,7 +4,6 @@ import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.HttpType;
-import me.chanjar.weixin.common.util.http.RequestHttp;
 import me.chanjar.weixin.common.util.http.apache.ApacheHttpClientBuilder;
 import me.chanjar.weixin.common.util.http.apache.DefaultApacheHttpClientBuilder;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
@@ -59,11 +58,6 @@ public class WxMpServiceApacheHttpClientImpl extends AbstractWxMpServiceImpl<Clo
     }
 
     this.httpClient = apacheHttpClientBuilder.build();
-  }
-
-  @Override
-  public RequestHttp getRequestHttp() {
-    return this;
   }
 
   @Override
