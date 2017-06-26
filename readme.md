@@ -21,7 +21,7 @@
 1. 最新更新：**2017-6-25 发布[【2.7.0正式版】](https://github.com/Wechat-Group/weixin-java-tools/releases)**！
 1. 开源中国网站的本项目介绍的首页链接地址：https://www.oschina.net/p/weixin-java-tools-new
 1. 自2.6.0版本开始，微信支付相关功能抽出独立为一个模块，详细使用方式请参考相关demo；
-1. 自2.7.0版本开始支持微信支付，具体可以参考相关demo；
+1. 自2.7.0版本开始，支持微信小程序，具体可以参考相关demo；
 1. SDK详细开发文档请查阅 [【Wiki】](https://github.com/wechat-group/weixin-java-tools/wiki)，部分文档可能未能及时更新，如有发现，可以及时上报或者自行修改。
 1. 各个模块的Javadoc可以在线查看（有可能是最新的测试版本的，请注意观察版本号）：[weixin-java-miniapp](https://binarywang.github.io/weixin-java-miniapp-javadoc/)、[weixin-java-pay](https://binarywang.github.io/weixin-java-pay-javadoc/)、[weixin-java-mp](https://binarywang.github.io/weixin-java-mp-javadoc/)、[weixin-java-common](https://binarywang.github.io/weixin-java-common-javadoc/)、[weixin-java-cp](https://binarywang.github.io/weixin-java-cp-javadoc/)
 1. 本SDK要求的最低JDK版本是7，还在使用JDK6的用户请参考[【此项目】]( https://github.com/binarywang/weixin-java-tools-for-jdk6) ，而其他更早的JDK版本则需要自己改造实现。
