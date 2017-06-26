@@ -1,21 +1,33 @@
-微信支付、公众号&企业号开发Java SDK
+微信支付、小程序、公众号&企业号开发Java SDK
 ---------------------------------
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.binarywang/weixin-java-parent/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.binarywang/weixin-java-parent)
 [![Build Status](https://travis-ci.org/Wechat-Group/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/Wechat-Group/weixin-java-tools)
 
-### 注意事项：
-1. 声明： ***本项目Fork自chanjarster/weixin-java-tools，但由于原项目已停止维护，故单独维护和发布，且发布到maven上的groupId也会不同，详细信息见下文。***
-1. **新手请注意，本项目仅是一个开发工具包（即SDK），未提供Web实现，建议使用maven或gradle引用本项目即可使用本SDK提供的各种功能，详情可参考下文中提到的Demo项目或本项目中的部分单元测试代码；如果没有贡献代码的意愿，不建议下载项目的源码自行编译，因为如果想看源码使用maven也是可以下载源码的**；
+#### 声明： ***本项目Fork自chanjarster/weixin-java-tools，但由于原项目已停止维护，故单独维护和发布，且发布到maven上的groupId也会不同，详细信息见下文。***
+
+***新人提示：本项目仅是一个开发工具包（即SDK），未提供Web实现，建议使用maven或gradle引用本项目即可使用本SDK提供的各种功能，详情可参考下文中提到的Demo项目或本项目中的部分单元测试代码；另外微信开发新手请务必阅读wiki首页的常见问题部分，可以少走很多弯路，节省不少时间。***
+
+## Demo项目列表
+* https://github.com/wechat-group/weixin-java-miniapp-demo （微信小程序Demo） 
+* https://github.com/wechat-group/weixin-java-pay-demo （微信支付Demo） 
+* https://github.com/wechat-group/weixin-java-cp-demo （企业号Demo）
+* https://github.com/wechat-group/weixin-java-mp-demo （公众号Demo，使用Spring MVC实现）
+* https://github.com/wechat-group/weixin-java-mp-demo-springboot （公众号Demo，使用Spring Boot实现）
+* https://github.com/wechat-group/weixin-java-tools-springmvc （公众号Demo，内含部分微信支付代码）
+* https://github.com/wechat-group/weixin-java-mp-multi-demo (支持多公众号)
+
+---------------------------------
+### 其他信息：
 1. 最新更新：**2017-4-13 发布[【2.6.0正式版】](https://github.com/Wechat-Group/weixin-java-tools/releases)**！
 1. 开源中国网站的本项目介绍的首页链接地址：https://www.oschina.net/p/weixin-java-tools-new
 1. 自2.0.0版本以来，公众号的接口调整比较大，主要是为了解决主接口类过于庞大不方便管理的问题，将接口实现代码按模块进行拆分。
 1. 自2.6.0版本开始，微信支付相关功能抽出独立为一个模块，详细使用方式请参考相关demo；
-1. SDK详细开发文档请查阅 [【Wiki】](https://github.com/wechat-group/weixin-java-tools/wiki)，部分文档可能未能及时更新，如有发现，可以及时上报或者自行修改。***另外微信开发新手请务必阅读wiki首页的常见问题部分，可以少走很多弯路，节省不少时间。***
+1. SDK详细开发文档请查阅 [【Wiki】](https://github.com/wechat-group/weixin-java-tools/wiki)，部分文档可能未能及时更新，如有发现，可以及时上报或者自行修改。
 1. 各个模块的Javadoc可以在线查看（有可能是最新的测试版本的，请注意观察版本号）：[weixin-java-pay](https://binarywang.github.io/weixin-java-pay-javadoc/)、[weixin-java-mp](https://binarywang.github.io/weixin-java-mp-javadoc/)、[weixin-java-common](https://binarywang.github.io/weixin-java-common-javadoc/)、[weixin-java-cp](https://binarywang.github.io/weixin-java-cp-javadoc/)
 1. 本SDK要求的最低JDK版本是7，还在使用JDK6的用户请参考[【此项目】]( https://github.com/binarywang/weixin-java-tools-for-jdk6) ，而其他更早的JDK版本则需要自己改造实现。
 1. 如有新功能需求，发现BUG，或者由于微信官方接口调整导致的代码问题，可以直接在[【Issues】](https://github.com/Wechat-Group/weixin-java-tools/issues)页提出issue，便于讨论追踪问题；
 1. 如果想贡献代码，请阅读[【代码贡献指南】](contribution.md)；
-1. 捐助渠道已开通，如有意向请前往托管于码云的项目首页（具体地址见下文）的页面评论区上方，可以找到“捐助”按钮，非常感谢各位捐助的同学！
+1. **捐助渠道已开通，如有意向请点击[【支付宝二维码】](alipay_qrcode.jpg)捐赠，或者直接前往[【托管于码云的项目首页】](http://git.oschina.net/binary/weixin-java-tools)，在评论区上方可以找到“捐助”按钮。非常感谢各位捐助的同学！**
 
 ---------------------------------
 ## SDK使用交流方式说明：
@@ -40,17 +52,17 @@
 * Coding: https://git.coding.net/binarywang/weixin-java-tools.git
 
 ---------------------------------
-## 可参考的Demo项目
-#### 欢迎提供更多的Demo供新手参考:
-* https://github.com/wechat-group/weixin-java-pay-demo （微信支付Demo） 
-* https://github.com/wechat-group/weixin-java-cp-demo （企业号Demo）
-* https://github.com/wechat-group/weixin-java-mp-demo （公众号Demo，使用Spring MVC实现）
-* https://github.com/wechat-group/weixin-java-mp-demo-springboot （公众号Demo，使用Spring Boot实现）
-* https://github.com/wechat-group/weixin-java-tools-springmvc （公众号Demo，内含部分微信支付代码）
-* https://github.com/wechat-group/weixin-java-mp-multi-demo (支持多公众号)
-
----------------------------------
 ## Maven 最新正式版本
+
+* 微信小程序（暂时为测试版本）：
+
+```xml
+<dependency>
+  <groupId>com.github.binarywang</groupId>
+  <artifactId>weixin-java-miniapp</artifactId>
+  <version>2.6.5.BETA</version>
+</dependency>
+```
 
 * 微信支付：
 
