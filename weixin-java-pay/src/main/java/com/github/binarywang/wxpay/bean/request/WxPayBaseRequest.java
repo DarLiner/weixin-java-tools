@@ -1,6 +1,7 @@
 package com.github.binarywang.wxpay.bean.request;
 
 import com.github.binarywang.wxpay.config.WxPayConfig;
+import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.util.SignUtils;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -29,22 +30,6 @@ import java.math.BigDecimal;
  */
 public abstract class WxPayBaseRequest {
   /**
-   * 检查请求参数内容，包括必填参数以及特殊约束
-   */
-  protected void checkFields() throws WxErrorException {
-    //check required fields
-    BeanUtils.checkRequiredFields(this);
-
-    //check other parameters
-    this.checkConstraints();
-  }
-
-  /**
-   * 检查约束情况
-   */
-  protected abstract void checkConstraints();
-
-  /**
    * <pre>
    * 公众账号ID
    * appid
@@ -68,7 +53,6 @@ public abstract class WxPayBaseRequest {
    */
   @XStreamAlias("mch_id")
   protected String mchId;
-
   /**
    * <pre>
    * 服务商模式下的子商户公众账号ID
@@ -81,7 +65,6 @@ public abstract class WxPayBaseRequest {
    */
   @XStreamAlias("sub_appid")
   protected String subAppId;
-
   /**
    * <pre>
    * 服务商模式下的子商户号
@@ -127,6 +110,26 @@ public abstract class WxPayBaseRequest {
   public static Integer yuanToFee(String yuan) {
     return new BigDecimal(yuan).setScale(2, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)).intValue();
   }
+
+  /**
+   * 检查请求参数内容，包括必填参数以及特殊约束
+   */
+  protected void checkFields() throws WxPayException {
+    //check required fields
+    try {
+      BeanUtils.checkRequiredFields(this);
+    } catch (WxErrorException e) {
+      throw new WxPayException(e.getError().getErrorMsg());
+    }
+
+    //check other parameters
+    this.checkConstraints();
+  }
+
+  /**
+   * 检查约束情况
+   */
+  protected abstract void checkConstraints();
 
   public String getAppid() {
     return this.appid;
@@ -209,9 +212,10 @@ public abstract class WxPayBaseRequest {
    * 2、补充系统参数，如果未传入则从配置里读取
    * 3、生成签名，并设置进去
    * </pre>
+   *
    * @param config 支付配置对象，用于读取相应系统配置信息
    */
-  public void checkAndSign(WxPayConfig config) throws WxErrorException {
+  public void checkAndSign(WxPayConfig config) throws WxPayException {
     this.checkFields();
 
     if (StringUtils.isBlank(getAppid())) {
@@ -227,7 +231,7 @@ public abstract class WxPayBaseRequest {
     }
 
     if (StringUtils.isBlank(getSubMchId())) {
-      this. setSubMchId(config.getSubMchId());
+      this.setSubMchId(config.getSubMchId());
     }
 
     if (StringUtils.isBlank(getNonceStr())) {

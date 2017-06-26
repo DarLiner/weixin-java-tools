@@ -3,7 +3,7 @@ package com.github.binarywang.wxpay.service;
 import com.github.binarywang.wxpay.bean.request.*;
 import com.github.binarywang.wxpay.bean.result.*;
 import com.github.binarywang.wxpay.config.WxPayConfig;
-import me.chanjar.weixin.common.exception.WxErrorException;
+import com.github.binarywang.wxpay.exception.WxPayException;
 
 import java.io.File;
 import java.util.Map;
@@ -33,7 +33,7 @@ public interface WxPayService {
    * @param transactionId 微信订单号
    * @param outTradeNo    商户系统内部的订单号，当没提供transactionId时需要传这个。
    */
-  WxPayOrderQueryResult queryOrder(String transactionId, String outTradeNo) throws WxErrorException;
+  WxPayOrderQueryResult queryOrder(String transactionId, String outTradeNo) throws WxPayException;
 
   /**
    * <pre>
@@ -49,7 +49,7 @@ public interface WxPayService {
    *
    * @param outTradeNo 商户系统内部的订单号
    */
-  WxPayOrderCloseResult closeOrder(String outTradeNo) throws WxErrorException;
+  WxPayOrderCloseResult closeOrder(String outTradeNo) throws WxPayException;
 
   /**
    * 统一下单(详见http://com.github.binarywang.wechat.pay.bean.pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1)
@@ -58,7 +58,7 @@ public interface WxPayService {
    *
    * @param request 请求对象，注意一些参数如appid、mchid等不用设置，方法内会自动从配置对象中获取到（前提是对应配置中已经设置）
    */
-  WxPayUnifiedOrderResult unifiedOrder(WxPayUnifiedOrderRequest request) throws WxErrorException;
+  WxPayUnifiedOrderResult unifiedOrder(WxPayUnifiedOrderRequest request) throws WxPayException;
 
   /**
    * 该接口调用“统一下单”接口，并拼装发起支付请求需要的参数
@@ -66,7 +66,7 @@ public interface WxPayService {
    *
    * @param request 请求对象，注意一些参数如appid、mchid等不用设置，方法内会自动从配置对象中获取到（前提是对应配置中已经设置）
    */
-  Map<String, String> getPayInfo(WxPayUnifiedOrderRequest request) throws WxErrorException;
+  Map<String, String> getPayInfo(WxPayUnifiedOrderRequest request) throws WxPayException;
 
   /**
    * 获取配置
@@ -88,7 +88,7 @@ public interface WxPayService {
    * @param request 请求对象
    * @return 退款操作结果
    */
-  WxPayRefundResult refund(WxPayRefundRequest request) throws WxErrorException;
+  WxPayRefundResult refund(WxPayRefundRequest request) throws WxPayException;
 
   /**
    * <pre>
@@ -108,13 +108,13 @@ public interface WxPayService {
    * @return 退款信息
    */
   WxPayRefundQueryResult refundQuery(String transactionId, String outTradeNo, String outRefundNo, String refundId)
-    throws WxErrorException;
+    throws WxPayException;
 
   /**
    * 读取支付结果通知
    * 详见http://com.github.binarywang.wechat.pay.bean.pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_7
    */
-  WxPayOrderNotifyResult getOrderNotifyResult(String xmlData) throws WxErrorException;
+  WxPayOrderNotifyResult getOrderNotifyResult(String xmlData) throws WxPayException;
 
   /**
    * 发送微信红包给个人用户
@@ -128,7 +128,7 @@ public interface WxPayService {
    *
    * @param request 请求对象
    */
-  WxPaySendRedpackResult sendRedpack(WxPaySendRedpackRequest request) throws WxErrorException;
+  WxPaySendRedpackResult sendRedpack(WxPaySendRedpackRequest request) throws WxPayException;
 
   /**
    * <pre>
@@ -141,7 +141,7 @@ public interface WxPayService {
    *
    * @param mchBillNo 商户发放红包的商户订单号，比如10000098201411111234567890
    */
-  WxPayRedpackQueryResult queryRedpack(String mchBillNo) throws WxErrorException;
+  WxPayRedpackQueryResult queryRedpack(String mchBillNo) throws WxPayException;
 
   /**
    * <pre>
@@ -155,7 +155,7 @@ public interface WxPayService {
    *
    * @param request 请求对象
    */
-  WxEntPayResult entPay(WxEntPayRequest request) throws WxErrorException;
+  WxEntPayResult entPay(WxEntPayRequest request) throws WxPayException;
 
   /**
    * <pre>
@@ -167,7 +167,7 @@ public interface WxPayService {
    *
    * @param partnerTradeNo 商户订单号
    */
-  WxEntPayQueryResult queryEntPay(String partnerTradeNo) throws WxErrorException;
+  WxEntPayQueryResult queryEntPay(String partnerTradeNo) throws WxPayException;
 
   /**
    * <pre>
@@ -225,7 +225,7 @@ public interface WxPayService {
    * 是否需要证书：不需要
    * </pre>
    */
-  void report(WxPayReportRequest request) throws WxErrorException;
+  void report(WxPayReportRequest request) throws WxPayException;
 
   /**
    * <pre>
@@ -246,7 +246,7 @@ public interface WxPayService {
    * @param deviceInfo 设备号	device_info	非必传参数，终端设备号
    * @return 保存到本地的临时文件
    */
-  File downloadBill(String billDate, String billType, String tarType, String deviceInfo) throws WxErrorException;
+  WxPayBillResult downloadBill(String billDate, String billType, String tarType, String deviceInfo) throws WxPayException;
 
   /**
    * <pre>
@@ -260,7 +260,7 @@ public interface WxPayService {
    * 是否需要证书：不需要。
    * </pre>
    */
-  WxPayMicropayResult micropay(WxPayMicropayRequest request) throws WxErrorException;
+  WxPayMicropayResult micropay(WxPayMicropayRequest request) throws WxPayException;
 
   /**
    * <pre>
@@ -276,7 +276,7 @@ public interface WxPayService {
    *  是否需要证书：请求需要双向证书。
    * </pre>
    */
-  WxPayOrderReverseResult reverseOrder(WxPayOrderReverseRequest request) throws WxErrorException;
+  WxPayOrderReverseResult reverseOrder(WxPayOrderReverseRequest request) throws WxPayException;
 
   /**
    * <pre>
@@ -288,18 +288,20 @@ public interface WxPayService {
    *  接口地址：https://api.mch.weixin.qq.com/tools/shorturl
    *  是否需要证书：否
    * </pre>
+   *
    * @param request 请求对象
    */
-  String shorturl(WxPayShorturlRequest request) throws WxErrorException;
+  String shorturl(WxPayShorturlRequest request) throws WxPayException;
 
   /**
    * <pre>
    *  转换短链接
    * </pre>
-   * @see WxPayService#shorturl(WxPayShorturlRequest)
+   *
    * @param longUrl 需要被压缩的网址
+   * @see WxPayService#shorturl(WxPayShorturlRequest)
    */
-  String shorturl(String longUrl) throws WxErrorException;
+  String shorturl(String longUrl) throws WxPayException;
 
   /**
    * <pre>
@@ -310,18 +312,31 @@ public interface WxPayService {
    * 接口链接:
    *    https://api.mch.weixin.qq.com/tools/authcodetoopenid
    * </pre>
+   *
    * @param request 请求对象
    * @return openid
    */
-  String authcode2Openid(WxPayAuthcode2OpenidRequest request) throws WxErrorException;
+  String authcode2Openid(WxPayAuthcode2OpenidRequest request) throws WxPayException;
 
   /**
    * <pre>
    * 授权码查询OPENID接口
    * </pre>
-   * @see WxPayService#authcode2Openid(WxPayAuthcode2OpenidRequest)
+   *
    * @param authCode 授权码
    * @return openid
+   * @see WxPayService#authcode2Openid(WxPayAuthcode2OpenidRequest)
    */
-  String authcode2Openid(String authCode) throws WxErrorException;
+  String authcode2Openid(String authCode) throws WxPayException;
+
+  /**
+   * <pre>
+   * 获取仿真测试系统的验签密钥
+   * 请求Url： https://api.mch.weixin.qq.com/sandboxnew/pay/getsignkey
+   * 是否需要证书： 否
+   * 请求方式： POST
+   * 文档地址：https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=23_1
+   * </pre>
+   */
+  String getSandboxSignKey() throws WxPayException;
 }

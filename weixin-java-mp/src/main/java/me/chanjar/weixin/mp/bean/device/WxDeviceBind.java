@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by keungtung on 10/12/2016.
  */
-public class WxDeviceBind extends AbstractDeviceBean{
+public class WxDeviceBind extends AbstractDeviceBean {
   private String ticket;
   @SerializedName("device_id")
   private String deviceId;

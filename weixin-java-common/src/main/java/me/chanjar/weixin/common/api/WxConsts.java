@@ -24,7 +24,6 @@ public class WxConsts {
   public static final String XML_MSG_HARDWARE = "hardware";
   public static final String XML_TRANSFER_CUSTOMER_SERVICE = "transfer_customer_service";
 
-
   ///////////////////////
   // 主动发送消息(即客服消息)的消息类型
   ///////////////////////
@@ -88,45 +87,6 @@ public class WxConsts {
   public static final String EVT_LOCATION_SELECT = "location_select";
   public static final String EVT_TEMPLATESENDJOBFINISH = "TEMPLATESENDJOBFINISH";
   public static final String EVT_ENTER_AGENT = "enter_agent";
-  public static final String EVT_CARD_PASS_CHECK = "card_pass_check";
-  public static final String EVT_CARD_NOT_PASS_CHECK = "card_not_pass_check";
-  public static final String EVT_USER_GET_CARD = "user_get_card";
-  public static final String EVT_USER_DEL_CARD = "user_del_card";
-  public static final String EVT_USER_CONSUME_CARD = "user_consume_card";
-  public static final String EVT_USER_PAY_FROM_PAY_CELL = "user_pay_from_pay_cell";
-  public static final String EVT_USER_VIEW_CARD = "user_view_card";
-  public static final String EVT_USER_ENTER_SESSION_FROM_CARD = "user_enter_session_from_card";
-  public static final String EVT_CARD_SKU_REMIND = "card_sku_remind"; // 库存报警
-  public static final String EVT_KF_CREATE_SESSION = "kf_create_session"; // 客服接入会话
-  public static final String EVT_KF_CLOSE_SESSION = "kf_close_session"; // 客服关闭会话
-  public static final String EVT_KF_SWITCH_SESSION = "kf_switch_session"; // 客服转接会话
-  public static final String EVT_POI_CHECK_NOTIFY = "poi_check_notify"; //门店审核事件推送
-  public static final String EVN_SUBMIT_MEMBERCARD_USER_INFO = "submit_membercard_user_info"; //接收会员信息事件推送
-  //以下为微信认证事件
-  /**
-   * 资质认证成功
-   */
-  public static final String EVT_QUALIFICATION_VERIFY_SUCCESS = "qualification_verify_success";
-  /**
-   * 资质认证失败
-   */
-  public static final String EVT_QUALIFICATION_VERIFY_FAIL = "qualification_verify_fail";
-  /**
-   * 名称认证成功
-   */
-  public static final String EVT_NAMING_VERIFY_SUCCESS = "naming_verify_success";
-  /**
-   * 名称认证失败
-   */
-  public static final String EVT_NAMING_VERIFY_FAIL = "naming_verify_fail";
-  /**
-   * 年审通知
-   */
-  public static final String EVT_ANNUAL_RENEW = "annual_renew";
-  /**
-   * 认证过期失效通知
-   */
-  public static final String EVT_VERIFY_EXPIRED = "verify_expired";
 
   ///////////////////////
   // 上传多媒体文件的类型
@@ -185,7 +145,7 @@ public class WxConsts {
    * 跳转图文消息URL
    */
   public static final String BUTTON_VIEW_LIMITED = "view_limited";
-  
+
   /**
    * 不弹出授权页面，直接跳转，只能获取用户openid
    */

@@ -10,6 +10,7 @@ import java.io.File;
  * 二维码相关操作接口
  * 文档地址：https://mp.weixin.qq.com/wiki?action=doc&id=mp1443433542&t=0.9274944716856435
  * </pre>
+ *
  * @author Binary Wang
  */
 public interface WxMpQrcodeService {

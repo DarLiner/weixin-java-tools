@@ -3,7 +3,7 @@ package me.chanjar.weixin.mp.api;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
-import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
+import me.chanjar.weixin.mp.api.impl.WxMpServiceApacheHttpClientImpl;
 import org.testng.annotations.*;
 
 import java.util.concurrent.ExecutionException;
@@ -16,10 +16,10 @@ public class WxMpBusyRetryTest {
 
   @DataProvider(name = "getService")
   public Object[][] getService() {
-    WxMpService service = new WxMpServiceImpl() {
+    WxMpService service = new WxMpServiceApacheHttpClientImpl() {
 
       @Override
-      protected synchronized <T, E> T executeInternal(
+      public synchronized <T, E> T executeInternal(
         RequestExecutor<T, E> executor, String uri, E data)
         throws WxErrorException {
         this.log.info("Executed");

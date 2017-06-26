@@ -13,8 +13,8 @@ import java.io.Serializable;
  * http://mp.weixin.qq.com/wiki/index.php?title=高级群发接口#.E4.BA.8B.E4.BB.B6.E6.8E.A8.E9.80.81.E7.BE.A4.E5.8F.91.E7.BB.93.E6.9E.9C
  *
  * </pre>
- * @author chanjarster
  *
+ * @author chanjarster
  */
 public class WxMpMassSendResult implements Serializable {
   private static final long serialVersionUID = -4816336807575562818L;
@@ -22,6 +22,10 @@ public class WxMpMassSendResult implements Serializable {
   private String errorMsg;
   private String msgId;
   private String msgDataId;
+
+  public static WxMpMassSendResult fromJson(String json) {
+    return WxMpGsonBuilder.create().fromJson(json, WxMpMassSendResult.class);
+  }
 
   public String getErrorCode() {
     return this.errorCode;
@@ -53,10 +57,6 @@ public class WxMpMassSendResult implements Serializable {
 
   public void setMsgDataId(String msgDataId) {
     this.msgDataId = msgDataId;
-  }
-
-  public static WxMpMassSendResult fromJson(String json) {
-    return WxMpGsonBuilder.create().fromJson(json, WxMpMassSendResult.class);
   }
 
   @Override

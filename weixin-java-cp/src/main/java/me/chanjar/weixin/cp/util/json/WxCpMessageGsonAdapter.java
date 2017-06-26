@@ -61,6 +61,10 @@ public class WxCpMessageGsonAdapter implements JsonSerializer<WxCpMessage> {
       messageJson.add("voice", voice);
     }
 
+    if (StringUtils.isNotBlank(message.getSafe())) {
+      messageJson.addProperty("safe", message.getSafe());
+    }
+
     if (WxConsts.CUSTOM_MSG_VIDEO.equals(message.getMsgType())) {
       JsonObject video = new JsonObject();
       video.addProperty("media_id", message.getMediaId());
@@ -89,7 +93,7 @@ public class WxCpMessageGsonAdapter implements JsonSerializer<WxCpMessage> {
       JsonObject newsJsonObject = new JsonObject();
       if (message.getMediaId() != null) {
         newsJsonObject.addProperty("media_id", message.getMediaId());
-      }else {
+      } else {
         JsonArray articleJsonArray = new JsonArray();
         for (MpnewsArticle article : message.getMpnewsArticles()) {
           JsonObject articleJson = new JsonObject();

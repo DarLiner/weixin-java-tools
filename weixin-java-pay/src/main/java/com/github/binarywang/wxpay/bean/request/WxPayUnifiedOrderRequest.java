@@ -1,9 +1,9 @@
 package com.github.binarywang.wxpay.bean.request;
 
 import com.github.binarywang.wxpay.config.WxPayConfig;
+import com.github.binarywang.wxpay.exception.WxPayException;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import me.chanjar.weixin.common.annotation.Required;
-import me.chanjar.weixin.common.exception.WxErrorException;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -27,7 +27,7 @@ import java.util.Arrays;
  */
 @XStreamAlias("xml")
 public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
-  private static final String[] TRADE_TYPES = new String[]{"JSAPI", "NATIVE", "APP"};
+  private static final String[] TRADE_TYPES = new String[]{"JSAPI", "NATIVE", "APP","MWEB"};
 
   /**
    * <pre>
@@ -274,8 +274,33 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
   @XStreamAlias("openid")
   private String openid;
 
-  public static WxUnifiedOrderRequestBuilder builder() {
-    return new WxUnifiedOrderRequestBuilder();
+  private WxPayUnifiedOrderRequest(Builder builder) {
+    setAppid(builder.appid);
+    setDeviceInfo(builder.deviceInfo);
+    setMchId(builder.mchId);
+    setBody(builder.body);
+    setSubAppId(builder.subAppId);
+    setSubMchId(builder.subMchId);
+    setNonceStr(builder.nonceStr);
+    setSign(builder.sign);
+    setDetail(builder.detail);
+    setAttach(builder.attach);
+    setOutTradeNo(builder.outTradeNo);
+    setFeeType(builder.feeType);
+    setTotalFee(builder.totalFee);
+    setSpbillCreateIp(builder.spbillCreateIp);
+    setTimeStart(builder.timeStart);
+    setTimeExpire(builder.timeExpire);
+    setGoodsTag(builder.goodsTag);
+    setNotifyURL(builder.notifyURL);
+    setTradeType(builder.tradeType);
+    setProductId(builder.productId);
+    setLimitPay(builder.limitPay);
+    setOpenid(builder.openid);
+  }
+
+  public static Builder newBuilder() {
+    return new Builder();
   }
 
   public String getDeviceInfo() {
@@ -418,10 +443,10 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
 
   @Override
   protected void checkConstraints() {
-    if (!ArrayUtils.contains(TRADE_TYPES, this.getTradeType())) {
-      throw new IllegalArgumentException(String.format("trade_type目前必须为%s其中之一,实际值：%s",
-        Arrays.toString(TRADE_TYPES), this.getTradeType()));
-    }
+//    if (!ArrayUtils.contains(TRADE_TYPES, this.getTradeType())) {
+//      throw new IllegalArgumentException(String.format("trade_type目前必须为%s其中之一,实际值：%s",
+//        Arrays.toString(TRADE_TYPES), this.getTradeType()));
+//    }
 
     if ("JSAPI".equals(this.getTradeType()) && this.getOpenid() == null) {
       throw new IllegalArgumentException("当 trade_type是'JSAPI'时未指定openid");
@@ -433,7 +458,7 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
   }
 
   @Override
-  public void checkAndSign(WxPayConfig config) throws WxErrorException {
+  public void checkAndSign(WxPayConfig config) throws WxPayException {
     if (StringUtils.isBlank(this.getNotifyURL())) {
       this.setNotifyURL(config.getNotifyUrl());
     }
@@ -445,13 +470,15 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
     super.checkAndSign(config);
   }
 
-  public static class WxUnifiedOrderRequestBuilder {
+  public static final class Builder {
     private String appid;
-    private String mchId;
     private String deviceInfo;
+    private String mchId;
+    private String body;
+    private String subAppId;
+    private String subMchId;
     private String nonceStr;
     private String sign;
-    private String body;
     private String detail;
     private String attach;
     private String outTradeNo;
@@ -467,154 +494,121 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
     private String limitPay;
     private String openid;
 
-    public WxUnifiedOrderRequestBuilder appid(String appid) {
+    private Builder() {
+    }
+
+    public Builder appid(String appid) {
       this.appid = appid;
       return this;
     }
 
-    public WxUnifiedOrderRequestBuilder mchId(String mchId) {
-      this.mchId = mchId;
-      return this;
-    }
-
-    public WxUnifiedOrderRequestBuilder deviceInfo(String deviceInfo) {
+    public Builder deviceInfo(String deviceInfo) {
       this.deviceInfo = deviceInfo;
       return this;
     }
 
-    public WxUnifiedOrderRequestBuilder nonceStr(String nonceStr) {
-      this.nonceStr = nonceStr;
+    public Builder mchId(String mchId) {
+      this.mchId = mchId;
       return this;
     }
 
-    public WxUnifiedOrderRequestBuilder sign(String sign) {
-      this.sign = sign;
-      return this;
-    }
-
-    public WxUnifiedOrderRequestBuilder body(String body) {
+    public Builder body(String body) {
       this.body = body;
       return this;
     }
 
-    public WxUnifiedOrderRequestBuilder detail(String detail) {
+    public Builder subAppId(String subAppId) {
+      this.subAppId = subAppId;
+      return this;
+    }
+
+    public Builder subMchId(String subMchId) {
+      this.subMchId = subMchId;
+      return this;
+    }
+
+    public Builder nonceStr(String nonceStr) {
+      this.nonceStr = nonceStr;
+      return this;
+    }
+
+    public Builder sign(String sign) {
+      this.sign = sign;
+      return this;
+    }
+
+    public Builder detail(String detail) {
       this.detail = detail;
       return this;
     }
 
-    public WxUnifiedOrderRequestBuilder attach(String attach) {
+    public Builder attach(String attach) {
       this.attach = attach;
       return this;
     }
 
-    public WxUnifiedOrderRequestBuilder outTradeNo(String outTradeNo) {
+    public Builder outTradeNo(String outTradeNo) {
       this.outTradeNo = outTradeNo;
       return this;
     }
 
-    public WxUnifiedOrderRequestBuilder feeType(String feeType) {
+    public Builder feeType(String feeType) {
       this.feeType = feeType;
       return this;
     }
 
-    public WxUnifiedOrderRequestBuilder totalFee(Integer totalFee) {
+    public Builder totalFee(Integer totalFee) {
       this.totalFee = totalFee;
       return this;
     }
 
-    public WxUnifiedOrderRequestBuilder spbillCreateIp(String spbillCreateIp) {
+    public Builder spbillCreateIp(String spbillCreateIp) {
       this.spbillCreateIp = spbillCreateIp;
       return this;
     }
 
-    public WxUnifiedOrderRequestBuilder timeStart(String timeStart) {
+    public Builder timeStart(String timeStart) {
       this.timeStart = timeStart;
       return this;
     }
 
-    public WxUnifiedOrderRequestBuilder timeExpire(String timeExpire) {
+    public Builder timeExpire(String timeExpire) {
       this.timeExpire = timeExpire;
       return this;
     }
 
-    public WxUnifiedOrderRequestBuilder goodsTag(String goodsTag) {
+    public Builder goodsTag(String goodsTag) {
       this.goodsTag = goodsTag;
       return this;
     }
 
-    public WxUnifiedOrderRequestBuilder notifyURL(String notifyURL) {
+    public Builder notifyURL(String notifyURL) {
       this.notifyURL = notifyURL;
       return this;
     }
 
-    public WxUnifiedOrderRequestBuilder tradeType(String tradeType) {
+    public Builder tradeType(String tradeType) {
       this.tradeType = tradeType;
       return this;
     }
 
-    public WxUnifiedOrderRequestBuilder productId(String productId) {
+    public Builder productId(String productId) {
       this.productId = productId;
       return this;
     }
 
-    public WxUnifiedOrderRequestBuilder limitPay(String limitPay) {
+    public Builder limitPay(String limitPay) {
       this.limitPay = limitPay;
       return this;
     }
 
-    public WxUnifiedOrderRequestBuilder openid(String openid) {
+    public Builder openid(String openid) {
       this.openid = openid;
       return this;
     }
 
-    public WxUnifiedOrderRequestBuilder from(WxPayUnifiedOrderRequest origin) {
-      this.appid(origin.appid);
-      this.mchId(origin.mchId);
-      this.deviceInfo(origin.deviceInfo);
-      this.nonceStr(origin.nonceStr);
-      this.sign(origin.sign);
-      this.body(origin.body);
-      this.detail(origin.detail);
-      this.attach(origin.attach);
-      this.outTradeNo(origin.outTradeNo);
-      this.feeType(origin.feeType);
-      this.totalFee(origin.totalFee);
-      this.spbillCreateIp(origin.spbillCreateIp);
-      this.timeStart(origin.timeStart);
-      this.timeExpire(origin.timeExpire);
-      this.goodsTag(origin.goodsTag);
-      this.notifyURL(origin.notifyURL);
-      this.tradeType(origin.tradeType);
-      this.productId(origin.productId);
-      this.limitPay(origin.limitPay);
-      this.openid(origin.openid);
-      return this;
-    }
-
     public WxPayUnifiedOrderRequest build() {
-      WxPayUnifiedOrderRequest m = new WxPayUnifiedOrderRequest();
-      m.appid = this.appid;
-      m.mchId = this.mchId;
-      m.deviceInfo = this.deviceInfo;
-      m.nonceStr = this.nonceStr;
-      m.sign = this.sign;
-      m.body = this.body;
-      m.detail = this.detail;
-      m.attach = this.attach;
-      m.outTradeNo = this.outTradeNo;
-      m.feeType = this.feeType;
-      m.totalFee = this.totalFee;
-      m.spbillCreateIp = this.spbillCreateIp;
-      m.timeStart = this.timeStart;
-      m.timeExpire = this.timeExpire;
-      m.goodsTag = this.goodsTag;
-      m.notifyURL = this.notifyURL;
-      m.tradeType = this.tradeType;
-      m.productId = this.productId;
-      m.limitPay = this.limitPay;
-      m.openid = this.openid;
-      return m;
+      return new WxPayUnifiedOrderRequest(this);
     }
   }
-
 }

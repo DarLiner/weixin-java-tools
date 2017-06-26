@@ -4,24 +4,15 @@ import com.github.binarywang.utils.qrcode.QrcodeUtils;
 import com.github.binarywang.wxpay.bean.request.*;
 import com.github.binarywang.wxpay.bean.result.*;
 import com.github.binarywang.wxpay.config.WxPayConfig;
+import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
 import com.github.binarywang.wxpay.util.SignUtils;
 import com.google.common.collect.Maps;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
-import me.chanjar.weixin.common.bean.result.WxError;
-import me.chanjar.weixin.common.exception.WxErrorException;
+import jodd.http.net.SSLSocketHttpConnectionProvider;
 import org.apache.commons.lang3.CharEncoding;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.Consts;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.ssl.DefaultHostnameVerifier;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +20,8 @@ import javax.net.ssl.SSLContext;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -53,7 +46,7 @@ public class WxPayServiceImpl implements WxPayService {
   }
 
   private String getPayBaseUrl() {
-    if (this.getConfig().useSandboxForWxPay()) {
+    if (this.getConfig().useSandbox()) {
       return PAY_BASE_URL + "/sandboxnew";
     }
 
@@ -61,7 +54,7 @@ public class WxPayServiceImpl implements WxPayService {
   }
 
   @Override
-  public WxPayRefundResult refund(WxPayRefundRequest request) throws WxErrorException {
+  public WxPayRefundResult refund(WxPayRefundRequest request) throws WxPayException {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/secapi/pay/refund";
@@ -73,7 +66,7 @@ public class WxPayServiceImpl implements WxPayService {
 
   @Override
   public WxPayRefundQueryResult refundQuery(String transactionId, String outTradeNo, String outRefundNo, String refundId)
-    throws WxErrorException {
+    throws WxPayException {
     WxPayRefundQueryRequest request = new WxPayRefundQueryRequest();
     request.setOutTradeNo(StringUtils.trimToNull(outTradeNo));
     request.setTransactionId(StringUtils.trimToNull(transactionId));
@@ -83,7 +76,7 @@ public class WxPayServiceImpl implements WxPayService {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/pay/refundquery";
-    String responseContent = this.post(url, request.toXML());
+    String responseContent = this.post(url, request.toXML(), true);
     WxPayRefundQueryResult result = WxPayBaseResult.fromXML(responseContent, WxPayRefundQueryResult.class);
     result.composeRefundRecords();
     result.checkResult(this);
@@ -91,24 +84,24 @@ public class WxPayServiceImpl implements WxPayService {
   }
 
   @Override
-  public WxPayOrderNotifyResult getOrderNotifyResult(String xmlData) throws WxErrorException {
+  public WxPayOrderNotifyResult getOrderNotifyResult(String xmlData) throws WxPayException {
     try {
       log.debug("微信支付回调参数详细：{}", xmlData);
       WxPayOrderNotifyResult result = WxPayOrderNotifyResult.fromXML(xmlData);
       log.debug("微信支付回调结果对象：{}", result);
       result.checkResult(this);
       return result;
-    } catch (WxErrorException e) {
+    } catch (WxPayException e) {
       log.error(e.getMessage(), e);
       throw e;
     } catch (Exception e) {
       log.error(e.getMessage(), e);
-      throw new WxErrorException(WxError.newBuilder().setErrorMsg("发生异常" + e.getMessage()).build());
+      throw new WxPayException("发生异常，" + e.getMessage());
     }
   }
 
   @Override
-  public WxPaySendRedpackResult sendRedpack(WxPaySendRedpackRequest request) throws WxErrorException {
+  public WxPaySendRedpackResult sendRedpack(WxPaySendRedpackRequest request) throws WxPayException {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/mmpaymkttransfers/sendredpack";
@@ -125,7 +118,7 @@ public class WxPayServiceImpl implements WxPayService {
   }
 
   @Override
-  public WxPayRedpackQueryResult queryRedpack(String mchBillNo) throws WxErrorException {
+  public WxPayRedpackQueryResult queryRedpack(String mchBillNo) throws WxPayException {
     WxPayRedpackQueryRequest request = new WxPayRedpackQueryRequest();
     request.setMchBillNo(mchBillNo);
     request.setBillType("MCHT");
@@ -139,16 +132,16 @@ public class WxPayServiceImpl implements WxPayService {
   }
 
   @Override
-  public WxPayOrderQueryResult queryOrder(String transactionId, String outTradeNo) throws WxErrorException {
+  public WxPayOrderQueryResult queryOrder(String transactionId, String outTradeNo) throws WxPayException {
     WxPayOrderQueryRequest request = new WxPayOrderQueryRequest();
     request.setOutTradeNo(StringUtils.trimToNull(outTradeNo));
     request.setTransactionId(StringUtils.trimToNull(transactionId));
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/pay/orderquery";
-    String responseContent = this.post(url, request.toXML());
+    String responseContent = this.post(url, request.toXML(), true);
     if (StringUtils.isBlank(responseContent)) {
-      throw new WxErrorException(WxError.newBuilder().setErrorMsg("无响应结果").build());
+      throw new WxPayException("无响应结果");
     }
 
     WxPayOrderQueryResult result = WxPayBaseResult.fromXML(responseContent, WxPayOrderQueryResult.class);
@@ -158,7 +151,7 @@ public class WxPayServiceImpl implements WxPayService {
   }
 
   @Override
-  public WxPayOrderCloseResult closeOrder(String outTradeNo) throws WxErrorException {
+  public WxPayOrderCloseResult closeOrder(String outTradeNo) throws WxPayException {
     if (StringUtils.isBlank(outTradeNo)) {
       throw new IllegalArgumentException("out_trade_no不能为空");
     }
@@ -168,7 +161,7 @@ public class WxPayServiceImpl implements WxPayService {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/pay/closeorder";
-    String responseContent = this.post(url, request.toXML());
+    String responseContent = this.post(url, request.toXML(), true);
     WxPayOrderCloseResult result = WxPayBaseResult.fromXML(responseContent, WxPayOrderCloseResult.class);
     result.checkResult(this);
 
@@ -176,18 +169,18 @@ public class WxPayServiceImpl implements WxPayService {
   }
 
   @Override
-  public WxPayUnifiedOrderResult unifiedOrder(WxPayUnifiedOrderRequest request) throws WxErrorException {
+  public WxPayUnifiedOrderResult unifiedOrder(WxPayUnifiedOrderRequest request) throws WxPayException {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/pay/unifiedorder";
-    String responseContent = this.post(url, request.toXML());
+    String responseContent = this.post(url, request.toXML(), true);
     WxPayUnifiedOrderResult result = WxPayBaseResult.fromXML(responseContent, WxPayUnifiedOrderResult.class);
     result.checkResult(this);
     return result;
   }
 
   @Override
-  public Map<String, String> getPayInfo(WxPayUnifiedOrderRequest request) throws WxErrorException {
+  public Map<String, String> getPayInfo(WxPayUnifiedOrderRequest request) throws WxPayException {
     WxPayUnifiedOrderResult unifiedOrderResult = this.unifiedOrder(request);
     String prepayId = unifiedOrderResult.getPrepayId();
     if (StringUtils.isBlank(prepayId)) {
@@ -196,22 +189,42 @@ public class WxPayServiceImpl implements WxPayService {
     }
 
     Map<String, String> payInfo = new HashMap<>();
-    payInfo.put("appId", getConfig().getAppId());
-    // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。
-    // 但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
-    payInfo.put("timeStamp", String.valueOf(System.currentTimeMillis() / 1000));
-    payInfo.put("nonceStr", String.valueOf(System.currentTimeMillis()));
-    payInfo.put("package", "prepay_id=" + prepayId);
-    payInfo.put("signType", "MD5");
     if ("NATIVE".equals(request.getTradeType())) {
       payInfo.put("codeUrl", unifiedOrderResult.getCodeURL());
+    } else if ("APP".equals(request.getTradeType())) {
+      // APP支付绑定的是微信开放平台上的账号，APPID为开放平台上绑定APP后发放的参数
+      String appId = getConfig().getAppId();
+      Map<String, String> configMap = new HashMap<>();
+      // 此map用于参与调起sdk支付的二次签名,格式全小写，timestamp只能是10位,格式固定，切勿修改
+      String partnerid = getConfig().getMchId();
+      configMap.put("prepayid", prepayId);
+      configMap.put("partnerid", partnerid);
+      configMap.put("package", "Sign=WXPay");
+      configMap.put("timestamp", String.valueOf(System.currentTimeMillis() / 1000));
+      configMap.put("noncestr", String.valueOf(System.currentTimeMillis()));
+      configMap.put("appid", appId);
+      // 此map用于客户端与微信服务器交互
+      payInfo.put("sign", SignUtils.createSign(configMap, this.getConfig().getMchKey()));
+      payInfo.put("prepayId", prepayId);
+      payInfo.put("partnerId", partnerid);
+      payInfo.put("appId", appId);
+      payInfo.put("packageValue", "Sign=WXPay");
+      payInfo.put("timeStamp", String.valueOf(System.currentTimeMillis() / 1000));
+      payInfo.put("nonceStr", String.valueOf(System.currentTimeMillis()));
+    } else if ("JSAPI".equals(request.getTradeType())) {
+      payInfo.put("appId", unifiedOrderResult.getAppid());
+      // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+      payInfo.put("timeStamp", String.valueOf(System.currentTimeMillis() / 1000));
+      payInfo.put("nonceStr", String.valueOf(System.currentTimeMillis()));
+      payInfo.put("package", "prepay_id=" + prepayId);
+      payInfo.put("signType", "MD5");
+      payInfo.put("paySign", SignUtils.createSign(payInfo, this.getConfig().getMchKey()));
     }
-    payInfo.put("paySign", SignUtils.createSign(payInfo, this.getConfig().getMchKey()));
     return payInfo;
   }
 
   @Override
-  public WxEntPayResult entPay(WxEntPayRequest request) throws WxErrorException {
+  public WxEntPayResult entPay(WxEntPayRequest request) throws WxPayException {
     request.checkAndSign(this.getConfig());
     String url = this.getPayBaseUrl() + "/mmpaymkttransfers/promotion/transfers";
 
@@ -222,7 +235,7 @@ public class WxPayServiceImpl implements WxPayService {
   }
 
   @Override
-  public WxEntPayQueryResult queryEntPay(String partnerTradeNo) throws WxErrorException {
+  public WxEntPayQueryResult queryEntPay(String partnerTradeNo) throws WxPayException {
     WxEntPayQueryRequest request = new WxEntPayQueryRequest();
     request.setPartnerTradeNo(partnerTradeNo);
     request.checkAndSign(this.getConfig());
@@ -277,17 +290,17 @@ public class WxPayServiceImpl implements WxPayService {
     return QrcodeUtils.createQrcode(content, sideLength, logoFile);
   }
 
-  public void report(WxPayReportRequest request) throws WxErrorException {
+  public void report(WxPayReportRequest request) throws WxPayException {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/payitil/report";
-    String responseContent = this.post(url, request.toXML());
+    String responseContent = this.post(url, request.toXML(), true);
     WxPayCommonResult result = WxPayBaseResult.fromXML(responseContent, WxPayCommonResult.class);
     result.checkResult(this);
   }
 
   @Override
-  public File downloadBill(String billDate, String billType, String tarType, String deviceInfo) throws WxErrorException {
+  public WxPayBillResult downloadBill(String billDate, String billType, String tarType, String deviceInfo) throws WxPayException {
     WxPayDownloadBillRequest request = new WxPayDownloadBillRequest();
     request.setBillType(billType);
     request.setBillDate(billDate);
@@ -297,28 +310,101 @@ public class WxPayServiceImpl implements WxPayService {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/pay/downloadbill";
-    //TODO 返回的内容可能是文件流，也有可能是xml，需要区分对待
-    String responseContent = this.post(url, request.toXML());
+    String responseContent = this.post(url, request.toXML(), true);
+    if (responseContent.startsWith("<")) {
+      WxPayCommonResult result = WxPayBaseResult.fromXML(responseContent, WxPayCommonResult.class);
+      result.checkResult(this);
+      return null;
+    } else {
+      WxPayBillResult wxPayBillResult = billInformationDeal(responseContent);
+      return wxPayBillResult;
+    }
+  }
 
-    WxPayCommonResult result = WxPayBaseResult.fromXML(responseContent, WxPayCommonResult.class);
-    result.checkResult(this);
-    //TODO 待实现，暂时无测试帐号，无法调试
-    return null;
+  private WxPayBillResult billInformationDeal(String responseContent) {
+    WxPayBillResult wxPayBillResult = new WxPayBillResult();
+
+    String listStr = "";
+    String objStr = "";
+    if (responseContent.contains("总交易单数")) {
+      listStr = responseContent.substring(0, responseContent.indexOf("总交易单数"));
+      objStr = responseContent.substring(responseContent.indexOf("总交易单数"));
+    }
+
+    /*
+     * 交易时间:2017-04-06 01:00:02 公众账号ID: 商户号: 子商户号:0 设备号:WEB 微信订单号: 商户订单号:2017040519091071873216 用户标识: 交易类型:NATIVE
+     * 交易状态:REFUND 付款银行:CFT 货币种类:CNY 总金额:0.00 企业红包金额:0.00 微信退款单号: 商户退款单号:20170406010000933 退款金额:0.01 企业红包退款金额:0.00
+     * 退款类型:ORIGINAL 退款状态:SUCCESS 商品名称: 商户数据包: 手续费:0.00000 费率 :0.60%
+     */
+
+    // 参考以上格式进行取值
+
+    List<WxPayBillBaseResult> wxPayBillBaseResultLst = new LinkedList<>();
+    String newStr = listStr.replaceAll(",", " "); // 去空格
+    String[] tempStr = newStr.split("`"); // 数据分组
+    String[] t = tempStr[0].split(" ");// 分组标题
+    int j = tempStr.length / t.length; // 计算循环次数
+    int k = 1; // 纪录数组下标
+    for (int i = 0; i < j; i++) {
+      WxPayBillBaseResult wxPayBillBaseResult = new WxPayBillBaseResult();
+
+      wxPayBillBaseResult.setTradeTime(tempStr[k]);
+      wxPayBillBaseResult.setAppId(tempStr[k + 1]);
+      wxPayBillBaseResult.setMchId(tempStr[k + 2]);
+      wxPayBillBaseResult.setSubMchId(tempStr[k + 3]);
+      wxPayBillBaseResult.setDeviceInfo(tempStr[k + 4]);
+      wxPayBillBaseResult.setTransationId(tempStr[k + 5]);
+      wxPayBillBaseResult.setOutTradeNo(tempStr[k + 6]);
+      wxPayBillBaseResult.setOpenId(tempStr[k + 7]);
+      wxPayBillBaseResult.setTradeType(tempStr[k + 8]);
+      wxPayBillBaseResult.setTradeState(tempStr[k + 9]);
+      wxPayBillBaseResult.setBankType(tempStr[k + 10]);
+      wxPayBillBaseResult.setFeeType(tempStr[k + 11]);
+      wxPayBillBaseResult.setTotalFee(tempStr[k + 12]);
+      wxPayBillBaseResult.setCouponFee(tempStr[k + 13]);
+      wxPayBillBaseResult.setRefundId(tempStr[k + 14]);
+      wxPayBillBaseResult.setOutRefundNo(tempStr[k + 15]);
+      wxPayBillBaseResult.setSettlementRefundFee(tempStr[k + 16]);
+      wxPayBillBaseResult.setCouponRefundFee(tempStr[k + 17]);
+      wxPayBillBaseResult.setRefundChannel(tempStr[k + 18]);
+      wxPayBillBaseResult.setRefundState(tempStr[k + 19]);
+      wxPayBillBaseResult.setBody(tempStr[k + 20]);
+      wxPayBillBaseResult.setAttach(tempStr[k + 21]);
+      wxPayBillBaseResult.setPoundage(tempStr[k + 22]);
+      wxPayBillBaseResult.setPoundageRate(tempStr[k + 23]);
+      wxPayBillBaseResultLst.add(wxPayBillBaseResult);
+      k += t.length;
+    }
+    /*
+     * 总交易单数,总交易额,总退款金额,总代金券或立减优惠退款金额,手续费总金额 `2,`0.02,`0.0,`0.0,`0
+     */
+
+    // 参考以上格式进行取值
+
+    String totalStr = objStr.replaceAll(",", " ");
+    String[] totalTempStr = totalStr.split("`");
+    wxPayBillResult.setTotalRecord(totalTempStr[1]);
+    wxPayBillResult.setTotalFee(totalTempStr[2]);
+    wxPayBillResult.setTotalRefundFee(totalTempStr[3]);
+    wxPayBillResult.setTotalCouponFee(totalTempStr[4]);
+    wxPayBillResult.setTotalPoundageFee(totalTempStr[5]);
+
+    return wxPayBillResult;
   }
 
   @Override
-  public WxPayMicropayResult micropay(WxPayMicropayRequest request) throws WxErrorException {
+  public WxPayMicropayResult micropay(WxPayMicropayRequest request) throws WxPayException {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/pay/micropay";
-    String responseContent = this.post(url, request.toXML());
+    String responseContent = this.post(url, request.toXML(), true);
     WxPayMicropayResult result = WxPayBaseResult.fromXML(responseContent, WxPayMicropayResult.class);
     result.checkResult(this);
     return result;
   }
 
   @Override
-  public WxPayOrderReverseResult reverseOrder(WxPayOrderReverseRequest request) throws WxErrorException {
+  public WxPayOrderReverseResult reverseOrder(WxPayOrderReverseRequest request) throws WxPayException {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/secapi/pay/reverse";
@@ -329,38 +415,56 @@ public class WxPayServiceImpl implements WxPayService {
   }
 
   @Override
-  public String shorturl(WxPayShorturlRequest request) throws WxErrorException {
+  public String shorturl(WxPayShorturlRequest request) throws WxPayException {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/tools/shorturl";
-    String responseContent = this.post(url, request.toXML());
+    String responseContent = this.post(url, request.toXML(), true);
     WxPayShorturlResult result = WxPayBaseResult.fromXML(responseContent, WxPayShorturlResult.class);
     result.checkResult(this);
     return result.getShortUrl();
   }
 
   @Override
-  public String shorturl(String longUrl) throws WxErrorException {
+  public String shorturl(String longUrl) throws WxPayException {
     return this.shorturl(new WxPayShorturlRequest(longUrl));
   }
 
   @Override
-  public String authcode2Openid(WxPayAuthcode2OpenidRequest request) throws WxErrorException {
+  public String authcode2Openid(WxPayAuthcode2OpenidRequest request) throws WxPayException {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/tools/authcodetoopenid";
-    String responseContent = this.post(url, request.toXML());
+    String responseContent = this.post(url, request.toXML(), true);
     WxPayAuthcode2OpenidResult result = WxPayBaseResult.fromXML(responseContent, WxPayAuthcode2OpenidResult.class);
     result.checkResult(this);
     return result.getOpenid();
   }
 
   @Override
-  public String authcode2Openid(String authCode) throws WxErrorException {
+  public String authcode2Openid(String authCode) throws WxPayException {
     return this.authcode2Openid(new WxPayAuthcode2OpenidRequest(authCode));
   }
 
-  private String post(String url, String xmlParam) {
+  @Override
+  public String getSandboxSignKey() throws WxPayException {
+    WxPayDefaultRequest request = new WxPayDefaultRequest();
+    request.checkAndSign(this.getConfig());
+
+    String url = "https://api.mch.weixin.qq.com/sandboxnew/pay/getsignkey";
+    String responseContent = this.post(url, request.toXML(), false);
+    WxPaySandboxSignKeyResult result = WxPayBaseResult.fromXML(responseContent, WxPaySandboxSignKeyResult.class);
+    result.checkResult(this);
+    return result.getSandboxSignKey();
+  }
+
+  /**
+   * @param url                  请求地址
+   * @param xmlParam             请求字符串
+   * @param needTransferEncoding 是否需要对结果进行重编码
+   * @return 返回请求结果
+   */
+  private String post(String url, String xmlParam, boolean needTransferEncoding) {
     String requestString = xmlParam;
     try {
       requestString = new String(xmlParam.getBytes(CharEncoding.UTF_8), CharEncoding.ISO_8859_1);
@@ -370,47 +474,51 @@ public class WxPayServiceImpl implements WxPayService {
     }
 
     HttpRequest request = HttpRequest.post(url).body(requestString);
-    HttpResponse response = request.send();
-    String responseString = null;
-    try {
-      responseString = new String(response.bodyText().getBytes(CharEncoding.ISO_8859_1), CharEncoding.UTF_8);
-    } catch (UnsupportedEncodingException e) {
-      e.printStackTrace();
-    }
+    String responseString = this.getResponseString(request.send());
 
-    this.log.debug("\n[URL]: {}\n[PARAMS]: {}\n[RESPONSE]: {}", url, xmlParam, responseString);
+    this.log.info("\n【请求地址】: {}\n【请求参数】：{}\n【响应数据】：{}", url, xmlParam, responseString);
     return responseString;
   }
 
   /**
-   * 由于暂时未找到使用jodd-http实现证书配置的办法，故而暂时使用httpclient
+   * ecoolper(20170418)，修改为jodd-http方式
    */
-  private String postWithKey(String url, String requestStr) throws WxErrorException {
+  private String postWithKey(String url, String requestStr) throws WxPayException {
     try {
       SSLContext sslContext = this.getConfig().getSslContext();
       if (null == sslContext) {
         sslContext = this.getConfig().initSSLContext();
       }
 
-      SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext,
-        new String[]{"TLSv1"}, null, new DefaultHostnameVerifier());
+      HttpRequest request = HttpRequest
+        .post(url)
+        .withConnectionProvider(new SSLSocketHttpConnectionProvider(sslContext))
+        .bodyText(requestStr);
 
-      HttpPost httpPost = new HttpPost(url);
+      String responseString = this.getResponseString(request.send());
 
-      try (CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build()) {
-        httpPost.setEntity(new StringEntity(new String(requestStr.getBytes(CharEncoding.UTF_8), CharEncoding.ISO_8859_1)));
-        try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
-          String result = EntityUtils.toString(response.getEntity(), Consts.UTF_8);
-          this.log.debug("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}", url, requestStr, result);
-          return result;
-        }
-      } finally {
-        httpPost.releaseConnection();
-      }
+      this.log.info("\n【请求地址】: {}\n【请求参数】：{}\n【响应数据】：{}", url, requestStr, responseString);
+      return responseString;
     } catch (Exception e) {
-      this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[EXCEPTION]: {}", url, requestStr, e.getMessage());
-      throw new WxErrorException(WxError.newBuilder().setErrorCode(-1).setErrorMsg(e.getMessage()).build(), e);
+      this.log.error("\n【请求地址】: {}\n【请求参数】：{}\n【异常信息】：{}", url, requestStr, e.getMessage());
+      throw new WxPayException(e.getMessage());
     }
   }
+
+  private String getResponseString(HttpResponse response) {
+    this.log.debug("【微信服务器响应头信息】：\n{}", response.toString(false));
+
+    String responseString = response.bodyText();
+
+    if (StringUtils.isBlank(response.charset())) {
+      try {
+        responseString = new String(response.bodyText().getBytes(CharEncoding.ISO_8859_1), CharEncoding.UTF_8);
+      } catch (UnsupportedEncodingException e) {
+        e.printStackTrace();
+      }
+    }
+    return responseString;
+  }
+
 
 }

@@ -1,9 +1,9 @@
 package com.github.binarywang.wxpay.bean.request;
 
 import com.github.binarywang.wxpay.config.WxPayConfig;
+import com.github.binarywang.wxpay.exception.WxPayException;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import me.chanjar.weixin.common.annotation.Required;
-import me.chanjar.weixin.common.exception.WxErrorException;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -28,16 +28,6 @@ import java.util.Arrays;
 public class WxPayRefundRequest extends WxPayBaseRequest {
   private static final String[] REFUND_ACCOUNT = new String[]{"REFUND_SOURCE_RECHARGE_FUNDS",
     "REFUND_SOURCE_UNSETTLED_FUNDS"};
-
-  @Override
-  public void checkAndSign(WxPayConfig config) throws WxErrorException {
-    if (StringUtils.isBlank(this.getOpUserId())) {
-      this.setOpUserId(config.getMchId());
-    }
-
-    super.checkAndSign(config);
-  }
-
   /**
    * <pre>
    * 设备号
@@ -50,7 +40,6 @@ public class WxPayRefundRequest extends WxPayBaseRequest {
    */
   @XStreamAlias("device_info")
   private String deviceInfo;
-
   /**
    * <pre>
    * 微信订单号
@@ -63,7 +52,6 @@ public class WxPayRefundRequest extends WxPayBaseRequest {
    */
   @XStreamAlias("transaction_id")
   private String transactionId;
-
   /**
    * <pre>
    * 商户订单号
@@ -76,7 +64,6 @@ public class WxPayRefundRequest extends WxPayBaseRequest {
    */
   @XStreamAlias("out_trade_no")
   private String outTradeNo;
-
   /**
    * <pre>
    * 商户退款单号
@@ -90,7 +77,6 @@ public class WxPayRefundRequest extends WxPayBaseRequest {
   @Required
   @XStreamAlias("out_refund_no")
   private String outRefundNo;
-
   /**
    * <pre>
    * 订单金额
@@ -104,7 +90,6 @@ public class WxPayRefundRequest extends WxPayBaseRequest {
   @Required
   @XStreamAlias("total_fee")
   private Integer totalFee;
-
   /**
    * <pre>
    * 退款金额
@@ -118,7 +103,6 @@ public class WxPayRefundRequest extends WxPayBaseRequest {
   @Required
   @XStreamAlias("refund_fee")
   private Integer refundFee;
-
   /**
    * <pre>
    * 货币种类
@@ -131,7 +115,6 @@ public class WxPayRefundRequest extends WxPayBaseRequest {
    */
   @XStreamAlias("refund_fee_type")
   private String refundFeeType;
-
   /**
    * <pre>
    * 操作员
@@ -145,7 +128,6 @@ public class WxPayRefundRequest extends WxPayBaseRequest {
   //@Required
   @XStreamAlias("op_user_id")
   private String opUserId;
-
   /**
    * <pre>
    * 退款资金来源
@@ -184,6 +166,15 @@ public class WxPayRefundRequest extends WxPayBaseRequest {
 
   public static Builder newBuilder() {
     return new Builder();
+  }
+
+  @Override
+  public void checkAndSign(WxPayConfig config) throws WxPayException {
+    if (StringUtils.isBlank(this.getOpUserId())) {
+      this.setOpUserId(config.getMchId());
+    }
+
+    super.checkAndSign(config);
   }
 
   public String getDeviceInfo() {

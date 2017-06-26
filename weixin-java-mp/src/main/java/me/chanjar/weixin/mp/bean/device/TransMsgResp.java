@@ -6,7 +6,7 @@ import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 /**
  * Created by keungtung on 14/12/2016.
  */
-public class TransMsgResp extends AbstractDeviceBean{
+public class TransMsgResp extends AbstractDeviceBean {
   private Integer ret;
   @SerializedName("ret_info")
   private String retInfo;

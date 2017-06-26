@@ -16,7 +16,7 @@ public class WxMpDeviceServiceImpl implements WxMpDeviceService {
 
   private WxMpService wxMpService;
 
-  WxMpDeviceServiceImpl(WxMpService wxMpService) {
+  public WxMpDeviceServiceImpl(WxMpService wxMpService) {
     this.wxMpService = wxMpService;
   }
 
@@ -78,8 +78,8 @@ public class WxMpDeviceServiceImpl implements WxMpDeviceService {
 
   @Override
   public WxDeviceBindDeviceResult getBindDevice(String openId) throws WxErrorException {
-    String url = API_URL_PREFIX+"/get_bind_device";
-    String response = this.wxMpService.get(url,"openid="+openId);
+    String url = API_URL_PREFIX + "/get_bind_device";
+    String response = this.wxMpService.get(url, "openid=" + openId);
     return WxDeviceBindDeviceResult.fromJson(response);
   }
 }

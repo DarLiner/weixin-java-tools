@@ -33,14 +33,6 @@ public class WxCpMessage implements Serializable {
   private List<NewArticle> articles = new ArrayList<>();
   private List<MpnewsArticle> mpnewsArticles = new ArrayList<>();
 
-  public List<MpnewsArticle> getMpnewsArticles() {
-    return mpnewsArticles;
-  }
-
-  public void setMpnewsArticles(List<MpnewsArticle> mpnewsArticles) {
-    this.mpnewsArticles = mpnewsArticles;
-  }
-
   /**
    * 获得文本消息builder
    */
@@ -88,6 +80,14 @@ public class WxCpMessage implements Serializable {
    */
   public static FileBuilder FILE() {
     return new FileBuilder();
+  }
+
+  public List<MpnewsArticle> getMpnewsArticles() {
+    return mpnewsArticles;
+  }
+
+  public void setMpnewsArticles(List<MpnewsArticle> mpnewsArticles) {
+    this.mpnewsArticles = mpnewsArticles;
   }
 
   public String getToUser() {

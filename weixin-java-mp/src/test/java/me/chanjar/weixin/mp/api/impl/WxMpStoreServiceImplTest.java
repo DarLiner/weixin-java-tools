@@ -12,7 +12,7 @@ import org.testng.annotations.*;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
+import static org.testng.AssertJUnit.assertNotNull;
 
 /**
  * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
@@ -25,7 +25,7 @@ public class WxMpStoreServiceImplTest {
   private WxMpService wxMpService;
 
   /**
-   * Test method for {@link me.chanjar.weixin.mp.api.impl.WxMpStoreServiceImpl#add(me.chanjar.weixin.mp.bean.store.WxMpStoreBaseInfo)}.
+   * Test method for {@link WxMpStoreServiceImpl#add(me.chanjar.weixin.mp.bean.store.WxMpStoreBaseInfo)}.
    *
    * @throws WxErrorException
    */
