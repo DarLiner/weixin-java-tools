@@ -4,10 +4,7 @@ import com.github.binarywang.wxpay.config.WxPayConfig;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import me.chanjar.weixin.common.annotation.Required;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-
-import java.util.Arrays;
 
 /**
  * <pre>
@@ -273,6 +270,9 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
    */
   @XStreamAlias("openid")
   private String openid;
+
+  public WxPayUnifiedOrderRequest() {
+  }
 
   private WxPayUnifiedOrderRequest(Builder builder) {
     setAppid(builder.appid);
