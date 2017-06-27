@@ -26,6 +26,7 @@
     <dependency>
       <groupId>org.jodd</groupId>
       <artifactId>jodd-http</artifactId>
+      <scope>compile</scope>
     </dependency>
 
     <dependency>
