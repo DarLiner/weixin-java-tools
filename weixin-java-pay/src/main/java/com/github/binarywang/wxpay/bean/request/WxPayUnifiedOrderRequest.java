@@ -271,14 +271,29 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
   @XStreamAlias("openid")
   private String openid;
 
+  /**
+   * <pre>
+   * 用户子标识
+   * sub_openid
+   * 否
+   * String(128)
+   * oUpF8uMuAJO_M2pxb1Q9zNjWeS6o
+   * trade_type=JSAPI，此参数必传，用户在子商户appid下的唯一标识。
+   * openid和sub_openid可以选传其中之一，如果选择传sub_openid,则必须传sub_appid。
+   * 下单前需要调用【网页授权获取用户信息】接口获取到用户的Openid。
+   * </pre>
+   */
+  @XStreamAlias("sub_openid")
+  private String subOpenid;
+
   public WxPayUnifiedOrderRequest() {
   }
 
   private WxPayUnifiedOrderRequest(Builder builder) {
-    setAppid(builder.appid);
     setDeviceInfo(builder.deviceInfo);
-    setMchId(builder.mchId);
+    setAppid(builder.appid);
     setBody(builder.body);
+    setMchId(builder.mchId);
     setSubAppId(builder.subAppId);
     setSubMchId(builder.subMchId);
     setNonceStr(builder.nonceStr);
@@ -297,6 +312,7 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
     setProductId(builder.productId);
     setLimitPay(builder.limitPay);
     setOpenid(builder.openid);
+    setSubOpenid(builder.subOpenid);
   }
 
   public static Builder newBuilder() {
@@ -441,6 +457,14 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
     this.openid = openid;
   }
 
+  public String getSubOpenid() {
+    return this.subOpenid;
+  }
+
+  public void setSubOpenid(String subOpenid) {
+    this.subOpenid = subOpenid;
+  }
+
   @Override
   protected void checkConstraints() {
 //    if (!ArrayUtils.contains(TRADE_TYPES, this.getTradeType())) {
@@ -471,10 +495,10 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
   }
 
   public static final class Builder {
-    private String appid;
     private String deviceInfo;
-    private String mchId;
+    private String appid;
     private String body;
+    private String mchId;
     private String subAppId;
     private String subMchId;
     private String nonceStr;
@@ -493,13 +517,9 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
     private String productId;
     private String limitPay;
     private String openid;
+    private String subOpenid;
 
     private Builder() {
-    }
-
-    public Builder appid(String appid) {
-      this.appid = appid;
-      return this;
     }
 
     public Builder deviceInfo(String deviceInfo) {
@@ -507,13 +527,18 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
       return this;
     }
 
-    public Builder mchId(String mchId) {
-      this.mchId = mchId;
+    public Builder appid(String appid) {
+      this.appid = appid;
       return this;
     }
 
     public Builder body(String body) {
       this.body = body;
+      return this;
+    }
+
+    public Builder mchId(String mchId) {
+      this.mchId = mchId;
       return this;
     }
 
@@ -604,6 +629,11 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
 
     public Builder openid(String openid) {
       this.openid = openid;
+      return this;
+    }
+
+    public Builder subOpenid(String subOpenid) {
+      this.subOpenid = subOpenid;
       return this;
     }
 
