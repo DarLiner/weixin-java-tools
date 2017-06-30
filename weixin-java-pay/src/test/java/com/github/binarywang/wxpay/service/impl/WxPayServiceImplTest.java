@@ -83,7 +83,7 @@ public class WxPayServiceImplTest {
   }
 
   /**
-   * Test method for {@link WxPayService#refundQuery(java.lang.String, java.lang.String, java.lang.String, java.lang.String)} .
+   * Test method for {@link WxPayService#refundQuery(String, String, String, String)} .
    */
   @Test
   public void testRefundQuery() throws Exception {
@@ -121,7 +121,7 @@ public class WxPayServiceImplTest {
   }
 
   /**
-   * Test method for {@link WxPayService#queryRedpack(java.lang.String)}.
+   * Test method for {@link WxPayService#queryRedpack(String)}.
    */
   @Test
   public void testQueryRedpack() throws Exception {
@@ -148,7 +148,7 @@ public class WxPayServiceImplTest {
   }
 
   /**
-   * Test method for {@link WxPayService#queryOrder(java.lang.String, java.lang.String)} .
+   * Test method for {@link WxPayService#queryOrder(String, String)} .
    */
   @Test
   public void testQueryOrder() throws WxPayException {
@@ -157,7 +157,7 @@ public class WxPayServiceImplTest {
   }
 
   /**
-   * Test method for {@link WxPayService#closeOrder(java.lang.String)} .
+   * Test method for {@link WxPayService#closeOrder(String)} .
    */
   @Test
   public void testCloseOrder() throws WxPayException {
@@ -174,7 +174,7 @@ public class WxPayServiceImplTest {
   }
 
   /**
-   * Test method for {@link WxPayService#queryEntPay(java.lang.String)}.
+   * Test method for {@link WxPayService#queryEntPay(String)}.
    */
   @Test
   public void testQueryEntPay() throws WxPayException {

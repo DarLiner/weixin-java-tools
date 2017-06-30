@@ -11,14 +11,13 @@ import com.google.common.collect.Maps;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
 import jodd.http.net.SSLSocketHttpConnectionProvider;
-import org.apache.commons.lang3.CharEncoding;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLContext;
 import java.io.File;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -76,7 +75,7 @@ public class WxPayServiceImpl implements WxPayService {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/pay/refundquery";
-    String responseContent = this.post(url, request.toXML(), true);
+    String responseContent = this.post(url, request.toXML());
     WxPayRefundQueryResult result = WxPayBaseResult.fromXML(responseContent, WxPayRefundQueryResult.class);
     result.composeRefundRecords();
     result.checkResult(this);
@@ -96,7 +95,7 @@ public class WxPayServiceImpl implements WxPayService {
       throw e;
     } catch (Exception e) {
       log.error(e.getMessage(), e);
-      throw new WxPayException("发生异常，" + e.getMessage());
+      throw new WxPayException("发生异常，" + e.getMessage(), e);
     }
   }
 
@@ -139,7 +138,7 @@ public class WxPayServiceImpl implements WxPayService {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/pay/orderquery";
-    String responseContent = this.post(url, request.toXML(), true);
+    String responseContent = this.post(url, request.toXML());
     if (StringUtils.isBlank(responseContent)) {
       throw new WxPayException("无响应结果");
     }
@@ -161,7 +160,7 @@ public class WxPayServiceImpl implements WxPayService {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/pay/closeorder";
-    String responseContent = this.post(url, request.toXML(), true);
+    String responseContent = this.post(url, request.toXML());
     WxPayOrderCloseResult result = WxPayBaseResult.fromXML(responseContent, WxPayOrderCloseResult.class);
     result.checkResult(this);
 
@@ -173,7 +172,7 @@ public class WxPayServiceImpl implements WxPayService {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/pay/unifiedorder";
-    String responseContent = this.post(url, request.toXML(), true);
+    String responseContent = this.post(url, request.toXML());
     WxPayUnifiedOrderResult result = WxPayBaseResult.fromXML(responseContent, WxPayUnifiedOrderResult.class);
     result.checkResult(this);
     return result;
@@ -294,7 +293,7 @@ public class WxPayServiceImpl implements WxPayService {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/payitil/report";
-    String responseContent = this.post(url, request.toXML(), true);
+    String responseContent = this.post(url, request.toXML());
     WxPayCommonResult result = WxPayBaseResult.fromXML(responseContent, WxPayCommonResult.class);
     result.checkResult(this);
   }
@@ -310,7 +309,7 @@ public class WxPayServiceImpl implements WxPayService {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/pay/downloadbill";
-    String responseContent = this.post(url, request.toXML(), true);
+    String responseContent = this.post(url, request.toXML());
     if (responseContent.startsWith("<")) {
       WxPayCommonResult result = WxPayBaseResult.fromXML(responseContent, WxPayCommonResult.class);
       result.checkResult(this);
@@ -397,7 +396,7 @@ public class WxPayServiceImpl implements WxPayService {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/pay/micropay";
-    String responseContent = this.post(url, request.toXML(), true);
+    String responseContent = this.post(url, request.toXML());
     WxPayMicropayResult result = WxPayBaseResult.fromXML(responseContent, WxPayMicropayResult.class);
     result.checkResult(this);
     return result;
@@ -419,7 +418,7 @@ public class WxPayServiceImpl implements WxPayService {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/tools/shorturl";
-    String responseContent = this.post(url, request.toXML(), true);
+    String responseContent = this.post(url, request.toXML());
     WxPayShorturlResult result = WxPayBaseResult.fromXML(responseContent, WxPayShorturlResult.class);
     result.checkResult(this);
     return result.getShortUrl();
@@ -435,7 +434,7 @@ public class WxPayServiceImpl implements WxPayService {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/tools/authcodetoopenid";
-    String responseContent = this.post(url, request.toXML(), true);
+    String responseContent = this.post(url, request.toXML());
     WxPayAuthcode2OpenidResult result = WxPayBaseResult.fromXML(responseContent, WxPayAuthcode2OpenidResult.class);
     result.checkResult(this);
     return result.getOpenid();
@@ -452,26 +451,21 @@ public class WxPayServiceImpl implements WxPayService {
     request.checkAndSign(this.getConfig());
 
     String url = "https://api.mch.weixin.qq.com/sandboxnew/pay/getsignkey";
-    String responseContent = this.post(url, request.toXML(), false);
+    String responseContent = this.post(url, request.toXML());
     WxPaySandboxSignKeyResult result = WxPayBaseResult.fromXML(responseContent, WxPaySandboxSignKeyResult.class);
     result.checkResult(this);
     return result.getSandboxSignKey();
   }
 
   /**
-   * @param url                  请求地址
-   * @param xmlParam             请求字符串
-   * @param needTransferEncoding 是否需要对结果进行重编码
+   * 执行post请求
+   *
+   * @param url      请求地址
+   * @param xmlParam 请求字符串
    * @return 返回请求结果
    */
-  private String post(String url, String xmlParam, boolean needTransferEncoding) {
-    String requestString = xmlParam;
-    try {
-      requestString = new String(xmlParam.getBytes(CharEncoding.UTF_8), CharEncoding.ISO_8859_1);
-    } catch (UnsupportedEncodingException e) {
-      //实际上不会发生该异常
-      e.printStackTrace();
-    }
+  private String post(String url, String xmlParam) throws WxPayException {
+    String requestString = new String(xmlParam.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
 
     HttpRequest request = HttpRequest.post(url).body(requestString);
     String responseString = this.getResponseString(request.send());
@@ -481,7 +475,10 @@ public class WxPayServiceImpl implements WxPayService {
   }
 
   /**
-   * ecoolper(20170418)，修改为jodd-http方式
+   * 带证书发送post请求
+   *
+   * @param url        请求地址
+   * @param requestStr 请求信息
    */
   private String postWithKey(String url, String requestStr) throws WxPayException {
     try {
@@ -501,22 +498,27 @@ public class WxPayServiceImpl implements WxPayService {
       return responseString;
     } catch (Exception e) {
       this.log.error("\n【请求地址】: {}\n【请求参数】：{}\n【异常信息】：{}", url, requestStr, e.getMessage());
-      throw new WxPayException(e.getMessage());
+      throw new WxPayException(e.getMessage(), e);
     }
   }
 
-  private String getResponseString(HttpResponse response) {
-    this.log.debug("【微信服务器响应头信息】：\n{}", response.toString(false));
+  private String getResponseString(HttpResponse response) throws WxPayException {
+    try {
+      this.log.debug("【微信服务器响应头信息】：\n{}", response.toString(false));
+    } catch (NullPointerException e) {
+      throw new WxPayException("response.toString() 居然抛出空指针异常了", e);
+    }
 
     String responseString = response.bodyText();
 
-    if (StringUtils.isBlank(response.charset())) {
-      try {
-        responseString = new String(response.bodyText().getBytes(CharEncoding.ISO_8859_1), CharEncoding.UTF_8);
-      } catch (UnsupportedEncodingException e) {
-        e.printStackTrace();
-      }
+    if (StringUtils.isBlank(responseString)) {
+      throw new WxPayException("响应信息为空");
     }
+
+    if (StringUtils.isBlank(response.charset())) {
+      responseString = new String(responseString.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+    }
+
     return responseString;
   }
 
