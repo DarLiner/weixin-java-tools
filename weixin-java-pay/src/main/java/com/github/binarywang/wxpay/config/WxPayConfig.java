@@ -158,18 +158,27 @@ public class WxPayConfig {
 
     InputStream inputStream;
     final String prefix = "classpath:";
+    String fileHasProblemMsg = "证书文件【" + this.keyPath + "】有问题，请核实！";
+    String fileNotFoundMsg = "证书文件【" + this.keyPath + "】不存在，请核实！";
     if (this.keyPath.startsWith(prefix)) {
-      inputStream = WxPayConfig.class.getResourceAsStream(this.keyPath.replace(prefix, ""));
+      String path = StringUtils.removeFirst(this.keyPath, prefix);
+      if (!path.startsWith("/")) {
+        path = "/" + path;
+      }
+      inputStream = WxPayConfig.class.getResourceAsStream(path);
+      if (inputStream == null) {
+        throw new WxPayException(fileNotFoundMsg);
+      }
     } else {
       try {
         File file = new File(this.keyPath);
         if (!file.exists()) {
-          throw new WxPayException("证书文件【" + file.getPath() + "】不存在！");
+          throw new WxPayException(fileNotFoundMsg);
         }
 
         inputStream = new FileInputStream(file);
       } catch (IOException e) {
-        throw new WxPayException("证书文件有问题，请核实！", e);
+        throw new WxPayException(fileHasProblemMsg, e);
       }
     }
 
@@ -180,7 +189,7 @@ public class WxPayConfig {
       this.sslContext = SSLContexts.custom().loadKeyMaterial(keystore, partnerId2charArray).build();
       return this.sslContext;
     } catch (Exception e) {
-      throw new WxPayException("证书文件有问题，请核实！", e);
+      throw new WxPayException(fileHasProblemMsg, e);
     } finally {
       IOUtils.closeQuietly(inputStream);
     }
