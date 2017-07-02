@@ -77,19 +77,19 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService {
   }
 
   @Override
-  public InputStream materialImageOrVoiceDownload(String media_id) throws WxErrorException {
+  public InputStream materialImageOrVoiceDownload(String mediaId) throws WxErrorException {
     return this.wxMpService.execute(MaterialVoiceAndImageDownloadRequestExecutor
-      .create(this.wxMpService.getRequestHttp(), this.wxMpService.getWxMpConfigStorage().getTmpDirFile()), MATERIAL_GET_URL, media_id);
+      .create(this.wxMpService.getRequestHttp(), this.wxMpService.getWxMpConfigStorage().getTmpDirFile()), MATERIAL_GET_URL, mediaId);
   }
 
   @Override
-  public WxMpMaterialVideoInfoResult materialVideoInfo(String media_id) throws WxErrorException {
-    return this.wxMpService.execute(MaterialVideoInfoRequestExecutor.create(this.wxMpService.getRequestHttp()), MATERIAL_GET_URL, media_id);
+  public WxMpMaterialVideoInfoResult materialVideoInfo(String mediaId) throws WxErrorException {
+    return this.wxMpService.execute(MaterialVideoInfoRequestExecutor.create(this.wxMpService.getRequestHttp()), MATERIAL_GET_URL, mediaId);
   }
 
   @Override
-  public WxMpMaterialNews materialNewsInfo(String media_id) throws WxErrorException {
-    return this.wxMpService.execute(MaterialNewsInfoRequestExecutor.create(this.wxMpService.getRequestHttp()), MATERIAL_GET_URL, media_id);
+  public WxMpMaterialNews materialNewsInfo(String mediaId) throws WxErrorException {
+    return this.wxMpService.execute(MaterialNewsInfoRequestExecutor.create(this.wxMpService.getRequestHttp()), MATERIAL_GET_URL, mediaId);
   }
 
   @Override
@@ -104,8 +104,8 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService {
   }
 
   @Override
-  public boolean materialDelete(String media_id) throws WxErrorException {
-    return this.wxMpService.execute(MaterialDeleteRequestExecutor.create(this.wxMpService.getRequestHttp()), MATERIAL_DEL_URL, media_id);
+  public boolean materialDelete(String mediaId) throws WxErrorException {
+    return this.wxMpService.execute(MaterialDeleteRequestExecutor.create(this.wxMpService.getRequestHttp()), MATERIAL_DEL_URL, mediaId);
   }
 
   @Override
