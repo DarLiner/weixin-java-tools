@@ -3,9 +3,9 @@ package me.chanjar.weixin.cp.bean;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.cp.bean.article.MpnewsArticle;
 import me.chanjar.weixin.cp.bean.article.NewArticle;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.*;
 
 @Test
 public class WxCpMessageTest {
@@ -127,11 +127,9 @@ public class WxCpMessageTest {
       .thumbMediaId("thumb")
       .build();
 
-    WxCpMessage reply = WxCpMessage.MPNEWS().toUser("OPENID").addArticle(article1).addArticle(article2).build();
+    WxCpMessage reply = WxCpMessage.MPNEWS().toUser("OPENID").addArticle(article1, article2).build();
 
-    assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"mpnews\"," +
-      "\"mpnews\":{\"articles\":[{\"title\":\"Happy Day\",\"thumb_media_id\":\"thumb\",\"author\":\"aaaaaa\",\"content_source_url\":\"nice url\",\"content\":\"hahaha\",\"digest\":\"digest\",\"show_cover_pic\":\"heihei\"}," +
-      "{\"title\":\"Happy Day\",\"thumb_media_id\":\"thumb\",\"author\":\"aaaaaa\",\"content_source_url\":\"nice url\",\"content\":\"hahaha\",\"digest\":\"digest\",\"show_cover_pic\":\"heihei\"}]}}");
+    assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"mpnews\",\"safe\":\"0\",\"mpnews\":{\"articles\":[{\"title\":\"Happy Day\",\"thumb_media_id\":\"thumb\",\"author\":\"aaaaaa\",\"content_source_url\":\"nice url\",\"content\":\"hahaha\",\"digest\":\"digest\",\"show_cover_pic\":\"heihei\"},{\"title\":\"Happy Day\",\"thumb_media_id\":\"thumb\",\"author\":\"aaaaaa\",\"content_source_url\":\"nice url\",\"content\":\"hahaha\",\"digest\":\"digest\",\"show_cover_pic\":\"heihei\"}]}}");
   }
 
   public void testMpnewsBuild_with_media_id() {
