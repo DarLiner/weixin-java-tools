@@ -9,9 +9,11 @@
 package me.chanjar.weixin.mp.util.json;
 
 import com.google.gson.*;
+import me.chanjar.weixin.common.util.json.GsonHelper;
 import me.chanjar.weixin.mp.bean.material.WxMpMaterialNews;
 
 import java.lang.reflect.Type;
+import java.util.Date;
 
 public class WxMpMaterialNewsGsonAdapter implements JsonSerializer<WxMpMaterialNews>, JsonDeserializer<WxMpMaterialNews> {
 
@@ -41,6 +43,17 @@ public class WxMpMaterialNewsGsonAdapter implements JsonSerializer<WxMpMaterialN
         wxMpMaterialNews.addArticle(article);
       }
     }
+
+    if (json.get("create_time") != null && !json.get("create_time").isJsonNull()) {
+      Date createTime = new Date(GsonHelper.getAsLong(json.get("create_time")));
+      wxMpMaterialNews.setCreatedTime(createTime);
+    }
+
+    if (json.get("update_time") != null && !json.get("update_time").isJsonNull()) {
+      Date updateTime = new Date(GsonHelper.getAsLong(json.get("update_time")));
+      wxMpMaterialNews.setUpdatedTime(updateTime);
+    }
+
     return wxMpMaterialNews;
   }
 }
