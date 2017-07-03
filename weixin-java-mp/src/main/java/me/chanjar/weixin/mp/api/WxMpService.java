@@ -422,7 +422,7 @@ public interface WxMpService {
   void initHttp();
 
   /**
-   * @return
+   * @return RequestHttp对象
    */
   RequestHttp getRequestHttp();
 
