@@ -2,7 +2,7 @@ language: java
 sudo: false
 install: true
 addons:
-  sonarqube:
+  sonarcloud:
     token:
       secure: "834110c7191f97ecb226970c46dcaff8e681da5a"
 
