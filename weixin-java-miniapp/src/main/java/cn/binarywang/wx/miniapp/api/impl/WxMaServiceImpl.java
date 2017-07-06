@@ -213,7 +213,7 @@ public class WxMaServiceImpl implements WxMaService, RequestHttp<CloseableHttpCl
 
       if (error.getErrorCode() != 0) {
         this.log.error("\n【请求地址】: {}\n【请求参数】：{}\n【错误信息】：{}", uriWithAccessToken, data, error);
-        throw new WxErrorException(error);
+        throw new WxErrorException(error, e);
       }
       return null;
     } catch (IOException e) {
