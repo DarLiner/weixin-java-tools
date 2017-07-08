@@ -57,7 +57,7 @@ public class WxPayServiceImpl implements WxPayService {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/secapi/pay/refund";
-    String responseContent = this.postWithKey(url, request.toXML());
+    String responseContent = this.post(url, request.toXML(), true);
     WxPayRefundResult result = WxPayBaseResult.fromXML(responseContent, WxPayRefundResult.class);
     result.checkResult(this);
     return result;
@@ -75,7 +75,7 @@ public class WxPayServiceImpl implements WxPayService {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/pay/refundquery";
-    String responseContent = this.post(url, request.toXML());
+    String responseContent = this.post(url, request.toXML(), false);
     WxPayRefundQueryResult result = WxPayBaseResult.fromXML(responseContent, WxPayRefundQueryResult.class);
     result.composeRefundRecords();
     result.checkResult(this);
@@ -109,7 +109,7 @@ public class WxPayServiceImpl implements WxPayService {
       url = this.getPayBaseUrl() + "/mmpaymkttransfers/sendgroupredpack";
     }
 
-    String responseContent = this.postWithKey(url, request.toXML());
+    String responseContent = this.post(url, request.toXML(), true);
     WxPaySendRedpackResult result = WxPayBaseResult.fromXML(responseContent, WxPaySendRedpackResult.class);
     //毋须校验，因为没有返回签名信息
     // this.checkResult(result);
@@ -124,7 +124,7 @@ public class WxPayServiceImpl implements WxPayService {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/mmpaymkttransfers/gethbinfo";
-    String responseContent = this.postWithKey(url, request.toXML());
+    String responseContent = this.post(url, request.toXML(), true);
     WxPayRedpackQueryResult result = WxPayBaseResult.fromXML(responseContent, WxPayRedpackQueryResult.class);
     result.checkResult(this);
     return result;
@@ -138,7 +138,7 @@ public class WxPayServiceImpl implements WxPayService {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/pay/orderquery";
-    String responseContent = this.post(url, request.toXML());
+    String responseContent = this.post(url, request.toXML(), false);
     if (StringUtils.isBlank(responseContent)) {
       throw new WxPayException("无响应结果");
     }
@@ -160,7 +160,7 @@ public class WxPayServiceImpl implements WxPayService {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/pay/closeorder";
-    String responseContent = this.post(url, request.toXML());
+    String responseContent = this.post(url, request.toXML(), false);
     WxPayOrderCloseResult result = WxPayBaseResult.fromXML(responseContent, WxPayOrderCloseResult.class);
     result.checkResult(this);
 
@@ -172,7 +172,7 @@ public class WxPayServiceImpl implements WxPayService {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/pay/unifiedorder";
-    String responseContent = this.post(url, request.toXML());
+    String responseContent = this.post(url, request.toXML(), false);
     WxPayUnifiedOrderResult result = WxPayBaseResult.fromXML(responseContent, WxPayUnifiedOrderResult.class);
     result.checkResult(this);
     return result;
@@ -227,7 +227,7 @@ public class WxPayServiceImpl implements WxPayService {
     request.checkAndSign(this.getConfig());
     String url = this.getPayBaseUrl() + "/mmpaymkttransfers/promotion/transfers";
 
-    String responseContent = this.postWithKey(url, request.toXML());
+    String responseContent = this.post(url, request.toXML(), true);
     WxEntPayResult result = WxPayBaseResult.fromXML(responseContent, WxEntPayResult.class);
     result.checkResult(this);
     return result;
@@ -240,7 +240,7 @@ public class WxPayServiceImpl implements WxPayService {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/mmpaymkttransfers/gettransferinfo";
-    String responseContent = this.postWithKey(url, request.toXML());
+    String responseContent = this.post(url, request.toXML(), true);
     WxEntPayQueryResult result = WxPayBaseResult.fromXML(responseContent, WxEntPayQueryResult.class);
     result.checkResult(this);
     return result;
@@ -293,7 +293,7 @@ public class WxPayServiceImpl implements WxPayService {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/payitil/report";
-    String responseContent = this.post(url, request.toXML());
+    String responseContent = this.post(url, request.toXML(), false);
     WxPayCommonResult result = WxPayBaseResult.fromXML(responseContent, WxPayCommonResult.class);
     result.checkResult(this);
   }
@@ -309,7 +309,7 @@ public class WxPayServiceImpl implements WxPayService {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/pay/downloadbill";
-    String responseContent = this.post(url, request.toXML());
+    String responseContent = this.post(url, request.toXML(), false);
     if (responseContent.startsWith("<")) {
       WxPayCommonResult result = WxPayBaseResult.fromXML(responseContent, WxPayCommonResult.class);
       result.checkResult(this);
@@ -396,7 +396,7 @@ public class WxPayServiceImpl implements WxPayService {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/pay/micropay";
-    String responseContent = this.post(url, request.toXML());
+    String responseContent = this.post(url, request.toXML(), false);
     WxPayMicropayResult result = WxPayBaseResult.fromXML(responseContent, WxPayMicropayResult.class);
     result.checkResult(this);
     return result;
@@ -407,7 +407,7 @@ public class WxPayServiceImpl implements WxPayService {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/secapi/pay/reverse";
-    String responseContent = this.postWithKey(url, request.toXML());
+    String responseContent = this.post(url, request.toXML(), true);
     WxPayOrderReverseResult result = WxPayBaseResult.fromXML(responseContent, WxPayOrderReverseResult.class);
     result.checkResult(this);
     return result;
@@ -418,7 +418,7 @@ public class WxPayServiceImpl implements WxPayService {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/tools/shorturl";
-    String responseContent = this.post(url, request.toXML());
+    String responseContent = this.post(url, request.toXML(), false);
     WxPayShorturlResult result = WxPayBaseResult.fromXML(responseContent, WxPayShorturlResult.class);
     result.checkResult(this);
     return result.getShortUrl();
@@ -434,7 +434,7 @@ public class WxPayServiceImpl implements WxPayService {
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/tools/authcodetoopenid";
-    String responseContent = this.post(url, request.toXML());
+    String responseContent = this.post(url, request.toXML(), false);
     WxPayAuthcode2OpenidResult result = WxPayBaseResult.fromXML(responseContent, WxPayAuthcode2OpenidResult.class);
     result.checkResult(this);
     return result.getOpenid();
@@ -451,57 +451,42 @@ public class WxPayServiceImpl implements WxPayService {
     request.checkAndSign(this.getConfig());
 
     String url = "https://api.mch.weixin.qq.com/sandboxnew/pay/getsignkey";
-    String responseContent = this.post(url, request.toXML());
+    String responseContent = this.post(url, request.toXML(), false);
     WxPaySandboxSignKeyResult result = WxPayBaseResult.fromXML(responseContent, WxPaySandboxSignKeyResult.class);
     result.checkResult(this);
     return result.getSandboxSignKey();
   }
 
   /**
-   * 执行post请求
-   *
-   * @param url      请求地址
-   * @param xmlParam 请求字符串
-   * @return 返回请求结果
-   */
-  private String post(String url, String xmlParam) throws WxPayException {
-    HttpRequest request = HttpRequest
-      .post(url)
-      .timeout(this.config.getHttpTimeout())
-      .connectionTimeout(this.config.getHttpConnectionTimeout())
-      .body(new String(xmlParam.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1));
-    String responseString = this.getResponseString(request.send());
-
-    this.log.info("\n【请求地址】: {}\n【请求参数】：{}\n【响应数据】：{}", url, xmlParam, responseString);
-    return responseString;
-  }
-
-  /**
-   * 带证书发送post请求
+   * 发送post请求
    *
    * @param url        请求地址
    * @param requestStr 请求信息
+   * @param useKey     是否使用证书
+   * @return 返回请求结果字符串
    */
-  private String postWithKey(String url, String requestStr) throws WxPayException {
+  private String post(String url, String requestStr, boolean useKey) throws WxPayException {
     try {
-      SSLContext sslContext = this.getConfig().getSslContext();
-      if (null == sslContext) {
-        sslContext = this.getConfig().initSSLContext();
-      }
-
       HttpRequest request = HttpRequest
         .post(url)
         .timeout(this.config.getHttpTimeout())
         .connectionTimeout(this.config.getHttpConnectionTimeout())
-        .withConnectionProvider(new SSLSocketHttpConnectionProvider(sslContext))
         .bodyText(requestStr);
+
+      if (useKey) {
+        SSLContext sslContext = this.getConfig().getSslContext();
+        if (null == sslContext) {
+          sslContext = this.getConfig().initSSLContext();
+        }
+        request.withConnectionProvider(new SSLSocketHttpConnectionProvider(sslContext));
+      }
 
       String responseString = this.getResponseString(request.send());
 
-      this.log.info("\n【请求地址】: {}\n【请求参数】：{}\n【响应数据】：{}", url, requestStr, responseString);
+      this.log.info("\n【请求地址】：{}\n【请求数据】：{}\n【响应数据】：{}", url, requestStr, responseString);
       return responseString;
     } catch (Exception e) {
-      this.log.error("\n【请求地址】: {}\n【请求参数】：{}\n【异常信息】：{}", url, requestStr, e.getMessage());
+      this.log.error("\n【请求地址】：{}\n【请求数据】：{}\n【异常信息】：{}", url, requestStr, e.getMessage());
       throw new WxPayException(e.getMessage(), e);
     }
   }
