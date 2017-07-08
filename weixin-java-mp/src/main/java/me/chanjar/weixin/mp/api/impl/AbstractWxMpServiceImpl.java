@@ -232,6 +232,11 @@ public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, Requ
   }
 
   @Override
+  public WxMpCurrentAutoReplyInfo getCurrentAutoReplyInfo() throws WxErrorException {
+    return WxMpCurrentAutoReplyInfo.fromJson(this.get(GET_CURRENT_AUTOREPLY_INFO_URL, null));
+  }
+
+  @Override
   public String get(String url, String queryParam) throws WxErrorException {
     return execute(SimpleGetRequestExecutor.create(this), url, queryParam);
   }
