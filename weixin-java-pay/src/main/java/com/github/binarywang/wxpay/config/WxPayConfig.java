@@ -18,6 +18,17 @@ import java.security.KeyStore;
  * @author Binary Wang (https://github.com/binarywang)
  */
 public class WxPayConfig {
+
+  /**
+   * http请求连接超时时间
+   */
+  private int httpConnectionTimeout = 5000;
+
+  /**
+   * http请求数据读取等待时间
+   */
+  private int httpTimeout = 10000;
+
   private String appId;
   private String subAppId;
   private String mchId;
@@ -193,5 +204,27 @@ public class WxPayConfig {
     } finally {
       IOUtils.closeQuietly(inputStream);
     }
+  }
+
+  /**
+   * http请求连接超时时间
+   */
+  public int getHttpConnectionTimeout() {
+    return this.httpConnectionTimeout;
+  }
+
+  public void setHttpConnectionTimeout(int httpConnectionTimeout) {
+    this.httpConnectionTimeout = httpConnectionTimeout;
+  }
+
+  /**
+   * http请求数据读取等待时间
+   */
+  public int getHttpTimeout() {
+    return this.httpTimeout;
+  }
+
+  public void setHttpTimeout(int httpTimeout) {
+    this.httpTimeout = httpTimeout;
   }
 }

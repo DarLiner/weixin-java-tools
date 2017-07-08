@@ -465,9 +465,11 @@ public class WxPayServiceImpl implements WxPayService {
    * @return 返回请求结果
    */
   private String post(String url, String xmlParam) throws WxPayException {
-    String requestString = new String(xmlParam.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
-
-    HttpRequest request = HttpRequest.post(url).body(requestString);
+    HttpRequest request = HttpRequest
+      .post(url)
+      .timeout(this.config.getHttpTimeout())
+      .connectionTimeout(this.config.getHttpConnectionTimeout())
+      .body(new String(xmlParam.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1));
     String responseString = this.getResponseString(request.send());
 
     this.log.info("\n【请求地址】: {}\n【请求参数】：{}\n【响应数据】：{}", url, xmlParam, responseString);
@@ -489,6 +491,8 @@ public class WxPayServiceImpl implements WxPayService {
 
       HttpRequest request = HttpRequest
         .post(url)
+        .timeout(this.config.getHttpTimeout())
+        .connectionTimeout(this.config.getHttpConnectionTimeout())
         .withConnectionProvider(new SSLSocketHttpConnectionProvider(sslContext))
         .bodyText(requestStr);
 
