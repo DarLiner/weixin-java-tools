@@ -280,6 +280,26 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
   @XStreamAlias("sub_openid")
   private String subOpenid;
 
+  /**
+   * <pre>
+   * 字段名：场景信息
+   * 变量名：scene_info
+   * 是否必填：否，对H5支付来说是必填
+   * 类型：String(256)
+   * 示例值：{
+   * "store_id": "SZT10000",
+   * "store_name":"腾讯大厦腾大餐厅"
+   * }
+   * 描述：该字段用于统一下单时上报场景信息，目前支持上报实际门店信息。
+   * {
+   * "store_id": "", //门店唯一标识，选填，String(32)
+   * "store_name":"”//门店名称，选填，String(64)
+   * }
+   * </pre>
+   */
+  @XStreamAlias("scene_info")
+  private String sceneInfo;
+
   public WxPayUnifiedOrderRequest() {
   }
 
@@ -307,6 +327,7 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
     setLimitPay(builder.limitPay);
     setOpenid(builder.openid);
     setSubOpenid(builder.subOpenid);
+    setSceneInfo(builder.sceneInfo);
   }
 
   public static Builder newBuilder() {
@@ -459,6 +480,14 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
     this.subOpenid = subOpenid;
   }
 
+  public String getSceneInfo() {
+    return this.sceneInfo;
+  }
+
+  public void setSceneInfo(String sceneInfo) {
+    this.sceneInfo = sceneInfo;
+  }
+
   @Override
   protected void checkConstraints() {
 //    if (!ArrayUtils.contains(TRADE_TYPES, this.getTradeType())) {
@@ -512,6 +541,7 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
     private String limitPay;
     private String openid;
     private String subOpenid;
+    private String sceneInfo;
 
     private Builder() {
     }
@@ -628,6 +658,11 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
 
     public Builder subOpenid(String subOpenid) {
       this.subOpenid = subOpenid;
+      return this;
+    }
+
+    public Builder sceneInfo(String sceneInfo) {
+      this.sceneInfo = sceneInfo;
       return this;
     }
 
