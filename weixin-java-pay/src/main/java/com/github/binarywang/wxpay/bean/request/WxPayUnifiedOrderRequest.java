@@ -299,6 +299,16 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
    */
   @XStreamAlias("scene_info")
   private String sceneInfo;
+  /**
+   * <pre>
+   * 字段名：浏览器指纹
+   * 变量名：fingerprint
+   * 是否必填：否
+   * 详细参考 https://pay.weixin.qq.com/wiki/doc/api/H5.php?chapter=15_7&index=6
+   * </pre>
+   */
+  @XStreamAlias("fingerprint")
+  private String fingerprint;
 
   public WxPayUnifiedOrderRequest() {
   }
@@ -328,6 +338,7 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
     setOpenid(builder.openid);
     setSubOpenid(builder.subOpenid);
     setSceneInfo(builder.sceneInfo);
+    fingerprint = builder.fingerprint;
   }
 
   public static Builder newBuilder() {
@@ -518,14 +529,14 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
   }
 
   public static final class Builder {
-    private String deviceInfo;
     private String appid;
-    private String body;
     private String mchId;
     private String subAppId;
     private String subMchId;
     private String nonceStr;
     private String sign;
+    private String deviceInfo;
+    private String body;
     private String detail;
     private String attach;
     private String outTradeNo;
@@ -542,22 +553,13 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
     private String openid;
     private String subOpenid;
     private String sceneInfo;
+    private String fingerprint;
 
     private Builder() {
     }
 
-    public Builder deviceInfo(String deviceInfo) {
-      this.deviceInfo = deviceInfo;
-      return this;
-    }
-
     public Builder appid(String appid) {
       this.appid = appid;
-      return this;
-    }
-
-    public Builder body(String body) {
-      this.body = body;
       return this;
     }
 
@@ -583,6 +585,16 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
 
     public Builder sign(String sign) {
       this.sign = sign;
+      return this;
+    }
+
+    public Builder deviceInfo(String deviceInfo) {
+      this.deviceInfo = deviceInfo;
+      return this;
+    }
+
+    public Builder body(String body) {
+      this.body = body;
       return this;
     }
 
@@ -663,6 +675,11 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
 
     public Builder sceneInfo(String sceneInfo) {
       this.sceneInfo = sceneInfo;
+      return this;
+    }
+
+    public Builder fingerprint(String fingerprint) {
+      this.fingerprint = fingerprint;
       return this;
     }
 
