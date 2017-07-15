@@ -9,9 +9,9 @@ import me.chanjar.weixin.mp.bean.membercard.WxMpMemberCardUserInfoResult;
 import java.lang.reflect.Type;
 
 /**
- * Created by YuJian on 2017/7/11.
+ * Json to WxMpMemberCardUserInfoResult 的转换适配器
  *
- * @author YuJian
+ * @author YuJian(mgcnrx11@gmail.com)
  * @version 2017/7/11
  */
 public class WxMpMemberCardUserInfoResultGsonAdapter implements JsonDeserializer<WxMpMemberCardUserInfoResult> {
@@ -57,8 +57,7 @@ public class WxMpMemberCardUserInfoResultGsonAdapter implements JsonDeserializer
       JsonArray valueListArray = customField.getAsJsonArray("value_list");
       String[] valueList = new String[valueListArray.size()];
       for (int j = 0; j < valueListArray.size(); j++) {
-        JsonObject valueListObj = valueListArray.getAsJsonObject();
-        valueList[i] = valueListObj.getAsString();
+        valueList[j] = valueListArray.get(j).getAsString();
       }
       customNameValues.setValueList(valueList);
       customFieldListValues[i] = customNameValues;

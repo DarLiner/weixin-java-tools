@@ -1,5 +1,7 @@
 package me.chanjar.weixin.mp.bean.membercard;
 
+import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
+
 import java.io.Serializable;
 
 /**
@@ -132,6 +134,10 @@ public class WxMpMemberCardUserInfoResult implements Serializable {
       ", userCardStatus='" + userCardStatus + '\'' +
       ", hasActive=" + hasActive +
       '}';
+  }
+
+  public static WxMpMemberCardUserInfoResult fromJson(String json) {
+    return WxMpGsonBuilder.INSTANCE.create().fromJson(json, WxMpMemberCardUserInfoResult.class);
   }
 }
 
