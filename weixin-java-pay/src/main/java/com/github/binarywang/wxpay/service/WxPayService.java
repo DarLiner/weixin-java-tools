@@ -1,7 +1,6 @@
 package com.github.binarywang.wxpay.service;
 
-import com.github.binarywang.wxpay.bean.coupon.WxPayCouponSendRequest;
-import com.github.binarywang.wxpay.bean.coupon.WxPayCouponSendResult;
+import com.github.binarywang.wxpay.bean.coupon.*;
 import com.github.binarywang.wxpay.bean.request.*;
 import com.github.binarywang.wxpay.bean.result.*;
 import com.github.binarywang.wxpay.config.WxPayConfig;
@@ -351,4 +350,22 @@ public interface WxPayService {
    * </pre>
    */
   WxPayCouponSendResult sendCoupon(WxPayCouponSendRequest request) throws WxPayException;
+
+  /**
+   * <pre>
+   * 查询代金券批次
+   * 接口请求链接：https://api.mch.weixin.qq.com/mmpaymkttransfers/query_coupon_stock
+   * 文档地址：https://pay.weixin.qq.com/wiki/doc/api/tools/sp_coupon.php?chapter=12_4
+   * </pre>
+   */
+  WxPayCouponStockQueryResult queryCouponStock(WxPayCouponStockQueryRequest request) throws WxPayException;
+
+  /**
+   * <pre>
+   * 查询代金券信息
+   * 接口请求链接：https://api.mch.weixin.qq.com/mmpaymkttransfers/querycouponsinfo
+   * 文档地址：https://pay.weixin.qq.com/wiki/doc/api/tools/sp_coupon.php?chapter=12_5
+   * </pre>
+   */
+  WxPayCouponInfoQueryResult queryCouponInfo(WxPayCouponInfoQueryRequest request) throws WxPayException;
 }

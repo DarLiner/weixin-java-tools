@@ -1,8 +1,7 @@
 package com.github.binarywang.wxpay.service.impl;
 
 import com.github.binarywang.utils.qrcode.QrcodeUtils;
-import com.github.binarywang.wxpay.bean.coupon.WxPayCouponSendRequest;
-import com.github.binarywang.wxpay.bean.coupon.WxPayCouponSendResult;
+import com.github.binarywang.wxpay.bean.coupon.*;
 import com.github.binarywang.wxpay.bean.request.*;
 import com.github.binarywang.wxpay.bean.result.*;
 import com.github.binarywang.wxpay.exception.WxPayException;
@@ -280,6 +279,24 @@ public class WxPayServiceAbstractImplTest {
       .openid("122")
       .partnerTradeNo("1212")
       .openidCount(1)
+      .build());
+    this.logger.info(result.toString());
+  }
+
+  @Test
+  public void testQueryCouponStock() throws Exception {
+    WxPayCouponStockQueryResult result = this.payService.queryCouponStock(WxPayCouponStockQueryRequest.newBuilder()
+      .couponStockId("123")
+      .build());
+    this.logger.info(result.toString());
+  }
+
+  @Test
+  public void testQueryCouponInfo() throws Exception {
+    WxPayCouponInfoQueryResult result = this.payService.queryCouponInfo(WxPayCouponInfoQueryRequest.newBuilder()
+      .openid("onqOjjrXT-776SpHnfexGm1_P7iE")
+      .couponId("11")
+      .stockId("1121")
       .build());
     this.logger.info(result.toString());
   }
