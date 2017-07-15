@@ -1,6 +1,8 @@
 package com.github.binarywang.wxpay.service.impl;
 
 import com.github.binarywang.utils.qrcode.QrcodeUtils;
+import com.github.binarywang.wxpay.bean.coupon.WxPayCouponSendRequest;
+import com.github.binarywang.wxpay.bean.coupon.WxPayCouponSendResult;
 import com.github.binarywang.wxpay.bean.request.*;
 import com.github.binarywang.wxpay.bean.result.*;
 import com.github.binarywang.wxpay.config.WxPayConfig;
@@ -462,5 +464,16 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
     WxPaySandboxSignKeyResult result = WxPayBaseResult.fromXML(responseContent, WxPaySandboxSignKeyResult.class);
     result.checkResult(this);
     return result.getSandboxSignKey();
+  }
+
+  @Override
+  public WxPayCouponSendResult sendCoupon(WxPayCouponSendRequest request) throws WxPayException {
+    request.checkAndSign(this.getConfig());
+
+    String url = this.getPayBaseUrl() + "/mmpaymkttransfers/send_coupon";
+    String responseContent = this.post(url, request.toXML(), true);
+    WxPayCouponSendResult result = WxPayBaseResult.fromXML(responseContent, WxPayCouponSendResult.class);
+    result.checkResult(this);
+    return result;
   }
 }
