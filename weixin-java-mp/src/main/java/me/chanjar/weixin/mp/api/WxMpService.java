@@ -435,6 +435,13 @@ public interface WxMpService {
   WxMpShakeService getShakeService();
 
   /**
+   * 返回会员卡相关接口方法的实现类对象，以方便调用其各个接口
+   *
+   * @return WxMpMemberCardService
+   */
+  WxMpMemberCardService getMemberCardService();
+
+  /**
    * 初始化http请求对象
    */
   void initHttp();
