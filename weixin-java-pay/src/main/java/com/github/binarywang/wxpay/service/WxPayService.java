@@ -1,5 +1,7 @@
 package com.github.binarywang.wxpay.service;
 
+import com.github.binarywang.wxpay.bean.coupon.WxPayCouponSendRequest;
+import com.github.binarywang.wxpay.bean.coupon.WxPayCouponSendResult;
 import com.github.binarywang.wxpay.bean.request.*;
 import com.github.binarywang.wxpay.bean.result.*;
 import com.github.binarywang.wxpay.config.WxPayConfig;
@@ -339,4 +341,14 @@ public interface WxPayService {
    * </pre>
    */
   String getSandboxSignKey() throws WxPayException;
+
+  /**
+   * <pre>
+   * 发放代金券
+   * 接口请求链接：https://api.mch.weixin.qq.com/mmpaymkttransfers/send_coupon
+   * 是否需要证书：请求需要双向证书。
+   * 文档地址：https://pay.weixin.qq.com/wiki/doc/api/tools/sp_coupon.php?chapter=12_3
+   * </pre>
+   */
+  WxPayCouponSendResult sendCoupon(WxPayCouponSendRequest request) throws WxPayException;
 }
