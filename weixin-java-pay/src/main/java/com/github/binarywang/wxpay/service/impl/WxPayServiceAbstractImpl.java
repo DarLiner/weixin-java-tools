@@ -24,6 +24,7 @@ import java.util.Map;
  *  微信支付接口请求抽象实现类
  * Created by Binary Wang on 2017-7-8.
  * </pre>
+ *
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
 public abstract class WxPayServiceAbstractImpl implements WxPayService {
@@ -196,6 +197,8 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
     }
 
     Map<String, String> payInfo = new HashMap<>();
+    String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
+    String nonceStr = String.valueOf(System.currentTimeMillis());
     if ("NATIVE".equals(request.getTradeType())) {
       payInfo.put("codeUrl", unifiedOrderResult.getCodeURL());
     } else if ("APP".equals(request.getTradeType())) {
@@ -207,8 +210,8 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
       configMap.put("prepayid", prepayId);
       configMap.put("partnerid", partnerid);
       configMap.put("package", "Sign=WXPay");
-      configMap.put("timestamp", String.valueOf(System.currentTimeMillis() / 1000));
-      configMap.put("noncestr", String.valueOf(System.currentTimeMillis()));
+      configMap.put("timestamp", timestamp);
+      configMap.put("noncestr", nonceStr);
       configMap.put("appid", appId);
       // 此map用于客户端与微信服务器交互
       payInfo.put("sign", SignUtils.createSign(configMap, this.getConfig().getMchKey()));
@@ -216,17 +219,18 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
       payInfo.put("partnerId", partnerid);
       payInfo.put("appId", appId);
       payInfo.put("packageValue", "Sign=WXPay");
-      payInfo.put("timeStamp", String.valueOf(System.currentTimeMillis() / 1000));
-      payInfo.put("nonceStr", String.valueOf(System.currentTimeMillis()));
+      payInfo.put("timeStamp", timestamp);
+      payInfo.put("nonceStr", nonceStr);
     } else if ("JSAPI".equals(request.getTradeType())) {
       payInfo.put("appId", unifiedOrderResult.getAppid());
       // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
-      payInfo.put("timeStamp", String.valueOf(System.currentTimeMillis() / 1000));
-      payInfo.put("nonceStr", String.valueOf(System.currentTimeMillis()));
+      payInfo.put("timeStamp", timestamp);
+      payInfo.put("nonceStr", nonceStr);
       payInfo.put("package", "prepay_id=" + prepayId);
       payInfo.put("signType", "MD5");
       payInfo.put("paySign", SignUtils.createSign(payInfo, this.getConfig().getMchKey()));
     }
+
     return payInfo;
   }
 
