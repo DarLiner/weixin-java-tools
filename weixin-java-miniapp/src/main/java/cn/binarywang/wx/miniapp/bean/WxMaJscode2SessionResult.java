@@ -18,6 +18,13 @@ public class WxMaJscode2SessionResult {
   @SerializedName("openid")
   private String openid;
 
+  @SerializedName("unionid")
+  private String unionid;
+
+  public static WxMaJscode2SessionResult fromJson(String json) {
+    return WxMaGsonBuilder.create().fromJson(json, WxMaJscode2SessionResult.class);
+  }
+
   public String getSessionKey() {
     return sessionKey;
   }
@@ -42,8 +49,12 @@ public class WxMaJscode2SessionResult {
     this.openid = openid;
   }
 
-  public static WxMaJscode2SessionResult fromJson(String json) {
-    return WxMaGsonBuilder.create().fromJson(json, WxMaJscode2SessionResult.class);
+  public String getUnionid() {
+    return unionid;
+  }
+
+  public void setUnionid(String unionid) {
+    this.unionid = unionid;
   }
 
 }
