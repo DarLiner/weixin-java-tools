@@ -170,7 +170,15 @@ public class WxPayServiceAbstractImplTest {
    */
   @Test
   public void testEntPay() throws WxPayException {
-    WxEntPayRequest request = new WxEntPayRequest();
+    WxEntPayRequest request = WxEntPayRequest.newBuilder()
+      .partnerTradeNo("Eb6Aep7uVTdbkJqrP4")
+      .openid("ojOQA0y9o-Eb6Aep7uVTdbkJqrP4")
+      .amount(1)
+      .spbillCreateIp("10.10.10.10")
+      .checkName("NO_CHECK")
+      .description("描述信息")
+      .build();
+
     this.logger.info(this.payService.entPay(request).toString());
   }
 
