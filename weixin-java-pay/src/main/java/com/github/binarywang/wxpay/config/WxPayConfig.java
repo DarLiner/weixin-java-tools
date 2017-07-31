@@ -160,11 +160,11 @@ public class WxPayConfig {
 
   public SSLContext initSSLContext() throws WxPayException {
     if (StringUtils.isBlank(mchId)) {
-      throw new IllegalArgumentException("请确保商户号mchId已设置");
+      throw new WxPayException("请确保商户号mchId已设置");
     }
 
     if (StringUtils.isBlank(this.keyPath)) {
-      throw new IllegalArgumentException("请确保证书文件地址keyPath已配置");
+      throw new WxPayException("请确保证书文件地址keyPath已配置");
     }
 
     InputStream inputStream;

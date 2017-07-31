@@ -500,18 +500,18 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
   }
 
   @Override
-  protected void checkConstraints() {
+  protected void checkConstraints() throws WxPayException {
 //    if (!ArrayUtils.contains(TRADE_TYPES, this.getTradeType())) {
-//      throw new IllegalArgumentException(String.format("trade_type目前必须为%s其中之一,实际值：%s",
+//      throw new WxPayException(String.format("trade_type目前必须为%s其中之一,实际值：%s",
 //        Arrays.toString(TRADE_TYPES), this.getTradeType()));
 //    }
 
     if ("JSAPI".equals(this.getTradeType()) && this.getOpenid() == null) {
-      throw new IllegalArgumentException("当 trade_type是'JSAPI'时未指定openid");
+      throw new WxPayException("当 trade_type是'JSAPI'时未指定openid");
     }
 
     if ("NATIVE".equals(this.getTradeType()) && this.getProductId() == null) {
-      throw new IllegalArgumentException("当 trade_type是'NATIVE'时未指定product_id");
+      throw new WxPayException("当 trade_type是'NATIVE'时未指定product_id");
     }
   }
 

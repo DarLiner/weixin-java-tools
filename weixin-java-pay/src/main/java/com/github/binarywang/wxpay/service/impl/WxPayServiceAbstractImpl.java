@@ -161,7 +161,7 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
   @Override
   public WxPayOrderCloseResult closeOrder(String outTradeNo) throws WxPayException {
     if (StringUtils.isBlank(outTradeNo)) {
-      throw new IllegalArgumentException("out_trade_no不能为空");
+      throw new WxPayException("out_trade_no不能为空");
     }
 
     WxPayOrderCloseRequest request = new WxPayOrderCloseRequest();

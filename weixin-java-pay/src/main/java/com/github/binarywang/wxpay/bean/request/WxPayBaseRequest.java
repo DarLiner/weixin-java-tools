@@ -122,7 +122,7 @@ public abstract class WxPayBaseRequest {
   /**
    * 检查约束情况
    */
-  protected abstract void checkConstraints();
+  protected abstract void checkConstraints() throws WxPayException;
 
   public String getAppid() {
     return this.appid;

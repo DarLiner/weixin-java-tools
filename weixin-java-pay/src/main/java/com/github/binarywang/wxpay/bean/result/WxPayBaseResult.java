@@ -316,8 +316,8 @@ public abstract class WxPayBaseResult {
     }
 
     //校验结果是否成功
-    if (!"SUCCESS".equalsIgnoreCase(getReturnCode())
-      || !"SUCCESS".equalsIgnoreCase(getResultCode())) {
+    if (!StringUtils.equalsAny(StringUtils.trimToEmpty(getReturnCode()).toUpperCase(), "SUCCESS", "")
+      || !StringUtils.equalsAny(StringUtils.trimToEmpty(getResultCode()).toUpperCase(), "SUCCESS", "")) {
       StringBuilder errorMsg = new StringBuilder();
       if (getReturnCode() != null) {
         errorMsg.append("返回代码：").append(getReturnCode());
@@ -335,8 +335,7 @@ public abstract class WxPayBaseResult {
         errorMsg.append("，错误详情：").append(getErrCodeDes());
       }
 
-      this.getLogger().error("\n结果业务代码异常，返回結果：{},\n{}",
-        map, errorMsg.toString());
+      this.getLogger().error("\n结果业务代码异常，返回結果：{},\n{}", map, errorMsg.toString());
       throw WxPayException.from(this);
     }
   }
