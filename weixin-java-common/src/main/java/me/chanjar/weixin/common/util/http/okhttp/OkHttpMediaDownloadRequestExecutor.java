@@ -62,6 +62,7 @@ public class OkHttpMediaDownloadRequestExecutor extends MediaDownloadRequestExec
     try (BufferedSink sink = Okio.buffer(Okio.sink(file))) {
       sink.writeAll(response.body().source());
     }
+    file.deleteOnExit();
     return file;
   }
 
