@@ -271,16 +271,16 @@ public class WxPayRefundRequest extends WxPayBaseRequest {
   }
 
   @Override
-  protected void checkConstraints() {
+  protected void checkConstraints() throws WxPayException {
     if (StringUtils.isNotBlank(this.getRefundAccount())) {
       if (!ArrayUtils.contains(REFUND_ACCOUNT, this.getRefundAccount())) {
-        throw new IllegalArgumentException(String.format("refund_account目前必须为%s其中之一,实际值：%s",
+        throw new WxPayException(String.format("refund_account目前必须为%s其中之一,实际值：%s",
           Arrays.toString(REFUND_ACCOUNT), this.getRefundAccount()));
       }
     }
 
     if (StringUtils.isBlank(this.getOutTradeNo()) && StringUtils.isBlank(this.getTransactionId())) {
-      throw new IllegalArgumentException("transaction_id 和 out_trade_no 不能同时为空，必须提供一个");
+      throw new WxPayException("transaction_id 和 out_trade_no 不能同时为空，必须提供一个");
     }
   }
 

@@ -139,7 +139,7 @@ public class WxPayServiceAbstractImplTest {
       .unifiedOrder(WxPayUnifiedOrderRequest.newBuilder()
         .body("我去")
         .totalFee(1)
-        .spbillCreateIp("111111")
+        .spbillCreateIp("11.1.11.1")
         .notifyURL("111111")
         .tradeType("JSAPI")
         .openid(((XmlWxPayConfig) this.payService.getConfig()).getOpenid())
