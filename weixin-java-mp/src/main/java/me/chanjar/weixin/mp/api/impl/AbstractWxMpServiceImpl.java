@@ -66,10 +66,9 @@ public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, Requ
 
   @Override
   public String getJsapiTicket(boolean forceRefresh) throws WxErrorException {
-    Lock lock = this.getWxMpConfigStorage().getJsapiTicketLock();
+    Lock lock = this.getWxMpConfigStorage().getAccessTokenLock();
     try {
       lock.lock();
-
       if (forceRefresh) {
         this.getWxMpConfigStorage().expireJsapiTicket();
       }

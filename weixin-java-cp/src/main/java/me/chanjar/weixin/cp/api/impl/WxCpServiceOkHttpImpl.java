@@ -7,16 +7,20 @@ import me.chanjar.weixin.common.util.http.HttpType;
 import me.chanjar.weixin.common.util.http.okhttp.OkHttpProxyInfo;
 import me.chanjar.weixin.cp.config.WxCpConfigStorage;
 import okhttp3.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class WxCpServiceOkHttpImpl extends AbstractWxCpServiceImpl<ConnectionPool, OkHttpProxyInfo> {
-  protected ConnectionPool httpClient;
+public class WxCpServiceOkHttpImpl extends AbstractWxCpServiceImpl<OkHttpClient, OkHttpProxyInfo> {
+  private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+  protected OkHttpClient httpClient;
   protected OkHttpProxyInfo httpProxy;
 
 
   @Override
-  public ConnectionPool getRequestHttpClient() {
+  public OkHttpClient getRequestHttpClient() {
     return httpClient;
   }
 
@@ -32,6 +36,7 @@ public class WxCpServiceOkHttpImpl extends AbstractWxCpServiceImpl<ConnectionPoo
 
   @Override
   public String getAccessToken(boolean forceRefresh) throws WxErrorException {
+    logger.debug("WxCpServiceOkHttpImpl is running");
     if (forceRefresh) {
       this.configStorage.expireAccessToken();
     }
@@ -41,24 +46,8 @@ public class WxCpServiceOkHttpImpl extends AbstractWxCpServiceImpl<ConnectionPoo
           String url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?"
             + "&corpid=" + this.configStorage.getCorpId()
             + "&corpsecret=" + this.configStorage.getCorpSecret();
-
-          OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder().connectionPool(httpClient);
-          //设置代理
-          if (httpProxy != null) {
-            clientBuilder.proxy(getRequestHttpProxy().getProxy());
-          }
-          //设置授权
-          clientBuilder.authenticator(new Authenticator() {
-            @Override
-            public Request authenticate(Route route, Response response) throws IOException {
-              String credential = Credentials.basic(httpProxy.getProxyUsername(), httpProxy.getProxyPassword());
-              return response.request().newBuilder()
-                .header("Authorization", credential)
-                .build();
-            }
-          });
           //得到httpClient
-          OkHttpClient client = clientBuilder.build();
+          OkHttpClient client = getRequestHttpClient();
           //请求的request
           Request request = new Request.Builder().url(url).get().build();
           Response response = null;
@@ -88,13 +77,24 @@ public class WxCpServiceOkHttpImpl extends AbstractWxCpServiceImpl<ConnectionPoo
 
   @Override
   public void initHttp() {
-    WxCpConfigStorage configStorage = this.configStorage;
+    logger.debug("WxCpServiceOkHttpImpl initHttp");
+    OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
+    //设置代理
+    if (httpProxy != null) {
+      clientBuilder.proxy(getRequestHttpProxy().getProxy());
 
-    if (configStorage.getHttpProxyHost() != null && configStorage.getHttpProxyPort() > 0) {
-      httpProxy = new OkHttpProxyInfo(OkHttpProxyInfo.ProxyType.SOCKS5, configStorage.getHttpProxyHost(), configStorage.getHttpProxyPort(), configStorage.getHttpProxyUsername(), configStorage.getHttpProxyPassword());
+      //设置授权
+      clientBuilder.authenticator(new Authenticator() {
+        @Override
+        public Request authenticate(Route route, Response response) throws IOException {
+          String credential = Credentials.basic(httpProxy.getProxyUsername(), httpProxy.getProxyPassword());
+          return response.request().newBuilder()
+            .header("Authorization", credential)
+            .build();
+        }
+      });
     }
-
-    httpClient = new ConnectionPool();
+    httpClient = clientBuilder.build();
   }
 
   @Override
