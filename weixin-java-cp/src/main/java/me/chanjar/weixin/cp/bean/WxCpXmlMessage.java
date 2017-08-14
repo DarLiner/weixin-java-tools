@@ -164,6 +164,8 @@ public class WxCpXmlMessage implements Serializable {
   private SendLocationInfo sendLocationInfo = new SendLocationInfo();
 
   protected static WxCpXmlMessage fromXml(String xml) {
+    //修改微信变态的消息内容格式，方便解析
+    xml = xml.replace("</PicList><PicList>", "");
     return XStreamTransformer.fromXml(WxCpXmlMessage.class, xml);
   }
 
