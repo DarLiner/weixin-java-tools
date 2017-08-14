@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class WxCpServiceOkHttpImpl extends AbstractWxCpServiceImpl<OkHttpClient, OkHttpProxyInfo> {
+public class WxCpServiceOkHttpImpl extends WxCpServiceAbstractImpl<OkHttpClient, OkHttpProxyInfo> {
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
   protected OkHttpClient httpClient;

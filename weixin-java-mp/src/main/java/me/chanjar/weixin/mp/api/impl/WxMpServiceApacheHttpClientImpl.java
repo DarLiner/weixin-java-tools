@@ -21,7 +21,7 @@ import java.util.concurrent.locks.Lock;
 /**
  * apache-http方式实现
  */
-public class WxMpServiceApacheHttpClientImpl extends AbstractWxMpServiceImpl<CloseableHttpClient, HttpHost> {
+public class WxMpServiceApacheHttpClientImpl extends WxMpServiceAbstractImpl<CloseableHttpClient, HttpHost> {
   private CloseableHttpClient httpClient;
   private HttpHost httpProxy;
 

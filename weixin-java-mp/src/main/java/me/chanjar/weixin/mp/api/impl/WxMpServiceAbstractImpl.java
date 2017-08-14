@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 
-public abstract class AbstractWxMpServiceImpl<H, P> implements WxMpService, RequestHttp<H, P> {
+public abstract class WxMpServiceAbstractImpl<H, P> implements WxMpService, RequestHttp<H, P> {
 
   private static final JsonParser JSON_PARSER = new JsonParser();
 
