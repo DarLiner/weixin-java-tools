@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 
-public class WxMpServiceOkHttpImpl extends AbstractWxMpServiceImpl<OkHttpClient, OkHttpProxyInfo> {
+public class WxMpServiceOkHttpImpl extends WxMpServiceAbstractImpl<OkHttpClient, OkHttpProxyInfo> {
 
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
