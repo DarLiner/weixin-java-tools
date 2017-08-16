@@ -24,6 +24,14 @@ public class WxMpSelfMenuInfo {
     return ToStringUtils.toSimpleString(this);
   }
 
+  public List<WxMpSelfMenuButton> getButtons() {
+    return this.buttons;
+  }
+
+  public void setButtons(List<WxMpSelfMenuButton> buttons) {
+    this.buttons = buttons;
+  }
+
   public static class WxMpSelfMenuButton {
     /**
      * <pre>
