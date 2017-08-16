@@ -76,7 +76,7 @@ public interface WxMpUserTagService {
    * <pre>
    * 批量为用户取消标签
    * 详情请见：<a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140837&token=&lang=zh_CN">用户标签管理</a>
-   * 接口url格式： https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging?access_token=ACCESS_TOKEN
+   * 接口url格式： https://api.weixin.qq.com/cgi-bin/tags/members/batchuntagging?access_token=ACCESS_TOKEN
    * </pre>
    */
   boolean batchUntagging(Long tagId, String[] openids) throws WxErrorException;
