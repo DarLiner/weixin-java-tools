@@ -43,6 +43,7 @@ public abstract class WxMpServiceAbstractImpl<H, P> implements WxMpService, Requ
   private WxMpDeviceService deviceService = new WxMpDeviceServiceImpl(this);
   private WxMpShakeService shakeService = new WxMpShakeServiceImpl(this);
   private WxMpMemberCardService memberCardService = new WxMpMemberCardServiceImpl(this);
+  private WxMpMassMessageService massMessageService = new WxMpMassMessageServiceImpl(this);
 
   private int retrySleepMillis = 1000;
   private int maxRetryTimes = 5;
@@ -106,36 +107,6 @@ public abstract class WxMpServiceAbstractImpl<H, P> implements WxMpService, Requ
   @Override
   public String getAccessToken() throws WxErrorException {
     return getAccessToken(false);
-  }
-
-  @Override
-  public WxMpMassUploadResult massNewsUpload(WxMpMassNews news) throws WxErrorException {
-    String responseContent = this.post(WxMpService.MEDIA_UPLOAD_NEWS_URL, news.toJson());
-    return WxMpMassUploadResult.fromJson(responseContent);
-  }
-
-  @Override
-  public WxMpMassUploadResult massVideoUpload(WxMpMassVideo video) throws WxErrorException {
-    String responseContent = this.post(WxMpService.MEDIA_UPLOAD_VIDEO_URL, video.toJson());
-    return WxMpMassUploadResult.fromJson(responseContent);
-  }
-
-  @Override
-  public WxMpMassSendResult massGroupMessageSend(WxMpMassTagMessage message) throws WxErrorException {
-    String responseContent = this.post(WxMpService.MESSAGE_MASS_SENDALL_URL, message.toJson());
-    return WxMpMassSendResult.fromJson(responseContent);
-  }
-
-  @Override
-  public WxMpMassSendResult massOpenIdsMessageSend(WxMpMassOpenIdsMessage message) throws WxErrorException {
-    String responseContent = this.post(WxMpService.MESSAGE_MASS_SEND_URL, message.toJson());
-    return WxMpMassSendResult.fromJson(responseContent);
-  }
-
-  @Override
-  public WxMpMassSendResult massMessagePreview(WxMpMassPreviewMessage wxMpMassPreviewMessage) throws Exception {
-    String responseContent = this.post(WxMpService.MESSAGE_MASS_PREVIEW_URL, wxMpMassPreviewMessage.toJson());
-    return WxMpMassSendResult.fromJson(responseContent);
   }
 
   @Override
@@ -414,5 +385,10 @@ public abstract class WxMpServiceAbstractImpl<H, P> implements WxMpService, Requ
   @Override
   public RequestHttp getRequestHttp() {
     return this;
+  }
+
+  @Override
+  public WxMpMassMessageService getMassMessageService() {
+    return this.massMessageService;
   }
 }
