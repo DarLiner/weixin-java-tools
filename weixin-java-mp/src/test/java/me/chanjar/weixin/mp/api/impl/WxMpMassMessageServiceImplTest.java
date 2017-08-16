@@ -1,9 +1,10 @@
-package me.chanjar.weixin.mp.api;
+package me.chanjar.weixin.mp.api.impl;
 
 import com.google.inject.Inject;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.test.ApiTestModule;
 import me.chanjar.weixin.mp.api.test.TestConfigStorage;
 import me.chanjar.weixin.mp.api.test.TestConstants;
@@ -13,21 +14,21 @@ import me.chanjar.weixin.mp.bean.WxMpMassTagMessage;
 import me.chanjar.weixin.mp.bean.WxMpMassVideo;
 import me.chanjar.weixin.mp.bean.result.WxMpMassSendResult;
 import me.chanjar.weixin.mp.bean.result.WxMpMassUploadResult;
-import org.testng.*;
 import org.testng.annotations.*;
 
 import java.io.IOException;
 import java.io.InputStream;
+
+import static org.testng.Assert.*;
 
 /**
  * 测试群发消息
  *
  * @author chanjarster
  */
-@Test(groups = "massAPI", dependsOnGroups = {"baseAPI", "mediaAPI", "groupAPI"})
+@Test
 @Guice(modules = ApiTestModule.class)
-public class WxMpMassMessageAPITest {
-
+public class WxMpMassMessageServiceImplTest {
   @Inject
   protected WxMpService wxService;
 
@@ -41,10 +42,10 @@ public class WxMpMassMessageAPITest {
     massMessage.setContent("测试群发消息\n欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>");
     massMessage.getToUsers().add(configProvider.getOpenid());
 
-    WxMpMassSendResult massResult = this.wxService
+    WxMpMassSendResult massResult = this.wxService.getMassMessageService()
       .massOpenIdsMessageSend(massMessage);
-    Assert.assertNotNull(massResult);
-    Assert.assertNotNull(massResult.getMsgId());
+    assertNotNull(massResult);
+    assertNotNull(massResult.getMsgId());
   }
 
   @Test(dataProvider = "massMessages")
@@ -57,10 +58,10 @@ public class WxMpMassMessageAPITest {
     massMessage.setMediaId(mediaId);
     massMessage.getToUsers().add(configProvider.getOpenid());
 
-    WxMpMassSendResult massResult = this.wxService
+    WxMpMassSendResult massResult = this.wxService.getMassMessageService()
       .massOpenIdsMessageSend(massMessage);
-    Assert.assertNotNull(massResult);
-    Assert.assertNotNull(massResult.getMsgId());
+    assertNotNull(massResult);
+    assertNotNull(massResult.getMsgId());
   }
 
   @Test
@@ -71,10 +72,10 @@ public class WxMpMassMessageAPITest {
     massMessage
       .setTagId(this.wxService.getUserTagService().tagGet().get(0).getId());
 
-    WxMpMassSendResult massResult = this.wxService
+    WxMpMassSendResult massResult = this.wxService.getMassMessageService()
       .massGroupMessageSend(massMessage);
-    Assert.assertNotNull(massResult);
-    Assert.assertNotNull(massResult.getMsgId());
+    assertNotNull(massResult);
+    assertNotNull(massResult.getMsgId());
   }
 
   @Test(dataProvider = "massMessages")
@@ -85,10 +86,10 @@ public class WxMpMassMessageAPITest {
     massMessage.setMediaId(mediaId);
     massMessage.setTagId(this.wxService.getUserTagService().tagGet().get(0).getId());
 
-    WxMpMassSendResult massResult = this.wxService
+    WxMpMassSendResult massResult = this.wxService.getMassMessageService()
       .massGroupMessageSend(massMessage);
-    Assert.assertNotNull(massResult);
-    Assert.assertNotNull(massResult.getMsgId());
+    assertNotNull(massResult);
+    assertNotNull(massResult.getMsgId());
   }
 
   @DataProvider
@@ -103,17 +104,17 @@ public class WxMpMassMessageAPITest {
       // 上传视频到媒体库
       WxMediaUploadResult uploadMediaRes = this.wxService.getMaterialService()
         .mediaUpload(WxConsts.MEDIA_VIDEO, TestConstants.FILE_MP4, inputStream);
-      Assert.assertNotNull(uploadMediaRes);
-      Assert.assertNotNull(uploadMediaRes.getMediaId());
+      assertNotNull(uploadMediaRes);
+      assertNotNull(uploadMediaRes.getMediaId());
 
       // 把视频变成可被群发的媒体
       WxMpMassVideo video = new WxMpMassVideo();
       video.setTitle("测试标题");
       video.setDescription("测试描述");
       video.setMediaId(uploadMediaRes.getMediaId());
-      WxMpMassUploadResult uploadResult = this.wxService.massVideoUpload(video);
-      Assert.assertNotNull(uploadResult);
-      Assert.assertNotNull(uploadResult.getMediaId());
+      WxMpMassUploadResult uploadResult = this.wxService.getMassMessageService().massVideoUpload(video);
+      assertNotNull(uploadResult);
+      assertNotNull(uploadResult.getMediaId());
       messages[0] = new Object[]{WxConsts.MASS_MSG_VIDEO, uploadResult.getMediaId()};
     }
 
@@ -124,8 +125,8 @@ public class WxMpMassMessageAPITest {
       .getSystemResourceAsStream("mm.jpeg")) {
       WxMediaUploadResult uploadMediaRes = this.wxService.getMaterialService()
         .mediaUpload(WxConsts.MEDIA_IMAGE, TestConstants.FILE_JPG, inputStream);
-      Assert.assertNotNull(uploadMediaRes);
-      Assert.assertNotNull(uploadMediaRes.getMediaId());
+      assertNotNull(uploadMediaRes);
+      assertNotNull(uploadMediaRes.getMediaId());
       messages[1] = new Object[]{WxConsts.MASS_MSG_IMAGE, uploadMediaRes.getMediaId()};
     }
 
@@ -136,8 +137,8 @@ public class WxMpMassMessageAPITest {
       .getSystemResourceAsStream("mm.mp3")) {
       WxMediaUploadResult uploadMediaRes = this.wxService.getMaterialService()
         .mediaUpload(WxConsts.MEDIA_VOICE, TestConstants.FILE_MP3, inputStream);
-      Assert.assertNotNull(uploadMediaRes);
-      Assert.assertNotNull(uploadMediaRes.getMediaId());
+      assertNotNull(uploadMediaRes);
+      assertNotNull(uploadMediaRes.getMediaId());
       messages[2] = new Object[]{WxConsts.MASS_MSG_VOICE, uploadMediaRes.getMediaId()};
     }
 
@@ -149,8 +150,8 @@ public class WxMpMassMessageAPITest {
       // 上传照片到媒体库
       WxMediaUploadResult uploadMediaRes = this.wxService.getMaterialService()
         .mediaUpload(WxConsts.MEDIA_IMAGE, TestConstants.FILE_JPG, inputStream);
-      Assert.assertNotNull(uploadMediaRes);
-      Assert.assertNotNull(uploadMediaRes.getMediaId());
+      assertNotNull(uploadMediaRes);
+      assertNotNull(uploadMediaRes.getMediaId());
 
       // 上传图文消息
       WxMpMassNews news = new WxMpMassNews();
@@ -170,10 +171,10 @@ public class WxMpMassMessageAPITest {
       article2.setDigest("摘要2");
       news.addArticle(article2);
 
-      WxMpMassUploadResult massUploadResult = this.wxService
+      WxMpMassUploadResult massUploadResult = this.wxService.getMassMessageService()
         .massNewsUpload(news);
-      Assert.assertNotNull(massUploadResult);
-      Assert.assertNotNull(uploadMediaRes.getMediaId());
+      assertNotNull(massUploadResult);
+      assertNotNull(uploadMediaRes.getMediaId());
       messages[3] = new Object[]{WxConsts.MASS_MSG_NEWS, massUploadResult.getMediaId()};
     }
 
