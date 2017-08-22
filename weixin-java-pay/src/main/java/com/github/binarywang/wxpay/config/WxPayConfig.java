@@ -39,6 +39,10 @@ public class WxPayConfig {
   private SSLContext sslContext;
   private String keyPath;
   private boolean useSandboxEnv = false;
+  private String httpProxyHost;
+  private Integer httpProxyPort;
+  private String httpProxyUsername;
+  private String httpProxyPassword;
 
   public String getKeyPath() {
     return keyPath;
@@ -226,5 +230,37 @@ public class WxPayConfig {
 
   public void setHttpTimeout(int httpTimeout) {
     this.httpTimeout = httpTimeout;
+  }
+
+  public String getHttpProxyHost() {
+    return httpProxyHost;
+  }
+
+  public void setHttpProxyHost(String httpProxyHost) {
+    this.httpProxyHost = httpProxyHost;
+  }
+
+  public Integer getHttpProxyPort() {
+    return httpProxyPort;
+  }
+
+  public void setHttpProxyPort(Integer httpProxyPort) {
+    this.httpProxyPort = httpProxyPort;
+  }
+
+  public String getHttpProxyUsername() {
+    return httpProxyUsername;
+  }
+
+  public void setHttpProxyUsername(String httpProxyUsername) {
+    this.httpProxyUsername = httpProxyUsername;
+  }
+
+  public String getHttpProxyPassword() {
+    return httpProxyPassword;
+  }
+
+  public void setHttpProxyPassword(String httpProxyPassword) {
+    this.httpProxyPassword = httpProxyPassword;
   }
 }

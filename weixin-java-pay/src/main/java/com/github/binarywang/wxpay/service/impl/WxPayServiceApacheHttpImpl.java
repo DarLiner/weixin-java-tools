@@ -1,12 +1,17 @@
 package com.github.binarywang.wxpay.service.impl;
 
 import com.github.binarywang.wxpay.exception.WxPayException;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ssl.DefaultHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
@@ -41,11 +46,22 @@ public class WxPayServiceApacheHttpImpl extends WxPayServiceAbstractImpl {
       }
 
       HttpPost httpPost = new HttpPost(url);
+
       httpPost.setConfig(RequestConfig.custom()
         .setConnectionRequestTimeout(this.getConfig().getHttpConnectionTimeout())
         .setConnectTimeout(this.getConfig().getHttpConnectionTimeout())
         .setSocketTimeout(this.getConfig().getHttpTimeout())
         .build());
+
+      if (StringUtils.isNotBlank(this.config.getHttpProxyHost())
+        && StringUtils.isNotBlank(this.config.getHttpProxyUsername())) {
+        // 使用代理服务器 需要用户认证的代理服务器
+        CredentialsProvider provider = new BasicCredentialsProvider();
+        provider.setCredentials(
+          new AuthScope(this.config.getHttpProxyHost(), this.config.getHttpProxyPort()),
+          new UsernamePasswordCredentials(this.config.getHttpProxyUsername(), this.config.getHttpProxyPassword()));
+        httpClientBuilder.setDefaultCredentialsProvider(provider);
+      }
 
       try (CloseableHttpClient httpclient = httpClientBuilder.build()) {
         httpPost.setEntity(new StringEntity(new String(requestStr.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1)));
