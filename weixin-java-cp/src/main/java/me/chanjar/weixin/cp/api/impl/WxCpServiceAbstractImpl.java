@@ -544,4 +544,34 @@ public abstract class WxCpServiceAbstractImpl<H, P> implements WxCpService, Requ
   public RequestHttp getRequestHttp() {
     return this;
   }
+
+  @Override
+  public void setUserService(WxCpUserService userService) {
+    this.userService = userService;
+  }
+
+  @Override
+  public void setDepartmentService(WxCpDepartmentService departmentService) {
+    this.departmentService = departmentService;
+  }
+
+  @Override
+  public void setMediaService(WxCpMediaService mediaService) {
+    this.mediaService = mediaService;
+  }
+
+  @Override
+  public void setMenuService(WxCpMenuService menuService) {
+    this.menuService = menuService;
+  }
+
+  @Override
+  public void setOauth2Service(WxCpOAuth2Service oauth2Service) {
+    this.oauth2Service = oauth2Service;
+  }
+
+  @Override
+  public void setTagService(WxCpTagService tagService) {
+    this.tagService = tagService;
+  }
 }

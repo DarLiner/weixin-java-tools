@@ -391,4 +391,79 @@ public abstract class WxMpServiceAbstractImpl<H, P> implements WxMpService, Requ
   public WxMpMassMessageService getMassMessageService() {
     return this.massMessageService;
   }
+
+  @Override
+  public void setKefuService(WxMpKefuService kefuService) {
+    this.kefuService = kefuService;
+  }
+
+  @Override
+  public void setMaterialService(WxMpMaterialService materialService) {
+    this.materialService = materialService;
+  }
+
+  @Override
+  public void setMenuService(WxMpMenuService menuService) {
+    this.menuService = menuService;
+  }
+
+  @Override
+  public void setUserService(WxMpUserService userService) {
+    this.userService = userService;
+  }
+
+  @Override
+  public void setTagService(WxMpUserTagService tagService) {
+    this.tagService = tagService;
+  }
+
+  @Override
+  public void setQrCodeService(WxMpQrcodeService qrCodeService) {
+    this.qrCodeService = qrCodeService;
+  }
+
+  @Override
+  public void setCardService(WxMpCardService cardService) {
+    this.cardService = cardService;
+  }
+
+  @Override
+  public void setStoreService(WxMpStoreService storeService) {
+    this.storeService = storeService;
+  }
+
+  @Override
+  public void setDataCubeService(WxMpDataCubeService dataCubeService) {
+    this.dataCubeService = dataCubeService;
+  }
+
+  @Override
+  public void setBlackListService(WxMpUserBlacklistService blackListService) {
+    this.blackListService = blackListService;
+  }
+
+  @Override
+  public void setTemplateMsgService(WxMpTemplateMsgService templateMsgService) {
+    this.templateMsgService = templateMsgService;
+  }
+
+  @Override
+  public void setDeviceService(WxMpDeviceService deviceService) {
+    this.deviceService = deviceService;
+  }
+
+  @Override
+  public void setShakeService(WxMpShakeService shakeService) {
+    this.shakeService = shakeService;
+  }
+
+  @Override
+  public void setMemberCardService(WxMpMemberCardService memberCardService) {
+    this.memberCardService = memberCardService;
+  }
+
+  @Override
+  public void setMassMessageService(WxMpMassMessageService massMessageService) {
+    this.massMessageService = massMessageService;
+  }
 }
