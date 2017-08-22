@@ -379,4 +379,34 @@ public interface WxMpService {
    * @return WxMpMassMessageService
    */
   WxMpMassMessageService getMassMessageService();
+
+  void setKefuService(WxMpKefuService kefuService);
+
+  void setMaterialService(WxMpMaterialService materialService);
+
+  void setMenuService(WxMpMenuService menuService);
+
+  void setUserService(WxMpUserService userService);
+
+  void setTagService(WxMpUserTagService tagService);
+
+  void setQrCodeService(WxMpQrcodeService qrCodeService);
+
+  void setCardService(WxMpCardService cardService);
+
+  void setStoreService(WxMpStoreService storeService);
+
+  void setDataCubeService(WxMpDataCubeService dataCubeService);
+
+  void setBlackListService(WxMpUserBlacklistService blackListService);
+
+  void setTemplateMsgService(WxMpTemplateMsgService templateMsgService);
+
+  void setDeviceService(WxMpDeviceService deviceService);
+
+  void setShakeService(WxMpShakeService shakeService);
+
+  void setMemberCardService(WxMpMemberCardService memberCardService);
+
+  void setMassMessageService(WxMpMassMessageService massMessageService);
 }
