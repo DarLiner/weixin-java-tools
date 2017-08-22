@@ -34,6 +34,10 @@ public interface WxMpMassMessageService {
    * 群发消息预览接口
    */
   String MESSAGE_MASS_PREVIEW_URL = "https://api.weixin.qq.com/cgi-bin/message/mass/preview";
+  /**
+   * 删除群发接口
+   */
+  String MESSAGE_MASS_DELETE_URL = "https://api.weixin.qq.com/cgi-bin/message/mass/delete";
 
   /**
    * <pre>
@@ -91,5 +95,25 @@ public interface WxMpMassMessageService {
    * @return wxMpMassSendResult
    */
   WxMpMassSendResult massMessagePreview(WxMpMassPreviewMessage wxMpMassPreviewMessage) throws Exception;
+
+  /**
+   * <pre>
+   * 删除群发
+   * 群发之后，随时可以通过该接口删除群发。
+   * 请注意：
+   * 1、只有已经发送成功的消息才能删除
+   * 2、删除消息是将消息的图文详情页失效，已经收到的用户，还是能在其本地看到消息卡片。
+   * 3、删除群发消息只能删除图文消息和视频消息，其他类型的消息一经发送，无法删除。
+   * 4、如果多次群发发送的是一个图文消息，那么删除其中一次群发，就会删除掉这个图文消息也，导致所有群发都失效
+   * 接口调用请求说明：
+   *  http请求方式: POST
+   *  https://api.weixin.qq.com/cgi-bin/message/mass/delete?access_token=ACCESS_TOKEN
+   * 详情请见：https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1481187827_i0l21
+   * </pre>
+   *
+   * @param msgId        发送出去的消息ID
+   * @param articleIndex 要删除的文章在图文消息中的位置，第一篇编号为1，该字段不填或填0会删除全部文章
+   */
+  void delete(Integer msgId, Integer articleIndex) throws Exception;
 
 }
