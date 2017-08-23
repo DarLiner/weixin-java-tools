@@ -54,7 +54,7 @@ public class WxPayServiceApacheHttpImpl extends WxPayServiceAbstractImpl {
         .build());
 
       if (StringUtils.isNotBlank(this.config.getHttpProxyHost())
-        && StringUtils.isNotBlank(this.config.getHttpProxyUsername())) {
+        && this.config.getHttpProxyPort() > 0) {
         // 使用代理服务器 需要用户认证的代理服务器
         CredentialsProvider provider = new BasicCredentialsProvider();
         provider.setCredentials(

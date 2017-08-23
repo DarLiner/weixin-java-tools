@@ -1,9 +1,13 @@
 package com.github.binarywang.wxpay.service.impl;
 
 import com.github.binarywang.wxpay.exception.WxPayException;
+import jodd.http.HttpConnectionProvider;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
+import jodd.http.ProxyInfo;
+import jodd.http.ProxyInfo.ProxyType;
 import jodd.http.net.SSLSocketHttpConnectionProvider;
+import jodd.http.net.SocketHttpConnectionProvider;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.net.ssl.SSLContext;
@@ -31,7 +35,19 @@ public class WxPayServiceJoddHttpImpl extends WxPayServiceAbstractImpl {
         if (null == sslContext) {
           sslContext = this.getConfig().initSSLContext();
         }
-        request.withConnectionProvider(new SSLSocketHttpConnectionProvider(sslContext));
+        final SSLSocketHttpConnectionProvider provider = new SSLSocketHttpConnectionProvider(sslContext);
+        request.withConnectionProvider(provider);
+      }
+
+      if (StringUtils.isNotBlank(this.config.getHttpProxyHost()) && this.config.getHttpProxyPort() > 0) {
+        ProxyInfo httpProxy = new ProxyInfo(ProxyType.HTTP, this.config.getHttpProxyHost(), this.config.getHttpProxyPort(),
+          this.config.getHttpProxyUsername(), this.config.getHttpProxyPassword());
+        HttpConnectionProvider provider = request.connectionProvider();
+        if (null == provider) {
+          provider = new SocketHttpConnectionProvider();
+        }
+        provider.useProxy(httpProxy);
+        request.withConnectionProvider(provider);
       }
 
       String responseString = this.getResponseString(request.send());
