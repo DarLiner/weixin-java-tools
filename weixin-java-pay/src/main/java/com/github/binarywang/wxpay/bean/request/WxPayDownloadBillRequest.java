@@ -1,5 +1,6 @@
 package com.github.binarywang.wxpay.bean.request;
 
+import com.github.binarywang.wxpay.constant.WxPayConstants.BillType;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import me.chanjar.weixin.common.annotation.Required;
@@ -17,7 +18,8 @@ import java.util.Arrays;
  */
 @XStreamAlias("xml")
 public class WxPayDownloadBillRequest extends WxPayBaseRequest {
-  private static final String[] BILL_TYPE = new String[]{"ALL", "REFUND", "SUCCESS"};
+  private static final String[] BILL_TYPES = new String[]{BillType.ALL, BillType.SUCCESS, BillType.REFUND, BillType.RECHARGE_REFUND};
+  private static final String TAR_TYPE_GZIP = "GZIP";
 
   /**
    * <pre>
@@ -130,13 +132,13 @@ public class WxPayDownloadBillRequest extends WxPayBaseRequest {
 
   @Override
   protected void checkConstraints() throws WxPayException {
-    if (StringUtils.isNotBlank(this.getTarType()) && !"GZIP".equals(this.getTarType())) {
+    if (StringUtils.isNotBlank(this.getTarType()) && !TAR_TYPE_GZIP.equals(this.getTarType())) {
       throw new WxPayException("tar_type值如果存在，只能为GZIP");
     }
 
-    if (!ArrayUtils.contains(BILL_TYPE, this.getBillType())) {
-      throw new WxPayException(String.format("bill_tpye目前必须为%s其中之一,实际值：%s",
-        Arrays.toString(BILL_TYPE), this.getBillType()));
+    if (!ArrayUtils.contains(BILL_TYPES, this.getBillType())) {
+      throw new WxPayException(String.format("bill_type目前必须为%s其中之一,实际值：%s",
+        Arrays.toString(BILL_TYPES), this.getBillType()));
     }
   }
 }
