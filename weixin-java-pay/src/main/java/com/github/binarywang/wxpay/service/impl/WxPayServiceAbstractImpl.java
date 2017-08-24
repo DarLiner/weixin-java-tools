@@ -5,6 +5,9 @@ import com.github.binarywang.wxpay.bean.coupon.*;
 import com.github.binarywang.wxpay.bean.request.*;
 import com.github.binarywang.wxpay.bean.result.*;
 import com.github.binarywang.wxpay.config.WxPayConfig;
+import com.github.binarywang.wxpay.constant.WxPayConstants.BillType;
+import com.github.binarywang.wxpay.constant.WxPayConstants.SignType;
+import com.github.binarywang.wxpay.constant.WxPayConstants.TradeType;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
 import com.github.binarywang.wxpay.util.SignUtils;
@@ -129,7 +132,7 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
   public WxPayRedpackQueryResult queryRedpack(String mchBillNo) throws WxPayException {
     WxPayRedpackQueryRequest request = new WxPayRedpackQueryRequest();
     request.setMchBillNo(mchBillNo);
-    request.setBillType("MCHT");
+    request.setBillType(BillType.MCHT);
     request.checkAndSign(this.getConfig());
 
     String url = this.getPayBaseUrl() + "/mmpaymkttransfers/gethbinfo";
@@ -199,35 +202,36 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
     Map<String, String> payInfo = new HashMap<>();
     String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
     String nonceStr = String.valueOf(System.currentTimeMillis());
-    if ("NATIVE".equals(request.getTradeType())) {
+    if (TradeType.NATIVE.equals(request.getTradeType())) {
       payInfo.put("codeUrl", unifiedOrderResult.getCodeURL());
-    } else if ("APP".equals(request.getTradeType())) {
+    } else if (TradeType.APP.equals(request.getTradeType())) {
       // APP支付绑定的是微信开放平台上的账号，APPID为开放平台上绑定APP后发放的参数
       String appId = getConfig().getAppId();
       Map<String, String> configMap = new HashMap<>();
       // 此map用于参与调起sdk支付的二次签名,格式全小写，timestamp只能是10位,格式固定，切勿修改
-      String partnerid = getConfig().getMchId();
+      String partnerId = getConfig().getMchId();
       configMap.put("prepayid", prepayId);
-      configMap.put("partnerid", partnerid);
-      configMap.put("package", "Sign=WXPay");
+      configMap.put("partnerid", partnerId);
+      String packageValue = "Sign=WXPay";
+      configMap.put("package", packageValue);
       configMap.put("timestamp", timestamp);
       configMap.put("noncestr", nonceStr);
       configMap.put("appid", appId);
       // 此map用于客户端与微信服务器交互
       payInfo.put("sign", SignUtils.createSign(configMap, this.getConfig().getMchKey()));
       payInfo.put("prepayId", prepayId);
-      payInfo.put("partnerId", partnerid);
+      payInfo.put("partnerId", partnerId);
       payInfo.put("appId", appId);
-      payInfo.put("packageValue", "Sign=WXPay");
+      payInfo.put("packageValue", packageValue);
       payInfo.put("timeStamp", timestamp);
       payInfo.put("nonceStr", nonceStr);
-    } else if ("JSAPI".equals(request.getTradeType())) {
+    } else if (TradeType.JSAPI.equals(request.getTradeType())) {
       payInfo.put("appId", unifiedOrderResult.getAppid());
       // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
       payInfo.put("timeStamp", timestamp);
       payInfo.put("nonceStr", nonceStr);
       payInfo.put("package", "prepay_id=" + prepayId);
-      payInfo.put("signType", "MD5");
+      payInfo.put("signType", SignType.MD5);
       payInfo.put("paySign", SignUtils.createSign(payInfo, this.getConfig().getMchKey()));
     }
 
@@ -278,7 +282,6 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
     String sign = SignUtils.createSign(params, this.getConfig().getMchKey());
     params.put("sign", sign);
 
-
     for (String key : params.keySet()) {
       codeUrl.append(key + "=" + params.get(key) + "&");
     }
@@ -327,8 +330,7 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
       result.checkResult(this);
       return null;
     } else {
-      WxPayBillResult wxPayBillResult = billInformationDeal(responseContent);
-      return wxPayBillResult;
+      return billInformationDeal(responseContent);
     }
   }
 
@@ -346,10 +348,8 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
      * 交易时间:2017-04-06 01:00:02 公众账号ID: 商户号: 子商户号:0 设备号:WEB 微信订单号: 商户订单号:2017040519091071873216 用户标识: 交易类型:NATIVE
      * 交易状态:REFUND 付款银行:CFT 货币种类:CNY 总金额:0.00 企业红包金额:0.00 微信退款单号: 商户退款单号:20170406010000933 退款金额:0.01 企业红包退款金额:0.00
      * 退款类型:ORIGINAL 退款状态:SUCCESS 商品名称: 商户数据包: 手续费:0.00000 费率 :0.60%
+     * 参考以上格式进行取值
      */
-
-    // 参考以上格式进行取值
-
     List<WxPayBillBaseResult> wxPayBillBaseResultLst = new LinkedList<>();
     String newStr = listStr.replaceAll(",", " "); // 去空格
     String[] tempStr = newStr.split("`"); // 数据分组
@@ -387,12 +387,11 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
       k += t.length;
     }
     wxPayBillResult.setWxPayBillBaseResultLst(wxPayBillBaseResultLst);
+
     /*
      * 总交易单数,总交易额,总退款金额,总代金券或立减优惠退款金额,手续费总金额 `2,`0.02,`0.0,`0.0,`0
+     * 参考以上格式进行取值
      */
-
-    // 参考以上格式进行取值
-
     String totalStr = objStr.replaceAll(",", " ");
     String[] totalTempStr = totalStr.split("`");
     wxPayBillResult.setTotalRecord(totalTempStr[1]);
