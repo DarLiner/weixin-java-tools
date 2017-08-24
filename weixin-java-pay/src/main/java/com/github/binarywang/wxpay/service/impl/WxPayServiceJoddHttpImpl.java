@@ -26,8 +26,8 @@ public class WxPayServiceJoddHttpImpl extends WxPayServiceAbstractImpl {
     try {
       HttpRequest request = HttpRequest
         .post(url)
-        .timeout(this.config.getHttpTimeout())
-        .connectionTimeout(this.config.getHttpConnectionTimeout())
+        .timeout(this.getConfig().getHttpTimeout())
+        .connectionTimeout(this.getConfig().getHttpConnectionTimeout())
         .bodyText(requestStr);
 
       if (useKey) {
@@ -39,9 +39,9 @@ public class WxPayServiceJoddHttpImpl extends WxPayServiceAbstractImpl {
         request.withConnectionProvider(provider);
       }
 
-      if (StringUtils.isNotBlank(this.config.getHttpProxyHost()) && this.config.getHttpProxyPort() > 0) {
-        ProxyInfo httpProxy = new ProxyInfo(ProxyType.HTTP, this.config.getHttpProxyHost(), this.config.getHttpProxyPort(),
-          this.config.getHttpProxyUsername(), this.config.getHttpProxyPassword());
+      if (StringUtils.isNotBlank(this.getConfig().getHttpProxyHost()) && this.getConfig().getHttpProxyPort() > 0) {
+        ProxyInfo httpProxy = new ProxyInfo(ProxyType.HTTP, this.getConfig().getHttpProxyHost(), this.getConfig().getHttpProxyPort(),
+          this.getConfig().getHttpProxyUsername(), this.getConfig().getHttpProxyPassword());
         HttpConnectionProvider provider = request.connectionProvider();
         if (null == provider) {
           provider = new SocketHttpConnectionProvider();

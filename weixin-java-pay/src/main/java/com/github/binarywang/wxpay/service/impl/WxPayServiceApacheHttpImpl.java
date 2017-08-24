@@ -53,13 +53,13 @@ public class WxPayServiceApacheHttpImpl extends WxPayServiceAbstractImpl {
         .setSocketTimeout(this.getConfig().getHttpTimeout())
         .build());
 
-      if (StringUtils.isNotBlank(this.config.getHttpProxyHost())
-        && this.config.getHttpProxyPort() > 0) {
+      if (StringUtils.isNotBlank(this.getConfig().getHttpProxyHost())
+        && this.getConfig().getHttpProxyPort() > 0) {
         // 使用代理服务器 需要用户认证的代理服务器
         CredentialsProvider provider = new BasicCredentialsProvider();
         provider.setCredentials(
-          new AuthScope(this.config.getHttpProxyHost(), this.config.getHttpProxyPort()),
-          new UsernamePasswordCredentials(this.config.getHttpProxyUsername(), this.config.getHttpProxyPassword()));
+          new AuthScope(this.getConfig().getHttpProxyHost(), this.getConfig().getHttpProxyPort()),
+          new UsernamePasswordCredentials(this.getConfig().getHttpProxyUsername(), this.getConfig().getHttpProxyPassword()));
         httpClientBuilder.setDefaultCredentialsProvider(provider);
       }
 

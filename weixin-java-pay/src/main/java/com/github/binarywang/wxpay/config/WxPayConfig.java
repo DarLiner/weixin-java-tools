@@ -163,20 +163,20 @@ public class WxPayConfig {
   }
 
   public SSLContext initSSLContext() throws WxPayException {
-    if (StringUtils.isBlank(mchId)) {
+    if (StringUtils.isBlank(this.getMchId())) {
       throw new WxPayException("请确保商户号mchId已设置");
     }
 
-    if (StringUtils.isBlank(this.keyPath)) {
+    if (StringUtils.isBlank(this.getKeyPath())) {
       throw new WxPayException("请确保证书文件地址keyPath已配置");
     }
 
     InputStream inputStream;
     final String prefix = "classpath:";
-    String fileHasProblemMsg = "证书文件【" + this.keyPath + "】有问题，请核实！";
-    String fileNotFoundMsg = "证书文件【" + this.keyPath + "】不存在，请核实！";
-    if (this.keyPath.startsWith(prefix)) {
-      String path = StringUtils.removeFirst(this.keyPath, prefix);
+    String fileHasProblemMsg = "证书文件【" + this.getKeyPath() + "】有问题，请核实！";
+    String fileNotFoundMsg = "证书文件【" + this.getKeyPath() + "】不存在，请核实！";
+    if (this.getKeyPath().startsWith(prefix)) {
+      String path = StringUtils.removeFirst(this.getKeyPath(), prefix);
       if (!path.startsWith("/")) {
         path = "/" + path;
       }
@@ -186,7 +186,7 @@ public class WxPayConfig {
       }
     } else {
       try {
-        File file = new File(this.keyPath);
+        File file = new File(this.getKeyPath());
         if (!file.exists()) {
           throw new WxPayException(fileNotFoundMsg);
         }
@@ -199,7 +199,7 @@ public class WxPayConfig {
 
     try {
       KeyStore keystore = KeyStore.getInstance("PKCS12");
-      char[] partnerId2charArray = mchId.toCharArray();
+      char[] partnerId2charArray = this.getMchId().toCharArray();
       keystore.load(inputStream, partnerId2charArray);
       this.sslContext = SSLContexts.custom().loadKeyMaterial(keystore, partnerId2charArray).build();
       return this.sslContext;
