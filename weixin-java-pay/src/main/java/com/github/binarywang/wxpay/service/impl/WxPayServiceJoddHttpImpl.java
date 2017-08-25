@@ -1,5 +1,6 @@
 package com.github.binarywang.wxpay.service.impl;
 
+import com.github.binarywang.wxpay.bean.WxPayApiData;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import jodd.http.HttpConnectionProvider;
 import jodd.http.HttpRequest;
@@ -53,9 +54,11 @@ public class WxPayServiceJoddHttpImpl extends WxPayServiceAbstractImpl {
       String responseString = this.getResponseString(request.send());
 
       this.log.info("\n【请求地址】：{}\n【请求数据】：{}\n【响应数据】：{}", url, requestStr, responseString);
+      wxApiData.set(new WxPayApiData(url, requestStr, responseString, null));
       return responseString;
     } catch (Exception e) {
       this.log.error("\n【请求地址】：{}\n【请求数据】：{}\n【异常信息】：{}", url, requestStr, e.getMessage());
+      wxApiData.set(new WxPayApiData(url, requestStr, null, e.getMessage()));
       throw new WxPayException(e.getMessage(), e);
     }
   }

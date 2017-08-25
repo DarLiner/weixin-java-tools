@@ -1,5 +1,6 @@
 package com.github.binarywang.wxpay.service;
 
+import com.github.binarywang.wxpay.bean.WxPayApiData;
 import com.github.binarywang.wxpay.bean.coupon.*;
 import com.github.binarywang.wxpay.bean.request.*;
 import com.github.binarywang.wxpay.bean.result.*;
@@ -368,4 +369,9 @@ public interface WxPayService {
    * </pre>
    */
   WxPayCouponInfoQueryResult queryCouponInfo(WxPayCouponInfoQueryRequest request) throws WxPayException;
+
+  /**
+   * 获取微信请求数据，方便接口调用方获取处理
+   */
+  WxPayApiData getWxApiData();
 }
