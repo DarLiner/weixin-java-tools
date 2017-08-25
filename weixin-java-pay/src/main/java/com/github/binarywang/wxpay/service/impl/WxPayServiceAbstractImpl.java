@@ -1,6 +1,7 @@
 package com.github.binarywang.wxpay.service.impl;
 
 import com.github.binarywang.utils.qrcode.QrcodeUtils;
+import com.github.binarywang.wxpay.bean.WxPayApiData;
 import com.github.binarywang.wxpay.bean.coupon.*;
 import com.github.binarywang.wxpay.bean.request.*;
 import com.github.binarywang.wxpay.bean.result.*;
@@ -33,6 +34,7 @@ import java.util.Map;
 public abstract class WxPayServiceAbstractImpl implements WxPayService {
   private static final String PAY_BASE_URL = "https://api.mch.weixin.qq.com";
   protected final Logger log = LoggerFactory.getLogger(this.getClass());
+  protected static ThreadLocal<WxPayApiData> wxApiData = new ThreadLocal<>();
 
   protected WxPayConfig config;
 
@@ -500,5 +502,16 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
     WxPayCouponInfoQueryResult result = WxPayBaseResult.fromXML(responseContent, WxPayCouponInfoQueryResult.class);
     result.checkResult(this);
     return result;
+  }
+
+  @Override
+  public WxPayApiData getWxApiData() {
+    try {
+      return wxApiData.get();
+    }finally {
+      //一般来说，接口请求会在一个线程内进行，这种情况下，每个线程get的会是之前所存入的数据，
+      // 但以防万一有同一线程多次请求的问题，所以每次获取完数据后移除对应数据
+      wxApiData.remove();
+    }
   }
 }

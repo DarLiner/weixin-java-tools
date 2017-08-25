@@ -53,6 +53,7 @@ public class WxPayServiceAbstractImplTest {
         .outTradeNo("1111112")
         .build());
     this.logger.info(result.toString());
+    this.logger.warn(this.payService.getWxApiData().toString());
   }
 
   @Test

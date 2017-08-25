@@ -1,5 +1,6 @@
 package com.github.binarywang.wxpay.service.impl;
 
+import com.github.binarywang.wxpay.bean.WxPayApiData;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.auth.AuthScope;
@@ -66,15 +67,17 @@ public class WxPayServiceApacheHttpImpl extends WxPayServiceAbstractImpl {
       try (CloseableHttpClient httpclient = httpClientBuilder.build()) {
         httpPost.setEntity(new StringEntity(new String(requestStr.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1)));
         try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
-          String result = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
-          this.log.info("\n【请求地址】：{}\n【请求数据】：{}\n【响应数据】：{}", url, requestStr, result);
-          return result;
+          String responseString = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
+          this.log.info("\n【请求地址】：{}\n【请求数据】：{}\n【响应数据】：{}", url, requestStr, responseString);
+          wxApiData.set(new WxPayApiData(url, requestStr, responseString, null));
+          return responseString;
         }
       } finally {
         httpPost.releaseConnection();
       }
     } catch (Exception e) {
       this.log.error("\n【请求地址】：{}\n【请求数据】：{}\n【异常信息】：{}", url, requestStr, e.getMessage());
+      wxApiData.set(new WxPayApiData(url, requestStr, null, e.getMessage()));
       throw new WxPayException(e.getMessage(), e);
     }
   }
