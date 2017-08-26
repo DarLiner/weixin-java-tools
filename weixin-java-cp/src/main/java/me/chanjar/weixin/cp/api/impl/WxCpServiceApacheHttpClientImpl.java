@@ -38,10 +38,7 @@ public class WxCpServiceApacheHttpClientImpl extends WxCpServiceAbstractImpl<Clo
 
   @Override
   public String getAccessToken(boolean forceRefresh) throws WxErrorException {
-    if (forceRefresh) {
-      this.configStorage.expireAccessToken();
-    }
-    if (this.configStorage.isAccessTokenExpired()) {
+    if (this.configStorage.isAccessTokenExpired() || forceRefresh) {
       synchronized (this.globalAccessTokenRefreshLock) {
         if (this.configStorage.isAccessTokenExpired()) {
           String url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?"
