@@ -87,11 +87,7 @@ public class WxMaServiceImpl implements WxMaService, RequestHttp<CloseableHttpCl
     try {
       lock.lock();
 
-      if (forceRefresh) {
-        this.getWxMaConfig().expireAccessToken();
-      }
-
-      if (this.getWxMaConfig().isAccessTokenExpired()) {
+      if (this.getWxMaConfig().isAccessTokenExpired() || forceRefresh) {
         String url = String.format(WxMaService.GET_ACCESS_TOKEN_URL, this.getWxMaConfig().getAppid(),
           this.getWxMaConfig().getSecret());
         try {

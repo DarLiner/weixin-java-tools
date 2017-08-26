@@ -37,10 +37,7 @@ public class WxCpServiceOkHttpImpl extends WxCpServiceAbstractImpl<OkHttpClient,
   @Override
   public String getAccessToken(boolean forceRefresh) throws WxErrorException {
     logger.debug("WxCpServiceOkHttpImpl is running");
-    if (forceRefresh) {
-      this.configStorage.expireAccessToken();
-    }
-    if (this.configStorage.isAccessTokenExpired()) {
+    if (this.configStorage.isAccessTokenExpired() || forceRefresh) {
       synchronized (this.globalAccessTokenRefreshLock) {
         if (this.configStorage.isAccessTokenExpired()) {
           String url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?"
