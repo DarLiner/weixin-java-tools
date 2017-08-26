@@ -6,18 +6,21 @@ import com.google.gson.reflect.TypeToken;
 import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * <pre>
  * 模板列表信息
  * Created by Binary Wang on 2016-10-17.
- * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  * </pre>
+ *
+ * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  */
-public class WxMpTemplate {
-
+public class WxMpTemplate implements Serializable {
   private static final JsonParser JSON_PARSER = new JsonParser();
+  private static final long serialVersionUID = -7366474522571199372L;
+
   /**
    * template_id
    * 模板ID

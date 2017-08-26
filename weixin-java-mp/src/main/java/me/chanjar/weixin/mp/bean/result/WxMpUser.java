@@ -16,8 +16,8 @@ import java.util.List;
  * @author chanjarster
  */
 public class WxMpUser implements Serializable {
-
   private static final long serialVersionUID = 5788154322646488738L;
+
   private Boolean subscribe;
   private String openId;
   private String nickname;

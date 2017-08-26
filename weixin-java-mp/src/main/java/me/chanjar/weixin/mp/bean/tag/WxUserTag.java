@@ -5,15 +5,20 @@ import com.google.gson.reflect.TypeToken;
 import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
- * 用户标签对象
+ * <pre>
+ *  用户标签对象
+ *  Created by Binary Wang on 2016/9/2.
+ * </pre>
  *
  * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
- *         Created by Binary Wang on 2016/9/2.
  */
-public class WxUserTag {
+public class WxUserTag implements Serializable {
+  private static final long serialVersionUID = -7722428695667031252L;
+
   /**
    * id	标签id，由微信分配
    */

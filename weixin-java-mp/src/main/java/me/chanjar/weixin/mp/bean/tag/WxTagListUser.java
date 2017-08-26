@@ -4,15 +4,19 @@ import com.google.gson.annotations.SerializedName;
 import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
+ * <pre>
  * 获取标签下粉丝列表的结果对象
+ * Created by Binary Wang on 2016-09-19.
+ * </pre>
  *
  * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
- *         Created by Binary Wang on 2016-09-19.
  */
-public class WxTagListUser {
+public class WxTagListUser implements Serializable {
+  private static final long serialVersionUID = -4551768374200676112L;
 
   /**
    * "count":2,这次获取的粉丝数量
@@ -67,7 +71,9 @@ public class WxTagListUser {
     this.nextOpenid = nextOpenid;
   }
 
-  public static class WxTagListUserData {
+  public static class WxTagListUserData implements Serializable {
+    private static final long serialVersionUID = -8584537400336245701L;
+
     /**
      * openid 列表
      */

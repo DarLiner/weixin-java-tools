@@ -7,6 +7,8 @@ import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
  * Created by keungtung on 10/12/2016.
  */
 public class WxDeviceQrCodeResult extends AbstractDeviceBean {
+  private static final long serialVersionUID = -4312858303060918266L;
+
   @SerializedName("deviceid")
   private String deviceId;
   @SerializedName("qrticket")

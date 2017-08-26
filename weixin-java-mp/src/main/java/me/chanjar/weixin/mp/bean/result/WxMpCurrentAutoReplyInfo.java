@@ -7,6 +7,7 @@ import me.chanjar.weixin.common.util.json.WxBooleanTypeAdapter;
 import me.chanjar.weixin.common.util.json.WxDateTypeAdapter;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +18,9 @@ import java.util.List;
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
  * </pre>
  */
-public class WxMpCurrentAutoReplyInfo {
+public class WxMpCurrentAutoReplyInfo implements Serializable {
+  private static final long serialVersionUID = 8294705001262751638L;
+
   @Override
   public String toString() {
     return ToStringUtils.toSimpleString(this);
@@ -84,7 +87,9 @@ public class WxMpCurrentAutoReplyInfo {
     this.keywordAutoReplyInfo = keywordAutoReplyInfo;
   }
 
-  public static class AutoReplyRule {
+  public static class AutoReplyRule implements Serializable {
+    private static final long serialVersionUID = -6415971838145909046L;
+
     @Override
     public String toString() {
       return ToStringUtils.toSimpleString(this);
@@ -147,7 +152,9 @@ public class WxMpCurrentAutoReplyInfo {
     }
   }
 
-  public static class ReplyInfo {
+  public static class ReplyInfo implements Serializable {
+    private static final long serialVersionUID = -3429575601599101690L;
+
     @Override
     public String toString() {
       return ToStringUtils.toSimpleString(this);
@@ -184,7 +191,9 @@ public class WxMpCurrentAutoReplyInfo {
     }
   }
 
-  public static class NewsInfo {
+  public static class NewsInfo implements Serializable {
+    private static final long serialVersionUID = 2958827725972593328L;
+
     @Override
     public String toString() {
       return ToStringUtils.toSimpleString(this);
@@ -201,7 +210,9 @@ public class WxMpCurrentAutoReplyInfo {
     }
   }
 
-  public static class NewsItem {
+  public static class NewsItem implements Serializable {
+    private static final long serialVersionUID = -680356309029767176L;
+
     @Override
     public String toString() {
       return ToStringUtils.toSimpleString(this);
@@ -277,7 +288,9 @@ public class WxMpCurrentAutoReplyInfo {
     }
   }
 
-  public static class KeywordInfo {
+  public static class KeywordInfo implements Serializable {
+    private static final long serialVersionUID = 7720246983986706379L;
+
     @Override
     public String toString() {
       return ToStringUtils.toSimpleString(this);
@@ -313,7 +326,9 @@ public class WxMpCurrentAutoReplyInfo {
     }
   }
 
-  public static class KeywordAutoReplyInfo {
+  public static class KeywordAutoReplyInfo implements Serializable {
+    private static final long serialVersionUID = -8789197949404753083L;
+
     @Override
     public String toString() {
       return ToStringUtils.toSimpleString(this);
@@ -330,7 +345,9 @@ public class WxMpCurrentAutoReplyInfo {
     }
   }
 
-  public static class AutoReplyInfo {
+  public static class AutoReplyInfo implements Serializable {
+    private static final long serialVersionUID = 4993719555937843712L;
+
     @Override
     public String toString() {
       return ToStringUtils.toSimpleString(this);

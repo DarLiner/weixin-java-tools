@@ -12,11 +12,8 @@ import java.io.Serializable;
  * @author Daniel Qian
  */
 public class WxMpSemanticQuery implements Serializable {
-
-  /**
-   *
-   */
   private static final long serialVersionUID = 7685873048199870690L;
+
   private String query;
   private String category;
   private Float latitude;

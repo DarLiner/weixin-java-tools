@@ -11,6 +11,7 @@ import java.io.Serializable;
  * @author rememberber
  */
 public class WxMpShakeInfoResult implements Serializable {
+  private static final long serialVersionUID = -1604561297395395468L;
 
   private Integer errcode;
 

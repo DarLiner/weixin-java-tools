@@ -10,11 +10,8 @@ import java.io.Serializable;
  * @author chanjarster
  */
 public class WxMpMassVideo implements Serializable {
-
-  /**
-   *
-   */
   private static final long serialVersionUID = 9153925016061915637L;
+
   private String mediaId;
   private String title;
   private String description;

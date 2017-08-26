@@ -1,10 +1,12 @@
 package me.chanjar.weixin.mp.bean.material;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WxMpMaterial {
+public class WxMpMaterial implements Serializable {
+  private static final long serialVersionUID = -1651816949780969485L;
 
   private String name;
   private File file;

@@ -12,10 +12,6 @@ import java.io.Serializable;
  * @version 15/11/11
  */
 public class WxMpCardResult implements Serializable {
-
-  /**
-   *
-   */
   private static final long serialVersionUID = -7950878428289035637L;
 
   private String errorCode;

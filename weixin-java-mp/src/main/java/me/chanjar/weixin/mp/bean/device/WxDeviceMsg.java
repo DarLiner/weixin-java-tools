@@ -7,6 +7,8 @@ import me.chanjar.weixin.common.util.ToStringUtils;
  * Created by keungtung on 10/12/2016.
  */
 public class WxDeviceMsg extends AbstractDeviceBean {
+  private static final long serialVersionUID = -5567110858455277963L;
+
   @SerializedName("device_type")
   private String deviceType;
   @SerializedName("device_id")

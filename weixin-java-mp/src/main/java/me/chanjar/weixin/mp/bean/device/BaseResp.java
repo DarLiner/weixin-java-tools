@@ -6,6 +6,8 @@ import com.google.gson.annotations.SerializedName;
  * Created by keungtung on 10/12/2016.
  */
 public class BaseResp extends AbstractDeviceBean {
+  private static final long serialVersionUID = 4252655933699659073L;
+
   @SerializedName("base_info")
   private BaseInfo baseInfo;
   @SerializedName("errcode")

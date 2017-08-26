@@ -4,12 +4,15 @@ import com.google.gson.annotations.SerializedName;
 import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author Binary Wang
  */
-public class WxMpKfOnlineList {
+public class WxMpKfOnlineList implements Serializable {
+  private static final long serialVersionUID = -6154705288500854617L;
+
   @SerializedName("kf_online_list")
   private List<WxMpKfInfo> kfOnlineList;
 

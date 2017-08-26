@@ -7,16 +7,21 @@ import me.chanjar.weixin.common.annotation.Required;
 import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
 /**
- * 门店基础信息
+ * <pre>
+ *  门店基础信息
+ *  Created by Binary Wang on 2016-09-23.
+ * </pre>
  *
  * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
- *         Created by Binary Wang on 2016-09-23.
  */
-public class WxMpStoreBaseInfo {
+public class WxMpStoreBaseInfo implements Serializable {
+  private static final long serialVersionUID = 829577606838118218L;
+
   /**
    * sid
    * 商户自己的id，用于后续审核通过收到poi_id 的通知时，做对应关系。请商户自己保证唯一识别性
@@ -351,12 +356,21 @@ public class WxMpStoreBaseInfo {
     this.poiId = poiId;
   }
 
-  public static class WxMpStorePhoto {
+  public static class WxMpStorePhoto implements Serializable {
+    private static final long serialVersionUID = -2942447907614186861L;
     /**
      * 照片url
      */
     @SerializedName("photo_url")
     private String photoUrl;
+
+    public String getPhotoUrl() {
+      return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+      this.photoUrl = photoUrl;
+    }
   }
 
   public static class WxMpStoreBaseInfoBuilder {

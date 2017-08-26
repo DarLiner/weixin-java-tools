@@ -1,9 +1,12 @@
 package me.chanjar.weixin.mp.bean.membercard;
 
+import java.io.Serializable;
+
 /**
  * Created by YuJian on 2017/7/11.
  */
-public class MemberCardUserInfo {
+public class MemberCardUserInfo implements Serializable {
+  private static final long serialVersionUID = -4259196162619282129L;
 
   private NameValues[] commonFieldList;
 

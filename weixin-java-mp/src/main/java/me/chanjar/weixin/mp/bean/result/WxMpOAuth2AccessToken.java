@@ -1,14 +1,11 @@
 package me.chanjar.weixin.mp.bean.result;
 
+import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
 import java.io.Serializable;
 
 public class WxMpOAuth2AccessToken implements Serializable {
-
-  /**
-   *
-   */
   private static final long serialVersionUID = -1345910558078620805L;
 
   private String accessToken;
@@ -77,13 +74,6 @@ public class WxMpOAuth2AccessToken implements Serializable {
 
   @Override
   public String toString() {
-    return "WxMpOAuth2AccessToken{" +
-      "accessToken='" + this.accessToken + '\'' +
-      ", expiresTime=" + this.expiresIn +
-      ", refreshToken='" + this.refreshToken + '\'' +
-      ", openId='" + this.openId + '\'' +
-      ", scope='" + this.scope + '\'' +
-      ", unionId='" + this.unionId + '\'' +
-      '}';
+    return ToStringUtils.toSimpleString(this);
   }
 }

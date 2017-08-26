@@ -5,6 +5,8 @@ import com.thoughtworks.xstream.annotations.XStreamConverter;
 import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
 
+import java.io.Serializable;
+
 /**
  * <pre>
  *  Created by BinaryWang on 2017/5/4.
@@ -13,7 +15,8 @@ import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
  * @author Binary Wang
  */
 @XStreamAlias("SendLocationInfo")
-public class SendLocationInfo {
+public class SendLocationInfo implements Serializable {
+  private static final long serialVersionUID = 6633214140499161130L;
 
   @XStreamAlias("Location_X")
   @XStreamConverter(value = XStreamCDataConverter.class)

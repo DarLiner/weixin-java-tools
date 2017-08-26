@@ -10,8 +10,8 @@ import java.io.Serializable;
  * @author chanjarster
  */
 public class WxMpMassTagMessage implements Serializable {
-
   private static final long serialVersionUID = -6625914040986749286L;
+
   private Long tagId;
   private String msgType;
   private String content;

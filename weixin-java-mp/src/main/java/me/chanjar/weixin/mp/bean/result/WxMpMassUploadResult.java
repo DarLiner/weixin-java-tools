@@ -1,5 +1,6 @@
 package me.chanjar.weixin.mp.bean.result;
 
+import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
 import java.io.Serializable;
@@ -13,11 +14,8 @@ import java.io.Serializable;
  * @author chanjarster
  */
 public class WxMpMassUploadResult implements Serializable {
-
-  /**
-   *
-   */
   private static final long serialVersionUID = 6568157943644994029L;
+
   private String type;
   private String mediaId;
   private long createdAt;
@@ -52,7 +50,7 @@ public class WxMpMassUploadResult implements Serializable {
 
   @Override
   public String toString() {
-    return "WxUploadResult [type=" + this.type + ", media_id=" + this.mediaId + ", created_at=" + this.createdAt + "]";
+    return ToStringUtils.toSimpleString(this);
   }
 
 }

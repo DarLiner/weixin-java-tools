@@ -5,6 +5,7 @@ import com.thoughtworks.xstream.annotations.XStreamConverter;
 import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +17,12 @@ import java.util.List;
  * @author Binary Wang
  */
 @XStreamAlias("SendPicsInfo")
-public class SendPicsInfo {
+public class SendPicsInfo implements Serializable {
+  private static final long serialVersionUID = -4572837013294199227L;
+
   @XStreamAlias("PicList")
   protected final List<Item> picList = new ArrayList<>();
+
   @XStreamAlias("Count")
   private Long count;
 
@@ -40,7 +44,9 @@ public class SendPicsInfo {
   }
 
   @XStreamAlias("item")
-  public static class Item {
+  public static class Item implements Serializable {
+    private static final long serialVersionUID = 7706235740094081194L;
+
     @XStreamAlias("PicMd5Sum")
     @XStreamConverter(value = XStreamCDataConverter.class)
     private String picMd5Sum;

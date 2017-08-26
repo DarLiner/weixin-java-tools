@@ -14,7 +14,9 @@ import java.util.Map;
  *
  * @author LiuJunGuang
  */
-public class WxMpUserQuery {
+public class WxMpUserQuery implements Serializable {
+  private static final long serialVersionUID = -1344224837373149313L;
+
   private List<WxMpUserQueryParam> queryParamList = new ArrayList<>();
 
   public WxMpUserQuery() {
@@ -24,7 +26,7 @@ public class WxMpUserQuery {
   /**
    * 语言使用默认(zh_CN)
    *
-   * @param openids
+   * @param openids openid列表
    */
   public WxMpUserQuery(List<String> openids) {
     super();
@@ -34,7 +36,7 @@ public class WxMpUserQuery {
   /**
    * 添加OpenId列表，语言使用默认(zh_CN)
    *
-   * @param openids
+   * @param openids openid列表
    * @return {@link WxMpUserQuery}
    */
   public WxMpUserQuery add(List<String> openids) {
@@ -47,7 +49,7 @@ public class WxMpUserQuery {
   /**
    * 添加一个OpenId
    *
-   * @param openid
+   * @param openid openid
    * @param lang   国家地区语言版本，zh_CN 简体，zh_TW 繁体，en 英语
    * @return {@link WxMpUserQuery}
    */
@@ -63,7 +65,7 @@ public class WxMpUserQuery {
    * 该方法默认lang = zh_CN
    * </pre>
    *
-   * @param openid
+   * @param openid openid
    * @return {@link WxMpUserQuery}
    */
   public WxMpUserQuery add(String openid) {
@@ -74,7 +76,7 @@ public class WxMpUserQuery {
   /**
    * 删除指定的OpenId，语言使用默认(zh_CN)
    *
-   * @param openid
+   * @param openid openid
    * @return {@link WxMpUserQuery}
    */
   public WxMpUserQuery remove(String openid) {
@@ -85,7 +87,7 @@ public class WxMpUserQuery {
   /**
    * 删除指定的OpenId
    *
-   * @param openid
+   * @param openid openid
    * @param lang   国家地区语言版本，zh_CN 简体，zh_TW 繁体，en 英语
    * @return {@link WxMpUserQuery}
    */

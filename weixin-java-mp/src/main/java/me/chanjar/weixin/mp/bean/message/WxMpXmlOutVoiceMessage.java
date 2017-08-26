@@ -7,11 +7,8 @@ import me.chanjar.weixin.common.util.xml.XStreamMediaIdConverter;
 
 @XStreamAlias("xml")
 public class WxMpXmlOutVoiceMessage extends WxMpXmlOutMessage {
-
-  /**
-   *
-   */
   private static final long serialVersionUID = 240367390249860551L;
+
   @XStreamAlias("Voice")
   @XStreamConverter(value = XStreamMediaIdConverter.class)
   private String mediaId;
