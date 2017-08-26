@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 public class WxMpMaterialCountResult implements Serializable {
   private static final long serialVersionUID = -5568772662085874138L;
+
   private int voiceCount;
   private int videoCount;
   private int imageCount;

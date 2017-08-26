@@ -4,12 +4,15 @@ import com.google.gson.annotations.SerializedName;
 import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author Binary Wang
  */
-public class WxMpKfSessionList {
+public class WxMpKfSessionList implements Serializable {
+  private static final long serialVersionUID = -7680371346226640206L;
+
   /**
    * 会话列表
    */

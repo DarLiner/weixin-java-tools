@@ -16,7 +16,6 @@ import java.util.List;
  * </pre>
  */
 public class WxDataCubeUserCumulate implements Serializable {
-
   private static final JsonParser JSON_PARSER = new JsonParser();
 
   private static final long serialVersionUID = -3570981300225093657L;

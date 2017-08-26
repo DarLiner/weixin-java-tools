@@ -9,6 +9,8 @@ import java.util.List;
  * Created by keungtung on 16/12/2016.
  */
 public class WxDeviceOpenIdResult extends AbstractDeviceBean {
+  private static final long serialVersionUID = 4980885167833836220L;
+
   @SerializedName("errcode")
   private Integer errCode;
   @SerializedName("errmsg")

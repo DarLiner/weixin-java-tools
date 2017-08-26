@@ -14,8 +14,7 @@ import java.util.List;
  *         Created by Binary Wang on 2016/8/29.
  */
 public class WxDataCubeMsgResult extends WxDataCubeBaseResult {
-
-  private static final JsonParser JSON_PARSER = new JsonParser();
+  private static final long serialVersionUID = 6932121822150573659L;
 
   /**
    * ref_hour

@@ -11,6 +11,7 @@ import java.io.Serializable;
  */
 public class WxMpTemplateIndustry implements Serializable {
   private static final long serialVersionUID = -7700398224795914722L;
+
   private Industry primaryIndustry;
   private Industry secondIndustry;
 

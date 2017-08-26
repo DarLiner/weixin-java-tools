@@ -2,10 +2,14 @@ package me.chanjar.weixin.mp.bean.device;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by keungtung on 10/12/2016.
  */
-public class WxDevice {
+public class WxDevice implements Serializable {
+  private static final long serialVersionUID = -3284819760735456195L;
+
   private String id;
   private String mac;
   @SerializedName("connect_protocol")

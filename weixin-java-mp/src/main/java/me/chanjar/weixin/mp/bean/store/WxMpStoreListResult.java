@@ -4,15 +4,20 @@ import com.google.gson.annotations.SerializedName;
 import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
+ * <pre>
  * 门店列表结果类
+ * Created by Binary Wang on 2016-09-27.
+ * </pre>
  *
  * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
- *         Created by Binary Wang on 2016-09-27.
  */
-public class WxMpStoreListResult {
+public class WxMpStoreListResult implements Serializable {
+  private static final long serialVersionUID = 5388907559949538663L;
+
   /**
    * 错误码，0为正常
    */

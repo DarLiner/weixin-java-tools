@@ -2,13 +2,16 @@ package me.chanjar.weixin.mp.bean.datacube;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * 获取图文群发总数据接口(getarticletotal)中的详细字段
  *
  * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  *         Created by Binary Wang on 2016/8/24.
  */
-public class WxDataCubeArticleTotalDetail {
+public class WxDataCubeArticleTotalDetail implements Serializable{
+  private static final long serialVersionUID = -5136169129771430052L;
 
   /**
    * stat_date

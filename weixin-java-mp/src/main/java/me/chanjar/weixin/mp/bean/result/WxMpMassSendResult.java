@@ -18,6 +18,7 @@ import java.io.Serializable;
  */
 public class WxMpMassSendResult implements Serializable {
   private static final long serialVersionUID = -4816336807575562818L;
+
   private String errorCode;
   private String errorMsg;
   private String msgId;

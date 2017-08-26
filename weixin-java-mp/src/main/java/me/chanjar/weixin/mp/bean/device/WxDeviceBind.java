@@ -6,6 +6,8 @@ import com.google.gson.annotations.SerializedName;
  * Created by keungtung on 10/12/2016.
  */
 public class WxDeviceBind extends AbstractDeviceBean {
+  private static final long serialVersionUID = 467559769037590880L;
+
   private String ticket;
   @SerializedName("device_id")
   private String deviceId;

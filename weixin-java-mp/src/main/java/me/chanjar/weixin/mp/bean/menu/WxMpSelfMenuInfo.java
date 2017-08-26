@@ -3,6 +3,7 @@ package me.chanjar.weixin.mp.bean.menu;
 import com.google.gson.annotations.SerializedName;
 import me.chanjar.weixin.common.util.ToStringUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,9 @@ import java.util.List;
  * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  * </pre>
  */
-public class WxMpSelfMenuInfo {
+public class WxMpSelfMenuInfo implements Serializable {
+  private static final long serialVersionUID = -81203094124202901L;
+
   /**
    * 菜单按钮
    */

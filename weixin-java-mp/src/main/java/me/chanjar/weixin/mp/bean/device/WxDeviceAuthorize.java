@@ -10,6 +10,8 @@ import java.util.List;
  * Created by keungtung on 10/12/2016.
  */
 public class WxDeviceAuthorize extends AbstractDeviceBean {
+  private static final long serialVersionUID = 8786321356569903887L;
+
   @SerializedName("device_num")
   private String deviceNum;
   @SerializedName("op_type")

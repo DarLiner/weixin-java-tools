@@ -5,13 +5,12 @@ import com.thoughtworks.xstream.annotations.XStreamConverter;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
 
+import java.io.Serializable;
+
 @XStreamAlias("xml")
 public class WxMpXmlOutVideoMessage extends WxMpXmlOutMessage {
-
-  /**
-   *
-   */
   private static final long serialVersionUID = 1745902309380113978L;
+
   @XStreamAlias("Video")
   protected final Video video = new Video();
 
@@ -45,7 +44,8 @@ public class WxMpXmlOutVideoMessage extends WxMpXmlOutMessage {
 
 
   @XStreamAlias("Video")
-  public static class Video {
+  public static class Video implements Serializable {
+    private static final long serialVersionUID = -6445448977569651183L;
 
     @XStreamAlias("MediaId")
     @XStreamConverter(value = XStreamCDataConverter.class)

@@ -97,7 +97,9 @@ public class WxMpTemplateMessage implements Serializable {
     return WxMpGsonBuilder.INSTANCE.create().toJson(this);
   }
 
-  public static class MiniProgram {
+  public static class MiniProgram implements Serializable {
+    private static final long serialVersionUID = -7945254706501974849L;
+
     private String appid;
     private String pagePath;
 

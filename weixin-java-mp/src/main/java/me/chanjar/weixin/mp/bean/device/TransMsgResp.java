@@ -7,6 +7,8 @@ import me.chanjar.weixin.common.util.json.WxGsonBuilder;
  * Created by keungtung on 14/12/2016.
  */
 public class TransMsgResp extends AbstractDeviceBean {
+  private static final long serialVersionUID = 5386954916622816491L;
+
   private Integer ret;
   @SerializedName("ret_info")
   private String retInfo;

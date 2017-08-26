@@ -12,7 +12,6 @@ import java.io.Serializable;
 
 @XStreamAlias("xml")
 public abstract class WxMpXmlOutMessage implements Serializable {
-
   private static final long serialVersionUID = -381382011286216263L;
 
   @XStreamAlias("ToUserName")

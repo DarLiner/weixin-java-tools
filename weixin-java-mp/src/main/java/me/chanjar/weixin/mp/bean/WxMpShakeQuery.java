@@ -2,6 +2,7 @@ package me.chanjar.weixin.mp.bean;
 
 import com.google.gson.Gson;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +11,8 @@ import java.util.Map;
  *
  * @author rememberber
  */
-public class WxMpShakeQuery {
+public class WxMpShakeQuery implements Serializable {
+  private static final long serialVersionUID = 4316527352035275412L;
 
   private String ticket;
 

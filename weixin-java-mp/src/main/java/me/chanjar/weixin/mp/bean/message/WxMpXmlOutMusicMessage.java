@@ -7,11 +7,8 @@ import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
 
 @XStreamAlias("xml")
 public class WxMpXmlOutMusicMessage extends WxMpXmlOutMessage {
-
-  /**
-   *
-   */
   private static final long serialVersionUID = -4159937804975448945L;
+
   @XStreamAlias("Music")
   protected final Music music = new Music();
 

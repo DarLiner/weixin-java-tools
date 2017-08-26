@@ -2,6 +2,7 @@ package me.chanjar.weixin.mp.bean.result;
 
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,8 @@ import java.util.List;
  *
  * @author chanjarster
  */
-public class WxMpUserList {
+public class WxMpUserList implements Serializable {
+  private static final long serialVersionUID = 1389073042674901032L;
 
   protected long total = -1;
   protected int count = -1;

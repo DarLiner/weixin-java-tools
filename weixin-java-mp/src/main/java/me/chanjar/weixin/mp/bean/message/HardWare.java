@@ -5,6 +5,8 @@ import com.thoughtworks.xstream.annotations.XStreamConverter;
 import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
 
+import java.io.Serializable;
+
 /**
  * <pre>
  *  Created by BinaryWang on 2017/5/4.
@@ -13,7 +15,9 @@ import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
  * @author Binary Wang
  */
 @XStreamAlias("HardWare")
-public class HardWare {
+public class HardWare implements Serializable{
+  private static final long serialVersionUID = -1295785297354896461L;
+
   /**
    * 消息展示，目前支持myrank(排行榜)
    */
