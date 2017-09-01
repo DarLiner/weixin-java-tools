@@ -72,6 +72,11 @@ public class WxPayConstants {
     public static final String JSAPI = "JSAPI";
 
     /**
+     * H5支付
+     */
+    public static final String MWEB = "MWEB";
+
+    /**
      * 刷卡支付，刷卡支付有单独的支付接口，不调用统一下单接口
      */
     public static final String MICROPAY = "MICROPAY";
@@ -83,5 +88,16 @@ public class WxPayConstants {
   public static class SignType {
     public static final String HMAC_SHA256 = "HMAC-SHA256";
     public static final String MD5 = "MD5";
+  }
+
+
+  /**
+   * 限定支付方式
+   */
+  public static class LimitPay {
+    /**
+     * no_credit--指定不能使用信用卡支付
+     */
+    public static final String NO_CREDIT = "no_credit";
   }
 }

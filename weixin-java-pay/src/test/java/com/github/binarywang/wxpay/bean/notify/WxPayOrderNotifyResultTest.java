@@ -1,5 +1,6 @@
-package com.github.binarywang.wxpay.bean.result;
+package com.github.binarywang.wxpay.bean.notify;
 
+import com.github.binarywang.wxpay.bean.notify.WxPayOrderNotifyResult;
 import org.testng.*;
 import org.testng.annotations.*;
 

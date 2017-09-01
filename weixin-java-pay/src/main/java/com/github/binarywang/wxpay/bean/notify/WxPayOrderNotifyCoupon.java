@@ -1,4 +1,4 @@
-package com.github.binarywang.wxpay.bean;
+package com.github.binarywang.wxpay.bean.notify;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;

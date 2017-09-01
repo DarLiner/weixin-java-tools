@@ -3,6 +3,11 @@ package com.github.binarywang.wxpay.service.impl;
 import com.github.binarywang.utils.qrcode.QrcodeUtils;
 import com.github.binarywang.wxpay.bean.WxPayApiData;
 import com.github.binarywang.wxpay.bean.coupon.*;
+import com.github.binarywang.wxpay.bean.notify.WxPayOrderNotifyResult;
+import com.github.binarywang.wxpay.bean.notify.WxPayRefundNotifyResult;
+import com.github.binarywang.wxpay.bean.order.WxPayAppOrderResult;
+import com.github.binarywang.wxpay.bean.order.WxPayMpOrderResult;
+import com.github.binarywang.wxpay.bean.order.WxPayNativeOrderResult;
 import com.github.binarywang.wxpay.bean.request.*;
 import com.github.binarywang.wxpay.bean.result.*;
 import com.github.binarywang.wxpay.config.WxPayConfig;
@@ -97,16 +102,35 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
   }
 
   @Override
+  @Deprecated
   public WxPayOrderNotifyResult getOrderNotifyResult(String xmlData) throws WxPayException {
+    return this.parseOrderNotifyResult(xmlData);
+  }
+
+  @Override
+  public WxPayOrderNotifyResult parseOrderNotifyResult(String xmlData) throws WxPayException {
     try {
-      log.debug("微信支付回调参数详细：{}", xmlData);
+      log.debug("微信支付异步通知请求参数：{}", xmlData);
       WxPayOrderNotifyResult result = WxPayOrderNotifyResult.fromXML(xmlData);
-      log.debug("微信支付回调结果对象：{}", result);
+      log.debug("微信支付异步通知请求解析后的对象：{}", result);
       result.checkResult(this);
       return result;
     } catch (WxPayException e) {
       log.error(e.getMessage(), e);
       throw e;
+    } catch (Exception e) {
+      log.error(e.getMessage(), e);
+      throw new WxPayException("发生异常，" + e.getMessage(), e);
+    }
+  }
+
+  @Override
+  public WxPayRefundNotifyResult parseRefundNotifyResult(String xmlData) throws WxPayException {
+    try {
+      log.debug("微信支付退款异步通知参数：{}", xmlData);
+      WxPayRefundNotifyResult result = WxPayRefundNotifyResult.fromXML(xmlData, this.getConfig().getMchKey());
+      log.debug("微信支付退款异步通知解析后的对象：{}", result);
+      return result;
     } catch (Exception e) {
       log.error(e.getMessage(), e);
       throw new WxPayException("发生异常，" + e.getMessage(), e);
@@ -179,6 +203,65 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
     result.checkResult(this);
 
     return result;
+  }
+
+  public <T> T createOrder(WxPayUnifiedOrderRequest request) throws WxPayException {
+    WxPayUnifiedOrderResult unifiedOrderResult = this.unifiedOrder(request);
+    String prepayId = unifiedOrderResult.getPrepayId();
+    if (StringUtils.isBlank(prepayId)) {
+      throw new RuntimeException(String.format("无法获取prepay id，错误代码： '%s'，信息：%s。",
+        unifiedOrderResult.getErrCode(), unifiedOrderResult.getErrCodeDes()));
+    }
+
+    String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
+    String nonceStr = String.valueOf(System.currentTimeMillis());
+    Object payResult = null;
+    switch (request.getTradeType()) {
+      case TradeType.NATIVE: {
+        payResult = WxPayNativeOrderResult.newBuilder().codeUrl(unifiedOrderResult.getCodeURL())
+          .build();
+        break;
+      }
+      case TradeType.APP: {
+        // APP支付绑定的是微信开放平台上的账号，APPID为开放平台上绑定APP后发放的参数
+        String appId = this.getConfig().getAppId();
+        Map<String, String> configMap = new HashMap<>();
+        // 此map用于参与调起sdk支付的二次签名,格式全小写，timestamp只能是10位,格式固定，切勿修改
+        String partnerId = getConfig().getMchId();
+        configMap.put("prepayid", prepayId);
+        configMap.put("partnerid", partnerId);
+        String packageValue = "Sign=WXPay";
+        configMap.put("package", packageValue);
+        configMap.put("timestamp", timestamp);
+        configMap.put("noncestr", nonceStr);
+        configMap.put("appid", appId);
+
+        payResult = WxPayAppOrderResult.newBuilder()
+          .sign(SignUtils.createSign(configMap, this.getConfig().getMchKey()))
+          .prepayId(prepayId)
+          .partnerId(partnerId)
+          .appId(appId)
+          .packageValue(packageValue)
+          .timeStamp(timestamp)
+          .nonceStr(nonceStr)
+          .build();
+        break;
+      }
+      case TradeType.JSAPI: {
+        payResult = WxPayMpOrderResult.newBuilder()
+          .appId(unifiedOrderResult.getAppid())
+          .timeStamp(timestamp)
+          .nonceStr(nonceStr)
+          .packageValue("prepay_id=" + prepayId)
+          .signType(SignType.MD5)
+          .build();
+        ((WxPayMpOrderResult) payResult)
+          .setPaySign(SignUtils.createSign(payResult, this.getConfig().getMchKey()));
+        break;
+      }
+    }
+
+    return (T) payResult;
   }
 
   @Override
@@ -508,7 +591,7 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
   public WxPayApiData getWxApiData() {
     try {
       return wxApiData.get();
-    }finally {
+    } finally {
       //一般来说，接口请求会在一个线程内进行，这种情况下，每个线程get的会是之前所存入的数据，
       // 但以防万一有同一线程多次请求的问题，所以每次获取完数据后移除对应数据
       wxApiData.remove();
