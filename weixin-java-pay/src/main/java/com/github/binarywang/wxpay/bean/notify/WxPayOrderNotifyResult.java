@@ -1,6 +1,6 @@
-package com.github.binarywang.wxpay.bean.result;
+package com.github.binarywang.wxpay.bean.notify;
 
-import com.github.binarywang.wxpay.bean.WxPayOrderNotifyCoupon;
+import com.github.binarywang.wxpay.bean.result.WxPayBaseResult;
 import com.github.binarywang.wxpay.converter.WxPayOrderNotifyResultConverter;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -20,7 +20,6 @@ import java.util.Map;
  */
 @XStreamAlias("xml")
 public class WxPayOrderNotifyResult extends WxPayBaseResult implements Serializable {
-
   private static final long serialVersionUID = 5389718115223345496L;
 
   /**

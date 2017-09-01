@@ -1,4 +1,4 @@
-package com.github.binarywang.wxpay.bean;
+package com.github.binarywang.wxpay.bean.notify;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -7,8 +7,11 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
 
+/**
+ * 微信支付订单和退款的异步通知共用的响应类
+ */
 @XStreamAlias("xml")
-public class WxPayOrderNotifyResponse {
+public class WxPayNotifyResponse {
   @XStreamOmitField
   private transient static final String FAIL = "FAIL";
   @XStreamOmitField
@@ -21,25 +24,25 @@ public class WxPayOrderNotifyResponse {
   @XStreamAlias("return_msg")
   private String returnMsg;
 
-  public WxPayOrderNotifyResponse() {
+  public WxPayNotifyResponse() {
     super();
   }
 
-  public WxPayOrderNotifyResponse(String returnCode, String returnMsg) {
+  public WxPayNotifyResponse(String returnCode, String returnMsg) {
     super();
     this.returnCode = returnCode;
     this.returnMsg = returnMsg;
   }
 
   public static String fail(String msg) {
-    WxPayOrderNotifyResponse response = new WxPayOrderNotifyResponse(FAIL, msg);
+    WxPayNotifyResponse response = new WxPayNotifyResponse(FAIL, msg);
     XStream xstream = XStreamInitializer.getInstance();
     xstream.autodetectAnnotations(true);
     return xstream.toXML(response);
   }
 
   public static String success(String msg) {
-    WxPayOrderNotifyResponse response = new WxPayOrderNotifyResponse(SUCCESS, msg);
+    WxPayNotifyResponse response = new WxPayNotifyResponse(SUCCESS, msg);
     XStream xstream = XStreamInitializer.getInstance();
     xstream.autodetectAnnotations(true);
     return xstream.toXML(response);

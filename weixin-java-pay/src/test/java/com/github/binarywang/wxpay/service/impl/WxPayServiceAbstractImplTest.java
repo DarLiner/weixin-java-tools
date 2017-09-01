@@ -2,6 +2,7 @@ package com.github.binarywang.wxpay.service.impl;
 
 import com.github.binarywang.utils.qrcode.QrcodeUtils;
 import com.github.binarywang.wxpay.bean.coupon.*;
+import com.github.binarywang.wxpay.bean.notify.WxPayRefundNotifyResult;
 import com.github.binarywang.wxpay.bean.request.*;
 import com.github.binarywang.wxpay.bean.result.*;
 import com.github.binarywang.wxpay.constant.WxPayConstants;
@@ -145,6 +146,11 @@ public class WxPayServiceAbstractImplTest {
     //测试四个参数都填的情况，应该报异常的
     result = this.payService.refundQuery("1", "2", "3", "4");
     this.logger.info(result.toString());
+  }
+
+  @Test
+  public void testParseRefundNotifyResult() throws Exception {
+    // 请参考com.github.binarywang.wxpay.bean.notify.WxPayRefundNotifyResultTest里的单元测试
   }
 
   /**

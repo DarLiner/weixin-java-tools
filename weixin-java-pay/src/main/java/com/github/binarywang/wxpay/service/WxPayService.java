@@ -2,6 +2,8 @@ package com.github.binarywang.wxpay.service;
 
 import com.github.binarywang.wxpay.bean.WxPayApiData;
 import com.github.binarywang.wxpay.bean.coupon.*;
+import com.github.binarywang.wxpay.bean.notify.WxPayOrderNotifyResult;
+import com.github.binarywang.wxpay.bean.notify.WxPayRefundNotifyResult;
 import com.github.binarywang.wxpay.bean.request.*;
 import com.github.binarywang.wxpay.bean.result.*;
 import com.github.binarywang.wxpay.config.WxPayConfig;
@@ -22,7 +24,7 @@ public interface WxPayService {
 
   /**
    * <pre>
-   * 查询订单(详见https://com.github.binarywang.wechat.pay.bean.pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_2)
+   * 查询订单(详见https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_2)
    * 该接口提供所有微信支付订单的查询，商户可以通过查询订单接口主动查询订单状态，完成下一步的业务逻辑。
    * 需要调用查询接口的情况：
    * ◆ 当商户后台、网络、服务器等出现异常，商户系统最终未接收到支付通知；
@@ -54,7 +56,7 @@ public interface WxPayService {
   WxPayOrderCloseResult closeOrder(String outTradeNo) throws WxPayException;
 
   /**
-   * 统一下单(详见http://com.github.binarywang.wechat.pay.bean.pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1)
+   * 统一下单(详见https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=9_1)
    * 在发起微信支付前，需要调用统一下单接口，获取"预支付交易会话标识"
    * 接口地址：https://api.mch.weixin.qq.com/pay/unifiedorder
    *
@@ -64,7 +66,7 @@ public interface WxPayService {
 
   /**
    * 该接口调用“统一下单”接口，并拼装发起支付请求需要的参数
-   * 详见http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115&token=&lang=zh_CN
+   * 详见https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=8_5
    *
    * @param request 请求对象，注意一些参数如appid、mchid等不用设置，方法内会自动从配置对象中获取到（前提是对应配置中已经设置）
    */
@@ -113,10 +115,23 @@ public interface WxPayService {
     throws WxPayException;
 
   /**
-   * 读取支付结果通知
+   * @deprecated  use WxPayService#parseOrderNotifyResult(String) instead
+   * @see WxPayService#parseOrderNotifyResult(String)
+   */
+  @Deprecated
+  WxPayOrderNotifyResult getOrderNotifyResult(String xmlData) throws WxPayException;
+
+  /**
+   * 解析支付结果通知
    * 详见https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_7
    */
-  WxPayOrderNotifyResult getOrderNotifyResult(String xmlData) throws WxPayException;
+  WxPayOrderNotifyResult parseOrderNotifyResult(String xmlData) throws WxPayException;
+
+  /**
+   * 解析退款结果通知
+   * 详见https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_16&index=9
+   */
+  WxPayRefundNotifyResult parseRefundNotifyResult(String xmlData) throws WxPayException;
 
   /**
    * 发送微信红包给个人用户
