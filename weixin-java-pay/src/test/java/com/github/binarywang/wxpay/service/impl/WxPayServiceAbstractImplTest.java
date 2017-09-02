@@ -2,7 +2,6 @@ package com.github.binarywang.wxpay.service.impl;
 
 import com.github.binarywang.utils.qrcode.QrcodeUtils;
 import com.github.binarywang.wxpay.bean.coupon.*;
-import com.github.binarywang.wxpay.bean.notify.WxPayRefundNotifyResult;
 import com.github.binarywang.wxpay.bean.request.*;
 import com.github.binarywang.wxpay.bean.result.*;
 import com.github.binarywang.wxpay.constant.WxPayConstants;
@@ -16,10 +15,13 @@ import com.github.binarywang.wxpay.testbase.XmlWxPayConfig;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.annotations.*;
+import org.testng.annotations.Guice;
+import org.testng.annotations.Test;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 
 import static org.testng.Assert.*;
@@ -90,7 +92,7 @@ public class WxPayServiceAbstractImplTest {
 
   @Test
   public void testDownloadBill() throws Exception {
-    WxPayBillResult wxPayBillResult = this.payService.downloadBill("20170101", BillType.ALL, "GZIP", "1111111");
+    WxPayBillResult wxPayBillResult = this.payService.downloadBill("20170831", BillType.ALL, null, "1111111");
     //前一天没有账单记录返回null
     assertNotNull(wxPayBillResult);
     //必填字段为空时，抛出异常
@@ -313,10 +315,24 @@ public class WxPayServiceAbstractImplTest {
   @Test
   public void testQueryCouponInfo() throws Exception {
     WxPayCouponInfoQueryResult result = this.payService.queryCouponInfo(WxPayCouponInfoQueryRequest.newBuilder()
-      .openid("onqOjjrXT-776SpHnfexGm1_P7iE")
+      .openid("ojOQA0y9o-Eb6Aep7uVTdbkJqrP4")
       .couponId("11")
       .stockId("1121")
       .build());
     this.logger.info(result.toString());
   }
+
+  /**
+   * 目前调用接口总报“系统繁忙，清稍后再试”，怀疑根本没法使用
+   */
+  @Test
+  public void testQueryComment() throws Exception {
+    Calendar calendar = Calendar.getInstance();
+    calendar.add(Calendar.DAY_OF_MONTH, -2);
+    Date beginDate = calendar.getTime();
+    calendar.add(Calendar.MONTH, -1);
+    Date endDate = calendar.getTime();
+    this.payService.queryComment(beginDate, endDate, 0, null);
+  }
+
 }

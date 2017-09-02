@@ -10,6 +10,7 @@ import com.github.binarywang.wxpay.config.WxPayConfig;
 import com.github.binarywang.wxpay.exception.WxPayException;
 
 import java.io.File;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -115,8 +116,8 @@ public interface WxPayService {
     throws WxPayException;
 
   /**
-   * @deprecated  use WxPayService#parseOrderNotifyResult(String) instead
    * @see WxPayService#parseOrderNotifyResult(String)
+   * @deprecated use WxPayService#parseOrderNotifyResult(String) instead
    */
   @Deprecated
   WxPayOrderNotifyResult getOrderNotifyResult(String xmlData) throws WxPayException;
@@ -389,4 +390,23 @@ public interface WxPayService {
    * 获取微信请求数据，方便接口调用方获取处理
    */
   WxPayApiData getWxApiData();
+
+  /**
+   * <pre>
+   * 拉取订单评价数据
+   * 商户可以通过该接口拉取用户在微信支付交易记录中针对你的支付记录进行的评价内容。商户可结合商户系统逻辑对该内容数据进行存储、分析、展示、客服回访以及其他使用。如商户业务对评价内容有依赖，可主动引导用户进入微信支付交易记录进行评价。
+   * 注意：
+   * 1. 该内容所有权为提供内容的微信用户，商户在使用内容的过程中应遵从用户意愿
+   * 2. 一次最多拉取200条评价数据，可根据时间区间分批次拉取
+   * 3. 接口只能拉取最近三个月以内的评价数据
+   * 接口链接：https://api.mch.weixin.qq.com/billcommentsp/batchquerycomment
+   * 是否需要证书：需要
+   * 文档地址：https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_17&index=10
+   * </pre>
+   * @param beginDate 开始时间
+   * @param endDate   结束时间
+   * @param offset    位移
+   * @param limit     条数
+   */
+  String queryComment(Date beginDate, Date endDate, Integer offset, Integer limit) throws WxPayException;
 }

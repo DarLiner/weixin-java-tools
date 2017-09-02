@@ -96,6 +96,19 @@ public abstract class WxPayBaseRequest {
   protected String sign;
 
   /**
+   * <pre>
+   * 签名类型
+   * sign_type
+   * 否
+   * String(32)
+   * HMAC-SHA256
+   * 签名类型，目前支持HMAC-SHA256和MD5
+   * </pre>
+   */
+  @XStreamAlias("sign_type")
+  private String signType;
+
+  /**
    * 将单位为元转换为单位为分
    *
    * @param yuan 将要转换的元的数值字符串
@@ -187,6 +200,14 @@ public abstract class WxPayBaseRequest {
     this.subMchId = subMchId;
   }
 
+  public String getSignType() {
+    return signType;
+  }
+
+  public void setSignType(String signType) {
+    this.signType = signType;
+  }
+
   @Override
   public String toString() {
     return ToStringUtils.toSimpleString(this);
@@ -230,9 +251,8 @@ public abstract class WxPayBaseRequest {
     if (StringUtils.isBlank(getNonceStr())) {
       this.setNonceStr(String.valueOf(System.currentTimeMillis()));
     }
-
     //设置签名字段的值
-    this.setSign(SignUtils.createSign(this, config.getMchKey()));
+    this.setSign(SignUtils.createSign(this, config.getMchKey(), this.signType));
   }
 
 }
