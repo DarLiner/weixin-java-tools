@@ -18,7 +18,7 @@
 
 ---------------------------------
 ### 其他信息：
-1. 最新更新：**2017-6-25 发布[【2.7.0正式版】](https://github.com/Wechat-Group/weixin-java-tools/releases)**！
+1. 最新更新：**2017-9-3 发布[【2.8.0正式版】](https://github.com/Wechat-Group/weixin-java-tools/releases)**！
 1. 开源中国网站的本项目介绍的首页链接地址：https://www.oschina.net/p/weixin-java-tools-new
 1. 自2.6.0版本开始，微信支付相关功能抽出独立为一个模块，详细使用方式请参考相关demo；
 1. 自2.7.0版本开始，支持微信小程序，具体可以参考相关demo；
@@ -60,7 +60,7 @@
 <dependency>
   <groupId>com.github.binarywang</groupId>
   <artifactId>weixin-java-miniapp</artifactId>
-  <version>2.7.0</version>
+  <version>2.8.0</version>
 </dependency>
 ```
 
@@ -70,7 +70,7 @@
 <dependency>
   <groupId>com.github.binarywang</groupId>
   <artifactId>weixin-java-pay</artifactId>
-  <version>2.7.0</version>
+  <version>2.8.0</version>
 </dependency>
 ```
 
@@ -80,7 +80,7 @@
 <dependency>
   <groupId>com.github.binarywang</groupId>
   <artifactId>weixin-java-mp</artifactId>
-  <version>2.7.0</version>
+  <version>2.8.0</version>
 </dependency>
 ```
 
@@ -90,6 +90,6 @@
 <dependency>
   <groupId>com.github.binarywang</groupId>
   <artifactId>weixin-java-cp</artifactId>
-  <version>2.7.0</version>
+  <version>2.8.0</version>
 </dependency>
 ```
