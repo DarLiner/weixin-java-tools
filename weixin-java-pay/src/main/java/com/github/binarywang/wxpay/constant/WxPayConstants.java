@@ -1,5 +1,7 @@
 package com.github.binarywang.wxpay.constant;
 
+import java.text.SimpleDateFormat;
+
 /**
  * <pre>
  * 微信支付常量类
@@ -9,6 +11,12 @@ package com.github.binarywang.wxpay.constant;
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
 public class WxPayConstants {
+
+  /**
+   * 拉取订单评价数据接口的参数中日期格式
+   */
+  public static final SimpleDateFormat QUERY_COMMENT_DATE_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss");
+
   /**
    * 校验用户姓名选项，企业付款时使用
    */

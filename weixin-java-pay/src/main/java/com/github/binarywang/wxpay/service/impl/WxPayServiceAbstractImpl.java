@@ -23,10 +23,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static com.github.binarywang.wxpay.constant.WxPayConstants.QUERY_COMMENT_DATE_FORMAT;
 
 /**
  * <pre>
@@ -237,7 +236,7 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
         configMap.put("appid", appId);
 
         payResult = WxPayAppOrderResult.newBuilder()
-          .sign(SignUtils.createSign(configMap, this.getConfig().getMchKey()))
+          .sign(SignUtils.createSign(configMap, this.getConfig().getMchKey(), null))
           .prepayId(prepayId)
           .partnerId(partnerId)
           .appId(appId)
@@ -256,7 +255,7 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
           .signType(SignType.MD5)
           .build();
         ((WxPayMpOrderResult) payResult)
-          .setPaySign(SignUtils.createSign(payResult, this.getConfig().getMchKey()));
+          .setPaySign(SignUtils.createSign(payResult, this.getConfig().getMchKey(), null));
         break;
       }
     }
@@ -303,7 +302,7 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
       configMap.put("noncestr", nonceStr);
       configMap.put("appid", appId);
       // 此map用于客户端与微信服务器交互
-      payInfo.put("sign", SignUtils.createSign(configMap, this.getConfig().getMchKey()));
+      payInfo.put("sign", SignUtils.createSign(configMap, this.getConfig().getMchKey(), null));
       payInfo.put("prepayId", prepayId);
       payInfo.put("partnerId", partnerId);
       payInfo.put("appId", appId);
@@ -317,7 +316,7 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
       payInfo.put("nonceStr", nonceStr);
       payInfo.put("package", "prepay_id=" + prepayId);
       payInfo.put("signType", SignType.MD5);
-      payInfo.put("paySign", SignUtils.createSign(payInfo, this.getConfig().getMchKey()));
+      payInfo.put("paySign", SignUtils.createSign(payInfo, this.getConfig().getMchKey(), null));
     }
 
     return payInfo;
@@ -364,7 +363,7 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
     params.put("time_stamp", String.valueOf(System.currentTimeMillis() / 1000));//这里需要秒，10位数字
     params.put("nonce_str", String.valueOf(System.currentTimeMillis()));
 
-    String sign = SignUtils.createSign(params, this.getConfig().getMchKey());
+    String sign = SignUtils.createSign(params, this.getConfig().getMchKey(), null);
     params.put("sign", sign);
 
     for (String key : params.keySet()) {
@@ -411,15 +410,13 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
     String url = this.getPayBaseUrl() + "/pay/downloadbill";
     String responseContent = this.post(url, request.toXML(), false);
     if (responseContent.startsWith("<")) {
-      WxPayCommonResult result = WxPayBaseResult.fromXML(responseContent, WxPayCommonResult.class);
-      result.checkResult(this);
-      return null;
+      throw WxPayException.from(WxPayBaseResult.fromXML(responseContent, WxPayCommonResult.class));
     } else {
-      return billInformationDeal(responseContent);
+      return this.handleBillInformation(responseContent);
     }
   }
 
-  private WxPayBillResult billInformationDeal(String responseContent) {
+  private WxPayBillResult handleBillInformation(String responseContent) {
     WxPayBillResult wxPayBillResult = new WxPayBillResult();
 
     String listStr = "";
@@ -596,5 +593,26 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
       // 但以防万一有同一线程多次请求的问题，所以每次获取完数据后移除对应数据
       wxApiData.remove();
     }
+  }
+
+  @Override
+  public String queryComment(Date beginDate, Date endDate, Integer offset, Integer limit) throws WxPayException {
+    WxPayQueryCommentRequest request = new WxPayQueryCommentRequest();
+    request.setBeginTime(QUERY_COMMENT_DATE_FORMAT.format(beginDate));
+    request.setEndTime(QUERY_COMMENT_DATE_FORMAT.format(endDate));
+    request.setOffset(offset);
+    request.setLimit(limit);
+    request.setSignType(SignType.HMAC_SHA256);
+
+    request.checkAndSign(this.getConfig());
+
+    String url = this.getPayBaseUrl() + "/billcommentsp/batchquerycomment";
+
+    String responseContent = this.post(url, request.toXML(), true);
+    if (responseContent.startsWith("<")) {
+      throw WxPayException.from(WxPayBaseResult.fromXML(responseContent, WxPayCommonResult.class));
+    }
+
+    return responseContent;
   }
 }
