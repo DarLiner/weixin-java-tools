@@ -446,7 +446,7 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
       wxPayBillBaseResult.setMchId(tempStr[k + 2].trim());
       wxPayBillBaseResult.setSubMchId(tempStr[k + 3].trim());
       wxPayBillBaseResult.setDeviceInfo(tempStr[k + 4].trim());
-      wxPayBillBaseResult.setTransationId(tempStr[k + 5].trim());
+      wxPayBillBaseResult.setTransactionId(tempStr[k + 5].trim());
       wxPayBillBaseResult.setOutTradeNo(tempStr[k + 6].trim());
       wxPayBillBaseResult.setOpenId(tempStr[k + 7].trim());
       wxPayBillBaseResult.setTradeType(tempStr[k + 8].trim());

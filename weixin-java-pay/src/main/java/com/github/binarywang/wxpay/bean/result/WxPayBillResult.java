@@ -1,14 +1,21 @@
 package com.github.binarywang.wxpay.bean.result;
 
+import me.chanjar.weixin.common.util.ToStringUtils;
+
 import java.io.Serializable;
 import java.util.List;
 
 public class WxPayBillResult implements Serializable {
+  private static final long serialVersionUID = -7687458652694204070L;
+
+  @Override
+  public String toString() {
+    return ToStringUtils.toSimpleString(this);
+  }
+
   /**
    * 对账返回对象
    */
-  private static final long serialVersionUID = 1L;
-
   private List<WxPayBillBaseResult> wxPayBillBaseResultLst;
   /**
    * 总交易单数

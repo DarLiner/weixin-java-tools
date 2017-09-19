@@ -1,14 +1,22 @@
 package com.github.binarywang.wxpay.bean.result;
 
+import me.chanjar.weixin.common.util.ToStringUtils;
+
 import java.io.Serializable;
 
+/**
+ * 交易时间:2017-04-06 01:00:02 公众账号ID: 商户号: 子商户号:0 设备号:WEB 微信订单号: 商户订单号:2017040519091071873216 用户标识: 交易类型:NATIVE
+ * 交易状态:REFUND 付款银行:CFT 货币种类:CNY 总金额:0.00 企业红包金额:0.00 微信退款单号: 商户退款单号:20170406010000933 退款金额:0.01 企业红包退款金额:0.00
+ * 退款类型:ORIGINAL 退款状态:SUCCESS 商品名称: 商户数据包: 手续费:0.00000 费率 :0.60%
+ */
 public class WxPayBillBaseResult implements Serializable {
-  /*
-   * 交易时间:2017-04-06 01:00:02 公众账号ID: 商户号: 子商户号:0 设备号:WEB 微信订单号: 商户订单号:2017040519091071873216 用户标识: 交易类型:NATIVE
-   * 交易状态:REFUND 付款银行:CFT 货币种类:CNY 总金额:0.00 企业红包金额:0.00 微信退款单号: 商户退款单号:20170406010000933 退款金额:0.01 企业红包退款金额:0.00
-   * 退款类型:ORIGINAL 退款状态:SUCCESS 商品名称: 商户数据包: 手续费:0.00000 费率 :0.60%
-   */
-  private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 2226245109137435453L;
+
+  @Override
+  public String toString() {
+    return ToStringUtils.toSimpleString(this);
+  }
+
   /**
    * 交易时间
    */
@@ -32,7 +40,7 @@ public class WxPayBillBaseResult implements Serializable {
   /**
    * 微信订单号
    */
-  private String transationId;
+  private String transactionId;
   /**
    * 商户订单号
    */
@@ -150,12 +158,12 @@ public class WxPayBillBaseResult implements Serializable {
     this.deviceInfo = deviceInfo;
   }
 
-  public String getTransationId() {
-    return transationId;
+  public String getTransactionId() {
+    return transactionId;
   }
 
-  public void setTransationId(String transationId) {
-    this.transationId = transationId;
+  public void setTransactionId(String transactionId) {
+    this.transactionId = transactionId;
   }
 
   public String getOutTradeNo() {

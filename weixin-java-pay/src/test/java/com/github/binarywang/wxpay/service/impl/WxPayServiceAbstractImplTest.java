@@ -15,8 +15,7 @@ import com.github.binarywang.wxpay.testbase.XmlWxPayConfig;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.annotations.Guice;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -90,11 +89,24 @@ public class WxPayServiceAbstractImplTest {
     this.logger.info(this.payService.closeOrder("11212121").toString());
   }
 
+  @DataProvider
+  public Object[][] billingData() {
+    return new Object[][]{
+//      {"20170831", BillType.ALL, null, "deviceInfo"},
+      {"20170831", BillType.SUCCESS, null, "deviceInfo"}
+    };
+  }
+
+  @Test(dataProvider = "billingData")
+  public void testDownloadBill(String billDate, String billType,
+                               String tarType, String deviceInfo) throws Exception {
+    WxPayBillResult billResult = this.payService.downloadBill(billDate, billType, tarType, deviceInfo);
+    assertNotNull(billResult);
+    this.logger.info(billResult.toString());
+  }
+
   @Test
-  public void testDownloadBill() throws Exception {
-    WxPayBillResult wxPayBillResult = this.payService.downloadBill("20170831", BillType.ALL, null, "1111111");
-    //前一天没有账单记录返回null
-    assertNotNull(wxPayBillResult);
+  public void testDownloadBill_withNoParams() throws Exception {
     //必填字段为空时，抛出异常
     this.payService.downloadBill("", "", "", null);
   }
