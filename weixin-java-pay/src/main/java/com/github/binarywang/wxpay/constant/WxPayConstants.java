@@ -108,4 +108,19 @@ public class WxPayConstants {
      */
     public static final String NO_CREDIT = "no_credit";
   }
+
+  /**
+   * 业务结果代码
+   */
+  public static class ResultCode {
+    /**
+     * 成功
+     */
+    public static final String SUCCESS = "SUCCESS";
+
+    /**
+     * 失败
+     */
+    public static final String FAIL = "FAIL";
+  }
 }
