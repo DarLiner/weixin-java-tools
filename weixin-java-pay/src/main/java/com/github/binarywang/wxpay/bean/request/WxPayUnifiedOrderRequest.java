@@ -3,6 +3,7 @@ package com.github.binarywang.wxpay.bean.request;
 import com.github.binarywang.wxpay.config.WxPayConfig;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import lombok.*;
 import me.chanjar.weixin.common.annotation.Required;
 import org.apache.commons.lang3.StringUtils;
 
@@ -10,11 +11,16 @@ import org.apache.commons.lang3.StringUtils;
  * <pre>
  * 统一下单请求参数对象
  * 参考文档：https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1
- * </pre>
  * Created by Binary Wang on 2016/9/25.
+ * </pre>
  *
- * @author binarywang (https://github.com/binarywang)
+ * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
+@Data
+@EqualsAndHashCode(callSuper = true)
+@Builder(builderMethodName = "newBuilder")
+@NoArgsConstructor
+@AllArgsConstructor
 @XStreamAlias("xml")
 public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
   private static final String[] TRADE_TYPES = new String[]{"JSAPI", "NATIVE", "APP", "MWEB"};
@@ -310,144 +316,11 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
   @XStreamAlias("fingerprint")
   private String fingerprint;
 
-  public WxPayUnifiedOrderRequest() {
-  }
-
-  private WxPayUnifiedOrderRequest(Builder builder) {
-    setDeviceInfo(builder.deviceInfo);
-    setAppid(builder.appid);
-    setBody(builder.body);
-    setMchId(builder.mchId);
-    setSubAppId(builder.subAppId);
-    setSubMchId(builder.subMchId);
-    setNonceStr(builder.nonceStr);
-    setSign(builder.sign);
-    setDetail(builder.detail);
-    setAttach(builder.attach);
-    setOutTradeNo(builder.outTradeNo);
-    setFeeType(builder.feeType);
-    setTotalFee(builder.totalFee);
-    setSpbillCreateIp(builder.spbillCreateIp);
-    setTimeStart(builder.timeStart);
-    setTimeExpire(builder.timeExpire);
-    setGoodsTag(builder.goodsTag);
-    setNotifyURL(builder.notifyURL);
-    setTradeType(builder.tradeType);
-    setProductId(builder.productId);
-    setLimitPay(builder.limitPay);
-    setOpenid(builder.openid);
-    setSubOpenid(builder.subOpenid);
-    setSceneInfo(builder.sceneInfo);
-    fingerprint = builder.fingerprint;
-  }
-
-  public static Builder newBuilder() {
-    return new Builder();
-  }
-
-  public String getDeviceInfo() {
-    return this.deviceInfo;
-  }
-
-  public void setDeviceInfo(String deviceInfo) {
-    this.deviceInfo = deviceInfo;
-  }
-
-  public String getBody() {
-    return this.body;
-  }
-
-  public void setBody(String body) {
-    this.body = body;
-  }
-
-  public String getDetail() {
-    return this.detail;
-  }
-
-  public void setDetail(String detail) {
-    this.detail = detail;
-  }
-
-  public String getAttach() {
-    return this.attach;
-  }
-
-  public void setAttach(String attach) {
-    this.attach = attach;
-  }
-
-  public String getOutTradeNo() {
-    return this.outTradeNo;
-  }
-
-  public void setOutTradeNo(String outTradeNo) {
-    this.outTradeNo = outTradeNo;
-  }
-
-  public String getFeeType() {
-    return this.feeType;
-  }
-
-  public void setFeeType(String feeType) {
-    this.feeType = feeType;
-  }
-
-  public Integer getTotalFee() {
-    return this.totalFee;
-  }
-
-  public void setTotalFee(Integer totalFee) {
-    this.totalFee = totalFee;
-  }
-
-  public String getSpbillCreateIp() {
-    return this.spbillCreateIp;
-  }
-
-  public void setSpbillCreateIp(String spbillCreateIp) {
-    this.spbillCreateIp = spbillCreateIp;
-  }
-
-  public String getTimeStart() {
-    return this.timeStart;
-  }
-
-  public void setTimeStart(String timeStart) {
-    this.timeStart = timeStart;
-  }
-
-  public String getTimeExpire() {
-    return this.timeExpire;
-  }
-
-  public void setTimeExpire(String timeExpire) {
-    this.timeExpire = timeExpire;
-  }
-
-  public String getGoodsTag() {
-    return this.goodsTag;
-  }
-
-  public void setGoodsTag(String goodsTag) {
-    this.goodsTag = goodsTag;
-  }
-
-  public String getNotifyURL() {
-    return this.notifyURL;
-  }
-
   /**
    * 如果配置中已经设置，可以不设置值
-   *
-   * @param notifyURL
    */
   public void setNotifyURL(String notifyURL) {
     this.notifyURL = notifyURL;
-  }
-
-  public String getTradeType() {
-    return this.tradeType;
   }
 
   /**
@@ -457,46 +330,6 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
    */
   public void setTradeType(String tradeType) {
     this.tradeType = tradeType;
-  }
-
-  public String getProductId() {
-    return this.productId;
-  }
-
-  public void setProductId(String productId) {
-    this.productId = productId;
-  }
-
-  public String getLimitPay() {
-    return this.limitPay;
-  }
-
-  public void setLimitPay(String limitPay) {
-    this.limitPay = limitPay;
-  }
-
-  public String getOpenid() {
-    return this.openid;
-  }
-
-  public void setOpenid(String openid) {
-    this.openid = openid;
-  }
-
-  public String getSubOpenid() {
-    return this.subOpenid;
-  }
-
-  public void setSubOpenid(String subOpenid) {
-    this.subOpenid = subOpenid;
-  }
-
-  public String getSceneInfo() {
-    return this.sceneInfo;
-  }
-
-  public void setSceneInfo(String sceneInfo) {
-    this.sceneInfo = sceneInfo;
   }
 
   @Override
@@ -528,163 +361,4 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
     super.checkAndSign(config);
   }
 
-  public static final class Builder {
-    private String appid;
-    private String mchId;
-    private String subAppId;
-    private String subMchId;
-    private String nonceStr;
-    private String sign;
-    private String deviceInfo;
-    private String body;
-    private String detail;
-    private String attach;
-    private String outTradeNo;
-    private String feeType;
-    private Integer totalFee;
-    private String spbillCreateIp;
-    private String timeStart;
-    private String timeExpire;
-    private String goodsTag;
-    private String notifyURL;
-    private String tradeType;
-    private String productId;
-    private String limitPay;
-    private String openid;
-    private String subOpenid;
-    private String sceneInfo;
-    private String fingerprint;
-
-    private Builder() {
-    }
-
-    public Builder appid(String appid) {
-      this.appid = appid;
-      return this;
-    }
-
-    public Builder mchId(String mchId) {
-      this.mchId = mchId;
-      return this;
-    }
-
-    public Builder subAppId(String subAppId) {
-      this.subAppId = subAppId;
-      return this;
-    }
-
-    public Builder subMchId(String subMchId) {
-      this.subMchId = subMchId;
-      return this;
-    }
-
-    public Builder nonceStr(String nonceStr) {
-      this.nonceStr = nonceStr;
-      return this;
-    }
-
-    public Builder sign(String sign) {
-      this.sign = sign;
-      return this;
-    }
-
-    public Builder deviceInfo(String deviceInfo) {
-      this.deviceInfo = deviceInfo;
-      return this;
-    }
-
-    public Builder body(String body) {
-      this.body = body;
-      return this;
-    }
-
-    public Builder detail(String detail) {
-      this.detail = detail;
-      return this;
-    }
-
-    public Builder attach(String attach) {
-      this.attach = attach;
-      return this;
-    }
-
-    public Builder outTradeNo(String outTradeNo) {
-      this.outTradeNo = outTradeNo;
-      return this;
-    }
-
-    public Builder feeType(String feeType) {
-      this.feeType = feeType;
-      return this;
-    }
-
-    public Builder totalFee(Integer totalFee) {
-      this.totalFee = totalFee;
-      return this;
-    }
-
-    public Builder spbillCreateIp(String spbillCreateIp) {
-      this.spbillCreateIp = spbillCreateIp;
-      return this;
-    }
-
-    public Builder timeStart(String timeStart) {
-      this.timeStart = timeStart;
-      return this;
-    }
-
-    public Builder timeExpire(String timeExpire) {
-      this.timeExpire = timeExpire;
-      return this;
-    }
-
-    public Builder goodsTag(String goodsTag) {
-      this.goodsTag = goodsTag;
-      return this;
-    }
-
-    public Builder notifyURL(String notifyURL) {
-      this.notifyURL = notifyURL;
-      return this;
-    }
-
-    public Builder tradeType(String tradeType) {
-      this.tradeType = tradeType;
-      return this;
-    }
-
-    public Builder productId(String productId) {
-      this.productId = productId;
-      return this;
-    }
-
-    public Builder limitPay(String limitPay) {
-      this.limitPay = limitPay;
-      return this;
-    }
-
-    public Builder openid(String openid) {
-      this.openid = openid;
-      return this;
-    }
-
-    public Builder subOpenid(String subOpenid) {
-      this.subOpenid = subOpenid;
-      return this;
-    }
-
-    public Builder sceneInfo(String sceneInfo) {
-      this.sceneInfo = sceneInfo;
-      return this;
-    }
-
-    public Builder fingerprint(String fingerprint) {
-      this.fingerprint = fingerprint;
-      return this;
-    }
-
-    public WxPayUnifiedOrderRequest build() {
-      return new WxPayUnifiedOrderRequest(this);
-    }
-  }
 }

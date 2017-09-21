@@ -7,6 +7,7 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Maps;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import lombok.Data;
 import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
 import org.apache.commons.lang3.StringUtils;
@@ -30,9 +31,11 @@ import java.util.Map;
  * <pre>
  * 微信支付结果共用属性类
  * Created by Binary Wang on 2016-10-24.
- * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  * </pre>
+ *
+ * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
+@Data
 public abstract class WxPayBaseResult {
   /**
    * 返回状态码
@@ -124,14 +127,6 @@ public abstract class WxPayBaseResult {
     return result;
   }
 
-  public String getXmlString() {
-    return this.xmlString;
-  }
-
-  public void setXmlString(String xmlString) {
-    this.xmlString = xmlString;
-  }
-
   protected Logger getLogger() {
     return LoggerFactory.getLogger(this.getClass());
   }
@@ -139,94 +134,6 @@ public abstract class WxPayBaseResult {
   @Override
   public String toString() {
     return ToStringUtils.toSimpleString(this);
-  }
-
-  public String getReturnCode() {
-    return this.returnCode;
-  }
-
-  public void setReturnCode(String returnCode) {
-    this.returnCode = returnCode;
-  }
-
-  public String getReturnMsg() {
-    return this.returnMsg;
-  }
-
-  public void setReturnMsg(String returnMsg) {
-    this.returnMsg = returnMsg;
-  }
-
-  public String getResultCode() {
-    return this.resultCode;
-  }
-
-  public void setResultCode(String resultCode) {
-    this.resultCode = resultCode;
-  }
-
-  public String getErrCode() {
-    return this.errCode;
-  }
-
-  public void setErrCode(String errCode) {
-    this.errCode = errCode;
-  }
-
-  public String getErrCodeDes() {
-    return this.errCodeDes;
-  }
-
-  public void setErrCodeDes(String errCodeDes) {
-    this.errCodeDes = errCodeDes;
-  }
-
-  public String getAppid() {
-    return this.appid;
-  }
-
-  public void setAppid(String appid) {
-    this.appid = appid;
-  }
-
-  public String getMchId() {
-    return this.mchId;
-  }
-
-  public void setMchId(String mchId) {
-    this.mchId = mchId;
-  }
-
-  public String getNonceStr() {
-    return this.nonceStr;
-  }
-
-  public void setNonceStr(String nonceStr) {
-    this.nonceStr = nonceStr;
-  }
-
-  public String getSign() {
-    return this.sign;
-  }
-
-  public void setSign(String sign) {
-    this.sign = sign;
-  }
-
-  public String getSubAppId() {
-    return subAppId;
-  }
-
-  public void setSubAppId(String subAppId) {
-    this.subAppId = subAppId;
-  }
-
-  public String getSubMchId() {
-    return subMchId;
-  }
-
-  public void setSubMchId(String subMchId) {
-    this.subMchId = subMchId;
   }
 
   /**
