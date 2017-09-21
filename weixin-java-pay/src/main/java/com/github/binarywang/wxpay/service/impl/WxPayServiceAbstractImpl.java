@@ -204,6 +204,7 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
     return result;
   }
 
+  @Override
   public <T> T createOrder(WxPayUnifiedOrderRequest request) throws WxPayException {
     WxPayUnifiedOrderResult unifiedOrderResult = this.unifiedOrder(request);
     String prepayId = unifiedOrderResult.getPrepayId();
@@ -217,7 +218,8 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
     Object payResult = null;
     switch (request.getTradeType()) {
       case TradeType.NATIVE: {
-        payResult = WxPayNativeOrderResult.newBuilder().codeUrl(unifiedOrderResult.getCodeURL())
+        payResult = WxPayNativeOrderResult.builder()
+          .codeUrl(unifiedOrderResult.getCodeURL())
           .build();
         break;
       }
@@ -235,7 +237,7 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
         configMap.put("noncestr", nonceStr);
         configMap.put("appid", appId);
 
-        payResult = WxPayAppOrderResult.newBuilder()
+        payResult = WxPayAppOrderResult.builder()
           .sign(SignUtils.createSign(configMap, this.getConfig().getMchKey(), null))
           .prepayId(prepayId)
           .partnerId(partnerId)
@@ -247,7 +249,7 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
         break;
       }
       case TradeType.JSAPI: {
-        payResult = WxPayMpOrderResult.newBuilder()
+        payResult = WxPayMpOrderResult.builder()
           .appId(unifiedOrderResult.getAppid())
           .timeStamp(timestamp)
           .nonceStr(nonceStr)

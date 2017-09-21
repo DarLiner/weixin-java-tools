@@ -2,6 +2,9 @@ package com.github.binarywang.wxpay.service.impl;
 
 import com.github.binarywang.utils.qrcode.QrcodeUtils;
 import com.github.binarywang.wxpay.bean.coupon.*;
+import com.github.binarywang.wxpay.bean.order.WxPayAppOrderResult;
+import com.github.binarywang.wxpay.bean.order.WxPayMpOrderResult;
+import com.github.binarywang.wxpay.bean.order.WxPayNativeOrderResult;
 import com.github.binarywang.wxpay.bean.request.*;
 import com.github.binarywang.wxpay.bean.result.*;
 import com.github.binarywang.wxpay.constant.WxPayConstants;
@@ -29,7 +32,7 @@ import static org.testng.Assert.*;
  * 测试支付相关接口
  * Created by Binary Wang on 2016/7/28.
  *
- * @author binarywang (https://github.com/binarywang)
+ * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
 @Test
 @Guice(modules = ApiTestModule.class)
@@ -59,16 +62,84 @@ public class WxPayServiceAbstractImplTest {
   }
 
   @Test
+  public void testCreateOrder() throws Exception {
+    //see other tests with method name starting with 'testCreateOrder_'
+  }
+
+  @Test
+  public void testCreateOrder_jssdk() throws Exception {
+    WxPayMpOrderResult result = this.payService
+      .createOrder(WxPayUnifiedOrderRequest.newBuilder()
+        .body("我去")
+        .totalFee(1)
+        .spbillCreateIp("11.1.11.1")
+        .notifyURL("111111")
+        .tradeType(TradeType.JSAPI)
+        .openid(((XmlWxPayConfig) this.payService.getConfig()).getOpenid())
+        .outTradeNo("1111112")
+        .build());
+    this.logger.info(result.toString());
+    this.logger.warn(this.payService.getWxApiData().toString());
+  }
+
+  @Test
+  public void testCreateOrder_app() throws Exception {
+    WxPayAppOrderResult result = this.payService
+      .createOrder(WxPayUnifiedOrderRequest.newBuilder()
+        .body("我去")
+        .totalFee(1)
+        .spbillCreateIp("11.1.11.1")
+        .notifyURL("111111")
+        .tradeType(TradeType.APP)
+        .outTradeNo("1111112")
+        .build());
+    this.logger.info(result.toString());
+    this.logger.warn(this.payService.getWxApiData().toString());
+  }
+
+  @Test
+  public void testCreateOrder_native() throws Exception {
+    WxPayNativeOrderResult result = this.payService
+      .createOrder(WxPayUnifiedOrderRequest.newBuilder()
+        .body("我去")
+        .totalFee(1)
+        .spbillCreateIp("11.1.11.1")
+        .notifyURL("111111")
+        .tradeType(TradeType.NATIVE)
+        .outTradeNo("1111112")
+        .build());
+    this.logger.info(result.toString());
+    this.logger.warn(this.payService.getWxApiData().toString());
+  }
+
+  @Test
+  public void testCreateOrder_micropay() throws Exception {
+    //TODO 待完善
+    Object result = this.payService
+      .createOrder(WxPayUnifiedOrderRequest.newBuilder()
+        .body("我去")
+        .totalFee(1)
+        .spbillCreateIp("11.1.11.1")
+        .notifyURL("111111")
+        .tradeType(TradeType.MICROPAY)
+        .outTradeNo("1111112")
+        .build());
+    this.logger.info(result.toString());
+    this.logger.warn(this.payService.getWxApiData().toString());
+  }
+
+  @Test
   public void testGetPayInfo() throws Exception {
-    Map<String, String> payInfo = this.payService.getPayInfo(WxPayUnifiedOrderRequest.newBuilder()
-      .body("我去")
-      .totalFee(1)
-      .spbillCreateIp("1.11.1.11")
-      .notifyURL("111111")
-      .tradeType(TradeType.JSAPI)
-      .outTradeNo("1111113")
-      .openid(((XmlWxPayConfig) this.payService.getConfig()).getOpenid())
-      .build());
+    Map<String, String> payInfo = this.payService
+      .getPayInfo(WxPayUnifiedOrderRequest.newBuilder()
+        .body("我去")
+        .totalFee(1)
+        .spbillCreateIp("1.11.1.11")
+        .notifyURL("111111")
+        .tradeType(TradeType.JSAPI)
+        .outTradeNo("1111113")
+        .openid(((XmlWxPayConfig) this.payService.getConfig()).getOpenid())
+        .build());
     this.logger.info(payInfo.toString());
   }
 
@@ -238,10 +309,6 @@ public class WxPayServiceAbstractImplTest {
   }
 
   @Test
-  public void testGetOrderNotifyResult() throws Exception {
-  }
-
-  @Test
   public void testMicropay() throws Exception {
     WxPayMicropayResult result = this.payService.micropay(WxPayMicropayRequest.newBuilder()
       .body("body")
@@ -345,6 +412,16 @@ public class WxPayServiceAbstractImplTest {
     calendar.add(Calendar.MONTH, -1);
     Date endDate = calendar.getTime();
     this.payService.queryComment(beginDate, endDate, 0, null);
+  }
+
+  @Test
+  public void testParseOrderNotifyResult() throws Exception {
+    // 请参考com.github.binarywang.wxpay.bean.notify.WxPayOrderNotifyResultTest里的单元测试
+  }
+
+  @Test
+  public void testGetWxApiData() throws Exception {
+    //see test in testUnifiedOrder()
   }
 
 }
