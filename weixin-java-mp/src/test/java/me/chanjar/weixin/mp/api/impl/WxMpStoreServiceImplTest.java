@@ -12,11 +12,12 @@ import org.testng.annotations.*;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.*;
 
 /**
- * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
- *         Created by Binary Wang on 2016-09-23.
+ * Created by Binary Wang on 2016-09-23.
+ *
+ * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
 @Test
 @Guice(modules = ApiTestModule.class)

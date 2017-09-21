@@ -9,9 +9,10 @@ import java.util.List;
 
 /**
  * 门店管理的相关接口代码
+ * <p>
+ * Created by Binary Wang on 2016-09-23.
  *
- * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
- *         Created by Binary Wang on 2016-09-23.
+ * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
 public interface WxMpStoreService<H, P> {
   /**
