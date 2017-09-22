@@ -1,10 +1,10 @@
 package com.github.binarywang.wxpay.util;
 
 import com.github.binarywang.wxpay.constant.WxPayConstants.SignType;
+import com.google.common.collect.Lists;
 import me.chanjar.weixin.common.util.BeanUtils;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -56,8 +56,7 @@ public class SignUtils {
     StringBuilder toSign = new StringBuilder();
     for (String key : sortedMap.keySet()) {
       String value = params.get(key);
-      if (StringUtils.isNotEmpty(value)
-        && !StringUtils.equalsAny(key, "sign", "key", "sign_type")) {
+      if (!Lists.newArrayList("sign", "key", "sign_type").contains(key)) {
         toSign.append(key).append("=").append(value).append("&");
       }
     }

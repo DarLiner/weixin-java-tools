@@ -4,6 +4,7 @@ import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.impl.WxPayServiceAbstractImpl;
 import com.github.binarywang.wxpay.util.SignUtils;
 import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -25,6 +26,7 @@ import javax.xml.xpath.XPathFactory;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -222,9 +224,10 @@ public abstract class WxPayBaseResult {
       throw new WxPayException("参数格式校验错误！");
     }
 
+    List<String> successStrings = Lists.newArrayList("SUCCESS", "");
     //校验结果是否成功
-    if (!StringUtils.equalsAny(StringUtils.trimToEmpty(getReturnCode()).toUpperCase(), "SUCCESS", "")
-      || !StringUtils.equalsAny(StringUtils.trimToEmpty(getResultCode()).toUpperCase(), "SUCCESS", "")) {
+    if (!successStrings.contains(StringUtils.trimToEmpty(getReturnCode()).toUpperCase())
+      || !successStrings.contains(StringUtils.trimToEmpty(getResultCode()).toUpperCase())) {
       StringBuilder errorMsg = new StringBuilder();
       if (getReturnCode() != null) {
         errorMsg.append("返回代码：").append(getReturnCode());
