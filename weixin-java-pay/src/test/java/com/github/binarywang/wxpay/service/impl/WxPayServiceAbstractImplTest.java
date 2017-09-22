@@ -24,7 +24,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Map;
 
 import static org.testng.Assert.*;
 
@@ -103,26 +102,11 @@ public class WxPayServiceAbstractImplTest {
       .createOrder(WxPayUnifiedOrderRequest.newBuilder()
         .body("我去")
         .totalFee(1)
+        .productId("aaa")
         .spbillCreateIp("11.1.11.1")
         .notifyURL("111111")
         .tradeType(TradeType.NATIVE)
-        .outTradeNo("1111112")
-        .build());
-    this.logger.info(result.toString());
-    this.logger.warn(this.payService.getWxApiData().toString());
-  }
-
-  @Test
-  public void testCreateOrder_micropay() throws Exception {
-    //TODO 待完善
-    Object result = this.payService
-      .createOrder(WxPayUnifiedOrderRequest.newBuilder()
-        .body("我去")
-        .totalFee(1)
-        .spbillCreateIp("11.1.11.1")
-        .notifyURL("111111")
-        .tradeType(TradeType.MICROPAY)
-        .outTradeNo("1111112")
+        .outTradeNo("111111290")
         .build());
     this.logger.info(result.toString());
     this.logger.warn(this.payService.getWxApiData().toString());
@@ -130,17 +114,7 @@ public class WxPayServiceAbstractImplTest {
 
   @Test
   public void testGetPayInfo() throws Exception {
-    Map<String, String> payInfo = this.payService
-      .getPayInfo(WxPayUnifiedOrderRequest.newBuilder()
-        .body("我去")
-        .totalFee(1)
-        .spbillCreateIp("1.11.1.11")
-        .notifyURL("111111")
-        .tradeType(TradeType.JSAPI)
-        .outTradeNo("1111113")
-        .openid(((XmlWxPayConfig) this.payService.getConfig()).getOpenid())
-        .build());
-    this.logger.info(payInfo.toString());
+    //please use createOrder instead
   }
 
   /**

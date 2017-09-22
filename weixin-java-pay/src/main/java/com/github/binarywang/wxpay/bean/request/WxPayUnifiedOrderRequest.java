@@ -1,6 +1,7 @@
 package com.github.binarywang.wxpay.bean.request;
 
 import com.github.binarywang.wxpay.config.WxPayConfig;
+import com.github.binarywang.wxpay.constant.WxPayConstants.TradeType;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.*;
@@ -23,8 +24,6 @@ import org.apache.commons.lang3.StringUtils;
 @AllArgsConstructor
 @XStreamAlias("xml")
 public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
-  private static final String[] TRADE_TYPES = new String[]{"JSAPI", "NATIVE", "APP", "MWEB"};
-
   /**
    * <pre>
    * 字段名：设备号
@@ -334,16 +333,11 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
 
   @Override
   protected void checkConstraints() throws WxPayException {
-//    if (!ArrayUtils.contains(TRADE_TYPES, this.getTradeType())) {
-//      throw new WxPayException(String.format("trade_type目前必须为%s其中之一,实际值：%s",
-//        Arrays.toString(TRADE_TYPES), this.getTradeType()));
-//    }
-
-    if ("JSAPI".equals(this.getTradeType()) && this.getOpenid() == null && this.getSubOpenid() == null) {
+    if (TradeType.JSAPI.equals(this.getTradeType()) && this.getOpenid() == null && this.getSubOpenid() == null) {
       throw new WxPayException("当 trade_type是'JSAPI'时未指定openid或sub_openid");
     }
 
-    if ("NATIVE".equals(this.getTradeType()) && this.getProductId() == null) {
+    if (TradeType.NATIVE.equals(this.getTradeType()) && this.getProductId() == null) {
       throw new WxPayException("当 trade_type是'NATIVE'时未指定product_id");
     }
   }
