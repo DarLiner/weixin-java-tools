@@ -215,8 +215,10 @@ public abstract class WxPayBaseResult {
 
   /**
    * 校验返回结果签名
+   *
+   * @param checkSuccess 是否同时检查结果是否成功
    */
-  public void checkResult(WxPayServiceAbstractImpl wxPayService) throws WxPayException {
+  public void checkResult(WxPayServiceAbstractImpl wxPayService, boolean checkSuccess) throws WxPayException {
     //校验返回结果签名
     Map<String, String> map = toMap();
     if (getSign() != null && !SignUtils.checkSign(map, wxPayService.getConfig().getMchKey())) {
@@ -224,29 +226,31 @@ public abstract class WxPayBaseResult {
       throw new WxPayException("参数格式校验错误！");
     }
 
-    List<String> successStrings = Lists.newArrayList("SUCCESS", "");
     //校验结果是否成功
-    if (!successStrings.contains(StringUtils.trimToEmpty(getReturnCode()).toUpperCase())
-      || !successStrings.contains(StringUtils.trimToEmpty(getResultCode()).toUpperCase())) {
-      StringBuilder errorMsg = new StringBuilder();
-      if (getReturnCode() != null) {
-        errorMsg.append("返回代码：").append(getReturnCode());
-      }
-      if (getReturnMsg() != null) {
-        errorMsg.append("，返回信息：").append(getReturnMsg());
-      }
-      if (getResultCode() != null) {
-        errorMsg.append("，结果代码：").append(getResultCode());
-      }
-      if (getErrCode() != null) {
-        errorMsg.append("，错误代码：").append(getErrCode());
-      }
-      if (getErrCodeDes() != null) {
-        errorMsg.append("，错误详情：").append(getErrCodeDes());
-      }
+    if (checkSuccess) {
+      List<String> successStrings = Lists.newArrayList("SUCCESS", "");
+      if (!successStrings.contains(StringUtils.trimToEmpty(getReturnCode()).toUpperCase())
+        || !successStrings.contains(StringUtils.trimToEmpty(getResultCode()).toUpperCase())) {
+        StringBuilder errorMsg = new StringBuilder();
+        if (getReturnCode() != null) {
+          errorMsg.append("返回代码：").append(getReturnCode());
+        }
+        if (getReturnMsg() != null) {
+          errorMsg.append("，返回信息：").append(getReturnMsg());
+        }
+        if (getResultCode() != null) {
+          errorMsg.append("，结果代码：").append(getResultCode());
+        }
+        if (getErrCode() != null) {
+          errorMsg.append("，错误代码：").append(getErrCode());
+        }
+        if (getErrCodeDes() != null) {
+          errorMsg.append("，错误详情：").append(getErrCodeDes());
+        }
 
-      this.getLogger().error("\n结果业务代码异常，返回結果：{},\n{}", map, errorMsg.toString());
-      throw WxPayException.from(this);
+        this.getLogger().error("\n结果业务代码异常，返回結果：{},\n{}", map, errorMsg.toString());
+        throw WxPayException.from(this);
+      }
     }
   }
 }

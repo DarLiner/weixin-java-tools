@@ -77,7 +77,7 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
     String url = this.getPayBaseUrl() + "/secapi/pay/refund";
     String responseContent = this.post(url, request.toXML(), true);
     WxPayRefundResult result = WxPayBaseResult.fromXML(responseContent, WxPayRefundResult.class);
-    result.checkResult(this);
+    result.checkResult(this, true);
     return result;
   }
 
@@ -96,7 +96,7 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
     String responseContent = this.post(url, request.toXML(), false);
     WxPayRefundQueryResult result = WxPayBaseResult.fromXML(responseContent, WxPayRefundQueryResult.class);
     result.composeRefundRecords();
-    result.checkResult(this);
+    result.checkResult(this, true);
     return result;
   }
 
@@ -112,7 +112,7 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
       log.debug("微信支付异步通知请求参数：{}", xmlData);
       WxPayOrderNotifyResult result = WxPayOrderNotifyResult.fromXML(xmlData);
       log.debug("微信支付异步通知请求解析后的对象：{}", result);
-      result.checkResult(this);
+      result.checkResult(this, false);
       return result;
     } catch (WxPayException e) {
       log.error(e.getMessage(), e);
@@ -163,7 +163,7 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
     String url = this.getPayBaseUrl() + "/mmpaymkttransfers/gethbinfo";
     String responseContent = this.post(url, request.toXML(), true);
     WxPayRedpackQueryResult result = WxPayBaseResult.fromXML(responseContent, WxPayRedpackQueryResult.class);
-    result.checkResult(this);
+    result.checkResult(this, true);
     return result;
   }
 
@@ -182,7 +182,7 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
 
     WxPayOrderQueryResult result = WxPayBaseResult.fromXML(responseContent, WxPayOrderQueryResult.class);
     result.composeCoupons();
-    result.checkResult(this);
+    result.checkResult(this, true);
     return result;
   }
 
@@ -199,7 +199,7 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
     String url = this.getPayBaseUrl() + "/pay/closeorder";
     String responseContent = this.post(url, request.toXML(), false);
     WxPayOrderCloseResult result = WxPayBaseResult.fromXML(responseContent, WxPayOrderCloseResult.class);
-    result.checkResult(this);
+    result.checkResult(this, true);
 
     return result;
   }
@@ -272,11 +272,12 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
     String url = this.getPayBaseUrl() + "/pay/unifiedorder";
     String responseContent = this.post(url, request.toXML(), false);
     WxPayUnifiedOrderResult result = WxPayBaseResult.fromXML(responseContent, WxPayUnifiedOrderResult.class);
-    result.checkResult(this);
+    result.checkResult(this, true);
     return result;
   }
 
   @Override
+  @Deprecated
   public Map<String, String> getPayInfo(WxPayUnifiedOrderRequest request) throws WxPayException {
     WxPayUnifiedOrderResult unifiedOrderResult = this.unifiedOrder(request);
     String prepayId = unifiedOrderResult.getPrepayId();
@@ -331,7 +332,7 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
 
     String responseContent = this.post(url, request.toXML(), true);
     WxEntPayResult result = WxPayBaseResult.fromXML(responseContent, WxEntPayResult.class);
-    result.checkResult(this);
+    result.checkResult(this, true);
     return result;
   }
 
@@ -344,7 +345,7 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
     String url = this.getPayBaseUrl() + "/mmpaymkttransfers/gettransferinfo";
     String responseContent = this.post(url, request.toXML(), true);
     WxEntPayQueryResult result = WxPayBaseResult.fromXML(responseContent, WxEntPayQueryResult.class);
-    result.checkResult(this);
+    result.checkResult(this, true);
     return result;
   }
 
@@ -396,7 +397,7 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
     String url = this.getPayBaseUrl() + "/payitil/report";
     String responseContent = this.post(url, request.toXML(), false);
     WxPayCommonResult result = WxPayBaseResult.fromXML(responseContent, WxPayCommonResult.class);
-    result.checkResult(this);
+    result.checkResult(this, true);
   }
 
   @Override
@@ -494,7 +495,7 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
     String url = this.getPayBaseUrl() + "/pay/micropay";
     String responseContent = this.post(url, request.toXML(), false);
     WxPayMicropayResult result = WxPayBaseResult.fromXML(responseContent, WxPayMicropayResult.class);
-    result.checkResult(this);
+    result.checkResult(this, true);
     return result;
   }
 
@@ -505,7 +506,7 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
     String url = this.getPayBaseUrl() + "/secapi/pay/reverse";
     String responseContent = this.post(url, request.toXML(), true);
     WxPayOrderReverseResult result = WxPayBaseResult.fromXML(responseContent, WxPayOrderReverseResult.class);
-    result.checkResult(this);
+    result.checkResult(this, true);
     return result;
   }
 
@@ -516,7 +517,7 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
     String url = this.getPayBaseUrl() + "/tools/shorturl";
     String responseContent = this.post(url, request.toXML(), false);
     WxPayShorturlResult result = WxPayBaseResult.fromXML(responseContent, WxPayShorturlResult.class);
-    result.checkResult(this);
+    result.checkResult(this, true);
     return result.getShortUrl();
   }
 
@@ -532,7 +533,7 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
     String url = this.getPayBaseUrl() + "/tools/authcodetoopenid";
     String responseContent = this.post(url, request.toXML(), false);
     WxPayAuthcode2OpenidResult result = WxPayBaseResult.fromXML(responseContent, WxPayAuthcode2OpenidResult.class);
-    result.checkResult(this);
+    result.checkResult(this, true);
     return result.getOpenid();
   }
 
@@ -549,7 +550,7 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
     String url = "https://api.mch.weixin.qq.com/sandboxnew/pay/getsignkey";
     String responseContent = this.post(url, request.toXML(), false);
     WxPaySandboxSignKeyResult result = WxPayBaseResult.fromXML(responseContent, WxPaySandboxSignKeyResult.class);
-    result.checkResult(this);
+    result.checkResult(this, true);
     return result.getSandboxSignKey();
   }
 
@@ -560,7 +561,7 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
     String url = this.getPayBaseUrl() + "/mmpaymkttransfers/send_coupon";
     String responseContent = this.post(url, request.toXML(), true);
     WxPayCouponSendResult result = WxPayBaseResult.fromXML(responseContent, WxPayCouponSendResult.class);
-    result.checkResult(this);
+    result.checkResult(this, true);
     return result;
   }
 
@@ -571,7 +572,7 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
     String url = this.getPayBaseUrl() + "/mmpaymkttransfers/query_coupon_stock";
     String responseContent = this.post(url, request.toXML(), false);
     WxPayCouponStockQueryResult result = WxPayBaseResult.fromXML(responseContent, WxPayCouponStockQueryResult.class);
-    result.checkResult(this);
+    result.checkResult(this, true);
     return result;
   }
 
@@ -582,7 +583,7 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
     String url = this.getPayBaseUrl() + "/mmpaymkttransfers/querycouponsinfo";
     String responseContent = this.post(url, request.toXML(), false);
     WxPayCouponInfoQueryResult result = WxPayBaseResult.fromXML(responseContent, WxPayCouponInfoQueryResult.class);
-    result.checkResult(this);
+    result.checkResult(this, true);
     return result;
   }
 
