@@ -1,6 +1,7 @@
 package com.github.binarywang.wxpay.bean.request;
 
 import com.github.binarywang.wxpay.config.WxPayConfig;
+import com.github.binarywang.wxpay.constant.WxPayConstants.RefundAccountSource;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.*;
@@ -32,8 +33,10 @@ import java.util.Arrays;
 @AllArgsConstructor
 @XStreamAlias("xml")
 public class WxPayRefundRequest extends WxPayBaseRequest {
-  private static final String[] REFUND_ACCOUNT = new String[]{"REFUND_SOURCE_RECHARGE_FUNDS",
-    "REFUND_SOURCE_UNSETTLED_FUNDS"};
+  private static final String[] REFUND_ACCOUNT = new String[]{
+    RefundAccountSource.RECHARGE_FUNDS,
+    RefundAccountSource.UNSETTLED_FUNDS
+  };
   /**
    * <pre>
    * 设备号
