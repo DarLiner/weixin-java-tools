@@ -26,18 +26,17 @@ public class WxMpStoreServiceImplTest {
   private WxMpService wxMpService;
 
   /**
-   * Test method for {@link WxMpStoreServiceImpl#add(me.chanjar.weixin.mp.bean.store.WxMpStoreBaseInfo)}.
-   *
-   * @throws WxErrorException
+   * Test method for {@link WxMpStoreServiceImpl#add(WxMpStoreBaseInfo)}.
    */
   public void testAdd() throws WxErrorException {
-    this.wxMpService.getStoreService().add(WxMpStoreBaseInfo.builder().build());
     this.wxMpService.getStoreService()
       .add(WxMpStoreBaseInfo.builder().businessName("haha").branchName("abc")
         .province("aaa").district("aaa").telephone("122").address("abc").categories(new String[]{"美食,江浙菜"})
         .longitude(new BigDecimal("115.32375"))
         .latitude(new BigDecimal("25.097486")).city("aaa").offsetType(1)
         .build());
+    // 以下运行会抛异常
+    this.wxMpService.getStoreService().add(WxMpStoreBaseInfo.builder().build());
   }
 
   public void testUpdate() throws WxErrorException {

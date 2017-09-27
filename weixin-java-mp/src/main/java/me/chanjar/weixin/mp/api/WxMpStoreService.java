@@ -15,6 +15,13 @@ import java.util.List;
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
 public interface WxMpStoreService<H, P> {
+  String POI_GET_WX_CATEGORY_URL = "https://api.weixin.qq.com/cgi-bin/poi/getwxcategory";
+  String POI_UPDATE_URL = "https://api.weixin.qq.com/cgi-bin/poi/updatepoi";
+  String POI_LIST_URL = "https://api.weixin.qq.com/cgi-bin/poi/getpoilist";
+  String POI_DEL_URL = "https://api.weixin.qq.com/cgi-bin/poi/delpoi";
+  String POI_GET_URL = "https://api.weixin.qq.com/cgi-bin/poi/getpoi";
+  String POI_ADD_URL = "https://api.weixin.qq.com/cgi-bin/poi/addpoi";
+
   /**
    * <pre>
    * 创建门店
@@ -40,7 +47,6 @@ public interface WxMpStoreService<H, P> {
    * </pre>
    *
    * @param poiId 门店Id
-   * @throws WxErrorException
    */
   WxMpStoreBaseInfo get(String poiId) throws WxErrorException;
 
@@ -53,7 +59,6 @@ public interface WxMpStoreService<H, P> {
    * </pre>
    *
    * @param poiId 门店Id
-   * @throws WxErrorException
    */
   void delete(String poiId) throws WxErrorException;
 
@@ -67,7 +72,6 @@ public interface WxMpStoreService<H, P> {
    *
    * @param begin 开始位置，0 即为从第一条开始查询
    * @param limit 返回数据条数，最大允许50，默认为20
-   * @throws WxErrorException
    */
   WxMpStoreListResult list(int begin, int limit) throws WxErrorException;
 
@@ -78,8 +82,6 @@ public interface WxMpStoreService<H, P> {
    * 详情请见: <a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444378120&token=&lang=zh_CN">微信门店接口</a>
    * 接口格式：http://api.weixin.qq.com/cgi-bin/poi/getpoilist?access_token=TOKEN
    * </pre>
-   *
-   * @throws WxErrorException
    */
   List<WxMpStoreInfo> listAll() throws WxErrorException;
 
@@ -90,8 +92,6 @@ public interface WxMpStoreService<H, P> {
    * 详情请见: <a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444378120&token=&lang=zh_CN">微信门店接口</a>
    * 接口格式：http://api.weixin.qq.com/cgi-bin/poi/updatepoi?access_token=TOKEN
    * </pre>
-   *
-   * @throws WxErrorException
    */
   void update(WxMpStoreBaseInfo info) throws WxErrorException;
 
@@ -102,8 +102,6 @@ public interface WxMpStoreService<H, P> {
    * 详情请见: <a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444378120&token=&lang=zh_CN">微信门店接口</a>
    * 接口格式：http://api.weixin.qq.com/cgi-bin/poi/getwxcategory?access_token=TOKEN
    * </pre>
-   *
-   * @throws WxErrorException
    */
   List<String> listCategories() throws WxErrorException;
 
