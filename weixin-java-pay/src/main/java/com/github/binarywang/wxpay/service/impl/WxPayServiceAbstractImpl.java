@@ -147,10 +147,8 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
     }
 
     String responseContent = this.post(url, request.toXML(), true);
-    WxPaySendRedpackResult result = WxPayBaseResult.fromXML(responseContent, WxPaySendRedpackResult.class);
-    //毋须校验，因为没有返回签名信息
-    // this.checkResult(result);
-    return result;
+    //无需校验，因为没有返回签名信息
+    return WxPayBaseResult.fromXML(responseContent, WxPaySendRedpackResult.class);
   }
 
   @Override

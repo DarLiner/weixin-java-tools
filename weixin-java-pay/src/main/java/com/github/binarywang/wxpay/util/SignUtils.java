@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import me.chanjar.weixin.common.util.BeanUtils;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -44,19 +45,13 @@ public class SignUtils {
    * @return 签名字符串
    */
   public static String createSign(Map<String, String> params, String signKey, String signType) {
-//    if (this.getConfig().useSandbox()) {
-//      //使用仿真测试环境
-//      //TODO 目前测试发现，以下两行代码都会出问题，所以暂不建议使用仿真测试环境
-//      signKey = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456";
-//      //return "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456";
-//    }
-
     SortedMap<String, String> sortedMap = new TreeMap<>(params);
 
     StringBuilder toSign = new StringBuilder();
     for (String key : sortedMap.keySet()) {
       String value = params.get(key);
-      if (!Lists.newArrayList("sign", "key", "sign_type").contains(key)) {
+      if (StringUtils.isNotEmpty(value) &&
+        !Lists.newArrayList("sign", "key", "sign_type").contains(key)) {
         toSign.append(key).append("=").append(value).append("&");
       }
     }
