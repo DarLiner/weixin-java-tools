@@ -349,7 +349,7 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
   }
 
   @Override
-  public void checkAndSign(WxPayConfig config) throws WxPayException {
+  public void checkAndSign(WxPayConfig config, boolean isIgnoreSignType) throws WxPayException {
     if (StringUtils.isBlank(this.getNotifyURL())) {
       this.setNotifyURL(config.getNotifyUrl());
     }
@@ -358,7 +358,7 @@ public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
       this.setTradeType(config.getTradeType());
     }
 
-    super.checkAndSign(config);
+    super.checkAndSign(config, isIgnoreSignType);
   }
 
 }

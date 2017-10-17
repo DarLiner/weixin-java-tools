@@ -38,7 +38,7 @@ public class WxMpSelfMenuInfo implements Serializable {
 
   public static class WxMpSelfMenuButton implements Serializable {
     private static final long serialVersionUID = -4426602953309048341L;
-    
+
     /**
      * <pre>
      * 菜单的类型，公众平台官网上能够设置的菜单类型有view（跳转网页）、text（返回文本，下同）、img、photo、video、voice。

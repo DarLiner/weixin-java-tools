@@ -27,31 +27,40 @@ public class SignUtils {
   /**
    * 微信公众号支付签名算法(详见:https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=4_3)
    *
-   * @param xmlBean  Bean需要标记有XML注解
-   * @param signKey  签名Key
-   * @param signType 签名类型，如果为空，则默认为MD5
+   * @param xmlBean          Bean需要标记有XML注解
+   * @param signType         签名类型，如果为空，则默认为MD5
+   * @param signKey          签名Key
+   * @param isIgnoreSignType 签名时，是否忽略signType
    * @return 签名字符串
    */
-  public static String createSign(Object xmlBean, String signKey, String signType) {
-    return createSign(BeanUtils.xmlBean2Map(xmlBean), signKey, signType);
+  public static String createSign(Object xmlBean, String signType, String signKey, boolean isIgnoreSignType) {
+    return createSign(BeanUtils.xmlBean2Map(xmlBean), signType, signKey, isIgnoreSignType);
   }
 
   /**
    * 微信公众号支付签名算法(详见:https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=4_3)
    *
-   * @param params   参数信息
-   * @param signKey  签名Key
-   * @param signType 签名类型，如果为空，则默认为md5
+   * @param params           参数信息
+   * @param signType         签名类型，如果为空，则默认为MD5
+   * @param signKey          签名Key
+   * @param isIgnoreSignType 签名时，是否忽略signType
    * @return 签名字符串
    */
-  public static String createSign(Map<String, String> params, String signKey, String signType) {
+  public static String createSign(Map<String, String> params, String signType, String signKey, boolean isIgnoreSignType) {
     SortedMap<String, String> sortedMap = new TreeMap<>(params);
 
     StringBuilder toSign = new StringBuilder();
     for (String key : sortedMap.keySet()) {
       String value = params.get(key);
-      if (StringUtils.isNotEmpty(value) &&
-        !Lists.newArrayList("sign", "key", "sign_type").contains(key)) {
+      boolean shouldSign = false;
+      if (isIgnoreSignType && "sign_type".equals(key)) {
+        shouldSign = false;
+      } else if (StringUtils.isNotEmpty(value)
+        && !Lists.newArrayList("sign", "key").contains(key)) {
+        shouldSign = true;
+      }
+
+      if (shouldSign) {
         toSign.append(key).append("=").append(value).append("&");
       }
     }
@@ -81,25 +90,27 @@ public class SignUtils {
   /**
    * 校验签名是否正确
    *
-   * @param xmlBean Bean需要标记有XML注解
-   * @param signKey 校验的签名Key
+   * @param xmlBean  Bean需要标记有XML注解
+   * @param signType 签名类型，如果为空，则默认为MD5
+   * @param signKey  校验的签名Key
    * @return true - 签名校验成功，false - 签名校验失败
-   * @see #checkSign(Map, String)
+   * @see #checkSign(Map, String, String)
    */
-  public static boolean checkSign(Object xmlBean, String signKey) {
-    return checkSign(BeanUtils.xmlBean2Map(xmlBean), signKey);
+  public static boolean checkSign(Object xmlBean, String signType, String signKey) {
+    return checkSign(BeanUtils.xmlBean2Map(xmlBean), signType, signKey);
   }
 
   /**
    * 校验签名是否正确
    *
-   * @param params  需要校验的参数Map
-   * @param signKey 校验的签名Key
+   * @param params   需要校验的参数Map
+   * @param signType 签名类型，如果为空，则默认为MD5
+   * @param signKey  校验的签名Key
    * @return true - 签名校验成功，false - 签名校验失败
-   * @see #checkSign(Map, String)
+   * @see #checkSign(Map, String, String)
    */
-  public static boolean checkSign(Map<String, String> params, String signKey) {
-    String sign = createSign(params, signKey, null);
+  public static boolean checkSign(Map<String, String> params, String signType, String signKey) {
+    String sign = createSign(params, signType, signKey, false);
     return sign.equals(params.get("sign"));
   }
 }
