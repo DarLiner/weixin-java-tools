@@ -48,7 +48,8 @@ public class QrCodeRequestExecutor implements RequestExecutor<File, AbstractWxMa
          InputStream inputStream = InputStreamResponseHandler.INSTANCE.handleResponse(response);) {
       Header[] contentTypeHeader = response.getHeaders("Content-Type");
       if (contentTypeHeader != null && contentTypeHeader.length > 0
-        && ContentType.APPLICATION_JSON.getMimeType().equals(contentTypeHeader[0].getValue())) {
+        && ContentType.APPLICATION_JSON.getMimeType()
+        .equals(ContentType.parse(contentTypeHeader[0].getValue()).getMimeType())) {
         String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
         throw new WxErrorException(WxError.fromJson(responseContent));
       }
