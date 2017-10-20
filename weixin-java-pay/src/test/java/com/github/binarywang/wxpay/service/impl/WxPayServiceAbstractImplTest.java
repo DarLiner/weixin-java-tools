@@ -67,7 +67,7 @@ public class WxPayServiceAbstractImplTest {
   }
 
   @Test
-  public void testCreateOrder_jssdk() throws Exception {
+  public void testCreateOrder_jsapi() throws Exception {
     WxPayMpOrderResult result = this.payService
       .createOrder(WxPayUnifiedOrderRequest.newBuilder()
         .body("我去")

@@ -190,7 +190,7 @@ public abstract class WxPayBaseRequest {
    * 3、生成签名，并设置进去
    * </pre>
    *
-   * @param config 支付配置对象，用于读取相应系统配置信息
+   * @param config           支付配置对象，用于读取相应系统配置信息
    * @param isIgnoreSignType 签名时，是否忽略signType
    */
   public void checkAndSign(WxPayConfig config, boolean isIgnoreSignType) throws WxPayException {

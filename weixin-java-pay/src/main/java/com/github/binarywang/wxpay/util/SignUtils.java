@@ -6,6 +6,8 @@ import me.chanjar.weixin.common.util.BeanUtils;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -23,11 +25,12 @@ import java.util.TreeMap;
  * </pre>
  */
 public class SignUtils {
+  private static final Logger log = LoggerFactory.getLogger(SignUtils.class);
 
   /**
    * 微信公众号支付签名算法(详见:https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=4_3)
    *
-   * @param xmlBean          Bean需要标记有XML注解
+   * @param xmlBean          Bean里的属性如果存在XML注解，则使用其作为key，否则使用变量名
    * @param signType         签名类型，如果为空，则默认为MD5
    * @param signKey          签名Key
    * @param isIgnoreSignType 签名时，是否忽略signType
@@ -81,7 +84,7 @@ public class SignUtils {
       byte[] bytes = hmacSHA256.doFinal(message.getBytes());
       return Hex.encodeHexString(bytes).toUpperCase();
     } catch (NoSuchAlgorithmException | InvalidKeyException e) {
-      e.printStackTrace();
+      log.error(e.getMessage(), e);
     }
 
     return null;
