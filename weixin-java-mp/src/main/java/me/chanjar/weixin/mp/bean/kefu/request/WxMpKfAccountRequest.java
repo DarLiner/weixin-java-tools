@@ -1,6 +1,7 @@
 package me.chanjar.weixin.mp.bean.kefu.request;
 
 import com.google.gson.annotations.SerializedName;
+import lombok.Builder;
 import lombok.Data;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -8,6 +9,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import java.io.Serializable;
 
 @Data
+@Builder
 public class WxMpKfAccountRequest implements Serializable {
   private static final long serialVersionUID = -5451863610674856927L;
 

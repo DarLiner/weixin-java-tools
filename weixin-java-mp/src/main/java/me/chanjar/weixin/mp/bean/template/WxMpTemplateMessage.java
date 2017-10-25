@@ -1,5 +1,6 @@
 package me.chanjar.weixin.mp.bean.template;
 
+import lombok.Builder;
 import lombok.Data;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
@@ -11,6 +12,7 @@ import java.util.List;
  * 参考 http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1433751277&token=&lang=zh_CN 发送模板消息接口部分
  */
 @Data
+@Builder
 public class WxMpTemplateMessage implements Serializable {
   private static final long serialVersionUID = 5063374783759519418L;
 
@@ -42,9 +44,11 @@ public class WxMpTemplateMessage implements Serializable {
   /**
    * 模板数据
    */
-  private List<WxMpTemplateData> data = new ArrayList<>();
+  @Builder.Default
+  private final List<WxMpTemplateData> data = new ArrayList<>();
 
-  public WxMpTemplateMessage() {
+  public void addWxMpTemplateData(WxMpTemplateData datum) {
+    this.data.add(datum);
   }
 
   public String toJson() {

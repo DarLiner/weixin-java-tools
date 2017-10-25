@@ -3,6 +3,7 @@ package me.chanjar.weixin.mp.bean.store;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
+import lombok.Builder;
 import lombok.Data;
 import me.chanjar.weixin.common.annotation.Required;
 import me.chanjar.weixin.common.util.ToStringUtils;
@@ -21,6 +22,7 @@ import java.util.List;
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
 @Data
+@Builder
 public class WxMpStoreBaseInfo implements Serializable {
   private static final long serialVersionUID = 829577606838118218L;
 
@@ -98,7 +100,8 @@ public class WxMpStoreBaseInfo implements Serializable {
    */
   @Required
   @SerializedName("offset_type")
-  private Integer offsetType = 1;
+  @Builder.Default
+  private final Integer offsetType = 1;
   /**
    * longitude
    * 门店所在地理位置的经度
