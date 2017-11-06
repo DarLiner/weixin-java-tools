@@ -2,7 +2,6 @@ package me.chanjar.weixin.mp.bean.template;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
 import java.io.Serializable;
@@ -14,7 +13,6 @@ import java.util.List;
  */
 @Data
 @Builder
-@NoArgsConstructor
 public class WxMpTemplateMessage implements Serializable {
   private static final long serialVersionUID = 5063374783759519418L;
 
