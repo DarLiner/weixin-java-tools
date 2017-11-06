@@ -75,7 +75,9 @@ public class SignUtils {
       if (isIgnoreSignType && "sign_type".equals(key)) {
         shouldSign = false;
       } else if (StringUtils.isNotEmpty(value)
-        && !Lists.newArrayList("sign", "key").contains(key)) {
+        && !Lists.newArrayList(
+        "sign", "key", "xmlString", "xmlDoc", "couponList").contains(key)
+        ) {
         shouldSign = true;
       }
 
