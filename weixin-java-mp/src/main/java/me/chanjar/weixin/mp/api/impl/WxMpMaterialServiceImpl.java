@@ -121,7 +121,7 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService {
   @Override
   public WxMpMaterialNewsBatchGetResult materialNewsBatchGet(int offset, int count) throws WxErrorException {
     Map<String, Object> params = new HashMap<>();
-    params.put("type", WxConsts.MATERIAL_NEWS);
+    params.put("type", WxConsts.MaterialType.NEWS);
     params.put("offset", offset);
     params.put("count", count);
     String responseText = this.wxMpService.post(MATERIAL_BATCHGET_URL, WxGsonBuilder.create().toJson(params));
