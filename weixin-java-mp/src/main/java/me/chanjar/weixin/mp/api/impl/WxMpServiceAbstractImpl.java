@@ -28,7 +28,7 @@ public abstract class WxMpServiceAbstractImpl<H, P> implements WxMpService, Requ
 
   protected final Logger log = LoggerFactory.getLogger(this.getClass());
   protected WxSessionManager sessionManager = new StandardSessionManager();
-  private WxMpConfigStorage wxMpConfigStorage;
+  protected WxMpConfigStorage wxMpConfigStorage;
   private WxMpKefuService kefuService = new WxMpKefuServiceImpl(this);
   private WxMpMaterialService materialService = new WxMpMaterialServiceImpl(this);
   private WxMpMenuService menuService = new WxMpMenuServiceImpl(this);

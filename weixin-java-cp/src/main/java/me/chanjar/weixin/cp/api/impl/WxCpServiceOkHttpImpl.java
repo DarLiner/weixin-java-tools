@@ -67,8 +67,15 @@ public class WxCpServiceOkHttpImpl extends WxCpServiceAbstractImpl<OkHttpClient,
   @Override
   public void initHttp() {
     this.log.debug("WxCpServiceOkHttpImpl initHttp");
-    OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
     //设置代理
+    if (configStorage.getHttpProxyHost() != null && configStorage.getHttpProxyPort() > 0) {
+      httpProxy = OkHttpProxyInfo.httpProxy(configStorage.getHttpProxyHost(),
+        configStorage.getHttpProxyPort(),
+        configStorage.getHttpProxyUsername(),
+        configStorage.getHttpProxyPassword());
+    }
+
+    OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
     if (httpProxy != null) {
       clientBuilder.proxy(getRequestHttpProxy().getProxy());
 

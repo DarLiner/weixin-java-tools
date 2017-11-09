@@ -5,7 +5,6 @@ import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.HttpType;
 import me.chanjar.weixin.common.util.http.okhttp.OkHttpProxyInfo;
-import me.chanjar.weixin.mp.api.WxMpConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpService;
 import okhttp3.*;
 
@@ -64,13 +63,16 @@ public class WxMpServiceOkHttpImpl extends WxMpServiceAbstractImpl<OkHttpClient,
   @Override
   public void initHttp() {
     this.log.debug("WxMpServiceOkHttpImpl initHttp");
-    WxMpConfigStorage configStorage = this.getWxMpConfigStorage();
 
-    if (configStorage.getHttpProxyHost() != null && configStorage.getHttpProxyPort() > 0) {
-      httpProxy = OkHttpProxyInfo.httpProxy(configStorage.getHttpProxyHost(), configStorage.getHttpProxyPort(), configStorage.getHttpProxyUsername(), configStorage.getHttpProxyPassword());
-    }
-    OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
     //设置代理
+    if (wxMpConfigStorage.getHttpProxyHost() != null && wxMpConfigStorage.getHttpProxyPort() > 0) {
+      httpProxy = OkHttpProxyInfo.httpProxy(wxMpConfigStorage.getHttpProxyHost(),
+        wxMpConfigStorage.getHttpProxyPort(),
+        wxMpConfigStorage.getHttpProxyUsername(),
+        wxMpConfigStorage.getHttpProxyPassword());
+    }
+
+    OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
     if (httpProxy != null) {
       clientBuilder.proxy(getRequestHttpProxy().getProxy());
 
