@@ -67,7 +67,7 @@ public class WxMpServiceOkHttpImpl extends WxMpServiceAbstractImpl<OkHttpClient,
     WxMpConfigStorage configStorage = this.getWxMpConfigStorage();
 
     if (configStorage.getHttpProxyHost() != null && configStorage.getHttpProxyPort() > 0) {
-      httpProxy = OkHttpProxyInfo.socks5Proxy(configStorage.getHttpProxyHost(), configStorage.getHttpProxyPort(), configStorage.getHttpProxyUsername(), configStorage.getHttpProxyPassword());
+      httpProxy = OkHttpProxyInfo.httpProxy(configStorage.getHttpProxyHost(), configStorage.getHttpProxyPort(), configStorage.getHttpProxyUsername(), configStorage.getHttpProxyPassword());
     }
     OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
     //设置代理
