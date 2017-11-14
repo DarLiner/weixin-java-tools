@@ -13,15 +13,18 @@ public class WxOpenMpServiceImpl extends WxMpServiceImpl {
   private WxOpenComponentService wxOpenComponentService;
   private WxMpConfigStorage wxMpConfigStorage;
   private String appId;
-  public WxOpenMpServiceImpl(WxOpenComponentService wxOpenComponentService, String appId, WxMpConfigStorage wxMpConfigStorage){
+
+  public WxOpenMpServiceImpl(WxOpenComponentService wxOpenComponentService, String appId, WxMpConfigStorage wxMpConfigStorage) {
     this.wxOpenComponentService = wxOpenComponentService;
     this.appId = appId;
     this.wxMpConfigStorage = wxMpConfigStorage;
   }
+
   @Override
-  public WxMpConfigStorage getWxMpConfigStorage(){
+  public WxMpConfigStorage getWxMpConfigStorage() {
     return wxMpConfigStorage;
   }
+
   @Override
   public String getAccessToken(boolean forceRefresh) throws WxErrorException {
     return wxOpenComponentService.getAuthorizerAccessToken(appId, forceRefresh);

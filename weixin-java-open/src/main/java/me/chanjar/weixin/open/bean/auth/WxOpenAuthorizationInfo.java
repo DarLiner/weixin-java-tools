@@ -9,7 +9,9 @@ import java.util.List;
  * @author <a href="https://github.com/007gzs">007</a>
  */
 @Data
-public class WxOpenAuthorizationInfo implements Serializable{
+public class WxOpenAuthorizationInfo implements Serializable {
+  private static final long serialVersionUID = -8713680081354754208L;
+
   private String authorizerAppid;
   private String authorizerAccessToken;
   private int expiresIn;

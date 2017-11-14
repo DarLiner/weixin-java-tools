@@ -17,17 +17,20 @@ import java.io.IOException;
  */
 public abstract class WxOpenServiceAbstractImpl<H, P> implements WxOpenService, RequestHttp<H, P> {
   protected final Logger log = LoggerFactory.getLogger(this.getClass());
-  private WxOpenConfigStorage wxOpenConfigStorage;
   protected WxOpenComponentService wxOpenComponentService = new WxOpenComponentServiceImpl(this);
+  private WxOpenConfigStorage wxOpenConfigStorage;
+
   @Override
   public WxOpenComponentService getWxOpenComponentService() {
     return wxOpenComponentService;
   }
+
   @Override
-  public WxOpenConfigStorage getWxOpenConfigStorage(){
+  public WxOpenConfigStorage getWxOpenConfigStorage() {
     return wxOpenConfigStorage;
   }
-  public void setWxOpenConfigStorage(WxOpenConfigStorage wxOpenConfigStorage){
+
+  public void setWxOpenConfigStorage(WxOpenConfigStorage wxOpenConfigStorage) {
     this.wxOpenConfigStorage = wxOpenConfigStorage;
   }
 

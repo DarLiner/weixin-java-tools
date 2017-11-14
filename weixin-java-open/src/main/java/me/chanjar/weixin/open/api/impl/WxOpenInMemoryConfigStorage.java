@@ -35,25 +35,13 @@ public class WxOpenInMemoryConfigStorage implements WxOpenConfigStorage {
   private Map<String, Token> cardApiTickets = new Hashtable<>();
 
   @Override
-  public void setComponentAppId(String componentAppId) {
-    this.componentAppId = componentAppId;
-  }
-  @Override
-  public void setComponentAppSecret(String componentAppSecret) {
-    this.componentAppSecret = componentAppSecret;
-  }
-  @Override
-  public void setComponentToken(String componentToken) {
-    this.componentToken = componentToken;
-  }
-  @Override
-  public void setComponentAesKey(String componentAesKey) {
-    this.componentAesKey = componentAesKey;
+  public String getComponentAppId() {
+    return componentAppId;
   }
 
   @Override
-  public String getComponentAppId() {
-    return componentAppId;
+  public void setComponentAppId(String componentAppId) {
+    this.componentAppId = componentAppId;
   }
 
   @Override
@@ -62,13 +50,28 @@ public class WxOpenInMemoryConfigStorage implements WxOpenConfigStorage {
   }
 
   @Override
+  public void setComponentAppSecret(String componentAppSecret) {
+    this.componentAppSecret = componentAppSecret;
+  }
+
+  @Override
   public String getComponentToken() {
     return componentToken;
   }
 
   @Override
+  public void setComponentToken(String componentToken) {
+    this.componentToken = componentToken;
+  }
+
+  @Override
   public String getComponentAesKey() {
     return componentAesKey;
+  }
+
+  @Override
+  public void setComponentAesKey(String componentAesKey) {
+    this.componentAesKey = componentAesKey;
   }
 
   @Override
@@ -111,30 +114,34 @@ public class WxOpenInMemoryConfigStorage implements WxOpenConfigStorage {
   public boolean autoRefreshToken() {
     return true;
   }
-  private String getTokenString(Map<String, Token> map, String key){
+
+  private String getTokenString(Map<String, Token> map, String key) {
     Token token = map.get(key);
-    if(token == null || (token.expiresTime != null && System.currentTimeMillis() > token.expiresTime)){
+    if (token == null || (token.expiresTime != null && System.currentTimeMillis() > token.expiresTime)) {
       return null;
     }
     return token.token;
   }
-  private void expireToken(Map<String, Token> map, String key){
+
+  private void expireToken(Map<String, Token> map, String key) {
     Token token = map.get(key);
-    if(token != null){
+    if (token != null) {
       token.expiresTime = 0L;
     }
   }
-  private void updateToken(Map<String, Token> map, String key, String tokenString, Integer expiresInSeconds){
+
+  private void updateToken(Map<String, Token> map, String key, String tokenString, Integer expiresInSeconds) {
     Token token = map.get(key);
-    if(token == null){
+    if (token == null) {
       token = new Token();
       map.put(key, token);
     }
     token.token = tokenString;
-    if(expiresInSeconds != null) {
+    if (expiresInSeconds != null) {
       token.expiresTime = System.currentTimeMillis() + (expiresInSeconds - 200) * 1000L;
     }
   }
+
   @Override
   public String getAuthorizerRefreshToken(String appId) {
     return getTokenString(authorizerRefreshTokens, appId);
@@ -211,22 +218,21 @@ public class WxOpenInMemoryConfigStorage implements WxOpenConfigStorage {
     updateToken(cardApiTickets, appId, cardApiTicket, expiresInSeconds);
   }
 
-  private static class Token{
+  private static class Token {
     private String token;
     private Long expiresTime;
   }
-  private static class WxOpenMpConfigStorage implements WxMpConfigStorage{
+
+  private static class WxOpenMpConfigStorage implements WxMpConfigStorage {
     private WxOpenConfigStorage wxOpenConfigStorage;
     private String appId;
-    private WxOpenMpConfigStorage(WxOpenConfigStorage wxOpenConfigStorage, String appId){
-      this.wxOpenConfigStorage = wxOpenConfigStorage;
-      this.appId = appId;
-    }
-
     private Lock accessTokenLock = new ReentrantLock();
     private Lock jsapiTicketLock = new ReentrantLock();
     private Lock cardApiTicketLock = new ReentrantLock();
-
+    private WxOpenMpConfigStorage(WxOpenConfigStorage wxOpenConfigStorage, String appId) {
+      this.wxOpenConfigStorage = wxOpenConfigStorage;
+      this.appId = appId;
+    }
 
     @Override
     public String getAccessToken() {

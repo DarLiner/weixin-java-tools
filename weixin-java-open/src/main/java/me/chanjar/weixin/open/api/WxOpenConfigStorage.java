@@ -9,29 +9,39 @@ import me.chanjar.weixin.open.bean.WxOpenComponentAccessToken;
  */
 public interface WxOpenConfigStorage {
 
+  String getComponentAppId();
+
   void setComponentAppId(String componentAppId);
+
+  String getComponentAppSecret();
 
   void setComponentAppSecret(String componentAppSecret);
 
+  String getComponentToken();
+
   void setComponentToken(String componentToken);
+
+  String getComponentAesKey();
 
   void setComponentAesKey(String componentAesKey);
 
-  String getComponentAppId();
-  String getComponentAppSecret();
-  String getComponentToken();
-  String getComponentAesKey();
   String getComponentVerifyTicket();
+
   void setComponentVerifyTicket(String componentVerifyTicket);
+
   String getComponentAccessToken();
+
   boolean isComponentAccessTokenExpired();
+
   void updateComponentAccessTokent(WxOpenComponentAccessToken componentAccessToken);
+
   WxMpConfigStorage getWxMpConfigStorage(String appId);
+
   /**
    * 应该是线程安全的
    *
-   * @param componentAccessToken      新的accessToken值
-   * @param expiresInSeconds 过期时间，以秒为单位
+   * @param componentAccessToken 新的accessToken值
+   * @param expiresInSeconds     过期时间，以秒为单位
    */
   void updateComponentAccessTokent(String componentAccessToken, int expiresInSeconds);
 
@@ -42,7 +52,9 @@ public interface WxOpenConfigStorage {
 
 
   String getAuthorizerRefreshToken(String appId);
+
   void setAuthorizerRefreshToken(String appId, String authorizerRefreshToken);
+
   String getAuthorizerAccessToken(String appId);
 
 
@@ -63,8 +75,8 @@ public interface WxOpenConfigStorage {
   /**
    * 应该是线程安全的
    *
-   * @param authorizerAccessToken      新的accessToken值
-   * @param expiresInSeconds 过期时间，以秒为单位
+   * @param authorizerAccessToken 新的accessToken值
+   * @param expiresInSeconds      过期时间，以秒为单位
    */
   void updateAuthorizerAccessToken(String appId, String authorizerAccessToken, int expiresInSeconds);
 

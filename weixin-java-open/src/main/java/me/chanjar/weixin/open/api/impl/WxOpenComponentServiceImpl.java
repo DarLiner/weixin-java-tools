@@ -30,9 +30,9 @@ import java.util.Map;
  * @author <a href="https://github.com/007gzs">007</a>
  */
 public class WxOpenComponentServiceImpl implements WxOpenComponentService {
+  private static final Map<String, WxMpService> wxOpenMpServiceMap = new Hashtable<>();
   protected final Logger log = LoggerFactory.getLogger(this.getClass());
   private WxOpenService wxOpenService;
-  private static final Map<String, WxMpService> wxOpenMpServiceMap = new Hashtable<>();
 
   public WxOpenComponentServiceImpl(WxOpenService wxOpenService) {
     this.wxOpenService = wxOpenService;
@@ -62,6 +62,7 @@ public class WxOpenComponentServiceImpl implements WxOpenComponentService {
   public WxOpenConfigStorage getWxOpenConfigStorage() {
     return wxOpenService.getWxOpenConfigStorage();
   }
+
   @Override
   public boolean checkSignature(String timestamp, String nonce, String signature) {
     try {
@@ -72,6 +73,7 @@ public class WxOpenComponentServiceImpl implements WxOpenComponentService {
       return false;
     }
   }
+
   @Override
   public String getComponentAccessToken(boolean forceRefresh) throws WxErrorException {
 
@@ -137,6 +139,7 @@ public class WxOpenComponentServiceImpl implements WxOpenComponentService {
     }
     return null;
   }
+
   @Override
   public WxOpenQueryAuthResult getQueryAuth(String authorizationCode) throws WxErrorException {
     JsonObject jsonObject = new JsonObject();
@@ -145,6 +148,7 @@ public class WxOpenComponentServiceImpl implements WxOpenComponentService {
     String responseContent = post(API_QUERY_AUTH_URL, jsonObject.toString());
     return WxOpenGsonBuilder.create().fromJson(responseContent, WxOpenQueryAuthResult.class);
   }
+
   @Override
   public WxOpenAuthorizerInfoResult getAuthorizerInfo(String authorizerAppid) throws WxErrorException {
     JsonObject jsonObject = new JsonObject();
@@ -163,6 +167,7 @@ public class WxOpenComponentServiceImpl implements WxOpenComponentService {
     String responseContent = post(API_GET_AUTHORIZER_OPTION_URL, jsonObject.toString());
     return WxOpenGsonBuilder.create().fromJson(responseContent, WxOpenAuthorizerOptionResult.class);
   }
+
   @Override
   public WxError setAuthorizerOption(String authorizerAppid, String optionName, String optionValue) throws WxErrorException {
     JsonObject jsonObject = new JsonObject();

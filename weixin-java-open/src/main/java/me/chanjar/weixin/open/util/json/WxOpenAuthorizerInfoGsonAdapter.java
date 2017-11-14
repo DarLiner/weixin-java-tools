@@ -23,10 +23,10 @@ public class WxOpenAuthorizerInfoGsonAdapter implements JsonDeserializer<WxOpenA
     authorizationInfo.setPrincipalName(GsonHelper.getString(jsonObject, "principal_name"));
     authorizationInfo.setAlias(GsonHelper.getString(jsonObject, "alias"));
     authorizationInfo.setQrcodeUrl(GsonHelper.getString(jsonObject, "qrcode_url"));
-    if(jsonObject.has("service_type_info")) {
+    if (jsonObject.has("service_type_info")) {
       authorizationInfo.setServiceTypeInfo(GsonHelper.getInteger(jsonObject.getAsJsonObject("service_type_info"), "id"));
     }
-    if(jsonObject.has("verify_type_info")) {
+    if (jsonObject.has("verify_type_info")) {
       authorizationInfo.setVerifyTypeInfo(GsonHelper.getInteger(jsonObject.getAsJsonObject("verify_type_info"), "id"));
     }
     Map<String, Integer> businessInfo = WxOpenGsonBuilder.create().fromJson(jsonObject.get("business_info"),

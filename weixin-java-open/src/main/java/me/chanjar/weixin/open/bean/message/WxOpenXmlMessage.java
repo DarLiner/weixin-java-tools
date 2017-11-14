@@ -19,7 +19,9 @@ import java.io.Serializable;
  */
 @XStreamAlias("xml")
 @Data
-public class WxOpenXmlMessage implements Serializable{
+public class WxOpenXmlMessage implements Serializable {
+  private static final long serialVersionUID = -5641769554709507771L;
+
   @XStreamAlias("AppId")
   @XStreamConverter(value = XStreamCDataConverter.class)
   private String appId;
@@ -78,6 +80,7 @@ public class WxOpenXmlMessage implements Serializable{
       encryptedXml);
     return fromXml(plainText);
   }
+
   public static WxMpXmlMessage fromEncryptedMpXml(String encryptedXml,
                                                   WxOpenConfigStorage wxOpenConfigStorage, String timestamp, String nonce,
                                                   String msgSignature) {
@@ -89,7 +92,7 @@ public class WxOpenXmlMessage implements Serializable{
 
   public static WxOpenXmlMessage fromEncryptedXml(InputStream is,
                                                   WxOpenConfigStorage wxOpenConfigStorage, String timestamp, String nonce,
-                                                String msgSignature) {
+                                                  String msgSignature) {
     try {
       return fromEncryptedXml(IOUtils.toString(is, "UTF-8"), wxOpenConfigStorage,
         timestamp, nonce, msgSignature);

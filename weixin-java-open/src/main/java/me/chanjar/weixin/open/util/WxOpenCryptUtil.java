@@ -2,6 +2,7 @@ package me.chanjar.weixin.open.util;
 
 import me.chanjar.weixin.open.api.WxOpenConfigStorage;
 import org.apache.commons.codec.binary.Base64;
+
 /**
  * @author <a href="https://github.com/007gzs">007</a>
  */

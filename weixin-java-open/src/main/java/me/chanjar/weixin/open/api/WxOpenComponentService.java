@@ -34,6 +34,7 @@ public interface WxOpenComponentService {
    * 刷新oauth2的access token
    */
   String OAUTH2_REFRESH_TOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=%s&grant_type=refresh_token&refresh_token=%s&component_appid==%s";
+
   WxMpService getWxMpServiceByAppid(String appid);
 
   WxOpenConfigStorage getWxOpenConfigStorage();

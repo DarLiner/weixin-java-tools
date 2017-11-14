@@ -10,9 +10,10 @@ import org.apache.http.impl.client.CloseableHttpClient;
 
 /**
  * apache-http方式实现
+ *
  * @author <a href="https://github.com/007gzs">007</a>
  */
-public  class WxOpenServiceApacheHttpClientImpl extends WxOpenServiceAbstractImpl<CloseableHttpClient, HttpHost> {
+public class WxOpenServiceApacheHttpClientImpl extends WxOpenServiceAbstractImpl<CloseableHttpClient, HttpHost> {
   private CloseableHttpClient httpClient = DefaultApacheHttpClientBuilder.get().build();
   private HttpHost httpProxy = null;
 
