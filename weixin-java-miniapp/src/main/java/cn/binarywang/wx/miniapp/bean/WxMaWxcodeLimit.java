@@ -2,6 +2,8 @@ package cn.binarywang.wx.miniapp.bean;
 
 import cn.binarywang.wx.miniapp.util.json.WxMaGsonBuilder;
 import com.google.gson.annotations.SerializedName;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
@@ -10,6 +12,8 @@ import java.io.Serializable;
  * @author Element
  * @date 2017/7/27
  */
+@Data
+@EqualsAndHashCode(callSuper = false)
 public class WxMaWxcodeLimit extends AbstractWxMaQrcodeWrapper implements Serializable {
   private static final long serialVersionUID = 4782193774524960401L;
   private String scene;
@@ -27,43 +31,4 @@ public class WxMaWxcodeLimit extends AbstractWxMaQrcodeWrapper implements Serial
     return WxMaGsonBuilder.create().fromJson(json, WxMaWxcodeLimit.class);
   }
 
-  public String getPage() {
-    return page;
-  }
-
-  public void setPage(String page) {
-    this.page = page;
-  }
-
-  public String getScene() {
-    return scene;
-  }
-
-  public void setScene(String scene) {
-    this.scene = scene;
-  }
-
-  public int getWidth() {
-    return width;
-  }
-
-  public void setWidth(int width) {
-    this.width = width;
-  }
-
-  public boolean isAutoColor() {
-    return autoColor;
-  }
-
-  public void setAutoColor(boolean autoColor) {
-    this.autoColor = autoColor;
-  }
-
-  public WxMaCodeLineColor getLineColor() {
-    return lineColor;
-  }
-
-  public void setLineColor(WxMaCodeLineColor lineColor) {
-    this.lineColor = lineColor;
-  }
 }

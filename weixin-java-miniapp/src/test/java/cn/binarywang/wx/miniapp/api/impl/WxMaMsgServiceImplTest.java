@@ -54,7 +54,7 @@ public class WxMaMsgServiceImplTest {
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
     TestConfig config = (TestConfig) this.wxService.getWxMaConfig();
 
-    WxMaTemplateMessage templateMessage = WxMaTemplateMessage.newBuilder()
+    WxMaTemplateMessage templateMessage = WxMaTemplateMessage.builder()
       .toUser(config.getOpenid())
       .formId("FORMID")
       .page("index")

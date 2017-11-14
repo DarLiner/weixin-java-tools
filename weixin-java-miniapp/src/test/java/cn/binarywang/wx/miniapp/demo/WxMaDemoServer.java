@@ -94,7 +94,7 @@ public class WxMaDemoServer {
     public void handle(WxMaMessage wxMessage, Map<String, Object> context,
                        WxMaService service, WxSessionManager sessionManager)
       throws WxErrorException {
-      service.getMsgService().sendTemplateMsg(WxMaTemplateMessage.newBuilder()
+      service.getMsgService().sendTemplateMsg(WxMaTemplateMessage.builder()
         .templateId(templateId).data(Lists.newArrayList(
           new WxMaTemplateMessage.Data("keyword1", "339208499", "#173177")))
         .toUser(wxMessage.getFromUser())
