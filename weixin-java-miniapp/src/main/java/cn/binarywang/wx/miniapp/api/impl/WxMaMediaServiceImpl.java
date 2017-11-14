@@ -31,7 +31,7 @@ public class WxMaMediaServiceImpl implements WxMaMediaService {
     try {
       return this.uploadMedia(mediaType, FileUtils.createTmpFile(inputStream, UUID.randomUUID().toString(), fileType));
     } catch (IOException e) {
-      throw new WxErrorException(WxError.newBuilder().setErrorMsg(e.getMessage()).build(), e);
+      throw new WxErrorException(WxError.builder().errorMsg(e.getMessage()).build(), e);
     }
   }
 
@@ -48,7 +48,7 @@ public class WxMaMediaServiceImpl implements WxMaMediaService {
         .create(this.wxMaService.getRequestHttp(), Files.createTempDirectory("wxma").toFile());
       return this.wxMaService.execute(executor, MEDIA_GET_URL, "media_id=" + mediaId);
     } catch (IOException e) {
-      throw new WxErrorException(WxError.newBuilder().setErrorMsg(e.getMessage()).build(), e);
+      throw new WxErrorException(WxError.builder().errorMsg(e.getMessage()).build(), e);
     }
   }
 
