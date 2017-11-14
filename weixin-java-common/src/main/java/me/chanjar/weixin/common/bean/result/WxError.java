@@ -1,5 +1,7 @@
 package me.chanjar.weixin.common.bean.result;
 
+import lombok.Builder;
+import lombok.Data;
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 
 import java.io.Serializable;
@@ -9,6 +11,8 @@ import java.io.Serializable;
  *
  * @author Daniel Qian
  */
+@Data
+@Builder
 public class WxError implements Serializable {
 
   private static final long serialVersionUID = 7869786563361406291L;
@@ -23,34 +27,6 @@ public class WxError implements Serializable {
     return WxGsonBuilder.create().fromJson(json, WxError.class);
   }
 
-  public static Builder newBuilder() {
-    return new Builder();
-  }
-
-  public int getErrorCode() {
-    return this.errorCode;
-  }
-
-  public void setErrorCode(int errorCode) {
-    this.errorCode = errorCode;
-  }
-
-  public String getErrorMsg() {
-    return this.errorMsg;
-  }
-
-  public void setErrorMsg(String errorMsg) {
-    this.errorMsg = errorMsg;
-  }
-
-  public String getJson() {
-    return this.json;
-  }
-
-  public void setJson(String json) {
-    this.json = json;
-  }
-
   @Override
   public String toString() {
     if (this.json != null) {
@@ -59,29 +35,4 @@ public class WxError implements Serializable {
     return "错误: Code=" + this.errorCode + ", Msg=" + this.errorMsg;
   }
 
-  public static class Builder {
-    private int errorCode;
-    private String errorMsg;
-
-    public Builder setErrorCode(int errorCode) {
-      this.errorCode = errorCode;
-      return this;
-    }
-
-    public Builder setErrorMsg(String errorMsg) {
-      this.errorMsg = errorMsg;
-      return this;
-    }
-
-    /**
-     * 构造器方法.
-     */
-    public WxError build() {
-      WxError wxError = new WxError();
-      wxError.setErrorCode(this.errorCode);
-      wxError.setErrorMsg(this.errorMsg);
-      return wxError;
-    }
-
-  }
 }

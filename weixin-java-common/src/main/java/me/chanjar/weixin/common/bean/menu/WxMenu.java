@@ -1,5 +1,6 @@
 package me.chanjar.weixin.common.bean.menu;
 
+import lombok.Data;
 import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 
@@ -15,8 +16,8 @@ import java.util.List;
  *
  * @author Daniel Qian
  */
+@Data
 public class WxMenu implements Serializable {
-
   private static final long serialVersionUID = -7083914585539687746L;
 
   private List<WxMenuButton> buttons = new ArrayList<>();
@@ -38,22 +39,6 @@ public class WxMenu implements Serializable {
   public static WxMenu fromJson(InputStream is) {
     return WxGsonBuilder.create()
       .fromJson(new InputStreamReader(is, StandardCharsets.UTF_8), WxMenu.class);
-  }
-
-  public List<WxMenuButton> getButtons() {
-    return this.buttons;
-  }
-
-  public void setButtons(List<WxMenuButton> buttons) {
-    this.buttons = buttons;
-  }
-
-  public WxMenuRule getMatchRule() {
-    return this.matchRule;
-  }
-
-  public void setMatchRule(WxMenuRule matchRule) {
-    this.matchRule = matchRule;
   }
 
   public String toJson() {

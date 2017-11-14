@@ -3,6 +3,7 @@ package me.chanjar.weixin.mp.bean.datacube;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class WxDataCubeInterfaceResult extends WxDataCubeBaseResult {
   private static final long serialVersionUID = 597734329161281398L;
 

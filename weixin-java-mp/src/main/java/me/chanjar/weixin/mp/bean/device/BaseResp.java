@@ -2,12 +2,14 @@ package me.chanjar.weixin.mp.bean.device;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
- * @author keungtung
+ * @author keungtung.
  * @date 10/12/2016
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class BaseResp extends AbstractDeviceBean {
   private static final long serialVersionUID = 4252655933699659073L;
 

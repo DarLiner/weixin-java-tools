@@ -32,7 +32,7 @@ public abstract class QrCodeRequestExecutor<H, P> implements RequestExecutor<Fil
       case OK_HTTP:
         return new OkhttpQrCodeRequestExecutor(requestHttp);
       default:
-        throw new WxErrorException(WxError.newBuilder().setErrorMsg("不支持的http框架").build());
+        throw new WxErrorException(WxError.builder().errorCode(-1).errorMsg("不支持的http框架").build());
     }
   }
 

@@ -1,15 +1,17 @@
 package me.chanjar.weixin.mp.bean.device;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 
 import java.util.List;
 
 /**
- * @author keungtung
+ * @author keungtung.
  * @date 10/12/2016
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class WxDeviceAuthorizeResult extends AbstractDeviceBean {
   private static final long serialVersionUID = 9105294570912249811L;
 

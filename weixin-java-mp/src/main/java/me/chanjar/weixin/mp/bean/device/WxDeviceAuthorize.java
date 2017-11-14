@@ -2,6 +2,7 @@ package me.chanjar.weixin.mp.bean.device;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -12,6 +13,7 @@ import java.util.List;
  * @date 10/12/2016
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class WxDeviceAuthorize extends AbstractDeviceBean {
   private static final long serialVersionUID = 8786321356569903887L;
 

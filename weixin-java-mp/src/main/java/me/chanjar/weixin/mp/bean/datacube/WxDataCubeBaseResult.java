@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  * <pre>
- *  统计接口的共用属性类
+ *  统计接口的共用属性类.
  *  Created by Binary Wang on 2016/8/25.
  * </pre>
  *
@@ -21,7 +21,7 @@ public abstract class WxDataCubeBaseResult implements Serializable {
   protected static final JsonParser JSON_PARSER = new JsonParser();
 
   /**
-   * ref_date
+   * ref_date.
    * 数据的日期，需在begin_date和end_date之间
    */
   @SerializedName("ref_date")
