@@ -208,6 +208,13 @@ public abstract class WxMpServiceAbstractImpl<H, P> implements WxMpService, Requ
   }
 
   @Override
+  public void clearQuota(String appid) throws WxErrorException {
+    JsonObject o = new JsonObject();
+    o.addProperty("appid", appid);
+    this.post(CLEAR_QUOTA_URL, o.toString());
+  }
+
+  @Override
   public String get(String url, String queryParam) throws WxErrorException {
     return execute(SimpleGetRequestExecutor.create(this), url, queryParam);
   }
