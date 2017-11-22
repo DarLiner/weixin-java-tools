@@ -422,9 +422,9 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
     String responseContent = this.post(url, request.toXML(), false);
     if (responseContent.startsWith("<")) {
       throw WxPayException.from(WxPayBaseResult.fromXML(responseContent, WxPayCommonResult.class));
-    } else {
-      return this.handleBillInformation(responseContent);
     }
+
+    return this.handleBillInformation(responseContent);
   }
 
   private WxPayBillResult handleBillInformation(String responseContent) {
