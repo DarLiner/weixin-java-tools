@@ -1,4 +1,4 @@
-微信支付/公众号/企业号/小程序的Java开发工具包（SDK）
+微信支付/开放平台/公众号/企业微信/小程序的Java开发工具包（SDK）
 ---------------------------------
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.binarywang/weixin-java-parent/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.binarywang/weixin-java-parent)
 [![Build Status](https://travis-ci.org/Wechat-Group/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/Wechat-Group/weixin-java-tools)
@@ -10,6 +10,7 @@
 ***新人提示：本项目仅是一个开发工具包（即SDK），未提供Web实现，建议使用maven或gradle引用本项目即可使用本SDK提供的各种功能，详情可参考下文中提到的Demo项目或本项目中的部分单元测试代码；另外微信开发新手请务必阅读[Wiki首页](https://github.com/Wechat-Group/weixin-java-tools/wiki)的常见问题部分，可以少走很多弯路，节省不少时间。***
 
 ## Demo项目列表
+* https://github.com/007gzs/weixin-java-open-demo （开放平台Demo）
 * https://github.com/binarywang/weixin-java-pay-demo （微信支付Demo） 
 * https://github.com/binarywang/weixin-java-cp-demo （企业号/企业微信Demo）
 * https://github.com/binarywang/weixin-java-miniapp-demo （微信小程序Demo） 
