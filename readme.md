@@ -53,44 +53,16 @@
 * Coding: https://git.coding.net/binarywang/weixin-java-tools.git
 
 ---------------------------------
-## Maven 最新正式版本
-
-* 微信小程序：
-
+## Maven 引用
 ```xml
 <dependency>
   <groupId>com.github.binarywang</groupId>
-  <artifactId>weixin-java-miniapp</artifactId>
+  <artifactId>(按模块不同)</artifactId>
   <version>2.8.0</version>
 </dependency>
 ```
-
-* 微信支付：
-
-```xml
-<dependency>
-  <groupId>com.github.binarywang</groupId>
-  <artifactId>weixin-java-pay</artifactId>
-  <version>2.8.0</version>
-</dependency>
-```
-
-* 公众号（订阅号及服务号）：
-
-```xml
-<dependency>
-  <groupId>com.github.binarywang</groupId>
-  <artifactId>weixin-java-mp</artifactId>
-  <version>2.8.0</version>
-</dependency>
-```
-
-* 企业号：
-
-```xml
-<dependency>
-  <groupId>com.github.binarywang</groupId>
-  <artifactId>weixin-java-cp</artifactId>
-  <version>2.8.0</version>
-</dependency>
-```
+* 各模块的artifactId：
+  - 微信小程序：`weixin-java-miniapp`
+  - 微信支付：`weixin-java-pay`
+  - 公众号（订阅号及服务号）：`weixin-java-mp`
+  - 企业号：`weixin-java-cp`
