@@ -57,13 +57,13 @@
 ```xml
 <dependency>
   <groupId>com.github.binarywang</groupId>
-  <artifactId>(按模块不同，参考下文说明)</artifactId>
+  <artifactId>（不同模块参考下文）</artifactId>
   <version>2.9.0</version>
 </dependency>
 ```
-* 各模块的artifactId：
-  - 微信小程序：`weixin-java-miniapp`
+* 各模块的`artifactId`：
+  - 微信小程序：`weixin-java-miniapp`   
   - 微信支付：`weixin-java-pay`
-  - 公众号（订阅号及服务号）：`weixin-java-mp`
-  - 企业号/企业微信：`weixin-java-cp`
-  - 微信开放平台：`weixin-java-open`
+  - 微信开放平台：`weixin-java-open`   
+  - 公众号：`weixin-java-mp`    
+  - 企业号/企业微信：`weixin-java-cp`
