@@ -21,7 +21,7 @@
 
 ---------------------------------
 ### 重要提示信息（部分为新手必读）：
-1. 最新更新：**2017-9-3 发布[【2.8.0正式版】](https://github.com/Wechat-Group/weixin-java-tools/releases)**！
+1. 最新更新：**2017-12-1 发布[【2.9.0正式版】](https://github.com/Wechat-Group/weixin-java-tools/releases)**！
 1. 开源中国本项目的首页地址：https://www.oschina.net/p/weixin-java-tools-new （欢迎大家积极留言评分 🙂）
 1. SDK详细开发文档请查阅 [【Wiki】](https://github.com/wechat-group/weixin-java-tools/wiki)，部分文档可能未能及时更新，如有发现，可以及时上报或者自行修改。
 1. 各个模块的Javadoc可以在线查看（有可能是最新的测试版本的，请注意观察版本号）：[weixin-java-miniapp](https://binarywang.github.io/weixin-java-miniapp-javadoc/)、[weixin-java-pay](https://binarywang.github.io/weixin-java-pay-javadoc/)、[weixin-java-mp](https://binarywang.github.io/weixin-java-mp-javadoc/)、[weixin-java-common](https://binarywang.github.io/weixin-java-common-javadoc/)、[weixin-java-cp](https://binarywang.github.io/weixin-java-cp-javadoc/)、[weixin-java-open](https://binarywang.github.io/weixin-java-open-javadoc/)
@@ -57,12 +57,13 @@
 ```xml
 <dependency>
   <groupId>com.github.binarywang</groupId>
-  <artifactId>(按模块不同)</artifactId>
-  <version>2.8.0</version>
+  <artifactId>(按模块不同，参考下文说明)</artifactId>
+  <version>2.9.0</version>
 </dependency>
 ```
 * 各模块的artifactId：
   - 微信小程序：`weixin-java-miniapp`
   - 微信支付：`weixin-java-pay`
   - 公众号（订阅号及服务号）：`weixin-java-mp`
-  - 企业号：`weixin-java-cp`
+  - 企业号/企业微信：`weixin-java-cp`
+  - 微信开放平台：`weixin-java-open`
