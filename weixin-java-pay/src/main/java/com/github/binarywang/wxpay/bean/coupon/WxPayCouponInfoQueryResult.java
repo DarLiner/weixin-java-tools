@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 public class WxPayCouponInfoQueryResult extends WxPayBaseResult {
   /**
    * <pre>
-   * 字段名：设备号
+   * 字段名：设备号.
    * 变量名：device_info
    * 是否必填：否
    * 示例值：123456sb
@@ -34,7 +34,7 @@ public class WxPayCouponInfoQueryResult extends WxPayBaseResult {
 
   /**
    * <pre>
-   * 字段名：批次ID
+   * 字段名：批次ID.
    * 变量名：coupon_stock_id
    * 是否必填：是
    * 示例值：1567
@@ -47,7 +47,7 @@ public class WxPayCouponInfoQueryResult extends WxPayBaseResult {
 
   /**
    * <pre>
-   * 字段名：代金券id
+   * 字段名：代金券id.
    * 变量名：coupon_id
    * 是否必填：是
    * 示例值：4242
@@ -60,7 +60,7 @@ public class WxPayCouponInfoQueryResult extends WxPayBaseResult {
 
   /**
    * <pre>
-   * 字段名：代金券面额
+   * 字段名：代金券面额.
    * 变量名：coupon_value
    * 是否必填：是
    * 示例值：4
@@ -73,7 +73,7 @@ public class WxPayCouponInfoQueryResult extends WxPayBaseResult {
 
   /**
    * <pre>
-   * 字段名：代金券使用门槛
+   * 字段名：代金券使用门槛.
    * 变量名：coupon_mininum
    * 是否必填：是
    * 示例值：10
@@ -86,7 +86,7 @@ public class WxPayCouponInfoQueryResult extends WxPayBaseResult {
 
   /**
    * <pre>
-   * 字段名：代金券名称
+   * 字段名：代金券名称.
    * 变量名：coupon_name
    * 是否必填：是
    * 示例值：测试代金券
@@ -99,20 +99,20 @@ public class WxPayCouponInfoQueryResult extends WxPayBaseResult {
 
   /**
    * <pre>
-   * 字段名：代金券状态
+   * 字段名：代金券状态.
    * 变量名：coupon_state
    * 是否必填：是
    * 示例值：SENDED
-   * 类型：int
+   * 类型：String
    * 说明：代金券状态：SENDED-可用，USED-已实扣，EXPIRED-已过期
    * </pre>
    */
   @XStreamAlias("coupon_state")
-  private Integer couponState;
+  private String couponState;
 
   /**
    * <pre>
-   * 字段名：代金券描述
+   * 字段名：代金券描述.
    * 变量名：coupon_desc
    * 是否必填：是
    * 示例值：微信支付-代金券
@@ -125,7 +125,7 @@ public class WxPayCouponInfoQueryResult extends WxPayBaseResult {
 
   /**
    * <pre>
-   * 字段名：实际优惠金额
+   * 字段名：实际优惠金额.
    * 变量名：coupon_use_value
    * 是否必填：是
    * 示例值：0
@@ -138,7 +138,7 @@ public class WxPayCouponInfoQueryResult extends WxPayBaseResult {
 
   /**
    * <pre>
-   * 字段名：优惠剩余可用额
+   * 字段名：优惠剩余可用额.
    * 变量名：coupon_remain_value
    * 是否必填：是
    * 示例值：4
@@ -151,7 +151,7 @@ public class WxPayCouponInfoQueryResult extends WxPayBaseResult {
 
   /**
    * <pre>
-   * 字段名：生效开始时间
+   * 字段名：生效开始时间.
    * 变量名：begin_time
    * 是否必填：是
    * 示例值：1943787483
@@ -164,7 +164,7 @@ public class WxPayCouponInfoQueryResult extends WxPayBaseResult {
 
   /**
    * <pre>
-   * 字段名：生效结束时间
+   * 字段名：生效结束时间.
    * 变量名：end_time
    * 是否必填：是
    * 示例值：1943787484
@@ -177,7 +177,7 @@ public class WxPayCouponInfoQueryResult extends WxPayBaseResult {
 
   /**
    * <pre>
-   * 字段名：发放时间
+   * 字段名：发放时间.
    * 变量名：send_time
    * 是否必填：是
    * 示例值：1943787420
@@ -190,7 +190,7 @@ public class WxPayCouponInfoQueryResult extends WxPayBaseResult {
 
   /**
    * <pre>
-   * 字段名：消耗方商户id
+   * 字段名：消耗方商户id.
    * 变量名：consumer_mch_id
    * 是否必填：否
    * 示例值：10000098
@@ -203,7 +203,7 @@ public class WxPayCouponInfoQueryResult extends WxPayBaseResult {
 
   /**
    * <pre>
-   * 字段名：发放来源
+   * 字段名：发放来源.
    * 变量名：send_source
    * 是否必填：是
    * 示例值：FULL_SEND
@@ -216,7 +216,7 @@ public class WxPayCouponInfoQueryResult extends WxPayBaseResult {
 
   /**
    * <pre>
-   * 字段名：是否允许部分使用
+   * 字段名：是否允许部分使用.
    * 变量名：is_partial_use
    * 是否必填：否
    * 示例值：1
