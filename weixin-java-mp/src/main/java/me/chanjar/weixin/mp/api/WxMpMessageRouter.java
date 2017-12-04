@@ -130,7 +130,7 @@ public class WxMpMessageRouter {
    * 处理微信消息
    */
   public WxMpXmlOutMessage route(final WxMpXmlMessage wxMessage, final Map<String, Object> context) {
-    return route(wxMessage, context);
+    return route(wxMessage, context, null);
   }
   /**
    * 处理微信消息
