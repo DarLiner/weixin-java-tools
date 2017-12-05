@@ -14,12 +14,11 @@
 1. [企业号/企业微信Demo](https://github.com/binarywang/weixin-java-cp-demo)
 1. [微信小程序Demo](https://github.com/binarywang/weixin-java-miniapp-demo)
 1. [开放平台Demo](https://github.com/Wechat-Group/weixin-java-open-demo)
-1.  公众号Demo：
-  - [公众号Demo，使用Spring MVC实现](https://github.com/binarywang/weixin-java-mp-demo)
-  - [公众号Demo，使用Spring Boot实现](https://github.com/binarywang/weixin-java-mp-demo-springboot)
+1. 公众号Demo：
+  - [使用Spring MVC实现的公众号Demo](https://github.com/binarywang/weixin-java-mp-demo)
+  - [使用Spring Boot实现的公众号Demo](https://github.com/binarywang/weixin-java-mp-demo-springboot)
   - [支持多公众号的Demo](https://github.com/binarywang/weixin-java-mp-multi-demo)
   - [另一个Demo，内含公众号和部分微信支付代码](https://github.com/Wechat-Group/weixin-java-tools-springmvc)
-
 
 ---------------------------------
 ### 重要提示信息（部分为新手必读）：
