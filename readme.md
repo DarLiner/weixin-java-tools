@@ -23,9 +23,9 @@
 ---------------------------------
 ### 重要提示信息（部分为新手必读）：
 1. 最新更新：**2017-12-01 发布[【2.9.0正式版】](https://github.com/Wechat-Group/weixin-java-tools/releases)**！
-1. 开源中国本项目的首页地址：https://www.oschina.net/p/weixin-java-tools-new （欢迎大家积极留言评分 🙂）
+1. [开源中国本项目的首页地址](https://www.oschina.net/p/weixin-java-tools-new)，欢迎大家积极留言评分 🙂
 1. SDK详细开发文档请查阅 [【Wiki】](https://github.com/wechat-group/weixin-java-tools/wiki)，部分文档可能未能及时更新，如有发现，可以及时上报或者自行修改。
-1. 各个模块的Javadoc可以在线查看（有可能是最新的测试版本的，请注意观察版本号）：[weixin-java-miniapp](https://binarywang.github.io/weixin-java-miniapp-javadoc/)、[weixin-java-pay](https://binarywang.github.io/weixin-java-pay-javadoc/)、[weixin-java-mp](https://binarywang.github.io/weixin-java-mp-javadoc/)、[weixin-java-common](https://binarywang.github.io/weixin-java-common-javadoc/)、[weixin-java-cp](https://binarywang.github.io/weixin-java-cp-javadoc/)、[weixin-java-open](https://binarywang.github.io/weixin-java-open-javadoc/)
+1. 各个模块的Javadoc可以在线查看：[weixin-java-miniapp](https://binarywang.github.io/weixin-java-miniapp-javadoc/)、[weixin-java-pay](https://binarywang.github.io/weixin-java-pay-javadoc/)、[weixin-java-mp](https://binarywang.github.io/weixin-java-mp-javadoc/)、[weixin-java-common](https://binarywang.github.io/weixin-java-common-javadoc/)、[weixin-java-cp](https://binarywang.github.io/weixin-java-cp-javadoc/)、[weixin-java-open](https://binarywang.github.io/weixin-java-open-javadoc/)
 1. 本SDK要求的最低JDK版本是1.7，还在使用JDK6的用户请参考[【此项目】]( https://github.com/binarywang/weixin-java-tools-for-jdk6) ，而其他更早的JDK版本则需要自己改造实现。
 1. 如有新功能需求，发现BUG，或者由于微信官方接口调整导致的代码问题，可以直接在[【Issues】](https://github.com/Wechat-Group/weixin-java-tools/issues)页提出issue，便于讨论追踪问题；
 1. 如果想贡献代码，请阅读[【代码贡献指南】](contribution.md)；
@@ -36,7 +36,7 @@
 1. QQ群： [![加入QQ群](https://img.shields.io/badge/QQ群-343954419-blue.svg)](http://shang.qq.com/wpa/qunwpa?idkey=731dc3e7ea31ebe25376cc1a791445468612c63fd0e9e05399b088ec81fd9e15) 或 [![加入QQ群](https://img.shields.io/badge/QQ群-343954419-blue.svg)](http://jq.qq.com/?_wv=1027&k=40lRskK)，推荐点击按钮入群，当然如果无法成功操作，请自行搜索群号343954419进行添加 ）
 1. 由于群容量有限，即将爆满，故开启付费入群模式以保证只有真实交流需求的人进入，如果确实因为各种原因无法付费入群的，请联系群主说明原因即可入群；并为保证群的活跃度，本群将不定期清理长时间不活跃的同学；
 1. 微信群： 因微信群已达到100人限制，故如有想加入微信群的，请入QQ群后联系管理员，提供微信号以便邀请加入；
-1. 新手提问前，请先阅读此文章：http://t.cn/RV93MRB
+1. 新手提问前，请先阅读此[【文章】](http://www.dianbo.org/9238/stone/tiwendezhihui.htm)；
 1. 寻求帮助时需贴代码或大长串异常信息的，请利用http://paste.ubuntu.com
 
 ---------------------------------
@@ -49,7 +49,7 @@
 ---------------------------------
 #### 本项目在以下代码托管网站同步更新，地址分别是:
 * 码云：https://gitee.com/binary/weixin-java-tools
-* GitHub: https://github.com/wechat-group/weixin-java-tools
+* GitHub：https://github.com/wechat-group/weixin-java-tools
 
 ---------------------------------
 ## Maven 引用
