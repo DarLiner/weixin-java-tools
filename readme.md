@@ -15,10 +15,10 @@
 1. [微信小程序Demo](https://github.com/binarywang/weixin-java-miniapp-demo)
 1. [开放平台Demo](https://github.com/Wechat-Group/weixin-java-open-demo)
 1. 公众号Demo：
-  - [使用Spring MVC实现的公众号Demo](https://github.com/binarywang/weixin-java-mp-demo)
-  - [使用Spring Boot实现的公众号Demo](https://github.com/binarywang/weixin-java-mp-demo-springboot)
-  - [支持多公众号的Demo](https://github.com/binarywang/weixin-java-mp-multi-demo)
-  - [另一个Demo，内含公众号和部分微信支付代码](https://github.com/Wechat-Group/weixin-java-tools-springmvc)
+	- [使用Spring MVC实现的公众号Demo](https://github.com/binarywang/weixin-java-mp-demo)
+	- [使用Spring Boot实现的公众号Demo](https://github.com/binarywang/weixin-java-mp-demo-springboot)
+	- [支持多公众号的Demo](https://github.com/binarywang/weixin-java-mp-multi-demo)
+	- [另一个Demo，内含公众号和部分微信支付代码](https://github.com/Wechat-Group/weixin-java-tools-springmvc)
 
 ---------------------------------
 ### 重要提示信息（部分为新手必读）：
@@ -26,7 +26,7 @@
 1. 开源中国本项目的首页地址：https://www.oschina.net/p/weixin-java-tools-new （欢迎大家积极留言评分 🙂）
 1. SDK详细开发文档请查阅 [【Wiki】](https://github.com/wechat-group/weixin-java-tools/wiki)，部分文档可能未能及时更新，如有发现，可以及时上报或者自行修改。
 1. 各个模块的Javadoc可以在线查看（有可能是最新的测试版本的，请注意观察版本号）：[weixin-java-miniapp](https://binarywang.github.io/weixin-java-miniapp-javadoc/)、[weixin-java-pay](https://binarywang.github.io/weixin-java-pay-javadoc/)、[weixin-java-mp](https://binarywang.github.io/weixin-java-mp-javadoc/)、[weixin-java-common](https://binarywang.github.io/weixin-java-common-javadoc/)、[weixin-java-cp](https://binarywang.github.io/weixin-java-cp-javadoc/)、[weixin-java-open](https://binarywang.github.io/weixin-java-open-javadoc/)
-1. 本SDK要求的最低JDK版本是7，还在使用JDK6的用户请参考[【此项目】]( https://github.com/binarywang/weixin-java-tools-for-jdk6) ，而其他更早的JDK版本则需要自己改造实现。
+1. 本SDK要求的最低JDK版本是1.7，还在使用JDK6的用户请参考[【此项目】]( https://github.com/binarywang/weixin-java-tools-for-jdk6) ，而其他更早的JDK版本则需要自己改造实现。
 1. 如有新功能需求，发现BUG，或者由于微信官方接口调整导致的代码问题，可以直接在[【Issues】](https://github.com/Wechat-Group/weixin-java-tools/issues)页提出issue，便于讨论追踪问题；
 1. 如果想贡献代码，请阅读[【代码贡献指南】](contribution.md)；
 1. **捐助渠道已开通，如有意向请点击[【支付宝二维码】](alipay_qrcode.jpg)捐赠，或者直接前往[【托管于码云的项目首页】](http://gitee.com/binary/weixin-java-tools)，在评论区上方可以找到“捐助”按钮。非常感谢各位捐助的同学！**
@@ -48,7 +48,7 @@
 
 ---------------------------------
 #### 本项目在以下代码托管网站同步更新，地址分别是:
-* 码云：http://git.oschina.net/binary/weixin-java-tools
+* 码云：https://gitee.com/binary/weixin-java-tools
 * GitHub: https://github.com/wechat-group/weixin-java-tools
 
 ---------------------------------
