@@ -47,7 +47,7 @@
 分别查看所有最新的版本。 
 
 ---------------------------------
-#### 本项目在以下代码托管网站同步更新，地址分别是:
+#### 本项目在以下代码托管网站同步更新:
 * 码云：https://gitee.com/binary/weixin-java-tools
 * GitHub：https://github.com/wechat-group/weixin-java-tools
 
