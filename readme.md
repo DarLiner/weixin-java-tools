@@ -10,15 +10,15 @@
 ***新人提示：本项目仅是一个开发工具包（即SDK），未提供Web实现，建议使用maven或gradle引用本项目即可使用本SDK提供的各种功能，详情可参考下文中提到的Demo项目或本项目中的部分单元测试代码；另外微信开发新手请务必阅读[Wiki首页](https://github.com/Wechat-Group/weixin-java-tools/wiki)的常见问题部分，可以少走很多弯路，节省不少时间。***
 
 ## Demo项目列表
-1. [微信支付Demo](https://github.com/binarywang/weixin-java-pay-demo)
-1. [企业号/企业微信Demo](https://github.com/binarywang/weixin-java-cp-demo)
-1. [微信小程序Demo](https://github.com/binarywang/weixin-java-miniapp-demo)
-1. [开放平台Demo](https://github.com/Wechat-Group/weixin-java-open-demo)
+1. [微信支付Demo](http://gitee.com/binary/weixin-java-pay-demo)
+1. [企业号/企业微信Demo](http://gitee.com/binary/weixin-java-cp-demo)
+1. [微信小程序Demo](http://gitee.com/binary/weixin-java-miniapp-demo)
+1. [开放平台Demo](http://gitee.com/binary/weixin-java-open-demo)
 1. 公众号Demo：
-	- [使用Spring MVC实现的公众号Demo](https://github.com/binarywang/weixin-java-mp-demo)
-	- [使用Spring Boot实现的公众号Demo](https://github.com/binarywang/weixin-java-mp-demo-springboot)
-	- [支持多公众号的Demo](https://github.com/binarywang/weixin-java-mp-multi-demo)
-	- [另一个Demo，内含公众号和部分微信支付代码](https://github.com/Wechat-Group/weixin-java-tools-springmvc)
+	- [使用Spring MVC实现的公众号Demo](http://gitee.com/binary/weixin-java-mp-demo)
+	- [使用Spring Boot实现的公众号Demo](http://gitee.com/binary/weixin-java-mp-demo-springboot)
+	- [支持多公众号的Demo](http://gitee.com/binary/weixin-java-mp-multi-demo)
+	- [含公众号和部分微信支付代码的Demo](http://gitee.com/binary/weixin-java-tools-springmvc)
 
 ---------------------------------
 ### 重要提示信息（部分为新手必读）：
