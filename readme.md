@@ -5,7 +5,7 @@
 
 #### 声明： ***本项目Fork自chanjarster/weixin-java-tools，但由于原项目已停止维护，故单独维护和发布，且发布到maven上的groupId也会不同，详细信息见下文。***
 
-### [出现`java.security.InvalidKeyException: Illegal key size`问题的解决办法](https://github.com/Wechat-Group/weixin-java-tools/wiki/%E5%8A%A0%E8%A7%A3%E5%AF%86%E7%9A%84%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E5%8A%9E%E6%B3%95) （太多人遇到此问题而不知所措，因此特意置顶，希望能引起新手的注意）
+#### [出现`Illegal key size`问题的解决办法](https://github.com/Wechat-Group/weixin-java-tools/wiki/%E5%8A%A0%E8%A7%A3%E5%AF%86%E7%9A%84%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E5%8A%9E%E6%B3%95) （太多人遇到此问题而不知所措，因此特意置顶，希望能引起新手的注意）
 
 ***新人提示：本项目仅是一个开发工具包（即SDK），未提供Web实现，建议使用maven或gradle引用本项目即可使用本SDK提供的各种功能，详情可参考下文中提到的Demo项目或本项目中的部分单元测试代码；另外微信开发新手请务必阅读[Wiki首页](https://github.com/Wechat-Group/weixin-java-tools/wiki)的常见问题部分，可以少走很多弯路，节省不少时间。***
 
@@ -17,7 +17,6 @@
 1. 公众号Demo：
 	- [使用Spring MVC实现的公众号Demo](http://gitee.com/binary/weixin-java-mp-demo)
 	- [使用Spring Boot实现的公众号Demo](http://gitee.com/binary/weixin-java-mp-demo-springboot)
-	- [支持多公众号的Demo](http://gitee.com/binary/weixin-java-mp-multi-demo)
 	- [含公众号和部分微信支付代码的Demo](http://gitee.com/binary/weixin-java-tools-springmvc)
 
 ---------------------------------
