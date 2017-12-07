@@ -37,17 +37,17 @@ public class QrCodeRequestExecutor implements RequestExecutor<File, AbstractWxMa
     HttpPost httpPost = new HttpPost(uri);
     if (requestHttp.getRequestHttpProxy() != null) {
       httpPost.setConfig(
-          RequestConfig.custom().setProxy(requestHttp.getRequestHttpProxy()).build()
+        RequestConfig.custom().setProxy(requestHttp.getRequestHttpProxy()).build()
       );
     }
-    httpPost.setEntity(new StringEntity(ticket.toString()));
+    httpPost.setEntity(new StringEntity(ticket.toJson()));
 
     try (CloseableHttpResponse response = requestHttp.getRequestHttpClient().execute(httpPost);
          InputStream inputStream = InputStreamResponseHandler.INSTANCE.handleResponse(response);) {
       Header[] contentTypeHeader = response.getHeaders("Content-Type");
       if (contentTypeHeader != null && contentTypeHeader.length > 0
-          && ContentType.APPLICATION_JSON.getMimeType()
-          .equals(ContentType.parse(contentTypeHeader[0].getValue()).getMimeType())) {
+        && ContentType.APPLICATION_JSON.getMimeType()
+        .equals(ContentType.parse(contentTypeHeader[0].getValue()).getMimeType())) {
         String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
         throw new WxErrorException(WxError.fromJson(responseContent));
       }
