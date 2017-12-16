@@ -44,6 +44,10 @@ public class WxMpUser implements Serializable {
   private String remark;
   private Integer groupId;
   private Long[] tagIds;
+  /**
+   * 用户特权信息，json 数组，如微信沃卡用户为（chinaunicom）
+   */
+  private String[] privileges;
 
   public static WxMpUser fromJson(String json) {
     return WxMpGsonBuilder.INSTANCE.create().fromJson(json, WxMpUser.class);

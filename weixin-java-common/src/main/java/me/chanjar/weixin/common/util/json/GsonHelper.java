@@ -129,6 +129,19 @@ public class GsonHelper {
 
     return result.toArray(new Integer[0]);
   }
+  public static String[] getStringArray(JsonObject o, String string) {
+    JsonArray jsonArray = getAsJsonArray(o.getAsJsonArray(string));
+    if (jsonArray == null) {
+      return null;
+    }
+
+    List<String> result = Lists.newArrayList();
+    for (int i = 0; i < jsonArray.size(); i++) {
+      result.add(jsonArray.get(i).getAsString());
+    }
+
+    return result.toArray(new String[0]);
+  }
 
   public static Long[] getLongArray(JsonObject o, String string) {
     JsonArray jsonArray = getAsJsonArray(o.getAsJsonArray(string));
