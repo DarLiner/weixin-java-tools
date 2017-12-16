@@ -8,6 +8,8 @@ import me.chanjar.weixin.open.bean.auth.WxOpenAuthorizerInfo;
 import java.lang.reflect.Type;
 import java.util.Map;
 
+import static me.chanjar.weixin.open.bean.auth.WxOpenAuthorizerInfo.*;
+
 /**
  * @author <a href="https://github.com/007gzs">007</a>
  */
@@ -33,6 +35,11 @@ public class WxOpenAuthorizerInfoGsonAdapter implements JsonDeserializer<WxOpenA
       new TypeToken<Map<String, Integer>>() {
       }.getType());
     authorizationInfo.setBusinessInfo(businessInfo);
+
+    WxOpenAuthorizerInfo.MiniProgramInfo miniProgramInfo = WxOpenGsonBuilder.create().fromJson(jsonObject.get("miniProgramInfo"),
+      new TypeToken<WxOpenAuthorizerInfo.MiniProgramInfo>() {
+      }.getType());
+    authorizationInfo.setMiniProgramInfo(miniProgramInfo);
     return authorizationInfo;
   }
 }
