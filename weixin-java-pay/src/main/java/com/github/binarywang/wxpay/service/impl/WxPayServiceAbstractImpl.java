@@ -11,21 +11,47 @@ import com.github.binarywang.wxpay.bean.order.WxPayNativeOrderResult;
 import com.github.binarywang.wxpay.bean.request.*;
 import com.github.binarywang.wxpay.bean.result.*;
 import com.github.binarywang.wxpay.config.WxPayConfig;
+import com.github.binarywang.wxpay.constant.WxPayConstants;
 import com.github.binarywang.wxpay.constant.WxPayConstants.BillType;
 import com.github.binarywang.wxpay.constant.WxPayConstants.SignType;
 import com.github.binarywang.wxpay.constant.WxPayConstants.TradeType;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
 import com.github.binarywang.wxpay.util.SignUtils;
+import com.google.common.base.Joiner;
 import com.google.common.collect.Maps;
+import jodd.io.ZipUtil;
+import jodd.util.Base64;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ssl.DefaultHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.net.ssl.SSLContext;
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.zip.ZipException;
 
 import static com.github.binarywang.wxpay.constant.WxPayConstants.QUERY_COMMENT_DATE_FORMAT;
+import static com.github.binarywang.wxpay.constant.WxPayConstants.TarType;
 
 /**
  * <pre>
@@ -61,7 +87,17 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
   }
 
   /**
-   * 发送post请求
+   * 发送post请求，得到响应字节数组
+   *
+   * @param url        请求地址
+   * @param requestStr 请求信息
+   * @param useKey     是否使用证书
+   * @return 返回请求结果字节数组
+   */
+  protected abstract byte[] postForBytes(String url, String requestStr, boolean useKey) throws WxPayException;
+
+  /**
+   * 发送post请求，得到响应字符串
    *
    * @param url        请求地址
    * @param requestStr 请求信息
@@ -410,6 +446,10 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
 
   @Override
   public WxPayBillResult downloadBill(String billDate, String billType, String tarType, String deviceInfo) throws WxPayException {
+    if (!BillType.ALL.equals(billType)) {
+      throw new WxPayException("目前仅支持ALL类型的对账单下载");
+    }
+
     WxPayDownloadBillRequest request = new WxPayDownloadBillRequest();
     request.setBillType(billType);
     request.setBillDate(billDate);
@@ -419,15 +459,52 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
     request.checkAndSign(this.getConfig(), false);
 
     String url = this.getPayBaseUrl() + "/pay/downloadbill";
-    String responseContent = this.post(url, request.toXML(), false);
-    if (responseContent.startsWith("<")) {
-      throw WxPayException.from(WxPayBaseResult.fromXML(responseContent, WxPayCommonResult.class));
+
+    String responseContent;
+    if (TarType.GZIP.equals(tarType)) {
+      responseContent = this.handleGzipBill(url, request.toXML());
+    } else {
+      responseContent = this.post(url, request.toXML(), false);
+      if (responseContent.startsWith("<")) {
+        throw WxPayException.from(WxPayBaseResult.fromXML(responseContent, WxPayCommonResult.class));
+      }
     }
 
-    return this.handleBillInformation(responseContent);
+    return this.handleBill(billType, responseContent);
   }
 
-  private WxPayBillResult handleBillInformation(String responseContent) {
+  private WxPayBillResult handleBill(String billType, String responseContent) {
+    if (!BillType.ALL.equals(billType)) {
+      return null;
+    }
+
+    return this.handleAllBill(responseContent);
+  }
+
+  private String handleGzipBill(String url, String requestStr) throws WxPayException {
+    try {
+      byte[] responseBytes = this.postForBytes(url, requestStr, false);
+      Path tempDirectory = Files.createTempDirectory("bill");
+      Path path = Paths.get(tempDirectory.toString(), System.currentTimeMillis() + ".gzip");
+      Files.write(path, responseBytes);
+      try {
+        List<String> allLines = Files.readAllLines(ZipUtil.ungzip(path.toFile()).toPath(), StandardCharsets.UTF_8);
+        return Joiner.on("\n").join(allLines);
+      } catch (ZipException e) {
+        if (e.getMessage().contains("Not in GZIP format")) {
+          throw WxPayException.from(WxPayBaseResult.fromXML(new String(responseBytes, StandardCharsets.UTF_8),
+            WxPayCommonResult.class));
+        } else {
+          this.log.error("解压zip文件出错", e);
+        }
+      }
+    }   catch (IOException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  private WxPayBillResult handleAllBill(String responseContent) {
     WxPayBillResult wxPayBillResult = new WxPayBillResult();
 
     String listStr = "";
@@ -444,11 +521,16 @@ public abstract class WxPayServiceAbstractImpl implements WxPayService {
      * 参考以上格式进行取值
      */
     List<WxPayBillBaseResult> wxPayBillBaseResultLst = new LinkedList<>();
-    String newStr = listStr.replaceAll(",", " "); // 去空格
-    String[] tempStr = newStr.split("`"); // 数据分组
-    String[] t = tempStr[0].split(" ");// 分组标题
-    int j = tempStr.length / t.length; // 计算循环次数
-    int k = 1; // 纪录数组下标
+    // 去空格
+    String newStr = listStr.replaceAll(",", " ");
+    // 数据分组
+    String[] tempStr = newStr.split("`");
+    // 分组标题
+    String[] t = tempStr[0].split(" ");
+    // 计算循环次数
+    int j = tempStr.length / t.length;
+    // 纪录数组下标
+    int k = 1;
     for (int i = 0; i < j; i++) {
       WxPayBillBaseResult wxPayBillBaseResult = new WxPayBillBaseResult();
 

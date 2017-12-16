@@ -27,7 +27,6 @@
     <dependency>
       <groupId>org.jodd</groupId>
       <artifactId>jodd-http</artifactId>
-      <scope>provided</scope>
     </dependency>
 
     <dependency>
@@ -43,6 +42,11 @@
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-guava</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>

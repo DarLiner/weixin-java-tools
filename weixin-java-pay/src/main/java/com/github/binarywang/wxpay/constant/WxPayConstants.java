@@ -36,7 +36,17 @@ public class WxPayConstants {
   }
 
   /**
-   * 订单类型
+   * 压缩账单的类型
+   */
+  public static class TarType {
+    /**
+     * 固定值：GZIP，返回格式为.gzip的压缩包账单
+     */
+    public static final String GZIP = "GZIP";
+  }
+
+  /**
+   * 账单类型
    */
   public static class BillType {
     /**
