@@ -26,7 +26,7 @@ import me.chanjar.weixin.common.util.ToStringUtils;
 @NoArgsConstructor
 @AllArgsConstructor
 @XStreamAlias("xml")
-public class WxEntPayQueryRequest extends WxPayBaseRequest {
+public class WxEntPayQueryRequest extends BaseWxPayRequest {
   /**
    * <pre>
    * 商户订单号

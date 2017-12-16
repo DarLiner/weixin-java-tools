@@ -25,7 +25,7 @@ import java.util.Arrays;
 @NoArgsConstructor
 @AllArgsConstructor
 @XStreamAlias("xml")
-public class WxPayRefundRequest extends WxPayBaseRequest {
+public class WxPayRefundRequest extends BaseWxPayRequest {
   private static final String[] REFUND_ACCOUNT = new String[]{
     RefundAccountSource.RECHARGE_FUNDS, RefundAccountSource.UNSETTLED_FUNDS};
 

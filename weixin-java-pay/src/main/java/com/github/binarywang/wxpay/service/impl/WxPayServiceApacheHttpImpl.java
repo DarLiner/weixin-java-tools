@@ -31,7 +31,7 @@ import java.nio.charset.StandardCharsets;
  *
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
-public class WxPayServiceApacheHttpImpl extends WxPayServiceAbstractImpl {
+public class WxPayServiceApacheHttpImpl extends BaseWxPayServiceImpl {
 
   @Override
   protected byte[] postForBytes(String url, String requestStr, boolean useKey) throws WxPayException {

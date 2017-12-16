@@ -20,7 +20,7 @@ import me.chanjar.weixin.common.util.ToStringUtils;
 @NoArgsConstructor
 @AllArgsConstructor
 @XStreamAlias("xml")
-public class WxEntPayRequest extends WxPayBaseRequest {
+public class WxEntPayRequest extends BaseWxPayRequest {
   /**
    * <pre>
    * 字段名：公众账号appid

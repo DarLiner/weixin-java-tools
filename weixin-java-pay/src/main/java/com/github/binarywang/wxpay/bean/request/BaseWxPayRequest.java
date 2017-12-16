@@ -25,7 +25,7 @@ import static com.github.binarywang.wxpay.constant.WxPayConstants.SignType.ALL_S
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
 @Data
-public abstract class WxPayBaseRequest {
+public abstract class BaseWxPayRequest {
   /**
    * <pre>
    * 字段名：公众账号ID

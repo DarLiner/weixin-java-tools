@@ -1,7 +1,7 @@
 package com.github.binarywang.wxpay.bean.result;
 
 import com.github.binarywang.wxpay.exception.WxPayException;
-import com.github.binarywang.wxpay.service.impl.WxPayServiceAbstractImpl;
+import com.github.binarywang.wxpay.service.impl.BaseWxPayServiceImpl;
 import com.github.binarywang.wxpay.util.SignUtils;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
@@ -38,7 +38,7 @@ import java.util.Map;
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
 @Data
-public abstract class WxPayBaseResult {
+public abstract class BaseWxPayResult {
   /**
    * 返回状态码
    */
@@ -121,7 +121,7 @@ public abstract class WxPayBaseResult {
   /**
    * 从xml字符串创建bean对象
    */
-  public static <T extends WxPayBaseResult> T fromXML(String xmlString, Class<T> clz) {
+  public static <T extends BaseWxPayResult> T fromXML(String xmlString, Class<T> clz) {
     XStream xstream = XStreamInitializer.getInstance();
     xstream.processAnnotations(clz);
     T result = (T) xstream.fromXML(xmlString);
@@ -219,7 +219,7 @@ public abstract class WxPayBaseResult {
    * @param signType     签名类型
    * @param checkSuccess 是否同时检查结果是否成功
    */
-  public void checkResult(WxPayServiceAbstractImpl wxPayService, String signType, boolean checkSuccess) throws WxPayException {
+  public void checkResult(BaseWxPayServiceImpl wxPayService, String signType, boolean checkSuccess) throws WxPayException {
     //校验返回结果签名
     Map<String, String> map = toMap();
     if (getSign() != null && !SignUtils.checkSign(map, signType, wxPayService.getConfig().getMchKey())) {

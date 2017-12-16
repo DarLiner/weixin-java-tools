@@ -19,7 +19,7 @@ import me.chanjar.weixin.common.annotation.Required;
 @NoArgsConstructor
 @AllArgsConstructor
 @XStreamAlias("xml")
-public class WxPayQueryCommentRequest extends WxPayBaseRequest {
+public class WxPayQueryCommentRequest extends BaseWxPayRequest {
   /**
    * <pre>
    * 字段名：开始时间

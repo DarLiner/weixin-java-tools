@@ -23,7 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 @NoArgsConstructor
 @AllArgsConstructor
 @XStreamAlias("xml")
-public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {
+public class WxPayUnifiedOrderRequest extends BaseWxPayRequest {
   /**
    * <pre>
    * 字段名：设备号

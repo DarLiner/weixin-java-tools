@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @XStreamAlias("xml")
-public class WxEntPayResult extends WxPayBaseResult {
+public class WxEntPayResult extends BaseWxPayResult {
 
   /**
    * 商户appid

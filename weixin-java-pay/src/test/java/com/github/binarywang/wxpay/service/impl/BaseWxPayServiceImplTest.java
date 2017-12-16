@@ -38,7 +38,7 @@ import static org.testng.Assert.*;
  */
 @Test
 @Guice(modules = ApiTestModule.class)
-public class WxPayServiceAbstractImplTest {
+public class BaseWxPayServiceImplTest {
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
   @Inject
