@@ -30,7 +30,7 @@ import java.util.Map;
  * @author <a href="https://github.com/007gzs">007</a>
  */
 public class WxOpenComponentServiceImpl implements WxOpenComponentService {
-  private static final Map<String, WxMpService> wxOpenMpServiceMap = new Hashtable<>();
+  private static final Map<String, WxMpService> WX_OPEN_MP_SERVICE_MAP = new Hashtable<>();
   protected final Logger log = LoggerFactory.getLogger(this.getClass());
   private WxOpenService wxOpenService;
 
@@ -40,14 +40,14 @@ public class WxOpenComponentServiceImpl implements WxOpenComponentService {
 
   @Override
   public WxMpService getWxMpServiceByAppid(String appId) {
-    WxMpService wxMpService = wxOpenMpServiceMap.get(appId);
+    WxMpService wxMpService = WX_OPEN_MP_SERVICE_MAP.get(appId);
     if (wxMpService == null) {
-      synchronized (wxOpenMpServiceMap) {
-        wxMpService = wxOpenMpServiceMap.get(appId);
+      synchronized (WX_OPEN_MP_SERVICE_MAP) {
+        wxMpService = WX_OPEN_MP_SERVICE_MAP.get(appId);
         if (wxMpService == null) {
           wxMpService = new WxOpenMpServiceImpl(this, appId, getWxOpenConfigStorage().getWxMpConfigStorage(appId));
 
-          wxOpenMpServiceMap.put(appId, wxMpService);
+          WX_OPEN_MP_SERVICE_MAP.put(appId, wxMpService);
         }
       }
     }
