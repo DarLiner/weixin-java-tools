@@ -31,7 +31,13 @@ public class WxMpUser implements Serializable {
   private String headImgUrl;
   private Long subscribeTime;
   /**
+   * https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&announce_id=11513156443eZYea&version=&lang=zh_CN
+   * <pre>
    * 只有在将公众号绑定到微信开放平台帐号后，才会出现该字段。
+   * 另外，在用户未关注公众号时，将不返回用户unionID信息。
+   * 已关注的用户，开发者可使用“获取用户基本信息接口”获取unionID；
+   * 未关注用户，开发者可使用“微信授权登录接口”并将scope参数设置为snsapi_userinfo，获取用户unionID
+   * </pre>
    */
   private String unionId;
   private Integer sexId;
