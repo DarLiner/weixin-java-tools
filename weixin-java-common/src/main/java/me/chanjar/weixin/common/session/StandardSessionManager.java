@@ -192,7 +192,7 @@ public class StandardSessionManager implements WxSessionManager, InternalSession
           while (true) {
             try {
               // 每秒清理一次
-              Thread.sleep(StandardSessionManager.this.backgroundProcessorDelay * 1000l);
+              Thread.sleep(StandardSessionManager.this.backgroundProcessorDelay * 1000L);
               backgroundProcess();
             } catch (InterruptedException e) {
               StandardSessionManager.this.log.error("SessionManagerImpl.backgroundProcess error", e);

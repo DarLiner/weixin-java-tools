@@ -77,7 +77,7 @@ public class GsonHelper {
 
   public static long getAsPrimitiveLong(JsonElement element) {
     Long r = getAsLong(element);
-    return r == null ? 0l : r;
+    return r == null ? 0L : r;
   }
 
   public static Integer getAsInteger(JsonElement element) {
