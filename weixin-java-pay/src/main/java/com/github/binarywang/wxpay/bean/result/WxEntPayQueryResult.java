@@ -1,11 +1,7 @@
 package com.github.binarywang.wxpay.bean.result;
 
 import com.github.binarywang.wxpay.bean.entpay.EntPayQueryResult;
-import com.github.binarywang.wxpay.bean.entpay.EntPayResult;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import org.apache.commons.beanutils.BeanUtils;
 
 /**

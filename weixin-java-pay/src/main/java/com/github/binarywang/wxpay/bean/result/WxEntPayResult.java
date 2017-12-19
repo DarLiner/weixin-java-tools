@@ -4,8 +4,6 @@ import com.github.binarywang.wxpay.bean.entpay.EntPayResult;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.apache.commons.beanutils.BeanUtils;
 
-import java.lang.reflect.InvocationTargetException;
-
 /**
  * 企业付款返回结果
  * 请使用{@link EntPayResult}
