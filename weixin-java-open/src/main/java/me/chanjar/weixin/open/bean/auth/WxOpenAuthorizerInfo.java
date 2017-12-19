@@ -1,5 +1,6 @@
 package me.chanjar.weixin.open.bean.auth;
 
+import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -35,9 +36,10 @@ public class WxOpenAuthorizerInfo implements Serializable {
 
   @Data
   public class MiniProgramInfo {
+    @SerializedName("visit_status")
     private Integer visitStatus;
     /**
-     * 小程序已设置的各个服务器域名
+     * 小程序已设置的各个服务器域名.
      */
     private Network network;
     private List<Category> categories;
@@ -50,10 +52,16 @@ public class WxOpenAuthorizerInfo implements Serializable {
 
     @Data
     public class Network {
+      @SerializedName("RequestDomain")
       private List<String> requestDomain;
+      @SerializedName("WsRequestDomain")
       private List<String> wsRequestDomain;
+      @SerializedName("UploadDomain")
       private List<String> uploadDomain;
+      @SerializedName("DownloadDomain")
       private List<String> downloadDomain;
+      @SerializedName("BizDomain")
+      private List<String> bizDomain;
     }
   }
 }
