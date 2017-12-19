@@ -2,12 +2,12 @@ package com.github.binarywang.wxpay.bean.notify;
 
 import com.github.binarywang.wxpay.bean.result.BaseWxPayResult;
 import com.github.binarywang.wxpay.converter.WxPayOrderNotifyResultConverter;
+import com.github.binarywang.wxpay.util.SignUtils;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import me.chanjar.weixin.common.util.BeanUtils;
 import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
 
@@ -270,7 +270,7 @@ public class WxPayOrderNotifyResult extends BaseWxPayResult implements Serializa
 
   @Override
   public Map<String, String> toMap() {
-    Map<String, String> resultMap = BeanUtils.xmlBean2Map(this);
+    Map<String, String> resultMap = SignUtils.xmlBean2Map(this);
     if (this.getCouponCount() != null && this.getCouponCount() > 0) {
       for (int i = 0; i < this.getCouponCount(); i++) {
         WxPayOrderNotifyCoupon coupon = couponList.get(i);

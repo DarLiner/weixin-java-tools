@@ -1,6 +1,7 @@
 package com.github.binarywang.wxpay.bean.result;
 
 import com.github.binarywang.wxpay.exception.WxPayException;
+import com.github.binarywang.wxpay.service.WxPayService;
 import com.github.binarywang.wxpay.service.impl.BaseWxPayServiceImpl;
 import com.github.binarywang.wxpay.util.SignUtils;
 import com.google.common.base.Joiner;
@@ -219,7 +220,7 @@ public abstract class BaseWxPayResult {
    * @param signType     签名类型
    * @param checkSuccess 是否同时检查结果是否成功
    */
-  public void checkResult(BaseWxPayServiceImpl wxPayService, String signType, boolean checkSuccess) throws WxPayException {
+  public void checkResult(WxPayService wxPayService, String signType, boolean checkSuccess) throws WxPayException {
     //校验返回结果签名
     Map<String, String> map = toMap();
     if (getSign() != null && !SignUtils.checkSign(map, signType, wxPayService.getConfig().getMchKey())) {

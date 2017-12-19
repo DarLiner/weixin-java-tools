@@ -22,9 +22,8 @@ import java.nio.charset.StandardCharsets;
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
 public class WxPayServiceJoddHttpImpl extends BaseWxPayServiceImpl {
-
   @Override
-  protected byte[] postForBytes(String url, String requestStr, boolean useKey) throws WxPayException {
+  public byte[] postForBytes(String url, String requestStr, boolean useKey) throws WxPayException {
     try {
       HttpRequest request = this.buildHttpRequest(url, requestStr, useKey);
       byte[] responseBytes = request.send().bodyBytes();
@@ -40,7 +39,7 @@ public class WxPayServiceJoddHttpImpl extends BaseWxPayServiceImpl {
   }
 
   @Override
-  protected String post(String url, String requestStr, boolean useKey) throws WxPayException {
+  public String post(String url, String requestStr, boolean useKey) throws WxPayException {
     try {
       HttpRequest request = this.buildHttpRequest(url, requestStr, useKey);
       String responseString = this.getResponseString(request.send());

@@ -3,6 +3,8 @@ package com.github.binarywang.wxpay.service.impl;
 import com.github.binarywang.utils.qrcode.QrcodeUtils;
 import com.github.binarywang.wxpay.bean.WxPayApiData;
 import com.github.binarywang.wxpay.bean.coupon.*;
+import com.github.binarywang.wxpay.bean.entpay.EntPayQueryResult;
+import com.github.binarywang.wxpay.bean.entpay.EntPayResult;
 import com.github.binarywang.wxpay.bean.notify.WxPayOrderNotifyResult;
 import com.github.binarywang.wxpay.bean.notify.WxPayRefundNotifyResult;
 import com.github.binarywang.wxpay.bean.order.WxPayAppOrderResult;
@@ -15,6 +17,7 @@ import com.github.binarywang.wxpay.constant.WxPayConstants.BillType;
 import com.github.binarywang.wxpay.constant.WxPayConstants.SignType;
 import com.github.binarywang.wxpay.constant.WxPayConstants.TradeType;
 import com.github.binarywang.wxpay.exception.WxPayException;
+import com.github.binarywang.wxpay.service.EntPaySerivce;
 import com.github.binarywang.wxpay.service.WxPayService;
 import com.github.binarywang.wxpay.util.SignUtils;
 import com.google.common.base.Joiner;
@@ -49,7 +52,19 @@ public abstract class BaseWxPayServiceImpl implements WxPayService {
   protected final Logger log = LoggerFactory.getLogger(this.getClass());
   protected static ThreadLocal<WxPayApiData> wxApiData = new ThreadLocal<>();
 
+  private EntPaySerivce entPaySerivce = new EntPayServiceImpl(this);
+
   protected WxPayConfig config;
+
+  @Override
+  public EntPaySerivce getEntPaySerivce() {
+    return entPaySerivce;
+  }
+
+  @Override
+  public void setEntPaySerivce(EntPaySerivce entPaySerivce) {
+    this.entPaySerivce = entPaySerivce;
+  }
 
   @Override
   public WxPayConfig getConfig() {
@@ -61,33 +76,14 @@ public abstract class BaseWxPayServiceImpl implements WxPayService {
     this.config = config;
   }
 
-  private String getPayBaseUrl() {
+  @Override
+  public String getPayBaseUrl() {
     if (this.getConfig().useSandbox()) {
       return PAY_BASE_URL + "/sandboxnew";
     }
 
     return PAY_BASE_URL;
   }
-
-  /**
-   * 发送post请求，得到响应字节数组
-   *
-   * @param url        请求地址
-   * @param requestStr 请求信息
-   * @param useKey     是否使用证书
-   * @return 返回请求结果字节数组
-   */
-  protected abstract byte[] postForBytes(String url, String requestStr, boolean useKey) throws WxPayException;
-
-  /**
-   * 发送post请求，得到响应字符串
-   *
-   * @param url        请求地址
-   * @param requestStr 请求信息
-   * @param useKey     是否使用证书
-   * @return 返回请求结果字符串
-   */
-  protected abstract String post(String url, String requestStr, boolean useKey) throws WxPayException;
 
   @Override
   public WxPayRefundResult refund(WxPayRefundRequest request) throws WxPayException {
@@ -352,27 +348,15 @@ public abstract class BaseWxPayServiceImpl implements WxPayService {
   }
 
   @Override
+  @Deprecated
   public WxEntPayResult entPay(WxEntPayRequest request) throws WxPayException {
-    request.checkAndSign(this.getConfig(), false);
-    String url = this.getPayBaseUrl() + "/mmpaymkttransfers/promotion/transfers";
-
-    String responseContent = this.post(url, request.toXML(), true);
-    WxEntPayResult result = BaseWxPayResult.fromXML(responseContent, WxEntPayResult.class);
-    result.checkResult(this, request.getSignType(), true);
-    return result;
+    return WxEntPayResult.createFrom(this.getEntPaySerivce().entPay(request));
   }
 
   @Override
+  @Deprecated
   public WxEntPayQueryResult queryEntPay(String partnerTradeNo) throws WxPayException {
-    WxEntPayQueryRequest request = new WxEntPayQueryRequest();
-    request.setPartnerTradeNo(partnerTradeNo);
-    request.checkAndSign(this.getConfig(), false);
-
-    String url = this.getPayBaseUrl() + "/mmpaymkttransfers/gettransferinfo";
-    String responseContent = this.post(url, request.toXML(), true);
-    WxEntPayQueryResult result = BaseWxPayResult.fromXML(responseContent, WxEntPayQueryResult.class);
-    result.checkResult(this, request.getSignType(), true);
-    return result;
+    return WxEntPayQueryResult.createFrom(this.getEntPaySerivce().queryEntPay(partnerTradeNo));
   }
 
   @Override

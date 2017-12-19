@@ -245,31 +245,6 @@ public class BaseWxPayServiceImplTest {
     this.logger.info(redpackResult.toString());
   }
 
-  /**
-   * Test method for {@link WxPayService#entPay(WxEntPayRequest)}.
-   */
-  @Test
-  public void testEntPay() throws WxPayException {
-    WxEntPayRequest request = WxEntPayRequest.newBuilder()
-      .partnerTradeNo("Eb6Aep7uVTdbkJqrP4")
-      .openid("ojOQA0y9o-Eb6Aep7uVTdbkJqrP4")
-      .amount(1)
-      .spbillCreateIp("10.10.10.10")
-      .checkName(CheckNameOption.NO_CHECK)
-      .description("描述信息")
-      .build();
-
-    this.logger.info(this.payService.entPay(request).toString());
-  }
-
-  /**
-   * Test method for {@link WxPayService#queryEntPay(String)}.
-   */
-  @Test
-  public void testQueryEntPay() throws WxPayException {
-    this.logger.info(this.payService.queryEntPay("11212121").toString());
-  }
-
   @Test
   public void testCreateScanPayQrcodeMode1() throws Exception {
     String productId = "abc";
