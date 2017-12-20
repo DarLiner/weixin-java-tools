@@ -1,5 +1,7 @@
 package com.github.binarywang.wxpay.service.impl;
 
+import com.github.binarywang.wxpay.bean.entpay.EntPayBankRequest;
+import com.github.binarywang.wxpay.bean.entpay.EntPayBankResult;
 import com.github.binarywang.wxpay.bean.entpay.EntPayRequest;
 import com.github.binarywang.wxpay.bean.request.WxEntPayRequest;
 import com.github.binarywang.wxpay.constant.WxPayConstants;
@@ -51,7 +53,7 @@ public class EntPayServiceImplTest {
       .description("描述信息")
       .build();
 
-    this.logger.info(this.payService.getEntPaySerivce().entPay(request).toString());
+    this.logger.info(this.payService.getEntPayService().entPay(request).toString());
   }
 
   @Test
@@ -61,6 +63,24 @@ public class EntPayServiceImplTest {
 
   @Test
   public void testQueryEntPay() throws WxPayException {
-    this.logger.info(this.payService.getEntPaySerivce().queryEntPay("11212121").toString());
+    this.logger.info(this.payService.getEntPayService().queryEntPay("11212121").toString());
+  }
+
+  @Test
+  public void testGetPublicKey() throws Exception {
+    this.logger.info(this.payService.getEntPayService().getPublicKey());
+  }
+
+  @Test
+  public void testPayToBankCard() throws Exception {
+    EntPayBankResult result = this.payService.getEntPayService().payToBankCard(EntPayBankRequest.builder()
+      .bankCode("aa")
+      .amount(1)
+      .encBankNo("1")
+      .encTrueName("2")
+      .partnerTradeNo("3")
+      .description("11")
+      .build());
+    this.logger.info(result.toString());
   }
 }

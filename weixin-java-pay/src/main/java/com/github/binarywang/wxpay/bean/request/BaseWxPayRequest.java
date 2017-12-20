@@ -183,6 +183,20 @@ public abstract class BaseWxPayRequest {
   }
 
   /**
+   * 签名时，是否忽略signType
+   */
+  protected boolean ignoreSignType() {
+    return false;
+  }
+
+  /**
+   * 签名时，是否忽略appid
+   */
+  protected boolean ignoreAppid() {
+    return false;
+  }
+
+  /**
    * <pre>
    * 检查参数，并设置签名
    * 1、检查参数（注意：子类实现需要检查参数的而外功能时，请在调用父类的方法前进行相应判断）
@@ -190,14 +204,15 @@ public abstract class BaseWxPayRequest {
    * 3、生成签名，并设置进去
    * </pre>
    *
-   * @param config           支付配置对象，用于读取相应系统配置信息
-   * @param isIgnoreSignType 签名时，是否忽略signType
+   * @param config 支付配置对象，用于读取相应系统配置信息
    */
-  public void checkAndSign(WxPayConfig config, boolean isIgnoreSignType) throws WxPayException {
+  public void checkAndSign(WxPayConfig config) throws WxPayException {
     this.checkFields();
 
-    if (StringUtils.isBlank(getAppid())) {
-      this.setAppid(config.getAppId());
+    if (!ignoreAppid()) {
+      if (StringUtils.isBlank(getAppid())) {
+        this.setAppid(config.getAppId());
+      }
     }
 
     if (StringUtils.isBlank(getMchId())) {
@@ -229,7 +244,6 @@ public abstract class BaseWxPayRequest {
 
     //设置签名字段的值
     this.setSign(SignUtils.createSign(this, this.getSignType(), config.getMchKey(),
-      isIgnoreSignType));
+      this.ignoreSignType()));
   }
-
 }
