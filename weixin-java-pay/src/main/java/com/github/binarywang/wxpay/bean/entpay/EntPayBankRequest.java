@@ -24,7 +24,7 @@ public class EntPayBankRequest extends BaseWxPayRequest {
 
   /**
    * <pre>
-   * 字段名：商户企业付款单号
+   * 商户企业付款单号.
    * 变量名：partner_trade_no
    * 是否必填：是
    * 示例值：1212121221227
@@ -37,12 +37,14 @@ public class EntPayBankRequest extends BaseWxPayRequest {
 
   /**
    * <pre>
-   * 字段名：收款方银行卡号
+   * 收款方银行卡号.
+   * 传值时请传原始值
    * 变量名：enc_bank_no
    * 是否必填：是
    * 示例值：8609cb22e1774a50a930e414cc71eca06121bcd266335cda230d24a7886a8d9f
    * 类型：string(64)
    * 描述：收款方银行卡号（采用标准RSA算法，公钥由微信侧提供）,详见获取RSA加密公钥API
+   *
    */
   @Required
   @XStreamAlias("enc_bank_no")
@@ -50,7 +52,8 @@ public class EntPayBankRequest extends BaseWxPayRequest {
 
   /**
    * <pre>
-   * 字段名：收款方用户名
+   * 收款方用户名.
+   * 传值时请传原始值
    * 变量名：enc_true_name
    * 是否必填：是
    * 示例值：ca775af5f841bdf424b2e6eb86a6e21e
@@ -63,7 +66,7 @@ public class EntPayBankRequest extends BaseWxPayRequest {
 
   /**
    * <pre>
-   * 字段名：收款方开户行
+   * 收款方开户行.
    * 变量名：bank_code
    * 是否必填：是
    * 示例值：1001
@@ -76,7 +79,7 @@ public class EntPayBankRequest extends BaseWxPayRequest {
 
   /**
    * <pre>
-   * 字段名：付款金额
+   * 付款金额.
    * 变量名：amount
    * 是否必填：是
    * 示例值：100000
@@ -89,7 +92,7 @@ public class EntPayBankRequest extends BaseWxPayRequest {
 
   /**
    * <pre>
-   * 字段名：付款说明
+   * 付款说明.
    * 变量名：desc
    * 是否必填：否
    * 示例值：理财
