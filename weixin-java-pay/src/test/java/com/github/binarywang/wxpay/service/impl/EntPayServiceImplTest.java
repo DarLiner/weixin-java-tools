@@ -1,8 +1,8 @@
 package com.github.binarywang.wxpay.service.impl;
 
+import com.github.binarywang.wxpay.bean.entpay.EntPayRequest;
 import com.github.binarywang.wxpay.bean.entpay.EntPayBankRequest;
 import com.github.binarywang.wxpay.bean.entpay.EntPayBankResult;
-import com.github.binarywang.wxpay.bean.entpay.EntPayRequest;
 import com.github.binarywang.wxpay.bean.request.WxEntPayRequest;
 import com.github.binarywang.wxpay.constant.WxPayConstants;
 import com.github.binarywang.wxpay.exception.WxPayException;
@@ -16,7 +16,7 @@ import org.testng.annotations.Test;
 
 /**
  * <pre>
- *  企业付款测试类
+ *  企业付款测试类.
  *  Created by BinaryWang on 2017/12/19.
  * </pre>
  *
@@ -72,8 +72,8 @@ public class EntPayServiceImplTest {
   }
 
   @Test
-  public void testPayToBankCard() throws Exception {
-    EntPayBankResult result = this.payService.getEntPayService().payToBankCard(EntPayBankRequest.builder()
+  public void testPayBank() throws Exception {
+    EntPayBankResult result = this.payService.getEntPayService().payBank(EntPayBankRequest.builder()
       .bankCode("aa")
       .amount(1)
       .encBankNo("1")
@@ -82,5 +82,10 @@ public class EntPayServiceImplTest {
       .description("11")
       .build());
     this.logger.info(result.toString());
+  }
+
+  @Test
+  public void testQueryPayBank() throws Exception {
+    this.logger.info(this.payService.getEntPayService().queryPayBank("123").toString());
   }
 }

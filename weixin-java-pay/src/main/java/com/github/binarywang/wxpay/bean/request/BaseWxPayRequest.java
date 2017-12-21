@@ -12,20 +12,23 @@ import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import static com.github.binarywang.wxpay.constant.WxPayConstants.SignType.ALL_SIGN_TYPES;
 
 /**
  * <pre>
- * Created by Binary Wang on 2016-10-24.
  *  微信支付请求对象共用的参数存放类
+ * Created by Binary Wang on 2016-10-24.
  * </pre>
  *
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
 @Data
-public abstract class BaseWxPayRequest {
+public abstract class BaseWxPayRequest implements Serializable {
+  private static final long serialVersionUID = -4766915659779847060L;
+
   /**
    * <pre>
    * 字段名：公众账号ID
@@ -117,7 +120,7 @@ public abstract class BaseWxPayRequest {
    *
    * @param yuan 将要转换的元的数值字符串
    */
-  public static Integer yuanToFee(String yuan) {
+  public static Integer yuanToFen(String yuan) {
     return new BigDecimal(yuan).setScale(2, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)).intValue();
   }
 

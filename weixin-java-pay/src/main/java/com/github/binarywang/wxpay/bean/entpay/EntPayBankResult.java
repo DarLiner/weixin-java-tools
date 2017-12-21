@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * <pre>
- * 企业付款到银行卡的响应结果
+ * 企业付款到银行卡的响应结果.
  * Created by Binary Wang on 2017/12/21.
  * </pre>
  *
@@ -19,6 +19,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @XStreamAlias("xml")
 public class EntPayBankResult extends BaseWxPayResult {
+  private static final long serialVersionUID = 3449707749935227689L;
+
   /**
    * 代付金额.
    */

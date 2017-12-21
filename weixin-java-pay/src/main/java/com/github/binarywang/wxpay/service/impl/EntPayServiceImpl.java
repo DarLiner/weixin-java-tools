@@ -75,7 +75,7 @@ public class EntPayServiceImpl implements EntPayService {
   }
 
   @Override
-  public EntPayBankResult payToBankCard(EntPayBankRequest request) throws WxPayException {
+  public EntPayBankResult payBank(EntPayBankRequest request) throws WxPayException {
     File publicKeyFile = this.buildPublicKeyFile();
     request.setEncBankNo(this.encryptRSA(publicKeyFile, request.getEncBankNo()));
     request.setEncTrueName(this.encryptRSA(publicKeyFile, request.getEncTrueName()));
@@ -86,6 +86,19 @@ public class EntPayServiceImpl implements EntPayService {
     String url = this.payService.getPayBaseUrl() + "/mmpaysptrans/pay_bank";
     String responseContent = this.payService.post(url, request.toXML(), true);
     EntPayBankResult result = BaseWxPayResult.fromXML(responseContent, EntPayBankResult.class);
+    result.checkResult(this.payService, request.getSignType(), true);
+    return result;
+  }
+
+  @Override
+  public EntPayBankQueryResult queryPayBank(String partnerTradeNo) throws WxPayException {
+    EntPayBankQueryRequest request = new EntPayBankQueryRequest();
+    request.setPartnerTradeNo(partnerTradeNo);
+    request.checkAndSign(this.payService.getConfig());
+
+    String url = this.payService.getPayBaseUrl() + "/mmpaysptrans/query_bank";
+    String responseContent = this.payService.post(url, request.toXML(), true);
+    EntPayBankQueryResult result = BaseWxPayResult.fromXML(responseContent, EntPayBankQueryResult.class);
     result.checkResult(this.payService, request.getSignType(), true);
     return result;
   }

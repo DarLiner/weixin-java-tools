@@ -68,5 +68,17 @@ public interface EntPayService {
    *
    * @param request 请求对象
    */
-  EntPayBankResult payToBankCard(EntPayBankRequest request) throws WxPayException;
+  EntPayBankResult payBank(EntPayBankRequest request) throws WxPayException;
+
+  /**
+   * 企业付款到银行卡查询.
+   * <pre>
+   * 用于对商户企业付款到银行卡操作进行结果查询，返回付款操作详细结果。
+   * 文档详见：https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=24_3
+   * 接口链接：https://api.mch.weixin.qq.com/mmpaysptrans/query_bank
+   * </pre>
+   *
+   * @param partnerTradeNo 商户订单号
+   */
+  EntPayBankQueryResult queryPayBank(String partnerTradeNo) throws WxPayException;
 }
