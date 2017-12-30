@@ -1,32 +1,19 @@
-微信支付/开放平台/公众号/企业微信/小程序的Java开发工具包（SDK）
+可能是目前最好的微信Java开发工具包（SDK）（包括微信支付、开放平台、公众号、企业微信、企业号、小程序等）
 ---------------------------------
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.binarywang/weixin-java-parent/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.binarywang/weixin-java-parent)
 [![Build Status](https://travis-ci.org/Wechat-Group/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/Wechat-Group/weixin-java-tools)
-[![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
-[![GitHub stars](https://img.shields.io/github/stars/badges/shields.svg?style=social&label=Stars)](https://github.com/Wechat-Group/weixin-java-tools)
 [![使用IntelliJ IDEA开发维护](https://img.shields.io/badge/IntelliJ%20IDEA-提供支持-blue.svg)](https://www.jetbrains.com/idea/)
 
-
-#### 声明： ***本项目Fork自chanjarster/weixin-java-tools，但由于原项目已停止维护，故单独维护和发布，且发布到maven上的groupId也会不同，详细信息见下文。***
-
-#### [出现`Illegal key size`问题的解决办法](https://github.com/Wechat-Group/weixin-java-tools/wiki/%E5%8A%A0%E8%A7%A3%E5%AF%86%E7%9A%84%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E5%8A%9E%E6%B3%95) （太多人遇到此问题而不知所措，因此特意置顶，希望能引起新手的注意）
-
-***新人提示：本项目仅是一个开发工具包（即SDK），未提供Web实现，建议使用maven或gradle引用本项目即可使用本SDK提供的各种功能，详情可参考下文中提到的Demo项目或本项目中的部分单元测试代码；另外微信开发新手请务必阅读[Wiki首页](https://github.com/Wechat-Group/weixin-java-tools/wiki)的常见问题部分，可以少走很多弯路，节省不少时间。***
-
-## Demo项目列表
-1. [微信支付Demo](http://gitee.com/binary/weixin-java-pay-demo)
-1. [企业号/企业微信Demo](http://gitee.com/binary/weixin-java-cp-demo)
-1. [微信小程序Demo](http://gitee.com/binary/weixin-java-miniapp-demo)
-1. [开放平台Demo](http://gitee.com/binary/weixin-java-open-demo)
-1. 公众号Demo：
-	- [使用Spring MVC实现的公众号Demo](http://gitee.com/binary/weixin-java-mp-demo)
-	- [使用Spring Boot实现的公众号Demo](http://gitee.com/binary/weixin-java-mp-demo-springboot)
-	- [含公众号和部分微信支付代码的Demo](http://gitee.com/binary/weixin-java-tools-springmvc)
-
 ---------------------------------
-### 重要提示信息（部分为新手必读）：
+### 重要信息：
 1. 最新更新：**2017-12-01 发布[【2.9.0正式版】](https://github.com/Wechat-Group/weixin-java-tools/releases)**！
-1. [开源中国本项目的首页地址](https://www.oschina.net/p/weixin-java-tools-new)，欢迎大家积极留言评分 🙂
+1. [开源中国本项目的首页](https://www.oschina.net/p/weixin-java-tools-new)，欢迎大家积极留言评分 🙂
+1. 新手重要提示：本项目仅是一个开发工具包（即SDK），未提供Web实现，建议使用maven或gradle引用本项目即可使用本SDK提供的各种功能，详情可参考[【Demo项目】](demo.md)或本项目中的部分单元测试代码；另外微信开发新手请务必阅读[Wiki首页](https://github.com/Wechat-Group/weixin-java-tools/wiki)的常见问题部分，可以少走很多弯路，节省不少时间。
+1. [出现`Illegal key size`问题的解决办法](https://github.com/Wechat-Group/weixin-java-tools/wiki/%E5%8A%A0%E8%A7%A3%E5%AF%86%E7%9A%84%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E5%8A%9E%E6%B3%95) （太多人遇到此问题而不知所措，因此特意置顶，希望能引起新手的注意，其他常见问题请查阅 [【Wiki】](https://github.com/wechat-group/weixin-java-tools/wiki)首页）
+
+--------------------------------
+### 其他说明：
+1. 本项目Fork自chanjarster/weixin-java-tools，但由于原项目已停止维护，故单独维护和发布，且发布到maven上的groupId也会不同，详细信息见下文。
 1. 阅读源码的同学请注意，本SDK为简化代码编译时加入了lombok支持，如果不了解lombok的话，请先学习下相关知识；
 1. SDK详细开发文档请查阅 [【Wiki】](https://github.com/wechat-group/weixin-java-tools/wiki)，部分文档可能未能及时更新，如有发现，可以及时上报或者自行修改。
 1. 各个模块的Javadoc可以在线查看：[weixin-java-miniapp](https://binarywang.github.io/weixin-java-miniapp-javadoc/)、[weixin-java-pay](https://binarywang.github.io/weixin-java-pay-javadoc/)、[weixin-java-mp](https://binarywang.github.io/weixin-java-mp-javadoc/)、[weixin-java-common](https://binarywang.github.io/weixin-java-common-javadoc/)、[weixin-java-cp](https://binarywang.github.io/weixin-java-cp-javadoc/)、[weixin-java-open](https://binarywang.github.io/weixin-java-open-javadoc/)
@@ -36,7 +23,7 @@
 1. **捐助渠道已开通，如有意向请点击[【支付宝二维码】](alipay_qrcode.jpg)捐赠，或者直接前往[【托管于码云的项目首页】](http://gitee.com/binary/weixin-java-tools)，在评论区上方可以找到“捐助”按钮。非常感谢各位捐助的同学！**
 
 ---------------------------------
-## 使用交流方式说明：
+## 技术交流方式说明：
 1. QQ群： [![加入QQ群](https://img.shields.io/badge/QQ群-343954419-blue.svg)](http://shang.qq.com/wpa/qunwpa?idkey=731dc3e7ea31ebe25376cc1a791445468612c63fd0e9e05399b088ec81fd9e15) 或 [![加入QQ群](https://img.shields.io/badge/QQ群-343954419-blue.svg)](http://jq.qq.com/?_wv=1027&k=40lRskK)，推荐点击按钮入群，当然如果无法成功操作，请自行搜索群号343954419进行添加 ）
 1. 由于群容量有限，即将爆满，故开启付费入群模式以保证只有真实交流需求的人进入，如果确实因为各种原因无法付费入群的，请联系群主说明原因即可入群；并为保证群的活跃度，本群将不定期清理长时间不活跃的同学；
 1. 微信群： 因微信群已达到100人限制，故如有想加入微信群的，请入QQ群后联系管理员，提供微信号以便邀请加入；
