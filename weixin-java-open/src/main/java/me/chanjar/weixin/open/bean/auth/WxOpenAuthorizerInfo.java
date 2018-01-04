@@ -23,7 +23,6 @@ public class WxOpenAuthorizerInfo implements Serializable {
   private Map<String, Integer> businessInfo;
   private String alias;
   private String qrcodeUrl;
-
   /**
    * 账号介绍
    */
