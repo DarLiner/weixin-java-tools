@@ -8,10 +8,10 @@ import com.github.binarywang.wxpay.service.EntPayService;
 import com.github.binarywang.wxpay.service.WxPayService;
 import com.github.binarywang.wxpay.util.SignUtils;
 import org.apache.commons.codec.binary.Base64;
+import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.jce.provider.JCERSAPublicKey;
-import org.bouncycastle.openssl.PEMReader;
-import org.bouncycastle.openssl.PasswordFinder;
+import org.bouncycastle.openssl.PEMParser;
+import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
 
 import javax.crypto.Cipher;
 import java.io.File;
@@ -19,6 +19,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.security.PublicKey;
 import java.security.Security;
 
 /**
@@ -107,15 +108,10 @@ public class EntPayServiceImpl implements EntPayService {
     try {
       Security.addProvider(new BouncyCastleProvider());
       Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA1AndMGF1Padding");
-      PasswordFinder passwordFinder = new PasswordFinder() {
-        @Override
-        public char[] getPassword() {
-          return "".toCharArray();
-        }
-      };
+      try (PEMParser reader = new PEMParser(new FileReader(publicKeyFile))) {
+        final PublicKey publicKey = new JcaPEMKeyConverter().setProvider("BC")
+          .getPublicKey((SubjectPublicKeyInfo) reader.readObject());
 
-      try (PEMReader reader = new PEMReader(new FileReader(publicKeyFile), passwordFinder)) {
-        JCERSAPublicKey publicKey = (JCERSAPublicKey) reader.readObject();
         cipher.init(Cipher.ENCRYPT_MODE, publicKey);
         byte[] encrypt = cipher.doFinal(srcString.getBytes());
         return Base64.encodeBase64String(encrypt);
