@@ -8,7 +8,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * 客服消息
+ * 客服消息.
  *
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
@@ -25,14 +25,14 @@ public class WxMaKefuMessage implements Serializable {
   private String description;
 
   /**
-   * 获得文本消息builder
+   * 获得文本消息builder.
    */
   public static TextBuilder newTextBuilder() {
     return new TextBuilder();
   }
 
   /**
-   * 获得图片消息builder
+   * 获得图片消息builder.
    */
   public static ImageBuilder newImageBuilder() {
     return new ImageBuilder();
