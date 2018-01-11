@@ -17,7 +17,7 @@ import java.io.Serializable;
 public class WxMaWxcodeLimit extends AbstractWxMaQrcodeWrapper implements Serializable {
   private static final long serialVersionUID = 4782193774524960401L;
   private String scene;
-  private String page;
+  private String path;
 
   private int width = 430;
 
@@ -31,4 +31,8 @@ public class WxMaWxcodeLimit extends AbstractWxMaQrcodeWrapper implements Serial
     return WxMaGsonBuilder.create().fromJson(json, WxMaWxcodeLimit.class);
   }
 
+  public String toString() {
+	return super.toString();
+  } 
+  
 }
