@@ -8,7 +8,6 @@ import com.github.binarywang.wxpay.bean.order.WxPayMpOrderResult;
 import com.github.binarywang.wxpay.bean.order.WxPayNativeOrderResult;
 import com.github.binarywang.wxpay.bean.request.*;
 import com.github.binarywang.wxpay.bean.result.*;
-import com.github.binarywang.wxpay.constant.WxPayConstants;
 import com.github.binarywang.wxpay.constant.WxPayConstants.BillType;
 import com.github.binarywang.wxpay.constant.WxPayConstants.SignType;
 import com.github.binarywang.wxpay.constant.WxPayConstants.TradeType;
@@ -26,7 +25,7 @@ import java.nio.file.Path;
 import java.util.Calendar;
 import java.util.Date;
 
-import static com.github.binarywang.wxpay.constant.WxPayConstants.*;
+import static com.github.binarywang.wxpay.constant.WxPayConstants.TarType;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.*;
 
@@ -53,7 +52,7 @@ public class BaseWxPayServiceImplTest {
       .body("我去")
       .totalFee(1)
       .spbillCreateIp("11.1.11.1")
-      .notifyURL("111111")
+      .notifyUrl("111111")
       .tradeType(TradeType.JSAPI)
       .openid(((XmlWxPayConfig) this.payService.getConfig()).getOpenid())
       .outTradeNo("1111112")
@@ -76,7 +75,7 @@ public class BaseWxPayServiceImplTest {
         .body("我去")
         .totalFee(1)
         .spbillCreateIp("11.1.11.1")
-        .notifyURL("111111")
+        .notifyUrl("111111")
         .tradeType(TradeType.JSAPI)
         .openid(((XmlWxPayConfig) this.payService.getConfig()).getOpenid())
         .outTradeNo("1111112")
@@ -92,7 +91,7 @@ public class BaseWxPayServiceImplTest {
         .body("我去")
         .totalFee(1)
         .spbillCreateIp("11.1.11.1")
-        .notifyURL("111111")
+        .notifyUrl("111111")
         .tradeType(TradeType.APP)
         .outTradeNo("1111112")
         .build());
@@ -108,7 +107,7 @@ public class BaseWxPayServiceImplTest {
         .totalFee(1)
         .productId("aaa")
         .spbillCreateIp("11.1.11.1")
-        .notifyURL("111111")
+        .notifyUrl("111111")
         .tradeType(TradeType.NATIVE)
         .outTradeNo("111111290")
         .build());

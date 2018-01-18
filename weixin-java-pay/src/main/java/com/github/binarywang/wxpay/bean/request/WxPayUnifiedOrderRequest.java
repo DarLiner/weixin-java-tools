@@ -214,7 +214,7 @@ public class WxPayUnifiedOrderRequest extends BaseWxPayRequest {
    */
   @Required
   @XStreamAlias("notify_url")
-  private String notifyURL;
+  private String notifyUrl;
 
   /**
    * <pre>
@@ -319,9 +319,11 @@ public class WxPayUnifiedOrderRequest extends BaseWxPayRequest {
 
   /**
    * 如果配置中已经设置，可以不设置值.
+   *
+   * @param notifyUrl 支付回调通知地址
    */
-  public void setNotifyURL(String notifyURL) {
-    this.notifyURL = notifyURL;
+  public void setNotifyUrl(String notifyUrl) {
+    this.notifyUrl = notifyUrl;
   }
 
   /**
@@ -342,8 +344,8 @@ public class WxPayUnifiedOrderRequest extends BaseWxPayRequest {
 
   @Override
   public void checkAndSign(WxPayConfig config) throws WxPayException {
-    if (StringUtils.isBlank(this.getNotifyURL())) {
-      this.setNotifyURL(config.getNotifyUrl());
+    if (StringUtils.isBlank(this.getNotifyUrl())) {
+      this.setNotifyUrl(config.getNotifyUrl());
     }
 
     if (StringUtils.isBlank(this.getTradeType())) {

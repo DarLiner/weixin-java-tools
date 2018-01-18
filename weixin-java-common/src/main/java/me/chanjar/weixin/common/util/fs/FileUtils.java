@@ -8,7 +8,7 @@ import java.nio.file.Files;
 public class FileUtils {
 
   /**
-   * 创建临时文件
+   * 创建临时文件.
    *
    * @param inputStream 输入文件流
    * @param name        文件名
@@ -24,7 +24,7 @@ public class FileUtils {
   }
 
   /**
-   * 创建临时文件
+   * 创建临时文件.
    *
    * @param inputStream 输入文件流
    * @param name        文件名
