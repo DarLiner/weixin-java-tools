@@ -44,7 +44,7 @@ public class WxMaUserServiceImpl implements WxMaUserService {
   @Override
   public boolean checkUserInfo(String sessionKey, String rawData, String signature) {
     final String generatedSignature = DigestUtils.sha1Hex(rawData + sessionKey);
-    System.out.println(generatedSignature);
+    //System.out.println(generatedSignature);
     return generatedSignature.equals(signature);
   }
 
