@@ -40,15 +40,13 @@ import java.util.Map;
  */
 @Data
 public abstract class BaseWxPayResult implements Serializable {
-  private static final long serialVersionUID = 2416778827989487412L;
-
   /**
-   * 返回状态码
+   * 返回状态码.
    */
   @XStreamAlias("return_code")
   protected String returnCode;
   /**
-   * 返回信息
+   * 返回信息.
    */
   @XStreamAlias("return_msg")
   protected String returnMsg;
@@ -56,64 +54,64 @@ public abstract class BaseWxPayResult implements Serializable {
   //当return_code为SUCCESS的时候，还会包括以下字段：
 
   /**
-   * 业务结果
+   * 业务结果.
    */
   @XStreamAlias("result_code")
   private String resultCode;
   /**
-   * 错误代码
+   * 错误代码.
    */
   @XStreamAlias("err_code")
   private String errCode;
   /**
-   * 错误代码描述
+   * 错误代码描述.
    */
   @XStreamAlias("err_code_des")
   private String errCodeDes;
   /**
-   * 公众账号ID
+   * 公众账号ID.
    */
   @XStreamAlias("appid")
   private String appid;
   /**
-   * 商户号
+   * 商户号.
    */
   @XStreamAlias("mch_id")
   private String mchId;
   /**
-   * 服务商模式下的子公众账号ID
+   * 服务商模式下的子公众账号ID.
    */
   @XStreamAlias("sub_appid")
   private String subAppId;
   /**
-   * 服务商模式下的子商户号
+   * 服务商模式下的子商户号.
    */
   @XStreamAlias("sub_mch_id")
   private String subMchId;
   /**
-   * 随机字符串
+   * 随机字符串.
    */
   @XStreamAlias("nonce_str")
   private String nonceStr;
   /**
-   * 签名
+   * 签名.
    */
   @XStreamAlias("sign")
   private String sign;
 
   //以下为辅助属性
   /**
-   * xml字符串
+   * xml字符串.
    */
   private String xmlString;
 
   /**
-   * xml的Document对象，用于解析xml文本
+   * xml的Document对象，用于解析xml文本.
    */
   private Document xmlDoc;
 
   /**
-   * 将单位分转换成单位圆
+   * 将单位分转换成单位圆.
    *
    * @param fee 将要被转换为元的分的数值
    */
@@ -122,7 +120,7 @@ public abstract class BaseWxPayResult implements Serializable {
   }
 
   /**
-   * 从xml字符串创建bean对象
+   * 从xml字符串创建bean对象.
    */
   public static <T extends BaseWxPayResult> T fromXML(String xmlString, Class<T> clz) {
     XStream xstream = XStreamInitializer.getInstance();
@@ -142,7 +140,7 @@ public abstract class BaseWxPayResult implements Serializable {
   }
 
   /**
-   * 将bean通过保存的xml字符串转换成map
+   * 将bean通过保存的xml字符串转换成map.
    */
   public Map<String, String> toMap() {
     if (StringUtils.isBlank(this.xmlString)) {
@@ -168,9 +166,9 @@ public abstract class BaseWxPayResult implements Serializable {
   }
 
   /**
-   * 将xml字符串转换成Document对象，以便读取其元素值
+   * 将xml字符串转换成Document对象，以便读取其元素值.
    */
-  protected Document getXmlDoc() {
+  private Document getXmlDoc() {
     if (this.xmlDoc != null) {
       return this.xmlDoc;
     }
@@ -188,9 +186,9 @@ public abstract class BaseWxPayResult implements Serializable {
   }
 
   /**
-   * 获取xml中元素的值
+   * 获取xml中元素的值.
    */
-  protected String getXmlValue(String... path) {
+  String getXmlValue(String... path) {
     Document doc = this.getXmlDoc();
     String expression = String.format("/%s//text()", Joiner.on("/").join(path));
     try {
@@ -205,9 +203,9 @@ public abstract class BaseWxPayResult implements Serializable {
   }
 
   /**
-   * 获取xml中元素的值，作为int值返回
+   * 获取xml中元素的值，作为int值返回.
    */
-  protected Integer getXmlValueAsInt(String... path) {
+  Integer getXmlValueAsInt(String... path) {
     String result = this.getXmlValue(path);
     if (StringUtils.isBlank(result)) {
       return null;
@@ -217,7 +215,7 @@ public abstract class BaseWxPayResult implements Serializable {
   }
 
   /**
-   * 校验返回结果签名
+   * 校验返回结果签名.
    *
    * @param signType     签名类型
    * @param checkSuccess 是否同时检查结果是否成功

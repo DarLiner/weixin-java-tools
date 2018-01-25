@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 public class WxPayAuthcode2OpenidResult extends BaseWxPayResult {
   /**
    * <pre>
-   *   用户标识
+   *   用户标识.
    *   openid
    *   是
    *   String(128)
