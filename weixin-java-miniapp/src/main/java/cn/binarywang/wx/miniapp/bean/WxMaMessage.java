@@ -45,12 +45,16 @@ public class WxMaMessage implements Serializable {
   @XStreamConverter(value = XStreamCDataConverter.class)
   private Integer createTime;
 
-  @SerializedName("MsgDataFormat")
-  @XStreamAlias("MsgDataFormat")
+  @SerializedName("MsgType")
+  @XStreamAlias("MsgType")
   @XStreamConverter(value = XStreamCDataConverter.class)
   private String msgType;
 
-  // 文本消息
+  @SerializedName("MsgDataFormat")
+  @XStreamAlias("MsgDataFormat")
+  @XStreamConverter(value = XStreamCDataConverter.class)
+  private String msgDataFormat;
+
   @SerializedName("Content")
   @XStreamAlias("Content")
   @XStreamConverter(value = XStreamCDataConverter.class)
@@ -61,7 +65,6 @@ public class WxMaMessage implements Serializable {
   @XStreamConverter(value = XStreamCDataConverter.class)
   private Long msgId;
 
-  // 图片消息
   @SerializedName("PicUrl")
   @XStreamAlias("PicUrl")
   @XStreamConverter(value = XStreamCDataConverter.class)
@@ -72,7 +75,6 @@ public class WxMaMessage implements Serializable {
   @XStreamConverter(value = XStreamCDataConverter.class)
   private String mediaId;
 
-  // 事件消息
   @SerializedName("Event")
   @XStreamAlias("Event")
   @XStreamConverter(value = XStreamCDataConverter.class)
@@ -92,7 +94,7 @@ public class WxMaMessage implements Serializable {
   }
 
   /**
-   * 从加密字符串转换
+   * 从加密字符串转换.
    *
    * @param encryptedXml 密文
    * @param wxMaConfig   配置存储器对象
