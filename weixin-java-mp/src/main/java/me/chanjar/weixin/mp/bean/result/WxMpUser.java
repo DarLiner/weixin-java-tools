@@ -12,7 +12,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 /**
- * 微信用户信息
+ * 微信用户信息.
  *
  * @author chanjarster
  */
@@ -23,7 +23,14 @@ public class WxMpUser implements Serializable {
   private Boolean subscribe;
   private String openId;
   private String nickname;
-  private String sex;
+  /**
+   * 性别描述信息：男、女、未知等.
+   */
+  private String sexDesc;
+  /**
+   * 性别表示：1，2等数字.
+   */
+  private Integer sex;
   private String language;
   private String city;
   private String province;
@@ -40,12 +47,12 @@ public class WxMpUser implements Serializable {
    * </pre>
    */
   private String unionId;
-  private Integer sexId;
   private String remark;
   private Integer groupId;
   private Long[] tagIds;
+
   /**
-   * 用户特权信息，json 数组，如微信沃卡用户为（chinaunicom）
+   * 用户特权信息，json 数组，如微信沃卡用户为（chinaunicom）.
    */
   private String[] privileges;
 
