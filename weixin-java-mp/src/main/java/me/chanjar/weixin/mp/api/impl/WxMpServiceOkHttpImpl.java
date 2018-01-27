@@ -11,7 +11,10 @@ import okhttp3.*;
 import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 
-public class WxMpServiceOkHttpImpl extends WxMpServiceAbstractImpl<OkHttpClient, OkHttpProxyInfo> {
+/**
+ * okhttp实现
+ */
+public class WxMpServiceOkHttpImpl extends WxMpServiceBaseImpl<OkHttpClient, OkHttpProxyInfo> {
   private OkHttpClient httpClient;
   private OkHttpProxyInfo httpProxy;
 

@@ -2,7 +2,6 @@ package com.github.binarywang.wxpay.service;
 
 import com.github.binarywang.wxpay.bean.WxPayApiData;
 import com.github.binarywang.wxpay.bean.coupon.*;
-import com.github.binarywang.wxpay.bean.entpay.EntPayRequest;
 import com.github.binarywang.wxpay.bean.notify.WxPayOrderNotifyResult;
 import com.github.binarywang.wxpay.bean.notify.WxPayRefundNotifyResult;
 import com.github.binarywang.wxpay.bean.request.*;
@@ -207,18 +206,6 @@ public interface WxPayService {
    * @param mchBillNo 商户发放红包的商户订单号，比如10000098201411111234567890
    */
   WxPayRedpackQueryResult queryRedpack(String mchBillNo) throws WxPayException;
-
-  /**
-   * 请使用this.getEntPayService().entPay()方法{@link EntPayService#entPay(EntPayRequest)}
-   */
-  @Deprecated
-  WxEntPayResult entPay(WxEntPayRequest request) throws WxPayException;
-
-  /**
-   * 请使用this.getEntPayService().queryEntPay()方法 {@link EntPayService#queryEntPay(String)}
-   */
-  @Deprecated
-  WxEntPayQueryResult queryEntPay(String partnerTradeNo) throws WxPayException;
 
   /**
    * <pre>

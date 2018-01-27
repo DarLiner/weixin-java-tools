@@ -346,18 +346,6 @@ public abstract class BaseWxPayServiceImpl implements WxPayService {
   }
 
   @Override
-  @Deprecated
-  public WxEntPayResult entPay(WxEntPayRequest request) throws WxPayException {
-    return WxEntPayResult.createFrom(this.getEntPayService().entPay(request));
-  }
-
-  @Override
-  @Deprecated
-  public WxEntPayQueryResult queryEntPay(String partnerTradeNo) throws WxPayException {
-    return WxEntPayQueryResult.createFrom(this.getEntPayService().queryEntPay(partnerTradeNo));
-  }
-
-  @Override
   public byte[] createScanPayQrcodeMode1(String productId, File logoFile, Integer sideLength) {
     String content = this.createScanPayQrcodeMode1(productId);
     return this.createQrcode(content, logoFile, sideLength);
