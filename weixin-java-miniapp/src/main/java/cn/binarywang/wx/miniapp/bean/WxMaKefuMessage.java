@@ -1,8 +1,9 @@
 package cn.binarywang.wx.miniapp.bean;
 
-import cn.binarywang.wx.miniapp.builder.ImageBuilder;
-import cn.binarywang.wx.miniapp.builder.LinkBuilder;
-import cn.binarywang.wx.miniapp.builder.TextBuilder;
+import cn.binarywang.wx.miniapp.builder.ImageMessageBuilder;
+import cn.binarywang.wx.miniapp.builder.LinkMessageBuilder;
+import cn.binarywang.wx.miniapp.builder.MaPageMessageBuilder;
+import cn.binarywang.wx.miniapp.builder.TextMessageBuilder;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
@@ -77,22 +78,29 @@ public class WxMaKefuMessage implements Serializable {
   /**
    * 获得文本消息builder.
    */
-  public static TextBuilder newTextBuilder() {
-    return new TextBuilder();
+  public static TextMessageBuilder newTextBuilder() {
+    return new TextMessageBuilder();
   }
 
   /**
    * 获得图片消息builder.
    */
-  public static ImageBuilder newImageBuilder() {
-    return new ImageBuilder();
+  public static ImageMessageBuilder newImageBuilder() {
+    return new ImageMessageBuilder();
   }
 
   /**
    * 获得图文链接消息builder.
    */
-  public static LinkBuilder newLinkBuilder() {
-    return new LinkBuilder();
+  public static LinkMessageBuilder newLinkBuilder() {
+    return new LinkMessageBuilder();
+  }
+
+  /**
+   * 获得图文链接消息builder.
+   */
+  public static MaPageMessageBuilder newMaPageBuilder() {
+    return new MaPageMessageBuilder();
   }
 
   public String toJson() {

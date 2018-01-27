@@ -37,8 +37,20 @@ public class WxMaKefuMessageTest {
       .thumbUrl("thumbUrl")
       .build();
     assertThat(reply.toJson())
-      .isEqualTo( "{\"touser\":\"OPENID\",\"msgtype\":\"image\"," +
+      .isEqualTo( "{\"touser\":\"OPENID\",\"msgtype\":\"link\"," +
         "\"link\":{\"title\":\"title\",\"description\":\"description\",\"url\":\"url\",\"thumb_url\":\"thumbUrl\"}}");
+  }
+
+  public void testMaPageBuilder() {
+    WxMaKefuMessage reply = WxMaKefuMessage.newMaPageBuilder()
+      .toUser("OPENID")
+      .title("title")
+      .pagePath("pagePath")
+      .thumbMediaId("thumbMediaId")
+      .build();
+    assertThat(reply.toJson())
+      .isEqualTo( "{\"touser\":\"OPENID\",\"msgtype\":\"miniprogrampage\"," +
+        "\"miniprogrampage\":{\"title\":\"title\",\"pagepath\":\"pagePath\",\"thumb_media_id\":\"thumbMediaId\"}}");
   }
 
 

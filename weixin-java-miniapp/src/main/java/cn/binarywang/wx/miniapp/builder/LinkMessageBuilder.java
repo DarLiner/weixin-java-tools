@@ -1,39 +1,40 @@
 package cn.binarywang.wx.miniapp.builder;
 
 import cn.binarywang.wx.miniapp.bean.WxMaKefuMessage;
-import cn.binarywang.wx.miniapp.constant.WxMaConstants;
+
+import static cn.binarywang.wx.miniapp.constant.WxMaConstants.KefuMsgType;
 
 /**
- * 图文链接builder
+ * 图文链接消息builder
  *
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
-public class LinkBuilder extends BaseBuilder<LinkBuilder> {
+public class LinkMessageBuilder extends BaseBuilder<LinkMessageBuilder> {
   private String title;
   private String description;
   private String url;
   private String thumbUrl;
 
-  public LinkBuilder() {
-    this.msgType = WxMaConstants.KefuMsgType.IMAGE;
+  public LinkMessageBuilder() {
+    this.msgType = KefuMsgType.LINK;
   }
 
-  public LinkBuilder title(String title) {
+  public LinkMessageBuilder title(String title) {
     this.title = title;
     return this;
   }
 
-  public LinkBuilder description(String description) {
+  public LinkMessageBuilder description(String description) {
     this.description = description;
     return this;
   }
 
-  public LinkBuilder url(String url) {
+  public LinkMessageBuilder url(String url) {
     this.url = url;
     return this;
   }
 
-  public LinkBuilder thumbUrl(String thumbUrl) {
+  public LinkMessageBuilder thumbUrl(String thumbUrl) {
     this.thumbUrl = thumbUrl;
     return this;
   }

@@ -1,21 +1,22 @@
 package cn.binarywang.wx.miniapp.builder;
 
 import cn.binarywang.wx.miniapp.bean.WxMaKefuMessage;
-import cn.binarywang.wx.miniapp.constant.WxMaConstants;
+
+import static cn.binarywang.wx.miniapp.constant.WxMaConstants.KefuMsgType;
 
 /**
  * 文本消息builder.
  *
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
-public final class TextBuilder extends BaseBuilder<TextBuilder> {
+public final class TextMessageBuilder extends BaseBuilder<TextMessageBuilder> {
   private String content;
 
-  public TextBuilder() {
-    this.msgType = WxMaConstants.KefuMsgType.TEXT;
+  public TextMessageBuilder() {
+    this.msgType = KefuMsgType.TEXT;
   }
 
-  public TextBuilder content(String content) {
+  public TextMessageBuilder content(String content) {
     this.content = content;
     return this;
   }

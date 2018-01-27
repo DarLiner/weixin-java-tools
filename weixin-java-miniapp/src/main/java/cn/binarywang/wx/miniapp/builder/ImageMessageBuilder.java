@@ -1,21 +1,22 @@
 package cn.binarywang.wx.miniapp.builder;
 
 import cn.binarywang.wx.miniapp.bean.WxMaKefuMessage;
-import cn.binarywang.wx.miniapp.constant.WxMaConstants;
+
+import static cn.binarywang.wx.miniapp.constant.WxMaConstants.KefuMsgType;
 
 /**
  * 图片消息builder.
  *
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
-public final class ImageBuilder extends BaseBuilder<ImageBuilder> {
+public final class ImageMessageBuilder extends BaseBuilder<ImageMessageBuilder> {
   private String mediaId;
 
-  public ImageBuilder() {
-    this.msgType = WxMaConstants.KefuMsgType.IMAGE;
+  public ImageMessageBuilder() {
+    this.msgType = KefuMsgType.IMAGE;
   }
 
-  public ImageBuilder mediaId(String mediaId) {
+  public ImageMessageBuilder mediaId(String mediaId) {
     this.mediaId = mediaId;
     return this;
   }
