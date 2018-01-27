@@ -4,6 +4,8 @@ import cn.binarywang.wx.miniapp.bean.WxMaKefuMessage;
 import cn.binarywang.wx.miniapp.constant.WxMaConstants;
 
 /**
+ * 图片消息builder.
+ *
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
 public final class ImageBuilder extends BaseBuilder<ImageBuilder> {
@@ -21,7 +23,7 @@ public final class ImageBuilder extends BaseBuilder<ImageBuilder> {
   @Override
   public WxMaKefuMessage build() {
     WxMaKefuMessage m = super.build();
-    m.setMediaId(this.mediaId);
+    m.setImage(new WxMaKefuMessage.KfImage(this.mediaId));
     return m;
   }
 }

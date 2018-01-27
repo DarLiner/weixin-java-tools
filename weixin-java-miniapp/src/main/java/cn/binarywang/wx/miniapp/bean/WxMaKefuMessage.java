@@ -1,8 +1,12 @@
 package cn.binarywang.wx.miniapp.bean;
 
 import cn.binarywang.wx.miniapp.builder.ImageBuilder;
+import cn.binarywang.wx.miniapp.builder.LinkBuilder;
 import cn.binarywang.wx.miniapp.builder.TextBuilder;
-import cn.binarywang.wx.miniapp.util.json.WxMaGsonBuilder;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -16,13 +20,59 @@ import java.io.Serializable;
 public class WxMaKefuMessage implements Serializable {
   private static final long serialVersionUID = -9196732086954365246L;
 
+  @SerializedName("touser")
   private String toUser;
+
+  @SerializedName("msgtype")
   private String msgType;
-  private String content;
-  private String mediaId;
-  private String thumbMediaId;
-  private String title;
-  private String description;
+
+  @SerializedName("text")
+  private KfText text;
+
+  @SerializedName("image")
+  private KfImage image;
+
+  @SerializedName("link")
+  private KfLink link;
+
+  @SerializedName("miniprogrampage")
+  private KfMaPage maPage;
+
+  @Data
+  @AllArgsConstructor
+  public static class KfText {
+    private String content;
+  }
+
+  @Data
+  @AllArgsConstructor
+  public static class KfImage {
+    @SerializedName("media_id")
+    private String mediaId;
+  }
+
+  @Data
+  @Builder
+  public static class KfLink {
+    private String title;
+    private String description;
+    private String url;
+
+    @SerializedName("thumb_url")
+    private String thumbUrl;
+  }
+
+  @Data
+  @Builder
+  public static class KfMaPage {
+    private String title;
+
+    @SerializedName("pagepath")
+    private String pagePath;
+
+    @SerializedName("thumb_media_id")
+    private String thumbMediaId;
+  }
 
   /**
    * 获得文本消息builder.
@@ -38,8 +88,15 @@ public class WxMaKefuMessage implements Serializable {
     return new ImageBuilder();
   }
 
+  /**
+   * 获得图文链接消息builder.
+   */
+  public static LinkBuilder newLinkBuilder() {
+    return new LinkBuilder();
+  }
+
   public String toJson() {
-    return WxMaGsonBuilder.create().toJson(this);
+    return new GsonBuilder().create().toJson(this);
   }
 
 }

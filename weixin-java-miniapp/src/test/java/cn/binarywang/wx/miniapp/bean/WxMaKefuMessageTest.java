@@ -1,8 +1,8 @@
 package cn.binarywang.wx.miniapp.bean;
 
-import me.chanjar.weixin.common.api.WxConsts;
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
@@ -10,30 +10,35 @@ import org.testng.annotations.Test;
 @Test
 public class WxMaKefuMessageTest {
 
-  public void testTextReply() {
-    WxMaKefuMessage reply = new WxMaKefuMessage();
-    reply.setToUser("OPENID");
-    reply.setMsgType(WxConsts.KefuMsgType.TEXT);
-    reply.setContent("sfsfdsdf");
-    Assert.assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"text\",\"text\":{\"content\":\"sfsfdsdf\"}}");
+  public void testTextBuilder() {
+    WxMaKefuMessage reply = WxMaKefuMessage.newTextBuilder()
+      .toUser("OPENID")
+      .content("sfsfdsdf")
+      .build();
+    assertThat(reply.toJson())
+      .isEqualTo("{\"touser\":\"OPENID\",\"msgtype\":\"text\",\"text\":{\"content\":\"sfsfdsdf\"}}");
   }
 
-  public void testTextBuild() {
-    WxMaKefuMessage reply = WxMaKefuMessage.newTextBuilder().toUser("OPENID").content("sfsfdsdf").build();
-    Assert.assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"text\",\"text\":{\"content\":\"sfsfdsdf\"}}");
+  public void testImageBuilder() {
+    WxMaKefuMessage reply = WxMaKefuMessage.newImageBuilder()
+      .toUser("OPENID")
+      .        mediaId("MEDIA_ID")
+      .build();
+    assertThat(reply.toJson())
+      .isEqualTo( "{\"touser\":\"OPENID\",\"msgtype\":\"image\",\"image\":{\"media_id\":\"MEDIA_ID\"}}");
   }
 
-  public void testImageReply() {
-    WxMaKefuMessage reply = new WxMaKefuMessage();
-    reply.setToUser("OPENID");
-    reply.setMsgType(WxConsts.KefuMsgType.IMAGE);
-    reply.setMediaId("MEDIA_ID");
-    Assert.assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"image\",\"image\":{\"media_id\":\"MEDIA_ID\"}}");
-  }
-
-  public void testImageBuild() {
-    WxMaKefuMessage reply = WxMaKefuMessage.newImageBuilder().toUser("OPENID").mediaId("MEDIA_ID").build();
-    Assert.assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"image\",\"image\":{\"media_id\":\"MEDIA_ID\"}}");
+  public void testLinkBuilder() {
+    WxMaKefuMessage reply = WxMaKefuMessage.newLinkBuilder()
+      .toUser("OPENID")
+      .url("url")
+      .description("description")
+      .title("title")
+      .thumbUrl("thumbUrl")
+      .build();
+    assertThat(reply.toJson())
+      .isEqualTo( "{\"touser\":\"OPENID\",\"msgtype\":\"image\"," +
+        "\"link\":{\"title\":\"title\",\"description\":\"description\",\"url\":\"url\",\"thumb_url\":\"thumbUrl\"}}");
   }
 
 

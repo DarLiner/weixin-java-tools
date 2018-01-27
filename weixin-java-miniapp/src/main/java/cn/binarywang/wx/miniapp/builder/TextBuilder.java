@@ -4,6 +4,8 @@ import cn.binarywang.wx.miniapp.bean.WxMaKefuMessage;
 import cn.binarywang.wx.miniapp.constant.WxMaConstants;
 
 /**
+ * 文本消息builder.
+ *
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
 public final class TextBuilder extends BaseBuilder<TextBuilder> {
@@ -21,7 +23,7 @@ public final class TextBuilder extends BaseBuilder<TextBuilder> {
   @Override
   public WxMaKefuMessage build() {
     WxMaKefuMessage m = super.build();
-    m.setContent(this.content);
+    m.setText(new WxMaKefuMessage.KfText(this.content));
     return m;
   }
 }

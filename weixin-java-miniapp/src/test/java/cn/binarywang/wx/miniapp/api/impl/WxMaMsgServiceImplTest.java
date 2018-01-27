@@ -7,16 +7,14 @@ import cn.binarywang.wx.miniapp.test.ApiTestModule;
 import cn.binarywang.wx.miniapp.test.TestConfig;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import org.testng.annotations.Guice;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * 测试客服相关接口
+ * 测试消息相关接口
  *
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
@@ -25,26 +23,14 @@ import java.util.Date;
 public class WxMaMsgServiceImplTest {
 
   @Inject
-  protected WxMaService wxService;
-
-  public void testSendKefuMpNewsMessage() throws WxErrorException {
-    TestConfig configStorage = (TestConfig) this.wxService
-      .getWxMaConfig();
-    WxMaKefuMessage message = new WxMaKefuMessage();
-    message.setMsgType(WxConsts.KefuMsgType.MPNEWS);
-    message.setToUser(configStorage.getOpenid());
-
-    this.wxService.getMsgService().sendKefuMsg(message);
-  }
+  private WxMaService wxService;
 
   public void testSendKefuMessage() throws WxErrorException {
-    TestConfig config = (TestConfig) this.wxService
-      .getWxMaConfig();
-    WxMaKefuMessage message = new WxMaKefuMessage();
-    message.setMsgType(WxConsts.KefuMsgType.TEXT);
-    message.setToUser(config.getOpenid());
-    message.setContent(
-      "欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>");
+    TestConfig config = (TestConfig) this.wxService.getWxMaConfig();
+    WxMaKefuMessage message = WxMaKefuMessage.newTextBuilder()
+      .toUser(config.getOpenid())
+      .content("欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>")
+      .build();
 
     this.wxService.getMsgService().sendKefuMsg(message);
   }
