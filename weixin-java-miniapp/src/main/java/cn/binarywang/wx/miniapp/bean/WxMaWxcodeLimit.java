@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import java.io.Serializable;
 
 /**
+ * 小程序码接口B.
  *
  * @author Element
  * @date 2017/7/27
@@ -17,7 +18,7 @@ import java.io.Serializable;
 public class WxMaWxcodeLimit extends AbstractWxMaQrcodeWrapper implements Serializable {
   private static final long serialVersionUID = 4782193774524960401L;
   private String scene;
-  private String path;
+  private String page;
 
   private int width = 430;
 
@@ -29,11 +30,6 @@ public class WxMaWxcodeLimit extends AbstractWxMaQrcodeWrapper implements Serial
 
   public static WxMaWxcodeLimit fromJson(String json) {
     return WxMaGsonBuilder.create().fromJson(json, WxMaWxcodeLimit.class);
-  }
-
-  @Override
-  public String toString() {
-	return super.toString();
   }
 
 }
