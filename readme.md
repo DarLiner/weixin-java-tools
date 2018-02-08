@@ -43,6 +43,8 @@
 
 ---------------------------------
 ## Maven引用
+注意：以下为最新正式版，最新测试版本号为 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.binarywang/weixin-java-parent/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.binarywang/weixin-java-parent)
+
 ```xml
 <dependency>
   <groupId>com.github.binarywang</groupId>
