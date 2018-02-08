@@ -30,13 +30,13 @@ public class WxPayRedpackQueryResultTest {
       "<total_num>1</total_num>\n" +
       "<total_amount>100</total_amount>\n" +
       "<send_time><![CDATA[2018-01-23 13:45:08]]></send_time>\n" +
-      "<redpackList>\n" +
+      "<hblist>\n" +
       "<hbinfo>\n" +
       "<openid><![CDATA[o3yHF0uHuckI3yE6lwWiFQBQdVDI]]></openid>\n" +
       "<amount>100</amount>\n" +
       "<rcv_time><![CDATA[2018-01-23 13:45:31]]></rcv_time>\n" +
       "</hbinfo>\n" +
-      "</redpackList>\n" +
+      "</hblist>\n" +
       "</xml>";
 
     WxPayRedpackQueryResult orderQueryResult = WxPayRedpackQueryResult.fromXML(xmlString, WxPayRedpackQueryResult.class);

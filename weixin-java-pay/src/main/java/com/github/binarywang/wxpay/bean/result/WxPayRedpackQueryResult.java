@@ -1,12 +1,12 @@
 package com.github.binarywang.wxpay.bean.result;
 
+import java.io.Serializable;
+import java.util.List;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
-import java.util.List;
 
 /**
  * <pre>
@@ -220,7 +220,7 @@ public class WxPayRedpackQueryResult extends BaseWxPayResult {
    * 字段说明： 裂变红包的领取列表
    * </pre>
    */
-  @XStreamAlias("redpackList")
+  @XStreamAlias("hblist")
   private List<RedpackInfo> redpackList;
 
   @Data
