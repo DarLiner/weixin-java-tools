@@ -38,6 +38,7 @@ public class WxMaServiceImpl implements WxMaService, RequestHttp<CloseableHttpCl
   private WxMaMediaService materialService = new WxMaMediaServiceImpl(this);
   private WxMaUserService userService = new WxMaUserServiceImpl(this);
   private WxMaQrcodeService qrCodeService = new WxMaQrcodeServiceImpl(this);
+  private WxMaTemplateService templateService = new WxMaTemplateServiceImpl(this);
 
   private int retrySleepMillis = 1000;
   private int maxRetryTimes = 5;
@@ -258,5 +259,10 @@ public class WxMaServiceImpl implements WxMaService, RequestHttp<CloseableHttpCl
   @Override
   public WxMaQrcodeService getQrcodeService() {
     return this.qrCodeService;
+  }
+
+  @Override
+  public WxMaTemplateService getTemplateService() {
+    return this.templateService;
   }
 }

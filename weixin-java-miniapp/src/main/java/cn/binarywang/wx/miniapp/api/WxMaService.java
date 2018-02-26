@@ -122,6 +122,12 @@ public interface WxMaService {
   WxMaQrcodeService getQrcodeService();
 
   /**
+   * 返回模板配置相关接口方法的实现类对象, 以方便调用其各个接口
+   * @return WxMaTemplateService
+   */
+  WxMaTemplateService getTemplateService();
+
+  /**
    * 初始化http请求对象
    */
   void initHttp();
