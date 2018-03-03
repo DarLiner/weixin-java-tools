@@ -30,6 +30,21 @@ public class WxPayOrderQueryRequest extends BaseWxPayRequest {
 
   /**
    * <pre>
+   * 字段名：接口版本号.
+   * 变量名：version
+   * 是否必填：单品优惠必填
+   * 类型：String(32)
+   * 示例值：1.0
+   * 描述：单品优惠新增字段，区分原接口，固定填写1.0，
+   * 查单接口上传version后查询结果才返回单品信息，不上传不返回单品信息。
+   * 更多信息，详见文档：https://pay.weixin.qq.com/wiki/doc/api/danpin.php?chapter=9_102&index=2
+   * </pre>
+   */
+  @XStreamAlias("version")
+  private String version;
+
+  /**
+   * <pre>
    * 微信订单号
    * transaction_id
    * 二选一

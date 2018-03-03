@@ -29,6 +29,19 @@ public class WxPayOrderNotifyResult extends BaseWxPayResult {
 
   /**
    * <pre>
+   * 字段名：营销详情.
+   * 变量名：promotion_detail
+   * 是否必填：否，单品优惠才有
+   * 类型：String(6000)
+   * 示例值：[{"promotion_detail":[{"promotion_id":"109519","name":"单品惠-6","scope":"SINGLE","type":"DISCOUNT","amount":5,"activity_id":"931386","wxpay_contribute":0,"merchant_contribute":0,"other_contribute":5,"goods_detail":[{"goods_id":"a_goods1","goods_remark":"商品备注","quantity":7,"price":1,"discount_amount":4},{"goods_id":"a_goods2","goods_remark":"商品备注","quantity":1,"price":2,"discount_amount":1}]}]}
+   * 描述：单品优惠专用参数，详见https://pay.weixin.qq.com/wiki/doc/api/danpin.php?chapter=9_203&index=4
+   * </pre>
+   */
+  @XStreamAlias("promotion_detail")
+  private String promotionDetail;
+
+  /**
+   * <pre>
    * 字段名：设备号.
    * 变量名：device_info
    * 是否必填：否
@@ -105,7 +118,6 @@ public class WxPayOrderNotifyResult extends BaseWxPayResult {
    */
   @XStreamAlias("trade_type")
   private String tradeType;
-
 
   /**
    * <pre>
@@ -245,6 +257,7 @@ public class WxPayOrderNotifyResult extends BaseWxPayResult {
    */
   @XStreamAlias("attach")
   private String attach;
+
   /**
    * <pre>
    * 字段名：支付完成时间.

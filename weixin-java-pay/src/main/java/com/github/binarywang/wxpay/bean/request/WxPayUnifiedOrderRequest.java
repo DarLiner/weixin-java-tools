@@ -28,6 +28,21 @@ public class WxPayUnifiedOrderRequest extends BaseWxPayRequest {
 
   /**
    * <pre>
+   * 字段名：接口版本号.
+   * 变量名：version
+   * 是否必填：单品优惠必填
+   * 类型：String(32)
+   * 示例值：1.0
+   * 描述：单品优惠新增字段，接口版本号，区分原接口，默认填写1.0。
+   * 入参新增version后，则支付通知接口也将返回单品优惠信息字段promotion_detail，请确保支付通知的签名验证能通过。
+   * 更多信息，详见文档：https://pay.weixin.qq.com/wiki/doc/api/danpin.php?chapter=9_102&index=2
+   * </pre>
+   */
+  @XStreamAlias("version")
+  private String version;
+
+  /**
+   * <pre>
    * 字段名：设备号.
    * 变量名：device_info
    * 是否必填：否
