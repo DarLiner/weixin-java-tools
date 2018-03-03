@@ -6,11 +6,14 @@ import me.chanjar.weixin.cp.api.WxCpService;
 import me.chanjar.weixin.cp.bean.WxCpUser;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.testng.annotations.*;
+import org.testng.annotations.Guice;
+import org.testng.annotations.Test;
 
 import java.util.List;
+import java.util.Map;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertNotEquals;
+import static org.testng.Assert.assertNotNull;
 
 /**
  * <pre>
@@ -83,4 +86,24 @@ public class WxCpUserServiceImplTest {
     }
   }
 
+  @Test
+  @Deprecated
+  public void testInvite() throws Exception {
+    int result = this.wxCpService.getUserService().invite(userId, "");
+    System.out.println(result);
+  }
+
+  @Test
+  public void testUserId2Openid() throws Exception {
+    Map<String, String> result = this.wxCpService.getUserService().userId2Openid(userId, null);
+    System.out.println(result);
+    assertNotNull(result);
+  }
+
+  @Test
+  public void testOpenid2UserId() throws Exception {
+    String result = this.wxCpService.getUserService().openid2UserId(userId);
+    System.out.println(result);
+    assertNotNull(result);
+  }
 }

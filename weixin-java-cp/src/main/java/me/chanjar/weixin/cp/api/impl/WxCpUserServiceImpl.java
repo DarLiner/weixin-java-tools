@@ -1,5 +1,6 @@
 package me.chanjar.weixin.cp.api.impl;
 
+import com.google.common.collect.Maps;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -10,6 +11,7 @@ import me.chanjar.weixin.cp.util.json.WxCpGsonBuilder;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <pre>
@@ -114,6 +116,7 @@ public class WxCpUserServiceImpl implements WxCpUserService {
   }
 
   @Override
+  @Deprecated
   public int invite(String userId, String inviteTips) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/invite/send";
     JsonObject jsonObject = new JsonObject();
@@ -124,5 +127,38 @@ public class WxCpUserServiceImpl implements WxCpUserService {
     String responseContent = this.mainService.post(url, jsonObject.toString());
     JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
     return tmpJsonElement.getAsJsonObject().get("type").getAsInt();
+  }
+
+  @Override
+  public Map<String, String> userId2Openid(String userId, Integer agentId) throws WxErrorException {
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/convert_to_openid";
+    JsonObject jsonObject = new JsonObject();
+    jsonObject.addProperty("userid", userId);
+    if (agentId != null) {
+      jsonObject.addProperty("agentid", agentId);
+    }
+
+    String responseContent = this.mainService.post(url, jsonObject.toString());
+    JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
+    Map<String, String> result = Maps.newHashMap();
+    if (tmpJsonElement.getAsJsonObject().get("openid") != null) {
+      result.put("openid", tmpJsonElement.getAsJsonObject().get("openid").getAsString());
+    }
+
+    if (tmpJsonElement.getAsJsonObject().get("appid") != null) {
+      result.put("appid", tmpJsonElement.getAsJsonObject().get("appid").getAsString());
+    }
+
+    return result;
+  }
+
+  @Override
+  public String openid2UserId(String openid) throws WxErrorException {
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/convert_to_userid";
+    JsonObject jsonObject = new JsonObject();
+    jsonObject.addProperty("openid", openid);
+    String responseContent = this.mainService.post(url, jsonObject.toString());
+    JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
+    return tmpJsonElement.getAsJsonObject().get("userid").getAsString();
   }
 }
