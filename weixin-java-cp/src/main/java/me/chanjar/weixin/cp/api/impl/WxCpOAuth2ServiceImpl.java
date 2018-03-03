@@ -47,7 +47,7 @@ public class WxCpOAuth2ServiceImpl implements WxCpOAuth2Service {
 
   @Override
   public String[] getUserInfo(String code) throws WxErrorException {
-    return getUserInfo(this.mainService.getWxCpConfigStorage().getAgentId(), code);
+    return this.getUserInfo(this.mainService.getWxCpConfigStorage().getAgentId(), code);
   }
 
   @Override
