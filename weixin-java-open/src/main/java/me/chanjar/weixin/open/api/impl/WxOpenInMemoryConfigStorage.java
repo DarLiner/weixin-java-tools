@@ -228,12 +228,14 @@ public class WxOpenInMemoryConfigStorage implements WxOpenConfigStorage {
     private String token;
     private Long expiresTime;
   }
+
   private static class WxOpenInnerConfigStorage implements WxMpConfigStorage, WxMaConfig {
     private WxOpenConfigStorage wxOpenConfigStorage;
     private String appId;
     private Lock accessTokenLock = new ReentrantLock();
     private Lock jsapiTicketLock = new ReentrantLock();
     private Lock cardApiTicketLock = new ReentrantLock();
+
     private WxOpenInnerConfigStorage(WxOpenConfigStorage wxOpenConfigStorage, String appId) {
       this.wxOpenConfigStorage = wxOpenConfigStorage;
       this.appId = appId;

@@ -37,6 +37,7 @@ public interface WxOpenConfigStorage {
   void updateComponentAccessTokent(WxOpenComponentAccessToken componentAccessToken);
 
   WxMpConfigStorage getWxMpConfigStorage(String appId);
+
   WxMaConfig getWxMaConfig(String appId);
 
   /**
@@ -52,13 +53,11 @@ public interface WxOpenConfigStorage {
    */
   boolean autoRefreshToken();
 
-
   String getAuthorizerRefreshToken(String appId);
 
   void setAuthorizerRefreshToken(String appId, String authorizerRefreshToken);
 
   String getAuthorizerAccessToken(String appId);
-
 
   boolean isAuthorizerAccessTokenExpired(String appId);
 

@@ -39,7 +39,9 @@ public interface WxOpenComponentService {
   String MINIAPP_JSCODE_2_SESSION = "https://api.weixin.qq.com/sns/component/jscode2session?appid=%s&js_code=%s&grant_type=authorization_code&component_appid=%s";
 
   WxMpService getWxMpServiceByAppid(String appid);
+
   WxMaService getWxMaServiceByAppid(String appid);
+
   WxOpenConfigStorage getWxOpenConfigStorage();
 
   boolean checkSignature(String timestamp, String nonce, String signature);
@@ -52,6 +54,7 @@ public interface WxOpenComponentService {
   String getPreAuthUrl(String redirectURI) throws WxErrorException;
 
   String route(WxOpenXmlMessage wxMessage) throws WxErrorException;
+
   /**
    * 使用授权码换取公众号或小程序的接口调用凭据和授权信息
    */
@@ -81,6 +84,7 @@ public interface WxOpenComponentService {
   WxMpOAuth2AccessToken oauth2refreshAccessToken(String appid, String refreshToken) throws WxErrorException;
 
   String oauth2buildAuthorizationUrl(String appid, String redirectURI, String scope, String state);
+
   WxMaJscode2SessionResult miniappJscode2Session(String appid, String jsCode, String appId) throws WxErrorException;
 
 }

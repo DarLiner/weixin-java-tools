@@ -15,7 +15,8 @@ public class WxOpenAuthorizerInfoResult implements Serializable {
 
   private WxOpenAuthorizationInfo authorizationInfo;
   private WxOpenAuthorizerInfo authorizerInfo;
-  public boolean isMiniProgram(){
+
+  public boolean isMiniProgram() {
     return authorizerInfo != null && authorizerInfo.getMiniProgramInfo() != null;
   }
 }
