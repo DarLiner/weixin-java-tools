@@ -1,10 +1,14 @@
 package me.chanjar.weixin.mp.util.json;
 
-import com.google.gson.*;
+import java.lang.reflect.Type;
+
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import me.chanjar.weixin.common.util.json.GsonHelper;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
-
-import java.lang.reflect.Type;
 
 public class WxMpUserGsonAdapter implements JsonDeserializer<WxMpUser> {
 
@@ -31,18 +35,20 @@ public class WxMpUserGsonAdapter implements JsonDeserializer<WxMpUser> {
     user.setPrivileges(GsonHelper.getStringArray(o, "privilege"));
 
     Integer sex = GsonHelper.getInteger(o, "sex");
-    user.setSex(sex);
-    switch (sex) {
-      case 1:
-        user.setSexDesc("男");
-        break;
-      case 2:
-        user.setSexDesc("女");
-        break;
-      default:
-        user.setSexDesc("未知");
-    }
+    if (sex != null) {
+      user.setSex(sex);
+      switch (sex) {
+        case 1:
+          user.setSexDesc("男");
+          break;
+        case 2:
+          user.setSexDesc("女");
+          break;
+        default:
+          user.setSexDesc("未知");
+      }
 
+    }
     return user;
   }
 
