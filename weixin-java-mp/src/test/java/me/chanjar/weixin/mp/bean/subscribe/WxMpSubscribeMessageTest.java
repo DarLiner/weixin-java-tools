@@ -1,8 +1,8 @@
 package me.chanjar.weixin.mp.bean.subscribe;
 
-import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
-import org.testng.annotations.Test;
-import static org.testng.AssertJUnit.assertEquals;
+import org.testng.annotations.*;
+
+import static org.testng.AssertJUnit.*;
 
 /**
  * @author Mklaus
@@ -33,7 +33,7 @@ public class WxMpSubscribeMessageTest {
       .toUser("OPENID")
       .templateId("TEMPLATE_ID")
       .url("URL")
-      .miniProgram(new WxMpTemplateMessage.MiniProgram("xiaochengxuappid12345", "index?foo=bar"))
+      .miniProgram(new WxMpSubscribeMessage.MiniProgram("xiaochengxuappid12345", "index?foo=bar"))
       .scene("SCENE")
       .title("TITLE")
       .contentValue("VALUE")

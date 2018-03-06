@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
+import java.io.Serializable;
+
 /**
  * @author Mklaus
  * @date 2018-01-22 下午12:18
@@ -41,7 +43,7 @@ public class WxMpSubscribeMessage {
    *
    * @see #url
    */
-  private WxMpTemplateMessage.MiniProgram miniProgram;
+  private MiniProgram miniProgram;
 
   /**
    * 订阅场景值
@@ -68,5 +70,13 @@ public class WxMpSubscribeMessage {
     return WxMpGsonBuilder.INSTANCE.create().toJson(this);
   }
 
+  @Data
+  @NoArgsConstructor
+  @AllArgsConstructor
+  public static class MiniProgram implements Serializable {
+    private static final long serialVersionUID = -7945254706501974849L;
 
+    private String appid;
+    private String pagePath;
+  }
 }
