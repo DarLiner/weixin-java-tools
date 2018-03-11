@@ -34,10 +34,16 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService {
 
   @Override
   public WxMediaUploadResult mediaUpload(String mediaType, String fileType, InputStream inputStream) throws WxErrorException {
+    File tmpFile = null;
     try {
-      return this.mediaUpload(mediaType, FileUtils.createTmpFile(inputStream, UUID.randomUUID().toString(), fileType));
+      tmpFile = FileUtils.createTmpFile(inputStream, UUID.randomUUID().toString(), fileType);
+      return this.mediaUpload(mediaType, tmpFile);
     } catch (IOException e) {
       throw new WxErrorException(WxError.builder().errorCode(-1).errorMsg(e.getMessage()).build(), e);
+    } finally {
+      if (tmpFile != null) {
+        tmpFile.delete();
+      }
     }
   }
 
