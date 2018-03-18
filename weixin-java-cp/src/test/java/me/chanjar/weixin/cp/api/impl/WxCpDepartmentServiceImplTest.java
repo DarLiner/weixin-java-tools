@@ -8,6 +8,7 @@ import org.testng.annotations.*;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.*;
 
 /**
@@ -34,16 +35,24 @@ public class WxCpDepartmentServiceImplTest {
     System.out.println(departId);
   }
 
-  @Test
-  public void testListAll() throws Exception {
+  @DataProvider
+  public Object[][] departIds(){
+    return new Object[][]{
+      {null},
+      {1},
+      {5}
+    };
+  }
+
+  @Test(dataProvider = "departIds")
+  public void testList(Integer id) throws Exception {
     System.out.println("=================获取部门");
-    List<WxCpDepart> departList = this.wxCpService.getDepartmentService().listAll();
-    assertNotNull(departList);
-    assertTrue(departList.size() > 0);
+    List<WxCpDepart> departList = this.wxCpService.getDepartmentService().list(id);
+    assertThat(departList).isNotEmpty();
     for (WxCpDepart g : departList) {
       this.depart = g;
       System.out.println(this.depart.getId() + ":" + this.depart.getName());
-      assertNotNull(g.getName());
+      assertThat(g.getName()).isNotBlank();
     }
   }
 
