@@ -143,6 +143,7 @@ public class WxPayRefundRequest extends BaseWxPayRequest {
    */
   @XStreamAlias("refund_account")
   private String refundAccount;
+
   /**
    * <pre>
    * 字段名：退款原因.
@@ -155,6 +156,20 @@ public class WxPayRefundRequest extends BaseWxPayRequest {
    */
   @XStreamAlias("refund_desc")
   private String refundDesc;
+
+  /**
+   * <pre>
+   * 字段名：退款结果通知url.
+   * 变量名：notify_url
+   * 是否必填：否
+   * 类型：String(256)
+   * 示例值：https://weixin.qq.com/notify/
+   * 描述：	异步接收微信支付退款结果通知的回调地址，通知URL必须为外网可访问的url，不允许带参数
+   如果参数中传了notify_url，则商户平台上配置的回调地址将不会生效。
+   * </pre>
+   */
+  @XStreamAlias("notify_url")
+  private String notifyUrl;
 
   @Override
   public void checkAndSign(WxPayConfig config) throws WxPayException {
