@@ -10,7 +10,7 @@
     <version>2.9.9.BETA</version>
   </parent>
   <artifactId>weixin-java-miniapp</artifactId>
-  <name>WeiXin Java Tools - MiniApp</name>
+  <name>Weixin Java Tools - MiniApp</name>
   <description>微信小程序Java SDK</description>
 
   <dependencies>

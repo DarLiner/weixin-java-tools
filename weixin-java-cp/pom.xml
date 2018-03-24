@@ -11,7 +11,7 @@
   </parent>
 
   <artifactId>weixin-java-cp</artifactId>
-  <name>WeiXin Java Tools - CP</name>
+  <name>Weixin Java Tools - CP</name>
   <description>微信企业号Java SDK</description>
 
   <dependencies>

@@ -10,7 +10,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>weixin-java-pay</artifactId>
-  <name>WeiXin Java Tools - PAY</name>
+  <name>Weixin Java Tools - PAY</name>
   <description>微信支付 Java SDK</description>
 
   <dependencies>
