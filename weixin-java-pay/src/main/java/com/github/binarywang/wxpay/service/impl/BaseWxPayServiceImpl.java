@@ -27,6 +27,7 @@ import com.github.binarywang.wxpay.bean.coupon.WxPayCouponStockQueryRequest;
 import com.github.binarywang.wxpay.bean.coupon.WxPayCouponStockQueryResult;
 import com.github.binarywang.wxpay.bean.notify.WxPayOrderNotifyResult;
 import com.github.binarywang.wxpay.bean.notify.WxPayRefundNotifyResult;
+import com.github.binarywang.wxpay.bean.notify.WxScanPayNotifyResult;
 import com.github.binarywang.wxpay.bean.order.WxPayAppOrderResult;
 import com.github.binarywang.wxpay.bean.order.WxPayMpOrderResult;
 import com.github.binarywang.wxpay.bean.order.WxPayNativeOrderResult;
@@ -186,6 +187,24 @@ public abstract class BaseWxPayServiceImpl implements WxPayService {
       log.error(e.getMessage(), e);
       throw new WxPayException("发生异常，" + e.getMessage(), e);
     }
+  }
+
+  @Override
+  public WxScanPayNotifyResult parseScanPayNotifyResult(String xmlData) throws WxPayException {
+    try {
+      log.debug("扫码支付回调通知请求参数：{}", xmlData);
+      WxScanPayNotifyResult result = BaseWxPayResult.fromXML(xmlData,WxScanPayNotifyResult.class);
+      log.debug("扫码支付回调通知解析后的对象：{}", result);
+      result.checkResult(this, this.getConfig().getSignType(), false);
+      return result;
+    } catch (WxPayException e) {
+      log.error(e.getMessage(), e);
+      throw e;
+    } catch (Exception e) {
+      log.error(e.getMessage(), e);
+      throw new WxPayException("发生异常，" + e.getMessage(), e);
+    }
+
   }
 
   @Override
