@@ -1,18 +1,10 @@
 package cn.binarywang.wx.miniapp.api.impl;
 
-import cn.binarywang.wx.miniapp.api.*;
-import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
-import cn.binarywang.wx.miniapp.config.WxMaConfig;
-import cn.binarywang.wx.miniapp.constant.WxMaConstants;
-import com.google.common.base.Joiner;
-import com.google.gson.JsonParser;
-import me.chanjar.weixin.common.bean.WxAccessToken;
-import me.chanjar.weixin.common.bean.result.WxError;
-import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.util.crypto.SHA1;
-import me.chanjar.weixin.common.util.http.*;
-import me.chanjar.weixin.common.util.http.apache.ApacheHttpClientBuilder;
-import me.chanjar.weixin.common.util.http.apache.DefaultApacheHttpClientBuilder;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.locks.Lock;
+
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -22,16 +14,32 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.locks.Lock;
+import cn.binarywang.wx.miniapp.api.WxMaMediaService;
+import cn.binarywang.wx.miniapp.api.WxMaMsgService;
+import cn.binarywang.wx.miniapp.api.WxMaQrcodeService;
+import cn.binarywang.wx.miniapp.api.WxMaService;
+import cn.binarywang.wx.miniapp.api.WxMaTemplateService;
+import cn.binarywang.wx.miniapp.api.WxMaUserService;
+import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
+import cn.binarywang.wx.miniapp.config.WxMaConfig;
+import cn.binarywang.wx.miniapp.constant.WxMaConstants;
+import com.google.common.base.Joiner;
+import me.chanjar.weixin.common.bean.WxAccessToken;
+import me.chanjar.weixin.common.bean.result.WxError;
+import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.util.crypto.SHA1;
+import me.chanjar.weixin.common.util.http.HttpType;
+import me.chanjar.weixin.common.util.http.RequestExecutor;
+import me.chanjar.weixin.common.util.http.RequestHttp;
+import me.chanjar.weixin.common.util.http.SimpleGetRequestExecutor;
+import me.chanjar.weixin.common.util.http.SimplePostRequestExecutor;
+import me.chanjar.weixin.common.util.http.apache.ApacheHttpClientBuilder;
+import me.chanjar.weixin.common.util.http.apache.DefaultApacheHttpClientBuilder;
 
 /**
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
 public class WxMaServiceImpl implements WxMaService, RequestHttp<CloseableHttpClient, HttpHost> {
-  private static final JsonParser JSON_PARSER = new JsonParser();
   private final Logger log = LoggerFactory.getLogger(this.getClass());
 
   private CloseableHttpClient httpClient;
@@ -137,6 +145,7 @@ public class WxMaServiceImpl implements WxMaService, RequestHttp<CloseableHttpCl
     String result = get(JSCODE_TO_SESSION_URL, Joiner.on("&").withKeyValueSeparator("=").join(params));
     return WxMaJscode2SessionResult.fromJson(result);
   }
+
   @Override
   public boolean checkSignature(String timestamp, String nonce, String signature) {
     try {

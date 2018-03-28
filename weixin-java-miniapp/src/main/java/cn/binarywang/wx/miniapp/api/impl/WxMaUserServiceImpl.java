@@ -1,5 +1,10 @@
 package cn.binarywang.wx.miniapp.api.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.codec.digest.DigestUtils;
+
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.api.WxMaUserService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
@@ -8,10 +13,6 @@ import cn.binarywang.wx.miniapp.config.WxMaConfig;
 import cn.binarywang.wx.miniapp.util.crypt.WxMaCryptUtils;
 import com.google.common.base.Joiner;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import org.apache.commons.codec.digest.DigestUtils;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
