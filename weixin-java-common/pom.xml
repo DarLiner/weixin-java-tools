@@ -7,11 +7,11 @@
   <parent>
     <groupId>com.github.binarywang</groupId>
     <artifactId>weixin-java-parent</artifactId>
-    <version>2.9.0</version>
+    <version>2.9.9.BETA</version>
   </parent>
 
   <artifactId>weixin-java-common</artifactId>
-  <name>WeiXin Java Tools - Common</name>
+  <name>Weixin Java Tools - Common</name>
   <description>微信公众号、企业号Java SDK Common</description>
 
   <dependencies>

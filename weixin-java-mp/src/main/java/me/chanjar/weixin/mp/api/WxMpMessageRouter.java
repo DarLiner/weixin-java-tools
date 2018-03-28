@@ -130,6 +130,16 @@ public class WxMpMessageRouter {
    * 处理微信消息
    */
   public WxMpXmlOutMessage route(final WxMpXmlMessage wxMessage, final Map<String, Object> context) {
+    return route(wxMessage, context, null);
+  }
+  /**
+   * 处理微信消息
+   */
+  public WxMpXmlOutMessage route(final WxMpXmlMessage wxMessage, final Map<String, Object> context, WxMpService wxMpService) {
+    if(wxMpService == null){
+      wxMpService = this.wxMpService;
+    }
+    final WxMpService mpService = wxMpService;
     if (isMsgDuplicated(wxMessage)) {
       // 如果是重复消息，那么就不做处理
       return null;
@@ -159,12 +169,12 @@ public class WxMpMessageRouter {
           this.executorService.submit(new Runnable() {
             @Override
             public void run() {
-              rule.service(wxMessage, context, WxMpMessageRouter.this.wxMpService, WxMpMessageRouter.this.sessionManager, WxMpMessageRouter.this.exceptionHandler);
+              rule.service(wxMessage, context, mpService, WxMpMessageRouter.this.sessionManager, WxMpMessageRouter.this.exceptionHandler);
             }
           })
         );
       } else {
-        res = rule.service(wxMessage, context, this.wxMpService, this.sessionManager, this.exceptionHandler);
+        res = rule.service(wxMessage, context, mpService, this.sessionManager, this.exceptionHandler);
         // 在同步操作结束，session访问结束
         this.log.debug("End session access: async=false, sessionId={}", wxMessage.getFromUser());
         sessionEndAccess(wxMessage);

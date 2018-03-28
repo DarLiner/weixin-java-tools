@@ -1,5 +1,6 @@
-package com.github.binarywang.wxpay.bean.request;
+package com.github.binarywang.wxpay.bean.entpay;
 
+import com.github.binarywang.wxpay.bean.request.BaseWxPayRequest;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.*;
 import me.chanjar.weixin.common.annotation.Required;
@@ -7,16 +8,9 @@ import me.chanjar.weixin.common.util.ToStringUtils;
 
 /**
  * <pre>
- * 企业付款请求对象
- * 注释中各行每个字段描述对应如下：
- * <li>字段名
- * <li>变量名
- * <li>是否必填
- * <li>类型
- * <li>示例值
- * <li>描述
- * </pre>
+ * 企业付款请求对象.
  * Created by Binary Wang on 2016/10/19.
+ * </pre>
  *
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
@@ -26,15 +20,17 @@ import me.chanjar.weixin.common.util.ToStringUtils;
 @NoArgsConstructor
 @AllArgsConstructor
 @XStreamAlias("xml")
-public class WxEntPayQueryRequest extends WxPayBaseRequest {
+public class EntPayQueryRequest extends BaseWxPayRequest {
+  private static final long serialVersionUID = 1972288742207813985L;
+
   /**
    * <pre>
-   * 商户订单号
-   * partner_trade_no
-   * 是
-   * 10000098201411111234567890
-   * String
-   * 商户订单号
+   * 字段名：商户订单号.
+   * 变量名：partner_trade_no
+   * 是否必填：是
+   * 示例值：10000098201411111234567890
+   * 类型：String
+   * 描述商户订单号
    * </pre>
    */
   @Required

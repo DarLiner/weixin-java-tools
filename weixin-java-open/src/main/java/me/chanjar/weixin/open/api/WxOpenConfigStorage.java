@@ -1,5 +1,6 @@
 package me.chanjar.weixin.open.api;
 
+import cn.binarywang.wx.miniapp.config.WxMaConfig;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
 import me.chanjar.weixin.open.bean.WxOpenAuthorizerAccessToken;
 import me.chanjar.weixin.open.bean.WxOpenComponentAccessToken;
@@ -37,6 +38,8 @@ public interface WxOpenConfigStorage {
 
   WxMpConfigStorage getWxMpConfigStorage(String appId);
 
+  WxMaConfig getWxMaConfig(String appId);
+
   /**
    * 应该是线程安全的
    *
@@ -50,13 +53,11 @@ public interface WxOpenConfigStorage {
    */
   boolean autoRefreshToken();
 
-
   String getAuthorizerRefreshToken(String appId);
 
   void setAuthorizerRefreshToken(String appId, String authorizerRefreshToken);
 
   String getAuthorizerAccessToken(String appId);
-
 
   boolean isAuthorizerAccessTokenExpired(String appId);
 

@@ -1,5 +1,6 @@
-package com.github.binarywang.wxpay.bean.request;
+package com.github.binarywang.wxpay.bean.entpay;
 
+import com.github.binarywang.wxpay.bean.request.BaseWxPayRequest;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.*;
 import me.chanjar.weixin.common.annotation.Required;
@@ -7,9 +8,9 @@ import me.chanjar.weixin.common.util.ToStringUtils;
 
 /**
  * <pre>
- * 企业付款请求对象
- * </pre>
+ * 企业付款请求对象.
  * Created by Binary Wang on 2016/10/02.
+ * </pre>
  *
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
@@ -20,10 +21,10 @@ import me.chanjar.weixin.common.util.ToStringUtils;
 @NoArgsConstructor
 @AllArgsConstructor
 @XStreamAlias("xml")
-public class WxEntPayRequest extends WxPayBaseRequest {
+public class EntPayRequest extends BaseWxPayRequest {
   /**
    * <pre>
-   * 字段名：公众账号appid
+   * 字段名：公众账号appid.
    * 变量名：mch_appid
    * 是否必填：是
    * 示例值：wx8888888888888888
@@ -36,7 +37,7 @@ public class WxEntPayRequest extends WxPayBaseRequest {
 
   /**
    * <pre>
-   * 字段名：商户号
+   * 字段名：商户号.
    * 变量名：mchid
    * 是否必填：是
    * 示例值：1900000109
@@ -49,7 +50,7 @@ public class WxEntPayRequest extends WxPayBaseRequest {
 
   /**
    * <pre>
-   * 字段名：设备号
+   * 字段名：设备号.
    * 变量名：device_info
    * 是否必填：否
    * 示例值：13467007045764
@@ -62,7 +63,7 @@ public class WxEntPayRequest extends WxPayBaseRequest {
 
   /**
    * <pre>
-   * 字段名：商户订单号
+   * 字段名：商户订单号.
    * 变量名：partner_trade_no
    * 是否必填：是
    * 示例值：10000098201411111234567890
@@ -76,7 +77,7 @@ public class WxEntPayRequest extends WxPayBaseRequest {
 
   /**
    * <pre>
-   * 字段名：需保持唯一性 用户openid
+   * 字段名：需保持唯一性 用户openid.
    * 变量名：openid
    * 是否必填：是
    * 示例值：oxTWIuGaIt6gTKsQRLau2M0yL16E
@@ -90,7 +91,7 @@ public class WxEntPayRequest extends WxPayBaseRequest {
 
   /**
    * <pre>
-   * 字段名：校验用户姓名选项
+   * 字段名：校验用户姓名选项.
    * 变量名：check_name
    * 是否必填：是
    * 示例值：OPTION_CHECK
@@ -106,7 +107,7 @@ public class WxEntPayRequest extends WxPayBaseRequest {
 
   /**
    * <pre>
-   * 字段名：收款用户姓名
+   * 字段名：收款用户姓名.
    * 变量名：re_user_name
    * 是否必填：可选
    * 示例值：马花花
@@ -120,7 +121,7 @@ public class WxEntPayRequest extends WxPayBaseRequest {
 
   /**
    * <pre>
-   * 字段名：金额
+   * 字段名：金额.
    * 变量名：amount
    * 是否必填：是
    * 示例值：10099
@@ -134,7 +135,7 @@ public class WxEntPayRequest extends WxPayBaseRequest {
 
   /**
    * <pre>
-   * 字段名：企业付款描述信息
+   * 字段名：企业付款描述信息.
    * 变量名：desc
    * 是否必填：是
    * 示例值：理赔
@@ -148,7 +149,7 @@ public class WxEntPayRequest extends WxPayBaseRequest {
 
   /**
    * <pre>
-   * 字段名：Ip地址
+   * 字段名：Ip地址.
    * 变量名：spbill_create_ip
    * 是否必填：是
    * 示例值：192.168.0.1
@@ -190,4 +191,8 @@ public class WxEntPayRequest extends WxPayBaseRequest {
     return ToStringUtils.toSimpleString(this);
   }
 
+  @Override
+  protected boolean ignoreSignType() {
+    return true;
+  }
 }

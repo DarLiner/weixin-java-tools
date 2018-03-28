@@ -36,11 +36,6 @@ import me.chanjar.weixin.open.api.WxOpenComponentService;
     return wxOpenComponentService.oauth2getAccessToken(appId, code);
   }
 
-//  @Override
-//  public boolean checkSignature(String timestamp, String nonce, String signature) {
-//    return wxOpenComponentService.checkSignature(appId, timestamp, nonce, signature);
-//  }
-
   @Override
   public WxMpOAuth2AccessToken oauth2refreshAccessToken(String refreshToken) throws WxErrorException {
     return wxOpenComponentService.oauth2refreshAccessToken(appId, refreshToken);

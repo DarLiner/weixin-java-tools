@@ -1,6 +1,7 @@
 package me.chanjar.weixin.open.api;
 
-import me.chanjar.weixin.common.bean.result.WxError;
+import cn.binarywang.wx.miniapp.api.WxMaService;
+import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
@@ -33,9 +34,13 @@ public interface WxOpenComponentService {
   /**
    * 刷新oauth2的access token
    */
-  String OAUTH2_REFRESH_TOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/component/refresh_token?appid=%s&grant_type=refresh_token&refresh_token=%s&component_appid==%s";
+  String OAUTH2_REFRESH_TOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/component/refresh_token?appid=%s&grant_type=refresh_token&refresh_token=%s&component_appid=%s";
+
+  String MINIAPP_JSCODE_2_SESSION = "https://api.weixin.qq.com/sns/component/jscode2session?appid=%s&js_code=%s&grant_type=authorization_code&component_appid=%s";
 
   WxMpService getWxMpServiceByAppid(String appid);
+
+  WxMaService getWxMaServiceByAppid(String appid);
 
   WxOpenConfigStorage getWxOpenConfigStorage();
 
@@ -68,7 +73,7 @@ public interface WxOpenComponentService {
   /**
    * 设置授权方的选项信息
    */
-  WxError setAuthorizerOption(String authorizerAppid, String optionName, String optionValue) throws WxErrorException;
+  void setAuthorizerOption(String authorizerAppid, String optionName, String optionValue) throws WxErrorException;
 
   String getAuthorizerAccessToken(String appid, boolean forceRefresh) throws WxErrorException;
 
@@ -79,5 +84,7 @@ public interface WxOpenComponentService {
   WxMpOAuth2AccessToken oauth2refreshAccessToken(String appid, String refreshToken) throws WxErrorException;
 
   String oauth2buildAuthorizationUrl(String appid, String redirectURI, String scope, String state);
+
+  WxMaJscode2SessionResult miniappJscode2Session(String appId, String jsCode) throws WxErrorException;
 
 }

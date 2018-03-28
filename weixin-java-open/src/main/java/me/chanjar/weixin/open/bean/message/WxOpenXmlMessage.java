@@ -53,7 +53,7 @@ public class WxOpenXmlMessage implements Serializable {
   @XStreamConverter(value = XStreamCDataConverter.class)
   private String preAuthCode;
 
-  public static String wxMpOutXmlMessageToEncryptedXml(WxMpXmlOutMessage message, WxOpenConfigStorage wxOpenConfigStorage){
+  public static String wxMpOutXmlMessageToEncryptedXml(WxMpXmlOutMessage message, WxOpenConfigStorage wxOpenConfigStorage) {
     String plainXml = message.toXml();
     WxOpenCryptUtil pc = new WxOpenCryptUtil(wxOpenConfigStorage);
     return pc.encrypt(plainXml);

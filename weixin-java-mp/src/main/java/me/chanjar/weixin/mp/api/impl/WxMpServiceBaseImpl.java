@@ -13,8 +13,11 @@ import me.chanjar.weixin.common.util.RandomUtils;
 import me.chanjar.weixin.common.util.crypto.SHA1;
 import me.chanjar.weixin.common.util.http.*;
 import me.chanjar.weixin.mp.api.*;
-import me.chanjar.weixin.mp.bean.*;
-import me.chanjar.weixin.mp.bean.result.*;
+import me.chanjar.weixin.mp.bean.WxMpSemanticQuery;
+import me.chanjar.weixin.mp.bean.result.WxMpCurrentAutoReplyInfo;
+import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
+import me.chanjar.weixin.mp.bean.result.WxMpSemanticQueryResult;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +25,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 
-public abstract class WxMpServiceAbstractImpl<H, P> implements WxMpService, RequestHttp<H, P> {
+public abstract class WxMpServiceBaseImpl<H, P> implements WxMpService, RequestHttp<H, P> {
 
   private static final JsonParser JSON_PARSER = new JsonParser();
 
@@ -40,6 +43,7 @@ public abstract class WxMpServiceAbstractImpl<H, P> implements WxMpService, Requ
   private WxMpDataCubeService dataCubeService = new WxMpDataCubeServiceImpl(this);
   private WxMpUserBlacklistService blackListService = new WxMpUserBlacklistServiceImpl(this);
   private WxMpTemplateMsgService templateMsgService = new WxMpTemplateMsgServiceImpl(this);
+  private WxMpSubscribeMsgService subscribeMsgService = new WxMpSubscribeMsgServiceImpl(this);
   private WxMpDeviceService deviceService = new WxMpDeviceServiceImpl(this);
   private WxMpShakeService shakeService = new WxMpShakeServiceImpl(this);
   private WxMpMemberCardService memberCardService = new WxMpMemberCardServiceImpl(this);
@@ -91,14 +95,14 @@ public abstract class WxMpServiceAbstractImpl<H, P> implements WxMpService, Requ
   @Override
   public WxJsapiSignature createJsapiSignature(String url) throws WxErrorException {
     long timestamp = System.currentTimeMillis() / 1000;
-    String noncestr = RandomUtils.getRandomStr();
+    String randomStr = RandomUtils.getRandomStr();
     String jsapiTicket = getJsapiTicket(false);
     String signature = SHA1.genWithAmple("jsapi_ticket=" + jsapiTicket,
-      "noncestr=" + noncestr, "timestamp=" + timestamp, "url=" + url);
+      "noncestr=" + randomStr, "timestamp=" + timestamp, "url=" + url);
     WxJsapiSignature jsapiSignature = new WxJsapiSignature();
     jsapiSignature.setAppId(this.getWxMpConfigStorage().getAppId());
     jsapiSignature.setTimestamp(timestamp);
-    jsapiSignature.setNonceStr(noncestr);
+    jsapiSignature.setNonceStr(randomStr);
     jsapiSignature.setUrl(url);
     jsapiSignature.setSignature(signature);
     return jsapiSignature;
@@ -110,10 +114,10 @@ public abstract class WxMpServiceAbstractImpl<H, P> implements WxMpService, Requ
   }
 
   @Override
-  public String shortUrl(String long_url) throws WxErrorException {
+  public String shortUrl(String longUrl) throws WxErrorException {
     JsonObject o = new JsonObject();
     o.addProperty("action", "long2short");
-    o.addProperty("long_url", long_url);
+    o.addProperty("long_url", longUrl);
     String responseContent = this.post(WxMpService.SHORTURL_API_URL, o.toString());
     JsonElement tmpJsonElement = JSON_PARSER.parse(responseContent);
     return tmpJsonElement.getAsJsonObject().get("short_url").getAsString();
@@ -160,12 +164,12 @@ public abstract class WxMpServiceAbstractImpl<H, P> implements WxMpService, Requ
   }
 
   @Override
-  public WxMpUser oauth2getUserInfo(WxMpOAuth2AccessToken oAuth2AccessToken, String lang) throws WxErrorException {
+  public WxMpUser oauth2getUserInfo(WxMpOAuth2AccessToken token, String lang) throws WxErrorException {
     if (lang == null) {
       lang = "zh_CN";
     }
 
-    String url = String.format(WxMpService.OAUTH2_USERINFO_URL, oAuth2AccessToken.getAccessToken(), oAuth2AccessToken.getOpenId(), lang);
+    String url = String.format(WxMpService.OAUTH2_USERINFO_URL, token.getAccessToken(), token.getOpenId(), lang);
 
     try {
       RequestExecutor<String, String> executor = SimpleGetRequestExecutor.create(this);
@@ -177,8 +181,8 @@ public abstract class WxMpServiceAbstractImpl<H, P> implements WxMpService, Requ
   }
 
   @Override
-  public boolean oauth2validateAccessToken(WxMpOAuth2AccessToken oAuth2AccessToken) {
-    String url = String.format(WxMpService.OAUTH2_VALIDATE_TOKEN_URL, oAuth2AccessToken.getAccessToken(), oAuth2AccessToken.getOpenId());
+  public boolean oauth2validateAccessToken(WxMpOAuth2AccessToken token) {
+    String url = String.format(WxMpService.OAUTH2_VALIDATE_TOKEN_URL, token.getAccessToken(), token.getOpenId());
 
     try {
       SimpleGetRequestExecutor.create(this).execute(url, null);
@@ -225,8 +229,9 @@ public abstract class WxMpServiceAbstractImpl<H, P> implements WxMpService, Requ
   }
 
   /**
-   * 向微信端发送请求，在这里执行的策略是当发生access_token过期时才去刷新，然后重新执行请求，而不是全局定时请求
+   * 向微信端发送请求，在这里执行的策略是当发生access_token过期时才去刷新，然后重新执行请求，而不是全局定时请求.
    */
+  @Override
   public <T, E> T execute(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
     int retryTimes = 0;
     do {
@@ -263,6 +268,7 @@ public abstract class WxMpServiceAbstractImpl<H, P> implements WxMpService, Requ
     if (uri.contains("access_token=")) {
       throw new IllegalArgumentException("uri参数中不允许有access_token: " + uri);
     }
+
     String accessToken = getAccessToken(false);
 
     String uriWithAccessToken = uri + (uri.contains("?") ? "&" : "?") + "access_token=" + accessToken;
@@ -294,7 +300,7 @@ public abstract class WxMpServiceAbstractImpl<H, P> implements WxMpService, Requ
       return null;
     } catch (IOException e) {
       this.log.error("\n【请求地址】: {}\n【请求参数】：{}\n【异常信息】：{}", uriWithAccessToken, data, e.getMessage());
-      throw new RuntimeException(e);
+      throw new WxErrorException(WxError.builder().errorMsg(e.getMessage()).build(), e);
     }
   }
 
@@ -372,6 +378,11 @@ public abstract class WxMpServiceAbstractImpl<H, P> implements WxMpService, Requ
   @Override
   public WxMpTemplateMsgService getTemplateMsgService() {
     return this.templateMsgService;
+  }
+
+  @Override
+  public WxMpSubscribeMsgService getSubscribeMsgService() {
+    return this.subscribeMsgService;
   }
 
   @Override

@@ -11,7 +11,7 @@
 
   <artifactId>weixin-java-osgi</artifactId>
   <packaging>bundle</packaging>
-  <name>WeiXin Java Tools - OSGI</name>
+  <name>Weixin Java Tools - OSGI</name>
   <description>微信公众号Java SDK OSGI</description>
 
   <dependencies>

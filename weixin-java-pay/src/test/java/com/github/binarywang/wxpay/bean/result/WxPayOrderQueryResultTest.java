@@ -11,8 +11,8 @@ import org.testng.annotations.*;
  */
 public class WxPayOrderQueryResultTest {
   @Test
-  public void testComposeCoupons() throws Exception {
-    /**
+  public void testComposeCoupons() {
+    /*
      * xml样例字符串来自于官方文档，并稍加改造加入了coupon相关的数据便于测试
      */
     String xmlString = "<xml>\n" +

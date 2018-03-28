@@ -1,11 +1,15 @@
 package cn.binarywang.wx.miniapp.util.xml;
 
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import cn.binarywang.wx.miniapp.bean.WxMaMessage;
 import com.thoughtworks.xstream.XStream;
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
-
-import java.io.InputStream;
-import java.util.*;
 
 /**
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
@@ -45,7 +49,7 @@ public class XStreamTransformer {
    * @param clz     类型
    * @param xStream xml解析器
    */
-  private static void register(Class<?> clz, XStream xStream) {
+  public static void register(Class<?> clz, XStream xStream) {
     CLASS_2_XSTREAM_INSTANCE.put(clz, xStream);
   }
 

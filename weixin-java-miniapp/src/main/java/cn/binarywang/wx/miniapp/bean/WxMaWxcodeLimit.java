@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import java.io.Serializable;
 
 /**
+ * 小程序码接口B.
  *
  * @author Element
  * @date 2017/7/27

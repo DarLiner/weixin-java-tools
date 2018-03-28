@@ -54,7 +54,8 @@ public class WxMaQrcodeServiceImpl implements WxMaQrcodeService {
   }
 
   @Override
-  public File createWxCodeLimit(String scene, String page, int width, boolean autoColor, WxMaCodeLineColor lineColor) throws WxErrorException {
+  public File createWxCodeLimit(String scene, String page, int width, boolean autoColor, WxMaCodeLineColor lineColor)
+    throws WxErrorException {
     WxMaWxcodeLimit wxMaWxcodeLimit = new WxMaWxcodeLimit();
     wxMaWxcodeLimit.setScene(scene);
     wxMaWxcodeLimit.setPage(page);

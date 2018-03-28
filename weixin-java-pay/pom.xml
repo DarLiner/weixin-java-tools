@@ -5,12 +5,12 @@
   <parent>
     <artifactId>weixin-java-parent</artifactId>
     <groupId>com.github.binarywang</groupId>
-    <version>2.9.0</version>
+    <version>2.9.9.BETA</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>weixin-java-pay</artifactId>
-  <name>WeiXin Java Tools - PAY</name>
+  <name>Weixin Java Tools - PAY</name>
   <description>微信支付 Java SDK</description>
 
   <dependencies>
@@ -27,12 +27,22 @@
     <dependency>
       <groupId>org.jodd</groupId>
       <artifactId>jodd-http</artifactId>
-      <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>1.9.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcpkix-jdk15on</artifactId>
+      <version>1.59</version>
     </dependency>
 
     <dependency>
@@ -46,9 +56,18 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-guava</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>com.google.inject</groupId>
       <artifactId>guice</artifactId>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
     </dependency>
   </dependencies>
 

@@ -8,10 +8,10 @@
   <parent>
     <groupId>com.github.binarywang</groupId>
     <artifactId>weixin-java-parent</artifactId>
-    <version>2.9.0</version>
+    <version>2.9.9.BETA</version>
   </parent>
   <artifactId>weixin-java-open</artifactId>
-  <name>WeiXin Java Tools - Open</name>
+  <name>Weixin Java Tools - Open</name>
   <description>微信开放平台Java SDK</description>
   <developers>
     <developer>
@@ -29,6 +29,11 @@
     <dependency>
       <groupId>com.github.binarywang</groupId>
       <artifactId>weixin-java-mp</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.github.binarywang</groupId>
+      <artifactId>weixin-java-miniapp</artifactId>
       <version>${project.version}</version>
     </dependency>
 
@@ -76,6 +81,10 @@
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
     </dependency>
   </dependencies>
 

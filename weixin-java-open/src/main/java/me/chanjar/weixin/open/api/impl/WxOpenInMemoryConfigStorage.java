@@ -1,6 +1,7 @@
 package me.chanjar.weixin.open.api.impl;
 
 
+import cn.binarywang.wx.miniapp.config.WxMaConfig;
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.common.util.http.apache.ApacheHttpClientBuilder;
@@ -101,7 +102,12 @@ public class WxOpenInMemoryConfigStorage implements WxOpenConfigStorage {
 
   @Override
   public WxMpConfigStorage getWxMpConfigStorage(String appId) {
-    return new WxOpenMpConfigStorage(this, appId);
+    return new WxOpenInnerConfigStorage(this, appId);
+  }
+
+  @Override
+  public WxMaConfig getWxMaConfig(String appId) {
+    return new WxOpenInnerConfigStorage(this, appId);
   }
 
   @Override
@@ -223,13 +229,14 @@ public class WxOpenInMemoryConfigStorage implements WxOpenConfigStorage {
     private Long expiresTime;
   }
 
-  private static class WxOpenMpConfigStorage implements WxMpConfigStorage {
+  private static class WxOpenInnerConfigStorage implements WxMpConfigStorage, WxMaConfig {
     private WxOpenConfigStorage wxOpenConfigStorage;
     private String appId;
     private Lock accessTokenLock = new ReentrantLock();
     private Lock jsapiTicketLock = new ReentrantLock();
     private Lock cardApiTicketLock = new ReentrantLock();
-    private WxOpenMpConfigStorage(WxOpenConfigStorage wxOpenConfigStorage, String appId) {
+
+    private WxOpenInnerConfigStorage(WxOpenConfigStorage wxOpenConfigStorage, String appId) {
       this.wxOpenConfigStorage = wxOpenConfigStorage;
       this.appId = appId;
     }
@@ -257,6 +264,11 @@ public class WxOpenInMemoryConfigStorage implements WxOpenConfigStorage {
     @Override
     public synchronized void updateAccessToken(String accessToken, int expiresInSeconds) {
       wxOpenConfigStorage.updateAuthorizerAccessToken(appId, accessToken, expiresInSeconds);
+    }
+
+    @Override
+    public String getAppid() {
+      return this.appId;
     }
 
     @Override
@@ -333,6 +345,11 @@ public class WxOpenInMemoryConfigStorage implements WxOpenConfigStorage {
     }
 
     @Override
+    public String getTemplateId() {
+      return null;
+    }
+
+    @Override
     public long getExpiresTime() {
       return 0;
     }
@@ -341,6 +358,11 @@ public class WxOpenInMemoryConfigStorage implements WxOpenConfigStorage {
     @Override
     public String getAesKey() {
       return wxOpenConfigStorage.getComponentAesKey();
+    }
+
+    @Override
+    public String getMsgDataFormat() {
+      return null;
     }
 
     @Override

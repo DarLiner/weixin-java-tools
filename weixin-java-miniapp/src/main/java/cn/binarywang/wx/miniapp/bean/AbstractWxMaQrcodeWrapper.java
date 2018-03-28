@@ -8,10 +8,12 @@ import cn.binarywang.wx.miniapp.util.json.WxMaGsonBuilder;
  * @author Element
  */
 public abstract class AbstractWxMaQrcodeWrapper {
-
-  @Override
-  public String toString() {
+  public String toJson() {
     return WxMaGsonBuilder.create().toJson(this);
   }
 
+  @Override
+  public String toString() {
+    return this.toJson();
+  }
 }

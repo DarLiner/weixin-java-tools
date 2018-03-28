@@ -56,11 +56,14 @@ public class OkHttpMediaDownloadRequestExecutor extends BaseMediaDownloadRequest
       return null;
     }
 
-    File file = File.createTempFile(FilenameUtils.getBaseName(fileName), FilenameUtils.getExtension(fileName),
-      super.tmpDirFile);
+    File file = File.createTempFile(
+      FilenameUtils.getBaseName(fileName), "." + FilenameUtils.getExtension(fileName), super.tmpDirFile
+    );
+
     try (BufferedSink sink = Okio.buffer(Okio.sink(file))) {
       sink.writeAll(response.body().source());
     }
+
     file.deleteOnExit();
     return file;
   }

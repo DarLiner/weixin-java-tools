@@ -29,11 +29,12 @@ public interface WxCpDepartmentService {
 
   /**
    * <pre>
-   * 部门管理接口 - 查询所有部门
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=部门管理接口
+   * 部门管理接口 - 查询部门
+   * 详情请见: http://qydev.weixin.qq.com/wiki/index.php?title=%E7%AE%A1%E7%90%86%E9%83%A8%E9%97%A8#.E8.8E.B7.E5.8F.96.E9.83.A8.E9.97.A8.E5.88.97.E8.A1.A8
    * </pre>
+   * @param id 部门id。获取指定部门及其下的子部门。非必需，可为null
    */
-  List<WxCpDepart> listAll() throws WxErrorException;
+  List<WxCpDepart> list(Integer id) throws WxErrorException;
 
   /**
    * <pre>

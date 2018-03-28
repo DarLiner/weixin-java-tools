@@ -19,9 +19,9 @@ import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 
 /**
- * apache-http方式实现
+ * apache http client方式实现.
  */
-public class WxMpServiceApacheHttpClientImpl extends WxMpServiceAbstractImpl<CloseableHttpClient, HttpHost> {
+public class WxMpServiceHttpClientImpl extends WxMpServiceBaseImpl<CloseableHttpClient, HttpHost> {
   private CloseableHttpClient httpClient;
   private HttpHost httpProxy;
 

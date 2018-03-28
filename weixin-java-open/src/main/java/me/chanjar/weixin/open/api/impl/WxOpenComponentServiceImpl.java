@@ -1,7 +1,8 @@
 package me.chanjar.weixin.open.api.impl;
 
+import cn.binarywang.wx.miniapp.api.WxMaService;
+import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import com.google.gson.JsonObject;
-import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.crypto.SHA1;
 import me.chanjar.weixin.common.util.http.URIUtil;
@@ -30,7 +31,10 @@ import java.util.Map;
  * @author <a href="https://github.com/007gzs">007</a>
  */
 public class WxOpenComponentServiceImpl implements WxOpenComponentService {
-  private static final Map<String, WxMpService> wxOpenMpServiceMap = new Hashtable<>();
+
+  private static final Map<String, WxMaService> WX_OPEN_MA_SERVICE_MAP = new Hashtable<>();
+  private static final Map<String, WxMpService> WX_OPEN_MP_SERVICE_MAP = new Hashtable<>();
+
   protected final Logger log = LoggerFactory.getLogger(this.getClass());
   private WxOpenService wxOpenService;
 
@@ -40,18 +44,33 @@ public class WxOpenComponentServiceImpl implements WxOpenComponentService {
 
   @Override
   public WxMpService getWxMpServiceByAppid(String appId) {
-    WxMpService wxMpService = wxOpenMpServiceMap.get(appId);
+    WxMpService wxMpService = WX_OPEN_MP_SERVICE_MAP.get(appId);
     if (wxMpService == null) {
-      synchronized (wxOpenMpServiceMap) {
-        wxMpService = wxOpenMpServiceMap.get(appId);
+      synchronized (WX_OPEN_MP_SERVICE_MAP) {
+        wxMpService = WX_OPEN_MP_SERVICE_MAP.get(appId);
         if (wxMpService == null) {
           wxMpService = new WxOpenMpServiceImpl(this, appId, getWxOpenConfigStorage().getWxMpConfigStorage(appId));
 
-          wxOpenMpServiceMap.put(appId, wxMpService);
+          WX_OPEN_MP_SERVICE_MAP.put(appId, wxMpService);
         }
       }
     }
     return wxMpService;
+  }
+
+  @Override
+  public WxMaService getWxMaServiceByAppid(String appId) {
+    WxMaService wxMaService = WX_OPEN_MA_SERVICE_MAP.get(appId);
+    if (wxMaService == null) {
+      synchronized (WX_OPEN_MA_SERVICE_MAP) {
+        wxMaService = WX_OPEN_MA_SERVICE_MAP.get(appId);
+        if (wxMaService == null) {
+          wxMaService = new WxOpenMaServiceImpl(this, appId, getWxOpenConfigStorage().getWxMaConfig(appId));
+          WX_OPEN_MA_SERVICE_MAP.put(appId, wxMaService);
+        }
+      }
+    }
+    return wxMaService;
   }
 
   public WxOpenService getWxOpenService() {
@@ -137,7 +156,7 @@ public class WxOpenComponentServiceImpl implements WxOpenComponentService {
       }
       return "success";
     }
-    return null;
+    return "";
   }
 
   @Override
@@ -169,14 +188,13 @@ public class WxOpenComponentServiceImpl implements WxOpenComponentService {
   }
 
   @Override
-  public WxError setAuthorizerOption(String authorizerAppid, String optionName, String optionValue) throws WxErrorException {
+  public void setAuthorizerOption(String authorizerAppid, String optionName, String optionValue) throws WxErrorException {
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("component_appid", getWxOpenConfigStorage().getComponentAppId());
     jsonObject.addProperty("authorizer_appid", authorizerAppid);
     jsonObject.addProperty("option_name", optionName);
     jsonObject.addProperty("option_value", optionValue);
-    String responseContent = post(API_SET_AUTHORIZER_OPTION_URL, jsonObject.toString());
-    return WxGsonBuilder.create().fromJson(responseContent, WxError.class);
+    post(API_SET_AUTHORIZER_OPTION_URL, jsonObject.toString());
   }
 
   @Override
@@ -218,6 +236,13 @@ public class WxOpenComponentServiceImpl implements WxOpenComponentService {
   public String oauth2buildAuthorizationUrl(String appId, String redirectURI, String scope, String state) {
     return String.format(CONNECT_OAUTH2_AUTHORIZE_URL,
       appId, URIUtil.encodeURIComponent(redirectURI), scope, StringUtils.trimToEmpty(state), getWxOpenConfigStorage().getComponentAppId());
+  }
+
+  @Override
+  public WxMaJscode2SessionResult miniappJscode2Session(String appId, String jsCode) throws WxErrorException {
+    String url = String.format(MINIAPP_JSCODE_2_SESSION, appId, jsCode, getWxOpenConfigStorage().getComponentAppId());
+    String responseContent = get(url);
+    return WxMaJscode2SessionResult.fromJson(responseContent);
   }
 
 }

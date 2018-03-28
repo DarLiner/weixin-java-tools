@@ -1,12 +1,18 @@
 package me.chanjar.weixin.cp.util.xml;
 
-import com.thoughtworks.xstream.XStream;
-import me.chanjar.weixin.common.util.xml.XStreamInitializer;
-import me.chanjar.weixin.cp.bean.*;
-
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.thoughtworks.xstream.XStream;
+import me.chanjar.weixin.common.util.xml.XStreamInitializer;
+import me.chanjar.weixin.cp.bean.WxCpXmlMessage;
+import me.chanjar.weixin.cp.bean.WxCpXmlOutImageMessage;
+import me.chanjar.weixin.cp.bean.WxCpXmlOutMessage;
+import me.chanjar.weixin.cp.bean.WxCpXmlOutNewsMessage;
+import me.chanjar.weixin.cp.bean.WxCpXmlOutTextMessage;
+import me.chanjar.weixin.cp.bean.WxCpXmlOutVideoMessage;
+import me.chanjar.weixin.cp.bean.WxCpXmlOutVoiceMessage;
 
 public class XStreamTransformer {
 
@@ -38,7 +44,7 @@ public class XStreamTransformer {
   }
 
   /**
-   * pojo -> xml
+   * pojo -> xml.
    */
   public static <T> String toXml(Class<T> clazz, T object) {
     return CLASS_2_XSTREAM_INSTANCE.get(clazz).toXML(object);
