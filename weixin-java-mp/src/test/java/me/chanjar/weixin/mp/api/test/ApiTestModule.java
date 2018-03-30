@@ -1,5 +1,12 @@
 package me.chanjar.weixin.mp.api.test;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.concurrent.locks.ReentrantLock;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.thoughtworks.xstream.XStream;
@@ -8,16 +15,18 @@ import me.chanjar.weixin.mp.api.WxMpConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.impl.WxMpServiceOkHttpImpl;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.concurrent.locks.ReentrantLock;
-
 public class ApiTestModule implements Module {
+  private final Logger log = LoggerFactory.getLogger(this.getClass());
+  private static final String TEST_CONFIG_XML = "test-config.xml";
 
   @Override
   public void configure(Binder binder) {
-    try (InputStream is1 = ClassLoader.getSystemResourceAsStream("test-config.xml")) {
-      TestConfigStorage config = this.fromXml(TestConfigStorage.class, is1);
+    try (InputStream inputStream = ClassLoader.getSystemResourceAsStream(TEST_CONFIG_XML)) {
+      if (inputStream == null) {
+        throw new RuntimeException("测试配置文件【" + TEST_CONFIG_XML + "】未找到，请参照test-config-sample.xml文件生成");
+      }
+
+      TestConfigStorage config = this.fromXml(TestConfigStorage.class, inputStream);
       config.setAccessTokenLock(new ReentrantLock());
       WxMpService wxService = new WxMpServiceOkHttpImpl();
       wxService.setWxMpConfigStorage(config);
@@ -25,7 +34,7 @@ public class ApiTestModule implements Module {
       binder.bind(WxMpService.class).toInstance(wxService);
       binder.bind(WxMpConfigStorage.class).toInstance(config);
     } catch (IOException e) {
-      e.printStackTrace();
+      this.log.error(e.getMessage(), e);
     }
   }
 
