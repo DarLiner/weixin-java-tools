@@ -4,7 +4,7 @@ import cn.binarywang.wx.miniapp.builder.ImageMessageBuilder;
 import cn.binarywang.wx.miniapp.builder.LinkMessageBuilder;
 import cn.binarywang.wx.miniapp.builder.MaPageMessageBuilder;
 import cn.binarywang.wx.miniapp.builder.TextMessageBuilder;
-import com.google.gson.GsonBuilder;
+import cn.binarywang.wx.miniapp.util.json.WxMaGsonBuilder;
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -104,7 +104,7 @@ public class WxMaKefuMessage implements Serializable {
   }
 
   public String toJson() {
-    return new GsonBuilder().create().toJson(this);
+    return WxMaGsonBuilder.create().toJson(this);
   }
 
 }
