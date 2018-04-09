@@ -6,6 +6,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import me.chanjar.weixin.common.annotation.Required;
 
 /**
@@ -18,6 +19,7 @@ import me.chanjar.weixin.common.annotation.Required;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 @Builder
 @XStreamAlias("xml")
 public class EntPayBankRequest extends BaseWxPayRequest {
