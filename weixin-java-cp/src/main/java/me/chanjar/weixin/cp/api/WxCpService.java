@@ -249,6 +249,8 @@ public interface WxCpService {
    */
   WxCpUserService getUserService();
 
+  WxCpAgentService getAgentService();
+
   /**
    * http请求对象
    */

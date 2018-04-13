@@ -39,6 +39,7 @@ public abstract class WxCpServiceAbstractImpl<H, P> implements WxCpService, Requ
   private WxCpMenuService menuService = new WxCpMenuServiceImpl(this);
   private WxCpOAuth2Service oauth2Service = new WxCpOAuth2ServiceImpl(this);
   private WxCpTagService tagService = new WxCpTagServiceImpl(this);
+  private WxCpAgentService agentService = new WxCpAgentServiceImpl(this);
 
   /**
    * 全局的是否正在刷新access token的锁
@@ -367,5 +368,14 @@ public abstract class WxCpServiceAbstractImpl<H, P> implements WxCpService, Requ
   @Override
   public void setTagService(WxCpTagService tagService) {
     this.tagService = tagService;
+  }
+
+  @Override
+  public WxCpAgentService getAgentService() {
+    return agentService;
+  }
+
+  public void setAgentService(WxCpAgentService agentService) {
+    this.agentService = agentService;
   }
 }
