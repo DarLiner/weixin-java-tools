@@ -23,7 +23,7 @@ public class WxMpTemplateMessageGsonAdapter implements JsonSerializer<WxMpTempla
     if (message.getMiniProgram() != null) {
       JsonObject miniProgramJson = new JsonObject();
       miniProgramJson.addProperty("appid", message.getMiniProgram().getAppid());
-      miniProgramJson.addProperty("path", message.getMiniProgram().getPath());
+      miniProgramJson.addProperty("pagepath", message.getMiniProgram().getPagePath());
       messageJson.add("miniprogram", miniProgramJson);
     }
 

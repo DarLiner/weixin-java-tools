@@ -76,7 +76,7 @@ public class WxMpTemplateMessage implements Serializable {
     private static final long serialVersionUID = -7945254706501974849L;
 
     private String appid;
-    private String path;
+    private String pagePath;
   }
 
 }
