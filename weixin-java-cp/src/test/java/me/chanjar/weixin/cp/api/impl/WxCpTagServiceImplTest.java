@@ -2,15 +2,20 @@ package me.chanjar.weixin.cp.api.impl;
 
 import com.google.common.base.Splitter;
 import com.google.inject.Inject;
+import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.cp.api.ApiTestModule;
 import me.chanjar.weixin.cp.api.WxCpService;
+import me.chanjar.weixin.cp.api.WxCpTagService;
 import me.chanjar.weixin.cp.bean.WxCpTag;
 import me.chanjar.weixin.cp.bean.WxCpTagAddOrRemoveUsersResult;
+import me.chanjar.weixin.cp.bean.WxCpTagGetResult;
 import me.chanjar.weixin.cp.bean.WxCpUser;
 import org.testng.annotations.*;
 
 import java.util.List;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.testng.Assert.*;
 
 /**
@@ -70,6 +75,26 @@ public class WxCpTagServiceImplTest {
   @Test(dependsOnMethods = {"testRemoveUsersFromTag", "testListUsersByTagId", "testAddUsers2Tag", "testListAll", "testUpdate", "testCreate"})
   public void testDelete() throws Exception {
     this.wxService.getTagService().delete(this.tagId);
+  }
+
+  @Test
+  public void testGet() throws WxErrorException {
+    String apiResultJson = "{\"errcode\": 0,\"errmsg\": \"ok\",\"userlist\": [{\"userid\": \"0124035\",\"name\": \"王五\"},{\"userid\": \"0114035\",\"name\": \"梦雪\"}],\"partylist\": [9576,9567,9566],\"tagname\": \"测试标签-001\"}";
+    WxCpService wxService = mock(WxCpService.class);
+    when(wxService.get("https://qyapi.weixin.qq.com/cgi-bin/tag/get?tagId=150", null)).thenReturn(apiResultJson);
+    when(wxService.getTagService()).thenReturn(new WxCpTagServiceImpl(wxService));
+
+    WxCpTagService wxCpTagService = wxService.getTagService();
+
+    WxCpTagGetResult wxCpTagGetResult = wxCpTagService.get(String.valueOf(150));
+
+    assertEquals(0, wxCpTagGetResult.getErrcode().intValue());
+
+    assertEquals(2, wxCpTagGetResult.getUserlist().size());
+    assertEquals(3, wxCpTagGetResult.getPartylist().size());
+    assertEquals("测试标签-001", wxCpTagGetResult.getTagname());
+
+
   }
 
 }

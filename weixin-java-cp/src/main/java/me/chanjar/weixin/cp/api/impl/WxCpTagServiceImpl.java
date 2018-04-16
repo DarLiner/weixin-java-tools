@@ -7,6 +7,7 @@ import me.chanjar.weixin.cp.api.WxCpService;
 import me.chanjar.weixin.cp.api.WxCpTagService;
 import me.chanjar.weixin.cp.bean.WxCpTag;
 import me.chanjar.weixin.cp.bean.WxCpTagAddOrRemoveUsersResult;
+import me.chanjar.weixin.cp.bean.WxCpTagGetResult;
 import me.chanjar.weixin.cp.bean.WxCpUser;
 import me.chanjar.weixin.cp.util.json.WxCpGsonBuilder;
 
@@ -112,5 +113,19 @@ public class WxCpTagServiceImpl implements WxCpTagService {
     jsonObject.add("userlist", jsonArray);
 
     return WxCpTagAddOrRemoveUsersResult.fromJson(this.mainService.post(url, jsonObject.toString()));
+  }
+
+  @Override
+  public WxCpTagGetResult get(String tagId) throws WxErrorException {
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/tag/get";
+    if (tagId != null) {
+      url += "?tagId=" + tagId;
+    } else {
+      throw new IllegalArgumentException("缺少tagId参数");
+    }
+
+    String responseContent = this.mainService.get(url, null);
+
+    return WxCpTagGetResult.fromJson(responseContent);
   }
 }

@@ -3,6 +3,7 @@ package me.chanjar.weixin.cp.api;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.cp.bean.WxCpTag;
 import me.chanjar.weixin.cp.bean.WxCpTagAddOrRemoveUsersResult;
+import me.chanjar.weixin.cp.bean.WxCpTagGetResult;
 import me.chanjar.weixin.cp.bean.WxCpUser;
 
 import java.util.List;
@@ -63,4 +64,16 @@ public interface WxCpTagService {
    * @param userIds 用户id列表
    */
   WxCpTagAddOrRemoveUsersResult removeUsersFromTag(String tagId, List<String> userIds) throws WxErrorException;
+
+
+  /**
+   * 获取标签成员
+   * 对应: http://qydev.weixin.qq.com/wiki/index.php?title=管理标签 中的get接口
+   *
+   * @param tagId
+   * @return
+   * @throws WxErrorException
+   */
+  WxCpTagGetResult get(String tagId) throws WxErrorException;
+
 }
