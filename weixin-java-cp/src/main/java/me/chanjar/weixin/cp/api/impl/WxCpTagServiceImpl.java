@@ -83,6 +83,22 @@ public class WxCpTagServiceImpl implements WxCpTagService {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/tag/addtagusers";
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("tagid", tagId);
+    this.addUserIdsAndPartyIdsToJson(userIds, partyIds, jsonObject);
+
+    return WxCpTagAddOrRemoveUsersResult.fromJson(this.mainService.post(url, jsonObject.toString()));
+  }
+
+  @Override
+  public WxCpTagAddOrRemoveUsersResult removeUsersFromTag(String tagId, List<String> userIds, List<String> partyIds) throws WxErrorException {
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/tag/deltagusers";
+    JsonObject jsonObject = new JsonObject();
+    jsonObject.addProperty("tagid", tagId);
+    this.addUserIdsAndPartyIdsToJson(userIds, partyIds, jsonObject);
+
+    return WxCpTagAddOrRemoveUsersResult.fromJson(this.mainService.post(url, jsonObject.toString()));
+  }
+
+  private void addUserIdsAndPartyIdsToJson(List<String> userIds, List<String> partyIds, JsonObject jsonObject) {
     if (userIds != null) {
       JsonArray jsonArray = new JsonArray();
       for (String userId : userIds) {
@@ -90,6 +106,7 @@ public class WxCpTagServiceImpl implements WxCpTagService {
       }
       jsonObject.add("userlist", jsonArray);
     }
+
     if (partyIds != null) {
       JsonArray jsonArray = new JsonArray();
       for (String userId : partyIds) {
@@ -97,22 +114,6 @@ public class WxCpTagServiceImpl implements WxCpTagService {
       }
       jsonObject.add("partylist", jsonArray);
     }
-
-    return WxCpTagAddOrRemoveUsersResult.fromJson(this.mainService.post(url, jsonObject.toString()));
-  }
-
-  @Override
-  public WxCpTagAddOrRemoveUsersResult removeUsersFromTag(String tagId, List<String> userIds) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/tag/deltagusers";
-    JsonObject jsonObject = new JsonObject();
-    jsonObject.addProperty("tagid", tagId);
-    JsonArray jsonArray = new JsonArray();
-    for (String userId : userIds) {
-      jsonArray.add(new JsonPrimitive(userId));
-    }
-    jsonObject.add("userlist", jsonArray);
-
-    return WxCpTagAddOrRemoveUsersResult.fromJson(this.mainService.post(url, jsonObject.toString()));
   }
 
   @Override

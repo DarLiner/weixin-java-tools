@@ -10,13 +10,15 @@ import me.chanjar.weixin.cp.bean.WxCpTag;
 import me.chanjar.weixin.cp.bean.WxCpTagAddOrRemoveUsersResult;
 import me.chanjar.weixin.cp.bean.WxCpTagGetResult;
 import me.chanjar.weixin.cp.bean.WxCpUser;
-import org.testng.annotations.*;
+import org.testng.annotations.Guice;
+import org.testng.annotations.Test;
 
 import java.util.List;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotEquals;
 
 /**
  * <pre>
@@ -68,7 +70,7 @@ public class WxCpTagServiceImplTest {
   @Test(dependsOnMethods = {"testListUsersByTagId", "testAddUsers2Tag", "testListAll", "testUpdate", "testCreate"})
   public void testRemoveUsersFromTag() throws Exception {
     List<String> userIds = Splitter.on("|").splitToList(this.configStorage.getUserId());
-    WxCpTagAddOrRemoveUsersResult result = this.wxService.getTagService().removeUsersFromTag(this.tagId, userIds);
+    WxCpTagAddOrRemoveUsersResult result = this.wxService.getTagService().removeUsersFromTag(this.tagId, userIds, null);
     assertEquals(result.getErrCode(), Integer.valueOf(0));
   }
 
