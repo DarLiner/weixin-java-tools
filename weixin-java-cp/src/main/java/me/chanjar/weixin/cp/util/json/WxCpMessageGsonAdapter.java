@@ -48,6 +48,7 @@ public class WxCpMessageGsonAdapter implements JsonSerializer<WxCpMessage> {
       text.addProperty("title", message.getTitle());
       text.addProperty("description", message.getDescription());
       text.addProperty("url", message.getUrl());
+      text.addProperty("btntxt", message.getBtnTxt());
       messageJson.add("textcard", text);
     }
 
