@@ -131,6 +131,7 @@ public abstract class BaseWxPayServiceImpl implements WxPayService {
     String url = this.getPayBaseUrl() + "/secapi/pay/refund";
     String responseContent = this.post(url, request.toXML(), true);
     WxPayRefundResult result = BaseWxPayResult.fromXML(responseContent, WxPayRefundResult.class);
+    result.composeRefundCoupons();
     result.checkResult(this, request.getSignType(), true);
     return result;
   }
