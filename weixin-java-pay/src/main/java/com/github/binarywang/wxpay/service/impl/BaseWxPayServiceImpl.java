@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipException;
 
+import com.github.binarywang.wxpay.bean.order.WxPayMwebOrderResult;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -285,6 +286,12 @@ public abstract class BaseWxPayServiceImpl implements WxPayService {
     String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
     String nonceStr = String.valueOf(System.currentTimeMillis());
     switch (request.getTradeType()) {
+      case TradeType.MWEB: {
+        return (T) WxPayMwebOrderResult.builder()
+          .mwebUrl(unifiedOrderResult.getMwebUrl())
+          .build();
+      }
+
       case TradeType.NATIVE: {
         return (T) WxPayNativeOrderResult.builder()
           .codeUrl(unifiedOrderResult.getCodeURL())
