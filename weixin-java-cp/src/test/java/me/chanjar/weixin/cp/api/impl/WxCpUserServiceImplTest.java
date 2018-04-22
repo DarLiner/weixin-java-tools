@@ -3,6 +3,7 @@ package me.chanjar.weixin.cp.api.impl;
 import com.google.inject.Inject;
 import me.chanjar.weixin.cp.api.ApiTestModule;
 import me.chanjar.weixin.cp.api.WxCpService;
+import me.chanjar.weixin.cp.bean.Gender;
 import me.chanjar.weixin.cp.bean.WxCpUser;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -40,7 +41,7 @@ public class WxCpUserServiceImplTest {
     user.setName("Some Woman");
     user.setDepartIds(new Integer[]{2});
     user.setEmail("none@none.com");
-    user.setGender(WxCpUser.Gender.FEMALE);
+    user.setGender(Gender.FEMALE);
     user.setMobile("13560084979");
     user.setPosition("woman");
     user.setTelephone("3300393");

@@ -10,6 +10,7 @@ package me.chanjar.weixin.cp.util.json;
 
 import com.google.gson.*;
 import me.chanjar.weixin.common.util.json.GsonHelper;
+import me.chanjar.weixin.cp.bean.Gender;
 import me.chanjar.weixin.cp.bean.WxCpUser;
 
 import java.lang.reflect.Type;
@@ -39,7 +40,7 @@ public class WxCpUserGsonAdapter implements JsonDeserializer<WxCpUser>, JsonSeri
     user.setName(GsonHelper.getString(o, "name"));
     user.setPosition(GsonHelper.getString(o, "position"));
     user.setMobile(GsonHelper.getString(o, "mobile"));
-    user.setGender(WxCpUser.Gender.fromCode(GsonHelper.getString(o, "gender")));
+    user.setGender(Gender.fromCode(GsonHelper.getString(o, "gender")));
     user.setEmail(GsonHelper.getString(o, "email"));
     user.setAvatar(GsonHelper.getString(o, "avatar"));
     user.setStatus(GsonHelper.getInteger(o, "status"));
