@@ -1,15 +1,15 @@
 package cn.binarywang.wx.miniapp.api;
 
+import java.io.File;
+
 import cn.binarywang.wx.miniapp.bean.WxMaCodeLineColor;
 import me.chanjar.weixin.common.exception.WxErrorException;
-
-import java.io.File;
 
 /**
  * <pre>
  * 二维码相关操作接口.
  *
- * 接口A（createWxCode）加上接口C（createQrcode），总共生成的码数量限制为100,000，请谨慎调用。
+ * 接口A（createWxaCode）加上接口C（createQrcode），总共生成的码数量限制为100,000，请谨慎调用。
  *
  * 文档地址：https://mp.weixin.qq.com/debug/wxadoc/dev/api/qrcode.html
  * </pre>
@@ -45,11 +45,11 @@ public interface WxMaQrcodeService {
    * @param autoColor 默认true 自动配置线条颜色，如果颜色依然是黑色，则说明不建议配置主色调
    * @param lineColor auth_color 为 false 时生效，使用 rgb 设置颜色 例如 {"r":"xxx","g":"xxx","b":"xxx"}
    */
-  File createWxCode(String path, int width, boolean autoColor, WxMaCodeLineColor lineColor) throws WxErrorException;
+  File createWxaCode(String path, int width, boolean autoColor, WxMaCodeLineColor lineColor) throws WxErrorException;
 
-  File createWxCode(String path, int width) throws WxErrorException;
+  File createWxaCode(String path, int width) throws WxErrorException;
 
-  File createWxCode(String path) throws WxErrorException;
+  File createWxaCode(String path) throws WxErrorException;
 
   /**
    * 接口B: 获取小程序码（永久有效、数量暂无限制）.
@@ -65,8 +65,8 @@ public interface WxMaQrcodeService {
    * @param autoColor 默认true 自动配置线条颜色，如果颜色依然是黑色，则说明不建议配置主色调
    * @param lineColor auth_color 为 false 时生效，使用 rgb 设置颜色 例如 {"r":"xxx","g":"xxx","b":"xxx"}
    */
-  File createWxCodeLimit(String scene, String page, int width, boolean autoColor, WxMaCodeLineColor lineColor) throws WxErrorException;
+  File createWxaCodeUnlimit(String scene, String page, int width, boolean autoColor, WxMaCodeLineColor lineColor) throws WxErrorException;
 
-  File createWxCodeLimit(String scene, String page) throws WxErrorException;
+  File createWxaCodeUnlimit(String scene, String page) throws WxErrorException;
 
 }

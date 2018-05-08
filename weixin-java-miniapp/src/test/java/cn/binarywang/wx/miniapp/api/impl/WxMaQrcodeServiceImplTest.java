@@ -1,12 +1,12 @@
 package cn.binarywang.wx.miniapp.api.impl;
 
+import java.io.File;
+
+import org.testng.annotations.*;
+
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.test.ApiTestModule;
 import com.google.inject.Inject;
-import org.testng.annotations.Guice;
-import org.testng.annotations.Test;
-
-import java.io.File;
 
 /**
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
@@ -15,7 +15,7 @@ import java.io.File;
 @Guice(modules = ApiTestModule.class)
 public class WxMaQrcodeServiceImplTest {
   @Inject
-  protected WxMaService wxService;
+  private WxMaService wxService;
 
   @Test
   public void testCreateQrCode() throws Exception {
@@ -24,14 +24,14 @@ public class WxMaQrcodeServiceImplTest {
   }
 
   @Test
-  public void testCreateWxCode() throws Exception {
-    final File wxCode = this.wxService.getQrcodeService().createWxCode("111", 122);
+  public void testCreateWxaCode() throws Exception {
+    final File wxCode = this.wxService.getQrcodeService().createWxaCode("111", 122);
     System.out.println(wxCode);
   }
 
   @Test
-  public void testCreateWxCodeLimit() throws Exception {
-    final File wxCode = this.wxService.getQrcodeService().createWxCodeLimit("111", null);
+  public void testCreateWxaCodeUnlimit() throws Exception {
+    final File wxCode = this.wxService.getQrcodeService().createWxaCodeUnlimit("111", null);
     System.out.println(wxCode);
   }
 
