@@ -16,6 +16,7 @@ import com.google.common.base.Joiner;
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.util.DataUtils;
 import me.chanjar.weixin.common.util.crypto.SHA1;
 import me.chanjar.weixin.common.util.http.HttpType;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
@@ -24,6 +25,7 @@ import me.chanjar.weixin.common.util.http.SimpleGetRequestExecutor;
 import me.chanjar.weixin.common.util.http.SimplePostRequestExecutor;
 import me.chanjar.weixin.common.util.http.apache.ApacheHttpClientBuilder;
 import me.chanjar.weixin.common.util.http.apache.DefaultApacheHttpClientBuilder;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -37,6 +39,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.Lock;
+
+import static cn.binarywang.wx.miniapp.constant.WxMaConstants.*;
+import static cn.binarywang.wx.miniapp.constant.WxMaConstants.ErrorCode.*;
 
 /**
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
@@ -212,7 +217,9 @@ public class WxMaServiceImpl implements WxMaService, RequestHttp<CloseableHttpCl
     throw new RuntimeException("微信服务端异常，超出重试次数");
   }
 
-  public <T, E> T executeInternal(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
+  private <T, E> T executeInternal(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
+    E dataForLog = DataUtils.handleDataWithSecret(data);
+
     if (uri.contains("access_token=")) {
       throw new IllegalArgumentException("uri参数中不允许有access_token: " + uri);
     }
@@ -222,16 +229,16 @@ public class WxMaServiceImpl implements WxMaService, RequestHttp<CloseableHttpCl
 
     try {
       T result = executor.execute(uriWithAccessToken, data);
-      this.log.debug("\n【请求地址】: {}\n【请求参数】：{}\n【响应数据】：{}", uriWithAccessToken, data, result);
+      this.log.debug("\n【请求地址】: {}\n【请求参数】：{}\n【响应数据】：{}", uriWithAccessToken, dataForLog, result);
       return result;
     } catch (WxErrorException e) {
       WxError error = e.getError();
       /*
        * 发生以下情况时尝试刷新access_token
        */
-      if (error.getErrorCode() == WxMaConstants.ErrorCode.ERR_40001
-        || error.getErrorCode() == WxMaConstants.ErrorCode.ERR_42001
-        || error.getErrorCode() == WxMaConstants.ErrorCode.ERR_40014) {
+      if (error.getErrorCode() == ERR_40001
+        || error.getErrorCode() == ERR_42001
+        || error.getErrorCode() == ERR_40014) {
         // 强制设置wxMpConfigStorage它的access token过期了，这样在下一次请求里就会刷新access token
         this.getWxMaConfig().expireAccessToken();
         if (this.getWxMaConfig().autoRefreshToken()) {
@@ -240,12 +247,12 @@ public class WxMaServiceImpl implements WxMaService, RequestHttp<CloseableHttpCl
       }
 
       if (error.getErrorCode() != 0) {
-        this.log.error("\n【请求地址】: {}\n【请求参数】：{}\n【错误信息】：{}", uriWithAccessToken, data, error);
+        this.log.error("\n【请求地址】: {}\n【请求参数】：{}\n【错误信息】：{}", uriWithAccessToken, dataForLog, error);
         throw new WxErrorException(error, e);
       }
       return null;
     } catch (IOException e) {
-      this.log.error("\n【请求地址】: {}\n【请求参数】：{}\n【异常信息】：{}", uriWithAccessToken, data, e.getMessage());
+      this.log.error("\n【请求地址】: {}\n【请求参数】：{}\n【异常信息】：{}", uriWithAccessToken, dataForLog, e.getMessage());
       throw new RuntimeException(e);
     }
   }

@@ -9,6 +9,7 @@ import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.session.StandardSessionManager;
 import me.chanjar.weixin.common.session.WxSessionManager;
+import me.chanjar.weixin.common.util.DataUtils;
 import me.chanjar.weixin.common.util.RandomUtils;
 import me.chanjar.weixin.common.util.crypto.SHA1;
 import me.chanjar.weixin.common.util.http.*;
@@ -265,6 +266,8 @@ public abstract class WxMpServiceBaseImpl<H, P> implements WxMpService, RequestH
   }
 
   public <T, E> T executeInternal(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
+    E dataForLog = DataUtils.handleDataWithSecret(data);
+
     if (uri.contains("access_token=")) {
       throw new IllegalArgumentException("uri参数中不允许有access_token: " + uri);
     }
@@ -275,7 +278,7 @@ public abstract class WxMpServiceBaseImpl<H, P> implements WxMpService, RequestH
 
     try {
       T result = executor.execute(uriWithAccessToken, data);
-      this.log.debug("\n【请求地址】: {}\n【请求参数】：{}\n【响应数据】：{}", uriWithAccessToken, data, result);
+      this.log.debug("\n【请求地址】: {}\n【请求参数】：{}\n【响应数据】：{}", uriWithAccessToken, dataForLog, result);
       return result;
     } catch (WxErrorException e) {
       WxError error = e.getError();
@@ -294,12 +297,12 @@ public abstract class WxMpServiceBaseImpl<H, P> implements WxMpService, RequestH
       }
 
       if (error.getErrorCode() != 0) {
-        this.log.error("\n【请求地址】: {}\n【请求参数】：{}\n【错误信息】：{}", uriWithAccessToken, data, error);
+        this.log.error("\n【请求地址】: {}\n【请求参数】：{}\n【错误信息】：{}", uriWithAccessToken, dataForLog, error);
         throw new WxErrorException(error, e);
       }
       return null;
     } catch (IOException e) {
-      this.log.error("\n【请求地址】: {}\n【请求参数】：{}\n【异常信息】：{}", uriWithAccessToken, data, e.getMessage());
+      this.log.error("\n【请求地址】: {}\n【请求参数】：{}\n【异常信息】：{}", uriWithAccessToken, dataForLog, e.getMessage());
       throw new WxErrorException(WxError.builder().errorMsg(e.getMessage()).build(), e);
     }
   }
