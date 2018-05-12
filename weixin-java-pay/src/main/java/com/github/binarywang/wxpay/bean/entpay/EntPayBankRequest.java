@@ -114,7 +114,11 @@ public class EntPayBankRequest extends BaseWxPayRequest {
 
   @Override
   protected void checkConstraints() throws WxPayException {
+  }
 
+  @Override
+  protected boolean ignoreSignType() {
+    return true;
   }
 
   @Override
