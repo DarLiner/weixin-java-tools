@@ -311,8 +311,12 @@ public abstract class BaseWxPayServiceImpl implements WxPayService {
 
       case TradeType.APP: {
         // APP支付绑定的是微信开放平台上的账号，APPID为开放平台上绑定APP后发放的参数
-        String appId = this.getConfig().getAppId();
-        Map<String, String> configMap = new HashMap<>();
+        String appId = unifiedOrderResult.getAppid();
+        if (StringUtils.isNotEmpty(unifiedOrderResult.getSubAppId())) {
+          appId = unifiedOrderResult.getSubAppId();
+        }
+
+        Map<String, String> configMap = new HashMap<>(8);
         // 此map用于参与调起sdk支付的二次签名,格式全小写，timestamp只能是10位,格式固定，切勿修改
         String partnerId = getConfig().getMchId();
         configMap.put("prepayid", prepayId);
@@ -336,21 +340,20 @@ public abstract class BaseWxPayServiceImpl implements WxPayService {
 
       case TradeType.JSAPI: {
         String signType = SignType.MD5;
+        String appid = unifiedOrderResult.getAppid();
+        if (StringUtils.isNotEmpty(this.getConfig().getSubAppId())) {
+          appid = this.getConfig().getSubAppId();
+        }
+
         WxPayMpOrderResult payResult = WxPayMpOrderResult.builder()
-          .appId(unifiedOrderResult.getAppid())
+          .appId(appid)
           .timeStamp(timestamp)
           .nonceStr(nonceStr)
           .packageValue("prepay_id=" + prepayId)
           .signType(signType)
           .build();
 
-        payResult.setPaySign(
-          SignUtils.createSign(
-            payResult,
-            signType,
-            this.getConfig().getMchKey(),
-            false)
-        );
+        payResult.setPaySign(SignUtils.createSign(payResult, signType, this.getConfig().getMchKey(), false));
         return (T) payResult;
       }
 
@@ -534,7 +537,7 @@ public abstract class BaseWxPayServiceImpl implements WxPayService {
         }
       }
     } catch (Exception e) {
-      this.log.error("解析对账单文件时出错",e);
+      this.log.error("解析对账单文件时出错", e);
     }
 
     return null;
