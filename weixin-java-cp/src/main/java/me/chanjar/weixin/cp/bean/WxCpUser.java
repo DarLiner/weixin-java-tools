@@ -31,6 +31,7 @@ public class WxCpUser implements Serializable {
   private Integer hideMobile;
   private String englishName;
   private String telephone;
+  private Boolean toInvite;
 
   public void addExtAttr(String name, String value) {
     this.extAttrs.add(new Attr(name, value));
