@@ -1,5 +1,6 @@
 package com.github.binarywang.wxpay.config;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -74,9 +75,14 @@ public class WxPayConfig {
   private String signType;
   private SSLContext sslContext;
   /**
-   * 证书apiclient_cert.p12的文件的绝对路径.
+   * p12证书文件的绝对路径或者以classpath:开头的类路径.
    */
   private String keyPath;
+
+  /**
+   * p12证书文件内容的字节数组.
+   */
+  private byte[] keyContent;
   /**
    * 微信支付是否使用仿真测试环境.
    * 默认不使用
@@ -95,33 +101,37 @@ public class WxPayConfig {
       throw new WxPayException("请确保商户号mchId已设置");
     }
 
-    if (StringUtils.isBlank(this.getKeyPath())) {
-      throw new WxPayException("请确保证书文件地址keyPath已配置");
-    }
-
     InputStream inputStream;
-    final String prefix = "classpath:";
-    String fileHasProblemMsg = "证书文件【" + this.getKeyPath() + "】有问题，请核实！";
-    String fileNotFoundMsg = "证书文件【" + this.getKeyPath() + "】不存在，请核实！";
-    if (this.getKeyPath().startsWith(prefix)) {
-      String path = StringUtils.removeFirst(this.getKeyPath(), prefix);
-      if (!path.startsWith("/")) {
-        path = "/" + path;
-      }
-      inputStream = WxPayConfig.class.getResourceAsStream(path);
-      if (inputStream == null) {
-        throw new WxPayException(fileNotFoundMsg);
-      }
+    if (this.keyContent != null) {
+      inputStream = new ByteArrayInputStream(this.keyContent);
     } else {
-      try {
-        File file = new File(this.getKeyPath());
-        if (!file.exists()) {
+      if (StringUtils.isBlank(this.getKeyPath())) {
+        throw new WxPayException("请确保证书文件地址keyPath已配置");
+      }
+
+      final String prefix = "classpath:";
+      String fileHasProblemMsg = "证书文件【" + this.getKeyPath() + "】有问题，请核实！";
+      String fileNotFoundMsg = "证书文件【" + this.getKeyPath() + "】不存在，请核实！";
+      if (this.getKeyPath().startsWith(prefix)) {
+        String path = StringUtils.removeFirst(this.getKeyPath(), prefix);
+        if (!path.startsWith("/")) {
+          path = "/" + path;
+        }
+        inputStream = WxPayConfig.class.getResourceAsStream(path);
+        if (inputStream == null) {
           throw new WxPayException(fileNotFoundMsg);
         }
+      } else {
+        try {
+          File file = new File(this.getKeyPath());
+          if (!file.exists()) {
+            throw new WxPayException(fileNotFoundMsg);
+          }
 
-        inputStream = new FileInputStream(file);
-      } catch (IOException e) {
-        throw new WxPayException(fileHasProblemMsg, e);
+          inputStream = new FileInputStream(file);
+        } catch (IOException e) {
+          throw new WxPayException(fileHasProblemMsg, e);
+        }
       }
     }
 
@@ -132,7 +142,7 @@ public class WxPayConfig {
       this.sslContext = SSLContexts.custom().loadKeyMaterial(keystore, partnerId2charArray).build();
       return this.sslContext;
     } catch (Exception e) {
-      throw new WxPayException(fileHasProblemMsg, e);
+      throw new WxPayException("证书文件有问题，请核实！", e);
     } finally {
       IOUtils.closeQuietly(inputStream);
     }
