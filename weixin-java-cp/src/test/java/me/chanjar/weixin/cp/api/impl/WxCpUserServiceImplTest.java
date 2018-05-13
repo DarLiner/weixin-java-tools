@@ -1,9 +1,11 @@
 package me.chanjar.weixin.cp.api.impl;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import me.chanjar.weixin.cp.api.ApiTestModule;
 import me.chanjar.weixin.cp.api.WxCpService;
 import me.chanjar.weixin.cp.bean.Gender;
+import me.chanjar.weixin.cp.bean.WxCpInviteResult;
 import me.chanjar.weixin.cp.bean.WxCpUser;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -88,9 +90,9 @@ public class WxCpUserServiceImplTest {
   }
 
   @Test
-  @Deprecated
   public void testInvite() throws Exception {
-    int result = this.wxCpService.getUserService().invite(userId, "");
+    WxCpInviteResult result = this.wxCpService.getUserService().invite(
+      Lists.newArrayList(userId), null,null);
     System.out.println(result);
   }
 
