@@ -19,6 +19,6 @@ public class WxCpUserDetail {
   private String mobile;
   private String gender;
   private String email;
-  @SerializedName("qr_code")
+  @SerializedName("qrCode")
   private String qrCode;
 }
