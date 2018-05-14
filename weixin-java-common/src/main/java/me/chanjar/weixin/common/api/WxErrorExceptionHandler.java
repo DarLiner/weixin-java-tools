@@ -1,6 +1,6 @@
 package me.chanjar.weixin.common.api;
 
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.error.WxErrorException;
 
 /**
  * WxErrorException处理器.

@@ -1,7 +1,8 @@
 package me.chanjar.weixin.mp.util.http.okhttp;
 
-import me.chanjar.weixin.common.bean.result.WxError;
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.WxType;
+import me.chanjar.weixin.common.error.WxError;
+import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.common.util.fs.FileUtils;
 import me.chanjar.weixin.common.util.http.RequestHttp;
 import me.chanjar.weixin.common.util.http.okhttp.OkHttpProxyInfo;
@@ -50,7 +51,7 @@ public class OkhttpQrCodeRequestExecutor extends QrCodeRequestExecutor<OkHttpCli
     String contentTypeHeader = response.header("Content-Type");
     if ("text/plain".equals(contentTypeHeader)) {
       String responseContent = response.body().string();
-      throw new WxErrorException(WxError.fromJson(responseContent));
+      throw new WxErrorException(WxError.fromJson(responseContent, WxType.MP));
     }
 
     try (InputStream inputStream = response.body().byteStream()) {

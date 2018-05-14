@@ -1,15 +1,14 @@
 package me.chanjar.weixin.mp.util.http.okhttp;
 
-import me.chanjar.weixin.common.bean.result.WxError;
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.WxType;
+import me.chanjar.weixin.common.error.WxError;
+import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestHttp;
 import me.chanjar.weixin.common.util.http.okhttp.OkHttpProxyInfo;
-import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 import me.chanjar.weixin.mp.util.http.MaterialVoiceAndImageDownloadRequestExecutor;
 import okhttp3.*;
 import okio.BufferedSink;
 import okio.Okio;
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +34,7 @@ public class OkhttpMaterialVoiceAndImageDownloadRequestExecutor extends Material
     String contentTypeHeader = response.header("Content-Type");
     if ("text/plain".equals(contentTypeHeader)) {
       String responseContent = response.body().string();
-      throw new WxErrorException(WxError.fromJson(responseContent));
+      throw new WxErrorException(WxError.fromJson(responseContent, WxType.MP));
     }
     try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream(); BufferedSink sink = Okio.buffer(Okio.sink(outputStream))) {
       sink.writeAll(response.body().source());

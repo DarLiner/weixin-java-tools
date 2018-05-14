@@ -1,18 +1,18 @@
-package me.chanjar.weixin.mp.constant;
+package me.chanjar.weixin.common.error;
 
 import lombok.Getter;
 
 /**
  * <pre>
- * 微信公众平台错误代码
- * 参考文档：https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1433747234
+ * 微信公众平台全局返回码.
+ * 参考文档：<a href="http://mp.weixin.qq.com/wiki/10/6380dc743053a91c544ffd2b7c959166.html">公众平台全局返回码</a>
  * Created by Binary Wang on 2018/5/13.
  * </pre>
  *
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
 @Getter
-public enum WxMpErrorMsg {
+public enum WxMpErrorMsgEnum {
   /**
    * 系统繁忙，此时请开发者稍候再试
    */
@@ -633,7 +633,7 @@ public enum WxMpErrorMsg {
   private int code;
   private String msg;
 
-  WxMpErrorMsg(int code, String msg) {
+  WxMpErrorMsgEnum(int code, String msg) {
     this.code = code;
     this.msg = msg;
   }
@@ -641,9 +641,9 @@ public enum WxMpErrorMsg {
   /**
    * 通过错误代码查找其中文含义.
    */
-  public String findMsgByCode(int code) {
-    WxMpErrorMsg[] values = WxMpErrorMsg.values();
-    for (WxMpErrorMsg value : values) {
+  public static String findMsgByCode(int code) {
+    WxMpErrorMsgEnum[] values = WxMpErrorMsgEnum.values();
+    for (WxMpErrorMsgEnum value : values) {
       if (value.code == code) {
         return value.msg;
       }

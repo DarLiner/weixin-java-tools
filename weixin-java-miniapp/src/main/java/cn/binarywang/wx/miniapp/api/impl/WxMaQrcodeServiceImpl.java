@@ -7,7 +7,7 @@ import cn.binarywang.wx.miniapp.bean.WxMaQrcode;
 import cn.binarywang.wx.miniapp.bean.WxMaWxcode;
 import cn.binarywang.wx.miniapp.bean.WxaCodeUnlimit;
 import cn.binarywang.wx.miniapp.util.http.QrCodeRequestExecutor;
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.error.WxErrorException;
 
 import java.io.File;
 

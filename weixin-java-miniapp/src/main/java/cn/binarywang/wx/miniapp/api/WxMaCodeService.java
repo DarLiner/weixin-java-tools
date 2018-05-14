@@ -5,7 +5,7 @@ import cn.binarywang.wx.miniapp.bean.code.WxMaCodeAuditStatus;
 import cn.binarywang.wx.miniapp.bean.code.WxMaCodeCommitRequest;
 import cn.binarywang.wx.miniapp.bean.code.WxMaCodeSubmitAuditRequest;
 import cn.binarywang.wx.miniapp.bean.code.WxMaCodeVersionDistribution;
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.error.WxErrorException;
 
 import java.util.List;
 

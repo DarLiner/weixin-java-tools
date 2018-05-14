@@ -1,7 +1,8 @@
 package me.chanjar.weixin.mp.util.http.apache;
 
-import me.chanjar.weixin.common.bean.result.WxError;
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.WxType;
+import me.chanjar.weixin.common.error.WxError;
+import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestHttp;
 import me.chanjar.weixin.common.util.http.apache.Utf8ResponseHandler;
 import me.chanjar.weixin.mp.bean.material.WxMediaImgUploadResult;
@@ -49,7 +50,7 @@ public class ApacheMediaImgUploadRequestExecutor extends MediaImgUploadRequestEx
 
     try (CloseableHttpResponse response = requestHttp.getRequestHttpClient().execute(httpPost)) {
       String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
-      WxError error = WxError.fromJson(responseContent);
+      WxError error = WxError.fromJson(responseContent, WxType.MP);
       if (error.getErrorCode() != 0) {
         throw new WxErrorException(error);
       }

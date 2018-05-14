@@ -1,9 +1,10 @@
 package me.chanjar.weixin.mp.api.impl;
 
+import me.chanjar.weixin.common.WxType;
 import me.chanjar.weixin.common.api.WxConsts;
-import me.chanjar.weixin.common.bean.result.WxError;
+import me.chanjar.weixin.common.error.WxError;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.common.util.fs.FileUtils;
 import me.chanjar.weixin.common.util.http.BaseMediaDownloadRequestExecutor;
 import me.chanjar.weixin.common.util.http.MediaUploadRequestExecutor;
@@ -100,7 +101,7 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService {
   @Override
   public boolean materialNewsUpdate(WxMpMaterialArticleUpdate wxMpMaterialArticleUpdate) throws WxErrorException {
     String responseText = this.wxMpService.post(NEWS_UPDATE_URL, wxMpMaterialArticleUpdate.toJson());
-    WxError wxError = WxError.fromJson(responseText);
+    WxError wxError = WxError.fromJson(responseText, WxType.MP);
     if (wxError.getErrorCode() == 0) {
       return true;
     } else {
@@ -116,7 +117,7 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService {
   @Override
   public WxMpMaterialCountResult materialCount() throws WxErrorException {
     String responseText = this.wxMpService.get(MATERIAL_GET_COUNT_URL, null);
-    WxError wxError = WxError.fromJson(responseText);
+    WxError wxError = WxError.fromJson(responseText, WxType.MP);
     if (wxError.getErrorCode() == 0) {
       return WxMpGsonBuilder.create().fromJson(responseText, WxMpMaterialCountResult.class);
     } else {
@@ -131,7 +132,7 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService {
     params.put("offset", offset);
     params.put("count", count);
     String responseText = this.wxMpService.post(MATERIAL_BATCHGET_URL, WxGsonBuilder.create().toJson(params));
-    WxError wxError = WxError.fromJson(responseText);
+    WxError wxError = WxError.fromJson(responseText, WxType.MP);
     if (wxError.getErrorCode() == 0) {
       return WxMpGsonBuilder.create().fromJson(responseText, WxMpMaterialNewsBatchGetResult.class);
     } else {
@@ -146,7 +147,7 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService {
     params.put("offset", offset);
     params.put("count", count);
     String responseText = this.wxMpService.post(MATERIAL_BATCHGET_URL, WxGsonBuilder.create().toJson(params));
-    WxError wxError = WxError.fromJson(responseText);
+    WxError wxError = WxError.fromJson(responseText, WxType.MP);
     if (wxError.getErrorCode() == 0) {
       return WxMpGsonBuilder.create().fromJson(responseText, WxMpMaterialFileBatchGetResult.class);
     } else {

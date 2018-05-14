@@ -1,8 +1,7 @@
 package me.chanjar.weixin.cp.api;
 
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.cp.bean.WxCpAgent;
-import me.chanjar.weixin.cp.bean.WxCpDepart;
 
 /**
  * <pre>
