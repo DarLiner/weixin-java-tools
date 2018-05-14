@@ -1,6 +1,7 @@
 package com.github.binarywang.wxpay.bean.order;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,7 +14,7 @@ import lombok.Data;
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
 @Data
-@Builder
+@AllArgsConstructor
 public class WxPayMwebOrderResult {
   @XStreamAlias("mwebUrl")
   private String mwebUrl;
