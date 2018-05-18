@@ -2,41 +2,52 @@ package com.github.binarywang.wxpay.exception;
 
 import com.github.binarywang.wxpay.bean.result.BaseWxPayResult;
 import com.google.common.base.Joiner;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * <pre>
  * 微信支付异常结果类
  * Created by Binary Wang on 2017-6-6.
  * </pre>
+ *
+ * @author BinaryWang
  */
+@Data
+@EqualsAndHashCode(callSuper = false)
 public class WxPayException extends Exception {
+  private static final long serialVersionUID = 2214381471513460742L;
+
+  /**
+   * 自定义错误讯息.
+   */
   private String customErrorMsg;
   /**
-   * 返回状态码
+   * 返回状态码.
    */
   private String returnCode;
   /**
-   * 返回信息
+   * 返回信息.
    */
   private String returnMsg;
 
   /**
-   * 业务结果
+   * 业务结果.
    */
   private String resultCode;
 
   /**
-   * 错误代码
+   * 错误代码.
    */
   private String errCode;
 
   /**
-   * 错误代码描述
+   * 错误代码描述.
    */
   private String errCodeDes;
 
   /**
-   * 微信支付返回的结果xml字符串
+   * 微信支付返回的结果xml字符串.
    */
   private String xmlString;
 
@@ -60,6 +71,9 @@ public class WxPayException extends Exception {
     xmlString = builder.xmlString;
   }
 
+  /**
+   * 通过BaseWxPayResult生成异常对象.
+   */
   public static WxPayException from(BaseWxPayResult payBaseResult) {
     return WxPayException.newBuilder()
       .xmlString(payBaseResult.getXmlString())
@@ -69,30 +83,6 @@ public class WxPayException extends Exception {
       .errCode(payBaseResult.getErrCode())
       .errCodeDes(payBaseResult.getErrCodeDes())
       .build();
-  }
-
-  public String getXmlString() {
-    return this.xmlString;
-  }
-
-  public String getReturnCode() {
-    return this.returnCode;
-  }
-
-  public String getReturnMsg() {
-    return this.returnMsg;
-  }
-
-  public String getResultCode() {
-    return this.resultCode;
-  }
-
-  public String getErrCode() {
-    return this.errCode;
-  }
-
-  public String getErrCodeDes() {
-    return this.errCodeDes;
   }
 
   public static Builder newBuilder() {
@@ -145,14 +135,14 @@ public class WxPayException extends Exception {
     }
 
     public String buildErrorMsg() {
-      return Joiner.on("，").skipNulls().join(new String[]{
+      return Joiner.on("，").skipNulls().join(
         returnCode == null ? null : String.format("返回代码：[%s]", returnCode),
         returnMsg == null ? null : String.format("返回信息：[%s]", returnMsg),
         resultCode == null ? null : String.format("结果代码：[%s]", resultCode),
         errCode == null ? null : String.format("错误代码：[%s]", errCode),
         errCodeDes == null ? null : String.format("错误详情：[%s]", errCodeDes),
-        xmlString == null ? null : "微信返回的原始报文：\n" + xmlString,
-      });
+        xmlString == null ? null : "微信返回的原始报文：\n" + xmlString
+      );
     }
   }
 }
