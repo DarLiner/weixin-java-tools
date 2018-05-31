@@ -1,12 +1,13 @@
 package me.chanjar.weixin.common.error;
 
+import java.io.Serializable;
+
+import org.apache.commons.lang3.StringUtils;
+
 import lombok.Builder;
 import lombok.Data;
 import me.chanjar.weixin.common.WxType;
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
-import org.apache.commons.lang3.StringUtils;
-
-import java.io.Serializable;
 
 /**
  * 微信错误码.
@@ -22,17 +23,18 @@ public class WxError implements Serializable {
   private static final long serialVersionUID = 7869786563361406291L;
 
   /**
-   * 微信错误代码
+   * 微信错误代码.
    */
   private int errorCode;
 
   /**
-   * 微信错误信息（如果可以翻译为中文，就为中文）
+   * 微信错误信息.
+   * （如果可以翻译为中文，就为中文）
    */
   private String errorMsg;
 
   /**
-   * 微信接口返回的错误原始信息（英文）
+   * 微信接口返回的错误原始信息（英文）.
    */
   private String errorMsgEn;
 
@@ -44,7 +46,7 @@ public class WxError implements Serializable {
 
   public static WxError fromJson(String json, WxType type) {
     final WxError wxError = WxGsonBuilder.create().fromJson(json, WxError.class);
-    if (StringUtils.isNotEmpty(wxError.getErrorMsgEn())) {
+    if (StringUtils.isNotEmpty(wxError.getErrorMsg())) {
       wxError.setErrorMsgEn(wxError.getErrorMsg());
     }
 
