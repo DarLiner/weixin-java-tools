@@ -8,6 +8,9 @@ import me.chanjar.weixin.mp.util.http.apache.ApacheMaterialUploadRequestExecutor
 import me.chanjar.weixin.mp.util.http.jodd.JoddMaterialUploadRequestExecutor;
 import me.chanjar.weixin.mp.util.http.okhttp.OkhttpMaterialUploadRequestExecutor;
 
+/**
+ * @author codepiano
+ */
 public abstract class MaterialUploadRequestExecutor<H, P> implements RequestExecutor<WxMpMaterialUploadResult, WxMpMaterial> {
   protected RequestHttp<H, P> requestHttp;
 
