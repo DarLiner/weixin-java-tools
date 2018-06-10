@@ -53,6 +53,7 @@ public abstract class BaseWxMpServiceImpl<H, P> implements WxMpService, RequestH
   private WxMpMemberCardService memberCardService = new WxMpMemberCardServiceImpl(this);
   private WxMpMassMessageService massMessageService = new WxMpMassMessageServiceImpl(this);
   private WxMpAiOpenService aiOpenService = new WxMpAiOpenServiceImpl(this);
+  private WxMpWifiService wifiService = new WxMpWifiServiceImpl(this);
 
   private int retrySleepMillis = 1000;
   private int maxRetryTimes = 5;
@@ -500,5 +501,10 @@ public abstract class BaseWxMpServiceImpl<H, P> implements WxMpService, RequestH
   @Override
   public void setAiOpenService(WxMpAiOpenService aiOpenService) {
     this.aiOpenService = aiOpenService;
+  }
+
+  @Override
+  public WxMpWifiService getWifiService() {
+    return this.wifiService;
   }
 }

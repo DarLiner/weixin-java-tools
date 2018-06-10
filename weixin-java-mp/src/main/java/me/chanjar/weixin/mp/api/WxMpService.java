@@ -415,6 +415,13 @@ public interface WxMpService {
    */
   WxMpAiOpenService getAiOpenService();
 
+  /**
+   * 返回WIFI接口方法的实现类对象，以方便调用其各个接口
+   *
+   * @return WxMpWifiService
+   */
+  WxMpWifiService getWifiService();
+
   void setKefuService(WxMpKefuService kefuService);
 
   void setMaterialService(WxMpMaterialService materialService);
