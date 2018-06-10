@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.locks.ReentrantLock;
 
+import me.chanjar.weixin.mp.api.impl.WxMpServiceHttpClientImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +29,7 @@ public class ApiTestModule implements Module {
 
       TestConfigStorage config = this.fromXml(TestConfigStorage.class, inputStream);
       config.setAccessTokenLock(new ReentrantLock());
-      WxMpService wxService = new WxMpServiceOkHttpImpl();
+      WxMpService wxService = new WxMpServiceHttpClientImpl();
       wxService.setWxMpConfigStorage(config);
 
       binder.bind(WxMpService.class).toInstance(wxService);

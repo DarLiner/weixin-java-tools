@@ -408,6 +408,13 @@ public interface WxMpService {
    */
   WxMpMassMessageService getMassMessageService();
 
+  /**
+   * 返回AI开放接口方法的实现类对象，以方便调用其各个接口
+   *
+   * @return WxMpAiOpenService
+   */
+  WxMpAiOpenService getAiOpenService();
+
   void setKefuService(WxMpKefuService kefuService);
 
   void setMaterialService(WxMpMaterialService materialService);
@@ -437,4 +444,6 @@ public interface WxMpService {
   void setMemberCardService(WxMpMemberCardService memberCardService);
 
   void setMassMessageService(WxMpMassMessageService massMessageService);
+
+  void setAiOpenService(WxMpAiOpenService aiOpenService);
 }

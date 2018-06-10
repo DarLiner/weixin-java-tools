@@ -15,7 +15,7 @@ import java.util.concurrent.locks.Lock;
 /**
  * okhttp实现
  */
-public class WxMpServiceOkHttpImpl extends WxMpServiceBaseImpl<OkHttpClient, OkHttpProxyInfo> {
+public class WxMpServiceOkHttpImpl extends BaseWxMpServiceImpl<OkHttpClient, OkHttpProxyInfo> {
   private OkHttpClient httpClient;
   private OkHttpProxyInfo httpProxy;
 

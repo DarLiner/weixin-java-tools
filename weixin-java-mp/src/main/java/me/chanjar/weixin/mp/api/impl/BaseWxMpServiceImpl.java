@@ -26,11 +26,14 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 
-public abstract class WxMpServiceBaseImpl<H, P> implements WxMpService, RequestHttp<H, P> {
-
+/**
+ * @author someone
+ */
+public abstract class BaseWxMpServiceImpl<H, P> implements WxMpService, RequestHttp<H, P> {
   private static final JsonParser JSON_PARSER = new JsonParser();
 
   protected final Logger log = LoggerFactory.getLogger(this.getClass());
+
   protected WxSessionManager sessionManager = new StandardSessionManager();
   protected WxMpConfigStorage wxMpConfigStorage;
   private WxMpKefuService kefuService = new WxMpKefuServiceImpl(this);
@@ -49,6 +52,7 @@ public abstract class WxMpServiceBaseImpl<H, P> implements WxMpService, RequestH
   private WxMpShakeService shakeService = new WxMpShakeServiceImpl(this);
   private WxMpMemberCardService memberCardService = new WxMpMemberCardServiceImpl(this);
   private WxMpMassMessageService massMessageService = new WxMpMassMessageServiceImpl(this);
+  private WxMpAiOpenService aiOpenService = new WxMpAiOpenServiceImpl(this);
 
   private int retrySleepMillis = 1000;
   private int maxRetryTimes = 5;
@@ -486,5 +490,15 @@ public abstract class WxMpServiceBaseImpl<H, P> implements WxMpService, RequestH
   @Override
   public void setMassMessageService(WxMpMassMessageService massMessageService) {
     this.massMessageService = massMessageService;
+  }
+
+  @Override
+  public WxMpAiOpenService getAiOpenService() {
+    return this.aiOpenService;
+  }
+
+  @Override
+  public void setAiOpenService(WxMpAiOpenService aiOpenService) {
+    this.aiOpenService = aiOpenService;
   }
 }
