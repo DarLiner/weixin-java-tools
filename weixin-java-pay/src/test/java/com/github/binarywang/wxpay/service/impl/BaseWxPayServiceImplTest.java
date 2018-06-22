@@ -230,6 +230,10 @@ public class BaseWxPayServiceImplTest {
     request.setActName("abc");
     request.setClientIp("aaa");
     request.setMchBillNo("aaaa");
+    request.setWishing("what");
+    request.setSendName("111");
+    request.setTotalAmount(1);
+    request.setTotalNum(1);
     request.setReOpenid(((XmlWxPayConfig) this.payService.getConfig()).getOpenid());
     WxPaySendRedpackResult redpackResult = this.payService.sendRedpack(request);
     this.logger.info(redpackResult.toString());

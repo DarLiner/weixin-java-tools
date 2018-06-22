@@ -34,6 +34,7 @@ public class WxCpMessage implements Serializable {
   private String hqMusicUrl;
   private String safe;
   private String url;
+  private String btnTxt;
   private List<NewArticle> articles = new ArrayList<>();
   private List<MpnewsArticle> mpnewsArticles = new ArrayList<>();
 

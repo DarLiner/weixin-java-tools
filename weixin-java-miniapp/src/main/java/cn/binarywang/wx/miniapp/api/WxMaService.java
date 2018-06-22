@@ -2,7 +2,7 @@ package cn.binarywang.wx.miniapp.api;
 
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.config.WxMaConfig;
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.common.util.http.MediaUploadRequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestHttp;
@@ -134,6 +134,27 @@ public interface WxMaService {
    * @return WxMaTemplateService
    */
   WxMaTemplateService getTemplateService();
+
+  /**
+   * 数据分析相关查询服务
+   *
+   * @return WxMaAnalysisService
+   */
+  WxMaAnalysisService getAnalysisService();
+
+  /**
+   * 返回代码操作相关的 API
+   *
+   * @return WxMaCodeService
+   */
+  WxMaCodeService getCodeService();
+
+  /**
+   * 小程序修改服务器地址、成员管理 API
+   *
+   * @return WxMaSettingService
+   */
+  WxMaSettingService getSettingService();
 
   /**
    * 初始化http请求对象.

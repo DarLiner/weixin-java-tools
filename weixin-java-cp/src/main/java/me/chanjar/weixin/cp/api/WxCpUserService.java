@@ -1,6 +1,7 @@
 package me.chanjar.weixin.cp.api;
 
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.error.WxErrorException;
+import me.chanjar.weixin.cp.bean.WxCpInviteResult;
 import me.chanjar.weixin.cp.bean.WxCpUser;
 
 import java.util.List;
@@ -84,18 +85,18 @@ public interface WxCpUserService {
 
   /**
    * <pre>
-   * 邀请成员关注
-   * http://qydev.weixin.qq.com/wiki/index.php?title=管理成员#.E9.82.80.E8.AF.B7.E6.88.90.E5.91.98.E5.85.B3.E6.B3.A8
+   * 邀请成员
+   * 企业可通过接口批量邀请成员使用企业微信，邀请后将通过短信或邮件下发通知。
+   * 请求方式：POST（HTTPS）
+   * 请求地址： https://qyapi.weixin.qq.com/cgi-bin/batch/invite?access_token=ACCESS_TOKEN
+   * 文档地址：https://work.weixin.qq.com/api/doc#12543
    * </pre>
    *
-   * @param userId     用户的userid
-   * @param inviteTips 推送到微信上的提示语（只有认证号可以使用）。当使用微信推送时，该字段默认为“请关注XXX企业号”，邮件邀请时，该字段无效。
-   * @return 1:微信邀请 2.邮件邀请
-   * @deprecated api obsoleted. 邀请关注的功能微信企业号已经下线了，
-   * 详细请参考该链接点击查看 https://qy.weixin.qq.com/cgi-bin/homepagenotify?action=get&id=46
+   * @param userIds  成员ID列表, 最多支持1000个。
+   * @param partyIds 部门ID列表，最多支持100个。
+   * @param tagIds   标签ID列表，最多支持100个。
    */
-  @Deprecated
-  int invite(String userId, String inviteTips) throws WxErrorException;
+  WxCpInviteResult invite(List<String> userIds, List<String> partyIds, List<String> tagIds) throws WxErrorException;
 
   /**
    * <pre>

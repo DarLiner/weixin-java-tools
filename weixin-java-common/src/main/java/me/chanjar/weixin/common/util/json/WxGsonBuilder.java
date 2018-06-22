@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.bean.menu.WxMenu;
-import me.chanjar.weixin.common.bean.result.WxError;
+import me.chanjar.weixin.common.error.WxError;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 
 public class WxGsonBuilder {

@@ -3,12 +3,12 @@ package me.chanjar.weixin.cp.api.impl;
 import com.google.common.collect.Maps;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.cp.api.WxCpService;
 import me.chanjar.weixin.cp.api.WxCpUserService;
+import me.chanjar.weixin.cp.bean.WxCpInviteResult;
 import me.chanjar.weixin.cp.bean.WxCpUser;
 import me.chanjar.weixin.cp.util.json.WxCpGsonBuilder;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -116,17 +116,34 @@ public class WxCpUserServiceImpl implements WxCpUserService {
   }
 
   @Override
-  @Deprecated
-  public int invite(String userId, String inviteTips) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/invite/send";
+  public WxCpInviteResult invite(List<String> userIds, List<String> partyIds, List<String> tagIds) throws WxErrorException {
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/batch/invite";
     JsonObject jsonObject = new JsonObject();
-    jsonObject.addProperty("userid", userId);
-    if (StringUtils.isNotEmpty(inviteTips)) {
-      jsonObject.addProperty("invite_tips", inviteTips);
+    if (userIds != null) {
+      JsonArray jsonArray = new JsonArray();
+      for (String userId : userIds) {
+        jsonArray.add(new JsonPrimitive(userId));
+      }
+      jsonObject.add("user", jsonArray);
     }
-    String responseContent = this.mainService.post(url, jsonObject.toString());
-    JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
-    return tmpJsonElement.getAsJsonObject().get("type").getAsInt();
+
+    if (partyIds != null) {
+      JsonArray jsonArray = new JsonArray();
+      for (String userId : partyIds) {
+        jsonArray.add(new JsonPrimitive(userId));
+      }
+      jsonObject.add("party", jsonArray);
+    }
+
+    if (tagIds != null) {
+      JsonArray jsonArray = new JsonArray();
+      for (String tagId : tagIds) {
+        jsonArray.add(new JsonPrimitive(tagId));
+      }
+      jsonObject.add("tag", jsonArray);
+    }
+
+    return WxCpInviteResult.fromJson(this.mainService.post(url, jsonObject.toString()));
   }
 
   @Override

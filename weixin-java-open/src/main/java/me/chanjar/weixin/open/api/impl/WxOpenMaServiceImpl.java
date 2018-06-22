@@ -1,14 +1,11 @@
 package me.chanjar.weixin.open.api.impl;
 
+import cn.binarywang.wx.miniapp.api.WxMaUserService;
 import cn.binarywang.wx.miniapp.api.impl.WxMaServiceImpl;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.config.WxMaConfig;
-import com.google.common.base.Joiner;
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.open.api.WxOpenComponentService;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author <a href="https://github.com/007gzs">007</a>
@@ -38,5 +35,4 @@ import java.util.Map;
   public String getAccessToken(boolean forceRefresh) throws WxErrorException {
     return wxOpenComponentService.getAuthorizerAccessToken(appId, forceRefresh);
   }
-
 }

@@ -1,13 +1,15 @@
 package me.chanjar.weixin.cp.api.impl;
 
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.common.util.http.URIUtil;
 import me.chanjar.weixin.common.util.json.GsonHelper;
 import me.chanjar.weixin.cp.api.WxCpOAuth2Service;
 import me.chanjar.weixin.cp.api.WxCpService;
+import me.chanjar.weixin.cp.bean.WxCpUserDetail;
 
 /**
  * <pre>
@@ -52,9 +54,8 @@ public class WxCpOAuth2ServiceImpl implements WxCpOAuth2Service {
 
   @Override
   public String[] getUserInfo(Integer agentId, String code) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?"
-      + "code=" + code
-      + "&agentid=" + agentId;
+    String url = String.format("https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?code=%s&agentid=%d",
+      code, agentId);
     String responseText = this.mainService.get(url, null);
     JsonElement je = new JsonParser().parse(responseText);
     JsonObject jo = je.getAsJsonObject();
@@ -63,4 +64,12 @@ public class WxCpOAuth2ServiceImpl implements WxCpOAuth2Service {
       GsonHelper.getString(jo, "OpenId")};
   }
 
+  @Override
+  public WxCpUserDetail getUserDetail(String userTicket) throws WxErrorException {
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserdetail";
+    JsonObject param = new JsonObject();
+    param.addProperty("user_ticket", userTicket);
+    String responseText = this.mainService.post(url, param.toString());
+    return new GsonBuilder().create().fromJson(responseText, WxCpUserDetail.class);
+  }
 }

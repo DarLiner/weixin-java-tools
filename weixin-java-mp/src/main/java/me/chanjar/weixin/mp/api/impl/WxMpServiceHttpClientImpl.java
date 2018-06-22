@@ -1,8 +1,9 @@
 package me.chanjar.weixin.mp.api.impl;
 
+import me.chanjar.weixin.common.WxType;
 import me.chanjar.weixin.common.bean.WxAccessToken;
-import me.chanjar.weixin.common.bean.result.WxError;
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.error.WxError;
+import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.common.util.http.HttpType;
 import me.chanjar.weixin.common.util.http.apache.ApacheHttpClientBuilder;
 import me.chanjar.weixin.common.util.http.apache.DefaultApacheHttpClientBuilder;
@@ -21,7 +22,7 @@ import java.util.concurrent.locks.Lock;
 /**
  * apache http client方式实现.
  */
-public class WxMpServiceHttpClientImpl extends WxMpServiceBaseImpl<CloseableHttpClient, HttpHost> {
+public class WxMpServiceHttpClientImpl extends BaseWxMpServiceImpl<CloseableHttpClient, HttpHost> {
   private CloseableHttpClient httpClient;
   private HttpHost httpProxy;
 
@@ -76,7 +77,7 @@ public class WxMpServiceHttpClientImpl extends WxMpServiceBaseImpl<CloseableHttp
           }
           try (CloseableHttpResponse response = getRequestHttpClient().execute(httpGet)) {
             String resultContent = new BasicResponseHandler().handleResponse(response);
-            WxError error = WxError.fromJson(resultContent);
+            WxError error = WxError.fromJson(resultContent, WxType.MP);
             if (error.getErrorCode() != 0) {
               throw new WxErrorException(error);
             }

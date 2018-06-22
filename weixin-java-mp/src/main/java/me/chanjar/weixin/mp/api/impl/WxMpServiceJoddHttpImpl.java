@@ -2,9 +2,10 @@ package me.chanjar.weixin.mp.api.impl;
 
 import jodd.http.*;
 import jodd.http.net.SocketHttpConnectionProvider;
+import me.chanjar.weixin.common.WxType;
 import me.chanjar.weixin.common.bean.WxAccessToken;
-import me.chanjar.weixin.common.bean.result.WxError;
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.error.WxError;
+import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.common.util.http.HttpType;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -14,7 +15,7 @@ import java.util.concurrent.locks.Lock;
 /**
  * jodd-http方式实现
  */
-public class WxMpServiceJoddHttpImpl extends WxMpServiceBaseImpl<HttpConnectionProvider, ProxyInfo> {
+public class WxMpServiceJoddHttpImpl extends BaseWxMpServiceImpl<HttpConnectionProvider, ProxyInfo> {
   private HttpConnectionProvider httpClient;
   private ProxyInfo httpProxy;
 
@@ -65,7 +66,7 @@ public class WxMpServiceJoddHttpImpl extends WxMpServiceBaseImpl<HttpConnectionP
         }
         HttpResponse response = request.send();
         String resultContent = response.bodyText();
-        WxError error = WxError.fromJson(resultContent);
+        WxError error = WxError.fromJson(resultContent, WxType.MP);
         if (error.getErrorCode() != 0) {
           throw new WxErrorException(error);
         }

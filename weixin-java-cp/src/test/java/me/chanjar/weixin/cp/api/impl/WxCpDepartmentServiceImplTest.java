@@ -56,7 +56,7 @@ public class WxCpDepartmentServiceImplTest {
     }
   }
 
-  @Test(dependsOnMethods = {"testListAll", "testCreate"})
+  @Test(dependsOnMethods = {"testList", "testCreate"})
   public void testUpdate() throws Exception {
     System.out.println("=================更新部门");
     this.depart.setName("子部门改名" + System.currentTimeMillis());

@@ -6,8 +6,8 @@ import cn.binarywang.wx.miniapp.bean.template.WxMaTemplateAddResult;
 import cn.binarywang.wx.miniapp.bean.template.WxMaTemplateLibraryGetResult;
 import cn.binarywang.wx.miniapp.bean.template.WxMaTemplateLibraryListResult;
 import cn.binarywang.wx.miniapp.bean.template.WxMaTemplateListResult;
-import me.chanjar.weixin.common.bean.result.WxError;
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.error.WxError;
+import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 
 import java.util.HashMap;

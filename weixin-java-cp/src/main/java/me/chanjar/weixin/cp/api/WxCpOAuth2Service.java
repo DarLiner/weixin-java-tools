@@ -1,6 +1,7 @@
 package me.chanjar.weixin.cp.api;
 
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.error.WxErrorException;
+import me.chanjar.weixin.cp.bean.WxCpUserDetail;
 
 /**
  * <pre>
@@ -64,4 +65,19 @@ public interface WxCpOAuth2Service {
    */
   String[] getUserInfo(Integer agentId, String code) throws WxErrorException;
 
+  /**
+   * <pre>
+   * 使用user_ticket获取成员详情.
+   *
+   * 文档地址：https://work.weixin.qq.com/api/doc#10028/%E4%BD%BF%E7%94%A8user_ticket%E8%8E%B7%E5%8F%96%E6%88%90%E5%91%98%E8%AF%A6%E6%83%85
+   * 请求方式：POST（HTTPS）
+   * 请求地址：https://qyapi.weixin.qq.com/cgi-bin/user/getuserdetail?access_token=ACCESS_TOKEN
+   *
+   * 权限说明：
+   * 需要有对应应用的使用权限，且成员必须在授权应用的可见范围内。
+   * </pre>
+   *
+   * @param userTicket  成员票据
+   */
+  WxCpUserDetail getUserDetail(String userTicket) throws WxErrorException;
 }

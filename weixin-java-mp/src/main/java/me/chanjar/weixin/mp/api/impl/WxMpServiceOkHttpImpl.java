@@ -1,8 +1,9 @@
 package me.chanjar.weixin.mp.api.impl;
 
+import me.chanjar.weixin.common.WxType;
 import me.chanjar.weixin.common.bean.WxAccessToken;
-import me.chanjar.weixin.common.bean.result.WxError;
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.error.WxError;
+import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.common.util.http.HttpType;
 import me.chanjar.weixin.common.util.http.okhttp.OkHttpProxyInfo;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -14,7 +15,7 @@ import java.util.concurrent.locks.Lock;
 /**
  * okhttp实现
  */
-public class WxMpServiceOkHttpImpl extends WxMpServiceBaseImpl<OkHttpClient, OkHttpProxyInfo> {
+public class WxMpServiceOkHttpImpl extends BaseWxMpServiceImpl<OkHttpClient, OkHttpProxyInfo> {
   private OkHttpClient httpClient;
   private OkHttpProxyInfo httpProxy;
 
@@ -47,7 +48,7 @@ public class WxMpServiceOkHttpImpl extends WxMpServiceBaseImpl<OkHttpClient, OkH
         Request request = new Request.Builder().url(url).get().build();
         Response response = getRequestHttpClient().newCall(request).execute();
         String resultContent = response.body().string();
-        WxError error = WxError.fromJson(resultContent);
+        WxError error = WxError.fromJson(resultContent, WxType.MP);
         if (error.getErrorCode() != 0) {
           throw new WxErrorException(error);
         }

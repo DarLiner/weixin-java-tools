@@ -41,6 +41,11 @@ public class WxMpMassOpenIdsMessage implements Serializable {
    */
   private boolean sendIgnoreReprint = false;
 
+  /**
+   * 开发者侧群发msgid，长度限制64字节，如不填，则后台默认以群发范围和群发内容的摘要值做为clientmsgid
+   */
+  private String clientMsgId;
+
   public WxMpMassOpenIdsMessage() {
     super();
   }

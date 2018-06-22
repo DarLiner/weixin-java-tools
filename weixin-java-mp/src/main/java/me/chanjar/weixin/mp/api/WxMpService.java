@@ -1,7 +1,7 @@
 package me.chanjar.weixin.mp.api;
 
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.common.util.http.MediaUploadRequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestHttp;
@@ -58,7 +58,7 @@ public interface WxMpService {
   /**
    * oauth2授权的url连接
    */
-  String CONNECT_OAUTH2_AUTHORIZE_URL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s#wechat_redirect";
+  String CONNECT_OAUTH2_AUTHORIZE_URL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s&connect_redirect=1#wechat_redirect";
 
   /**
    * 获取公众号的自动回复规则
@@ -408,6 +408,20 @@ public interface WxMpService {
    */
   WxMpMassMessageService getMassMessageService();
 
+  /**
+   * 返回AI开放接口方法的实现类对象，以方便调用其各个接口
+   *
+   * @return WxMpAiOpenService
+   */
+  WxMpAiOpenService getAiOpenService();
+
+  /**
+   * 返回WIFI接口方法的实现类对象，以方便调用其各个接口
+   *
+   * @return WxMpWifiService
+   */
+  WxMpWifiService getWifiService();
+
   void setKefuService(WxMpKefuService kefuService);
 
   void setMaterialService(WxMpMaterialService materialService);
@@ -437,4 +451,6 @@ public interface WxMpService {
   void setMemberCardService(WxMpMemberCardService memberCardService);
 
   void setMassMessageService(WxMpMassMessageService massMessageService);
+
+  void setAiOpenService(WxMpAiOpenService aiOpenService);
 }

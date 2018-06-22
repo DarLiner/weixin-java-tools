@@ -15,44 +15,6 @@ import java.util.List;
  */
 @Data
 public class WxCpUser implements Serializable {
-  public enum Gender {
-    /**
-     * 男
-     */
-    MALE("男", "1"),
-    /**
-     * 女
-     */
-    FEMALE("女", "2");
-
-    private String genderName;
-    private String code;
-
-    Gender(String genderName, String code) {
-      this.genderName = genderName;
-      this.code = code;
-    }
-
-    public String getGenderName() {
-      return this.genderName;
-    }
-
-    public String getCode() {
-      return this.code;
-    }
-
-    public static Gender fromCode(String code) {
-      if ("1".equals(code)) {
-        return Gender.MALE;
-      }
-      if ("2".equals(code)) {
-        return Gender.FEMALE;
-      }
-
-      return null;
-    }
-  }
-
   private static final long serialVersionUID = -5696099236344075582L;
   private String userId;
   private String name;
@@ -69,6 +31,8 @@ public class WxCpUser implements Serializable {
   private Integer hideMobile;
   private String englishName;
   private String telephone;
+  private String qrCode;
+  private Boolean toInvite;
 
   public void addExtAttr(String name, String value) {
     this.extAttrs.add(new Attr(name, value));

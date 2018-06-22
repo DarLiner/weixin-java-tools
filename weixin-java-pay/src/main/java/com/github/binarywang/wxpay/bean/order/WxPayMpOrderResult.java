@@ -20,7 +20,7 @@ public class WxPayMpOrderResult {
   private String timeStamp;
   private String nonceStr;
   /**
-   * 由于package为java保留关键字，因此改为packageValue
+   * 由于package为java保留关键字，因此改为packageValue.
    */
   @XStreamAlias("package")
   private String packageValue;

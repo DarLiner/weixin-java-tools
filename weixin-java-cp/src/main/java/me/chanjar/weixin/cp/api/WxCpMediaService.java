@@ -1,11 +1,11 @@
 package me.chanjar.weixin.cp.api;
 
-import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
-import me.chanjar.weixin.common.exception.WxErrorException;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+
+import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
+import me.chanjar.weixin.common.error.WxErrorException;
 
 /**
  * <pre>
@@ -30,7 +30,7 @@ public interface WxCpMediaService {
    *
    * @param mediaType   媒体类型, 请看{@link me.chanjar.weixin.common.api.WxConsts}
    * @param fileType    文件类型，请看{@link me.chanjar.weixin.common.api.WxConsts}
-   * @param inputStream 输入流
+   * @param inputStream 输入流，需要调用方控制关闭该输入流
    */
   WxMediaUploadResult upload(String mediaType, String fileType, InputStream inputStream)
     throws WxErrorException, IOException;

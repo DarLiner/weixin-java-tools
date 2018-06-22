@@ -42,7 +42,6 @@ public class WxMaMessage implements Serializable {
 
   @SerializedName("CreateTime")
   @XStreamAlias("CreateTime")
-  @XStreamConverter(value = XStreamCDataConverter.class)
   private Integer createTime;
 
   @SerializedName("MsgType")
@@ -62,7 +61,6 @@ public class WxMaMessage implements Serializable {
 
   @SerializedName("MsgId")
   @XStreamAlias("MsgId")
-  @XStreamConverter(value = XStreamCDataConverter.class)
   private Long msgId;
 
   @SerializedName("PicUrl")
@@ -79,6 +77,31 @@ public class WxMaMessage implements Serializable {
   @XStreamAlias("Event")
   @XStreamConverter(value = XStreamCDataConverter.class)
   private String event;
+
+  @SerializedName("Title")
+  @XStreamAlias("Title")
+  @XStreamConverter(value = XStreamCDataConverter.class)
+  private String title;
+
+  @SerializedName("AppId")
+  @XStreamAlias("AppId")
+  @XStreamConverter(value = XStreamCDataConverter.class)
+  private String appId;
+
+  @SerializedName("PagePath")
+  @XStreamAlias("PagePath")
+  @XStreamConverter(value = XStreamCDataConverter.class)
+  private String pagePath;
+
+  @SerializedName("ThumbUrl")
+  @XStreamAlias("ThumbUrl")
+  @XStreamConverter(value = XStreamCDataConverter.class)
+  private String thumbUrl;
+
+  @SerializedName("ThumbMediaId")
+  @XStreamAlias("ThumbMediaId")
+  @XStreamConverter(value = XStreamCDataConverter.class)
+  private String thumbMediaId;
 
   @SerializedName("SessionFrom")
   @XStreamAlias("SessionFrom")

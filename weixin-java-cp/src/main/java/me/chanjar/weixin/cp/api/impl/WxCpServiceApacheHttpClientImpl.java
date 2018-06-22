@@ -1,9 +1,10 @@
 package me.chanjar.weixin.cp.api.impl;
 
 
+import me.chanjar.weixin.common.WxType;
 import me.chanjar.weixin.common.bean.WxAccessToken;
-import me.chanjar.weixin.common.bean.result.WxError;
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.error.WxError;
+import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.common.util.http.HttpType;
 import me.chanjar.weixin.common.util.http.apache.ApacheHttpClientBuilder;
 import me.chanjar.weixin.common.util.http.apache.DefaultApacheHttpClientBuilder;
@@ -58,7 +59,7 @@ public class WxCpServiceApacheHttpClientImpl extends WxCpServiceAbstractImpl<Clo
             } finally {
               httpGet.releaseConnection();
             }
-            WxError error = WxError.fromJson(resultContent);
+            WxError error = WxError.fromJson(resultContent, WxType.CP);
             if (error.getErrorCode() != 0) {
               throw new WxErrorException(error);
             }
