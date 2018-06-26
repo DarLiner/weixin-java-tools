@@ -159,6 +159,10 @@ public class WxConsts {
     public static final String LOCATION_SELECT = "location_select";
     public static final String TEMPLATE_SEND_JOB_FINISH = "TEMPLATESENDJOBFINISH";
     public static final String ENTER_AGENT = "enter_agent";
+    /**
+     * 微信小店 订单付款通知.
+     */
+    public static final String MERCHANT_ORDER = "merchant_order";
   }
 
   /**
