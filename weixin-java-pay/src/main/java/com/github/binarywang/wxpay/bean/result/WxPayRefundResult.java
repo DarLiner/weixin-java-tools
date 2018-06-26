@@ -1,13 +1,13 @@
 package com.github.binarywang.wxpay.bean.result;
 
+import java.io.Serializable;
+import java.util.List;
+
 import com.google.common.collect.Lists;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
-import java.util.List;
 
 /**
  * <pre>
@@ -108,7 +108,13 @@ public class WxPayRefundResult extends BaseWxPayResult implements Serializable {
    */
   public void composeRefundCoupons() {
     List<WxPayRefundCouponInfo> coupons = Lists.newArrayList();
-    for (int i = 0; i < this.getCouponRefundCount(); i++) {
+    Integer refundCount = this.getCouponRefundCount();
+    if (refundCount == null) {
+      //无退款代金券信息
+      return;
+    }
+
+    for (int i = 0; i < refundCount; i++) {
       coupons.add(
         new WxPayRefundCouponInfo(
           this.getXmlValue("xml/coupon_refund_id_" + i),
@@ -117,6 +123,7 @@ public class WxPayRefundResult extends BaseWxPayResult implements Serializable {
         )
       );
     }
+
     this.setRefundCoupons(coupons);
   }
 }
