@@ -35,6 +35,15 @@ public class WxMpXmlMessage implements Serializable {
   // 以下都是微信推送过来的消息的xml的element所对应的属性
   ///////////////////////
 
+  @XStreamAlias("ScanCodeInfo")
+  private ScanCodeInfo scanCodeInfo;
+
+  @XStreamAlias("SendPicsInfo")
+  private SendPicsInfo sendPicsInfo;
+
+  @XStreamAlias("SendLocationInfo")
+  private SendLocationInfo sendLocationInfo;
+
   @XStreamAlias("ToUserName")
   @XStreamConverter(value = XStreamCDataConverter.class)
   private String toUser;
@@ -156,6 +165,12 @@ public class WxMpXmlMessage implements Serializable {
    */
   @XStreamAlias("ErrorCount")
   private Integer errorCount;
+
+  /**
+   * 原创校验结果.
+   */
+  @XStreamAlias("CopyrightCheckResult")
+  private CopyrightCheckResult copyrightCheckResult;
 
   ///////////////////////////////////////
   // 客服会话管理相关事件推送
@@ -329,15 +344,6 @@ public class WxMpXmlMessage implements Serializable {
    */
   @XStreamAlias("OriginalFee")
   private String originalFee;
-
-  @XStreamAlias("ScanCodeInfo")
-  private ScanCodeInfo scanCodeInfo = new ScanCodeInfo();
-
-  @XStreamAlias("SendPicsInfo")
-  private SendPicsInfo sendPicsInfo = new SendPicsInfo();
-
-  @XStreamAlias("SendLocationInfo")
-  private SendLocationInfo sendLocationInfo = new SendLocationInfo();
 
   ///////////////////////////////////////
   // 门店审核事件推送

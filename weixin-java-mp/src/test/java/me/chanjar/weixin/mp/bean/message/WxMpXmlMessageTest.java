@@ -1,7 +1,10 @@
 package me.chanjar.weixin.mp.bean.message;
 
-import me.chanjar.weixin.common.api.WxConsts;
+import java.util.List;
+
 import org.testng.annotations.*;
+
+import me.chanjar.weixin.common.api.WxConsts;
 
 import static org.testng.Assert.*;
 
@@ -125,6 +128,9 @@ public class WxMpXmlMessageTest {
       + "  <item>"
       + "   <PicMd5Sum><![CDATA[1b5f7c23b5bf75682a53e7b6d163e185]]></PicMd5Sum>"
       + "  </item>"
+      + "  <item>"
+      + "   <PicMd5Sum><![CDATA[1b5f7c23b5bf75682a53e7b6d163e185]]></PicMd5Sum>"
+      + "  </item>"
       + " </PicList>"
       + "</SendPicsInfo>"
       + "<SendLocationInfo>"
@@ -168,6 +174,85 @@ public class WxMpXmlMessageTest {
     assertEquals(wxMessage.getSendLocationInfo().getScale(), "15");
     assertEquals(wxMessage.getSendLocationInfo().getLabel(), " 广州市海珠区客村艺苑路 106号");
     assertEquals(wxMessage.getSendLocationInfo().getPoiName(), "wo de poi");
+  }
+
+  public void testFromXml_MASSSENDJOBFINISH() {
+    //xml样例来自 https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1481187827_i0l21
+    String xml = "<xml>\n" +
+      "<ToUserName><![CDATA[gh_4d00ed8d6399]]></ToUserName>\n" +
+      "<FromUserName><![CDATA[oV5CrjpxgaGXNHIQigzNlgLTnwic]]></FromUserName>\n" +
+      "<CreateTime>1481013459</CreateTime>\n" +
+      "<MsgType><![CDATA[event]]></MsgType>\n" +
+      "<Event><![CDATA[MASSSENDJOBFINISH]]></Event>\n" +
+      "<MsgID>1000001625</MsgID>\n" +
+      "<Status><![CDATA[err(30003)]]></Status>\n" +
+      "<TotalCount>0</TotalCount>\n" +
+      "<FilterCount>0</FilterCount>\n" +
+      "<SentCount>0</SentCount>\n" +
+      "<ErrorCount>0</ErrorCount>\n" +
+      "<CopyrightCheckResult>\n" +
+      "<Count>2</Count>\n" +
+      "<ResultList>\n" +
+      "<item>\n" +
+      "<ArticleIdx>1</ArticleIdx>\n" +
+      "<UserDeclareState>0</UserDeclareState>\n" +
+      "<AuditState>2</AuditState>\n" +
+      "<OriginalArticleUrl><![CDATA[Url_1]]></OriginalArticleUrl>\n" +
+      "<OriginalArticleType>1</OriginalArticleType>\n" +
+      "<CanReprint>1</CanReprint>\n" +
+      "<NeedReplaceContent>1</NeedReplaceContent>\n" +
+      "<NeedShowReprintSource>1</NeedShowReprintSource>\n" +
+      "</item>\n" +
+      "<item>\n" +
+      "<ArticleIdx>2</ArticleIdx>\n" +
+      "<UserDeclareState>0</UserDeclareState>\n" +
+      "<AuditState>2</AuditState>\n" +
+      "<OriginalArticleUrl><![CDATA[Url_2]]></OriginalArticleUrl>\n" +
+      "<OriginalArticleType>1</OriginalArticleType>\n" +
+      "<CanReprint>1</CanReprint>\n" +
+      "<NeedReplaceContent>1</NeedReplaceContent>\n" +
+      "<NeedShowReprintSource>1</NeedShowReprintSource>\n" +
+      "</item>\n" +
+      "</ResultList>\n" +
+      "<CheckState>2</CheckState>\n" +
+      "</CopyrightCheckResult>\n" +
+      "</xml>";
+    WxMpXmlMessage wxMessage = WxMpXmlMessage.fromXml(xml);
+    assertEquals(wxMessage.getToUser(), "gh_4d00ed8d6399");
+    assertEquals(wxMessage.getFromUser(), "oV5CrjpxgaGXNHIQigzNlgLTnwic");
+    assertEquals(wxMessage.getCreateTime(), new Long(1481013459));
+    assertEquals(wxMessage.getMsgType(), WxConsts.XmlMsgType.EVENT);
+    assertEquals(wxMessage.getEvent(), "MASSSENDJOBFINISH");
+    assertEquals(wxMessage.getMsgId(), new Long(1000001625L));
+    assertEquals(wxMessage.getStatus(), "err(30003)");
+    assertEquals(wxMessage.getTotalCount(), new Integer(0));
+    assertEquals(wxMessage.getFilterCount(), new Integer(0));
+    assertEquals(wxMessage.getSentCount(), new Integer(0));
+    assertEquals(wxMessage.getErrorCount(), new Integer(0));
+
+    CopyrightCheckResult copyrightCheckResult = wxMessage.getCopyrightCheckResult();
+    List<CopyrightCheckResult.ResultItem> resultList = copyrightCheckResult.getResultList();
+
+    assertEquals(copyrightCheckResult.getCount(), new Integer(2));
+    assertEquals(copyrightCheckResult.getCheckState(), new Integer(2));
+
+    assertEquals(resultList.get(0).getArticleIdx(), new Integer(1));
+    assertEquals(resultList.get(0).getUserDeclareState(), new Integer(0));
+    assertEquals(resultList.get(0).getAuditState(), new Integer(2));
+    assertEquals(resultList.get(0).getOriginalArticleUrl(), "Url_1");
+    assertEquals(resultList.get(0).getOriginalArticleType(), new Integer(1));
+    assertEquals(resultList.get(0).getCanReprint(), new Integer(1));
+    assertEquals(resultList.get(0).getNeedReplaceContent(), new Integer(1));
+    assertEquals(resultList.get(0).getNeedShowReprintSource(), new Integer(1));
+
+    assertEquals(resultList.get(1).getArticleIdx(), new Integer(2));
+    assertEquals(resultList.get(1).getUserDeclareState(), new Integer(0));
+    assertEquals(resultList.get(1).getAuditState(), new Integer(2));
+    assertEquals(resultList.get(1).getOriginalArticleUrl(), "Url_2");
+    assertEquals(resultList.get(1).getOriginalArticleType(), new Integer(1));
+    assertEquals(resultList.get(1).getCanReprint(), new Integer(1));
+    assertEquals(resultList.get(1).getNeedReplaceContent(), new Integer(1));
+    assertEquals(resultList.get(1).getNeedShowReprintSource(), new Integer(1));
   }
 
 }
