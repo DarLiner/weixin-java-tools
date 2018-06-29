@@ -1,5 +1,5 @@
 ## 可能是目前最好最全的微信Java开发工具包（SDK）
-### 支持包括微信支付、开放平台、公众号、企业微信/企业号、小程序等相关模块功能的后端开发
+### 支持包括微信支付、开放平台、公众号、企业微信/企业号、小程序等相关模块功能的后端开发。
 ---------------------------------
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.binarywang/weixin-java-parent.svg)](http://mvnrepository.com/artifact/com.github.binarywang/weixin-java-parent)
 [![Build Status](https://travis-ci.org/Wechat-Group/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/Wechat-Group/weixin-java-tools)
@@ -20,7 +20,7 @@
 1. 如果想贡献代码，请阅读[【代码贡献指南】](contribution.md)；
 1. **如果本SDK对您有所帮助，欢迎对我们的努力进行肯定，可以扫描[【支付宝付款码】](qrcodes/alipay_qrcode.jpg)或者[【微信支付二维码】](qrcodes/wepay_qrcode.jpg)进行打赏，或者直接前往[【托管于码云的项目首页】](http://gitee.com/binary/weixin-java-tools)，在评论区上方可以找到“捐助”按钮。非常感谢各位打赏和捐助的同学！**
 1. 阅读源码的同学请注意，本SDK为简化代码编译时加入了lombok支持，如果不了解lombok的话，请先学习下相关知识；
-1. 各个模块的Javadoc可以在线查看：[weixin-java-miniapp](https://binarywang.github.io/weixin-java-miniapp-javadoc/)、[weixin-java-pay](https://binarywang.github.io/weixin-java-pay-javadoc/)、[weixin-java-mp](https://binarywang.github.io/weixin-java-mp-javadoc/)、[weixin-java-common](https://binarywang.github.io/weixin-java-common-javadoc/)、[weixin-java-cp](https://binarywang.github.io/weixin-java-cp-javadoc/)、[weixin-java-open](https://binarywang.github.io/weixin-java-open-javadoc/)
+1. 各个模块的Javadoc可以在线查看：[weixin-java-miniapp](http://binary.ac.cn/weixin-java-miniapp-javadoc/)、[weixin-java-pay](http://binary.ac.cn/weixin-java-pay-javadoc/)、[weixin-java-mp](http://binary.ac.cn/weixin-java-mp-javadoc/)、[weixin-java-common](http://binary.ac.cn/weixin-java-common-javadoc/)、[weixin-java-cp](http://binary.ac.cn/weixin-java-cp-javadoc/)、[weixin-java-open](http://binary.ac.cn/weixin-java-open-javadoc/)
 1. 本SDK要求的最低JDK版本是1.7，还在使用JDK6的用户请参考[【此项目】]( https://github.com/binarywang/weixin-java-tools-for-jdk6) ，而其他更早的JDK版本则需要自己改造实现。
 1. 本SDK项目在以下代码托管网站同步更新:
 * 码云：https://gitee.com/binary/weixin-java-tools
