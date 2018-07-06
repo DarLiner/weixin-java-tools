@@ -7,6 +7,7 @@
 
 ---------------------------------
 ### 重要信息
+1. **最近微信支付爆出的所谓漏洞是官方的老版的微信支付所谓的SDK （就是一个demo）的代码漏洞，使用我们的SDK不存在此问题，如果不放心，检查下自己项目所依赖的xstream版本是否≥1.4.9，前提是使用了weinxin-java-pay提供的回调通知解析代码。**
 1. 最新更新：**2018-06-22 发布[【3.1.0正式版】](https://github.com/Wechat-Group/weixin-java-tools/releases)**！
 1. [开源中国本项目的首页](https://www.oschina.net/p/weixin-java-tools-new)，欢迎大家积极留言评分 🙂
 1. 新手重要提示：本项目仅是一个开发工具包（即SDK），未提供Web实现，建议使用maven或gradle引用本项目即可使用本SDK提供的各种功能，详情可参考[【Demo项目】](demo.md)或本项目中的部分单元测试代码；另外微信开发新手请务必阅读[开发文档Wiki首页](https://github.com/Wechat-Group/weixin-java-tools/wiki)的常见问题部分，可以少走很多弯路，节省不少时间。
